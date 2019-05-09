@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicObject, PassportPhone
 
 
 class Account(YandexMusicObject):
@@ -32,11 +32,11 @@ class Account(YandexMusicObject):
         self.birthday = datetime.fromisoformat(birthday)
         self.service_available = bool(service_available)
         self.hosted_user = bool(hosted_user)
-        self.passport_phones = passport_phones # ????
+        self.passport_phones = passport_phones
         self.registered_at = datetime.fromisoformat(registered_at)
         self.has_info_for_app_metrica = bool(has_info_for_app_metrica)
-        self.client = client
 
+        self.client = client
         self._id_attrs = (self.uid,)
 
     @classmethod
@@ -44,5 +44,7 @@ class Account(YandexMusicObject):
         if not data:
             return None
 
-        data = super(Account, cls).de_json(data, client)['account']
+        data = super(Account, cls).de_json(data, client)
+        data['passport_phones'] = PassportPhone.de_list(data['passport_phones'], client=client)
+
         return cls(client=client, **data)

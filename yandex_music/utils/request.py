@@ -3,7 +3,7 @@ import json
 import logging
 import requests
 
-from yandex_music.error import Unauthorized, BadRequest, NetworkError
+from yandex_music.error import Unauthorized, BadRequest, NetworkError, YandexMusicError
 
 
 USER_AGENT = 'Yandex-Music-API'
@@ -23,8 +23,7 @@ class Request(object):
         self.headers = headers or HEADERS
         self.headers.update({'Authorization': f'OAuth {token}'})
 
-        self.proxies = proxies # TODO
-
+        self.proxies = proxies  # TODO
 
     @staticmethod
     def _convert_camel_to_snake(text):
@@ -48,7 +47,7 @@ class Request(object):
         except UnicodeDecodeError:
             logging.getLogger(__name__).debug(
                 'Logging raw invalid UTF-8 response:\n%r', json_data)
-            raise Exception('Server response could not be decoded using UTF-8')
+            raise YandexMusicError('Server response could not be decoded using UTF-8')
         except ValueError:
             raise Exception('Invalid server response')
 

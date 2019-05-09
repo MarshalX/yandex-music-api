@@ -9,6 +9,7 @@ class InvalidToken(YandexMusicError):
 class Unauthorized(YandexMusicError):
     pass
 
+
 class NetworkError(YandexMusicError):
     pass
 

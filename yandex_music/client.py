@@ -1,6 +1,6 @@
 import logging
 
-from yandex_music import YandexMusicObject, Account
+from yandex_music import YandexMusicObject, Status
 from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
@@ -8,7 +8,6 @@ from yandex_music.error import InvalidToken
 class Client(YandexMusicObject):
     def __init__(self, token, base_url=None, request=None):
         self.token = token
-        self.account = None
         self._request = request or Request(token)
         self.logger = logging.getLogger(__name__)
 
@@ -31,11 +30,11 @@ class Client(YandexMusicObject):
     def request(self):
         return self._request
 
-    def account_status(self, timeout=None, **kwargs):
+    def status(self, timeout=None, **kwargs):
         url = f'{self.base_url}/account/status'
 
         result = self._request.get(url, timeout=timeout)
 
-        self.account = Account.de_json(result, self)
+        status = Status.de_json(result, self)
 
-        return self.account
+        return status
