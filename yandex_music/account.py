@@ -45,6 +45,6 @@ class Account(YandexMusicObject):
             return None
 
         data = super(Account, cls).de_json(data, client)
-        data['passport_phones'] = PassportPhone.de_list(data['passport_phones'], client=client)
+        data['passport_phones'] = PassportPhone.de_list(data.get('passport_phones'), client)
 
         return cls(client=client, **data)

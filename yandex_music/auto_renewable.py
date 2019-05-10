@@ -31,7 +31,7 @@ class AutoRenewable(YandexMusicObject):
             return None
 
         data = super(AutoRenewable, cls).de_json(data, client)
-        data['product'] = Product.de_json(data['product'], client=client)
+        data['product'] = Product.de_json(data.get('product'), client)
 
         return cls(client=client, **data)
 

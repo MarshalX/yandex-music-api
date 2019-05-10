@@ -21,6 +21,6 @@ class Subscription(YandexMusicObject):
 
         data = super(Subscription, cls).de_json(data, client)
         from yandex_music import AutoRenewable
-        data['auto_renewable'] = AutoRenewable.de_list(data['auto_renewable'], client=client)
+        data['auto_renewable'] = AutoRenewable.de_list(data.get('auto_renewable'), client)
 
         return cls(client=client, **data)

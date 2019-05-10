@@ -8,8 +8,10 @@ from yandex_music.error import Unauthorized, BadRequest, NetworkError, YandexMus
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
-    'X-Yandex-Music-Client': 'Yandex-Music-API',
-    'User-Agent': 'Yandex-Music-API',
+    'X-Yandex-Music-Client': 'WindowsPhone/3.17',
+    'User-Agent': 'Windows 10',
+    # 'X-Yandex-Music-Client': 'Yandex-Music-API',
+    # 'User-Agent': 'Yandex-Music-API',
     'Connection': 'Keep-Alive'
 }
 
@@ -51,7 +53,7 @@ class Request(object):
         except ValueError:
             raise Exception('Invalid server response')
 
-        return data['result']
+        return data.get('result')
 
     def _request_wrapper(self, *args, **kwargs):
         if 'headers' not in kwargs:

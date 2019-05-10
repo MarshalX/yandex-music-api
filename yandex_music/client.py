@@ -1,6 +1,6 @@
 import logging
 
-from yandex_music import YandexMusicObject, Status
+from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments
 from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
@@ -38,3 +38,30 @@ class Client(YandexMusicObject):
         status = Status.de_json(result, self)
 
         return status
+
+    def settings(self, timeout=None, **kwargs):
+        url = f'{self.base_url}/settings'
+
+        result = self._request.get(url, timeout=timeout)
+
+        settings = Settings.de_json(result, self)
+
+        return settings
+
+    def permission_alerts(self, timeout=None, **kwargs):
+        url = f'{self.base_url}/permission-alerts'
+
+        result = self._request.get(url, timeout=timeout)
+
+        permission_alerts = PermissionAlerts.de_json(result, self)
+
+        return permission_alerts
+
+    def experiments(self, timeout=None, **kwargs):
+        url = f'{self.base_url}/account/experiments'
+
+        result = self._request.get(url, timeout=timeout)
+
+        experiments = Experiments.de_json(result, self)
+
+        return experiments

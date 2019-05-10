@@ -31,9 +31,9 @@ class Status(YandexMusicObject):
             return None
 
         data = super(Status, cls).de_json(data, client)
-        data['account'] = Account.de_json(data['account'], client=client)
-        data['permissions'] = Permissions.de_json(data['permissions'], client=client)
-        data['subscription'] = Subscription.de_json(data['subscription'], client=client)
-        data['plus'] = Plus.de_json(data['plus'], client=client)
+        data['account'] = Account.de_json(data.get('account'), client)
+        data['permissions'] = Permissions.de_json(data.get('permissions'), client)
+        data['subscription'] = Subscription.de_json(data.get('subscription'), client)
+        data['plus'] = Plus.de_json(data.get('plus'), client)
 
         return cls(client=client, **data)
