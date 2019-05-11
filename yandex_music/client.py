@@ -1,6 +1,6 @@
 import logging
 
-from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments
+from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist
 from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
@@ -65,3 +65,12 @@ class Client(YandexMusicObject):
         experiments = Experiments.de_json(result, self)
 
         return experiments
+
+    def artists(self, artists_ids: list or int or str, timeout=None, **kwargs):
+        url = f'{self.base_url}/artists'
+
+        result = self._request.post(url, {'artist-ids': artists_ids}, timeout=timeout)
+
+        artists = Artist.de_list(result, self)
+
+        return artists
