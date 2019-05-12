@@ -14,7 +14,7 @@ class Settings(YandexMusicObject):
         self.native_products = native_products
         self.web_payment_url = web_payment_url
         self.web_payment_month_product_price = web_payment_month_product_price
-        self.promo_codes_enabled = bool(promo_codes_enabled)
+        self.promo_codes_enabled = promo_codes_enabled
 
         self.client = client
 

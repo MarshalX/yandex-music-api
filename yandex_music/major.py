@@ -1,22 +1,23 @@
 from yandex_music import YandexMusicObject
 
 
-class Plus(YandexMusicObject):
+class Major(YandexMusicObject):
     def __init__(self,
-                 has_plus,
-                 is_tutorial_completed,
+                 id,
+                 name,
                  client=None,
                  **kwargs):
-        self.has_plus = has_plus
-        self.is_tutorial_completed = is_tutorial_completed
+        self.id = id
+        self.name = name
 
         self.client = client
+        self._id_attrs = (self.id,)
 
     @classmethod
     def de_json(cls, data, client):
         if not data:
             return None
 
-        data = super(Plus, cls).de_json(data, client)
+        data = super(Major, cls).de_json(data, client)
 
         return cls(client=client, **data)

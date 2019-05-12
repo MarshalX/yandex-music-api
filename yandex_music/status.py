@@ -15,10 +15,10 @@ class Status(YandexMusicObject):
                  **kwargs):
         self.account = account
         self.permissions = permissions
-        self.cache_limit = int(cache_limit)
+        self.cache_limit = cache_limit
         self.subscription = subscription
-        self.subeditor = bool(subeditor)
-        self.subeditor_level = int(subeditor_level)
+        self.subeditor = subeditor
+        self.subeditor_level = subeditor_level
         self.plus = plus
         self.default_email = default_email
 

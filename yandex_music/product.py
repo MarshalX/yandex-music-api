@@ -24,11 +24,11 @@ class Product(YandexMusicObject):
         self.product_id = product_id
         self.type = type
         self.common_period_duration = common_period_duration
-        self.duration = int(duration)
-        self.trial_duration = int(trial_duration)
+        self.duration = duration
+        self.trial_duration = trial_duration
         self.price = price
         self.feature = feature
-        self.debug = bool(debug)
+        self.debug = debug
 
         self.features = features
         self.description = description

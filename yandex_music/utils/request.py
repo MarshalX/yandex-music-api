@@ -88,11 +88,11 @@ class Request(object):
         else:
             raise NetworkError('{0} ({1})'.format(message, resp.status_code))
 
-    def get(self, url, timeout=5):
-        result = self._request_wrapper('GET', url, headers=self.headers, timeout=timeout)
+    def get(self, url, timeout=5, *args, **kwargs):
+        result = self._request_wrapper('GET', url, headers=self.headers, timeout=timeout, *args, **kwargs)
         return self._parse(result)
 
-    def post(self, url, data, timeout=5):
-        result = self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout)
+    def post(self, url, data, timeout=5, *args, **kwargs):
+        result = self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout, *args, **kwargs)
         return self._parse(result)
 

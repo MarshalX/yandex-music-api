@@ -10,6 +10,10 @@ from .settings import Settings
 from .permission_alerts import PermissionAlerts
 from .experiments import Experiments
 from .artist import Artist
+from .album import Album
+from .playlist import Playlist
+from .library import Library
+from .track import Track
 from .price import Price
 from .product import Product
 from .auto_renewable import AutoRenewable
@@ -17,7 +21,17 @@ from .cover import Cover
 from .ratings import Ratings
 from .counts import Counts
 from .link import Link
+from .user import User
+from .case_forms import CaseForms
+from .made_for import MadeFor
+from .label import Label
+from .play_counter import PlayCounter
+from .track_short import TrackShort
+from .major import Major
+from .normalization import Normalization
+from .track_position import TrackPosition
 
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
-           'Ratings', 'Counts', 'Link', 'Artist']
+           'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
+           'Playlist', 'TrackShort', 'Library', 'Major', 'Normalization', 'TrackPosition', 'Track']

@@ -1,14 +1,14 @@
 from yandex_music import YandexMusicObject
 
 
-class Plus(YandexMusicObject):
+class TrackPosition(YandexMusicObject):
     def __init__(self,
-                 has_plus,
-                 is_tutorial_completed,
+                 volume,
+                 index,
                  client=None,
                  **kwargs):
-        self.has_plus = has_plus
-        self.is_tutorial_completed = is_tutorial_completed
+        self.volume = volume
+        self.index = index
 
         self.client = client
 
@@ -17,6 +17,6 @@ class Plus(YandexMusicObject):
         if not data:
             return None
 
-        data = super(Plus, cls).de_json(data, client)
+        data = super(TrackPosition, cls).de_json(data, client)
 
         return cls(client=client, **data)

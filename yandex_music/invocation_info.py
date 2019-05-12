@@ -10,7 +10,7 @@ class InvocationInfo(YandexMusicObject):
                  **kwargs):
         self.hostname = hostname
         self.req_id = req_id
-        self.exec_duration_millis = int(exec_duration_millis)
+        self.exec_duration_millis = exec_duration_millis
 
         self.client = client
         self._id_attrs = (self.req_id,)

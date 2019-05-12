@@ -30,11 +30,11 @@ class Account(YandexMusicObject):
         self.first_name = first_name
         self.display_name = display_name
         self.birthday = datetime.fromisoformat(birthday)
-        self.service_available = bool(service_available)
-        self.hosted_user = bool(hosted_user)
+        self.service_available = service_available
+        self.hosted_user = hosted_user
         self.passport_phones = passport_phones
         self.registered_at = datetime.fromisoformat(registered_at)
-        self.has_info_for_app_metrica = bool(has_info_for_app_metrica)
+        self.has_info_for_app_metrica = has_info_for_app_metrica
 
         self.client = client
         self._id_attrs = (self.uid,)

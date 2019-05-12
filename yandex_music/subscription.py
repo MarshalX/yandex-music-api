@@ -9,8 +9,8 @@ class Subscription(YandexMusicObject):
                  client=None,
                  **kwargs):
         self.auto_renewable = auto_renewable
-        self.can_start_trial = bool(can_start_trial)
-        self.mcdonalds = bool(mcdonalds)
+        self.can_start_trial = can_start_trial
+        self.mcdonalds = mcdonalds
 
         self.client = client
 

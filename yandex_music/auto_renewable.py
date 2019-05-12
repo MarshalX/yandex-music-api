@@ -19,8 +19,8 @@ class AutoRenewable(YandexMusicObject):
         self.vendor_help_url = vendor_help_url
         self.product_id = product_id
         self.product = product
-        self.order_id = int(order_id)
-        self.finished = bool(finished)
+        self.order_id = order_id
+        self.finished = finished
 
         self.client = client
         self._id_attrs = (self.order_id,)
