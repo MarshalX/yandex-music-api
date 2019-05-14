@@ -1,7 +1,7 @@
 import logging
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
-    Library, Track
+    TracksLikes, Track, AlbumsLikes, ArtistsLikes
 from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
@@ -87,6 +87,16 @@ class Client(YandexMusicObject):
 
         return albums
 
+    def tracks(self, track_ids: int or str, with_positions=True, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/tracks'
+
+        result = self._request.post(url, {'track-ids': track_ids, 'with-positions': with_positions},
+                                    timeout=timeout, *args, **kwargs)
+
+        tracks = Track.de_list(result, self)
+
+        return tracks
+
     def playlists_list(self, playlist_ids: list or int or str, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/playlists/list'
 
@@ -96,7 +106,7 @@ class Client(YandexMusicObject):
 
         return playlists
 
-    def users_playlists_list(self, user_id: int or str=None, timeout=None, *args, **kwargs):
+    def users_playlists_list(self, user_id: int or str = None, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
@@ -108,7 +118,7 @@ class Client(YandexMusicObject):
 
         return playlists
 
-    def users_likes_tracks(self, user_id: int or str=None, timeout=None, *args, **kwargs):
+    def users_likes_tracks(self, user_id: int or str = None, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
@@ -116,16 +126,30 @@ class Client(YandexMusicObject):
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs).get('library')
 
-        tracks = Library.de_json(result, self)
+        tracks_likes = TracksLikes.de_json(result, self)
 
-        return tracks
+        return tracks_likes
 
-    def tracks(self, track_ids: int or str, with_positions=True, timeout=None, *args, **kwargs):
-        url = f'{self.base_url}/tracks'
+    def users_likes_albums(self, user_id: int or str = None, rich=True, timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
 
-        result = self._request.post(url, {'track-ids': track_ids, 'with-positions': with_positions},
-                                    timeout=timeout, *args, **kwargs)
+        url = f'{self.base_url}/users/{user_id}/likes/albums?rich={rich}'
 
-        tracks = Track.de_list(result, self)
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        return tracks
+        albums_likes = AlbumsLikes.de_list(result, self)
+
+        return albums_likes
+
+    def users_likes_artists(self, user_id: int or str = None, with_timestamps=True, timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/likes/artists?with-timestamps={with_timestamps}'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        artists_likes = ArtistsLikes.de_list(result, self)
+
+        return artists_likes

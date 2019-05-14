@@ -10,6 +10,9 @@ class YandexMusicObject(object):
     def __str__(self):
         return str(self.to_dict())
 
+    def __repr__(self):
+        return str(self)
+
     def __getitem__(self, item):
         return self.__dict__[item]
 
@@ -27,7 +30,6 @@ class YandexMusicObject(object):
 
     def to_dict(self):
         data = dict()
-
         for key, value in self.__dict__.items():
             if key in ('client',
                        '_id_attrs'):

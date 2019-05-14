@@ -12,7 +12,7 @@ from .experiments import Experiments
 from .artist import Artist
 from .album import Album
 from .playlist import Playlist
-from .library import Library
+from .tracks_likes import TracksLikes
 from .track import Track
 from .price import Price
 from .product import Product
@@ -30,8 +30,11 @@ from .track_short import TrackShort
 from .major import Major
 from .normalization import Normalization
 from .track_position import TrackPosition
+from .albums_likes import AlbumsLikes
+from .artists_likes import ArtistsLikes
 
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
            'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
-           'Playlist', 'TrackShort', 'Library', 'Major', 'Normalization', 'TrackPosition', 'Track']
+           'Playlist', 'TrackShort', 'TracksLikes', 'Major', 'Normalization', 'TrackPosition', 'Track', 'AlbumsLikes',
+           'ArtistsLikes']
