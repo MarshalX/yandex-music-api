@@ -1,7 +1,7 @@
 import logging
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
-    TracksLikes, Track, AlbumsLikes, ArtistsLikes
+    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed
 from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
@@ -69,6 +69,15 @@ class Client(YandexMusicObject):
 
         return experiments
 
+    def feed(self, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/feed'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        feed = Feed.de_json(result, self)
+
+        return feed
+
     def artists(self, artist_ids: list or int or str, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/artists'
 
@@ -118,11 +127,11 @@ class Client(YandexMusicObject):
 
         return playlists
 
-    def users_likes_tracks(self, user_id: int or str = None, timeout=None, *args, **kwargs):
+    def users_likes_tracks(self, user_id: int or str = None, if_modified_since_revision=0, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/likes/tracks'
+        url = f'{self.base_url}/users/{user_id}/likes/tracks?if-modified-since-revision={if_modified_since_revision}'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs).get('library')
 
@@ -153,3 +162,15 @@ class Client(YandexMusicObject):
         artists_likes = ArtistsLikes.de_list(result, self)
 
         return artists_likes
+
+    def users_likes_playlists(self, user_id: int or str = None, timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/likes/playlists'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        playlists_likes = PlaylistsLikes.de_list(result, self)
+
+        return playlists_likes

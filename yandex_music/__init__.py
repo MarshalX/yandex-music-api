@@ -32,9 +32,18 @@ from .normalization import Normalization
 from .track_position import TrackPosition
 from .albums_likes import AlbumsLikes
 from .artists_likes import ArtistsLikes
+from .playlists_likes import PlaylistsLikes
+from .generated_playlist import GeneratedPlaylist
+from .track_with_ads import TrackWithAds
+from .day import Day
+from .event_artist import EventArtist
+from .event_album import EventAlbum
+from .feed import Feed
+from .event import Event
 
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
            'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
            'Playlist', 'TrackShort', 'TracksLikes', 'Major', 'Normalization', 'TrackPosition', 'Track', 'AlbumsLikes',
-           'ArtistsLikes']
+           'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'EventArtist', 'EventAlbum',
+           'Feed', 'Event']

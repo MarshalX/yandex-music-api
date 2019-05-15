@@ -7,7 +7,6 @@ class Album(YandexMusicObject):
     def __init__(self,
                  id,
                  title,
-                 type,
                  year,
                  release_date,
                  cover_uri,
@@ -24,12 +23,12 @@ class Album(YandexMusicObject):
                  available_for_mobile,
                  available_partially,
                  bests,
+                 type=None,
                  track_position=None,
                  client=None,
                  **kwargs):
         self.id = id
         self.title = title
-        self.type = type
         self.year = year
         self.release_date = datetime.fromisoformat(release_date)
         self.cover_uri = cover_uri
@@ -47,6 +46,7 @@ class Album(YandexMusicObject):
         self.available_for_premium_users = available_for_premium_users
         self.available = available
 
+        self.type = type
         self.track_position = track_position
 
         self.client = client
