@@ -6,18 +6,50 @@ from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
 
+CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
+CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
+
+
 class Client(YandexMusicObject):
-    def __init__(self, token, base_url=None, request=None):
+    def __init__(self, username, password, token=None, base_url=None, oauth_url=None, request=None):
         self.token = token
-        self._request = request or Request(self)
         self.logger = logging.getLogger(__name__)
 
         if base_url is None:
             base_url = 'https://api.music.yandex.net'
+        if oauth_url is None:
+            oauth_url = 'https://oauth.yandex.ru'
 
         self.base_url = base_url
+        self.oauth_url = oauth_url
+
+        self._request = request or Request(self)
+
+        if self.token is None:
+            self.token = self._generate_token_by_username_and_password(username, password)
+            self.request.set_authorization(self.token)
 
         self.account = self.account_status().account
+
+    @classmethod
+    def from_token(cls, token):
+        return cls(username=None, password=None, token=token)
+
+    def _generate_token_by_username_and_password(self, username, password, grant_type='password',
+                                                 timeout=None, *args, **kwargs):
+        url = f'{self.oauth_url}/token'
+
+        data = {
+            'grant_type': grant_type,
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+            'username': username,
+            'password': password
+        }
+
+        result = self._request.post(url, data=data, timeout=timeout, *args, **kwargs)
+
+        return result.get('access_token')
 
     @staticmethod
     def _validate_token(token):

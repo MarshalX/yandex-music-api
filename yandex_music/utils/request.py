@@ -26,9 +26,14 @@ class Request(object):
         self.client = client
 
         self.headers = headers or HEADERS
-        self.headers.update({'Authorization': f'OAuth {self.client.token}'})
+
+        if self.client.token:
+            self.set_authorization(self.client.token)
 
         self.proxies = proxies  # TODO
+
+    def set_authorization(self, token):
+        self.headers.update({'Authorization': f'OAuth {token}'})
 
     @staticmethod
     def _convert_camel_to_snake(text):
@@ -90,7 +95,7 @@ class Request(object):
         elif resp.status_code == 502:
             raise NetworkError('Bad Gateway')
         else:
-            raise NetworkError('{0} ({1})'.format(message, resp.status_code))
+            raise NetworkError(f'{message} ({resp.status_code})')
 
     def get(self, url, timeout=5, *args, **kwargs):
         return self._request_wrapper('GET', url, headers=self.headers, timeout=timeout, *args, **kwargs)
