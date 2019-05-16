@@ -1,4 +1,4 @@
-from yandex_music import YandexMusicObject, Account, Permissions, Plus, Subscription
+from yandex_music import YandexMusicObject
 
 
 class Status(YandexMusicObject):
@@ -10,7 +10,7 @@ class Status(YandexMusicObject):
                  subeditor,
                  subeditor_level,
                  plus,
-                 default_email,
+                 default_email=None,
                  client=None,
                  **kwargs):
         self.account = account
@@ -20,6 +20,7 @@ class Status(YandexMusicObject):
         self.subeditor = subeditor
         self.subeditor_level = subeditor_level
         self.plus = plus
+
         self.default_email = default_email
 
         self.client = client
@@ -31,6 +32,7 @@ class Status(YandexMusicObject):
             return None
 
         data = super(Status, cls).de_json(data, client)
+        from yandex_music import Account, Permissions, Plus, Subscription
         data['account'] = Account.de_json(data.get('account'), client)
         data['permissions'] = Permissions.de_json(data.get('permissions'), client)
         data['subscription'] = Subscription.de_json(data.get('subscription'), client)

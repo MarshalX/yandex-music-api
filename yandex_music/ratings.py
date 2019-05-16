@@ -5,11 +5,12 @@ class Ratings(YandexMusicObject):
     def __init__(self,
                  week,
                  month,
-                 day,
+                 day=None,
                  client=None,
                  **kwargs):
         self.week = week
         self.month = month
+
         self.day = day
 
         self.client = client

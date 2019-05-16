@@ -40,10 +40,11 @@ from .event_artist import EventArtist
 from .event_album import EventAlbum
 from .feed import Feed
 from .event import Event
+from .promo_code_status import PromoCodeStatus
 
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
            'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
            'Playlist', 'TrackShort', 'TracksLikes', 'Major', 'Normalization', 'TrackPosition', 'Track', 'AlbumsLikes',
            'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'EventArtist', 'EventAlbum',
-           'Feed', 'Event']
+           'Feed', 'Event', 'PromoCodeStatus']

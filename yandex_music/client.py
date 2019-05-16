@@ -1,7 +1,7 @@
 import logging
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
-    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed
+    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus
 from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
@@ -9,7 +9,7 @@ from yandex_music.error import InvalidToken
 class Client(YandexMusicObject):
     def __init__(self, token, base_url=None, request=None):
         self.token = token
-        self._request = request or Request(token)
+        self._request = request or Request(self)
         self.logger = logging.getLogger(__name__)
 
         if base_url is None:
@@ -77,6 +77,15 @@ class Client(YandexMusicObject):
         feed = Feed.de_json(result, self)
 
         return feed
+
+    def consume_promo_code(self, code: str, language='en', timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/account/consume-promo-code'
+
+        result = self._request.post(url, {'code': code, 'language': language}, timeout=timeout, *args, **kwargs)
+
+        promo_code_status = PromoCodeStatus.de_json(result, self)
+
+        return promo_code_status
 
     def artists(self, artist_ids: list or int or str, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/artists'

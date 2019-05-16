@@ -17,7 +17,7 @@ class Account(YandexMusicObject):
                  service_available,
                  hosted_user,
                  passport_phones,
-                 registered_at,
+                 registered_at=None,
                  has_info_for_app_metrica=False,
                  client=None,
                  **kwargs):
@@ -33,7 +33,8 @@ class Account(YandexMusicObject):
         self.service_available = service_available
         self.hosted_user = hosted_user
         self.passport_phones = passport_phones
-        self.registered_at = datetime.fromisoformat(registered_at)
+
+        self.registered_at = datetime.fromisoformat(registered_at) if registered_at else registered_at
         self.has_info_for_app_metrica = has_info_for_app_metrica
 
         self.client = client

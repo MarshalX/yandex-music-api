@@ -3,6 +3,7 @@ import json
 import logging
 import requests
 
+from yandex_music.utils.response import Response
 from yandex_music.error import Unauthorized, BadRequest, NetworkError, YandexMusicError
 
 
@@ -18,12 +19,14 @@ HEADERS = {
 
 class Request(object):
     def __init__(self,
-                 token,
+                 client,
                  headers=None,
                  proxies=None):
 
+        self.client = client
+
         self.headers = headers or HEADERS
-        self.headers.update({'Authorization': f'OAuth {token}'})
+        self.headers.update({'Authorization': f'OAuth {self.client.token}'})
 
         self.proxies = proxies  # TODO
 
@@ -41,8 +44,7 @@ class Request(object):
 
         return cleaned_object
 
-    @staticmethod
-    def _parse(json_data):
+    def _parse(self, json_data) -> Response:
         try:
             decoded_s = json_data.decode('utf-8')
             data = json.loads(decoded_s, object_hook=Request._object_hook)
@@ -50,10 +52,10 @@ class Request(object):
             logging.getLogger(__name__).debug(
                 'Logging raw invalid UTF-8 response:\n%r', json_data)
             raise YandexMusicError('Server response could not be decoded using UTF-8')
-        except ValueError:
-            raise Exception('Invalid server response')
+        except (AttributeError, ValueError):
+            raise YandexMusicError('Invalid server response')
 
-        return data.get('result')
+        return Response.de_json(data, self.client)
 
     def _request_wrapper(self, *args, **kwargs):
         if 'headers' not in kwargs:
@@ -65,14 +67,16 @@ class Request(object):
             resp = requests.request(verify=False, *args, **kwargs)
         except requests.Timeout:
             raise TimeoutError()
-        except requests.RequestException:
-            raise Exception('Network error')
+        except requests.RequestException as e:
+            raise NetworkError(e)
 
         if 200 <= resp.status_code <= 299:
-            return resp.content
+            return self._parse(resp.content).result
 
         try:
-            message = self._parse(resp.text)
+            message = self._parse(resp.content).error
+            if message is None:
+                raise ValueError()
         except ValueError:
             message = 'Unknown HTTPError'
 
@@ -81,7 +85,7 @@ class Request(object):
         elif resp.status_code == 400:
             raise BadRequest(message)
         elif resp.status_code in (404, 409, 413):
-            raise NetworkError()
+            raise NetworkError(message)
 
         elif resp.status_code == 502:
             raise NetworkError('Bad Gateway')
@@ -89,10 +93,8 @@ class Request(object):
             raise NetworkError('{0} ({1})'.format(message, resp.status_code))
 
     def get(self, url, timeout=5, *args, **kwargs):
-        result = self._request_wrapper('GET', url, headers=self.headers, timeout=timeout, *args, **kwargs)
-        return self._parse(result)
+        return self._request_wrapper('GET', url, headers=self.headers, timeout=timeout, *args, **kwargs)
 
     def post(self, url, data, timeout=5, *args, **kwargs):
-        result = self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout, *args, **kwargs)
-        return self._parse(result)
+        return self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout, *args, **kwargs)
 

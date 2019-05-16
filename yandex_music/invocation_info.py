@@ -5,11 +5,12 @@ class InvocationInfo(YandexMusicObject):
     def __init__(self,
                  hostname,
                  req_id,
-                 exec_duration_millis,
+                 exec_duration_millis=None,
                  client=None,
                  **kwargs):
         self.hostname = hostname
         self.req_id = req_id
+
         self.exec_duration_millis = exec_duration_millis
 
         self.client = client
