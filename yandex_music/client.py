@@ -1,7 +1,8 @@
 import logging
+from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
-    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus
+    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo
 from yandex_music.utils.request import Request
 from yandex_music.error import InvalidToken
 
@@ -12,8 +13,8 @@ CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
 
 class Client(YandexMusicObject):
     def __init__(self, username, password, token=None, base_url=None, oauth_url=None, request=None):
-        self.token = token
         self.logger = logging.getLogger(__name__)
+        self.token = token
 
         if base_url is None:
             base_url = 'https://api.music.yandex.net'
@@ -101,6 +102,15 @@ class Client(YandexMusicObject):
 
         return experiments
 
+    def consume_promo_code(self, code: str, language='en', timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/account/consume-promo-code'
+
+        result = self._request.post(url, {'code': code, 'language': language}, timeout=timeout, *args, **kwargs)
+
+        promo_code_status = PromoCodeStatus.de_json(result, self)
+
+        return promo_code_status
+
     def feed(self, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/feed'
 
@@ -110,14 +120,48 @@ class Client(YandexMusicObject):
 
         return feed
 
-    def consume_promo_code(self, code: str, language='en', timeout=None, *args, **kwargs):
-        url = f'{self.base_url}/account/consume-promo-code'
+    def tracks_download_info(self, track_id: str or int, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/tracks/{track_id}/download-info'
 
-        result = self._request.post(url, {'code': code, 'language': language}, timeout=timeout, *args, **kwargs)
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        promo_code_status = PromoCodeStatus.de_json(result, self)
+        download_info = DownloadInfo.de_list(result, self)
 
-        return promo_code_status
+        return download_info
+
+    def play_audio(self,
+                   track_id: str or int,
+                   from_,
+                   album_id,
+                   playlist_id,
+                   from_cache=False,
+                   play_id=None,
+                   uid=None,
+                   timestamp=None,
+                   track_length_seconds=0,
+                   total_played_seconds=0,
+                   end_position_seconds=0,
+                   client_now=None,
+                   timeout=None,
+                   *args, **kwargs):
+        url = f'{self.base_url}/play-audio'
+
+        data = {
+            'track-id': track_id,
+            'from-cache': from_cache,
+            'from': from_,
+            'play-id': play_id or '',
+            'uid': uid or self.account.uid,
+            'timestamp': timestamp or f'{datetime.now().isoformat()}Z',
+            'track-length-seconds': track_length_seconds,
+            'total-played-seconds': total_played_seconds,
+            'end-position-seconds': end_position_seconds,
+            'album-id': album_id,
+            'playlist-id': playlist_id,
+            'client-now': client_now or f'{datetime.now().isoformat()}Z'
+        }
+
+        return self._request.post(url, data=data, timeout=timeout, *args, **kwargs)
 
     def artists(self, artist_ids: list or int or str, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/artists'
