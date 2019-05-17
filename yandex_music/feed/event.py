@@ -35,10 +35,10 @@ class Event(YandexMusicObject):
             return None
 
         data = super(Event, cls).de_json(data, client)
-        from yandex_music import Track, EventAlbum, EventArtist
+        from yandex_music import Track, AlbumEvent, ArtistEvent
         data['tracks'] = Track.de_list(data.get('tracks'), client)
-        data['albums'] = EventAlbum.de_list(data.get('albums'), client)
-        data['artists'] = EventArtist.de_list(data.get('artists'), client)
+        data['albums'] = AlbumEvent.de_list(data.get('albums'), client)
+        data['artists'] = ArtistEvent.de_list(data.get('artists'), client)
 
         return cls(client=client, **data)
 

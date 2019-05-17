@@ -8,7 +8,7 @@ class Artist(YandexMusicObject):
                  various,
                  composer,
                  cover,
-                 genres,
+                 genres=None,
                  op_image=None,
                  no_pictures_from_search=None,
                  counts=None,
@@ -16,6 +16,9 @@ class Artist(YandexMusicObject):
                  ratings=None,
                  links=None,
                  tickets_available=None,
+                 popular_tracks=None,
+                 regions=None,
+                 decomposed=None,
                  client=None,
                  **kwargs):
         self.id = id
@@ -23,8 +26,8 @@ class Artist(YandexMusicObject):
         self.various = various
         self.composer = composer
         self.cover = cover
-        self.genres = genres
 
+        self.genres = genres
         self.op_image = op_image
         self.no_pictures_from_search = no_pictures_from_search
         self.counts = counts
@@ -32,6 +35,9 @@ class Artist(YandexMusicObject):
         self.ratings = ratings
         self.links = links
         self.tickets_available = tickets_available
+        self.regions = regions
+        self.decomposed = decomposed
+        self.popular_tracks = popular_tracks
 
         self.client = client
         self._id_attrs = (self.id,)
@@ -42,11 +48,12 @@ class Artist(YandexMusicObject):
             return None
 
         data = super(Artist, cls).de_json(data, client)
-        from yandex_music import Cover, Ratings, Counts, Link
+        from yandex_music import Cover, Ratings, Counts, Link, Track
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['ratings'] = Ratings.de_json(data.get('ratings'), client)
         data['counts'] = Counts.de_json(data.get('counts'), client)
         data['links'] = Link.de_list(data.get('links'), client)
+        data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
 
         return cls(client=client, **data)
 

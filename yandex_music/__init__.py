@@ -1,22 +1,12 @@
 from .base import YandexMusicObject
-from .passport_phone import PassportPhone
 from .invocation_info import InvocationInfo
-from .account import Account
-from .permissions import Permissions
-from .plus import Plus
-from .subscription import Subscription
-from .status import Status
 from .settings import Settings
 from .permission_alerts import PermissionAlerts
 from .experiments import Experiments
 from .artist import Artist
 from .album import Album
 from .playlist import Playlist
-from .tracks_likes import TracksLikes
 from .track import Track
-from .price import Price
-from .product import Product
-from .auto_renewable import AutoRenewable
 from .cover import Cover
 from .ratings import Ratings
 from .counts import Counts
@@ -30,22 +20,48 @@ from .track_short import TrackShort
 from .major import Major
 from .normalization import Normalization
 from .track_position import TrackPosition
-from .albums_likes import AlbumsLikes
-from .artists_likes import ArtistsLikes
-from .playlists_likes import PlaylistsLikes
-from .generated_playlist import GeneratedPlaylist
-from .track_with_ads import TrackWithAds
-from .day import Day
-from .event_artist import EventArtist
-from .event_album import EventAlbum
-from .feed import Feed
-from .event import Event
 from .promo_code_status import PromoCodeStatus
 from .download_info import DownloadInfo
+from .video import Video
+
+from status.account import Account
+from status.plus import Plus
+from status.subscription import Subscription
+from status.price import Price
+from status.product import Product
+from status.auto_renewable import AutoRenewable
+from status.passport_phone import PassportPhone
+from status.permissions import Permissions
+from status.status import Status
+
+from feed.generated_playlist import GeneratedPlaylist
+from feed.album_event import AlbumEvent
+from feed.artist_event import ArtistEvent
+from feed.track_with_ads import TrackWithAds
+from feed.day import Day
+from feed.event import Event
+from feed.feed import Feed
+
+from likes.albums_likes import AlbumsLikes
+from likes.artists_likes import ArtistsLikes
+from likes.playlists_likes import PlaylistsLikes
+from likes.tracks_likes import TracksLikes
+
+from search.best import Best
+from search.search import Search
+from search.suggestions import Suggestions
+from search.search_result import SearchResult
+from search.album_search_result import AlbumSearchResult
+from search.artist_search_result import ArtistSearchResult
+from search.playlist_search_result import PlaylistSearchResult
+from search.track_search_result import TrackSearchResult
+from search.video_search_result import VideoSearchResult
 
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
            'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
            'Playlist', 'TrackShort', 'TracksLikes', 'Major', 'Normalization', 'TrackPosition', 'Track', 'AlbumsLikes',
-           'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'EventArtist', 'EventAlbum',
-           'Feed', 'Event', 'PromoCodeStatus', 'DownloadInfo']
+           'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent', 'AlbumEvent',
+           'Feed', 'Event', 'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'AlbumSearchResult', 'Best',
+           'ArtistSearchResult', 'PlaylistSearchResult', 'TrackSearchResult', 'VideoSearchResult', 'Search',
+           'Suggestions']

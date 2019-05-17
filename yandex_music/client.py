@@ -2,9 +2,10 @@ import logging
 from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
-    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo
+    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
+    Suggestions
 from yandex_music.utils.request import Request
-from yandex_music.error import InvalidToken
+from yandex_music.exceptions import InvalidToken
 
 
 CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
@@ -48,7 +49,7 @@ class Client(YandexMusicObject):
             'password': password
         }
 
-        result = self._request.post(url, data=data, timeout=timeout, *args, **kwargs)
+        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
 
         return result.get('access_token')
 
@@ -71,63 +72,49 @@ class Client(YandexMusicObject):
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        status = Status.de_json(result, self)
-
-        return status
+        return Status.de_json(result, self)
 
     def settings(self, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/settings'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        settings = Settings.de_json(result, self)
-
-        return settings
+        return Settings.de_json(result, self)
 
     def permission_alerts(self, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/permission-alerts'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        permission_alerts = PermissionAlerts.de_json(result, self)
-
-        return permission_alerts
+        return PermissionAlerts.de_json(result, self)
 
     def account_experiments(self, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/account/experiments'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        experiments = Experiments.de_json(result, self)
-
-        return experiments
+        return Experiments.de_json(result, self)
 
     def consume_promo_code(self, code: str, language='en', timeout=None, *args, **kwargs):
         url = f'{self.base_url}/account/consume-promo-code'
 
         result = self._request.post(url, {'code': code, 'language': language}, timeout=timeout, *args, **kwargs)
 
-        promo_code_status = PromoCodeStatus.de_json(result, self)
-
-        return promo_code_status
+        return PromoCodeStatus.de_json(result, self)
 
     def feed(self, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/feed'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        feed = Feed.de_json(result, self)
-
-        return feed
+        return Feed.de_json(result, self)
 
     def tracks_download_info(self, track_id: str or int, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/tracks/{track_id}/download-info'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        download_info = DownloadInfo.de_list(result, self)
-
-        return download_info
+        return DownloadInfo.de_list(result, self)
 
     def play_audio(self,
                    track_id: str or int,
@@ -161,25 +148,52 @@ class Client(YandexMusicObject):
             'client-now': client_now or f'{datetime.now().isoformat()}Z'
         }
 
-        return self._request.post(url, data=data, timeout=timeout, *args, **kwargs)
+        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
+
+        return result == 'ok'
+
+    def search(self,
+               text,
+               nocorrect=False,
+               type='all',
+               page=0,
+               playlist_in_best=True,
+               timeout=None,
+               *args, **kwargs):
+        url = f'{self.base_url}/search'
+
+        params = {
+            'text': text,
+            'nocorrect': nocorrect,
+            'type': type,
+            'page': page,
+            'playlist-in-best': playlist_in_best,
+        }
+
+        result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
+
+        return Search.de_json(result, self)
+
+    def search_suggest(self, part: str, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/search/suggest'
+
+        result = self._request.get(url, {'part': part}, timeout=timeout, *args, **kwargs)
+
+        return Suggestions.de_json(result, self)
 
     def artists(self, artist_ids: list or int or str, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/artists'
 
         result = self._request.post(url, {'artist-ids': artist_ids}, timeout=timeout, *args, **kwargs)
 
-        artists = Artist.de_list(result, self)
-
-        return artists
+        return Artist.de_list(result, self)
 
     def albums(self, album_ids: list or int or str, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/albums'
 
         result = self._request.post(url, {'album-ids': album_ids}, timeout=timeout, *args, **kwargs)
 
-        albums = Album.de_list(result, self)
-
-        return albums
+        return Album.de_list(result, self)
 
     def tracks(self, track_ids: int or str, with_positions=True, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/tracks'
@@ -187,18 +201,14 @@ class Client(YandexMusicObject):
         result = self._request.post(url, {'track-ids': track_ids, 'with-positions': with_positions},
                                     timeout=timeout, *args, **kwargs)
 
-        tracks = Track.de_list(result, self)
-
-        return tracks
+        return Track.de_list(result, self)
 
     def playlists_list(self, playlist_ids: list or int or str, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/playlists/list'
 
         result = self._request.post(url, {'playlistIds': playlist_ids}, timeout=timeout, *args, **kwargs)
 
-        playlists = Playlist.de_list(result, self)
-
-        return playlists
+        return Playlist.de_list(result, self)
 
     def users_playlists_list(self, user_id: int or str = None, timeout=None, *args, **kwargs):
         if user_id is None:
@@ -208,45 +218,45 @@ class Client(YandexMusicObject):
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        playlists = Playlist.de_list(result, self)
-
-        return playlists
+        return Playlist.de_list(result, self)
 
     def users_likes_tracks(self, user_id: int or str = None, if_modified_since_revision=0, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/likes/tracks?if-modified-since-revision={if_modified_since_revision}'
+        url = f'{self.base_url}/users/{user_id}/likes/tracks'
 
-        result = self._request.get(url, timeout=timeout, *args, **kwargs).get('library')
+        params = {
+            'if-modified-since-revision': if_modified_since_revision
+        }
 
-        tracks_likes = TracksLikes.de_json(result, self)
+        result = self._request.get(url, params, timeout=timeout, *args, **kwargs).get('library')
 
-        return tracks_likes
+        return TracksLikes.de_json(result, self)
 
     def users_likes_albums(self, user_id: int or str = None, rich=True, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/likes/albums?rich={rich}'
+        url = f'{self.base_url}/users/{user_id}/likes/albums'
 
-        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+        result = self._request.get(url, {'rich': rich}, timeout=timeout, *args, **kwargs)
 
-        albums_likes = AlbumsLikes.de_list(result, self)
-
-        return albums_likes
+        return AlbumsLikes.de_list(result, self)
 
     def users_likes_artists(self, user_id: int or str = None, with_timestamps=True, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/likes/artists?with-timestamps={with_timestamps}'
+        url = f'{self.base_url}/users/{user_id}/likes/artists'
 
-        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+        params = {
+            'with-timestamps': with_timestamps
+        }
 
-        artists_likes = ArtistsLikes.de_list(result, self)
+        result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
 
-        return artists_likes
+        return ArtistsLikes.de_list(result, self)
 
     def users_likes_playlists(self, user_id: int or str = None, timeout=None, *args, **kwargs):
         if user_id is None:
@@ -256,6 +266,4 @@ class Client(YandexMusicObject):
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        playlists_likes = PlaylistsLikes.de_list(result, self)
-
-        return playlists_likes
+        return PlaylistsLikes.de_list(result, self)

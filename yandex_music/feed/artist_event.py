@@ -1,7 +1,7 @@
 from yandex_music import YandexMusicObject
 
 
-class EventArtist(YandexMusicObject):
+class ArtistEvent(YandexMusicObject):
     def __init__(self,
                  artist,
                  tracks,
@@ -19,7 +19,7 @@ class EventArtist(YandexMusicObject):
         if not data:
             return None
 
-        data = super(EventArtist, cls).de_json(data, client)
+        data = super(ArtistEvent, cls).de_json(data, client)
         from yandex_music import Artist, Track
         data['artists'] = Artist.de_json(data.get('artist'), client)
         data['tracks'] = Track.de_list(data.get('tracks'), client)
@@ -32,8 +32,8 @@ class EventArtist(YandexMusicObject):
         if not data:
             return []
 
-        event_artists = list()
-        for event_artist in data:
-            event_artists.append(cls.de_json(event_artist, client))
+        artist_events = list()
+        for artist_event in data:
+            artist_events.append(cls.de_json(artist_event, client))
 
-        return event_artists
+        return artist_events

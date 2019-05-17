@@ -4,15 +4,15 @@ from yandex_music import YandexMusicObject
 class Track(YandexMusicObject):
     def __init__(self,
                  id,
-                 real_id,
                  title,
                  available,
                  available_for_premium_users,
                  artists,
                  albums,
-                 og_image,
                  lyrics_available,
-                 type,
+                 real_id=None,
+                 og_image=None,
+                 type=None,
                  cover_uri=None,
                  major=None,
                  duration_ms=None,
@@ -20,19 +20,23 @@ class Track(YandexMusicObject):
                  file_size=None,
                  normalization=None,
                  error=None,
+                 regions=None,
+                 available_as_rbt=None,
+                 content_warning=None,
+                 explicit=None,
                  client=None,
                  **kwargs):
         self.id = id
-        self.real_id = real_id
         self.title = title
         self.available = available
         self.available_for_premium_users = available_for_premium_users
         self.artists = artists
         self.albums = albums
-        self.og_image = og_image
         self.lyrics_available = lyrics_available
-        self.type = type
 
+        self.real_id = real_id
+        self.og_image = og_image
+        self.type = type
         self.cover_uri = cover_uri
         self.major = major
         self.duration_ms = duration_ms
@@ -40,6 +44,10 @@ class Track(YandexMusicObject):
         self.file_size = file_size
         self.normalization = normalization
         self.error = error
+        self.regions = regions
+        self.available_as_rbt = available_as_rbt
+        self.content_warning = content_warning
+        self.explicit = explicit
 
         self.client = client
         self._id_attrs = (self.id,)

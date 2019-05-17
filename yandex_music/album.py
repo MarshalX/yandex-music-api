@@ -7,47 +7,53 @@ class Album(YandexMusicObject):
     def __init__(self,
                  id,
                  title,
-                 year,
-                 release_date,
                  cover_uri,
-                 og_image,
-                 genre,
-                 buy,
                  track_count,
-                 recent,
-                 very_important,
                  artists,
                  labels,
                  available,
                  available_for_premium_users,
-                 available_for_mobile,
-                 available_partially,
-                 bests,
+                 content_warning=None,
+                 original_release_year=None,
+                 genre=None,
+                 og_image=None,
+                 buy=None,
+                 recent=None,
+                 very_important=None,
+                 available_for_mobile=None,
+                 available_partially=None,
+                 bests=None,
+                 year=None,
+                 release_date=None,
                  type=None,
                  track_position=None,
+                 regions=None,
                  client=None,
                  **kwargs):
         self.id = id
         self.title = title
-        self.year = year
-        self.release_date = datetime.fromisoformat(release_date)
         self.cover_uri = cover_uri
-        self.og_image = og_image
-        self.genre = genre
-        self.buy = buy
         self.track_count = track_count
-        self.recent = recent
-        self.very_important = very_important
         self.artists = artists
         self.labels = labels
-        self.bests = bests
-        self.available_partially = available_partially
-        self.available_for_mobile = available_for_mobile
         self.available_for_premium_users = available_for_premium_users
         self.available = available
 
+        self.genre = genre
+        self.year = year
+        self.release_date = datetime.fromisoformat(release_date) if release_date else release_date
+        self.bests = bests
+        self.og_image = og_image
+        self.buy = buy
+        self.recent = recent
+        self.very_important = very_important
+        self.available_for_mobile = available_for_mobile
+        self.available_partially = available_partially
         self.type = type
         self.track_position = track_position
+        self.regions = regions
+        self.original_release_year = original_release_year
+        self.content_warning = content_warning
 
         self.client = client
         self._id_attrs = (self.id,)

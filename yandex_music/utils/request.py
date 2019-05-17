@@ -4,7 +4,7 @@ import logging
 import requests
 
 from yandex_music.utils.response import Response
-from yandex_music.error import Unauthorized, BadRequest, NetworkError, YandexMusicError
+from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError
 
 
 USER_AGENT = 'Yandex-Music-API'
@@ -97,9 +97,9 @@ class Request(object):
         else:
             raise NetworkError(f'{message} ({resp.status_code})')
 
-    def get(self, url, timeout=5, *args, **kwargs):
-        return self._request_wrapper('GET', url, headers=self.headers, timeout=timeout, *args, **kwargs)
+    def get(self, url, params=None, timeout=5, *args, **kwargs):
+        return self._request_wrapper('GET', url, params=params, headers=self.headers, timeout=timeout, *args, **kwargs)
 
-    def post(self, url, data, timeout=5, *args, **kwargs):
+    def post(self, url, data=None, timeout=5, *args, **kwargs):
         return self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout, *args, **kwargs)
 
