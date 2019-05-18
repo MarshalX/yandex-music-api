@@ -70,6 +70,10 @@ class Playlist(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.uid,)
 
+    @property
+    def playlist_id(self):
+        return f'{self.owner.uid}:{self.kind}'
+
     @classmethod
     def de_json(cls, data, client):
         if not data:

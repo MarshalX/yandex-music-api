@@ -181,34 +181,82 @@ class Client(YandexMusicObject):
 
         return Suggestions.de_json(result, self)
 
+    def _add_like(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
+                  timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        action = 'remove' if remove else 'add-multiple'
+        url = f'{self.base_url}/users/{user_id}/likes/{object_type}s/{action}'
+
+        result = self._request.post(url, {f'{object_type}-ids': ids}, timeout=timeout, *args, **kwargs)
+
+        if object_type == 'track':
+            return 'revision' in result
+
+        return result == 'ok'
+
+    def users_likes_tracks_add(self, track_ids: str or list, user_id: str or int = None,
+                               timeout=None, *args, **kwargs):
+        return self._add_like('track', track_ids, user_id, timeout, *args, **kwargs)
+
+    def users_likes_tracks_remove(self, track_ids: str or list, user_id: str or int = None,
+                                  timeout=None, *args, **kwargs):
+        return self._add_like('track', track_ids, True, user_id, timeout, *args, **kwargs)
+
+    def users_likes_artists_add(self, artist_ids: str or int or list, user_id: str or int = None,
+                                timeout=None, *args, **kwargs):
+        return self._add_like('artist', artist_ids, user_id, timeout, *args, **kwargs)
+
+    def users_likes_artists_remove(self, artist_ids: str or list, user_id: str or int = None,
+                                   timeout=None, *args, **kwargs):
+        return self._add_like('artist', artist_ids, True, user_id, timeout, *args, **kwargs)
+
+    def users_likes_playlists_add(self, playlist_ids: str or list, user_id: str or int = None,
+                                  timeout=None, *args, **kwargs):
+        return self._add_like('playlist', playlist_ids, user_id, timeout, *args, **kwargs)
+
+    def users_likes_playlists_remove(self, playlist_ids: str or list, user_id: str or int = None,
+                                     timeout=None, *args, **kwargs):
+        return self._add_like('playlist', playlist_ids, True, user_id, timeout, *args, **kwargs)
+
+    def users_likes_albums_add(self, album_ids: str or list, user_id: str or int = None,
+                               timeout=None, *args, **kwargs):
+        return self._add_like('album', album_ids, user_id, timeout, *args, **kwargs)
+
+    def users_likes_albums_remove(self, album_ids: str or list, user_id: str or int = None,
+                                  timeout=None, *args, **kwargs):
+        return self._add_like('album', album_ids, True, user_id, timeout, *args, **kwargs)
+
+    def _get_list(self, object_type: str, ids: list or int or str, params=None, timeout=None, *args, **kwargs):
+        de_list = {
+            'artist': Artist.de_list,
+            'album': Album.de_list,
+            'track': Track.de_list,
+            'playlist': Playlist.de_list,
+        }
+
+        if params is None:
+            params = {}
+        params.update({f'{object_type}-ids': ids})
+
+        url = f'{self.base_url}/{object_type}s' + ('/list' if object_type == 'playlist' else '')
+
+        result = self._request.post(url, params, timeout=timeout, *args, **kwargs)
+
+        return de_list.get(object_type)(result, self)
+
     def artists(self, artist_ids: list or int or str, timeout=None, *args, **kwargs):
-        url = f'{self.base_url}/artists'
-
-        result = self._request.post(url, {'artist-ids': artist_ids}, timeout=timeout, *args, **kwargs)
-
-        return Artist.de_list(result, self)
+        return self._get_list('artist', artist_ids, timeout, *args, **kwargs)
 
     def albums(self, album_ids: list or int or str, timeout=None, *args, **kwargs):
-        url = f'{self.base_url}/albums'
-
-        result = self._request.post(url, {'album-ids': album_ids}, timeout=timeout, *args, **kwargs)
-
-        return Album.de_list(result, self)
+        return self._get_list('album', album_ids, timeout, *args, **kwargs)
 
     def tracks(self, track_ids: int or str, with_positions=True, timeout=None, *args, **kwargs):
-        url = f'{self.base_url}/tracks'
-
-        result = self._request.post(url, {'track-ids': track_ids, 'with-positions': with_positions},
-                                    timeout=timeout, *args, **kwargs)
-
-        return Track.de_list(result, self)
+        return self._get_list('track', track_ids, {'with-positions': with_positions}, timeout, *args, **kwargs)
 
     def playlists_list(self, playlist_ids: list or int or str, timeout=None, *args, **kwargs):
-        url = f'{self.base_url}/playlists/list'
-
-        result = self._request.post(url, {'playlistIds': playlist_ids}, timeout=timeout, *args, **kwargs)
-
-        return Playlist.de_list(result, self)
+        return self._get_list('playlist', playlist_ids, timeout, *args, **kwargs)
 
     def users_playlists_list(self, user_id: int or str = None, timeout=None, *args, **kwargs):
         if user_id is None:
@@ -220,50 +268,33 @@ class Client(YandexMusicObject):
 
         return Playlist.de_list(result, self)
 
-    def users_likes_tracks(self, user_id: int or str = None, if_modified_since_revision=0, timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
-
-        url = f'{self.base_url}/users/{user_id}/likes/tracks'
-
-        params = {
-            'if-modified-since-revision': if_modified_since_revision
+    def _get_likes(self, object_type, user_id: int or str = None, params=None, timeout=None, *args, **kwargs):
+        de_list = {
+            'artist': ArtistsLikes.de_list,
+            'album': AlbumsLikes.de_list,
+            'playlist': PlaylistsLikes.de_list,
         }
 
-        result = self._request.get(url, params, timeout=timeout, *args, **kwargs).get('library')
-
-        return TracksLikes.de_json(result, self)
-
-    def users_likes_albums(self, user_id: int or str = None, rich=True, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/likes/albums'
-
-        result = self._request.get(url, {'rich': rich}, timeout=timeout, *args, **kwargs)
-
-        return AlbumsLikes.de_list(result, self)
-
-    def users_likes_artists(self, user_id: int or str = None, with_timestamps=True, timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
-
-        url = f'{self.base_url}/users/{user_id}/likes/artists'
-
-        params = {
-            'with-timestamps': with_timestamps
-        }
+        url = f'{self.base_url}/users/{user_id}/likes/{object_type}s'
 
         result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
 
-        return ArtistsLikes.de_list(result, self)
+        if object_type == 'track':
+            return TracksLikes.de_json(result.get('library'), self)
+
+        return de_list.get(object_type)(result, self)
+
+    def users_likes_tracks(self, user_id: int or str = None, if_modified_since_revision=0, timeout=None, *args, **kwargs):
+        return self._get_likes('track', user_id, {'if-modified-since-revision': if_modified_since_revision}, timeout, *args, **kwargs)
+
+    def users_likes_albums(self, user_id: int or str = None, rich=True, timeout=None, *args, **kwargs):
+        return self._get_likes('album', user_id, {'rich': rich}, timeout, *args, **kwargs)
+
+    def users_likes_artists(self, user_id: int or str = None, with_timestamps=True, timeout=None, *args, **kwargs):
+        return self._get_likes('artist', user_id, {'with-timestamps': with_timestamps}, timeout, *args, **kwargs)
 
     def users_likes_playlists(self, user_id: int or str = None, timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
-
-        url = f'{self.base_url}/users/{user_id}/likes/playlists'
-
-        result = self._request.get(url, timeout=timeout, *args, **kwargs)
-
-        return PlaylistsLikes.de_list(result, self)
+        return self._get_likes('playlist', user_id, timeout=timeout, *args, **kwargs)

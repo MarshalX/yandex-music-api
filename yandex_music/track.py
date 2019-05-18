@@ -52,6 +52,10 @@ class Track(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id,)
 
+    @property
+    def track_id(self):
+        return f'{self.id}'
+
     @classmethod
     def de_json(cls, data, client):
         if not data:
