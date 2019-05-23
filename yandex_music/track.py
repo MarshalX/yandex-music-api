@@ -49,8 +49,23 @@ class Track(YandexMusicObject):
         self.content_warning = content_warning
         self.explicit = explicit
 
+        self.download_info = None
+
         self.client = client
         self._id_attrs = (self.id,)
+
+    def get_download_info(self, get_direct_links=False):
+        self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
+
+        return self.download_info
+
+    def download(self, filename, codec='mp3', bitrate_in_kbps=192):
+        if self.download_info is None:
+            self.get_download_info()
+
+        for info in self.download_info:
+            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
+                info.download(filename)
 
     @property
     def track_id(self):

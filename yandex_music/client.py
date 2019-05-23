@@ -109,12 +109,12 @@ class Client(YandexMusicObject):
 
         return Feed.de_json(result, self)
 
-    def tracks_download_info(self, track_id: str or int, timeout=None, *args, **kwargs):
+    def tracks_download_info(self, track_id: str or int, get_direct_links=False, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/tracks/{track_id}/download-info'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        return DownloadInfo.de_list(result, self)
+        return DownloadInfo.de_list(result, self, get_direct_links)
 
     def play_audio(self,
                    track_id: str or int,
@@ -287,8 +287,10 @@ class Client(YandexMusicObject):
 
         return de_list.get(object_type)(result, self)
 
-    def users_likes_tracks(self, user_id: int or str = None, if_modified_since_revision=0, timeout=None, *args, **kwargs):
-        return self._get_likes('track', user_id, {'if-modified-since-revision': if_modified_since_revision}, timeout, *args, **kwargs)
+    def users_likes_tracks(self, user_id: int or str = None, if_modified_since_revision=0, timeout=None,
+                           *args, **kwargs):
+        return self._get_likes('track', user_id, {'if-modified-since-revision': if_modified_since_revision}, timeout,
+                               *args, **kwargs)
 
     def users_likes_albums(self, user_id: int or str = None, rich=True, timeout=None, *args, **kwargs):
         return self._get_likes('album', user_id, {'rich': rich}, timeout, *args, **kwargs)

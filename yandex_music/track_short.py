@@ -14,7 +14,18 @@ class TrackShort(YandexMusicObject):
         self.album_id = album_id
         self.timestamp = datetime.fromisoformat(timestamp)
 
+        self._track = None
+
         self.client = client
+
+    @property
+    def track(self):
+        if self._track:
+            return self._track
+
+        self._track = self.client.tracks(self.track_id)[0]
+
+        return self._track
 
     @property
     def track_id(self):

@@ -76,14 +76,9 @@ class Request(object):
             raise NetworkError(e)
 
         if 200 <= resp.status_code <= 299:
-            return self._parse(resp.content).result
+            return resp
 
-        try:
-            message = self._parse(resp.content).error
-            if message is None:
-                raise ValueError()
-        except ValueError:
-            message = 'Unknown HTTPError'
+        message = self._parse(resp.content).error or 'Unknown HTTPError'
 
         if resp.status_code in (401, 403):
             raise Unauthorized(message)
@@ -98,8 +93,22 @@ class Request(object):
             raise NetworkError(f'{message} ({resp.status_code})')
 
     def get(self, url, params=None, timeout=5, *args, **kwargs):
-        return self._request_wrapper('GET', url, params=params, headers=self.headers, timeout=timeout, *args, **kwargs)
+        result = self._request_wrapper('GET', url, params=params, headers=self.headers, timeout=timeout,
+                                       *args, **kwargs)
+
+        return self._parse(result.content).result
 
     def post(self, url, data=None, timeout=5, *args, **kwargs):
-        return self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout, *args, **kwargs)
+        result = self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout,
+                                       *args, **kwargs)
 
+        return self._parse(result.content).result
+
+    def retrieve(self, url, params=None, timeout=5, *args, **kwargs):
+        return self._request_wrapper('GET', url, params=params, headers=self.headers, timeout=timeout,
+                                     *args, **kwargs)
+
+    def download(self, url, filename, timeout=5, *args, **kwargs):
+        result = self.retrieve(url, timeout=timeout, *args, *kwargs)
+        with open(filename, 'wb') as f:
+            f.write(result.content)

@@ -14,6 +14,12 @@ class TracksLikes(YandexMusicObject):
 
         self.client = client
 
+    def __getitem__(self, item):
+        return self.tracks[item]
+
+    def __iter__(self):
+        return iter(self.tracks)
+
     @property
     def tracks_ids(self):
         return [track.track_id for track in self.tracks]

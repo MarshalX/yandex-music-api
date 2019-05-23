@@ -7,14 +7,20 @@ class Response(YandexMusicObject):
                  invocation_info=None,
                  result=None,
                  error=None,
+                 error_description=None,
                  client=None,
                  **kwargs):
         self.data = data
         self.invocation_info = invocation_info
         self._result = result
-        self.error = error
+        self._error = error
+        self.error_description = error_description
 
         self.client = client
+
+    @property
+    def error(self):
+        return f'{self._error} {self.error_description if self.error_description else ""}'
 
     @property
     def result(self):
