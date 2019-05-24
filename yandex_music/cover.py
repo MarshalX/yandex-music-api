@@ -23,6 +23,9 @@ class Cover(YandexMusicObject):
 
         self.client = client
 
+    def download(self, filename):
+        self.client._request.download(self.uri, filename)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:

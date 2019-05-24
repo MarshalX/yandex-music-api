@@ -3,7 +3,7 @@ from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions
+    Suggestions, Landing
 from yandex_music.utils.request import Request
 from yandex_music.exceptions import InvalidToken
 
@@ -108,6 +108,13 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return Feed.de_json(result, self)
+
+    def landing(self, blocks: str or list, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/landing3'
+
+        result = self._request.get(url, {'blocks': blocks}, timeout=timeout, *args, **kwargs)
+
+        return Landing.de_json(result, self)
 
     def tracks_download_info(self, track_id: str or int, get_direct_links=False, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/tracks/{track_id}/download-info'

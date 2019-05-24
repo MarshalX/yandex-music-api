@@ -57,6 +57,19 @@ from search.playlist_search_result import PlaylistSearchResult
 from search.track_search_result import TrackSearchResult
 from search.video_search_result import VideoSearchResult
 
+from landing.chart_item import ChartItem
+from landing.play_context import PlayContext
+from landing.track_short_old import TrackShortOld
+from landing.mix_link import MixLink
+from landing.promotion import Promotion
+from landing.block_entity import BlockEntity
+from landing.landing import Landing
+from landing.block import Block
+from landing.track_id import TrackId
+from landing.chart import Chart
+from landing.play_contexts_data import PlayContextsData
+from landing.personal_playlists_data import PersonalPlaylistsData
+
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
            'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
@@ -64,4 +77,5 @@ __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'P
            'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent', 'AlbumEvent',
            'Feed', 'Event', 'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'AlbumSearchResult', 'Best',
            'ArtistSearchResult', 'PlaylistSearchResult', 'TrackSearchResult', 'VideoSearchResult', 'Search',
-           'Suggestions']
+           'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld',
+           'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext']

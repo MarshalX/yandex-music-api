@@ -45,6 +45,7 @@ class Request(object):
         cleaned_object = {}
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
+            key = key.replace('client', 'client_')
             cleaned_object.update({key: value})
 
         return cleaned_object

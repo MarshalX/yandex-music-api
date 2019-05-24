@@ -11,9 +11,9 @@ class Playlist(YandexMusicObject):
                  title,
                  track_count,
                  cover,
-                 tags,
                  made_for,
                  play_counter,
+                 tags=None,
                  revision=None,
                  snapshot=None,
                  visibility=None,
@@ -42,7 +42,6 @@ class Playlist(YandexMusicObject):
         self.title = title
         self.track_count = track_count
         self.cover = cover
-        self.tags = tags
         self.made_for = made_for
         self.play_counter = play_counter
 
@@ -66,6 +65,7 @@ class Playlist(YandexMusicObject):
         self.generated_playlist_type = generated_playlist_type
         self.is_for_from = is_for_from
         self.regions = regions
+        self.tags = tags
 
         self.client = client
         self._id_attrs = (self.uid,)
