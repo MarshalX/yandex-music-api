@@ -3,23 +3,24 @@ from yandex_music import YandexMusicObject
 
 class Cover(YandexMusicObject):
     def __init__(self,
-                 type,
+                 type=None,
                  uri=None,
                  items_uri=None,
                  dir=None,
                  version=None,
                  custom=None,
                  prefix=None,
+                 error=None,
                  client=None,
                  **kwargs):
         self.type = type
-
         self.uri = uri
         self.items_uri = items_uri
         self.prefix = prefix
         self.dir = dir
         self.version = version
         self.custom = custom
+        self.error = error
 
         self.client = client
 

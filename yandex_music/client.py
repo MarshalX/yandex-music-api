@@ -5,6 +5,7 @@ from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, 
     TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
     Suggestions, Landing
 from yandex_music.utils.request import Request
+from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
 
 
@@ -187,6 +188,88 @@ class Client(YandexMusicObject):
         result = self._request.get(url, {'part': part}, timeout=timeout, *args, **kwargs)
 
         return Suggestions.de_json(result, self)
+
+    def users_playlists(self, kind: str or int, user_id: str = None, timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Playlist.de_json(result, self)
+
+    def users_playlists_create(self, title: str, visibility: str = 'public', user_id: str = None,
+                               timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/create'
+
+        data = {
+            'title': title,
+            'visibility': visibility
+        }
+
+        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
+
+        return Playlist.de_json(result, self)
+
+    def users_playlists_delete(self, kind: str or int, user_id: str = None,
+                               timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/delete'
+
+        result = self._request.post(url, timeout=timeout, *args, **kwargs)
+
+        return result == 'ok'
+
+    def users_playlists_name(self, kind: str or int, name: str, user_id: str = None, timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/name'
+
+        result = self._request.post(url, {'value': name}, timeout=timeout, *args, **kwargs)
+
+        return Playlist.de_json(result, self)
+
+    def users_playlists_change(self, kind: str or int, diff: str, revision: int = 1, user_id: str = None,
+                               timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/change'
+
+        data = {
+            'kind': kind,
+            'revision': revision,
+            'diff': diff
+        }
+
+        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
+
+        return Playlist.de_json(result, self)
+
+    def users_playlists_insert_track(self, kind: str or int, track_id, album_id, at: int = 0, revision: int = 1,
+                                     user_id: str = None, timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        diff = Difference().add_insert(at, {'id': track_id, 'album_id': album_id})
+
+        return self.users_playlists_change(kind, diff.to_json(), revision, user_id, timeout, *args, **kwargs)
+
+    def users_playlists_delete_track(self, kind: str or int, from_: int, to: int, revision: int = 1,
+                                     user_id: str = None, timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        diff = Difference().add_delete(from_, to)
+
+        return self.users_playlists_change(kind, diff.to_json(), revision, user_id, timeout, *args, **kwargs)
 
     def _add_like(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
                   timeout=None, *args, **kwargs):

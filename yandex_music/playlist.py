@@ -71,8 +71,18 @@ class Playlist(YandexMusicObject):
         self._id_attrs = (self.uid,)
 
     @property
+    def is_mine(self):
+        return self.owner.uid == self.client.account.uid
+
+    @property
     def playlist_id(self):
         return f'{self.owner.uid}:{self.kind}'
+
+    def rename(self, name):
+        client, kind = self.client, self.kind
+
+        self.__dict__.clear()
+        self.__dict__.update(client.users_playlists_name(kind, name).__dict__)
 
     @classmethod
     def de_json(cls, data, client):
