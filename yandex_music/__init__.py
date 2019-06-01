@@ -70,6 +70,11 @@ from landing.chart import Chart
 from landing.play_contexts_data import PlayContextsData
 from landing.personal_playlists_data import PersonalPlaylistsData
 
+from genre.title import Title
+from genre.radio_icon import RadioIcon
+from genre.images import Images
+from genre.genre import Genre
+
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
            'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
@@ -78,4 +83,5 @@ __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'P
            'Feed', 'Event', 'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'AlbumSearchResult', 'Best',
            'ArtistSearchResult', 'PlaylistSearchResult', 'TrackSearchResult', 'VideoSearchResult', 'Search',
            'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld',
-           'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext']
+           'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre',
+           'RadioIcon', 'Images']

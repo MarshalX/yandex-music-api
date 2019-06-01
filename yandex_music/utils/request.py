@@ -46,6 +46,10 @@ class Request(object):
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
             key = key.replace('client', 'client_')
+
+            if len(key) and key[0].isdigit():
+                key = '_' + key
+
             cleaned_object.update({key: value})
 
         return cleaned_object

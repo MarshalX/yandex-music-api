@@ -25,6 +25,7 @@ class Playlist(YandexMusicObject):
                  is_premiere=None,
                  duration_ms=None,
                  og_image=None,
+                 tracks=None,
                  prerolls=None,
                  likes_count=None,
                  generated_playlist_type=None,
@@ -56,6 +57,7 @@ class Playlist(YandexMusicObject):
         self.is_premiere = is_premiere
         self.duration_ms = duration_ms
         self.og_image = og_image
+        self.tracks = tracks
         self.prerolls = prerolls
         self.likes_count = likes_count
         self.animated_cover_uri = animated_cover_uri
@@ -90,10 +92,11 @@ class Playlist(YandexMusicObject):
             return None
 
         data = super(Playlist, cls).de_json(data, client)
-        from yandex_music import User, MadeFor, Cover, PlayCounter
+        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
+        data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
 
         return cls(client=client, **data)

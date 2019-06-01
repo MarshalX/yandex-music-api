@@ -3,7 +3,7 @@ from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions, Landing
+    Suggestions, Landing, Genre
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
@@ -110,12 +110,26 @@ class Client(YandexMusicObject):
 
         return Feed.de_json(result, self)
 
+    def feed_wizard_is_passed(self, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/feed/wizard/is-passed'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return result.get('is_wizard_passed') or False
+
     def landing(self, blocks: str or list, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/landing3'
 
         result = self._request.get(url, {'blocks': blocks}, timeout=timeout, *args, **kwargs)
 
         return Landing.de_json(result, self)
+
+    def genres(self, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/genres'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Genre.de_list(result, self)
 
     def tracks_download_info(self, track_id: str or int, get_direct_links=False, timeout=None, *args, **kwargs):
         url = f'{self.base_url}/tracks/{track_id}/download-info'
@@ -189,15 +203,19 @@ class Client(YandexMusicObject):
 
         return Suggestions.de_json(result, self)
 
-    def users_playlists(self, kind: str or int, user_id: str = None, timeout=None, *args, **kwargs):
+    def users_playlists(self, kind: str or int or list, user_id: str = None, timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
+        url = f'{self.base_url}/users/{user_id}/playlists'
 
-        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+        data = {
+            'kinds': kind
+        }
 
-        return Playlist.de_json(result, self)
+        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
+
+        return Playlist.de_list(result, self)
 
     def users_playlists_create(self, title: str, visibility: str = 'public', user_id: str = None,
                                timeout=None, *args, **kwargs):
