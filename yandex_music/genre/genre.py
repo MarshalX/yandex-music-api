@@ -42,10 +42,10 @@ class Genre(YandexMusicObject):
             return None
 
         data = super(Genre, cls).de_json(data, client)
-        from yandex_music import Title, RadioIcon, Images
+        from yandex_music import Title, Icon, Images
         data['titles'] = Title.de_dict(data.get('titles'), client)
         data['images'] = Images.de_json(data.get('images'), client)
-        data['radio_icon'] = RadioIcon.de_json(data.get('radio_icon'), client)
+        data['radio_icon'] = Icon.de_json(data.get('radio_icon'), client)
         data['sub_genres'] = Genre.de_list(data.get('sub_genres'), client)
 
         return cls(client=client, **data)

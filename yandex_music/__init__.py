@@ -1,28 +1,14 @@
 from .base import YandexMusicObject
+
 from .invocation_info import InvocationInfo
 from .settings import Settings
 from .permission_alerts import PermissionAlerts
 from .experiments import Experiments
-from .artist import Artist
-from .album import Album
-from .playlist import Playlist
-from .track import Track
 from .cover import Cover
-from .ratings import Ratings
-from .counts import Counts
-from .link import Link
-from .user import User
-from .case_forms import CaseForms
-from .made_for import MadeFor
-from .label import Label
-from .play_counter import PlayCounter
 from .track_short import TrackShort
-from .major import Major
-from .normalization import Normalization
-from .track_position import TrackPosition
 from .promo_code_status import PromoCodeStatus
 from .download_info import DownloadInfo
-from .video import Video
+from .icon import Icon
 
 from status.account import Account
 from status.plus import Plus
@@ -33,6 +19,25 @@ from status.auto_renewable import AutoRenewable
 from status.passport_phone import PassportPhone
 from status.permissions import Permissions
 from status.status import Status
+
+from track.major import Major
+from track.normalization import Normalization
+from track.track import Track
+
+from playlist.case_forms import CaseForms
+from playlist.made_for import MadeFor
+from playlist.user import User
+from playlist.play_counter import PlayCounter
+from playlist.playlist import Playlist
+
+from artist.link import Link
+from artist.counts import Counts
+from artist.ratings import Ratings
+from artist.artist import Artist
+
+from album.label import Label
+from album.track_position import TrackPosition
+from album.album import Album
 
 from feed.generated_playlist import GeneratedPlaylist
 from feed.album_event import AlbumEvent
@@ -47,6 +52,7 @@ from likes.artists_likes import ArtistsLikes
 from likes.playlists_likes import PlaylistsLikes
 from likes.tracks_likes import TracksLikes
 
+from search.video import Video
 from search.best import Best
 from search.search import Search
 from search.suggestions import Suggestions
@@ -71,7 +77,6 @@ from landing.play_contexts_data import PlayContextsData
 from landing.personal_playlists_data import PersonalPlaylistsData
 
 from genre.title import Title
-from genre.radio_icon import RadioIcon
 from genre.images import Images
 from genre.genre import Genre
 
@@ -84,4 +89,4 @@ __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'P
            'ArtistSearchResult', 'PlaylistSearchResult', 'TrackSearchResult', 'VideoSearchResult', 'Search',
            'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld',
            'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre',
-           'RadioIcon', 'Images']
+           'Icon', 'Images']

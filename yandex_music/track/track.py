@@ -80,6 +80,9 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
+        from yandex_music import Normalization, Major
+        data['normalization'] = Normalization.de_json(data.get('normalization'), client)
+        data['major'] = Major.de_json(data.get('major'), client)
 
         return cls(client=client, **data)
 

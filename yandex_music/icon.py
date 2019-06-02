@@ -1,7 +1,7 @@
 from yandex_music import YandexMusicObject
 
 
-class RadioIcon(YandexMusicObject):
+class Icon(YandexMusicObject):
     def __init__(self,
                  background_color,
                  image_url,
@@ -17,6 +17,6 @@ class RadioIcon(YandexMusicObject):
         if not data:
             return None
 
-        data = super(RadioIcon, cls).de_json(data, client)
+        data = super(Icon, cls).de_json(data, client)
 
         return cls(client=client, **data)
