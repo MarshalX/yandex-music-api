@@ -6,13 +6,14 @@ from yandex_music import YandexMusicObject
 class TrackShort(YandexMusicObject):
     def __init__(self,
                  id,
-                 album_id,
                  timestamp,
+                 album_id=None,
                  client=None,
                  **kwargs):
         self.id = id
-        self.album_id = album_id
         self.timestamp = datetime.fromisoformat(timestamp)
+
+        self.album_id = album_id
 
         self._track = None
 
@@ -29,7 +30,7 @@ class TrackShort(YandexMusicObject):
 
     @property
     def track_id(self):
-        return f'{self.id}:{self.album_id}'
+        return f'{self.id}{":" + self.album_id if self.album_id else ""}'
 
     @classmethod
     def de_json(cls, data, client):
