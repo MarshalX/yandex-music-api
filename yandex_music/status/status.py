@@ -5,23 +5,29 @@ class Status(YandexMusicObject):
     def __init__(self,
                  account,
                  permissions,
-                 cache_limit,
                  subscription,
-                 subeditor,
-                 subeditor_level,
-                 plus,
+                 cache_limit=None,
+                 subeditor=None,
+                 subeditor_level=None,
+                 plus=None,
                  default_email=None,
+                 skips_per_hour=None,
+                 station_exists=None,
+                 premium_region=None,
                  client=None,
                  **kwargs):
         self.account = account
         self.permissions = permissions
-        self.cache_limit = cache_limit
         self.subscription = subscription
+
+        self.cache_limit = cache_limit
         self.subeditor = subeditor
         self.subeditor_level = subeditor_level
         self.plus = plus
-
         self.default_email = default_email
+        self.skips_per_hour = skips_per_hour
+        self.station_exists = station_exists
+        self.premium_region = premium_region
 
         self.client = client
         self._id_attrs = (self.account,)

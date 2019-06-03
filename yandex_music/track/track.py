@@ -24,6 +24,7 @@ class Track(YandexMusicObject):
                  available_as_rbt=None,
                  content_warning=None,
                  explicit=None,
+                 preview_duration_ms=None,
                  client=None,
                  **kwargs):
         self.id = id
@@ -37,7 +38,7 @@ class Track(YandexMusicObject):
         self.real_id = real_id
         self.og_image = og_image
         self.type = type
-        self.cover_uri = cover_uri
+        self.cover_uri = 'https://' + cover_uri
         self.major = major
         self.duration_ms = duration_ms
         self.storage_dir = storage_dir
@@ -48,6 +49,7 @@ class Track(YandexMusicObject):
         self.available_as_rbt = available_as_rbt
         self.content_warning = content_warning
         self.explicit = explicit
+        self.preview_duration_ms = preview_duration_ms
 
         self.download_info = None
 
@@ -59,8 +61,8 @@ class Track(YandexMusicObject):
 
         return self.download_info
 
-    def download_cover(self, filename):
-        self.client._request.download(self.cover_uri, filename)
+    def download_cover(self, filename, size='200x200'):
+        self.client._request.download(self.cover_uri.replace('%%', size), filename)
 
     def download(self, filename, codec='mp3', bitrate_in_kbps=192):
         if self.download_info is None:

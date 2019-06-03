@@ -3,14 +3,16 @@ from yandex_music import YandexMusicObject
 
 class Subscription(YandexMusicObject):
     def __init__(self,
-                 auto_renewable,
-                 can_start_trial,
-                 mcdonalds,
+                 auto_renewable=None,
+                 can_start_trial=None,
+                 mcdonalds=None,
+                 end=None,
                  client=None,
                  **kwargs):
         self.auto_renewable = auto_renewable
         self.can_start_trial = can_start_trial
         self.mcdonalds = mcdonalds
+        self.end = end
 
         self.client = client
 

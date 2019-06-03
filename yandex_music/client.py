@@ -3,7 +3,7 @@ from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions, Landing, Genre
+    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
@@ -288,6 +288,74 @@ class Client(YandexMusicObject):
         diff = Difference().add_delete(from_, to)
 
         return self.users_playlists_change(kind, diff.to_json(), revision, user_id, timeout, *args, **kwargs)
+
+    def rotor_account_status(self, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/rotor/account/status'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Status.de_json(result, self)
+
+    def rotor_stations_dashboard(self, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/rotor/stations/dashboard'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Dashboard.de_json(result, self)
+
+    def rotor_stations_list(self, language: str = 'en', timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/rotor/stations/list'
+
+        result = self._request.get(url, {'language': language}, timeout=timeout, *args, **kwargs)
+
+        return StationResult.de_list(result, self)
+
+    def rotor_station_genre_feedback(self, genre: str, type_: str, timestamp=None, from_: str = None,
+                                     batch_id: str or int = None, track_id: str = None, timeout=None, *args, **kwargs):
+        if timestamp is None:
+            timestamp = datetime.now().timestamp()
+
+        url = f'{self.base_url}/rotor/station/genre:{genre}/feedback'
+
+        params = {}
+        data = {
+            'type': type_,
+            'timestamp': timestamp
+        }
+
+        if batch_id and track_id:
+            data.update({'trackId': track_id})
+            params = {'batch-id': batch_id}
+
+        if from_:
+            data.update({'from': from_})
+
+        result = self._request.post(url, params=params, json=data, timeout=timeout, *args, **kwargs)
+
+        return result == 'ok'
+
+    def rotor_station_genre_feedback_radio_started(self, genre: str, from_: str, timestamp=None,
+                                                   timeout=None, *args, **kwargs):
+        return self.rotor_station_genre_feedback(genre, 'radioStarted', timestamp, from_, timeout, *args, **kwargs)
+
+    def rotor_station_genre_feedback_track_started(self, genre: str, track_id: str, batch_id: str or int,
+                                                   timestamp=None, timeout=None, *args, **kwargs):
+        return self.rotor_station_genre_feedback(genre, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id,
+                                                 timeout=timeout, *args, **kwargs)
+
+    def rotor_station_genre_info(self, genre: str, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/rotor/station/genre:{genre}/info'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return StationResult.de_list(result, self)
+
+    def rotor_station_genre_tracks(self, genre: str, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/rotor/station/genre:{genre}/tracks'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return StationTracksResult.de_json(result, self)
 
     def _add_like(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
                   timeout=None, *args, **kwargs):

@@ -80,6 +80,19 @@ from genre.title import Title
 from genre.images import Images
 from genre.genre import Genre
 
+from rotor.id import Id
+from rotor.value import Value
+from rotor.enum import Enum
+from rotor.sequence import Sequence
+from rotor.discrete_scale import DiscreteScale
+from rotor.ad_params import AdParams
+from rotor.restrictions import Restrictions
+from rotor.rotor_settings import RotorSettings
+from rotor.station import Station
+from rotor.station_tracks_result import StationTracksResult
+from rotor.station_result import StationResult
+from rotor.dashboard import Dashboard
+
 __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus', 'Subscription',
            'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments', 'Cover',
            'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album', 'PlayCounter',
@@ -89,4 +102,5 @@ __all__ = ['YandexMusicObject', 'Account', 'PassportPhone', 'InvocationInfo', 'P
            'ArtistSearchResult', 'PlaylistSearchResult', 'TrackSearchResult', 'VideoSearchResult', 'Search',
            'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld',
            'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre',
-           'Icon', 'Images']
+           'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum',
+           'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult']
