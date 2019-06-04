@@ -14,6 +14,18 @@ CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
 
 
 class Client(YandexMusicObject):
+    """This object represents a Yandex Music Client.
+
+    Args:
+        username (:obj:`str`): Client's login.
+        password (:obj:`str`): Client's password.
+        token (:obj:`str`, optional): Client's unique authentication.
+        base_url (:obj:`str`, optional): Yandex Music API service URL.
+        oauth_url (:obj:`str`, optional): Yandex Music OAuth service URL.
+        request (:obj:`yandex_music.utils.request.Request`, optional): Pre initialized
+            :obj:`yandex_music.utils.request.Request`.
+    """
+
     def __init__(self, username, password, token=None, base_url=None, oauth_url=None, request=None):
         self.logger = logging.getLogger(__name__)
         self.token = token
@@ -36,6 +48,7 @@ class Client(YandexMusicObject):
 
     @classmethod
     def from_token(cls, token):
+        """Shortcut, authorization by token."""
         return cls(username=None, password=None, token=token)
 
     def _generate_token_by_username_and_password(self, username, password, grant_type='password',

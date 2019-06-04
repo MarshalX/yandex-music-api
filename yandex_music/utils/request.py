@@ -18,6 +18,16 @@ HEADERS = {
 
 
 class Request(object):
+    """
+    Helper class for yandex_music which provides methods to perform POST & GET towards
+    yandex servers.
+
+    Args:
+        client (:obj:`yandex_music.Client`): Yandex Music Client.
+        headers (:obj:`dict`, optional): Headers transmitted with each request.
+        proxies (:obj:`dict`, optional): Proxies.
+    """
+
     def __init__(self,
                  client,
                  headers=None,
