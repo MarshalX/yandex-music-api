@@ -1,2 +1,2 @@
-Welcome to Yandex Music API library
-===================================
+Python библиотека для API Yandex Music
+======================================

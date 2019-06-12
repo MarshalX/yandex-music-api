@@ -1,4 +1,4 @@
-yandex_music package
+Пакет yandex_music
 ====================
 
 .. toctree::

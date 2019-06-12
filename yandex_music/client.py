@@ -14,15 +14,15 @@ CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
 
 
 class Client(YandexMusicObject):
-    """This object represents a Yandex Music Client.
+    """Объект представляющий клиент Yandex Music.
 
     Args:
-        username (:obj:`str`): Client's login.
-        password (:obj:`str`): Client's password.
-        token (:obj:`str`, optional): Client's unique authentication.
-        base_url (:obj:`str`, optional): Yandex Music API service URL.
-        oauth_url (:obj:`str`, optional): Yandex Music OAuth service URL.
-        request (:obj:`yandex_music.utils.request.Request`, optional): Pre initialized
+        username (:obj:`str`): логин клиента (идентификатор).
+        password (:obj:`str`): пароль клиента (аутентификатор).
+        token (:obj:`str`, optional): уникальный ключ для аутентификации.
+        base_url (:obj:`str`, optional): ссылка на API Yandex Music.
+        oauth_url (:obj:`str`, optional): ссылка на OAuth Yandex Music.
+        request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :obj:`yandex_music.utils.request.Request`.
     """
 
@@ -48,7 +48,7 @@ class Client(YandexMusicObject):
 
     @classmethod
     def from_token(cls, token):
-        """Shortcut, authorization by token."""
+        """Сокращение для авторизации по токену"""
         return cls(username=None, password=None, token=token)
 
     def _generate_token_by_username_and_password(self, username, password, grant_type='password',
