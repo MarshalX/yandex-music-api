@@ -8,7 +8,6 @@ from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
 
-
 CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
 CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
 
@@ -16,12 +15,22 @@ CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
 class Client(YandexMusicObject):
     """Объект представляющий клиент Yandex Music.
 
+    Attributes:
+        logger (:obj:`logging.Logger`): Объект логера.
+        token (:obj:`str`): Уникальный ключ для аутентификации.
+        base_url (:obj:`str`): Ссылка на API Yandex Music.
+        oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
+        request (:obj:`yandex_music.utils.request.Request`): Объект вспомогательного класса
+            :obj:`yandex_music.utils.request.Request` для отправки запросов.
+        account (:obj:`yandex_music.Account`): Объект класса :obj:`yandex_music.Account` предоставляющего основную
+            информацию об аккаунте.
+
     Args:
-        username (:obj:`str`): логин клиента (идентификатор).
-        password (:obj:`str`): пароль клиента (аутентификатор).
-        token (:obj:`str`, optional): уникальный ключ для аутентификации.
-        base_url (:obj:`str`, optional): ссылка на API Yandex Music.
-        oauth_url (:obj:`str`, optional): ссылка на OAuth Yandex Music.
+        username (:obj:`str`): Логин клиента (идентификатор).
+        password (:obj:`str`): Пароль клиента (аутентификатор).
+        token (:obj:`str`, optional): Уникальный ключ для аутентификации.
+        base_url (:obj:`str`, optional): Ссылка на API Yandex Music.
+        oauth_url (:obj:`str`, optional): Ссылка на OAuth Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :obj:`yandex_music.utils.request.Request`.
     """
@@ -41,18 +50,41 @@ class Client(YandexMusicObject):
         self._request = request or Request(self)
 
         if self.token is None:
-            self.token = self._generate_token_by_username_and_password(username, password)
+            self.token = self.generate_token_by_username_and_password(username, password)
             self.request.set_authorization(self.token)
 
         self.account = self.account_status().account
 
     @classmethod
     def from_token(cls, token):
-        """Сокращение для авторизации по токену"""
+        """Сокращение для авторизации по токену.
+
+        Args:
+            token (:obj:`str`, optional): Уникальный ключ для аутентификации.
+
+        Returns:
+            :class:`yandex_music.Client`.
+        """
         return cls(username=None, password=None, token=token)
 
-    def _generate_token_by_username_and_password(self, username, password, grant_type='password',
-                                                 timeout=None, *args, **kwargs):
+    def generate_token_by_username_and_password(self, username, password, grant_type='password',
+                                                timeout=None, *args, **kwargs):
+        """Метод для получения OAuth токена по логину и паролю.
+
+        Args:
+            username (:obj:`str`): Логин клиента (идентификатор).
+            password (:obj:`str`): Пароль клиента (аутентификатор).
+            grant_type (:obj:`str`, optional): Тип разрешения OAuth.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`str`: OAuth токен.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
         url = f'{self.oauth_url}/token'
 
         data = {
@@ -69,6 +101,7 @@ class Client(YandexMusicObject):
 
     @staticmethod
     def _validate_token(token):
+        """Примитивная валидация токена."""
         if any(x.isspace() for x in token):
             raise InvalidToken()
 
@@ -79,9 +112,24 @@ class Client(YandexMusicObject):
 
     @property
     def request(self):
+        """:class:`yandex_music.utils.request.Request`: Экземпляр запроса."""
         return self._request
 
     def account_status(self, timeout=None, *args, **kwargs):
+        """Получение статуса аккаунта. Нет обязательных параметров.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :class:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status` предоставляющий информацию об
+            аккаунте если валиден, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
         url = f'{self.base_url}/account/status'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
