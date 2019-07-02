@@ -2,6 +2,22 @@ from yandex_music import YandexMusicObject
 
 
 class Plus(YandexMusicObject):
+    """Класс представляющий Plus подписку.
+
+    Attributes:
+        has_plus (:obj:`bool`): Наличие.
+        is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
+        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        has_plus (:obj:`bool`): Наличие.
+        is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  has_plus,
                  is_tutorial_completed,
@@ -14,6 +30,16 @@ class Plus(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Plus`: Объект класса :obj:`yandex_music.Plus`.
+        """
         if not data:
             return None
 

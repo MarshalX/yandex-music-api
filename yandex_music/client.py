@@ -13,7 +13,7 @@ CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
 
 
 class Client(YandexMusicObject):
-    """Объект представляющий клиент Yandex Music.
+    """Класс представляющий клиент Yandex Music.
 
     Attributes:
         logger (:obj:`logging.Logger`): Объект логера.

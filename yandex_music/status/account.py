@@ -4,6 +4,48 @@ from yandex_music import YandexMusicObject
 
 
 class Account(YandexMusicObject):
+    """Класс предоставляющий основную информацию об аккаунте пользователя.
+
+    Attributes:
+        now (:obj:`datetime.datetime`): Текущая дата и время.
+        uid (:obj:`int`): Уникальный идентификатор.
+        login (:obj:`str`): Виртуальное имя (обычно e-mail).
+        full_name (:obj:`str`): Полное имя (имя и фамилия).
+        second_name (:obj:`str`): Фамилия.
+        first_name (:obj:`str`): Имя.
+        display_name (:obj:`str`): Отображаемое имя.
+        birthday (:obj:`datetime.datetime`): Дата рождения.
+        service_available (:obj:`bool`): Доступен ли сервис.
+        hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
+        region (:obj:`int`): Регион.
+        passport_phones (:obj:`yandex_music.PassportPhone`): Объект класса :obj:`yandex_music.PassportPhone`
+            предоставляющий список мобильных номеров.
+        registered_at (:obj:`datetime.datetime`): Дата создания аккаунта.
+        has_info_for_app_metrica (:obj:`bool`): Наличие информации для App Metrica.
+        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        now (:obj:`str`): Текущая дата и время.
+        uid (:obj:`int`): Уникальный идентификатор.
+        login (:obj:`str`): Виртуальное имя (обычно e-mail).
+        full_name (:obj:`str`): Полное имя (имя и фамилия).
+        second_name (:obj:`str`): Фамилия.
+        first_name (:obj:`str`): Имя.
+        display_name (:obj:`str`): Отображаемое имя.
+        birthday (:obj:`str`): Дата рождения.
+        service_available (:obj:`bool`): Доступен ли сервис.
+        hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
+        region (:obj:`int`, optional): Регион.
+        passport_phones (:obj:`yandex_music.PassportPhone`, optional): Объект класса :obj:`yandex_music.PassportPhone`
+            предоставляющий список мобильных номеров.
+        registered_at (:obj:`str`, optional): Дата создания аккаунта.
+        has_info_for_app_metrica (:obj:`bool`, optional): Наличие информации для App Metrica.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  now,
                  uid,
@@ -42,6 +84,16 @@ class Account(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Account`: Объект класса :obj:`yandex_music.Account`.
+        """
         if not data:
             return None
 

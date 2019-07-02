@@ -2,6 +2,22 @@ from yandex_music import YandexMusicObject
 
 
 class Price(YandexMusicObject):
+    """Класс представляющий цену.
+
+    Attributes:
+        amount (:obj:`int`): Количество единиц.
+        currency (:obj:`str`): Валюта.
+        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        amount (:obj:`int`): Количество единиц.
+        currency (:obj:`str`): Валюта.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  amount,
                  currency,
@@ -14,6 +30,16 @@ class Price(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Price`: Объект класса :obj:`yandex_music.Price`.
+        """
         if not data:
             return None
 

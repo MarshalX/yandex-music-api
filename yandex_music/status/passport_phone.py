@@ -2,6 +2,20 @@ from yandex_music import YandexMusicObject
 
 
 class PassportPhone(YandexMusicObject):
+    """Класс представляющий номер телефона пользователя.
+
+    Attributes:
+        phone (:obj:`str`): Номер телефона.
+        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        phone (:obj:`str`): Номер телефона.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  phone,
                  client=None,
@@ -13,6 +27,16 @@ class PassportPhone(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.PassportPhone`: Объект класса :obj:`yandex_music.PassportPhone`.
+        """
         if not data:
             return None
 
@@ -22,6 +46,16 @@ class PassportPhone(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data, client):
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`list`: Список объектов класса :obj:`yandex_music.PassportPhone`.
+        """
         if not data:
             return []
 

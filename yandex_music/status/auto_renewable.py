@@ -4,6 +4,32 @@ from yandex_music import YandexMusicObject, Product
 
 
 class AutoRenewable(YandexMusicObject):
+    """Класс представляющий автопродление подписки.
+
+    Attributes:
+        expires (:obj:`datetime.datetime`): Дата истечения подписки.
+        vendor (:obj:`str`): Продавец.
+        vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
+        product_id (:obj:`str`): Уникальный идентификатор продукта.
+        product (:obj:`yandex_music.Product`): Объект класса :obj:`yandex_music.Product` представляющий продукт.
+        order_id (:obj:`int`): Уникальный идентификатор заказа.
+        finished (:obj:`bool`): Завершенность автопродления.
+        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        expires (:obj:`str`): Дата истечения подписки.
+        vendor (:obj:`str`): Продавец.
+        vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
+        product_id (:obj:`str`): Уникальный идентификатор продукта.
+        product (:obj:`yandex_music.Product`): Объект класса :obj:`yandex_music.Product` представляющий продукт.
+        order_id (:obj:`int`): Уникальный идентификатор заказа.
+        finished (:obj:`bool`): Завершенность автопродления.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  expires,
                  vendor,
@@ -27,6 +53,16 @@ class AutoRenewable(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.AutoRenewable`: Объект класса :obj:`yandex_music.AutoRenewable`.
+        """
         if not data:
             return None
 
@@ -37,6 +73,16 @@ class AutoRenewable(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data, client):
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`list`: Список объектов класса :obj:`yandex_music.AutoRenewable`.
+        """
         if not data:
             return []
 
