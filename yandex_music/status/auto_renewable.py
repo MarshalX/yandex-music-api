@@ -25,8 +25,8 @@ class AutoRenewable(YandexMusicObject):
         product (:obj:`yandex_music.Product`): Объект класса :obj:`yandex_music.Product` представляющий продукт.
         order_id (:obj:`int`): Уникальный идентификатор заказа.
         finished (:obj:`bool`): Завершенность автопродления.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 

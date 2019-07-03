@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 
 
 class Permissions(YandexMusicObject):
-    """Класс предоставляющий информацио о правах пользователя, их изначальных значениях и даты окончания.
+    """Класс предоставляющий информацию о правах пользователя, их изначальных значениях и даты окончания.
 
     Attributes:
         until (:obj:`datetime.datetime`): Дата окончания прав.

@@ -13,8 +13,8 @@ class Price(YandexMusicObject):
     Args:
         amount (:obj:`int`): Количество единиц.
         currency (:obj:`str`): Валюта.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 

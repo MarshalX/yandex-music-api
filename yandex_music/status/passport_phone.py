@@ -11,8 +11,8 @@ class PassportPhone(YandexMusicObject):
 
     Args:
         phone (:obj:`str`): Номер телефона.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 

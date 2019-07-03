@@ -16,8 +16,8 @@ class Product(YandexMusicObject):
         features (:obj:`list`): Список предоставляемых возможностей.
         description (:obj:`str`): Описание.
         available (:obj:`bool`): Доступна ли покупка.
-        trial_available (:obj:`bool`): Доступен ли испытательныц срок.
-        vendor_trial_available (:obj:`bool`): Доступен испытательныц срок продовца TODO.
+        trial_available (:obj:`bool`): Доступен ли испытательный срок.
+        vendor_trial_available (:obj:`bool`): Доступен испытательный срок продавца TODO.
         button_text (:obj:`str`): Текст кнопки.
         button_additional_text (:obj:`str`): Дополнительный текст кнопки.
         payment_method_types (:obj:`list`): Способы оплаты.
@@ -36,8 +36,8 @@ class Product(YandexMusicObject):
         features (:obj:`list`, optional): Список предоставляемых возможностей.
         description (:obj:`str`, optional): Описание.
         available (:obj:`bool`, optional): Доступна ли покупка.
-        trial_available (:obj:`bool`, optional): Доступен ли испытательныц срок.
-        vendor_trial_available (:obj:`bool`, optional): Доступен испытательныц срок продовца TODO.
+        trial_available (:obj:`bool`, optional): Доступен ли испытательный срок.
+        vendor_trial_available (:obj:`bool`, optional): Доступен испытательный срок продавца TODO.
         button_text (:obj:`str`, optional): Текст кнопки.
         button_additional_text (:obj:`str`, optional): Дополнительный текст кнопки.
         payment_method_types (:obj:`list`, optional): Способы оплаты.

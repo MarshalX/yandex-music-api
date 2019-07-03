@@ -18,8 +18,8 @@ class Account(YandexMusicObject):
         service_available (:obj:`bool`): Доступен ли сервис.
         hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
         region (:obj:`int`): Регион.
-        passport_phones (:obj:`yandex_music.PassportPhone`): Объект класса :obj:`yandex_music.PassportPhone`
-            предоставляющий список мобильных номеров.
+        passport_phones (:obj:`list`): Список объектов класса :obj:`yandex_music.PassportPhone` представляющие
+            мобильные номера.
         registered_at (:obj:`datetime.datetime`): Дата создания аккаунта.
         has_info_for_app_metrica (:obj:`bool`): Наличие информации для App Metrica.
         client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
@@ -37,12 +37,12 @@ class Account(YandexMusicObject):
         service_available (:obj:`bool`): Доступен ли сервис.
         hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
         region (:obj:`int`, optional): Регион.
-        passport_phones (:obj:`yandex_music.PassportPhone`, optional): Объект класса :obj:`yandex_music.PassportPhone`
-            предоставляющий список мобильных номеров.
-        registered_at (:obj:`str`, optional): Дата создания аккаунта.
+        passport_phones (:obj:`list`): Список объектов класса :obj:`yandex_music.PassportPhone` представляющие
+            мобильные номера.
+        registered_at (:obj:`str`, optional): Дата создания учётной записи.
         has_info_for_app_metrica (:obj:`bool`, optional): Наличие информации для App Metrica.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 

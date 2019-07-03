@@ -13,8 +13,8 @@ class Plus(YandexMusicObject):
     Args:
         has_plus (:obj:`bool`): Наличие.
         is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 

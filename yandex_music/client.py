@@ -137,6 +137,20 @@ class Client(YandexMusicObject):
         return Status.de_json(result, self)
 
     def settings(self, timeout=None, *args, **kwargs):
+        """Получение предложений по покупке. Нет обязательных параметров.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :class:`yandex_music.Settings`: Объекта класса :class:`yandex_music.Settings` предоставляющий информацию о
+                предлагаемых продуктах, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
         url = f'{self.base_url}/settings'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -144,6 +158,20 @@ class Client(YandexMusicObject):
         return Settings.de_json(result, self)
 
     def permission_alerts(self, timeout=None, *args, **kwargs):
+        """Получение оповещений. Нет обязательных параметров.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :class:`yandex_music.PermissionAlerts`: Объекта класса :class:`yandex_music.PermissionAlerts`
+                представляющий оповещения, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
         url = f'{self.base_url}/permission-alerts'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -151,6 +179,20 @@ class Client(YandexMusicObject):
         return PermissionAlerts.de_json(result, self)
 
     def account_experiments(self, timeout=None, *args, **kwargs):
+        """Получение значений экспериментальных функций аккаунта.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :class:`yandex_music.Experiments`: Объекта класса :class:`yandex_music.Experiments`
+                представляющий состояния экспериментальных функций, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
         url = f'{self.base_url}/account/experiments'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)

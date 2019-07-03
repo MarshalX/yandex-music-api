@@ -3,8 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Документациия python библиотеки для API Yandex Music API's!
-===========================================================
+Документациия python библиотеки для API Yandex Music!
+=====================================================
 
 .. toctree::
+
    yandex_music

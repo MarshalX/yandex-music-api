@@ -2,6 +2,34 @@ from yandex_music import YandexMusicObject
 
 
 class Settings(YandexMusicObject):
+    """Класс представляющий предложения по покупке.
+
+    Attributes:
+        in_app_products (:obj:`list`): Список объектов класса :obj:`yandex_music.Product` представляющий продаваемые
+            продукты внутри приложения.
+        native_products (:obj:`list`): Список объектов класса :obj:`yandex_music.Product` представляющий продаваемые
+            продукты всплывающими окнами.
+        web_payment_url (:obj:`str`): Ссылка для осуществления платежа.
+        web_payment_month_product_price (:obj:`yandex_music.Price`): Объект класса :obj:`yandex_music.Price`
+            представляющий цену продукта за месяц.
+        promo_codes_enabled (:obj:`bool`): Доступно ли использование промо-кодов.
+        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        in_app_products (:obj:`list`): Список объектов класса :obj:`yandex_music.Product` представляющий продаваемые
+            продукты внутри приложения.
+        native_products (:obj:`list`): Список объектов класса :obj:`yandex_music.Product` представляющий продаваемые
+            продукты всплывающими окнами.
+        web_payment_url (:obj:`str`): Ссылка для осуществления платежа.
+        web_payment_month_product_price (:obj:`yandex_music.Price`, optional): Объект класса :obj:`yandex_music.Price`
+            представляющий цену продукта за месяц.
+        promo_codes_enabled (:obj:`bool`): Доступно ли использование промо-кодов.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  in_app_products,
                  native_products,
@@ -20,6 +48,16 @@ class Settings(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Settings`: Объект класса :obj:`yandex_music.Settings`.
+        """
         if not data:
             return None
 
