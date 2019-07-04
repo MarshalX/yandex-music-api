@@ -20,9 +20,7 @@ class Client(YandexMusicObject):
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
-        request (:obj:`yandex_music.utils.request.Request`): Объект вспомогательного класса
-            :obj:`yandex_music.utils.request.Request` для отправки запросов.
-        account (:obj:`yandex_music.Account`): Объект класса :obj:`yandex_music.Account` предоставляющего основную
+        account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` предоставляющего основную
             информацию об аккаунте.
 
     Args:
@@ -32,7 +30,7 @@ class Client(YandexMusicObject):
         base_url (:obj:`str`, optional): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`, optional): Ссылка на OAuth Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
-            :obj:`yandex_music.utils.request.Request`.
+            :class:`yandex_music.utils.request.Request`.
     """
 
     def __init__(self, username, password, token=None, base_url=None, oauth_url=None, request=None):
@@ -63,13 +61,13 @@ class Client(YandexMusicObject):
             token (:obj:`str`, optional): Уникальный ключ для аутентификации.
 
         Returns:
-            :class:`yandex_music.Client`.
+            :obj:`yandex_music.Client`.
         """
         return cls(username=None, password=None, token=token)
 
     def generate_token_by_username_and_password(self, username, password, grant_type='password',
                                                 timeout=None, *args, **kwargs):
-        """Метод для получения OAuth токена по логину и паролю.
+        """Метод получения OAuth токена по логину и паролю.
 
         Args:
             username (:obj:`str`): Логин клиента (идентификатор).
@@ -100,8 +98,19 @@ class Client(YandexMusicObject):
         return result.get('access_token')
 
     @staticmethod
-    def _validate_token(token):
-        """Примитивная валидация токена."""
+    def _validate_token(token: str):
+        """Примитивная валидация токена.
+
+        Args:
+            token (:obj:`str`): токен для проверки
+
+        Returns:
+            :obj:`str`: Токен.
+
+        Raises:
+            :class:`yandex_music.exceptions.InvalidToken`: Если токен недействителен.
+
+        """
         if any(x.isspace() for x in token):
             raise InvalidToken()
 
@@ -112,7 +121,7 @@ class Client(YandexMusicObject):
 
     @property
     def request(self):
-        """:class:`yandex_music.utils.request.Request`: Экземпляр запроса."""
+        """:obj:`yandex_music.utils.request.Request`: Объект вспомогательного класса для отправки запросов."""
         return self._request
 
     def account_status(self, timeout=None, *args, **kwargs):
@@ -124,7 +133,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :class:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status` предоставляющий информацию об
+            :obj:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status` предоставляющий информацию об
             аккаунте если валиден, иначе :obj:`None`.
 
         Raises:
@@ -145,8 +154,8 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :class:`yandex_music.Settings`: Объекта класса :class:`yandex_music.Settings` предоставляющий информацию о
-                предлагаемых продуктах, иначе :obj:`None`.
+            :obj:`yandex_music.Settings`: Объекта класса :class:`yandex_music.Settings` предоставляющий информацию о
+            предлагаемых продуктах, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -166,8 +175,8 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :class:`yandex_music.PermissionAlerts`: Объекта класса :class:`yandex_music.PermissionAlerts`
-                представляющий оповещения, иначе :obj:`None`.
+            :obj:`yandex_music.PermissionAlerts`: Объекта класса :class:`yandex_music.PermissionAlerts`
+            представляющий оповещения, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -187,8 +196,8 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :class:`yandex_music.Experiments`: Объекта класса :class:`yandex_music.Experiments`
-                представляющий состояния экспериментальных функций, иначе :obj:`None`.
+            :obj:`yandex_music.Experiments`: Объекта класса :class:`yandex_music.Experiments`
+            представляющий состояния экспериментальных функций, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`

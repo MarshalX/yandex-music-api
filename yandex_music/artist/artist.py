@@ -54,6 +54,7 @@ class Artist(YandexMusicObject):
         data['counts'] = Counts.de_json(data.get('counts'), client)
         data['links'] = Link.de_list(data.get('links'), client)
         data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
+        # TODO add "decomposed" deserialization
 
         return cls(client=client, **data)
 

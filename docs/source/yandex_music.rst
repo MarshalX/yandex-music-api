@@ -9,3 +9,9 @@
     yandex_music.settings
     yandex_music.permission_alerts
     yandex_music.experiments
+    yandex_music.track_short
+    yandex_music.promo_code_status
+    yandex_music.invocation_info
+    yandex_music.icon
+    yandex_music.cover
+    yandex_music.download_info

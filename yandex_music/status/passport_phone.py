@@ -6,12 +6,12 @@ class PassportPhone(YandexMusicObject):
 
     Attributes:
         phone (:obj:`str`): Номер телефона.
-        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
 
     Args:
         phone (:obj:`str`): Номер телефона.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -31,11 +31,11 @@ class PassportPhone(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
                 Music.
 
         Returns:
-            :obj:`yandex_music.PassportPhone`: Объект класса :obj:`yandex_music.PassportPhone`.
+            :obj:`yandex_music.PassportPhone`: Объект класса :class:`yandex_music.PassportPhone`.
         """
         if not data:
             return None
@@ -50,11 +50,11 @@ class PassportPhone(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
                 Music.
 
         Returns:
-            :obj:`list`: Список объектов класса :obj:`yandex_music.PassportPhone`.
+            :obj:`list` из :obj:`yandex_music.PassportPhone`: Список объектов класса :class:`yandex_music.PassportPhone`.
         """
         if not data:
             return []

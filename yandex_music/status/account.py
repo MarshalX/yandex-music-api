@@ -18,11 +18,11 @@ class Account(YandexMusicObject):
         service_available (:obj:`bool`): Доступен ли сервис.
         hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
         region (:obj:`int`): Регион.
-        passport_phones (:obj:`list`): Список объектов класса :obj:`yandex_music.PassportPhone` представляющие
-            мобильные номера.
+        passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Список объектов класса
+            :class:`yandex_music.PassportPhone` представляющие мобильные номера.
         registered_at (:obj:`datetime.datetime`): Дата создания аккаунта.
         has_info_for_app_metrica (:obj:`bool`): Наличие информации для App Metrica.
-        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
 
     Args:
@@ -37,11 +37,11 @@ class Account(YandexMusicObject):
         service_available (:obj:`bool`): Доступен ли сервис.
         hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
         region (:obj:`int`, optional): Регион.
-        passport_phones (:obj:`list`): Список объектов класса :obj:`yandex_music.PassportPhone` представляющие
-            мобильные номера.
+        passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Список объектов класса
+            :class:`yandex_music.PassportPhone` представляющие мобильные номера.
         registered_at (:obj:`str`, optional): Дата создания учётной записи.
         has_info_for_app_metrica (:obj:`bool`, optional): Наличие информации для App Metrica.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -88,11 +88,11 @@ class Account(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
                 Music.
 
         Returns:
-            :obj:`yandex_music.Account`: Объект класса :obj:`yandex_music.Account`.
+            :obj:`yandex_music.Account`: Объект класса :class:`yandex_music.Account`.
         """
         if not data:
             return None

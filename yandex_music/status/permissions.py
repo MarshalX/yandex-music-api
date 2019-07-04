@@ -8,16 +8,16 @@ class Permissions(YandexMusicObject):
 
     Attributes:
         until (:obj:`datetime.datetime`): Дата окончания прав.
-        values (:obj:`list`): Список прав.
-        default (:obj:`list`): Список изначальных прав.
-        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент
+        values (:obj:`list` из :obj:`str`): Список прав.
+        default (:obj:`list` из :obj:`str`): Список изначальных прав.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
 
     Args:
         until (:obj:`str`): Дата окончания прав.
-        values (:obj:`list`): Список прав.
-        default (:obj:`list`): Список изначальных прав.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+        values (:obj:`list` из :obj:`str`): Список прав.
+        default (:obj:`list` из :obj:`str`): Список изначальных прав.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -40,11 +40,11 @@ class Permissions(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
                 Music.
 
         Returns:
-            :obj:`yandex_music.Permissions`: Объект класса :obj:`yandex_music.Permissions`.
+            :obj:`yandex_music.Permissions`: Объект класса :class:`yandex_music.Permissions`.
         """
         if not data:
             return None

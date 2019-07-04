@@ -22,7 +22,7 @@ class Request(object):
     Вспомогателньный класс для yandex_music предоставляющий методы для выполнения POST и GET запросов, скачивания файлов.
 
     Args:
-        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
         headers (:obj:`dict`, optional): Заголовки передаваемые с каждым запросом.
         proxies (:obj:`dict`, optional): Прокси.

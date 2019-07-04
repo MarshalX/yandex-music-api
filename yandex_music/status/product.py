@@ -10,18 +10,18 @@ class Product(YandexMusicObject):
         common_period_duration (:obj:`str`): Длительность общего периода.
         duration (:obj:`int`): Длительность.
         trial_duration (:obj:`int`): Длительность испытательного срока.
-        price (:obj:`yandex_music.Price`): Объект класса :obj:`yandex_music.Price` представляющий цену.
+        price (:obj:`yandex_music.Price`): Объект класса :class:`yandex_music.Price` представляющий цену.
         feature (:obj:`str`): Предоставляемая возможность.
         debug (:obj:`bool`): Отладочный продукт.
-        features (:obj:`list`): Список предоставляемых возможностей.
+        features (:obj:`list` из :obj:`str`): Список предоставляемых возможностей.
         description (:obj:`str`): Описание.
         available (:obj:`bool`): Доступна ли покупка.
         trial_available (:obj:`bool`): Доступен ли испытательный срок.
         vendor_trial_available (:obj:`bool`): Доступен испытательный срок продавца TODO.
         button_text (:obj:`str`): Текст кнопки.
         button_additional_text (:obj:`str`): Дополнительный текст кнопки.
-        payment_method_types (:obj:`list`): Способы оплаты.
-        client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+        payment_method_types (:obj:`list` из :obj:`str`): Способы оплаты.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
 
     Args:
@@ -30,18 +30,18 @@ class Product(YandexMusicObject):
         common_period_duration (:obj:`str`): Длительность общего периода.
         duration (:obj:`int`): Длительность.
         trial_duration (:obj:`int`): Длительность испытательного срока.
-        price (:obj:`yandex_music.Price`): Объект класса :obj:`yandex_music.Price` представляющий цену.
+        price (:obj:`yandex_music.Price`): Объект класса :class:`yandex_music.Price` представляющий цену.
         feature (:obj:`str`): Предоставляемая возможность.
         debug (:obj:`bool`): Отладочный продукт.
-        features (:obj:`list`, optional): Список предоставляемых возможностей.
+        features (:obj:`list` из :obj:`str`, optional): Список предоставляемых возможностей.
         description (:obj:`str`, optional): Описание.
         available (:obj:`bool`, optional): Доступна ли покупка.
         trial_available (:obj:`bool`, optional): Доступен ли испытательный срок.
         vendor_trial_available (:obj:`bool`, optional): Доступен испытательный срок продавца TODO.
         button_text (:obj:`str`, optional): Текст кнопки.
         button_additional_text (:obj:`str`, optional): Дополнительный текст кнопки.
-        payment_method_types (:obj:`list`, optional): Способы оплаты.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :obj:`yandex_music.Client` представляющий клиент
+        payment_method_types (:obj:`list` из :obj:`str`, optional): Способы оплаты.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -92,11 +92,11 @@ class Product(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
                 Music.
 
         Returns:
-            :obj:`yandex_music.Product`: Объект класса :obj:`yandex_music.Product`.
+            :obj:`yandex_music.Product`: Объект класса :class:`yandex_music.Product`.
         """
         if not data:
             return None
@@ -112,11 +112,11 @@ class Product(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :obj:`yandex_music.Client` представляющий клиент Yandex
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
                 Music.
 
         Returns:
-            :obj:`list`: Список объектов класса :obj:`yandex_music.Product`.
+            :obj:`list` из :obj:`yandex_music.Product`: Список объектов класса :class:`yandex_music.Product`.
         """
         if not data:
             return []

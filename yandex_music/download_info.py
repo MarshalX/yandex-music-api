@@ -4,6 +4,29 @@ from yandex_music import YandexMusicObject
 
 
 class DownloadInfo(YandexMusicObject):
+    """Класс представляющий информацию о вариантах загрузки трека.
+
+    Attributes:
+        codec (:obj:`str`): Кодек аудиофайла.
+        bitrate_in_kbps (:obj:`int`): Битрейт аудиофайла в кбит/с.
+        gain (:obj:`bool`): Усиление TODO.
+        preview (:obj:`bool`): Предварительный просмотр TODO.
+        download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
+        direct_link (:obj:`str`): Прямая ссылка на загрузку. Доступна после получения ссылки.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        codec (:obj:`str`): Кодек аудиофайла.
+        bitrate_in_kbps (:obj:`int`): Битрейт аудиофайла в кбит/с.
+        gain (:obj:`bool`): Усиление TODO.
+        preview (:obj:`bool`): Предварительный просмотр TODO.
+        download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  codec,
                  bitrate_in_kbps,
@@ -24,6 +47,7 @@ class DownloadInfo(YandexMusicObject):
 
     @staticmethod
     def _get_text_node_data(elements):
+        """:obj:`str`: Получение текстовой информации из узлов XML элемента."""
         for element in elements:
             nodes = element.childNodes
             for node in nodes:
@@ -31,8 +55,16 @@ class DownloadInfo(YandexMusicObject):
                     return node.data
 
     def get_direct_link(self):
-        # Available within one minute after receiving download_info, otherwise 410!
-        result = self.client._request.retrieve(self.download_info_url)
+        """Получение прямой ссылки на загрузку из XML ответа.
+
+        Метод доступен только одну минуту с момента получения информации о загрузке, иначе 410 ошибка!
+
+        Returns:
+            :obj:`str`: Прямая ссылка на загрузку трека.
+
+        """
+
+        result = self.client.request.retrieve(self.download_info_url)
 
         doc = minidom.parseString(result.text)
         host = self._get_text_node_data(doc.getElementsByTagName('host'))
@@ -44,13 +76,29 @@ class DownloadInfo(YandexMusicObject):
         return self.direct_link
 
     def download(self, filename):
+        """Загрузка трека.
+
+        Args:
+            filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
+        """
+
         if self.direct_link is None:
             self.get_direct_link()
 
-        self.client._request.download(self.direct_link, filename)
+        self.client.request.download(self.direct_link, filename)
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.DownloadInfo`: Объект класса :class:`yandex_music.DownloadInfo`.
+        """
         if not data:
             return None
 
@@ -60,6 +108,17 @@ class DownloadInfo(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data, client, get_direct_links=False):
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            get_direct_links (:obj:`bool`): Получать ли сразу прямые ссылки на загрузку.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Список объектов класса :class:`yandex_music.DownloadInfo`.
+        """
         if not data:
             return []
 
