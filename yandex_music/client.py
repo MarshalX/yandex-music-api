@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
-    TracksLikes, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
+    TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
     Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
@@ -10,6 +10,19 @@ from yandex_music.exceptions import InvalidToken
 
 CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
 CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
+
+de_list = {
+    'artist': Artist.de_list,
+    'album': Album.de_list,
+    'track': Track.de_list,
+    'playlist': Playlist.de_list,
+}
+
+de_list_likes = {
+    'artist': ArtistsLikes.de_list,
+    'album': AlbumsLikes.de_list,
+    'playlist': PlaylistsLikes.de_list,
+}
 
 
 class Client(YandexMusicObject):
@@ -469,8 +482,8 @@ class Client(YandexMusicObject):
 
         return StationTracksResult.de_json(result, self)
 
-    def _add_like(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
-                  timeout=None, *args, **kwargs):
+    def _like_action(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
+                     timeout=None, *args, **kwargs):
         if user_id is None:
             user_id = self.account.uid
 
@@ -486,44 +499,37 @@ class Client(YandexMusicObject):
 
     def users_likes_tracks_add(self, track_ids: str or list, user_id: str or int = None,
                                timeout=None, *args, **kwargs):
-        return self._add_like('track', track_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('track', track_ids, user_id, timeout, *args, **kwargs)
 
     def users_likes_tracks_remove(self, track_ids: str or list, user_id: str or int = None,
                                   timeout=None, *args, **kwargs):
-        return self._add_like('track', track_ids, True, user_id, timeout, *args, **kwargs)
+        return self._like_action('track', track_ids, True, user_id, timeout, *args, **kwargs)
 
     def users_likes_artists_add(self, artist_ids: str or int or list, user_id: str or int = None,
                                 timeout=None, *args, **kwargs):
-        return self._add_like('artist', artist_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('artist', artist_ids, user_id, timeout, *args, **kwargs)
 
     def users_likes_artists_remove(self, artist_ids: str or list, user_id: str or int = None,
                                    timeout=None, *args, **kwargs):
-        return self._add_like('artist', artist_ids, True, user_id, timeout, *args, **kwargs)
+        return self._like_action('artist', artist_ids, True, user_id, timeout, *args, **kwargs)
 
     def users_likes_playlists_add(self, playlist_ids: str or list, user_id: str or int = None,
                                   timeout=None, *args, **kwargs):
-        return self._add_like('playlist', playlist_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('playlist', playlist_ids, user_id, timeout, *args, **kwargs)
 
     def users_likes_playlists_remove(self, playlist_ids: str or list, user_id: str or int = None,
                                      timeout=None, *args, **kwargs):
-        return self._add_like('playlist', playlist_ids, True, user_id, timeout, *args, **kwargs)
+        return self._like_action('playlist', playlist_ids, True, user_id, timeout, *args, **kwargs)
 
     def users_likes_albums_add(self, album_ids: str or list, user_id: str or int = None,
                                timeout=None, *args, **kwargs):
-        return self._add_like('album', album_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('album', album_ids, user_id, timeout, *args, **kwargs)
 
     def users_likes_albums_remove(self, album_ids: str or list, user_id: str or int = None,
                                   timeout=None, *args, **kwargs):
-        return self._add_like('album', album_ids, True, user_id, timeout, *args, **kwargs)
+        return self._like_action('album', album_ids, True, user_id, timeout, *args, **kwargs)
 
     def _get_list(self, object_type: str, ids: list or int or str, params=None, timeout=None, *args, **kwargs):
-        de_list = {
-            'artist': Artist.de_list,
-            'album': Album.de_list,
-            'track': Track.de_list,
-            'playlist': Playlist.de_list,
-        }
-
         if params is None:
             params = {}
         params.update({f'{object_type}-ids': ids})
@@ -557,12 +563,6 @@ class Client(YandexMusicObject):
         return Playlist.de_list(result, self)
 
     def _get_likes(self, object_type, user_id: int or str = None, params=None, timeout=None, *args, **kwargs):
-        de_list = {
-            'artist': ArtistsLikes.de_list,
-            'album': AlbumsLikes.de_list,
-            'playlist': PlaylistsLikes.de_list,
-        }
-
         if user_id is None:
             user_id = self.account.uid
 
@@ -571,9 +571,9 @@ class Client(YandexMusicObject):
         result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
 
         if object_type == 'track':
-            return TracksLikes.de_json(result.get('library'), self)
+            return TracksList.de_json(result.get('library'), self)
 
-        return de_list.get(object_type)(result, self)
+        return de_list_likes.get(object_type)(result, self)
 
     def users_likes_tracks(self, user_id: int or str = None, if_modified_since_revision=0, timeout=None,
                            *args, **kwargs):
@@ -588,3 +588,35 @@ class Client(YandexMusicObject):
 
     def users_likes_playlists(self, user_id: int or str = None, timeout=None, *args, **kwargs):
         return self._get_likes('playlist', user_id, timeout=timeout, *args, **kwargs)
+
+    def users_dislikes_tracks(self, user_id: int or str = None, if_modified_since_revision=0,
+                              timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/dislikes/tracks'
+
+        result = self._request.get(url, {'if_modified_since_revision': if_modified_since_revision},
+                                   timeout=timeout, *args, **kwargs)
+
+        return TracksList.de_json(result.get('library'), self)
+
+    def _dislike_action(self, ids: str or int or list, remove: bool = False, user_id: str or int = None,
+                        timeout=None, *args, **kwargs):
+        if user_id is None:
+            user_id = self.account.uid
+
+        action = 'remove' if remove else 'add-multiple'
+        url = f'{self.base_url}/users/{user_id}/dislikes/tracks/{action}'
+
+        result = self._request.post(url, {f'track-ids': ids}, timeout=timeout, *args, **kwargs)
+
+        return 'revision' in result
+
+    def users_dislikes_tracks_add(self, track_ids: str or list, user_id: str or int = None,
+                                  timeout=None, *args, **kwargs):
+        return self._dislike_action(track_ids, user_id, timeout, *args, **kwargs)
+
+    def users_dislikes_tracks_remove(self, track_ids: str or list, user_id: str or int = None,
+                                     timeout=None, *args, **kwargs):
+        return self._dislike_action(track_ids, True, user_id, timeout, *args, **kwargs)

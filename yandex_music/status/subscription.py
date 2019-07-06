@@ -36,7 +36,7 @@ class Subscription(YandexMusicObject):
         self.auto_renewable = auto_renewable
         self.can_start_trial = can_start_trial
         self.mcdonalds = mcdonalds
-        self.end = datetime.fromisoformat(end)
+        self.end = datetime.fromisoformat(end) if end else end
 
         self.client = client
 

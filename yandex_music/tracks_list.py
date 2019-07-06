@@ -1,7 +1,7 @@
 from yandex_music import YandexMusicObject
 
 
-class TracksLikes(YandexMusicObject):
+class TracksList(YandexMusicObject):
     def __init__(self,
                  uid,
                  revision,
@@ -29,7 +29,7 @@ class TracksLikes(YandexMusicObject):
         if not data:
             return None
 
-        data = super(TracksLikes, cls).de_json(data, client)
+        data = super(TracksList, cls).de_json(data, client)
         from yandex_music import TrackShort
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
 

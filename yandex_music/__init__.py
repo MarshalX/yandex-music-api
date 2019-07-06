@@ -50,7 +50,7 @@ from .feed.feed import Feed
 from .likes.albums_likes import AlbumsLikes
 from .likes.artists_likes import ArtistsLikes
 from .likes.playlists_likes import PlaylistsLikes
-from .likes.tracks_likes import TracksLikes
+from .tracks_list import TracksList
 
 from .search.video import Video
 from .search.best import Best
@@ -98,7 +98,7 @@ from .client import Client
 __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus',
            'Subscription', 'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments',
            'Cover', 'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album',
-           'PlayCounter', 'Playlist', 'TrackShort', 'TracksLikes', 'Major', 'Normalization', 'TrackPosition', 'Track',
+           'PlayCounter', 'Playlist', 'TrackShort', 'TracksList', 'Major', 'Normalization', 'TrackPosition', 'Track',
            'AlbumsLikes', 'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent',
            'AlbumEvent', 'Feed', 'Event', 'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult',
            'AlbumSearchResult', 'Best', 'ArtistSearchResult', 'PlaylistSearchResult', 'TrackSearchResult',
