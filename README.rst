@@ -12,7 +12,7 @@
    :alt: Поддерживаемые Python версии
 
 .. image:: https://img.shields.io/badge/docs-%D0%B2%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-red.svg
-   :target: https://python-telegram-bot.readthedocs.io/
+   :target: https://yandex-music.readthedocs.io/
    :alt: Статус документации
 
 .. image:: https://img.shields.io/badge/license-LGPLv3-lightgrey.svg
@@ -63,7 +63,7 @@
 
 .. code:: shell
 
-    $ pip install yandex-music-api --upgrade
+    $ pip install yandex-music --upgrade
 
 Или Вы можете установить из исходного кода с помощью:
 
@@ -79,7 +79,7 @@
 
 Полезные ссылки:
 
-- `Документация yandex-music-api <https://yandex-music-api.readthedocs.io/>`_
+- `Документация yandex-music-api <https://yandex-music.readthedocs.io/>`_
 
 --------------------
 Изучение по примерам
@@ -126,7 +126,7 @@
 Документация
 =============
 
-Документация ``yandex-music-api`` находится в стадии написания и расположена на `readthedocs.io <https://yandex-music-api.readthedocs.io/>`_.
+Документация ``yandex-music-api`` находится в стадии написания и расположена на `readthedocs.io <https://yandex-music.readthedocs.io/>`_.
 
 =============
 Благодарность
