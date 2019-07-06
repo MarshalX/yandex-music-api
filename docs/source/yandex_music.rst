@@ -15,3 +15,4 @@
     yandex_music.icon
     yandex_music.cover
     yandex_music.download_info
+    yandex_music.tracks_list
