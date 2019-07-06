@@ -36,6 +36,8 @@
 
   #. `Документация`_
 
+- `Благодарность`_
+
 - `Лицензия`_
 
 ========
@@ -61,14 +63,14 @@
 
 .. code:: shell
 
-    $ pip install python-telegram-bot --upgrade
+    $ pip install yandex-music-api --upgrade
 
 Или Вы можете установить из исходного кода с помощью:
 
 .. code:: shell
 
-    $ git clone https://github.com/python-telegram-bot/python-telegram-bot --recursive
-    $ cd python-telegram-bot
+    $ git clone https://github.com/MarshalX/yandex-music-api --recursive
+    $ cd yandex-music-api
     $ python setup.py install
 
 =============
@@ -125,6 +127,12 @@
 =============
 
 Документация ``yandex-music-api`` находится в стадии написания и расположена на `readthedocs.io <https://yandex-music-api.readthedocs.io/>`_.
+
+=============
+Благодарность
+=============
+
+Спасибо разработчикам ``python-telegram-bot``. Выбрал Вас в качестве примера.
 
 ========
 Лицензия
