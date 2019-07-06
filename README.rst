@@ -11,9 +11,9 @@
    :target: https://pypi.org/project/yandex-music/
    :alt: Поддерживаемые Python версии
 
-.. image:: https://img.shields.io/badge/docs-%D0%B2%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-red.svg
-   :target: https://yandex-music.readthedocs.io/
-   :alt: Статус документации
+.. image:: https://readthedocs.org/projects/yandex-music/badge/?version=latest
+    :target: https://yandex-music.readthedocs.io/ru/latest/?badge=latest
+    :alt: Статус документации
 
 .. image:: https://img.shields.io/badge/license-LGPLv3-lightgrey.svg
    :target: https://www.gnu.org/licenses/lgpl-3.0.html
