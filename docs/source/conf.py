@@ -20,7 +20,7 @@ master_doc = 'index'
 
 project = 'Yandex Music API'
 copyright = '2019, Marshal'
-author = 'Marshal'
+author = 'Il`ya Semyonov'
 
 language = 'ru'
 
