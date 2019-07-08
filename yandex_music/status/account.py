@@ -33,9 +33,9 @@ class Account(YandexMusicObject):
         second_name (:obj:`str`): Фамилия.
         first_name (:obj:`str`): Имя.
         display_name (:obj:`str`): Отображаемое имя.
-        birthday (:obj:`str`): Дата рождения.
         service_available (:obj:`bool`): Доступен ли сервис.
         hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
+        birthday (:obj:`str`, optional): Дата рождения.
         region (:obj:`int`, optional): Регион.
         passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Список объектов класса
             :class:`yandex_music.PassportPhone` представляющие мобильные номера.
@@ -54,9 +54,9 @@ class Account(YandexMusicObject):
                  second_name,
                  first_name,
                  display_name,
-                 birthday,
                  service_available,
                  hosted_user,
+                 birthday=None,
                  region=None,
                  passport_phones=None,
                  registered_at=None,
@@ -71,7 +71,7 @@ class Account(YandexMusicObject):
         self.second_name = second_name
         self.first_name = first_name
         self.display_name = display_name
-        self.birthday = datetime.fromisoformat(birthday)
+        self.birthday = datetime.fromisoformat(birthday) if birthday else None
         self.service_available = service_available
         self.hosted_user = hosted_user
         self.passport_phones = passport_phones
