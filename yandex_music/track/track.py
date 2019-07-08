@@ -38,7 +38,7 @@ class Track(YandexMusicObject):
         self.real_id = real_id
         self.og_image = og_image
         self.type = type
-        self.cover_uri = 'https://' + cover_uri
+        self.cover_uri = 'https://' + cover_uri if cover_uri else None
         self.major = major
         self.duration_ms = duration_ms
         self.storage_dir = storage_dir
