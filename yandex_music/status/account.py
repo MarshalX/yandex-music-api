@@ -71,11 +71,11 @@ class Account(YandexMusicObject):
         self.second_name = second_name
         self.first_name = first_name
         self.display_name = display_name
-        self.birthday = datetime.fromisoformat(birthday) if birthday else None
         self.service_available = service_available
         self.hosted_user = hosted_user
         self.passport_phones = passport_phones
 
+        self.birthday = datetime.fromisoformat(birthday) if birthday else None
         self.registered_at = datetime.fromisoformat(registered_at) if registered_at else registered_at
         self.has_info_for_app_metrica = has_info_for_app_metrica
 

@@ -1,5 +1,5 @@
-Неофициальная Python библиотека для API Yandex Music
-====================================================
+[Pre-Alpha] Неофициальная Python библиотека для API Yandex Music
+================================================================
 
 Делаю то, что по каким-то причинам не сделала компания Yandex.
 
@@ -77,9 +77,52 @@
 Начало работы
 =============
 
-Полезные ссылки:
+Приступив к работе первом делом необходимо создать экземпляр клиента
+введя данные для авторизации. Такими данными может служить OAuth токен или
+логин с паролем.
 
-- `Документация yandex-music-api <https://yandex-music.readthedocs.io/>`_
+Авторизация по логину и паролю:
+.. code:: python
+
+    from yandex_music.client import Client
+
+    client = Client('example@yandex.com', 'password')
+
+Авторизация по токену:
+.. code:: python
+
+    from yandex_music.client import Client
+
+    client = Client.from_token('token')
+
+После успешного создания клиента Вы вольны в выборе необходимого метода
+из API. Все они доступны у объекта класса Client. Подробнее в методах клиента
+в `документации <https://yandex-music.readthedocs.io/ru/latest/yandex_music.client.html>`_.
+
+Пример получения первого трека из плейлиста "Мне нравится" и его загрузка:
+.. code:: python
+
+    from yandex_music.client import Client
+
+    client = Client('example@yandex.com', 'password')
+    client.users_likes_tracks()[0].track.download('example.mp3')
+
+В примере выше клиент получает список треков которые были отмечены как
+понравившиеся. API возвращает объект
+`TracksList <https://yandex-music.readthedocs.io/ru/latest/yandex_music.tracks_list.html>`_
+в котором содержится список с треками класса
+`TrackShort <https://yandex-music.readthedocs.io/ru/latest/yandex_music.track_short.html>`_.
+Данные класс содержит наиважнейшую информацию о треке и никаких подробностей,
+поэтому для получения полной версии трека со всей информацией необходимо
+обратиться к свойству track. Затем можно скачать трек методом download().
+
+Пример получения треков по ID:
+.. code:: python
+
+    from yandex_music.client import Client
+
+    client = Client('example@yandex.com', 'password')
+    client.tracks(['10994777:1193829', '40133452:5206873', '48966383:6693286', '51385674:7163467'])
 
 --------------------
 Изучение по примерам
@@ -120,7 +163,6 @@
 .. code:: python
 
     logger.setLevel(logging.DEBUG)
-
 
 =============
 Документация

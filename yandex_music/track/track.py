@@ -62,7 +62,7 @@ class Track(YandexMusicObject):
         return self.download_info
 
     def download_cover(self, filename, size='200x200'):
-        self.client._request.download(self.cover_uri.replace('%%', size), filename)
+        self.client.request.download(self.cover_uri.replace('%%', size), filename)
 
     def download(self, filename, codec='mp3', bitrate_in_kbps=192):
         if self.download_info is None:
