@@ -82,6 +82,7 @@
 логин с паролем.
 
 Авторизация по логину и паролю:
+
 .. code:: python
 
     from yandex_music.client import Client
@@ -89,6 +90,7 @@
     client = Client('example@yandex.com', 'password')
 
 Авторизация по токену:
+
 .. code:: python
 
     from yandex_music.client import Client
@@ -100,6 +102,7 @@
 в `документации <https://yandex-music.readthedocs.io/ru/latest/yandex_music.client.html>`_.
 
 Пример получения первого трека из плейлиста "Мне нравится" и его загрузка:
+
 .. code:: python
 
     from yandex_music.client import Client
@@ -117,6 +120,7 @@
 обратиться к свойству track. Затем можно скачать трек методом download().
 
 Пример получения треков по ID:
+
 .. code:: python
 
     from yandex_music.client import Client
