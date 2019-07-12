@@ -138,7 +138,7 @@
 Код примеров опубликован в открытом доступе, поэтому
 Вы можете взять его и начать писать вокруг своё.
 
-Посетите `эту страницу <https://github.com/MarshalX/yandex-music-api/blob/master/examples/README.md>`_
+Посетите `эту страницу <https://github.com/MarshalX/yandex-music-api/blob/master/examples/>`_
 чтобы изучить официальные примеры.
 
 -----------
