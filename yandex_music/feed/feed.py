@@ -5,7 +5,6 @@ from yandex_music import YandexMusicObject
 
 class Feed(YandexMusicObject):
     def __init__(self,
-                 next_revision,
                  can_get_more_events,
                  pumpkin,
                  is_wizard_passed,
@@ -13,9 +12,9 @@ class Feed(YandexMusicObject):
                  headlines,
                  today,
                  days,
+                 next_revision=None,
                  client=None,
                  **kwargs):
-        self.next_revision = datetime.fromisoformat(next_revision)
         self.can_get_more_events = can_get_more_events
         self.pumpkin = pumpkin
         self.is_wizard_passed = is_wizard_passed
@@ -23,6 +22,8 @@ class Feed(YandexMusicObject):
         self.headlines = headlines
         self.today = datetime.fromisoformat(today)
         self.days = days
+
+        self.next_revision = datetime.fromisoformat(next_revision) if next_revision else next_revision
 
         self.client = client
 
