@@ -227,7 +227,7 @@ class Client(YandexMusicObject):
 
         return Experiments.de_json(result, self)
 
-    def consume_promo_code(self, code: str, language='en', timeout=None, *args, **kwargs):
+    def consume_promo_code(self, code: str, language: str = 'en', timeout=None, *args, **kwargs):
         """Активация промо-кода.
 
         Args:
@@ -328,7 +328,7 @@ class Client(YandexMusicObject):
 
         return Genre.de_list(result, self)
 
-    def tracks_download_info(self, track_id: str or int, get_direct_links=False, timeout=None, *args, **kwargs):
+    def tracks_download_info(self, track_id: str or int, get_direct_links: bool = False, timeout=None, *args, **kwargs):
         """Получение информации о доступных вариантах загрузки трека.
 
         Args:
@@ -354,19 +354,45 @@ class Client(YandexMusicObject):
 
     def play_audio(self,
                    track_id: str or int,
-                   from_,
-                   album_id,
-                   playlist_id,
-                   from_cache=False,
-                   play_id=None,
-                   uid=None,
-                   timestamp=None,
-                   track_length_seconds=0,
-                   total_played_seconds=0,
-                   end_position_seconds=0,
-                   client_now=None,
+                   from_: str,
+                   album_id: str or int,
+                   playlist_id: str = None,
+                   from_cache: bool = False,
+                   play_id: str = None,
+                   uid: int = None,
+                   timestamp: str = None,
+                   track_length_seconds: int = 0,
+                   total_played_seconds: int = 0,
+                   end_position_seconds: int = 0,
+                   client_now: str = None,
                    timeout=None,
                    *args, **kwargs):
+        """Метод для отправки текущего состояния прослушиваемого трека.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            from_ (:obj:`str`): Наименования клиента с которого происходит прослушивание.
+            album_id (:obj:`str` | :obj:`int`): Уникальный идентификатор альбома.
+            playlist_id (:obj:`str`, optional): Уникальный идентификатор плейлиста, если таковой прослушивается.
+            from_cache (:obj:`bool`, optional): Проигрывается ли трек с кеша.
+            play_id (:obj:`str`, optional): Уникальный идентификатор проигрывания.
+            uid (:obj:`int`, optional): Уникальный идентификатор пользователя.
+            timestamp (:obj:`str`, optional): Текущая дата и время в ISO.
+            track_length_seconds (:obj:`int`, optional): Продолжительность трека в секундах.
+            total_played_seconds (:obj:`int`, optional): Сколько было всего воспроизведено трека в секундах.
+            end_position_seconds (:obj:`int`, optional): Окончательное значение воспроизведенных секунд.
+            client_now (:obj:`str`, optional): Текущая дата и время клиента в ISO.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешно завершённом запросе, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/play-audio'
 
         data = {
@@ -389,19 +415,39 @@ class Client(YandexMusicObject):
         return result == 'ok'
 
     def search(self,
-               text,
-               nocorrect=False,
-               type='all',
-               page=0,
-               playlist_in_best=True,
+               text: str,
+               nocorrect: bool = False,
+               type_: str = 'all',
+               page: int = 0,
+               playlist_in_best: bool = True,
                timeout=None,
                *args, **kwargs):
+        """Осуществление поиска по запросу и типу, получение результатов. 
+
+        Args:
+            text (:obj:`str`): Текст запроса.
+            nocorrect (:obj:`bool`): Без исправлений ли TODO.
+            type_ (:obj:`str`): Среди какого типа искать (трек, плейлист, альбом, исполнитель).
+            page (:obj:`int`: Номер страницы.
+            playlist_in_best (:obj:`bool`): Выдавать ли плейлисты лучшим вариантом поиска.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Search`: Объекта класса :class:`yandex_music.Search`
+            представляющий результаты поиска, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/search'
 
         params = {
             'text': text,
             'nocorrect': nocorrect,
-            'type': type,
+            'type': type_,
             'page': page,
             'playlist-in-best': playlist_in_best,
         }
@@ -411,6 +457,22 @@ class Client(YandexMusicObject):
         return Search.de_json(result, self)
 
     def search_suggest(self, part: str, timeout=None, *args, **kwargs):
+        """Получение подсказок по введенной части поискового запроса.
+
+        Args:
+            part (:obj:`str`): Часть поискового запроса.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Suggestions`: Объекта класса :class:`yandex_music.Suggestions`
+            представляющий подсказки для запроса, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/search/suggest'
 
         result = self._request.get(url, {'part': part}, timeout=timeout, *args, **kwargs)
