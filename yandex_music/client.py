@@ -76,6 +76,7 @@ class Client(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Client`.
         """
+
         return cls(username=None, password=None, token=token)
 
     def generate_token_by_username_and_password(self, username, password, grant_type='password',
@@ -96,6 +97,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.YandexMusicError`
         """
+
         url = f'{self.oauth_url}/token'
 
         data = {
@@ -122,8 +124,8 @@ class Client(YandexMusicObject):
 
         Raises:
             :class:`yandex_music.exceptions.InvalidToken`: Если токен недействителен.
-
         """
+
         if any(x.isspace() for x in token):
             raise InvalidToken()
 
@@ -152,6 +154,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.YandexMusicError`
         """
+
         url = f'{self.base_url}/account/status'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -173,6 +176,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.YandexMusicError`
         """
+
         url = f'{self.base_url}/settings'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -194,6 +198,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.YandexMusicError`
         """
+
         url = f'{self.base_url}/permission-alerts'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -215,6 +220,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.YandexMusicError`
         """
+
         url = f'{self.base_url}/account/experiments'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -222,6 +228,23 @@ class Client(YandexMusicObject):
         return Experiments.de_json(result, self)
 
     def consume_promo_code(self, code: str, language='en', timeout=None, *args, **kwargs):
+        """Активация промо-кода.
+
+        Args:
+            code (:obj:`str`): Промо-код.
+            language (:obj:`str`, optional): Язык ответа API в ISO 639-1.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.PromoCodeStatus`: Объекта класса :class:`yandex_music.PromoCodeStatus`
+            представляющий информацию об активации промо-кода, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/account/consume-promo-code'
 
         result = self._request.post(url, {'code': code, 'language': language}, timeout=timeout, *args, **kwargs)
@@ -229,6 +252,21 @@ class Client(YandexMusicObject):
         return PromoCodeStatus.de_json(result, self)
 
     def feed(self, timeout=None, *args, **kwargs):
+        """Получение потока информации (фида) подобранного под пользователя. Содержит умные плейлисты.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Feed`: Объекта класса :class:`yandex_music.Feed`
+            представляющий умные плейлисты пользователя, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/feed'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -243,6 +281,25 @@ class Client(YandexMusicObject):
         return result.get('is_wizard_passed') or False
 
     def landing(self, blocks: str or list, timeout=None, *args, **kwargs):
+        """Получение лендинг-страницы содержащий блоки с новыми релизами, чартами, плейлистами с новинками и т.д.
+
+        Поддерживаемые типы блоков: personalplaylists, promotions, new-releases, new-playlists, mixes,c hart, artists,
+        albums, playlists, play_contexts.
+
+        Args:
+            blocks (:obj:`str` | :obj:`list` из :obj:`str`): Блок или список блоков необходимых для выдачи.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Landing`: Объекта класса :class:`yandex_music.Landing`
+            представляющий лендинг-страницу, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/landing3'
 
         result = self._request.get(url, {'blocks': blocks}, timeout=timeout, *args, **kwargs)
@@ -250,6 +307,21 @@ class Client(YandexMusicObject):
         return Landing.de_json(result, self)
 
     def genres(self, timeout=None, *args, **kwargs):
+        """Получение жанров музыки.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Genre`: Список объектов класса :class:`yandex_music.Genre`
+            представляющих информацию о жанре музыки, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/genres'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -257,6 +329,23 @@ class Client(YandexMusicObject):
         return Genre.de_list(result, self)
 
     def tracks_download_info(self, track_id: str or int, get_direct_links=False, timeout=None, *args, **kwargs):
+        """Получение информации о доступных вариантах загрузки трека.
+
+        Args:
+            track_id (:obj:`str` | :obj:`list` из :obj:`str`): Уникальный идентификатор трека или треков.
+            get_direct_links (:obj:`bool`, optional): Получить ли при вызове метода прямую ссылку на загрузку.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Список объектов класса :class:`yandex_music.DownloadInfo`
+            представляющих информацию о вариантах загрузки трека, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/tracks/{track_id}/download-info'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
