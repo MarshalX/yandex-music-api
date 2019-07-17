@@ -36,8 +36,8 @@ class AutoRenewable(YandexMusicObject):
                  vendor_help_url,
                  product_id,
                  product,
-                 order_id,
                  finished,
+                 order_id=None,
                  client=None,
                  **kwargs):
         self.expires = datetime.fromisoformat(expires)
@@ -45,11 +45,11 @@ class AutoRenewable(YandexMusicObject):
         self.vendor_help_url = vendor_help_url
         self.product_id = product_id
         self.product = product
-        self.order_id = order_id
         self.finished = finished
 
+        self.order_id = order_id
+
         self.client = client
-        self._id_attrs = (self.order_id,)
 
     @classmethod
     def de_json(cls, data, client):
