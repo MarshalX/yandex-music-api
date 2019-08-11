@@ -3,8 +3,6 @@ from yandex_music import YandexMusicObject
 
 class Search(YandexMusicObject):
     def __init__(self,
-                 misspell_corrected,
-                 nocorrect,
                  search_request_id,
                  text,
                  best,
@@ -13,10 +11,10 @@ class Search(YandexMusicObject):
                  playlists,
                  tracks,
                  videos,
+                 misspell_corrected=None,
+                 nocorrect=None,
                  client=None,
                  **kwargs):
-        self.misspell_corrected = misspell_corrected
-        self.nocorrect = nocorrect
         self.search_request_id = search_request_id
         self.text = text
         self.best = best
@@ -25,6 +23,9 @@ class Search(YandexMusicObject):
         self.playlists = playlists
         self.tracks = tracks
         self.videos = videos
+
+        self.misspell_corrected = misspell_corrected
+        self.nocorrect = nocorrect
 
         self.client = client
         self._id_attrs = (self.search_request_id,)
