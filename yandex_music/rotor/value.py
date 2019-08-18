@@ -31,4 +31,3 @@ class Value(YandexMusicObject):
             values.append(cls.de_json(value, client))
 
         return values
-

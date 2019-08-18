@@ -63,3 +63,8 @@ class TracksList(YandexMusicObject):
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    """Псевдоним для :attr:`tracks_ids`"""
+    tracksIds = tracks_ids

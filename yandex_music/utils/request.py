@@ -17,7 +17,7 @@ HEADERS = {
 }
 
 
-class Request(object):
+class Request:
     """
     Вспомогателньный класс для yandex_music предоставляющий методы для выполнения POST и GET запросов, скачивания файлов.
 

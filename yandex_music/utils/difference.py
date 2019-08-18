@@ -8,7 +8,7 @@ class Operation(Enum):
     DELETE = 'delete'
 
 
-class Difference(object):
+class Difference:
     def __init__(self):
         self.operations = []
 

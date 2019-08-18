@@ -3,7 +3,7 @@ import json
 from abc import ABCMeta
 
 
-class YandexMusicObject(object):
+class YandexMusicObject:
     __metaclass__ = ABCMeta
     _id_attrs = ()
 

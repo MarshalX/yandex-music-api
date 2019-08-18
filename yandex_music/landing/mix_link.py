@@ -21,6 +21,7 @@ class MixLink(YandexMusicObject):
         self.cover_white = cover_white
 
         self.client = client
+        self._id_attrs = (self.url, )
 
     @classmethod
     def de_json(cls, data, client):

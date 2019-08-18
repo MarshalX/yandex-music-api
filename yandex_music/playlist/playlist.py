@@ -111,3 +111,10 @@ class Playlist(YandexMusicObject):
             playlists.append(cls.de_json(playlist, client))
 
         return playlists
+
+    # camelCase псевдонимы
+
+    """Псевдоним для :attr:`is_mine`"""
+    isMine = is_mine
+    """Псевдоним для :attr:`playlist_id`"""
+    playlistId = playlist_id

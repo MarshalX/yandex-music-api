@@ -1,4 +1,5 @@
-from yandex_music import YandexMusicObject, Promotion, Album, Playlist, MixLink, PlayContext, ChartItem, GeneratedPlaylist
+from yandex_music import YandexMusicObject, Promotion, Album, Playlist, MixLink, PlayContext, ChartItem,\
+    GeneratedPlaylist
 
 
 de_json = {

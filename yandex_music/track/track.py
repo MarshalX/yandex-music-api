@@ -98,3 +98,12 @@ class Track(YandexMusicObject):
             tracks.append(cls.de_json(track, client))
 
         return tracks
+
+    # camelCase псевдонимы
+
+    """Псевдоним для :attr:`get_download_info`"""
+    getDownloadInfo = get_download_info
+    """Псевдоним для :attr:`download_cover`"""
+    downloadCover = download_cover
+    """Псевдоним для :attr:`track_id`"""
+    trackId = track_id

@@ -915,32 +915,20 @@ class Client(YandexMusicObject):
     fromToken = from_token
     """Псевдоним для :attr:`generate_token_by_username_and_password`"""
     generateTokenByUsernameAndPassword = generate_token_by_username_and_password
-    """Псевдоним для :attr:`request`"""
-    request = request
     """Псевдоним для :attr:`account_status`"""
     accountStatus = account_status
-    """Псевдоним для :attr:`settings`"""
-    settings = settings
     """Псевдоним для :attr:`permission_alerts`"""
     permissionAlerts = permission_alerts
     """Псевдоним для :attr:`account_experiments`"""
     accountExperiments = account_experiments
     """Псевдоним для :attr:`consume_promo_code`"""
     consumePromoCode = consume_promo_code
-    """Псевдоним для :attr:`feed`"""
-    feed = feed
     """Псевдоним для :attr:`feed_wizard_is_passed`"""
     feedWizardIsPassed = feed_wizard_is_passed
-    """Псевдоним для :attr:`landing`"""
-    landing = landing
-    """Псевдоним для :attr:`genres`"""
-    genres = genres
     """Псевдоним для :attr:`tracks_download_info`"""
     tracksDownloadInfo = tracks_download_info
     """Псевдоним для :attr:`play_audio`"""
     playAudio = play_audio
-    """Псевдоним для :attr:`search`"""
-    search = search
     """Псевдоним для :attr:`search_suggest`"""
     searchSuggest = search_suggest
     """Псевдоним для :attr:`users_playlists`"""
@@ -989,12 +977,6 @@ class Client(YandexMusicObject):
     usersLikesAlbumsAdd = users_likes_albums_add
     """Псевдоним для :attr:`users_likes_albums_remove`"""
     usersLikesAlbumsRemove = users_likes_albums_remove
-    """Псевдоним для :attr:`artists`"""
-    artists = artists
-    """Псевдоним для :attr:`albums`"""
-    albums = albums
-    """Псевдоним для :attr:`tracks`"""
-    tracks = tracks
     """Псевдоним для :attr:`playlists_list`"""
     playlistsList = playlists_list
     """Псевдоним для :attr:`users_playlists_list`"""
