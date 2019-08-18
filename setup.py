@@ -16,7 +16,7 @@ packages = find_packages(exclude=['tests*'])
 
 with open('README.rst', 'r', encoding='utf-8') as f:
     setup(name='yandex-music',
-          version='0.0.7',
+          version='0.0.8',
           author='Il`ya Semyonov',
           author_email='Ilya@marshal.by',
           license='LGPLv3',

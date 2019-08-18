@@ -84,7 +84,7 @@ class Request:
         kwargs['headers']['user-agent'] = USER_AGENT
 
         try:
-            resp = requests.request(verify=False, *args, **kwargs)
+            resp = requests.request(*args, **kwargs)
         except requests.Timeout:
             raise TimeoutError()
         except requests.RequestException as e:
