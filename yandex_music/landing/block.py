@@ -25,6 +25,9 @@ class Block(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id,)
 
+    def __getitem__(self, item):
+        return self.entities[item]
+
     @classmethod
     def de_json(cls, data, client):
         if not data:

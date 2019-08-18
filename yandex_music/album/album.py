@@ -58,6 +58,28 @@ class Album(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id,)
 
+    def download_cover(self, filename, size='200x200'):
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+
+        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+
+    def download_og_image(self, filename, size='200x200'):
+        """Загрузка обложки.
+
+        Предпочтительнее использовать self.download_cover().
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+
+        self.client.request.download(f'https://{self.og_image("%%", size)}', filename)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:
@@ -81,3 +103,10 @@ class Album(YandexMusicObject):
             albums.append(cls.de_json(album, client))
 
         return albums
+
+    # camelCase псевдонимы
+
+    """Псевдоним для :attr:`download_cover`"""
+    downloadCover = download_cover
+    """Псевдоним для :attr:`download_og_image`"""
+    downloadOgImage = download_og_image

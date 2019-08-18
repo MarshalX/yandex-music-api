@@ -19,6 +19,16 @@ class User(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.uid,)
 
+    def download_avatar(self, filename, format='normal'):
+        """Загрузка изображения пользователя.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            format (:obj:`str`): Формат желаемого изображения (normal, orig, small, big).
+        """
+
+        self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format}', filename)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:
@@ -27,3 +37,8 @@ class User(YandexMusicObject):
         data = super(User, cls).de_json(data, client)
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    """Псевдоним для :attr:`download_avatar`"""
+    downloadAvatar = download_avatar

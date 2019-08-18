@@ -38,7 +38,7 @@ class Track(YandexMusicObject):
         self.real_id = real_id
         self.og_image = og_image
         self.type = type
-        self.cover_uri = 'https://' + cover_uri if cover_uri else None
+        self.cover_uri = cover_uri
         self.major = major
         self.duration_ms = duration_ms
         self.storage_dir = storage_dir
@@ -62,7 +62,26 @@ class Track(YandexMusicObject):
         return self.download_info
 
     def download_cover(self, filename, size='200x200'):
-        self.client.request.download(self.cover_uri.replace('%%', size), filename)
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+
+        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+
+    def download_og_image(self, filename, size='200x200'):
+        """Загрузка обложки.
+
+        Предпочтительнее использовать self.download_cover().
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+
+        self.client.request.download(f'https://{self.og_image("%%", size)}', filename)
 
     def download(self, filename, codec='mp3', bitrate_in_kbps=192):
         if self.download_info is None:
@@ -105,5 +124,7 @@ class Track(YandexMusicObject):
     getDownloadInfo = get_download_info
     """Псевдоним для :attr:`download_cover`"""
     downloadCover = download_cover
+    """Псевдоним для :attr:`download_og_image`"""
+    downloadOgImage = download_og_image
     """Псевдоним для :attr:`track_id`"""
     trackId = track_id

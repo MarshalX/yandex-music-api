@@ -19,7 +19,7 @@ class Cover(YandexMusicObject):
     Args:
         type (:obj:`str`, optional): Тип обложки.
         uri (:obj:`str`, optional): Ссылка на изображение.
-        items_uri (:obj:`str`, optional): ССписок ссылок на изображения.
+        items_uri (:obj:`str`, optional): Список ссылок на изображения.
         dir (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
@@ -51,9 +51,20 @@ class Cover(YandexMusicObject):
         self.error = error
 
         self.client = client
+        self._id_attrs = (self.prefix, )
 
-    def download(self, filename):
-        self.client.request.download(self.uri, filename)
+    def download(self, filename, index=0, size='200x200'):
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет self.uri.
+            size (:obj:`str`, optional): Размер изображения.
+        """
+
+        uri = self.uri or self.items_uri[index]
+
+        self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
 
     @classmethod
     def de_json(cls, data, client):

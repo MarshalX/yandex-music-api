@@ -16,6 +16,9 @@ class Landing(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.content_id,)
 
+    def __getitem__(self, item):
+        return self.blocks[item]
+
     @classmethod
     def de_json(cls, data, client):
         if not data:

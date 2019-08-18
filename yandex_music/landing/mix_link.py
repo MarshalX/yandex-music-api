@@ -23,6 +23,16 @@ class MixLink(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.url, )
 
+    def download_background_image(self, filename, size='200x200'):
+        """Загрузка заднего фона.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер заднего фона.
+        """
+
+        self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:
@@ -42,3 +52,8 @@ class MixLink(YandexMusicObject):
             mix_links.append(cls.de_json(mix_link, client))
 
         return mix_links
+
+    # camelCase псевдонимы
+
+    """Псевдоним для :attr:`download_background_image`"""
+    downloadBackgroundImage = download_background_image

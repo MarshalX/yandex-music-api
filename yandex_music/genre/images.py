@@ -12,6 +12,24 @@ class Images(YandexMusicObject):
 
         self.client = client
 
+    def download_208x208(self, filename):
+        """Загрузка изображения 208x208.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+        """
+
+        self.client.request.download(self._208x208, filename)
+
+    def download_300x300(self, filename):
+        """Загрузка изображения 300x300.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+        """
+
+        self.client.request.download(self._300x300, filename)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:

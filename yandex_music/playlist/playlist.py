@@ -80,6 +80,28 @@ class Playlist(YandexMusicObject):
     def playlist_id(self):
         return f'{self.owner.uid}:{self.kind}'
 
+    def download_animated_cover(self, filename, size='200x200'):
+        """Загрузка анимированной обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением (GIF).
+            size (:obj:`str`, optional): Размер анимированной обложки.
+        """
+
+        self.client.request.download(f'https://{self.animated_cover_uri.replace("%%", size)}', filename)
+
+    def download_og_image(self, filename, size='200x200'):
+        """Загрузка обложки.
+
+        Используйте это только когда нет self.cover!
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+
     def rename(self, name):
         client, kind = self.client, self.kind
 
@@ -118,3 +140,7 @@ class Playlist(YandexMusicObject):
     isMine = is_mine
     """Псевдоним для :attr:`playlist_id`"""
     playlistId = playlist_id
+    """Псевдоним для :attr:`download_animated_cover`"""
+    downloadAnimatedCover = download_animated_cover
+    """Псевдоним для :attr:`download_og_image`"""
+    downloadOgImage = download_og_image

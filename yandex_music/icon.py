@@ -28,6 +28,16 @@ class Icon(YandexMusicObject):
 
         self.client = client
 
+    def download(self, filename, size='200x200'):
+        """Загрузка иконки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер иконки.
+        """
+
+        self.client.request.download(f'https://{self.image_url.replace("%%", size)}', filename)
+
     @classmethod
     def de_json(cls, data, client):
         """Десериализация объекта.
