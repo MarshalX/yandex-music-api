@@ -47,7 +47,7 @@ class Status(YandexMusicObject):
     def __init__(self,
                  account,
                  permissions,
-                 subscription,
+                 subscription=None,
                  cache_limit=None,
                  subeditor=None,
                  subeditor_level=None,
@@ -60,8 +60,8 @@ class Status(YandexMusicObject):
                  **kwargs):
         self.account = account
         self.permissions = permissions
-        self.subscription = subscription
 
+        self.subscription = subscription
         self.cache_limit = cache_limit
         self.subeditor = subeditor
         self.subeditor_level = subeditor_level
