@@ -35,7 +35,7 @@ class Request:
 
         self.client = client
 
-        self.headers = headers or HEADERS
+        self.headers = headers or HEADERS.copy()
 
         if self.client.token:
             self.set_authorization(self.client.token)

@@ -37,8 +37,6 @@ class Client(YandexMusicObject):
             информацию об аккаунте.
 
     Args:
-        username (:obj:`str`): Логин клиента (идентификатор).
-        password (:obj:`str`): Пароль клиента (аутентификатор).
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
         base_url (:obj:`str`, optional): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`, optional): Ссылка на OAuth Yandex Music.
@@ -46,7 +44,7 @@ class Client(YandexMusicObject):
             :class:`yandex_music.utils.request.Request`.
     """
 
-    def __init__(self, username, password, token=None, base_url=None, oauth_url=None, request=None):
+    def __init__(self, token=None, base_url=None, oauth_url=None, request=None):
         self.logger = logging.getLogger(__name__)
         self.token = token
 
@@ -60,24 +58,41 @@ class Client(YandexMusicObject):
 
         self._request = request or Request(self)
 
-        if self.token is None:
-            self.token = self.generate_token_by_username_and_password(username, password)
-            self.request.set_authorization(self.token)
-
         self.account = self.account_status().account
 
     @classmethod
-    def from_token(cls, token):
-        """Сокращение для авторизации по токену.
+    def from_credentials(cls, username, password, *args, **kwargs):
+        """Инициализция клиента по логину и паролю.
+
+        Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить и
+        использовать при следующих инициализациях клиента. Не храните логины и пароли!
 
         Args:
-            token (:obj:`str`, optional): Уникальный ключ для аутентификации.
+            username (:obj:`str`): Логин клиента (идентификатор).
+            password (:obj:`str`): Пароль клиента (аутентификатор).
+            **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
 
         Returns:
             :obj:`yandex_music.Client`.
         """
 
-        return cls(username=None, password=None, token=token)
+        return cls(cls().generate_token_by_username_and_password(username, password), *args, **kwargs)
+
+    @classmethod
+    def from_token(cls, token, *args, **kwargs):
+        """Инициализция клиента по токену.
+
+        Ничем не отличается от Client(token). Так исторически сложилось.
+
+        Args:
+            token (:obj:`str`, optional): Уникальный ключ для аутентификации.
+            **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
+
+        Returns:
+            :obj:`yandex_music.Client`.
+        """
+
+        return cls(token=token, *args, **kwargs)
 
     def generate_token_by_username_and_password(self, username, password, grant_type='password',
                                                 timeout=None, *args, **kwargs):
