@@ -88,9 +88,17 @@
 Начало работы
 =============
 
-Приступив к работе первом делом необходимо создать экземпляр клиента
-введя данные для авторизации. Такими данными может служить OAuth токен или
-логин с паролем.
+Приступив к работе первым делом необходимо создать экземпляр клиента.
+Для доступа к своим личным данным следует авторизоваться.
+Это можно осуществить через OAuth токен или логин с паролем.
+
+Инициализация клиента:
+
+.. code:: python
+
+    from yandex_music.client import Client
+
+    client = Client()
 
 Авторизация по логину и паролю:
 
@@ -98,7 +106,7 @@
 
     from yandex_music.client import Client
 
-    client = Client('example@yandex.com', 'password')
+    client = Client.from_credentials('example@yandex.com', 'password')
 
 Авторизация по токену:
 
@@ -107,6 +115,8 @@
     from yandex_music.client import Client
 
     client = Client.from_token('token')
+    # или
+    client = Client('token')
 
 После успешного создания клиента Вы вольны в выборе необходимого метода
 из API. Все они доступны у объекта класса Client. Подробнее в методах клиента
