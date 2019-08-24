@@ -149,8 +149,12 @@ Microsoft Store. Так как API является закрытым и испо
 
     from yandex_music.client import Client
 
-    client = Client.from_credentials('example@yandex.com', 'password')
+    client = Client()
     client.tracks(['10994777:1193829', '40133452:5206873', '48966383:6693286', '51385674:7163467'])
+
+В качестве ID трека выступает его уникальный номер и номер альбома.
+Первым треком из примера является следующий трек:
+music.yandex.ru/album/**1193829**/track/**10994777**
 
 --------------------
 Изучение по примерам
