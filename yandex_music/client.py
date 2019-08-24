@@ -926,6 +926,8 @@ class Client(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    """Псевдоним для :attr:`from_credentials`"""
+    fromCredentials = from_credentials
     """Псевдоним для :attr:`from_token`"""
     fromToken = from_token
     """Псевдоним для :attr:`generate_token_by_username_and_password`"""
