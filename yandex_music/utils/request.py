@@ -17,9 +17,12 @@ HEADERS = {
 }
 
 
+logging.getLogger('urllib3').setLevel(logging.WARNING)
+
+
 class Request:
-    """
-    Вспомогателньный класс для yandex_music предоставляющий методы для выполнения POST и GET запросов, скачивания файлов.
+    """Вспомогателньный класс для yandex_music предоставляющий методы для выполнения POST и GET запросов, скачивания
+    файлов.
 
     Args:
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
