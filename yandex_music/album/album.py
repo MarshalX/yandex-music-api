@@ -23,6 +23,8 @@ class Album(YandexMusicObject):
                  available_for_mobile=None,
                  available_partially=None,
                  bests=None,
+                 prerolls=None,
+                 volumes=None,
                  year=None,
                  release_date=None,
                  type=None,
@@ -43,6 +45,8 @@ class Album(YandexMusicObject):
         self.year = year
         self.release_date = datetime.fromisoformat(release_date) if release_date else release_date
         self.bests = bests
+        self.prerolls = prerolls
+        self.volumes = volumes
         self.og_image = og_image
         self.buy = buy
         self.recent = recent
@@ -57,6 +61,14 @@ class Album(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id,)
+
+    def with_tracks(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.albums_with_tracks(album.id, *args, **kwargs)
+        """
+
+        return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
     def download_cover(self, filename, size='200x200'):
         """Загрузка обложки.
@@ -86,10 +98,12 @@ class Album(YandexMusicObject):
             return None
 
         data = super(Album, cls).de_json(data, client)
-        from yandex_music import Artist, Label, TrackPosition
+        from yandex_music import Artist, Label, TrackPosition, Track
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['labels'] = Label.de_list(data.get('labels'), client)
         data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
+        if data.get('volumes'):
+            data['volumes'] = [Track.de_list(i, client) for i in data['volumes']]
 
         return cls(client=client, **data)
 
@@ -106,6 +120,8 @@ class Album(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    """Псевдоним для :attr:`with_tracks`"""
+    withTracks = with_tracks
     """Псевдоним для :attr:`download_cover`"""
     downloadCover = download_cover
     """Псевдоним для :attr:`download_og_image`"""
