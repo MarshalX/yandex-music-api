@@ -1,4 +1,5 @@
 import logging
+import functools
 from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
@@ -31,6 +32,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 def log(method):
     logger = logging.getLogger(method.__module__)
 
+    @functools.wraps(method)
     def wrapper(*args, **kwargs):
         logger.debug(f'Entering: {method.__name__}')
 
