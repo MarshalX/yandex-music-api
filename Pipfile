@@ -5,6 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 coverage = "*"
+sphinx = "*"
+sphinx_rtd_theme = "*"
 
 [packages]
 requests = "*"

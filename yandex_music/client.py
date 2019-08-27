@@ -460,6 +460,29 @@ class Client(YandexMusicObject):
 
         return result == 'ok'
 
+    def albums_with_tracks(self, album_id: str or int, timeout=None, *args, **kwargs):
+        """Получение альбома по его уникальному идентификатору вместе с треками.
+
+        Args:
+            album_id (:obj:`str` | :obj:`int`): Уникальный идентификатор альбома.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Album`: Объект класса :class:`yandex_music.Album` представляющий альбом,
+            иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/albums/{album_id}/with-tracks'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Album.de_json(result, self)
+
     @log
     def search(self,
                text: str,
@@ -469,7 +492,7 @@ class Client(YandexMusicObject):
                playlist_in_best: bool = True,
                timeout=None,
                *args, **kwargs):
-        """Осуществление поиска по запросу и типу, получение результатов. 
+        """Осуществление поиска по запросу и типу, получение результатов.
 
         Args:
             text (:obj:`str`): Текст запроса.
@@ -1013,6 +1036,8 @@ class Client(YandexMusicObject):
     tracksDownloadInfo = tracks_download_info
     """Псевдоним для :attr:`play_audio`"""
     playAudio = play_audio
+    """Псевдоним для :attr:`albums_with_tracks`"""
+    albumsWithTracks = albums_with_tracks
     """Псевдоним для :attr:`search_suggest`"""
     searchSuggest = search_suggest
     """Псевдоним для :attr:`users_playlists`"""
