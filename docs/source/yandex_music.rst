@@ -28,3 +28,4 @@
     yandex_music.cover
     yandex_music.download_info
     yandex_music.tracks_list
+    yandex_music.video

@@ -25,6 +25,7 @@ class Track(YandexMusicObject):
                  content_warning=None,
                  explicit=None,
                  preview_duration_ms=None,
+                 available_full_without_permission=None,
                  client=None,
                  **kwargs):
         self.id = id
@@ -50,6 +51,7 @@ class Track(YandexMusicObject):
         self.content_warning = content_warning
         self.explicit = explicit
         self.preview_duration_ms = preview_duration_ms
+        self.available_full_without_permission = available_full_without_permission
 
         self.download_info = None
 

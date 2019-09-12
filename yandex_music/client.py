@@ -4,7 +4,7 @@ from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult
+    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
@@ -857,6 +857,14 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return StationTracksResult.de_json(result, self)
+
+    @log
+    def artists_brief_info(self, artist_id: str or int, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/artists/{artist_id}/brief-info'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return BriefInfo.de_json(result, self)
 
     def _like_action(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
                      timeout=None, *args, **kwargs):

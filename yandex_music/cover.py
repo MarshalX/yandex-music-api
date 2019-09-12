@@ -84,3 +84,24 @@ class Cover(YandexMusicObject):
         data = super(Cover, cls).de_json(data, client)
 
         return cls(client=client, **data)
+
+    @classmethod
+    def de_list(cls, data, client):
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Cover`: Список объектов класса :class:`yandex_music.Cover`.
+        """
+        if not data:
+            return []
+
+        covers = list()
+        for cover in data:
+            covers.append(cls.de_json(cover, client))
+
+        return covers
