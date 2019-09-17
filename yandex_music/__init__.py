@@ -9,6 +9,7 @@ from .track_short import TrackShort
 from .promo_code_status import PromoCodeStatus
 from .download_info import DownloadInfo
 from .icon import Icon
+from .video import Video
 
 from .status.account import Account
 from .status.plus import Plus
@@ -28,12 +29,16 @@ from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
 from .playlist.user import User
 from .playlist.play_counter import PlayCounter
+from .playlist.playlist_id import PlaylistId
 from .playlist.playlist import Playlist
 
 from .artist.link import Link
 from .artist.counts import Counts
 from .artist.ratings import Ratings
 from .artist.artist import Artist
+from .artist.description import Description
+from .artist.vinyl import Vinyl
+from .artist.brief_info import BriefInfo
 
 from .album.label import Label
 from .album.track_position import TrackPosition
@@ -52,7 +57,6 @@ from .likes.artists_likes import ArtistsLikes
 from .likes.playlists_likes import PlaylistsLikes
 from .tracks_list import TracksList
 
-from .search.video import Video
 from .search.best import Best
 from .search.search import Search
 from .search.suggestions import Suggestions
@@ -105,4 +109,5 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'VideoSearchResult', 'Search', 'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData',
            'TrackId', 'TrackShortOld', 'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem',
            'PlayContext', 'Title', 'Genre', 'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams',
-           'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult']
+           'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult',
+           'BriefInfo', 'Description', 'PlaylistId', 'Vinyl']

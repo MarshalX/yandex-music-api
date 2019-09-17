@@ -9,11 +9,7 @@ from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, Yand
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
-    'X-Yandex-Music-Client': 'WindowsPhone/3.17',
-    'User-Agent': 'Windows 10',
-    # 'X-Yandex-Music-Client': 'Yandex-Music-API',
-    # 'User-Agent': 'Yandex-Music-API',
-    'Connection': 'Keep-Alive'
+    'X-Yandex-Music-Client': 'WindowsPhone/3.20',
 }
 
 
@@ -84,7 +80,7 @@ class Request:
         if 'headers' not in kwargs:
             kwargs['headers'] = {}
 
-        kwargs['headers']['user-agent'] = USER_AGENT
+        kwargs['headers']['User-Agent'] = USER_AGENT
 
         try:
             resp = requests.request(*args, **kwargs)
@@ -122,9 +118,8 @@ class Request:
 
         return self._parse(result.content).result
 
-    def retrieve(self, url, params=None, timeout=5, *args, **kwargs):
-        return self._request_wrapper('GET', url, params=params, headers=self.headers, timeout=timeout,
-                                     *args, **kwargs)
+    def retrieve(self, url, timeout=5, *args, **kwargs):
+        return self._request_wrapper('GET', url, timeout=timeout, *args, **kwargs)
 
     def download(self, url, filename, timeout=5, *args, **kwargs):
         result = self.retrieve(url, timeout=timeout, *args, *kwargs)

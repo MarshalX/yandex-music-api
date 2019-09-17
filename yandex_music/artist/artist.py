@@ -16,9 +16,18 @@ class Artist(YandexMusicObject):
                  ratings=None,
                  links=None,
                  tickets_available=None,
+                 likes_count=None,
                  popular_tracks=None,
                  regions=None,
                  decomposed=None,
+                 full_names=None,
+                 description=None,
+                 countries=None,
+                 en_wikipedia_link=None,
+                 db_aliases=None,
+                 aliases=None,
+                 init_date=None,
+                 end_date=None,
                  client=None,
                  **kwargs):
         self.id = id
@@ -38,6 +47,17 @@ class Artist(YandexMusicObject):
         self.regions = regions
         self.decomposed = decomposed
         self.popular_tracks = popular_tracks
+        self.likes_count = likes_count
+        self.full_names = full_names
+        self.description = description
+        self.countries = countries
+        self.en_wikipedia_link = en_wikipedia_link
+        self.db_aliases = db_aliases
+        self.aliases = aliases
+
+        # Оставлено строкой потому что может прийти конкретная дата или просто год
+        self.init_date = init_date
+        self.end_date = end_date
 
         self.client = client
         self._id_attrs = (self.id,)
@@ -60,12 +80,13 @@ class Artist(YandexMusicObject):
             return None
 
         data = super(Artist, cls).de_json(data, client)
-        from yandex_music import Cover, Ratings, Counts, Link, Track
+        from yandex_music import Cover, Ratings, Counts, Link, Track, Description
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['ratings'] = Ratings.de_json(data.get('ratings'), client)
         data['counts'] = Counts.de_json(data.get('counts'), client)
         data['links'] = Link.de_list(data.get('links'), client)
         data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
+        data['description'] = Description.de_json(data.get('description'), client)
         # TODO add "decomposed" deserialization
 
         return cls(client=client, **data)

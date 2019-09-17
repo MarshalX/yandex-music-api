@@ -1,21 +1,22 @@
 from yandex_music import YandexMusicObject
 
 
-class Chart(YandexMusicObject):
+class Vinyl(YandexMusicObject):
     def __init__(self,
-                 position,
-                 progress,
-                 listeners,
-                 shift,
-                 track_id=None,
+                 url,
+                 picture,
+                 title,
+                 year,
+                 price,
+                 media,
                  client=None,
                  **kwargs):
-        self.position = position
-        self.progress = progress
-        self.listeners = listeners
-        self.shift = shift
-
-        self.track_id = track_id
+        self.url = url
+        self.picture = picture
+        self.title = title
+        self.year = year
+        self.price = price
+        self.media = media
 
         self.client = client
 
@@ -29,15 +30,13 @@ class Chart(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`yandex_music.Chart`: Объект класса :class:`yandex_music.Chart`.
+            :obj:`yandex_music.Vinyl`: Объект класса :class:`yandex_music.Vinyl`.
         """
 
         if not data:
             return None
 
-        data = super(Chart, cls).de_json(data, client)
-        from yandex_music import TrackId
-        data['track_id'] = TrackId.de_json(data.get('track_id'), client)
+        data = super(Vinyl, cls).de_json(data, client)
 
         return cls(client=client, **data)
 
@@ -51,13 +50,13 @@ class Chart(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Chart`: Список объектов класса :class:`yandex_music.Chart`.
+            :obj:`list` из :obj:`yandex_music.Vinyl`: Список объектов класса :class:`yandex_music.Vinyl`.
         """
         if not data:
             return []
 
-        charts = list()
-        for chart in data:
-            charts.append(cls.de_json(chart, client))
+        vinyls = list()
+        for vinyl in data:
+            vinyls.append(cls.de_json(vinyl, client))
 
-        return charts
+        return vinyls

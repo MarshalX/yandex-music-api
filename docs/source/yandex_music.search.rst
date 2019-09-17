@@ -10,6 +10,5 @@
     yandex_music.search.search_result
     yandex_music.search.video_search_result
     yandex_music.search.best
-    yandex_music.search.video
     yandex_music.search.playlist_search_result
     yandex_music.search.album_search_result
