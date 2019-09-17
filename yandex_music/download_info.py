@@ -1,3 +1,4 @@
+from hashlib import md5
 import xml.dom.minidom as minidom
 
 from yandex_music import YandexMusicObject
@@ -70,8 +71,11 @@ class DownloadInfo(YandexMusicObject):
         host = self._get_text_node_data(doc.getElementsByTagName('host'))
         path = self._get_text_node_data(doc.getElementsByTagName('path'))
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
+        s = self._get_text_node_data(doc.getElementsByTagName('s'))
+        sign = md5(('XGRlBW9FXlekgbPrRHuSiA' + path[1::] + s).encode('utf-8')).hexdigest()
+        # TODO sign для AAC кодека
 
-        self.direct_link = f'https://{host}/get-{self.codec}/randomTrash/{ts}{path}'
+        self.direct_link = f'https://{host}/get-{self.codec}/{sign}/{ts}{path}'
 
         return self.direct_link
 
