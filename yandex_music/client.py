@@ -884,7 +884,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_tracks_add(self, track_ids: str or list, user_id: str or int = None,
                                timeout=None, *args, **kwargs):
-        return self._like_action('track', track_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('track', track_ids, False, user_id, timeout, *args, **kwargs)
 
     @log
     def users_likes_tracks_remove(self, track_ids: str or list, user_id: str or int = None,
@@ -894,7 +894,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_artists_add(self, artist_ids: str or int or list, user_id: str or int = None,
                                 timeout=None, *args, **kwargs):
-        return self._like_action('artist', artist_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('artist', artist_ids, False, user_id, timeout, *args, **kwargs)
 
     def users_likes_artists_remove(self, artist_ids: str or list, user_id: str or int = None,
                                    timeout=None, *args, **kwargs):
@@ -903,7 +903,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_playlists_add(self, playlist_ids: str or list, user_id: str or int = None,
                                   timeout=None, *args, **kwargs):
-        return self._like_action('playlist', playlist_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('playlist', playlist_ids, False, user_id, timeout, *args, **kwargs)
 
     @log
     def users_likes_playlists_remove(self, playlist_ids: str or list, user_id: str or int = None,
@@ -913,7 +913,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_albums_add(self, album_ids: str or list, user_id: str or int = None,
                                timeout=None, *args, **kwargs):
-        return self._like_action('album', album_ids, user_id, timeout, *args, **kwargs)
+        return self._like_action('album', album_ids, False, user_id, timeout, *args, **kwargs)
 
     @log
     def users_likes_albums_remove(self, album_ids: str or list, user_id: str or int = None,
@@ -1017,7 +1017,7 @@ class Client(YandexMusicObject):
     @log
     def users_dislikes_tracks_add(self, track_ids: str or list, user_id: str or int = None,
                                   timeout=None, *args, **kwargs):
-        return self._dislike_action(track_ids, user_id, timeout, *args, **kwargs)
+        return self._dislike_action(track_ids, False, user_id, timeout, *args, **kwargs)
 
     @log
     def users_dislikes_tracks_remove(self, track_ids: str or list, user_id: str or int = None,
