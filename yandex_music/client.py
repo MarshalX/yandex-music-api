@@ -1017,7 +1017,7 @@ class Client(YandexMusicObject):
     @log
     def users_dislikes_tracks_add(self, track_ids: str or list, user_id: str or int = None,
                                   timeout=None, *args, **kwargs):
-        return self._dislike_action(track_ids, user_id, timeout, *args, **kwargs)
+        return self._dislike_action(track_ids, False, user_id, timeout, *args, **kwargs)
 
     @log
     def users_dislikes_tracks_remove(self, track_ids: str or list, user_id: str or int = None,
