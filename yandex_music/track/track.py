@@ -93,6 +93,20 @@ class Track(YandexMusicObject):
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
                 info.download(filename)
 
+    def like(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_tracks_add(track.id, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_tracks_add(self.track_id, self.client.account.uid, *args, **kwargs)
+
+    def dislike(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_tracks_remove(self.track_id, self.client.account.uid, *args, **kwargs)
+
     @property
     def track_id(self):
         return f'{self.id}'

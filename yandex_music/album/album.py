@@ -92,6 +92,20 @@ class Album(YandexMusicObject):
 
         self.client.request.download(f'https://{self.og_image("%%", size)}', filename)
 
+    def like(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_albums_add(album.id, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_albums_add(self.id, self.client.account.uid, *args, **kwargs)
+
+    def dislike(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_albums_remove(self.id, self.client.account.uid, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:
