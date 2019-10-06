@@ -108,6 +108,20 @@ class Playlist(YandexMusicObject):
         self.__dict__.clear()
         self.__dict__.update(client.users_playlists_name(kind, name).__dict__)
 
+    def like(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_playlists_add(playlist.uid, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_playlists_add(self.uid, self.client.account.uid, *args, **kwargs)
+
+    def dislike(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_playlists_remove(playlist.uid, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_playlists_remove(self.uid, self.client.account.uid, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:

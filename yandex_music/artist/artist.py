@@ -74,6 +74,20 @@ class Artist(YandexMusicObject):
 
         self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
 
+    def like(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_artists_add(self.id, self.client.account.uid, *args, **kwargs)
+
+    def dislike(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.users_likes_artists_remove(artist.id, user.id *args, **kwargs)
+        """
+        return self.client.users_likes_artists_remove(self.id, self.client.account.uid, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:
