@@ -42,10 +42,10 @@ class Supplement(YandexMusicObject):
         """
         if not data:
             return None
-
+        print(data)
         data = super(Supplement, cls).de_json(data, client)
         from yandex_music import Lyrics, VideoSupplement
-        data['lyrics'] = Lyrics.de_json(data['lyrics'], client)
-        data['videos'] = VideoSupplement.de_list(data['videos'], client)
+        data['lyrics'] = Lyrics.de_json(data['lyrics'], client) if 'lyrics' in data else None
+        data['videos'] = VideoSupplement.de_list(data['videos'], client) if 'videos' in data else None
 
         return cls(client=client, **data)
