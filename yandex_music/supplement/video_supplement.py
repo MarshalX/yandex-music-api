@@ -1,6 +1,23 @@
 from yandex_music import YandexMusicObject
 
 class VideoSupplement(YandexMusicObject):
+    """Класс, представляющий видео-клипы
+
+    Attributes:
+        cover (:obj:`str`): URL на обложку видео
+        title (:obj:`str`): Название видео
+        embed_url (:obj:`str`): URL на видео
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        cover (:obj:`str`): URL на обложку видео
+        title (:obj:`str`): Название видео
+        embed_url (:obj:`str`): URL на видео
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
     def __init__(self,
                  cover,
                  title,
@@ -15,6 +32,16 @@ class VideoSupplement(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Cover`: Объект класса :class:`yandex_music.Cover`.
+        """
         if not data:
             return None
 
@@ -24,6 +51,16 @@ class VideoSupplement(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data, client):
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Cover`: Список объектов класса :class:`yandex_music.Cover`.
+        """
         if not data:
             return []
         

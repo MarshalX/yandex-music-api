@@ -1,6 +1,23 @@
 from yandex_music import YandexMusicObject
 
 class Supplement(YandexMusicObject):
+    """Класс, представляющий дополнительную информацию о треке
+
+    Attributes:
+        lyrics (:obj:`yandex_music.Lyrics`): Объект класса `yandex_music.Lyrics` представляющий текст песни
+        videos (:obj:`yandex_music.VideoSupplement`): Объект класса `yandex_music.VideoSupplement` представляющий
+            видео
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        lyrics (:obj:`yandex_music.Lyrics`): Объект класса `yandex_music.Lyrics` представляющий текст песни
+        videos (:obj:`yandex_music.VideoSupplement`): Объект класса `yandex_music.VideoSupplement` представляющий
+            видео
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
     def __init__(self,
                  lyrics,
                  videos,
@@ -13,6 +30,16 @@ class Supplement(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Cover`: Объект класса :class:`yandex_music.Cover`.
+        """
         if not data:
             return None
 
