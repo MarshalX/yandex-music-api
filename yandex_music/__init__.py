@@ -97,6 +97,10 @@ from .rotor.station_tracks_result import StationTracksResult
 from .rotor.station_result import StationResult
 from .rotor.dashboard import Dashboard
 
+from .supplement.supplement import Supplement
+from .supplement.lyrics import Lyrics
+from .supplement.video_supplement import VideoSupplement
+
 from .client import Client
 
 __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus',

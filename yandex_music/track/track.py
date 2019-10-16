@@ -63,6 +63,9 @@ class Track(YandexMusicObject):
 
         return self.download_info
 
+    def get_supplement(self):
+        return self.client.track_supplement(self.id)
+
     def download_cover(self, filename, size='200x200'):
         """Загрузка обложки.
 

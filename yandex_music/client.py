@@ -4,7 +4,7 @@ from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo
+    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
@@ -398,6 +398,14 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return DownloadInfo.de_list(result, self, get_direct_links)
+
+    @log
+    def track_supplement(self, track_id: str or int, timeout=None, *args, **kwargs):
+        url = f'{self.base_url}/tracks/{track_id}/supplement'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Supplement.de_json(result, self)
 
     @log
     def play_audio(self,
