@@ -40,7 +40,7 @@ class VideoSupplement(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`yandex_music.Cover`: Объект класса :class:`yandex_music.Cover`.
+            :obj:`yandex_music.VideoSupplement`: Объект класса :class:`yandex_music.VideoSupplement`.
         """
         if not data:
             return None
@@ -61,7 +61,7 @@ class VideoSupplement(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Cover`: Список объектов класса :class:`yandex_music.Cover`.
+            :obj:`list` из :obj:`yandex_music.VideoSupplement`: Список объектов класса :class:`yandex_music.VideoSupplement`.
         """
         if not data:
             return []

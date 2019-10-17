@@ -64,6 +64,10 @@ class Track(YandexMusicObject):
         return self.download_info
 
     def get_supplement(self):
+        """Сокращение для::
+
+            client.track_supplement(track.id)
+        """
         return self.client.track_supplement(self.id)
 
     def download_cover(self, filename, size='200x200'):

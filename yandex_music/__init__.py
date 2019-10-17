@@ -114,4 +114,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'TrackId', 'TrackShortOld', 'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem',
            'PlayContext', 'Title', 'Genre', 'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams',
            'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult',
-           'BriefInfo', 'Description', 'PlaylistId', 'Vinyl']
+           'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement']

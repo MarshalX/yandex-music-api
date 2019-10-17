@@ -12,7 +12,6 @@ class Lyrics(YandexMusicObject):
     Args:
         full_lyrics (:obj:`str`): Текст песни
         text_language (:obj:`str`): Язык песни
-            видео
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -37,7 +36,7 @@ class Lyrics(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`yandex_music.Cover`: Объект класса :class:`yandex_music.Cover`.
+            :obj:`yandex_music.Lyrics`: Объект класса :class:`yandex_music.Lyrics`.
         """
         if not data:
             return None

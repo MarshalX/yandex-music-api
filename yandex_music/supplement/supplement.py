@@ -1,7 +1,7 @@
 from yandex_music import YandexMusicObject
 
 class Supplement(YandexMusicObject):
-    """Класс, представляющий дополнительную информацию о треке
+    """Класс, представляющий дополнительную информацию о треке.
 
     Attributes:
         lyrics (:obj:`yandex_music.Lyrics`): Объект класса `yandex_music.Lyrics` представляющий текст песни
@@ -38,14 +38,14 @@ class Supplement(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`yandex_music.Cover`: Объект класса :class:`yandex_music.Cover`.
+            :obj:`yandex_music.Supplement`: Объект класса :class:`yandex_music.Supplement`.
         """
         if not data:
             return None
         
         data = super(Supplement, cls).de_json(data, client)
         from yandex_music import Lyrics, VideoSupplement
-        data['lyrics'] = Lyrics.de_json(data['lyrics'], client) if 'lyrics' in data else None
-        data['videos'] = VideoSupplement.de_list(data['videos'], client) if 'videos' in data else None
+        data['lyrics'] = Lyrics.de_json(data.get('lyrics'), client) if 'lyrics' in data else None
+        data['videos'] = VideoSupplement.de_list(data.get('videos'), client) if 'videos' in data else None
 
         return cls(client=client, **data)
