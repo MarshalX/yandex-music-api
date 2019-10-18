@@ -63,12 +63,12 @@ class Track(YandexMusicObject):
 
         return self.download_info
 
-    def get_supplement(self):
+    def get_supplement(self, *args, **kwargs):
         """Сокращение для::
 
-            client.track_supplement(track.id)
+            client.track_supplement(track.id, *args, **kwargs)
         """
-        return self.client.track_supplement(self.id)
+        return self.client.track_supplement(self.id, *args, **kwargs)
 
     def download_cover(self, filename, size='200x200'):
         """Загрузка обложки.
@@ -103,7 +103,7 @@ class Track(YandexMusicObject):
     def like(self, *args, **kwargs):
         """Сокращение для::
 
-            client.users_likes_tracks_add(track.id, user.id *args, **kwargs)
+            client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
         return self.client.users_likes_tracks_add(self.track_id, self.client.account.uid, *args, **kwargs)
 
@@ -145,6 +145,8 @@ class Track(YandexMusicObject):
 
     """Псевдоним для :attr:`get_download_info`"""
     getDownloadInfo = get_download_info
+    """Псевдоним для :attr:`get_supplement`"""
+    getSupplement = get_supplement
     """Псевдоним для :attr:`download_cover`"""
     downloadCover = download_cover
     """Псевдоним для :attr:`download_og_image`"""

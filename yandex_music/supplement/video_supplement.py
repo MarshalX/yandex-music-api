@@ -1,32 +1,51 @@
 from yandex_music import YandexMusicObject
 
+
 class VideoSupplement(YandexMusicObject):
-    """Класс, представляющий видео-клипы
+    """Класс, представляющий видеоклипы.
 
     Attributes:
-        cover (:obj:`str`): URL на обложку видео
-        title (:obj:`str`): Название видео
-        url (:obj:`str`): URL на видео
+        cover (:obj:`str`): URL на обложку видео.
+        title (:obj:`str`): Название видео.
+        provider (:obj:`str`): Сервис поставляющий видео.
+        provider_video_id (:obj:`str`): Уникальный идентификатор видео на сервисе.
+        url (:obj:`str`): URL на видео.
+        embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
+        embed (:obj:`str`): HTML тег для встраивания видео.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
 
     Args:
-        cover (:obj:`str`): URL на обложку видео
-        title (:obj:`str`): Название видео
-        url (:obj:`str`): URL на видео
+        cover (:obj:`str`): URL на обложку видео.
+        title (:obj:`str`): Название видео.
+        provider (:obj:`str`): Сервис поставляющий видео.
+        provider_video_id (:obj:`str`): Уникальный идентификатор видео на сервисе.
+        url (:obj:`str`): URL на видео.
+        embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
+        embed (:obj:`str`): HTML тег для встраивания видео.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
+
     def __init__(self,
                  cover,
                  title,
-                 url,
+                 provider,
+                 provider_video_id,
+                 url=None,
+                 embed_url=None,
+                 embed=None,
                  client=None,
                  **kwargs):
         self.cover = cover
         self.title = title
+        self.provider = provider
+        self.provider_video_id = provider_video_id
+
         self.url = url
+        self.embed_url = embed_url
+        self.embed = embed
 
         self.client = client
 
@@ -46,8 +65,6 @@ class VideoSupplement(YandexMusicObject):
             return None
 
         data = super(VideoSupplement, cls).de_json(data, client)
-        if 'url' not in data:
-            data['url'] = data['embed_url']
 
         return cls(client=client, **data)
 

@@ -414,6 +414,7 @@ class Client(YandexMusicObject):
                 информацию о треке.
 
         """
+
         url = f'{self.base_url}/tracks/{track_id}/supplement'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -1103,6 +1104,8 @@ class Client(YandexMusicObject):
     rotorStationGenreInfo = rotor_station_genre_info
     """Псевдоним для :attr:`rotor_station_genre_tracks`"""
     rotorStationGenreTracks = rotor_station_genre_tracks
+    """Псевдоним для :attr:`artists_brief_info`"""
+    artistsBriefInfo = artists_brief_info
     """Псевдоним для :attr:`users_likes_tracks_add`"""
     usersLikesTracksAdd = users_likes_tracks_add
     """Псевдоним для :attr:`users_likes_tracks_remove`"""
