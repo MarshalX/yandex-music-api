@@ -4,7 +4,7 @@ from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo
+    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
@@ -398,6 +398,28 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return DownloadInfo.de_list(result, self, get_direct_links)
+
+    @log
+    def track_supplement(self, track_id: str or int, timeout=None, *args, **kwargs):
+        """Получение дополнительной информации о треке.
+
+        Args:
+            track_id (:obj:`str`): Уникальный идентификатор трека.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Supplement`: Объект класса `yandex_music.Supplement` представляющий дополнительную
+                информацию о треке.
+
+        """
+
+        url = f'{self.base_url}/tracks/{track_id}/supplement'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Supplement.de_json(result, self)
 
     @log
     def play_audio(self,
@@ -1044,6 +1066,8 @@ class Client(YandexMusicObject):
     feedWizardIsPassed = feed_wizard_is_passed
     """Псевдоним для :attr:`tracks_download_info`"""
     tracksDownloadInfo = tracks_download_info
+    """Псевдоним для :attr:`track_supplement`"""
+    trackSupplement = track_supplement
     """Псевдоним для :attr:`play_audio`"""
     playAudio = play_audio
     """Псевдоним для :attr:`albums_with_tracks`"""
@@ -1080,6 +1104,8 @@ class Client(YandexMusicObject):
     rotorStationGenreInfo = rotor_station_genre_info
     """Псевдоним для :attr:`rotor_station_genre_tracks`"""
     rotorStationGenreTracks = rotor_station_genre_tracks
+    """Псевдоним для :attr:`artists_brief_info`"""
+    artistsBriefInfo = artists_brief_info
     """Псевдоним для :attr:`users_likes_tracks_add`"""
     usersLikesTracksAdd = users_likes_tracks_add
     """Псевдоним для :attr:`users_likes_tracks_remove`"""
