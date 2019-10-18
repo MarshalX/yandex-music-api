@@ -15,7 +15,6 @@
     yandex_music.landing
     yandex_music.feed
     yandex_music.rotor
-    yandex_music.supplement
 
     yandex_music.base
     yandex_music.client

@@ -97,10 +97,6 @@ from .rotor.station_tracks_result import StationTracksResult
 from .rotor.station_result import StationResult
 from .rotor.dashboard import Dashboard
 
-from .supplement.supplement import Supplement
-from .supplement.lyrics import Lyrics
-from .supplement.video_supplement import VideoSupplement
-
 from .client import Client
 
 __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus',
@@ -114,4 +110,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'TrackId', 'TrackShortOld', 'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem',
            'PlayContext', 'Title', 'Genre', 'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams',
            'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult',
-           'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement']
+           'BriefInfo', 'Description', 'PlaylistId', 'Vinyl']
