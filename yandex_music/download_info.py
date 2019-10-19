@@ -138,5 +138,5 @@ class DownloadInfo(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`get_direct_link`"""
+    #: Псевдоним для :attr:`get_direct_link`
     getDirectLink = get_direct_link

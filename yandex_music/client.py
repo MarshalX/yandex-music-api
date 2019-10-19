@@ -1048,95 +1048,95 @@ class Client(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`from_credentials`"""
+    #: Псевдоним для :attr:`from_credentials`
     fromCredentials = from_credentials
-    """Псевдоним для :attr:`from_token`"""
+    #: Псевдоним для :attr:`from_token`
     fromToken = from_token
-    """Псевдоним для :attr:`generate_token_by_username_and_password`"""
+    #: Псевдоним для :attr:`generate_token_by_username_and_password`
     generateTokenByUsernameAndPassword = generate_token_by_username_and_password
-    """Псевдоним для :attr:`account_status`"""
+    #: Псевдоним для :attr:`account_status`
     accountStatus = account_status
-    """Псевдоним для :attr:`permission_alerts`"""
+    #: Псевдоним для :attr:`permission_alerts`
     permissionAlerts = permission_alerts
-    """Псевдоним для :attr:`account_experiments`"""
+    #: Псевдоним для :attr:`account_experiments`
     accountExperiments = account_experiments
-    """Псевдоним для :attr:`consume_promo_code`"""
+    #: Псевдоним для :attr:`consume_promo_code`
     consumePromoCode = consume_promo_code
-    """Псевдоним для :attr:`feed_wizard_is_passed`"""
+    #: Псевдоним для :attr:`feed_wizard_is_passed`
     feedWizardIsPassed = feed_wizard_is_passed
-    """Псевдоним для :attr:`tracks_download_info`"""
+    #: Псевдоним для :attr:`tracks_download_info`
     tracksDownloadInfo = tracks_download_info
-    """Псевдоним для :attr:`track_supplement`"""
+    #: Псевдоним для :attr:`track_supplement`
     trackSupplement = track_supplement
-    """Псевдоним для :attr:`play_audio`"""
+    #: Псевдоним для :attr:`play_audio`
     playAudio = play_audio
-    """Псевдоним для :attr:`albums_with_tracks`"""
+    #: Псевдоним для :attr:`albums_with_tracks`
     albumsWithTracks = albums_with_tracks
-    """Псевдоним для :attr:`search_suggest`"""
+    #: Псевдоним для :attr:`search_suggest`
     searchSuggest = search_suggest
-    """Псевдоним для :attr:`users_playlists`"""
+    #: Псевдоним для :attr:`users_playlists`
     usersPlaylists = users_playlists
-    """Псевдоним для :attr:`users_playlists_create`"""
+    #: Псевдоним для :attr:`users_playlists_create`
     usersPlaylistsCreate = users_playlists_create
-    """Псевдоним для :attr:`users_playlists_delete`"""
+    #: Псевдоним для :attr:`users_playlists_delete`
     usersPlaylistsDelete = users_playlists_delete
-    """Псевдоним для :attr:`users_playlists_name`"""
+    #: Псевдоним для :attr:`users_playlists_name`
     usersPlaylistsName = users_playlists_name
-    """Псевдоним для :attr:`users_playlists_change`"""
+    #: Псевдоним для :attr:`users_playlists_change`
     usersPlaylistsChange = users_playlists_change
-    """Псевдоним для :attr:`users_playlists_insert_track`"""
+    #: Псевдоним для :attr:`users_playlists_insert_track`
     usersPlaylistsInsertTrack = users_playlists_insert_track
-    """Псевдоним для :attr:`users_playlists_delete_track`"""
+    #: Псевдоним для :attr:`users_playlists_delete_track`
     usersPlaylistsDeleteTrack = users_playlists_delete_track
-    """Псевдоним для :attr:`rotor_account_status`"""
+    #: Псевдоним для :attr:`rotor_account_status`
     rotorAccountStatus = rotor_account_status
-    """Псевдоним для :attr:`rotor_stations_dashboard`"""
+    #: Псевдоним для :attr:`rotor_stations_dashboard`
     rotorStationsDashboard = rotor_stations_dashboard
-    """Псевдоним для :attr:`rotor_stations_list`"""
+    #: Псевдоним для :attr:`rotor_stations_list`
     rotorStationsList = rotor_stations_list
-    """Псевдоним для :attr:`rotor_station_genre_feedback`"""
+    #: Псевдоним для :attr:`rotor_station_genre_feedback`
     rotorStationGenreFeedback = rotor_station_genre_feedback
-    """Псевдоним для :attr:`rotor_station_genre_feedback_radio_started`"""
+    #: Псевдоним для :attr:`rotor_station_genre_feedback_radio_started`
     rotorStationGenreFeedbackRadioStarted = rotor_station_genre_feedback_radio_started
-    """Псевдоним для :attr:`rotor_station_genre_feedback_track_started`"""
+    #: Псевдоним для :attr:`rotor_station_genre_feedback_track_started`
     rotorStationGenreFeedbackTrackStarted = rotor_station_genre_feedback_track_started
-    """Псевдоним для :attr:`rotor_station_genre_info`"""
+    #: Псевдоним для :attr:`rotor_station_genre_info`
     rotorStationGenreInfo = rotor_station_genre_info
-    """Псевдоним для :attr:`rotor_station_genre_tracks`"""
+    #: Псевдоним для :attr:`rotor_station_genre_tracks`
     rotorStationGenreTracks = rotor_station_genre_tracks
-    """Псевдоним для :attr:`artists_brief_info`"""
+    #: Псевдоним для :attr:`artists_brief_info`
     artistsBriefInfo = artists_brief_info
-    """Псевдоним для :attr:`users_likes_tracks_add`"""
+    #: Псевдоним для :attr:`users_likes_tracks_add`
     usersLikesTracksAdd = users_likes_tracks_add
-    """Псевдоним для :attr:`users_likes_tracks_remove`"""
+    #: Псевдоним для :attr:`users_likes_tracks_remove`
     usersLikesTracksRemove = users_likes_tracks_remove
-    """Псевдоним для :attr:`users_likes_artists_add`"""
+    #: Псевдоним для :attr:`users_likes_artists_add`
     usersLikesArtistsAdd = users_likes_artists_add
-    """Псевдоним для :attr:`users_likes_artists_remove`"""
+    #: Псевдоним для :attr:`users_likes_artists_remove`
     usersLikesArtistsRemove = users_likes_artists_remove
-    """Псевдоним для :attr:`users_likes_playlists_add`"""
+    #: Псевдоним для :attr:`users_likes_playlists_add`
     usersLikesPlaylistsAdd = users_likes_playlists_add
-    """Псевдоним для :attr:`users_likes_playlists_remove`"""
+    #: Псевдоним для :attr:`users_likes_playlists_remove`
     usersLikesPlaylistsRemove = users_likes_playlists_remove
-    """Псевдоним для :attr:`users_likes_albums_add`"""
+    #: Псевдоним для :attr:`users_likes_albums_add`
     usersLikesAlbumsAdd = users_likes_albums_add
-    """Псевдоним для :attr:`users_likes_albums_remove`"""
+    #: Псевдоним для :attr:`users_likes_albums_remove`
     usersLikesAlbumsRemove = users_likes_albums_remove
-    """Псевдоним для :attr:`playlists_list`"""
+    #: Псевдоним для :attr:`playlists_list`
     playlistsList = playlists_list
-    """Псевдоним для :attr:`users_playlists_list`"""
+    #: Псевдоним для :attr:`users_playlists_list`
     usersPlaylistsList = users_playlists_list
-    """Псевдоним для :attr:`users_likes_tracks`"""
+    #: Псевдоним для :attr:`users_likes_tracks`
     usersLikesTracks = users_likes_tracks
-    """Псевдоним для :attr:`users_likes_albums`"""
+    #: Псевдоним для :attr:`users_likes_albums`
     usersLikesAlbums = users_likes_albums
-    """Псевдоним для :attr:`users_likes_artists`"""
+    #: Псевдоним для :attr:`users_likes_artists`
     usersLikesArtists = users_likes_artists
-    """Псевдоним для :attr:`users_likes_playlists`"""
+    #: Псевдоним для :attr:`users_likes_playlists`
     usersLikesPlaylists = users_likes_playlists
-    """Псевдоним для :attr:`users_dislikes_tracks`"""
+    #: Псевдоним для :attr:`users_dislikes_tracks`
     usersDislikesTracks = users_dislikes_tracks
-    """Псевдоним для :attr:`users_dislikes_tracks_add`"""
+    #: Псевдоним для :attr:`users_dislikes_tracks_add`
     usersDislikesTracksAdd = users_dislikes_tracks_add
-    """Псевдоним для :attr:`users_dislikes_tracks_remove`"""
+    #: Псевдоним для :attr:`users_dislikes_tracks_remove`
     usersDislikesTracksRemove = users_dislikes_tracks_remove

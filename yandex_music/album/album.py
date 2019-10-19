@@ -134,9 +134,9 @@ class Album(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`with_tracks`"""
+    #: Псевдоним для :attr:`with_tracks`
     withTracks = with_tracks
-    """Псевдоним для :attr:`download_cover`"""
+    #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
-    """Псевдоним для :attr:`download_og_image`"""
+    #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image

@@ -40,5 +40,5 @@ class User(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`download_avatar`"""
+    #: Псевдоним для :attr:`download_avatar`
     downloadAvatar = download_avatar

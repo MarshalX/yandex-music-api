@@ -66,5 +66,5 @@ class TracksList(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`tracks_ids`"""
+    #: Псевдоним для :attr:`tracks_ids`
     tracksIds = tracks_ids

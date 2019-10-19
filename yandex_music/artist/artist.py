@@ -118,5 +118,5 @@ class Artist(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`download_op_image`"""
+    #: Псевдоним для :attr:`download_op_image`
     downloadOpImage = download_op_image

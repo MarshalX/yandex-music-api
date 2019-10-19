@@ -55,5 +55,5 @@ class MixLink(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`download_background_image`"""
+    #: Псевдоним для :attr:`download_background_image`
     downloadBackgroundImage = download_background_image
