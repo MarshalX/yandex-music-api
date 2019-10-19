@@ -98,5 +98,5 @@ class TrackShort(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`track_id`"""
+    #: Псевдоним для :attr:`track_id`
     trackId = track_id

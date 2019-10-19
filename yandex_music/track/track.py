@@ -143,13 +143,13 @@ class Track(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`get_download_info`"""
+    #: Псевдоним для :attr:`get_download_info`
     getDownloadInfo = get_download_info
-    """Псевдоним для :attr:`get_supplement`"""
+    #: Псевдоним для :attr:`get_supplement`
     getSupplement = get_supplement
-    """Псевдоним для :attr:`download_cover`"""
+    #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
-    """Псевдоним для :attr:`download_og_image`"""
+    #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
-    """Псевдоним для :attr:`track_id`"""
+    #: Псевдоним для :attr:`track_id`
     trackId = track_id

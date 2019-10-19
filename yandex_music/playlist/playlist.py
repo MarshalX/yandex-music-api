@@ -150,11 +150,11 @@ class Playlist(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    """Псевдоним для :attr:`is_mine`"""
+    #: Псевдоним для :attr:`is_mine`
     isMine = is_mine
-    """Псевдоним для :attr:`playlist_id`"""
+    #: Псевдоним для :attr:`playlist_id`
     playlistId = playlist_id
-    """Псевдоним для :attr:`download_animated_cover`"""
+    #: Псевдоним для :attr:`download_animated_cover`
     downloadAnimatedCover = download_animated_cover
-    """Псевдоним для :attr:`download_og_image`"""
+    #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
