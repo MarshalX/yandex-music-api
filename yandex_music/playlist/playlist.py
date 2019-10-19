@@ -128,11 +128,11 @@ class Playlist(YandexMusicObject):
             return None
 
         data = super(Playlist, cls).de_json(data, client)
-        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort
+        from yandex_music import User, MadeFor, Cover, PlayCounter, TracksList
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
-        data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
+        data['tracks'] = TracksList.de_json(data, client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
 
         return cls(client=client, **data)
