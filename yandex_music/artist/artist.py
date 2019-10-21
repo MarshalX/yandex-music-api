@@ -88,6 +88,12 @@ class Artist(YandexMusicObject):
         """
         return self.client.users_likes_artists_remove(self.id, self.client.account.uid, *args, **kwargs)
 
+    def get_tracks(self, page=0, page_size=None, *args, **kwargs):
+        if not page_size:
+            page_size = self.counts.tracks
+
+        return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:

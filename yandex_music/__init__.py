@@ -39,6 +39,8 @@ from .artist.artist import Artist
 from .artist.description import Description
 from .artist.vinyl import Vinyl
 from .artist.brief_info import BriefInfo
+from .artist.pager import Pager
+from .artist.artists_tracks import ArtistsTracks
 
 from .album.label import Label
 from .album.track_position import TrackPosition
@@ -114,4 +116,5 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'TrackId', 'TrackShortOld', 'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem',
            'PlayContext', 'Title', 'Genre', 'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams',
            'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult',
-           'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement']
+           'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistsTracks',
+           'Pager']
