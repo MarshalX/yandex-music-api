@@ -1132,6 +1132,8 @@ class Client(YandexMusicObject):
     rotorStationGenreTracks = rotor_station_genre_tracks
     #: Псевдоним для :attr:`artists_brief_info`
     artistsBriefInfo = artists_brief_info
+    #: Псевдоним для :attr:`artists_tracks`
+    artistsTracks = artists_tracks
     #: Псевдоним для :attr:`users_likes_tracks_add`
     usersLikesTracksAdd = users_likes_tracks_add
     #: Псевдоним для :attr:`users_likes_tracks_remove`

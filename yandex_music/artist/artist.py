@@ -136,3 +136,5 @@ class Artist(YandexMusicObject):
 
     #: Псевдоним для :attr:`download_op_image`
     downloadOpImage = download_op_image
+    #: Псевдоним для :attr:`get_tracks`
+    getTracks = get_tracks
