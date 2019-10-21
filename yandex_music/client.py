@@ -890,6 +890,20 @@ class Client(YandexMusicObject):
 
     @log
     def artists_tracks(self, artist_id: str or int, page=0, page_size=20, timeout=None, *args, **kwargs):
+        """Получение треков артиста
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            page (:obj:`int`): Номер страницы.
+            page_size (:obj:`int`): Кол-во треков на странице.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistsTracks`: Объекта класса :class:`yandex_music.ArtistsTracks`
+            представляющий страницу списка треков артиста
+        """
         url = f'{self.base_url}/artists/{artist_id}/tracks'
         params = {
             'page': page,

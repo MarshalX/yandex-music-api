@@ -1,6 +1,24 @@
 from yandex_music import YandexMusicObject
 
 class Pager(YandexMusicObject):
+    """Класс представляющий обложку.
+
+    Attributes:
+        total (:obj:`str`): Всего треков.
+        page (:obj:`str`): Номер страницы.
+        per_page (:obj:`str`): Кол-во треков на текущей странице.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        total (:obj:`str`): Всего треков.
+        page (:obj:`str`): Номер страницы.
+        per_page (:obj:`str`): Кол-во треков на текущей странице.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  total,
                  page,
@@ -13,6 +31,16 @@ class Pager(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data, client):
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Pager`: Объект класса :class:`yandex_music.Pager`.
+        """
         if not data:
             return None
 
