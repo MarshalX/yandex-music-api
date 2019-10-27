@@ -88,20 +88,11 @@ class Artist(YandexMusicObject):
         """
         return self.client.users_likes_artists_remove(self.id, self.client.account.uid, *args, **kwargs)
 
-    def get_tracks(self, page=0, page_size=None, *args, **kwargs):
-        """Получает список треков артиста
+    def get_tracks(self, page=0, page_size=20, *args, **kwargs):
+        """Сокращение для::
 
-        Args:
-            page (:obj:`int`) Номер страницы.
-            page_size (:obj:`int`) Размер страницы, если не это значение не указано, то используется
-                значение `self.counts.tracks`
-
-        Returns:
-            :obj:`yandex_music.ArtistsTracks`: Объект класса :class:`yandex_music.ArtistsTracks`.
+            client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
         """
-        if not page_size:
-            page_size = self.counts.tracks
-
         return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
 
     @classmethod
