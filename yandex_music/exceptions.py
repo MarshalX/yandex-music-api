@@ -33,5 +33,8 @@ class BadRequest(NetworkError):
 
 
 class TimedOut(NetworkError):
+    """Класс исключения, вызываемого для случаев истечения времени ожидания.
+    """
+
     def __init__(self):
         super(TimedOut, self).__init__('Timed out')
