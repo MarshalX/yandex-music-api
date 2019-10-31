@@ -1,4 +1,6 @@
 class YandexMusicError(Exception):
+    """Базовый класс, представляющий исключения общего характера. """
+
     pass
 
 
