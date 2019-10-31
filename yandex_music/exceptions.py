@@ -21,6 +21,10 @@ class Unauthorized(YandexMusicError):
 
 
 class NetworkError(YandexMusicError):
+    """Базовый класс исключений, вызываемых для ошибок, связанных с
+    запросами к серверу.
+    """
+
     pass
 
 
