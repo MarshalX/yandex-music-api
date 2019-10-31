@@ -3,6 +3,10 @@ class YandexMusicError(Exception):
 
 
 class InvalidToken(YandexMusicError):
+    """Класс исключения, вызываемого для случаев недействительного
+    или неверного токена аутентификации.
+    """
+
     pass
 
 
