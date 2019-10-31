@@ -15,6 +15,10 @@ class NetworkError(YandexMusicError):
 
 
 class BadRequest(NetworkError):
+    """Класс исключения, вызываемого в случаях ошибок
+    в запросе клиента к серверу.
+    """
+
     pass
 
 
