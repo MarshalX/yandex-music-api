@@ -13,6 +13,10 @@ class InvalidToken(YandexMusicError):
 
 
 class Unauthorized(YandexMusicError):
+    """Класс исключения, вызываемого для случаев ошибок
+    аутентификации и авторизации.
+    """
+
     pass
 
 
