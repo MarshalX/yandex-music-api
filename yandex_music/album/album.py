@@ -5,12 +5,12 @@ class Album(YandexMusicObject):
     def __init__(self,
                  id,
                  title,
-                 cover_uri,
                  track_count,
                  artists,
                  labels,
                  available,
                  available_for_premium_users,
+                 cover_uri=None,
                  content_warning=None,
                  original_release_year=None,
                  genre=None,
@@ -32,13 +32,13 @@ class Album(YandexMusicObject):
                  **kwargs):
         self.id = id
         self.title = title
-        self.cover_uri = cover_uri
         self.track_count = track_count
         self.artists = artists
         self.labels = labels
         self.available_for_premium_users = available_for_premium_users
         self.available = available
 
+        self.cover_uri = cover_uri
         self.genre = genre
         self.year = year
         self.release_date = release_date

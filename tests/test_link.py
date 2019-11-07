@@ -1,18 +1,11 @@
-import pytest
-
 from yandex_music import Link
 
 
-@pytest.fixture(scope='class')
-def link():
-    return Link(TestLink.title, TestLink.href, TestLink.type, TestLink.social_network)
-
-
 class TestLink:
-    title = None
-    href = None
-    type = None
-    social_network = None
+    title = 'emmure'
+    href = 'https://www.facebook.com/emmure'
+    type = 'social'
+    social_network = 'facebook'
 
     def test_expected_values(self, link):
         assert link.title == self.title
@@ -38,4 +31,13 @@ class TestLink:
         assert link.social_network == self.social_network
 
     def test_equality(self):
-        pass
+        a = Link(self.title, self.href, self.type, self.social_network)
+        b = Link(self.title, '', self.type, self.social_network)
+        c = Link(self.title, self.href, '', self.social_network)
+        d = Link(self.title, self.href, self.type, self.social_network)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

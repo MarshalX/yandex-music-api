@@ -48,6 +48,7 @@ class AutoRenewable(YandexMusicObject):
         self.order_id = order_id
 
         self.client = client
+        self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product_id, self.product, self.finished)
 
     @classmethod
     def de_json(cls, data, client):

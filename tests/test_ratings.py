@@ -2,9 +2,9 @@ from yandex_music import Ratings
 
 
 class TestRatings:
-    week = None
-    month = None
-    day = None
+    week = 4949
+    month = 6597
+    day = 5512
 
     def test_expected_values(self, ratings):
         assert ratings.week == self.week
@@ -27,4 +27,12 @@ class TestRatings:
         assert ratings.day == self.day
 
     def test_equality(self):
-        pass
+        a = Ratings(self.week, self.month)
+        b = Ratings(10, self.month)
+        c = Ratings(self.week, self.month, self.day)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

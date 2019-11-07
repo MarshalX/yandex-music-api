@@ -1,15 +1,8 @@
-import pytest
-
 from yandex_music import PassportPhone
 
 
-@pytest.fixture(scope='class')
-def passport_phone():
-    return PassportPhone(TestPassportPhone.phone)
-
-
 class TestPassportPhone:
-    phone = None
+    phone = '+375295773423'
 
     def test_expected_values(self, passport_phone):
         assert passport_phone.phone == self.phone
@@ -27,4 +20,12 @@ class TestPassportPhone:
         assert passport_phone.phone == self.phone
 
     def test_equality(self):
-        pass
+        a = PassportPhone(self.phone)
+        b = PassportPhone('')
+        c = PassportPhone(self.phone)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

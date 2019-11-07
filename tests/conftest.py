@@ -3,12 +3,14 @@ import pytest
 from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyrics, Track, \
     InvocationInfo, Playlist, AutoRenewable, Station, MadeFor, Normalization, Major, TrackPosition, Best, Chart, \
     Restrictions, Permissions, Plus, Product, Cover, PlayCounter, Sequence, Price, Artist, AdParams, Description, \
-    Subscription, Id, Images, Pager, Account, Client, TrackShort, Value, DiscreteScale
+    Subscription, Id, Images, Pager, Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, \
+    PassportPhone
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestRestrictions, TestPermissions, TestPlus, TestProduct, TestCover, \
     TestPlayCounter, TestSequence, TestPrice, TestArtist, TestAdParams, TestDescription, TestSubscription, TestId, \
-    TestImages, TestPager, TestAccount, TestTrackShort, TestValue, TestDiscreteScale
+    TestImages, TestPager, TestAccount, TestTrackShort, TestValue, TestDiscreteScale, TestPlaylistId, TestMixLink, \
+    TestLink, TestPassportPhone
 
 
 @pytest.fixture(scope='session')
@@ -35,6 +37,11 @@ def cover():
 @pytest.fixture(scope='session')
 def all_covers(cover):
     return [cover]
+
+
+@pytest.fixture(scope='class')
+def link():
+    return Link(TestLink.title, TestLink.href, TestLink.type, TestLink.social_network)
 
 
 @pytest.fixture(scope='session')
@@ -148,6 +155,12 @@ def normalization():
 
 
 @pytest.fixture(scope='class')
+def mix_link():
+    return MixLink(TestMixLink.title, TestMixLink.url, TestMixLink.url_scheme, TestMixLink.text_color,
+                   TestMixLink.background_color, TestMixLink.background_image_uri, TestMixLink.cover_white)
+
+
+@pytest.fixture(scope='session')
 def discrete_scale(value):
     return DiscreteScale(TestDiscreteScale.type, TestDiscreteScale.name, value, value)
 
@@ -217,8 +230,13 @@ def auto_renewable(product):
                          TestAutoRenewable.product_id, product, TestAutoRenewable.finished, TestAutoRenewable.order_id)
 
 
+@pytest.fixture(scope='class')
+def passport_phone():
+    return PassportPhone(TestPassportPhone.phone)
+
+
 @pytest.fixture(scope='session')
-def auto_renewable(auto_renewable):
+def auto_renewable_list(auto_renewable):
     return [auto_renewable]
 
 
@@ -247,11 +265,17 @@ def subscription(auto_renewable):
 
 
 @pytest.fixture(scope='session')
-def product(price, description):
+def product(price):
     return Product(TestProduct.product_id, TestProduct.type, TestProduct.common_period_duration, TestProduct.duration,
                    TestProduct.trial_duration, price, TestProduct.feature, TestProduct.debug, TestProduct.features,
-                   description, TestProduct.available, TestProduct.trial_available, TestProduct.vendor_trial_available,
-                   TestProduct.button_text, TestProduct.button_additional_text, TestProduct.payment_method_types)
+                   TestProduct.description, TestProduct.available, TestProduct.trial_available,
+                   TestProduct.vendor_trial_available, TestProduct.button_text, TestProduct.button_additional_text,
+                   TestProduct.payment_method_types)
+
+
+@pytest.fixture(scope='session')
+def playlist_id():
+    return PlaylistId(TestPlaylistId.uid, TestPlaylistId.kind)
 
 
 @pytest.fixture(scope='session')
@@ -319,7 +343,7 @@ def track_id():
     return TrackId(TestTrackId.id, TestTrackId.album_id)
 
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='session')
 def value():
     return Value(TestValue.value, TestValue.name)
 

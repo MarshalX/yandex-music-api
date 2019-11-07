@@ -11,7 +11,7 @@ class PlaylistId(YandexMusicObject):
         self.kind = kind
 
         self.client = client
-        self._id_attrs = (self.uid,)
+        self._id_attrs = (self.uid, self.kind)
 
     @classmethod
     def de_json(cls, data, client):

@@ -54,6 +54,7 @@ class BriefInfo(YandexMusicObject):
         data = super(BriefInfo, cls).de_json(data, client)
         from yandex_music import Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl
         data['artist'] = Artist.de_json(data.get('artist'), client)
+        data['similar_artists'] = Artist.de_list(data.get('similar_artists'), client)
         data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['also_albums'] = Album.de_list(data.get('also_albums'), client)

@@ -14,6 +14,7 @@ class Ratings(YandexMusicObject):
         self.day = day
 
         self.client = client
+        self._id_attrs = (self.week, self.month)
 
     @classmethod
     def de_json(cls, data, client):

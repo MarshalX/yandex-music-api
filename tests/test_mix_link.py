@@ -1,22 +1,14 @@
-import pytest
-
 from yandex_music import MixLink
 
 
-@pytest.fixture(scope='class')
-def mix_link():
-    return MixLink(TestMixLink.title, TestMixLink.url, TestMixLink.url_scheme, TestMixLink.text_color,
-                   TestMixLink.background_color, TestMixLink.background_image_uri, TestMixLink.cover_white)
-
-
 class TestMixLink:
-    title = None
-    url = None
-    url_scheme = None
-    text_color = None
-    background_color = None
-    background_image_uri = None
-    cover_white = None
+    title = 'Беларусь'
+    url = '/tag/belarus'
+    url_scheme = 'yandexmusic://tag/belarus'
+    text_color = '#6c65a9'
+    background_color = 'transparent'
+    background_image_uri = 'avatars.yandex.net/get-music-misc/28592/mix.5cf0bd5e58ea3a1e70caa07b.background-image.1559281047248/%%'
+    cover_white = 'avatars.yandex.net/get-music-misc/28052/mix.5cf0bd5e58ea3a1e70caa07b.cover-white.1559281049219/%%'
 
     def test_expected_values(self, mix_link):
         assert mix_link.title == self.title
@@ -56,4 +48,17 @@ class TestMixLink:
         assert mix_link.cover_white == self.cover_white
 
     def test_equality(self):
-        pass
+        a = MixLink(self.title, self.url, self.url_scheme, self.text_color, self.background_color,
+                    self.background_image_uri, self.cover_white)
+        b = MixLink(self.title, self.url, '', self.text_color, self.background_color,
+                    self.background_image_uri, self.cover_white)
+        c = MixLink(self.title, self.url, self.url_scheme, '#000000', self.background_color,
+                    self.background_image_uri, self.cover_white)
+        d = MixLink(self.title, self.url, self.url_scheme, self.text_color, self.background_color,
+                    self.background_image_uri, self.cover_white)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

@@ -1,16 +1,9 @@
-import pytest
-
 from yandex_music import PlaylistId
 
 
-@pytest.fixture(scope='class')
-def playlist_id():
-    return PlaylistId(TestPlaylistId.uid, TestPlaylistId.kind)
-
-
 class TestPlaylistId:
-    uid = None
-    kind = None
+    uid = 460142547
+    kind = 5332052
 
     def test_expected_values(self, playlist_id):
         assert playlist_id.uid == self.uid
@@ -31,4 +24,13 @@ class TestPlaylistId:
         assert playlist_id.kind == self.kind
 
     def test_equality(self):
-        pass
+        a = PlaylistId(self.uid, self.kind)
+        b = PlaylistId(self.uid, 10)
+        c = PlaylistId(10, self.kind)
+        d = PlaylistId(self.uid, self.kind)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

@@ -2,12 +2,12 @@ from yandex_music import AdParams
 
 
 class TestAdParams:
-    partner_id = None
-    category_id = None
-    page_ref = None
-    target_ref = None
-    other_params = None
-    ad_volume = None
+    partner_id = '146552'
+    category_id = '0'
+    page_ref = 'http://music.yandex.ru'
+    target_ref = 'http://music.yandex.ru'
+    other_params = 'user:561231028'
+    ad_volume = -15
     genre_id = None
     genre_name = None
 
@@ -49,4 +49,15 @@ class TestAdParams:
         assert ad_params.genre_name == self.genre_name
 
     def test_equality(self):
-        pass
+        a = AdParams(self.partner_id, self.category_id, self.page_ref, self.target_ref, self.other_params,
+                     self.ad_volume)
+        b = AdParams(self.partner_id, '10', self.page_ref, self.target_ref, self.other_params, self.ad_volume)
+        c = AdParams(self.partner_id, self.category_id, '', self.target_ref, self.other_params, -30)
+        d = AdParams(self.partner_id, self.category_id, self.page_ref, self.target_ref, self.other_params,
+                     self.ad_volume)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

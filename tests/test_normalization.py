@@ -2,8 +2,8 @@ from yandex_music import Normalization
 
 
 class TestNormalization:
-    gain = None
-    peak = None
+    gain = -3.89
+    peak = 29168
 
     def test_expected_values(self, normalization):
         assert normalization.gain == self.gain
@@ -24,4 +24,14 @@ class TestNormalization:
         assert normalization.peak == self.peak
 
     def test_equality(self):
-        pass
+        a = Normalization(self.gain, self.peak)
+        b = Normalization(10, self.peak)
+        c = Normalization(self.gain, 10)
+        d = Normalization(10, 10)
+        e = Normalization(self.gain, self.peak)
+
+        assert a != b != c != d
+        assert hash(a) != hash(b) != hash(c) != hash(d)
+        assert a is not b is not c is not d
+
+        assert a == e
