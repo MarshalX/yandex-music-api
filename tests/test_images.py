@@ -2,8 +2,8 @@ from yandex_music import Images
 
 
 class TestImages:
-    _208x208 = None
-    _300x300 = None
+    _208x208 = 'http://avatars.mds.yandex.net/get-music-misc/28052/metagenre-pop-x208/orig'
+    _300x300 = 'http://avatars.mds.yandex.net/get-music-misc/28052/metagenre-pop-x300/orig'
 
     def test_expected_values(self, images):
         assert images._208x208 == self._208x208
@@ -21,4 +21,7 @@ class TestImages:
         assert images._300x300 == self._300x300
 
     def test_equality(self):
-        pass
+        a = Images(self._208x208, self._300x300)
+        b = Images(self._208x208, self._300x300)
+
+        assert a == b

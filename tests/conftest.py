@@ -2,15 +2,13 @@ import pytest
 
 from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyrics, Track, \
     InvocationInfo, Playlist, AutoRenewable, Station, MadeFor, Normalization, Major, TrackPosition, Best, Chart, \
-    Restrictions, Permissions, Plus, Product, Cover, \
-    PlayCounter, Sequence, Price, Artist, AdParams, Description, Subscription, Id, Images, \
-    Pager, Account, Client, TrackShort
+    Restrictions, Permissions, Plus, Product, Cover, PlayCounter, Sequence, Price, Artist, AdParams, Description, \
+    Subscription, Id, Images, Pager, Account, Client, TrackShort, Value, DiscreteScale
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
-    TestTrackPosition, TestBest, TestChart, TestRestrictions, \
-    TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, TestSequence, TestPrice, TestArtist, \
-    TestAdParams, TestDescription, TestSubscription, \
-    TestId, TestImages, TestPager, TestAccount, TestTrackShort
+    TestTrackPosition, TestBest, TestChart, TestRestrictions, TestPermissions, TestPlus, TestProduct, TestCover, \
+    TestPlayCounter, TestSequence, TestPrice, TestArtist, TestAdParams, TestDescription, TestSubscription, TestId, \
+    TestImages, TestPager, TestAccount, TestTrackShort, TestValue, TestDiscreteScale
 
 
 @pytest.fixture(scope='session')
@@ -107,8 +105,8 @@ def made_for(user_info, case_forms):
 
 
 @pytest.fixture(scope='session')
-def play_counter(description):
-    return PlayCounter(TestPlayCounter.value, description, TestPlayCounter.updated)
+def play_counter():
+    return PlayCounter(TestPlayCounter.value, TestPlayCounter.description, TestPlayCounter.updated)
 
 
 @pytest.fixture(scope='session')
@@ -147,6 +145,11 @@ def images():
 @pytest.fixture(scope='session')
 def normalization():
     return Normalization(TestNormalization.gain, TestNormalization.peak)
+
+
+@pytest.fixture(scope='class')
+def discrete_scale(value):
+    return DiscreteScale(TestDiscreteScale.type, TestDiscreteScale.name, value, value)
 
 
 @pytest.fixture(scope='session')
@@ -312,8 +315,13 @@ def tracks_in_chart(chart):
 
 
 @pytest.fixture(scope='session')
-def track_id(id):
-    return TrackId(id, TestTrackId.album_id)
+def track_id():
+    return TrackId(TestTrackId.id, TestTrackId.album_id)
+
+
+@pytest.fixture(scope='class')
+def value():
+    return Value(TestValue.value, TestValue.name)
 
 
 @pytest.fixture(scope='session')

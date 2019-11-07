@@ -2,8 +2,8 @@ from yandex_music import Price
 
 
 class TestPrice:
-    amount = None
-    currency = None
+    amount = 99
+    currency = 'RUB'
 
     def test_expected_values(self, price):
         assert price.amount == self.amount
@@ -24,4 +24,13 @@ class TestPrice:
         assert price.currency == self.currency
 
     def test_equality(self):
-        pass
+        a = Price(self.amount, self.currency)
+        b = Price(10, self.currency)
+        c = Price(self.amount, 'USD')
+        d = Price(self.amount, self.currency)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

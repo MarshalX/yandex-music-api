@@ -1,11 +1,4 @@
-import pytest
-
 from yandex_music import Value
-
-
-@pytest.fixture(scope='class')
-def value():
-    return Value(TestValue.value, TestValue.name)
 
 
 class TestValue:

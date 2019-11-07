@@ -27,6 +27,7 @@ class Icon(YandexMusicObject):
         self.image_url = image_url
 
         self.client = client
+        self._id_attrs = (self.background_color, self.image_url)
 
     def download(self, filename, size='200x200'):
         """Загрузка иконки.

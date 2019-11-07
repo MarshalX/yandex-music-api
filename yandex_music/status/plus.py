@@ -27,6 +27,7 @@ class Plus(YandexMusicObject):
         self.is_tutorial_completed = is_tutorial_completed
 
         self.client = client
+        self._id_attrs = (self.has_plus, self.is_tutorial_completed)
 
     @classmethod
     def de_json(cls, data, client):

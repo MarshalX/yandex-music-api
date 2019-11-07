@@ -31,6 +31,7 @@ class Pager(YandexMusicObject):
         self.per_page = per_page
 
         self.client = client
+        self._id_attrs = (self.total, self.page, self.per_page)
 
     @classmethod
     def de_json(cls, data, client):

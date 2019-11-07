@@ -13,6 +13,7 @@ class PlayCounter(YandexMusicObject):
         self.updated = updated
 
         self.client = client
+        self._id_attrs = (self.value, self.description, self.updated)
 
     @classmethod
     def de_json(cls, data, client):
