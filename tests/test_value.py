@@ -9,8 +9,8 @@ def value():
 
 
 class TestValue:
-    value = None
-    name = None
+    value = 'not-russian'
+    name = 'Иностранный'
 
     def test_expected_values(self, value):
         assert value.value == self.value
@@ -31,4 +31,12 @@ class TestValue:
         assert value.name == self.name
 
     def test_equality(self):
-        pass
+        a = Value(self.value, self.name)
+        b = Value(self.value, '')
+        c = Value(self.value, self.name)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

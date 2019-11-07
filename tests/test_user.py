@@ -9,11 +9,11 @@ def user():
 
 
 class TestUser:
-    uid = None
-    login = None
-    name = None
-    sex = None
-    verified = None
+    uid = 503646255
+    login = 'yamusic-daily'
+    name = 'yamusic-daily'
+    sex = 'unknown'
+    verified = False
 
     def test_expected_values(self, user):
         assert user.uid == self.uid
@@ -45,4 +45,12 @@ class TestUser:
         assert user.verified == self.verified
 
     def test_equality(self):
-        pass
+        a = User(self.uid, self.login, self.name, self.sex, self.verified)
+        b = User(1, self.login, self.name, self.sex, self.verified)
+        c = User(self.uid, self.login, '', self.sex, self.verified)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

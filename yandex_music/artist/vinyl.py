@@ -19,6 +19,7 @@ class Vinyl(YandexMusicObject):
         self.media = media
 
         self.client = client
+        self._id_attrs = (self.title, self.price, self.year)
 
     @classmethod
     def de_json(cls, data, client):

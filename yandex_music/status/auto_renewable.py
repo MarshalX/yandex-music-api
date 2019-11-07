@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject, Product
 
 
@@ -7,7 +5,7 @@ class AutoRenewable(YandexMusicObject):
     """Класс представляющий автопродление подписки.
 
     Attributes:
-        expires (:obj:`datetime.datetime`): Дата истечения подписки.
+        expires (:obj:`str`): Дата истечения подписки.
         vendor (:obj:`str`): Продавец.
         vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
         product_id (:obj:`str`): Уникальный идентификатор продукта.
@@ -40,7 +38,7 @@ class AutoRenewable(YandexMusicObject):
                  order_id=None,
                  client=None,
                  **kwargs):
-        self.expires = datetime.fromisoformat(expires)
+        self.expires = expires
         self.vendor = vendor
         self.vendor_help_url = vendor_help_url
         self.product_id = product_id

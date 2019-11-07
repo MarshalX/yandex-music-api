@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -20,10 +18,10 @@ class Feed(YandexMusicObject):
         self.is_wizard_passed = is_wizard_passed
         self.generated_playlists = generated_playlists
         self.headlines = headlines
-        self.today = datetime.fromisoformat(today)
+        self.today = today
         self.days = days
 
-        self.next_revision = datetime.fromisoformat(next_revision) if next_revision else next_revision
+        self.next_revision = next_revision
 
         self.client = client
 

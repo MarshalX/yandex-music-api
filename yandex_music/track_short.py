@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -8,7 +6,7 @@ class TrackShort(YandexMusicObject):
 
     Attributes:
         id (:obj:`str`): Уникальный идентификатор трека.
-        timestamp (:obj:`datetime.datetime`): Дата TODO.
+        timestamp (:obj:`str`): Дата TODO.
         album_id (:obj:`str`): Уникальный идентификатор альбома.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
@@ -29,13 +27,14 @@ class TrackShort(YandexMusicObject):
                  client=None,
                  **kwargs):
         self.id = id
-        self.timestamp = datetime.fromisoformat(timestamp)
+        self.timestamp = timestamp
 
         self.album_id = album_id
 
         self._track = None
 
         self.client = client
+        self._id_attrs = (self.id,)
 
     @property
     def track(self):

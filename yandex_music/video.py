@@ -33,6 +33,7 @@ class Video(YandexMusicObject):
         self.regions = regions
 
         self.client = client
+        self._id_attrs = (self.provider_video_id, self.youtube_url, self.title)
 
     @classmethod
     def de_json(cls, data, client):

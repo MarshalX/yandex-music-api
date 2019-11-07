@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -43,7 +41,7 @@ class Album(YandexMusicObject):
 
         self.genre = genre
         self.year = year
-        self.release_date = datetime.fromisoformat(release_date) if release_date else release_date
+        self.release_date = release_date
         self.bests = bests
         self.prerolls = prerolls
         self.volumes = volumes

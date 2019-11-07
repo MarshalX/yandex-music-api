@@ -9,8 +9,8 @@ def title():
 
 
 class TestTitle:
-    title = None
-    full_title = None
+    title = 'Hammasi'
+    full_title = 'Barcha janrlar musiqasi'
 
     def test_expected_values(self, title):
         assert title.title == self.title
@@ -30,4 +30,12 @@ class TestTitle:
         assert title.full_title == self.full_title
 
     def test_equality(self):
-        pass
+        a = Title(self.title, self.full_title)
+        b = Title('')
+        c = Title(self.title)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

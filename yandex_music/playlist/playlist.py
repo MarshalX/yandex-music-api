@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -50,8 +48,8 @@ class Playlist(YandexMusicObject):
         self.snapshot = snapshot
         self.visibility = visibility
         self.collective = collective
-        self.created = datetime.fromisoformat(created) if created else created
-        self.modified = datetime.fromisoformat(modified) if modified else modified
+        self.created = created
+        self.modified = modified
         self.available = available
         self.is_banner = is_banner
         self.is_premiere = is_premiere

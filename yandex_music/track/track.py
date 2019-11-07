@@ -90,7 +90,7 @@ class Track(YandexMusicObject):
             size (:obj:`str`, optional): Размер обложки.
         """
 
-        self.client.request.download(f'https://{self.og_image("%%", size)}', filename)
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
     def download(self, filename, codec='mp3', bitrate_in_kbps=192):
         if self.download_info is None:

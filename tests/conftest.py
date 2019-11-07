@@ -4,18 +4,23 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     InvocationInfo, Playlist, AutoRenewable, Station, MadeFor, Normalization, Major, TrackPosition, Best, Chart, \
     Restrictions, Permissions, Plus, Product, Cover, \
     PlayCounter, Sequence, Price, Artist, AdParams, Description, Subscription, Id, Images, \
-    Pager, Account, Client
+    Pager, Account, Client, TrackShort
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestRestrictions, \
     TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, TestSequence, TestPrice, TestArtist, \
     TestAdParams, TestDescription, TestSubscription, \
-    TestId, TestImages, TestPager, TestAccount
+    TestId, TestImages, TestPager, TestAccount, TestTrackShort
 
 
 @pytest.fixture(scope='session')
 def client():
     return Client()
+
+
+@pytest.fixture(scope='session')
+def track_short():
+    return TrackShort(TestTrackShort.id, TestTrackShort.timestamp, TestTrackShort.album_id)
 
 
 @pytest.fixture(scope='session')

@@ -2,8 +2,8 @@ from yandex_music import TrackPosition
 
 
 class TestTrackPosition:
-    volume = None
-    index = None
+    volume = 1
+    index = 10
 
     def test_expected_values(self, track_position):
         assert track_position.volume == self.volume
@@ -24,4 +24,12 @@ class TestTrackPosition:
         assert track_position.index == self.index
 
     def test_equality(self):
-        pass
+        a = TrackPosition(self.volume, self.index)
+        b = TrackPosition(5, self.index)
+        c = TrackPosition(self.volume, 10)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

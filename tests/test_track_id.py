@@ -2,7 +2,8 @@ from yandex_music import TrackId
 
 
 class TestTrackId:
-    album_id = None
+    id = 74340
+    album_id = 7025
 
     def test_expected_values(self, track_id, id):
         assert track_id.id == id
@@ -22,4 +23,12 @@ class TestTrackId:
         assert track_id.album_id == self.album_id
 
     def test_equality(self):
-        pass
+        a = TrackId(self.id, self.album_id)
+        b = TrackId(10, self.album_id)
+        c = TrackId(self.id)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

@@ -11,6 +11,7 @@ class Title(YandexMusicObject):
         self.full_title = full_title
 
         self.client = client
+        self._id_attrs = (self.title,)
 
     @classmethod
     def de_json(cls, data, client):

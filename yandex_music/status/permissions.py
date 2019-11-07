@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -7,7 +5,7 @@ class Permissions(YandexMusicObject):
     """Класс предоставляющий информацию о правах пользователя, их изначальных значениях и даты окончания.
 
     Attributes:
-        until (:obj:`datetime.datetime`): Дата окончания прав.
+        until (:obj:`str`): Дата окончания прав.
         values (:obj:`list` из :obj:`str`): Список прав.
         default (:obj:`list` из :obj:`str`): Список изначальных прав.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
@@ -28,7 +26,7 @@ class Permissions(YandexMusicObject):
                  default,
                  client=None,
                  **kwargs):
-        self.until = datetime.fromisoformat(until)
+        self.until = until
         self.values = values
         self.default = default
 
