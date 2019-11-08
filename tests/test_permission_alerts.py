@@ -9,7 +9,7 @@ def permission_alerts():
 
 
 class TestPermissionAlerts:
-    alerts = None
+    alerts = []
 
     def test_expected_values(self, permission_alerts):
         assert permission_alerts.alerts == self.alerts
@@ -26,5 +26,9 @@ class TestPermissionAlerts:
 
         assert permission_alerts.alerts == self.alerts
 
-    def test_equality(self):
-        pass
+    def test_equality(self, permissions):
+        a = PermissionAlerts([])
+
+        assert a != permissions
+        assert hash(a) != hash(permissions)
+        assert a is not permissions

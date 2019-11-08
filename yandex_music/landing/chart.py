@@ -18,6 +18,7 @@ class Chart(YandexMusicObject):
         self.track_id = track_id
 
         self.client = client
+        self._id_attrs = (self.position, self.progress, self.listeners, self.shift)
 
     @classmethod
     def de_json(cls, data, client):

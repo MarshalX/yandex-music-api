@@ -34,8 +34,7 @@ class Genre(YandexMusicObject):
         self.hide_in_regions = hide_in_regions
 
         self.client = client
-        self._id_attrs = (self.id, self.weight, self.composer_top, self.title,
-                          self.titles, self.images, self.show_in_menu)
+        self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
 
     @classmethod
     def de_json(cls, data, client):

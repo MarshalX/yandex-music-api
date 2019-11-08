@@ -45,6 +45,7 @@ class Settings(YandexMusicObject):
         self.promo_codes_enabled = promo_codes_enabled
 
         self.client = client
+        self._id_attrs = (self.web_payment_url, self.promo_codes_enabled)
 
     @classmethod
     def de_json(cls, data, client):

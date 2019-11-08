@@ -4,14 +4,15 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     InvocationInfo, Playlist, AutoRenewable, Station, MadeFor, Normalization, Major, TrackPosition, Best, Chart, \
     Restrictions, Permissions, Plus, Product, Cover, PlayCounter, Sequence, Price, Artist, AdParams, Description, \
     Subscription, Id, Images, Pager, Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, \
-    PassportPhone, User, Promotion, Title, PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Enum
+    PassportPhone, User, Promotion, Title, PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, \
+    Status, Settings, StationResult, Enum, Label
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
-    TestTrackPosition, TestBest, TestChart, TestRestrictions, TestPermissions, TestPlus, TestProduct, TestCover, \
+    TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, \
     TestPlayCounter, TestSequence, TestPrice, TestArtist, TestAdParams, TestDescription, TestSubscription, TestId, \
     TestImages, TestPager, TestAccount, TestTrackShort, TestValue, TestDiscreteScale, TestPlaylistId, TestMixLink, \
     TestLink, TestPassportPhone, TestUser, TestPromotion, TestTitle, TestPersonalPlaylistsData, TestRotorSettings, \
-    TestTrackShortOld, TestEnum
+    TestTrackShortOld, TestEnum, TestStatus, TestSettings, TestStationResult, TestLabel
 
 
 @pytest.fixture(scope='session')
@@ -62,14 +63,13 @@ def invocation_info():
 
 
 @pytest.fixture(scope='session')
-def settings(in_app_products, native_products):
-    return Settings(in_app_products, native_products, TestSettings.web_payment_url, TestSettings.promo_codes_enabled,
-                    TestSettings.web_payment_month_product_price)
+def settings(product, price):
+    return Settings([product], [product], TestSettings.web_payment_url, TestSettings.promo_codes_enabled, price)
 
 
 @pytest.fixture(scope='session')
-def counts(tracks, also_albums):
-    return Counts(tracks, TestCounts.direct_albums, also_albums, TestCounts.also_tracks)
+def counts():
+    return Counts(TestCounts.tracks, TestCounts.direct_albums, TestCounts.also_albums, TestCounts.also_tracks)
 
 
 @pytest.fixture(scope='session')
@@ -83,13 +83,73 @@ def pager():
 
 
 @pytest.fixture(scope='session')
-def artist(id, cover, counts, ratings, links, popular_tracks, description):
-    return Artist(id, TestArtist.name, TestArtist.various, TestArtist.composer, cover, TestArtist.genres,
-                  TestArtist.op_image, TestArtist.no_pictures_from_search, counts, TestArtist.available, ratings, links,
-                  TestArtist.tickets_available, TestArtist.likes_count, popular_tracks, TestArtist.regions,
+def artist(cover, counts, ratings, link, track, description):
+    return Artist(TestArtist.id, TestArtist.name, TestArtist.various, TestArtist.composer, cover, TestArtist.genres,
+                  TestArtist.op_image, TestArtist.no_pictures_from_search, counts, TestArtist.available, ratings,
+                  [link], TestArtist.tickets_available, TestArtist.likes_count, [track], TestArtist.regions,
                   TestArtist.decomposed, TestArtist.full_names, description, TestArtist.countries,
                   TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases, TestArtist.init_date,
                   TestArtist.end_date)
+
+
+@pytest.fixture(scope='session')
+def artist_without_tracks(cover, counts, ratings, link, description):
+    return Artist(TestArtist.id, TestArtist.name, TestArtist.various, TestArtist.composer, cover, TestArtist.genres,
+                  TestArtist.op_image, TestArtist.no_pictures_from_search, counts, TestArtist.available, ratings,
+                  [link], TestArtist.tickets_available, TestArtist.likes_count, [], TestArtist.regions,
+                  TestArtist.decomposed, TestArtist.full_names, description, TestArtist.countries,
+                  TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases, TestArtist.init_date,
+                  TestArtist.end_date)
+
+
+@pytest.fixture(scope='session')
+def track(artist_without_tracks, album_without_tracks, major, normalization):
+    return Track(TestTrack.id, TestTrack.title, TestTrack.available, TestTrack.available_for_premium_users,
+                 [artist_without_tracks], [album_without_tracks], TestTrack.lyrics_available, TestTrack.real_id,
+                 TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms,
+                 TestTrack.storage_dir, TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
+                 TestTrack.available_as_rbt, TestTrack.content_warning, TestTrack.explicit,
+                 TestTrack.preview_duration_ms, TestTrack.available_full_without_permission)
+
+
+@pytest.fixture(scope='session')
+def track_without_artists(album_without_tracks, major, normalization):
+    return Track(TestTrack.id, TestTrack.title, TestTrack.available, TestTrack.available_for_premium_users, [],
+                 [album_without_tracks], TestTrack.lyrics_available, TestTrack.real_id, TestTrack.og_image,
+                 TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms, TestTrack.storage_dir,
+                 TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions, TestTrack.available_as_rbt,
+                 TestTrack.content_warning, TestTrack.explicit, TestTrack.preview_duration_ms,
+                 TestTrack.available_full_without_permission)
+
+
+@pytest.fixture(scope='session')
+def track_without_albums(artist, major, normalization):
+    return Track(TestTrack.id, TestTrack.title, TestTrack.available, TestTrack.available_for_premium_users,
+                 [artist], [], TestTrack.lyrics_available, TestTrack.real_id, TestTrack.og_image, TestTrack.type,
+                 TestTrack.cover_uri, major, TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size,
+                 normalization, TestTrack.error, TestTrack.regions, TestTrack.available_as_rbt,
+                 TestTrack.content_warning, TestTrack.explicit, TestTrack.preview_duration_ms,
+                 TestTrack.available_full_without_permission)
+
+
+@pytest.fixture(scope='session')
+def album(artist, label, track_position, track):
+    return Album(TestAlbum.id, TestAlbum.title, TestAlbum.track_count, [artist], [label],
+                 TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.cover_uri,
+                 TestAlbum.content_warning, TestAlbum.original_release_year, TestAlbum.genre, TestAlbum.og_image,
+                 TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important, TestAlbum.available_for_mobile,
+                 TestAlbum.available_partially, TestAlbum.bests, TestAlbum.prerolls, [[track]], TestAlbum.year,
+                 TestAlbum.release_date, TestAlbum.type, track_position, TestAlbum.regions)
+
+
+@pytest.fixture(scope='session')
+def album_without_tracks(artist_without_tracks, label, track_position):
+    return Album(TestAlbum.id, TestAlbum.title, TestAlbum.track_count, [artist_without_tracks], [label],
+                 TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.cover_uri,
+                 TestAlbum.content_warning, TestAlbum.original_release_year, TestAlbum.genre, TestAlbum.og_image,
+                 TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important, TestAlbum.available_for_mobile,
+                 TestAlbum.available_partially, TestAlbum.bests, TestAlbum.prerolls, [[]], TestAlbum.year,
+                 TestAlbum.release_date, TestAlbum.type, track_position, TestAlbum.regions)
 
 
 @pytest.fixture(scope='session')
@@ -131,8 +191,8 @@ def case_forms():
 
 @pytest.fixture(scope='session')
 def lyrics():
-    return Lyrics(TestLyrics.id, TestLyrics.lyrics, TestLyrics.full_lyrics, TestLyrics.has_rights, TestLyrics.text_language,
-                  TestLyrics.show_translation)
+    return Lyrics(TestLyrics.id, TestLyrics.lyrics, TestLyrics.full_lyrics, TestLyrics.has_rights,
+                  TestLyrics.text_language, TestLyrics.show_translation)
 
 
 @pytest.fixture(scope='session')
@@ -176,15 +236,6 @@ def discrete_scale(value):
 @pytest.fixture(scope='session')
 def major():
     return Major(TestMajor.id, TestMajor.name)
-
-
-@pytest.fixture(scope='session')
-def track(id, artists, albums, major, normalization):
-    return Track(id, TestTrack.title, TestTrack.available, TestTrack.available_for_premium_users, artists, albums,
-                 TestTrack.lyrics_available, TestTrack.real_id, TestTrack.og_image, TestTrack.type, TestTrack.cover_uri,
-                 major, TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size, normalization,
-                 TestTrack.error, TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
-                 TestTrack.explicit, TestTrack.preview_duration_ms, TestTrack.available_full_without_permission)
 
 
 @pytest.fixture(scope='session')
@@ -253,13 +304,8 @@ def playlist_id():
 
 
 @pytest.fixture(scope='session')
-def album(id, artists, labels, track_position):
-    return Album(id, TestAlbum.title, TestAlbum.cover_uri, TestAlbum.track_count, artists, labels, TestAlbum.available,
-                 TestAlbum.available_for_premium_users, TestAlbum.content_warning, TestAlbum.original_release_year,
-                 TestAlbum.genre, TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
-                 TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests, TestAlbum.prerolls,
-                 TestAlbum.volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type, track_position,
-                 TestAlbum.regions)
+def label():
+    return Label(TestLabel.id, TestLabel.name)
 
 
 @pytest.fixture(scope='session')
@@ -270,6 +316,13 @@ def track_position():
 @pytest.fixture(scope='session')
 def best():
     return Best(TestBest.type, TestBest.result, TestBest.text)
+
+
+@pytest.fixture(scope='session')
+def status(account, permissions, subscription, plus):
+    return Status(account, permissions, subscription, TestStatus.cache_limit, TestStatus.subeditor,
+                  TestStatus.subeditor_level, plus, TestStatus.default_email, TestStatus.skips_per_hour,
+                  TestStatus.station_exists, TestStatus.premium_region)
 
 
 @pytest.fixture(scope='session')
@@ -298,9 +351,14 @@ def sequence(track):
 
 
 @pytest.fixture(scope='session')
-def station(id, icon, mts_icon, geocell_icon, restrictions, restrictions2, parent_id):
-    return Station(id, TestStation.name, icon, mts_icon, geocell_icon, TestStation.id_for_from, restrictions,
-                   restrictions2, parent_id)
+def station(id, icon, restrictions):
+    return Station(id, TestStation.name, icon, icon, icon, TestStation.id_for_from, restrictions, restrictions, id)
+
+
+@pytest.fixture(scope='session')
+def station_result(station, rotor_settings, ad_params):
+    return StationResult(station, rotor_settings, rotor_settings, ad_params, TestStationResult.explanation,
+                         TestStationResult.prerolls)
 
 
 @pytest.fixture(scope='session')
@@ -310,6 +368,5 @@ def ad_params():
 
 
 @pytest.fixture(scope='session')
-def restrictions():
-    return Restrictions(TestRestrictions.language, TestRestrictions.diversity, TestRestrictions.mood,
-                        TestRestrictions.energy, TestRestrictions.mood_energy)
+def restrictions(enum, discrete_scale):
+    return Restrictions(enum, enum, discrete_scale, discrete_scale, enum)

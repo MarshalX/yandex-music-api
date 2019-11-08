@@ -1,11 +1,4 @@
-import pytest
-
 from yandex_music import Label
-
-
-@pytest.fixture(scope='class')
-def label():
-    return Label(TestLabel.id, TestLabel.name)
 
 
 class TestLabel:

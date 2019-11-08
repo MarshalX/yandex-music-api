@@ -1,20 +1,11 @@
-import pytest
-
 from yandex_music import Status
 
 
-@pytest.fixture(scope='class')
-def status(account, permissions, subscription, plus):
-    return Status(account, permissions, subscription, TestStatus.cache_limit, TestStatus.subeditor,
-                  TestStatus.subeditor_level, plus, TestStatus.default_email, TestStatus.skips_per_hour,
-                  TestStatus.station_exists, TestStatus.premium_region)
-
-
 class TestStatus:
-    cache_limit = None
-    subeditor = None
-    subeditor_level = None
-    default_email = None
+    cache_limit = 99
+    subeditor = False
+    subeditor_level = 0
+    default_email = 'Ilya@marshal.by'
     skips_per_hour = None
     station_exists = None
     premium_region = None
@@ -33,18 +24,18 @@ class TestStatus:
         assert status.premium_region == self.premium_region
 
     def test_de_json_required(self, client, account, permissions):
-        json_dict = {'account': account, 'permissions': permissions}
+        json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict()}
         status = Status.de_json(json_dict, client)
 
         assert status.account == account
         assert status.permissions == permissions
 
     def test_de_json_all(self, client, account, permissions, subscription, plus):
-        json_dict = {'account': account, 'permissions': permissions, 'subscription': subscription,
-                     'cache_limit': self.cache_limit, 'subeditor': self.subeditor,
-                     'subeditor_level': self.subeditor_level, 'plus': plus, 'default_email': self.default_email,
-                     'skips_per_hour': self.skips_per_hour, 'station_exists': self.station_exists,
-                     'premium_region': self.premium_region}
+        json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict(),
+                     'subscription': subscription.to_dict(), 'cache_limit': self.cache_limit,
+                     'subeditor': self.subeditor, 'subeditor_level': self.subeditor_level, 'plus': plus.to_dict(),
+                     'default_email': self.default_email, 'skips_per_hour': self.skips_per_hour,
+                     'station_exists': self.station_exists, 'premium_region': self.premium_region}
         status = Status.de_json(json_dict, client)
 
         assert status.account == account
@@ -59,5 +50,13 @@ class TestStatus:
         assert status.station_exists == self.station_exists
         assert status.premium_region == self.premium_region
 
-    def test_equality(self):
-        pass
+    def test_equality(self, account, permissions, subscription):
+        a = Status(account, permissions)
+        b = Status(None, permissions, subscription, self.cache_limit)
+        c = Status(account, permissions)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

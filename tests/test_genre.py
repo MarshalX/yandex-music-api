@@ -77,5 +77,14 @@ class TestGenre:
         assert genre.sub_genres == [genre_without_sub_genre]
         assert genre.hide_in_regions == self.hide_in_regions
 
-    def test_equality(self):
-        pass
+    def test_equality(self, title, images):
+        a = Genre(self.id, self.weight, self.composer_top, self.title, {'uz': title}, images, self.show_in_menu)
+        b = Genre(self.id, self.weight, False, '', {'uz': title}, images, self.show_in_menu)
+        c = Genre(self.id, 30, self.composer_top, self.title, {'uz': title}, images, self.show_in_menu)
+        d = Genre(self.id, self.weight, self.composer_top, self.title, {'uz': title}, images, self.show_in_menu)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

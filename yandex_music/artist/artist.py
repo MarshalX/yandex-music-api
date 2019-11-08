@@ -60,7 +60,7 @@ class Artist(YandexMusicObject):
         self.end_date = end_date
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.name, self.various, self.composer, self.cover)
 
     def download_op_image(self, filename, size='200x200'):
         """Загрузка обложки.
