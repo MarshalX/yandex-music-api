@@ -1,19 +1,11 @@
-import pytest
-
 from yandex_music import RotorSettings
 
 
-@pytest.fixture(scope='class')
-def rotor_settings():
-    return RotorSettings(TestRotorSettings.language, TestRotorSettings.diversity, TestRotorSettings.mood,
-                         TestRotorSettings.energy, TestRotorSettings.mood_energy)
-
-
 class TestRotorSettings:
-    language = None
-    diversity = None
-    mood = None
-    energy = None
+    language = 'not-russian'
+    diversity = 'default'
+    mood = 2
+    energy = 2
     mood_energy = None
 
     def test_expected_values(self, rotor_settings):
@@ -42,4 +34,12 @@ class TestRotorSettings:
         assert rotor_settings.mood_energy == self.mood_energy
 
     def test_equality(self):
-        pass
+        a = RotorSettings(self.language, self.diversity)
+        b = RotorSettings('', self.diversity)
+        c = RotorSettings(self.language, self.diversity)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

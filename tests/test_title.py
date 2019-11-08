@@ -1,11 +1,4 @@
-import pytest
-
 from yandex_music import Title
-
-
-@pytest.fixture(scope='class')
-def title():
-    return Title(TestTitle.title, TestTitle.full_title)
 
 
 class TestTitle:

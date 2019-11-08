@@ -1,11 +1,4 @@
-import pytest
-
 from yandex_music import User
-
-
-@pytest.fixture(scope='class')
-def user():
-    return User(TestUser.uid, TestUser.login, TestUser.name, TestUser.sex, TestUser.verified)
 
 
 class TestUser:

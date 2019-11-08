@@ -1,11 +1,4 @@
-import pytest
-
 from yandex_music import TrackShortOld
-
-
-@pytest.fixture(scope='class')
-def track_short_old(track_id):
-    return TrackShortOld(track_id, TestTrackShortOld.timestamp)
 
 
 class TestTrackShortOld:

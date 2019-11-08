@@ -1,15 +1,8 @@
-import pytest
-
 from yandex_music import PersonalPlaylistsData
 
 
-@pytest.fixture(scope='class')
-def personal_playlists_data():
-    return PersonalPlaylistsData(TestPersonalPlaylistsData.is_wizard_passed)
-
-
 class TestPersonalPlaylistsData:
-    is_wizard_passed = None
+    is_wizard_passed = True
 
     def test_expected_values(self, personal_playlists_data):
         assert personal_playlists_data.is_wizard_passed == self.is_wizard_passed
@@ -27,4 +20,12 @@ class TestPersonalPlaylistsData:
         assert personal_playlists_data.is_wizard_passed == self.is_wizard_passed
 
     def test_equality(self):
-        pass
+        a = PersonalPlaylistsData(self.is_wizard_passed)
+        b = PersonalPlaylistsData(False)
+        c = PersonalPlaylistsData(self.is_wizard_passed)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

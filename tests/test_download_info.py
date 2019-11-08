@@ -10,11 +10,12 @@ def download_info():
 
 
 class TestDownloadInfo:
-    codec = None
-    bitrate_in_kbps = None
-    gain = None
-    preview = None
-    download_info_url = None
+    codec = 'mp3'
+    bitrate_in_kbps = 'mp3'
+    gain = False
+    preview = False
+    download_info_url = 'https://storage.mds.yandex.net/file-download-info/136146_d158926e.14534319.6.10994777/320' \
+                        '?sign=8caf5ea72c946d4753f15298e4033b961c7acb1bb4db48eb5e6b59621e387d64&ts=5dc4a6f2 '
 
     def test_expected_values(self, download_info):
         assert download_info.codec == self.codec
@@ -46,4 +47,12 @@ class TestDownloadInfo:
         assert download_info.download_info_url == self.download_info_url
 
     def test_equality(self):
-        pass
+        a = DownloadInfo(self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
+        b = DownloadInfo(self.codec, 128, self.gain, True, self.download_info_url)
+        c = DownloadInfo(self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

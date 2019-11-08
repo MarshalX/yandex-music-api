@@ -2,12 +2,12 @@ from yandex_music import Cover
 
 
 class TestCover:
-    type = None
-    uri = None
+    type = 'pic'
+    uri = 'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461'
     items_uri = None
-    dir = None
-    version = None
-    custom = None
+    dir = '/get-music-user-playlist/34120/pvg900XixWaHcr/'
+    version = '1572609906461'
+    custom = True
     prefix = None
     error = None
 
@@ -39,5 +39,9 @@ class TestCover:
         assert cover.prefix == self.prefix
         assert cover.error == self.error
 
-    def test_equality(self):
-        pass
+    def test_equality(self, images):
+        a = Cover(self.type, self.uri, self.items_uri)
+
+        assert a != images
+        assert hash(a) != hash(images)
+        assert a is not images

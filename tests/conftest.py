@@ -4,13 +4,14 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     InvocationInfo, Playlist, AutoRenewable, Station, MadeFor, Normalization, Major, TrackPosition, Best, Chart, \
     Restrictions, Permissions, Plus, Product, Cover, PlayCounter, Sequence, Price, Artist, AdParams, Description, \
     Subscription, Id, Images, Pager, Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, \
-    PassportPhone
+    PassportPhone, User, Promotion, Title, PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Enum
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestRestrictions, TestPermissions, TestPlus, TestProduct, TestCover, \
     TestPlayCounter, TestSequence, TestPrice, TestArtist, TestAdParams, TestDescription, TestSubscription, TestId, \
     TestImages, TestPager, TestAccount, TestTrackShort, TestValue, TestDiscreteScale, TestPlaylistId, TestMixLink, \
-    TestLink, TestPassportPhone
+    TestLink, TestPassportPhone, TestUser, TestPromotion, TestTitle, TestPersonalPlaylistsData, TestRotorSettings, \
+    TestTrackShortOld, TestEnum
 
 
 @pytest.fixture(scope='session')
@@ -21,6 +22,21 @@ def client():
 @pytest.fixture(scope='session')
 def track_short():
     return TrackShort(TestTrackShort.id, TestTrackShort.timestamp, TestTrackShort.album_id)
+
+
+@pytest.fixture(scope='session')
+def track_short_old(track_id):
+    return TrackShortOld(track_id, TestTrackShortOld.timestamp)
+
+
+@pytest.fixture(scope='session')
+def play_contexts_data(track_short_old):
+    return PlayContextsData([track_short_old])
+
+
+@pytest.fixture(scope='session')
+def enum(value):
+    return Enum(TestEnum.type, TestEnum.name, [value])
 
 
 @pytest.fixture(scope='session')
@@ -35,11 +51,6 @@ def cover():
 
 
 @pytest.fixture(scope='session')
-def all_covers(cover):
-    return [cover]
-
-
-@pytest.fixture(scope='class')
 def link():
     return Link(TestLink.title, TestLink.href, TestLink.type, TestLink.social_network)
 
@@ -82,33 +93,13 @@ def artist(id, cover, counts, ratings, links, popular_tracks, description):
 
 
 @pytest.fixture(scope='session')
-def artists(artist):
-    return [artist]
-
-
-@pytest.fixture(scope='session')
-def artists(artist):
-    return [artist]
-
-
-@pytest.fixture(scope='session')
-def results(artist):
-    return [artist]
-
-
-@pytest.fixture(scope='session')
-def similar_to_artists_from_history(artist):
-    return [artist]
-
-
-@pytest.fixture(scope='session')
 def ratings():
     return Ratings(TestRatings.week, TestRatings.month, TestRatings.day)
 
 
 @pytest.fixture(scope='session')
-def made_for(user_info, case_forms):
-    return MadeFor(user_info, case_forms)
+def made_for(user, case_forms):
+    return MadeFor(user, case_forms)
 
 
 @pytest.fixture(scope='session')
@@ -139,8 +130,8 @@ def case_forms():
 
 
 @pytest.fixture(scope='session')
-def lyrics(id):
-    return Lyrics(id, lyrics, TestLyrics.full_lyrics, TestLyrics.has_rights, TestLyrics.text_language,
+def lyrics():
+    return Lyrics(TestLyrics.id, TestLyrics.lyrics, TestLyrics.full_lyrics, TestLyrics.has_rights, TestLyrics.text_language,
                   TestLyrics.show_translation)
 
 
@@ -154,10 +145,27 @@ def normalization():
     return Normalization(TestNormalization.gain, TestNormalization.peak)
 
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='session')
 def mix_link():
     return MixLink(TestMixLink.title, TestMixLink.url, TestMixLink.url_scheme, TestMixLink.text_color,
                    TestMixLink.background_color, TestMixLink.background_image_uri, TestMixLink.cover_white)
+
+
+@pytest.fixture(scope='session')
+def title():
+    return Title(TestTitle.title, TestTitle.full_title)
+
+
+@pytest.fixture(scope='session')
+def personal_playlists_data():
+    return PersonalPlaylistsData(TestPersonalPlaylistsData.is_wizard_passed)
+
+
+@pytest.fixture(scope='session')
+def promotion():
+    return Promotion(TestPromotion.promo_id, TestPromotion.title, TestPromotion.subtitle, TestPromotion.heading,
+                     TestPromotion.url, TestPromotion.url_scheme, TestPromotion.text_color, TestPromotion.gradient,
+                     TestPromotion.image)
 
 
 @pytest.fixture(scope='session')
@@ -166,8 +174,8 @@ def discrete_scale(value):
 
 
 @pytest.fixture(scope='session')
-def major(id):
-    return Major(id, TestMajor.name)
+def major():
+    return Major(TestMajor.id, TestMajor.name)
 
 
 @pytest.fixture(scope='session')
@@ -177,46 +185,6 @@ def track(id, artists, albums, major, normalization):
                  major, TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size, normalization,
                  TestTrack.error, TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
                  TestTrack.explicit, TestTrack.preview_duration_ms, TestTrack.available_full_without_permission)
-
-
-@pytest.fixture(scope='session')
-def popular_tracks(track):
-    return [track]
-
-
-@pytest.fixture(scope='session')
-def popular_tracks(track):
-    return [track]
-
-
-@pytest.fixture(scope='session')
-def tracks(track):
-    return [track]
-
-
-@pytest.fixture(scope='session')
-def results(track):
-    return [track]
-
-
-@pytest.fixture(scope='session')
-def tracks(track):
-    return [track]
-
-
-@pytest.fixture(scope='session')
-def tracks(track):
-    return [track]
-
-
-@pytest.fixture(scope='session')
-def tracks(track):
-    return [track]
-
-
-@pytest.fixture(scope='session')
-def tracks_to_play(track):
-    return [track]
 
 
 @pytest.fixture(scope='session')
@@ -230,21 +198,21 @@ def auto_renewable(product):
                          TestAutoRenewable.product_id, product, TestAutoRenewable.finished, TestAutoRenewable.order_id)
 
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='session')
 def passport_phone():
     return PassportPhone(TestPassportPhone.phone)
 
 
 @pytest.fixture(scope='session')
-def auto_renewable_list(auto_renewable):
-    return [auto_renewable]
+def user():
+    return User(TestUser.uid, TestUser.login, TestUser.name, TestUser.sex, TestUser.verified)
 
 
 @pytest.fixture(scope='session')
-def account(passport_phones):
-    return Account(TestAccount.now, TestAccount.region, TestAccount.service_available, TestAccount.uid,
+def account(passport_phone):
+    return Account(TestAccount.now, TestAccount.service_available, TestAccount.region, TestAccount.uid,
                    TestAccount.login, TestAccount.full_name, TestAccount.second_name, TestAccount.first_name,
-                   TestAccount.display_name, TestAccount.hosted_user, TestAccount.birthday, passport_phones,
+                   TestAccount.display_name, TestAccount.hosted_user, TestAccount.birthday, [passport_phone],
                    TestAccount.registered_at, TestAccount.has_info_for_app_metrica)
 
 
@@ -260,8 +228,14 @@ def price():
 
 @pytest.fixture(scope='session')
 def subscription(auto_renewable):
-    return Subscription(auto_renewable, TestSubscription.can_start_trial, TestSubscription.mcdonalds,
+    return Subscription([auto_renewable], TestSubscription.can_start_trial, TestSubscription.mcdonalds,
                         TestSubscription.end)
+
+
+@pytest.fixture(scope='session')
+def rotor_settings():
+    return RotorSettings(TestRotorSettings.language, TestRotorSettings.diversity, TestRotorSettings.mood,
+                         TestRotorSettings.energy, TestRotorSettings.mood_energy)
 
 
 @pytest.fixture(scope='session')
@@ -279,16 +253,6 @@ def playlist_id():
 
 
 @pytest.fixture(scope='session')
-def in_app_products(product):
-    return [product]
-
-
-@pytest.fixture(scope='session')
-def native_products(product):
-    return [product]
-
-
-@pytest.fixture(scope='session')
 def album(id, artists, labels, track_position):
     return Album(id, TestAlbum.title, TestAlbum.cover_uri, TestAlbum.track_count, artists, labels, TestAlbum.available,
                  TestAlbum.available_for_premium_users, TestAlbum.content_warning, TestAlbum.original_release_year,
@@ -296,26 +260,6 @@ def album(id, artists, labels, track_position):
                  TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests, TestAlbum.prerolls,
                  TestAlbum.volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type, track_position,
                  TestAlbum.regions)
-
-
-@pytest.fixture(scope='session')
-def albums(album):
-    return [album]
-
-
-@pytest.fixture(scope='session')
-def also_albums(album):
-    return [album]
-
-
-@pytest.fixture(scope='session')
-def albums(album):
-    return [album]
-
-
-@pytest.fixture(scope='session')
-def results(album):
-    return [album]
 
 
 @pytest.fixture(scope='session')
@@ -331,11 +275,6 @@ def best():
 @pytest.fixture(scope='session')
 def chart(track_id):
     return Chart(TestChart.position, TestChart.progress, TestChart.listeners, TestChart.shift, track_id)
-
-
-@pytest.fixture(scope='session')
-def tracks_in_chart(chart):
-    return [chart]
 
 
 @pytest.fixture(scope='session')
@@ -356,11 +295,6 @@ def id():
 @pytest.fixture(scope='session')
 def sequence(track):
     return Sequence(TestSequence.type, track, TestSequence.liked)
-
-
-@pytest.fixture(scope='session')
-def sequence(sequence):
-    return [sequence]
 
 
 @pytest.fixture(scope='session')

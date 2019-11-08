@@ -34,7 +34,7 @@ class Account(YandexMusicObject):
         service_available (:obj:`bool`): Доступен ли сервис.
         hosted_user (:obj:`bool`, optional): Является ли пользователем чьим-то другим.
         birthday (:obj:`str`, optional): Дата рождения.
-        region (:obj:`int`): Регион.
+        region (:obj:`int`, optional): Регион.
         passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Список объектов класса
             :class:`yandex_music.PassportPhone` представляющие мобильные номера.
         registered_at (:obj:`str`, optional): Дата создания учётной записи.

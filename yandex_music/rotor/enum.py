@@ -13,6 +13,7 @@ class Enum(YandexMusicObject):
         self.possible_values = possible_values
 
         self.client = client
+        self._id_attrs = (self.type, self.name)
 
     @classmethod
     def de_json(cls, data, client):

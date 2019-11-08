@@ -2,12 +2,12 @@ from yandex_music import CaseForms
 
 
 class TestCaseForms:
-    nominative = None
-    genitive = None
-    dative = None
-    accusative = None
-    instrumental = None
-    prepositional = None
+    nominative = 'Илья'
+    genitive = 'Ильи'
+    dative = 'Илье'
+    accusative = 'Илью'
+    instrumental = 'Ильей'
+    prepositional = 'Илье'
 
     def test_expected_values(self, case_forms):
         assert case_forms.nominative == self.nominative
@@ -44,4 +44,14 @@ class TestCaseForms:
         assert case_forms.prepositional == self.prepositional
 
     def test_equality(self):
-        pass
+        a = CaseForms(self.nominative, self.genitive, self.dative, self.accusative, self.instrumental,
+                      self.prepositional)
+        b = CaseForms(self.nominative, '', self.dative, self.accusative, self.instrumental, self.prepositional)
+        c = CaseForms(self.nominative, self.genitive, self.dative, self.accusative, self.instrumental,
+                      self.prepositional)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

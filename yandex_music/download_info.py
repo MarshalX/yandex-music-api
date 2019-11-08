@@ -45,6 +45,7 @@ class DownloadInfo(YandexMusicObject):
         self.direct_link = None
 
         self.client = client
+        self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
 
     @staticmethod
     def _get_text_node_data(elements):

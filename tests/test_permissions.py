@@ -2,9 +2,9 @@ from yandex_music import Permissions
 
 
 class TestPermissions:
-    until = None
-    values = None
-    default = None
+    until = '2019-11-07T23:53:55+00:00'
+    values = ['landing-play', 'feed-play', 'mix-play']
+    default = ['landing-play', 'feed-play', 'mix-play']
 
     def test_expected_values(self, permissions):
         assert permissions.until == self.until
@@ -28,4 +28,12 @@ class TestPermissions:
         assert permissions.default == self.default
 
     def test_equality(self):
-        pass
+        a = Permissions(self.until, self.values, self.default)
+        b = Permissions('', self.values, self.default)
+        c = Permissions(self.until, self.values, self.default)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

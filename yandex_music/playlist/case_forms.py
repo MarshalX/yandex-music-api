@@ -19,6 +19,8 @@ class CaseForms(YandexMusicObject):
         self.prepositional = prepositional
 
         self.client = client
+        self._id_attrs = (self.nominative, self.genitive, self.dative,
+                          self.accusative, self.instrumental, self.prepositional)
 
     @classmethod
     def de_json(cls, data, client):

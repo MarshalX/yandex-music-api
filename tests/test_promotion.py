@@ -1,25 +1,16 @@
-import pytest
-
 from yandex_music import Promotion
 
 
-@pytest.fixture(scope='class')
-def promotion():
-    return Promotion(TestPromotion.promo_id, TestPromotion.title, TestPromotion.subtitle, TestPromotion.heading,
-                     TestPromotion.url, TestPromotion.url_scheme, TestPromotion.text_color, TestPromotion.gradient,
-                     TestPromotion.image)
-
-
 class TestPromotion:
-    promo_id = None
-    title = None
-    subtitle = None
-    heading = None
-    url = None
-    url_scheme = None
-    text_color = None
-    gradient = None
-    image = None
+    promo_id = '5db861cfa6245a2c8c63445d'
+    title = '«Никакого андеграунда!»'
+    subtitle = 'на новой пластинке группы «Папин Олимпос»'
+    heading = 'Мини-альбом'
+    url = '/album/8839440'
+    url_scheme = 'yandexmusic://album/8839440'
+    text_color = ''
+    gradient = ''
+    image = 'avatars.yandex.net/get-music-feed-promotion/69892/5db861cfa6245a2c8c63445d-landing.image/%%'
 
     def test_expected_values(self, promotion):
         assert promotion.promo_id == self.promo_id
@@ -65,4 +56,17 @@ class TestPromotion:
         assert promotion.image == self.image
 
     def test_equality(self):
-        pass
+        a = Promotion(self.promo_id, self.title, self.subtitle, self.heading, self.url, self.url_scheme,
+                      self.text_color, self.gradient, self.image)
+        b = Promotion('', self.title, self.subtitle, '', self.url, self.url_scheme,
+                      self.text_color, self.gradient, self.image)
+        c = Promotion(self.promo_id, '', self.subtitle, self.heading, self.url, self.url_scheme,
+                      self.text_color, self.gradient, '')
+        d = Promotion(self.promo_id, self.title, self.subtitle, self.heading, self.url, self.url_scheme,
+                      self.text_color, self.gradient, self.image)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

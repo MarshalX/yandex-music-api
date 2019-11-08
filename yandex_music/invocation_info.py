@@ -32,7 +32,7 @@ class InvocationInfo(YandexMusicObject):
         self.exec_duration_millis = exec_duration_millis
 
         self.client = client
-        self._id_attrs = (self.req_id,)
+        self._id_attrs = (self.hostname, self.req_id)
 
     @classmethod
     def de_json(cls, data, client):
