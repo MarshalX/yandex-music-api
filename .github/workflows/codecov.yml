@@ -9,6 +9,7 @@ jobs:
   pytest:
     runs-on: ${{matrix.os}}
     strategy:
+      max-parallel: 4
       matrix:
         os: ubuntu-latest
         python-version: 3.8
