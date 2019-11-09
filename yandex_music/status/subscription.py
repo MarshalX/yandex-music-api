@@ -37,6 +37,7 @@ class Subscription(YandexMusicObject):
         self.end = end
 
         self.client = client
+        self._id_attrs = (self.auto_renewable,)
 
     @classmethod
     def de_json(cls, data, client):

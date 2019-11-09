@@ -31,7 +31,7 @@ class Permissions(YandexMusicObject):
         self.default = default
 
         self.client = client
-        self._id_attrs = (self.until,)
+        self._id_attrs = (self.until, self.values, self.default)
 
     @classmethod
     def de_json(cls, data, client):

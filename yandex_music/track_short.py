@@ -34,7 +34,7 @@ class TrackShort(YandexMusicObject):
         self._track = None
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.album_id)
 
     @property
     def track(self):

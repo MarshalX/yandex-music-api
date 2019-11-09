@@ -37,7 +37,7 @@ class Supplement(YandexMusicObject):
         self.radio_is_available = radio_is_available
 
         self.client = client
-        self._id_attrs = (self.id, self.lyrics, self.radio_is_available)
+        self._id_attrs = (self.id, self.lyrics, self.videos, self.radio_is_available)
 
     @classmethod
     def de_json(cls, data, client):

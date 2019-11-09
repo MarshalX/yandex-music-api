@@ -11,7 +11,7 @@ class TrackId(YandexMusicObject):
 
         self.album_id = album_id
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.album_id)
 
     @classmethod
     def de_json(cls, data, client):

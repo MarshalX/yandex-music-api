@@ -22,7 +22,7 @@ class TestArtist:
     init_date = '1935-01-08'
     end_date = None
 
-    def test_expected_values(self, artist, cover, counts, ratings, link, track_without_artists, description):
+    def test_expected_values(self, artist, cover, counts, ratings, link, track_without_artists_and_albums, description):
         assert artist.id == self.id
         assert artist.name == self.name
         assert artist.various == self.various
@@ -37,7 +37,7 @@ class TestArtist:
         assert artist.links == [link]
         assert artist.tickets_available == self.tickets_available
         assert artist.likes_count == self.likes_count
-        assert artist.popular_tracks == [track_without_artists]
+        assert artist.popular_tracks == [track_without_artists_and_albums]
         assert artist.regions == self.regions
         assert artist.decomposed == self.decomposed
         assert artist.full_names == self.full_names

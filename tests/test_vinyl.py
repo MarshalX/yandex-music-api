@@ -1,11 +1,4 @@
-import pytest
-
 from yandex_music import Vinyl
-
-
-@pytest.fixture(scope='class')
-def vinyl():
-    return Vinyl(TestVinyl.url, TestVinyl.picture, TestVinyl.title, TestVinyl.year, TestVinyl.price, TestVinyl.media)
 
 
 class TestVinyl:

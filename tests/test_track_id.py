@@ -25,7 +25,7 @@ class TestTrackId:
     def test_equality(self):
         a = TrackId(self.id, self.album_id)
         b = TrackId(10, self.album_id)
-        c = TrackId(self.id)
+        c = TrackId(self.id, self.album_id)
 
         assert a != b
         assert hash(a) != hash(b)

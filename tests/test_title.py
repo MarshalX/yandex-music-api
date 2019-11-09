@@ -25,7 +25,7 @@ class TestTitle:
     def test_equality(self):
         a = Title(self.title, self.full_title)
         b = Title('')
-        c = Title(self.title)
+        c = Title(self.title, self.full_title)
 
         assert a != b
         assert hash(a) != hash(b)

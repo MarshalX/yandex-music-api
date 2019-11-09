@@ -9,6 +9,7 @@ class PlayContextsData(YandexMusicObject):
         self.other_tracks = other_tracks
 
         self.client = client
+        self._id_attrs = (self.other_tracks,)
 
     @classmethod
     def de_json(cls, data, client):

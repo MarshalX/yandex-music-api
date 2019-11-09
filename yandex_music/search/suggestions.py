@@ -8,15 +8,16 @@ class Suggestions(YandexMusicObject):
                  client=None,
                  **kwargs):
         self.best = best
-        self._suggestions = suggestions
+        self.suggestions = suggestions
 
         self.client = client
+        self._id_attrs = (self.best, self.suggestions)
 
     def __getitem__(self, item):
-        return self._suggestions[item]
+        return self.suggestions[item]
 
     def __iter__(self):
-        return iter(self._suggestions)
+        return iter(self.suggestions)
 
     @classmethod
     def de_json(cls, data, client):

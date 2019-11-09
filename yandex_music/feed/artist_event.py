@@ -13,7 +13,7 @@ class ArtistEvent(YandexMusicObject):
         self.similar_to_artists_from_history = similar_to_artists_from_history
 
         self.client = client
-        self._id_attrs = (self.artist,)
+        self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
 
     @classmethod
     def de_json(cls, data, client):

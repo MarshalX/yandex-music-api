@@ -27,8 +27,9 @@ class TestSubscription:
         assert subscription.end == self.end
 
     def test_equality(self, auto_renewable):
-        a = Subscription()
+        a = Subscription([auto_renewable])
+        b = Subscription(None)
 
-        assert a != auto_renewable
-        assert hash(a) != hash(auto_renewable)
+        assert a != b != auto_renewable
+        assert hash(a) != hash(b) != hash(auto_renewable)
         assert a is not auto_renewable

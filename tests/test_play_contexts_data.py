@@ -19,7 +19,8 @@ class TestPlayContextsData:
 
     def test_equality(self, track_short_old):
         a = PlayContextsData([track_short_old])
+        b = PlayContextsData(None)
 
-        assert a != track_short_old
-        assert hash(a) != hash(track_short_old)
+        assert a != b != track_short_old
+        assert hash(a) != hash(b) != hash(track_short_old)
         assert a is not track_short_old

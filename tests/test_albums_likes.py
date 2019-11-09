@@ -33,7 +33,7 @@ class TestAlbumsLikes:
 
     def test_equality(self, album):
         a = AlbumsLikes(self.timestamp, self.id, album)
-        b = AlbumsLikes('', self.id, album)
+        b = AlbumsLikes(self.timestamp, self.id, None)
         c = AlbumsLikes(self.timestamp, self.id, album)
 
         assert a != b

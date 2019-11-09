@@ -31,7 +31,7 @@ class TracksList(YandexMusicObject):
         self.tracks = tracks
 
         self.client = client
-        self._id_attrs = (self.uid,)
+        self._id_attrs = (self.uid, self.tracks)
 
     def __getitem__(self, item):
         return self.tracks[item]

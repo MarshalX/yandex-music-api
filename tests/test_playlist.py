@@ -2,33 +2,34 @@ from yandex_music import Playlist
 
 
 class TestPlaylist:
-    uid = None
-    kind = None
-    title = None
-    track_count = None
-    tags = None
-    revision = None
-    snapshot = None
-    visibility = None
-    collective = None
-    created = None
-    modified = None
-    available = None
-    is_banner = None
-    is_premiere = None
-    duration_ms = None
-    og_image = None
-    prerolls = None
-    likes_count = None
-    generated_playlist_type = None
-    animated_cover_uri = None
-    ever_played = None
-    description_formatted = None
+    uid = 503646255
+    kind = 69814820
+    title = 'Плейлист дня'
+    track_count = 57
+    tags = []
+    revision = 0
+    snapshot = 1
+    visibility = 'public'
+    collective = False
+    created = '2018-04-29T21:00:00+00:00'
+    modified = '2019-11-09T03:00:00+00:00'
+    available = True
+    is_banner = False
+    is_premiere = False
+    duration_ms = 12402690
+    og_image = 'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461'
+    prerolls = []
+    likes_count = 1
+    generated_playlist_type = 'playlistOfTheDay'
+    animated_cover_uri = 'avatars.yandex.net/get-music-user-playlist/30088/q0ahjvoZK5FT4A/%%'
+    ever_played = True
+    description = 'Каждый день — новый. Каждый день — ваш!'
+    description_formatted = 'Каждый день — новый. Каждый день — ваш!'
     is_for_from = None
     regions = None
 
-    def test_expected_values(self, playlist, owner, cover, made_for, play_counter, tracks, description):
-        assert playlist.owner == owner
+    def test_expected_values(self, playlist, user, cover, made_for, track_short, play_counter):
+        assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
         assert playlist.title == self.title
@@ -48,24 +49,24 @@ class TestPlaylist:
         assert playlist.is_premiere == self.is_premiere
         assert playlist.duration_ms == self.duration_ms
         assert playlist.og_image == self.og_image
-        assert playlist.tracks == tracks
+        assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count
         assert playlist.generated_playlist_type == self.generated_playlist_type
         assert playlist.animated_cover_uri == self.animated_cover_uri
         assert playlist.ever_played == self.ever_played
-        assert playlist.description == description
+        assert playlist.description == self.description
         assert playlist.description_formatted == self.description_formatted
         assert playlist.is_for_from == self.is_for_from
         assert playlist.regions == self.regions
 
-    def test_de_json_required(self, client, owner, cover, made_for, play_counter):
-        json_dict = {'owner': owner, 'uid': self.uid, 'kind': self.kind, 'title': self.title,
-                     'track_count': self.track_count, 'cover': cover, 'made_for': made_for,
-                     'play_counter': play_counter}
+    def test_de_json_required(self, client, user, cover, made_for, play_counter):
+        json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
+                     'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
+                     'play_counter': play_counter.to_dict()}
         playlist = Playlist.de_json(json_dict, client)
 
-        assert playlist.owner == owner
+        assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
         assert playlist.title == self.title
@@ -74,21 +75,21 @@ class TestPlaylist:
         assert playlist.made_for == made_for
         assert playlist.play_counter == play_counter
 
-    def test_de_json_all(self, client, owner, cover, made_for, play_counter, tracks, description):
-        json_dict = {'owner': owner, 'uid': self.uid, 'kind': self.kind, 'title': self.title,
-                     'track_count': self.track_count, 'cover': cover, 'made_for': made_for,
-                     'play_counter': play_counter, 'tags': self.tags, 'revision': self.revision,
+    def test_de_json_all(self, client, user, cover, made_for, track_short, play_counter):
+        json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
+                     'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
+                     'play_counter': play_counter.to_dict(), 'tags': self.tags, 'revision': self.revision,
                      'snapshot': self.snapshot, 'visibility': self.visibility, 'collective': self.collective,
                      'created': self.created, 'modified': self.modified, 'available': self.available,
                      'is_banner': self.is_banner, 'is_premiere': self.is_premiere, 'duration_ms': self.duration_ms,
-                     'og_image': self.og_image, 'tracks': tracks, 'prerolls': self.prerolls,
+                     'og_image': self.og_image, 'tracks': [track_short.to_dict()], 'prerolls': self.prerolls,
                      'likes_count': self.likes_count, 'generated_playlist_type': self.generated_playlist_type,
                      'animated_cover_uri': self.animated_cover_uri, 'ever_played': self.ever_played,
-                     'description': description, 'description_formatted': self.description_formatted,
+                     'description': self.description, 'description_formatted': self.description_formatted,
                      'is_for_from': self.is_for_from, 'regions': self.regions}
         playlist = Playlist.de_json(json_dict, client)
 
-        assert playlist.owner == owner
+        assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
         assert playlist.title == self.title
@@ -108,16 +109,25 @@ class TestPlaylist:
         assert playlist.is_premiere == self.is_premiere
         assert playlist.duration_ms == self.duration_ms
         assert playlist.og_image == self.og_image
-        assert playlist.tracks == tracks
+        assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count
         assert playlist.generated_playlist_type == self.generated_playlist_type
         assert playlist.animated_cover_uri == self.animated_cover_uri
         assert playlist.ever_played == self.ever_played
-        assert playlist.description == description
+        assert playlist.description == self.description
         assert playlist.description_formatted == self.description_formatted
         assert playlist.is_for_from == self.is_for_from
         assert playlist.regions == self.regions
 
-    def test_equality(self):
-        pass
+    def test_equality(self, user, cover, made_for, play_counter):
+        a = Playlist(user, self.uid, self.kind, self.title, self.track_count, cover, made_for, play_counter)
+        b = Playlist(user, 123, self.kind, self.title, 10, cover, made_for, play_counter)
+        c = Playlist(user, self.uid, 321, self.title, self.track_count, None, made_for, play_counter)
+        d = Playlist(user, self.uid, self.kind, self.title, self.track_count, cover, made_for, play_counter)
+
+        assert a != b != c
+        assert hash(a) != hash(b) != hash(c)
+        assert a is not b is not c
+
+        assert a == d

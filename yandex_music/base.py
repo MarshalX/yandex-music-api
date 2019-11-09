@@ -52,5 +52,6 @@ class YandexMusicObject:
 
     def __hash__(self):
         if self._id_attrs:
-            return hash((self.__class__, self._id_attrs))
+            frozen_attrs = tuple(frozenset(attr) if isinstance(attr, list) else attr for attr in self._id_attrs)
+            return hash((self.__class__, frozen_attrs))
         return super(YandexMusicObject, self).__hash__()

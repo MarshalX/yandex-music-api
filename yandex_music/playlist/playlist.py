@@ -68,7 +68,8 @@ class Playlist(YandexMusicObject):
         self.tags = tags
 
         self.client = client
-        self._id_attrs = (self.uid,)
+        self._id_attrs = (self.uid, self.kind, self.title, self.track_count, self.cover,
+                          self.made_for, self.play_counter)
 
     @property
     def is_mine(self):

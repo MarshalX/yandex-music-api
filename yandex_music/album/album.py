@@ -58,7 +58,8 @@ class Album(YandexMusicObject):
         self.content_warning = content_warning
 
         self.client = client
-        self._id_attrs = (self.id, self.title, self.track_count, self.available_for_premium_users, self.available)
+        self._id_attrs = (self.id, self.title, self.track_count, self.artists, self.labels,
+                          self.available_for_premium_users, self.available)
 
     def with_tracks(self, *args, **kwargs):
         """Сокращение для::
