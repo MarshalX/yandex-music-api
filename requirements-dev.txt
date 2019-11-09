@@ -1,3 +1,4 @@
 requests
-coverage
 pytest
+codecov
+pytest-cov

@@ -11,9 +11,13 @@
    :target: https://pypi.org/project/yandex-music/
    :alt: Поддерживаемые Python версии
 
+.. image:: https://codecov.io/gh/MarshalX/yandex-music-api/branch/development/graph/badge.svg
+   :target: https://codecov.io/gh/MarshalX/yandex-music-api
+   :alt: Покрытие кода тестами
+
 .. image:: https://readthedocs.org/projects/yandex-music/badge/?version=latest
-    :target: https://yandex-music.readthedocs.io/ru/latest/?badge=latest
-    :alt: Статус документации
+   :target: https://yandex-music.readthedocs.io/ru/latest/?badge=latest
+   :alt: Статус документации
 
 .. image:: https://img.shields.io/badge/license-LGPLv3-lightgrey.svg
    :target: https://www.gnu.org/licenses/lgpl-3.0.html

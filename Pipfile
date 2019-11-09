@@ -8,6 +8,8 @@ coverage = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
 pytest = "*"
+pytest-cov = "*"
+codecov = "*"
 
 [packages]
 requests = "*"
