@@ -1,18 +1,17 @@
-name: Python package
+name: Test
 
 on:
-  push:
+  pull_request:
     branches:
-      - actions
+      - development
 
 jobs:
   pytest:
     runs-on: ${{matrix.os}}
     strategy:
-      max-parallel: 4
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        python-version: [3.6, 3.7, 3.8]
+        os: ubuntu-latest
+        python-version: 3.8
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python ${{ matrix.python-version }}
@@ -27,11 +26,5 @@ jobs:
         shell: bash
       - name: Test with pytest
         run: |
-          pytest -v --cov=./
-        shell: bash
-      - name: Submit coverage
-        run: |
-          codecov -F github -t $CODECOV_TOKEN --name "${{ matrix.os }}-${{ matrix.python-version }}"
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          pytest -vv
         shell: bash
