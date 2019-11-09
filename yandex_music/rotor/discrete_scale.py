@@ -15,6 +15,7 @@ class DiscreteScale(YandexMusicObject):
         self.max = max
 
         self.client = client
+        self._id_attrs = (self.type, self.name, self.min, self.max)
 
     @classmethod
     def de_json(cls, data, client):

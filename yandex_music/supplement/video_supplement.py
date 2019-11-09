@@ -48,6 +48,7 @@ class VideoSupplement(YandexMusicObject):
         self.embed = embed
 
         self.client = client
+        self._id_attrs = (self.cover, self.title, self.provider_video_id)
 
     @classmethod
     def de_json(cls, data, client):

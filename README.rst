@@ -7,7 +7,7 @@
    :target: https://pypi.org/project/yandex-music/
    :alt: Версия пакета PyPi
 
-.. image:: https://img.shields.io/badge/python-3.7%2B-blue.svg
+.. image:: https://img.shields.io/badge/python-3.6%2B-blue.svg
    :target: https://pypi.org/project/yandex-music/
    :alt: Поддерживаемые Python версии
 
@@ -49,7 +49,7 @@
 Эта библиотека предоставляется Python интерфейс для никем
 незадокументированного и сделанного только для себя API Яндекс Музыки.
 
-Она совместима с версиями Python 3.7+.
+Она совместима с версиями Python 3.6+.
 
 В дополнение к реализации чистого API данная библиотека имеет ряд
 классов-обёрток объектов высокого уровня дабы сделать разработку клиентов

@@ -16,7 +16,7 @@ class Link(YandexMusicObject):
         self.social_network = social_network
 
         self.client = client
-        self._id_attrs = (self.href,)
+        self._id_attrs = (self.title, self.href, self.type)
 
     @classmethod
     def de_json(cls, data, client):

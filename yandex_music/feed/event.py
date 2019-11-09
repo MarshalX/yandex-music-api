@@ -28,6 +28,7 @@ class Event(YandexMusicObject):
         self.tracks_count = tracks_count
 
         self.client = client
+        self._id_attrs = (self.id, self.type)
 
     @classmethod
     def de_json(cls, data, client):

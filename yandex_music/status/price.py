@@ -27,6 +27,7 @@ class Price(YandexMusicObject):
         self.currency = currency
 
         self.client = client
+        self._id_attrs = (self.amount, self.currency)
 
     @classmethod
     def de_json(cls, data, client):

@@ -24,6 +24,8 @@ class AdParams(YandexMusicObject):
         self.genre_name = genre_name
 
         self.client = client
+        self._id_attrs = (self.partner_id, self.category_id, self.page_ref,
+                          self.target_ref, self.other_params, self.ad_volume)
 
     @classmethod
     def de_json(cls, data, client):

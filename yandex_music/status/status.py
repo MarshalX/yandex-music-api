@@ -72,7 +72,7 @@ class Status(YandexMusicObject):
         self.premium_region = premium_region
 
         self.client = client
-        self._id_attrs = (self.account,)
+        self._id_attrs = (self.account, self.permissions)
 
     @classmethod
     def de_json(cls, data, client):

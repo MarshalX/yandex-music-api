@@ -43,7 +43,8 @@ class Lyrics(YandexMusicObject):
         self.show_translation = show_translation
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.lyrics, self.full_lyrics, self.has_rights,
+                          self.text_language, self.show_translation)
 
     @classmethod
     def de_json(cls, data, client):

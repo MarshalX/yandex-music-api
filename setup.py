@@ -37,6 +37,7 @@ with open('README.rst', 'r', encoding='utf-8') as f:
               'Topic :: Multimedia :: Sound/Audio',
               'Topic :: Internet',
               'Programming Language :: Python',
+              'Programming Language :: Python :: 3.6',
               'Programming Language :: Python :: 3.7',
               'Programming Language :: Python :: 3.8'
           ],)

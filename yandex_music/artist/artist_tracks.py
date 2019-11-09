@@ -27,6 +27,7 @@ class ArtistTracks(YandexMusicObject):
         self.pager = pager
 
         self.client = client
+        self._id_attrs = (self.pager, self.tracks)
 
     @classmethod
     def de_json(cls, data, client):

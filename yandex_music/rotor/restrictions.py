@@ -1,4 +1,10 @@
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicObject, Enum, DiscreteScale
+
+
+de_json = {
+    'enum': Enum.de_json,
+    'discrete-scale': DiscreteScale.de_json
+}
 
 
 class Restrictions(YandexMusicObject):
@@ -17,6 +23,7 @@ class Restrictions(YandexMusicObject):
         self.mood_energy = mood_energy
 
         self.client = client
+        self._id_attrs = (self.language, self.diversity)
 
     @classmethod
     def de_json(cls, data, client):
@@ -24,11 +31,8 @@ class Restrictions(YandexMusicObject):
             return None
 
         data = super(Restrictions, cls).de_json(data, client)
-        from yandex_music import Enum, DiscreteScale
-        for key, value in data.items():
-            restriction_type = data[key].get('type')
 
-            data[key] = Enum.de_json(data[key], client) if restriction_type == 'enum'\
-                else DiscreteScale.de_json(data[key], client)
+        for key, value in data.items():
+            data[key] = de_json.get(value.get('type'))(value, client)
 
         return cls(client=client, **data)

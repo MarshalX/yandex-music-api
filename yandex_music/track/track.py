@@ -56,7 +56,8 @@ class Track(YandexMusicObject):
         self.download_info = None
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.title, self.available, self.available_for_premium_users,
+                          self.artists, self.albums, self.lyrics_available)
 
     def get_download_info(self, get_direct_links=False):
         self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
@@ -90,7 +91,7 @@ class Track(YandexMusicObject):
             size (:obj:`str`, optional): Размер обложки.
         """
 
-        self.client.request.download(f'https://{self.og_image("%%", size)}', filename)
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
     def download(self, filename, codec='mp3', bitrate_in_kbps=192):
         if self.download_info is None:

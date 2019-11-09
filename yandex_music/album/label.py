@@ -25,7 +25,7 @@ class Label(YandexMusicObject):
         self.name = name
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.name)
 
     @classmethod
     def de_json(cls, data, client):

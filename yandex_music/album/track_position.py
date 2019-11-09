@@ -11,6 +11,7 @@ class TrackPosition(YandexMusicObject):
         self.index = index
 
         self.client = client
+        self._id_attrs = (self.volume, self.index)
 
     @classmethod
     def de_json(cls, data, client):

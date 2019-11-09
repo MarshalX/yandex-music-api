@@ -9,12 +9,13 @@ class PlayContext(YandexMusicObject):
                  tracks,
                  client=None,
                  **kwargs):
-
         self.client_ = client_
         self.context = context
         self.context_item = context_item
         self.tracks = tracks
+
         self.client = client
+        self._id_attrs = (self.client_, self.context_item, self.context_item, self.tracks)
 
     @classmethod
     def de_json(cls, data, client):

@@ -11,6 +11,7 @@ class Id(YandexMusicObject):
         self.tag = tag
 
         self.client = client
+        self._id_attrs = (self.type, self.tag)
 
     @classmethod
     def de_json(cls, data, client):

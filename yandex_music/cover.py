@@ -51,7 +51,7 @@ class Cover(YandexMusicObject):
         self.error = error
 
         self.client = client
-        self._id_attrs = (self.prefix, )
+        self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
     def download(self, filename, index=0, size='200x200'):
         """Загрузка обложки.

@@ -13,6 +13,7 @@ class ArtistEvent(YandexMusicObject):
         self.similar_to_artists_from_history = similar_to_artists_from_history
 
         self.client = client
+        self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
 
     @classmethod
     def de_json(cls, data, client):
@@ -21,7 +22,7 @@ class ArtistEvent(YandexMusicObject):
 
         data = super(ArtistEvent, cls).de_json(data, client)
         from yandex_music import Artist, Track
-        data['artists'] = Artist.de_json(data.get('artist'), client)
+        data['artist'] = Artist.de_json(data.get('artist'), client)
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['similar_to_artists_from_history'] = Artist.de_list(data.get('similar_to_artists_from_history'), client)
 

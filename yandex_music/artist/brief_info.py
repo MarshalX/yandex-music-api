@@ -34,6 +34,9 @@ class BriefInfo(YandexMusicObject):
         self.tracks_in_chart = tracks_in_chart
 
         self.client = client
+        self._id_attrs = (self.artist, self.albums, self.also_albums, self.last_release_ids, self.popular_tracks,
+                          self.similar_artists, self.all_covers, self.concerts, self.videos, self.vinyls,
+                          self.has_promotions, self.playlist_ids)
 
     @classmethod
     def de_json(cls, data, client):
@@ -54,6 +57,7 @@ class BriefInfo(YandexMusicObject):
         data = super(BriefInfo, cls).de_json(data, client)
         from yandex_music import Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl
         data['artist'] = Artist.de_json(data.get('artist'), client)
+        data['similar_artists'] = Artist.de_list(data.get('similar_artists'), client)
         data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['also_albums'] = Album.de_list(data.get('also_albums'), client)

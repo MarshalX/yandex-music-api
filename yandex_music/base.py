@@ -29,18 +29,21 @@ class YandexMusicObject:
         return json.dumps(self.to_dict())
 
     def to_dict(self):
-        data = dict()
-        for key, value in self.__dict__.items():
-            if key in ('client',
-                       '_id_attrs'):
-                continue
-
-            if hasattr(value, 'to_dict'):
-                data[key] = value.to_dict()
+        def parse(val):
+            if hasattr(val, 'to_dict'):
+                return val.to_dict()
+            elif isinstance(val, list):
+                return [parse(it) for it in val]
+            elif isinstance(val, dict):
+                return {k: parse(v) for k, v in val.items()}
             else:
-                data[key] = value
+                return val
 
-        return data
+        data = self.__dict__.copy()
+        data.pop('client', None)
+        data.pop('_id_attrs', None)
+
+        return parse(data)
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -49,5 +52,6 @@ class YandexMusicObject:
 
     def __hash__(self):
         if self._id_attrs:
-            return hash((self.__class__, self._id_attrs))
+            frozen_attrs = tuple(frozenset(attr) if isinstance(attr, list) else attr for attr in self._id_attrs)
+            return hash((self.__class__, frozen_attrs))
         return super(YandexMusicObject, self).__hash__()

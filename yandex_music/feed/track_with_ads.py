@@ -11,6 +11,7 @@ class TrackWithAds(YandexMusicObject):
         self.track = track
 
         self.client = client
+        self._id_attrs = (self.type, self.track)
 
     @classmethod
     def de_json(cls, data, client):
