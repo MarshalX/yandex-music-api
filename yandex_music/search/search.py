@@ -28,7 +28,8 @@ class Search(YandexMusicObject):
         self.nocorrect = nocorrect
 
         self.client = client
-        self._id_attrs = (self.search_request_id,)
+        self._id_attrs = (self.search_request_id, self.text, self.best, self.albums,
+                          self.artists, self.playlists, self.tracks, self.videos)
 
     @classmethod
     def de_json(cls, data, client):

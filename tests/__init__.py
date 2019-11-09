@@ -1,5 +1,3 @@
-from .not_working_test_block import TestBlock
-from .not_working_test_block_entity import TestBlockEntity
 from .test_account import TestAccount
 from .test_ad_params import TestAdParams
 from .test_album import TestAlbum
@@ -8,6 +6,8 @@ from .test_artist import TestArtist
 from .test_artist_event import TestArtistEvent
 from .test_auto_renewable import TestAutoRenewable
 from .test_best import TestBest
+from .test_block import TestBlock
+from .test_block_entity import TestBlockEntity
 from .test_case_forms import TestCaseForms
 from .test_chart import TestChart
 from .test_counts import TestCounts

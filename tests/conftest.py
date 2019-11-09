@@ -6,7 +6,7 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, PassportPhone, User, Promotion, \
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
-    GeneratedPlaylist, Video, Vinyl, SearchResult
+    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -15,7 +15,7 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestUser, TestPassportPhone, TestPromotion, TestTitle, TestPersonalPlaylistsData, TestRotorSettings, \
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
-    TestSearchResult
+    TestSearchResult, TestBlockEntity, TestBlock
 
 
 @pytest.fixture(scope='session')
@@ -23,14 +23,11 @@ def artist_factory(cover, counts, ratings, link, description):
     class ArtistFactory:
         def get(self, popular_tracks):
             return Artist(TestArtist.id, TestArtist.name, TestArtist.various, TestArtist.composer, cover,
-                          TestArtist.genres,
-                          TestArtist.op_image, TestArtist.no_pictures_from_search, counts, TestArtist.available,
-                          ratings,
-                          [link], TestArtist.tickets_available, TestArtist.likes_count, popular_tracks,
-                          TestArtist.regions,
-                          TestArtist.decomposed, TestArtist.full_names, description, TestArtist.countries,
-                          TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases, TestArtist.init_date,
-                          TestArtist.end_date)
+                          TestArtist.genres, TestArtist.op_image, TestArtist.no_pictures_from_search, counts,
+                          TestArtist.available, ratings, [link], TestArtist.tickets_available, TestArtist.likes_count,
+                          popular_tracks, TestArtist.regions, TestArtist.decomposed, TestArtist.full_names, description,
+                          TestArtist.countries, TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases,
+                          TestArtist.init_date, TestArtist.end_date)
 
     return ArtistFactory()
 
@@ -50,9 +47,9 @@ def track_factory(major, normalization):
     class TrackFactory:
         def get(self, artists, albums):
             return Track(TestTrack.id, TestTrack.title, TestTrack.available, TestTrack.available_for_premium_users,
-                         artists, albums, TestTrack.lyrics_available, TestTrack.real_id,
-                         TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms,
-                         TestTrack.storage_dir, TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
+                         artists, albums, TestTrack.lyrics_available, TestTrack.real_id, TestTrack.og_image,
+                         TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms, TestTrack.storage_dir,
+                         TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
                          TestTrack.available_as_rbt, TestTrack.content_warning, TestTrack.explicit,
                          TestTrack.preview_duration_ms, TestTrack.available_full_without_permission)
 
@@ -86,10 +83,10 @@ def album_factory(label, track_position):
             return Album(TestAlbum.id, TestAlbum.title, TestAlbum.track_count, artists, [label],
                          TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.cover_uri,
                          TestAlbum.content_warning, TestAlbum.original_release_year, TestAlbum.genre,
-                         TestAlbum.og_image,
-                         TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important, TestAlbum.available_for_mobile,
-                         TestAlbum.available_partially, TestAlbum.bests, TestAlbum.prerolls, volumes, TestAlbum.year,
-                         TestAlbum.release_date, TestAlbum.type, track_position, TestAlbum.regions)
+                         TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
+                         TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests,
+                         TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
+                         track_position, TestAlbum.regions)
 
     return AlbumFactory()
 
@@ -170,8 +167,8 @@ def vinyl():
 
 @pytest.fixture(scope='session')
 def play_context(track_short_old):
-    return PlayContext(TestPlayContext.client_, TestPlayContext.context, TestPlayContext.context_item,
-                       [track_short_old])
+    return PlayContext(TestPlayContext.client_, TestPlayContext.context,
+                       TestPlayContext.context_item, [track_short_old])
 
 
 @pytest.fixture(scope='session')
@@ -191,8 +188,8 @@ def icon():
 
 @pytest.fixture(scope='session')
 def cover():
-    return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir, TestCover.version, TestCover.custom,
-                 TestCover.prefix, TestCover.error)
+    return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir,
+                 TestCover.version, TestCover.custom, TestCover.prefix, TestCover.error)
 
 
 @pytest.fixture(scope='session')
@@ -265,8 +262,8 @@ def results(playlist):
 
 @pytest.fixture(scope='session')
 def case_forms():
-    return CaseForms(TestCaseForms.nominative, TestCaseForms.genitive, TestCaseForms.dative, TestCaseForms.accusative,
-                     TestCaseForms.instrumental, TestCaseForms.prepositional)
+    return CaseForms(TestCaseForms.nominative, TestCaseForms.genitive, TestCaseForms.dative,
+                     TestCaseForms.accusative, TestCaseForms.instrumental, TestCaseForms.prepositional)
 
 
 @pytest.fixture(scope='session')
@@ -394,49 +391,6 @@ def track_position():
 
 
 @pytest.fixture(scope='session')
-def results(track, artist, album, playlist, video):
-    return {
-        1: track,
-        2: artist,
-        3: album,
-        4: playlist,
-        5: video
-    }
-
-
-@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
-def result_with_type(request, results, types):
-    return results[request.param], types[request.param]
-
-
-@pytest.fixture(scope='session')
-def types():
-    return {
-        1: 'track',
-        2: 'artist',
-        3: 'album',
-        4: 'playlist',
-        5: 'video'
-    }
-
-
-@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
-def best(request, results, types):
-    return Best(types[request.param], results[request.param], TestBest.text)
-
-
-@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
-def best_with_result(request, results, types):
-    return Best(types[request.param], results[request.param], TestBest.text), results[request.param]
-
-
-@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
-def search_result_with_results(request, results):
-    return SearchResult(TestSearchResult.total, TestSearchResult.per_page,
-                        TestSearchResult.order, [results[request.param]]), [results[request.param]]
-
-
-@pytest.fixture(scope='session')
 def status(account, permissions, subscription, plus):
     return Status(account, permissions, subscription, TestStatus.cache_limit, TestStatus.subeditor,
                   TestStatus.subeditor_level, plus, TestStatus.default_email, TestStatus.skips_per_hour,
@@ -499,3 +453,84 @@ def ad_params():
 @pytest.fixture(scope='session')
 def restrictions(enum, discrete_scale):
     return Restrictions(enum, enum, discrete_scale, discrete_scale, enum)
+
+
+@pytest.fixture(scope='session')
+def results(track, artist, album, playlist, video, generated_playlist, promotion, chart_item, play_context, mix_link,
+            personal_playlists_data, play_contexts_data):
+    return {
+        1: track,
+        2: artist,
+        3: album,
+        4: playlist,
+        5: video,
+        6: generated_playlist,
+        7: promotion,
+        8: chart_item,
+        9: play_context,
+        10: mix_link,
+        11: personal_playlists_data,
+        12: play_contexts_data
+    }
+
+
+@pytest.fixture(scope='session')
+def types():
+    return {
+        1: 'track',
+        2: 'artist',
+        3: 'album',
+        4: 'playlist',
+        5: 'video',
+        6: 'personal-playlist',
+        7: 'promotion',
+        8: 'chart-item',
+        9: 'play-context',
+        10: 'mix-link',
+        11: 'personal-playlists',
+        12: 'play-contexts'
+    }
+
+
+@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
+def result_with_type(request, results, types):
+    return results[request.param], types[request.param]
+
+
+@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
+def best(request, results, types):
+    return Best(types[request.param], results[request.param], TestBest.text)
+
+
+@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
+def best_with_result(request, results, types):
+    return Best(types[request.param], results[request.param], TestBest.text), results[request.param]
+
+
+@pytest.fixture(scope='session', params=[3, 4, 6, 7, 8, 9, 10])
+def block_entity(request, results, types):
+    return BlockEntity(TestBlockEntity.id, types[request.param], results[request.param])
+
+
+@pytest.fixture(scope='session')
+def block(block_entity, data_with_type):
+    data, type = data_with_type
+
+    return Block(TestBlock.id, type, TestBlock.type_for_from, TestBlock.title, [block_entity],
+                 TestBlock.description, data)
+
+
+@pytest.fixture(scope='session', params=[11, 12])
+def data(request, results):
+    return results[request.param]
+
+
+@pytest.fixture(scope='session', params=[11, 12])
+def data_with_type(request, results, types):
+    return results[request.param], types[request.param]
+
+
+@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
+def search_result_with_results(request, results):
+    return SearchResult(TestSearchResult.total, TestSearchResult.per_page,
+                        TestSearchResult.order, [results[request.param]]), [results[request.param]]

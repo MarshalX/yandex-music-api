@@ -24,6 +24,7 @@ class Feed(YandexMusicObject):
         self.next_revision = next_revision
 
         self.client = client
+        self._id_attrs = (self.can_get_more_events, self.generated_playlists, self.headlines, self.today, self.days)
 
     @classmethod
     def de_json(cls, data, client):
