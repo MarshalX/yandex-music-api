@@ -13,6 +13,7 @@ class ArtistsLikes(YandexMusicObject):
         self.timestamp = timestamp
 
         self.client = client
+        self._id_attrs = (self.id, self.artist)
 
     @classmethod
     def de_json(cls, data, client):

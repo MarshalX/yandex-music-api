@@ -15,6 +15,7 @@ class StationTracksResult(YandexMusicObject):
         self.pumpkin = pumpkin
 
         self.client = client
+        self._id_attrs = (self.id, self.sequence, self.batch_id, self.pumpkin)
 
     @classmethod
     def de_json(cls, data, client):

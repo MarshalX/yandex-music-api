@@ -13,7 +13,7 @@ class Dashboard(YandexMusicObject):
         self.pumpkin = pumpkin
 
         self.client = client
-        self._id_attrs = (self.dashboard_id, )
+        self._id_attrs = (self.dashboard_id, self.pumpkin)
 
     @classmethod
     def de_json(cls, data, client):

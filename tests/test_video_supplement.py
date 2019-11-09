@@ -1,13 +1,4 @@
-import pytest
-
 from yandex_music import VideoSupplement
-
-
-@pytest.fixture(scope='class')
-def video_supplement():
-    return VideoSupplement(TestVideoSupplement.cover, TestVideoSupplement.title, TestVideoSupplement.provider,
-                           TestVideoSupplement.provider_video_id, TestVideoSupplement.url,
-                           TestVideoSupplement.embed_url, TestVideoSupplement.embed)
 
 
 class TestVideoSupplement:

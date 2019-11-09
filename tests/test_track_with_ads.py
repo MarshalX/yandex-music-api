@@ -1,33 +1,34 @@
-import pytest
-
 from yandex_music import TrackWithAds
 
 
-@pytest.fixture(scope='class')
-def track_with_ads(track):
-    return TrackWithAds(TestTrackWithAds.type, track)
-
-
 class TestTrackWithAds:
-    type = None
+    type = 'track'
 
     def test_expected_values(self, track_with_ads, track):
         assert track_with_ads.type == self.type
         assert track_with_ads.track == track
 
     def test_de_json_required(self, client, track):
-        json_dict = {'type': self.type, 'track': track}
+        json_dict = {'type': self.type, 'track': track.to_dict()}
         track_with_ads = TrackWithAds.de_json(json_dict, client)
 
         assert track_with_ads.type == self.type
         assert track_with_ads.track == track
 
     def test_de_json_all(self, client, track):
-        json_dict = {'type': self.type, 'track': track}
+        json_dict = {'type': self.type, 'track': track.to_dict()}
         track_with_ads = TrackWithAds.de_json(json_dict, client)
 
         assert track_with_ads.type == self.type
         assert track_with_ads.track == track
 
-    def test_equality(self):
-        pass
+    def test_equality(self, track):
+        a = TrackWithAds(self.type, track)
+        b = TrackWithAds('', track)
+        c = TrackWithAds(self.type, track)
+
+        assert a != b
+        assert hash(a) != hash(b)
+        assert a is not b
+
+        assert a == c

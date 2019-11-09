@@ -13,6 +13,7 @@ class Sequence(YandexMusicObject):
         self.liked = liked
 
         self.client = client
+        self._id_attrs = (self.type, self.track, self.liked)
 
     @classmethod
     def de_json(cls, data, client):

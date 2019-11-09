@@ -22,13 +22,13 @@ class TestTrack:
     preview_duration_ms = 30000
     available_full_without_permission = False
 
-    def test_expected_values(self, track, artist_without_tracks, album_without_tracks, major, normalization):
+    def test_expected_values(self, track, artist, album, major, normalization):
         assert track.id == self.id
         assert track.title == self.title
         assert track.available == self.available
         assert track.available_for_premium_users == self.available_for_premium_users
-        assert track.artists == [artist_without_tracks]
-        assert track.albums == [album_without_tracks]
+        assert track.artists == [artist]
+        assert track.albums == [album]
         assert track.lyrics_available == self.lyrics_available
         assert track.real_id == self.real_id
         assert track.og_image == self.og_image
@@ -47,10 +47,10 @@ class TestTrack:
         assert track.preview_duration_ms == self.preview_duration_ms
         assert track.available_full_without_permission == self.available_full_without_permission
 
-    def test_de_json_required(self, client, artist_without_tracks, album_without_tracks):
+    def test_de_json_required(self, client, artist, album):
         json_dict = {'id': self.id, 'title': self.title, 'available': self.available,
                      'available_for_premium_users': self.available_for_premium_users,
-                     'artists': [artist_without_tracks.to_dict()], 'albums': [album_without_tracks.to_dict()],
+                     'artists': [artist.to_dict()], 'albums': [album.to_dict()],
                      'lyrics_available': self.lyrics_available}
         track = Track.de_json(json_dict, client)
 
@@ -58,14 +58,14 @@ class TestTrack:
         assert track.title == self.title
         assert track.available == self.available
         assert track.available_for_premium_users == self.available_for_premium_users
-        assert track.artists == [artist_without_tracks]
-        assert track.albums == [album_without_tracks]
+        assert track.artists == [artist]
+        assert track.albums == [album]
         assert track.lyrics_available == self.lyrics_available
 
-    def test_de_json_all(self, client, artist_without_tracks, album_without_tracks, major, normalization):
+    def test_de_json_all(self, client, artist, album, major, normalization):
         json_dict = {'id': self.id, 'title': self.title, 'available': self.available,
                      'available_for_premium_users': self.available_for_premium_users,
-                     'artists': [artist_without_tracks.to_dict()], 'albums': [album_without_tracks.to_dict()],
+                     'artists': [artist.to_dict()], 'albums': [album.to_dict()],
                      'lyrics_available': self.lyrics_available, 'real_id': self.real_id,
                      'og_image': self.og_image, 'type': self.type, 'cover_uri': self.cover_uri,
                      'major': major.to_dict(), 'duration_ms': self.duration_ms, 'storage_dir': self.storage_dir,
@@ -80,8 +80,8 @@ class TestTrack:
         assert track.title == self.title
         assert track.available == self.available
         assert track.available_for_premium_users == self.available_for_premium_users
-        assert track.artists == [artist_without_tracks]
-        assert track.albums == [album_without_tracks]
+        assert track.artists == [artist]
+        assert track.albums == [album]
         assert track.lyrics_available == self.lyrics_available
         assert track.real_id == self.real_id
         assert track.og_image == self.og_image
@@ -100,13 +100,12 @@ class TestTrack:
         assert track.preview_duration_ms == self.preview_duration_ms
         assert track.available_full_without_permission == self.available_full_without_permission
 
-    def test_equality(self, artist_without_tracks, album_without_tracks):
-        a = Track(self.id, self.title, self.available, self.available_for_premium_users, [artist_without_tracks],
-                  [album_without_tracks], self.lyrics_available)
-        b = Track(self.id, '', self.available, self.available_for_premium_users, [artist_without_tracks],
-                  [album_without_tracks], False)
-        c = Track(self.id, self.title, self.available, self.available_for_premium_users, [artist_without_tracks],
-                  [album_without_tracks], self.lyrics_available)
+    def test_equality(self, artist, album):
+        a = Track(self.id, self.title, self.available, self.available_for_premium_users, [artist], [album],
+                  self.lyrics_available)
+        b = Track(self.id, '', self.available, self.available_for_premium_users, [artist], [album], False)
+        c = Track(self.id, self.title, self.available, self.available_for_premium_users, [artist], [album],
+                  self.lyrics_available)
 
         assert a != b
         assert hash(a) != hash(b)
