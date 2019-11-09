@@ -9,9 +9,8 @@ jobs:
   pytest:
     runs-on: ${{matrix.os}}
     strategy:
-      max-parallel: 4
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
         python-version: [3.6, 3.7, 3.8]
     steps:
       - uses: actions/checkout@v1
