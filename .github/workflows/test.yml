@@ -4,7 +4,9 @@ on:
   pull_request:
     branches:
       - development
-  [push]
+  push:
+    branches:
+      - '**'
 
 jobs:
   pytest:
