@@ -1,19 +1,29 @@
 [Pre-Alpha] Неофициальная Python библиотека для API Yandex Music
 ================================================================
 
-Делаю то, что по каким-то причинам не сделала компания Yandex.
+Делаю то, что по определённым причинам не сделала компания Yandex.
+
+Маленькое сообщество разработчиков общаются и помогают друг другу в `Telegram чатике <https://t.me/yandex_music_api>`_, присоединяйтесь!
 
 .. image:: https://img.shields.io/pypi/v/yandex-music.svg
    :target: https://pypi.org/project/yandex-music/
    :alt: Версия пакета PyPi
 
-.. image:: https://img.shields.io/badge/python-3.6%2B-blue.svg
+.. image:: https://img.shields.io/badge/python-3.6%20|%203.7%20|%203.8-blue.svg
    :target: https://pypi.org/project/yandex-music/
    :alt: Поддерживаемые Python версии
 
 .. image:: https://codecov.io/gh/MarshalX/yandex-music-api/branch/development/graph/badge.svg
    :target: https://codecov.io/gh/MarshalX/yandex-music-api
    :alt: Покрытие кода тестами
+
+.. image:: https://api.codacy.com/project/badge/Grade/27011a5a8d9f4b278d1bfe2fe8725fed
+   :target: https://www.codacy.com/manual/MarshalX/yandex-music-api
+   :alt: Качество кода
+
+.. image:: https://github.com/MarshalX/yandex-music-api/workflows/Full%20test/badge.svg
+   :target: https://github.com/MarshalX/yandex-music-api/actions?query=workflow%3A%22Full+test%22
+   :alt: Статус тестов
 
 .. image:: https://readthedocs.org/projects/yandex-music/badge/?version=latest
    :target: https://yandex-music.readthedocs.io/ru/latest/?badge=latest
@@ -22,6 +32,10 @@
 .. image:: https://img.shields.io/badge/license-LGPLv3-lightgrey.svg
    :target: https://www.gnu.org/licenses/lgpl-3.0.html
    :alt: Лицензия LGPLv3
+
+.. image:: https://img.shields.io/badge/telegram-чат-blue.svg
+   :target: https://t.me/yandex_music_api
+   :alt: Telegram чат
 
 
 ==========
@@ -41,6 +55,8 @@
   #. `Логирование`_
 
   #. `Документация`_
+
+- `Получение помощи`_
 
 - `Благодарность`_
 
@@ -208,6 +224,16 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
 Документация ``yandex-music-api`` находится в стадии написания и расположена на
 `readthedocs.io <https://yandex-music.readthedocs.io/>`_.
+
+================
+Получение помощи
+================
+
+Получить помощь можно несколькими путями:
+
+- Задать вопрос в `Telegram чатике <https://t.me/yandex_music_api>`_, где мы помогаем друг другу, присоединяйтесь!
+- Сообщить о баге, предложить новую фичу или задать вопрос можно `создав issue <https://github.com/MarshalX/yandex-music-api/issues/new/choose>`_.
+- Найти ответ на вопрос в `документации библиотеки <https://yandex-music.readthedocs.io/ru/latest/>`_.
 
 =============
 Благодарность
