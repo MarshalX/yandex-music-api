@@ -23,6 +23,7 @@ class Best(YandexMusicObject):
         self.text = text
 
         self.client = client
+        self._id_attrs = (self.type, self.result)
 
     @classmethod
     def de_json(cls, data, client):

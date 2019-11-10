@@ -1,0 +1,4 @@
+requests
+pytest
+codecov
+pytest-cov

@@ -15,6 +15,7 @@ class GeneratedPlaylist(YandexMusicObject):
         self.data = data
 
         self.client = client
+        self._id_attrs = (self.type, self.ready, self.notify, self.data)
 
     @classmethod
     def de_json(cls, data, client):

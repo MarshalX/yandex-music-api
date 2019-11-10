@@ -14,7 +14,7 @@ class Landing(YandexMusicObject):
         self.blocks = blocks
 
         self.client = client
-        self._id_attrs = (self.content_id,)
+        self._id_attrs = (self.content_id, self.blocks)
 
     def __getitem__(self, item):
         return self.blocks[item]

@@ -23,7 +23,7 @@ class Block(YandexMusicObject):
         self.data = data
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
 
     def __getitem__(self, item):
         return self.entities[item]

@@ -11,6 +11,7 @@ class Normalization(YandexMusicObject):
         self.peak = peak
 
         self.client = client
+        self._id_attrs = (self.gain, self.peak)
 
     @classmethod
     def de_json(cls, data, client):

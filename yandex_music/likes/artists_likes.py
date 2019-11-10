@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -12,9 +10,10 @@ class ArtistsLikes(YandexMusicObject):
                  **kwargs):
         self.id = id
         self.artist = artist
-        self.timestamp = datetime.fromisoformat(timestamp) if timestamp else timestamp
+        self.timestamp = timestamp
 
         self.client = client
+        self._id_attrs = (self.id, self.artist)
 
     @classmethod
     def de_json(cls, data, client):

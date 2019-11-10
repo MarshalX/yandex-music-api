@@ -21,7 +21,8 @@ class MixLink(YandexMusicObject):
         self.cover_white = cover_white
 
         self.client = client
-        self._id_attrs = (self.url, )
+        self._id_attrs = (self.url, self.title, self.url_scheme, self.text_color,
+                          self.background_color, self.background_image_uri, self.cover_white)
 
     def download_background_image(self, filename, size='200x200'):
         """Загрузка заднего фона.

@@ -26,6 +26,8 @@ class Station(YandexMusicObject):
         self.parent_id = parent_id
 
         self.client = client
+        self._id_attrs = (self.id, self.name, self.icon, self.mts_icon, self.geocell_icon,
+                          self.id_for_from, self.restrictions, self.restrictions2)
 
     @classmethod
     def de_json(cls, data, client):

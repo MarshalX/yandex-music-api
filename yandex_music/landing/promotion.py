@@ -25,7 +25,8 @@ class Promotion(YandexMusicObject):
         self.image = image
 
         self.client = client
-        self._id_attrs = (self.promo_id, )
+        self._id_attrs = (self.promo_id, self.title, self.subtitle, self.heading,
+                          self.url, self.url_scheme, self.text_color, self.gradient, self.image)
 
     @classmethod
     def de_json(cls, data, client):

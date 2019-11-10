@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -7,12 +5,12 @@ class Album(YandexMusicObject):
     def __init__(self,
                  id,
                  title,
-                 cover_uri,
                  track_count,
                  artists,
                  labels,
                  available,
                  available_for_premium_users,
+                 cover_uri=None,
                  content_warning=None,
                  original_release_year=None,
                  genre=None,
@@ -34,16 +32,16 @@ class Album(YandexMusicObject):
                  **kwargs):
         self.id = id
         self.title = title
-        self.cover_uri = cover_uri
         self.track_count = track_count
         self.artists = artists
         self.labels = labels
         self.available_for_premium_users = available_for_premium_users
         self.available = available
 
+        self.cover_uri = cover_uri
         self.genre = genre
         self.year = year
-        self.release_date = datetime.fromisoformat(release_date) if release_date else release_date
+        self.release_date = release_date
         self.bests = bests
         self.prerolls = prerolls
         self.volumes = volumes
@@ -60,7 +58,8 @@ class Album(YandexMusicObject):
         self.content_warning = content_warning
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.title, self.track_count, self.artists, self.labels,
+                          self.available_for_premium_users, self.available)
 
     def with_tracks(self, *args, **kwargs):
         """Сокращение для::

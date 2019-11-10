@@ -19,6 +19,7 @@ class StationResult(YandexMusicObject):
         self.prerolls = prerolls
 
         self.client = client
+        self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
 
     @classmethod
     def de_json(cls, data, client):

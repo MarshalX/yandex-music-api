@@ -9,6 +9,7 @@ class PersonalPlaylistsData(YandexMusicObject):
         self.is_wizard_passed = is_wizard_passed
 
         self.client = client
+        self._id_attrs = (self.is_wizard_passed,)
 
     @classmethod
     def de_json(cls, data, client):

@@ -26,7 +26,7 @@ class BlockEntity(YandexMusicObject):
         self.data = data
 
         self.client = client
-        self._id_attrs = (self.id,)
+        self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
     def de_json(cls, data, client):

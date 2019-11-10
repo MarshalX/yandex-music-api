@@ -18,6 +18,7 @@ class RotorSettings(YandexMusicObject):
         self.mood_energy = mood_energy
 
         self.client = client
+        self._id_attrs = (self.language, self.diversity)
 
     @classmethod
     def de_json(cls, data, client):

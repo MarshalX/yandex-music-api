@@ -11,6 +11,7 @@ class ChartItem(YandexMusicObject):
         self.chart = chart
 
         self.client = client
+        self._id_attrs = (self.track, self.chart)
 
     @classmethod
     def de_json(cls, data, client):

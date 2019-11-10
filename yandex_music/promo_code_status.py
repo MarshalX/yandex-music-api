@@ -33,6 +33,7 @@ class PromoCodeStatus(YandexMusicObject):
         self.account_status = account_status
 
         self.client = client
+        self._id_attrs = (self.status, self.status_desc, self.account_status)
 
     @classmethod
     def de_json(cls, data, client):

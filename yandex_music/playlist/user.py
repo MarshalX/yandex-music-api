@@ -17,7 +17,7 @@ class User(YandexMusicObject):
         self.verified = verified
 
         self.client = client
-        self._id_attrs = (self.uid,)
+        self._id_attrs = (self.uid, self.login)
 
     def download_avatar(self, filename, format='normal'):
         """Загрузка изображения пользователя.

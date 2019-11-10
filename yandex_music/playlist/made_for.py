@@ -11,6 +11,7 @@ class MadeFor(YandexMusicObject):
         self.case_forms = case_forms
 
         self.client = client
+        self._id_attrs = (self.user_info, self.case_forms)
 
     @classmethod
     def de_json(cls, data, client):

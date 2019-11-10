@@ -15,6 +15,7 @@ class Counts(YandexMusicObject):
         self.also_tracks = also_tracks
 
         self.client = client
+        self._id_attrs = (self.tracks, self.direct_albums, self.also_albums, self.also_tracks)
 
     @classmethod
     def de_json(cls, data, client):

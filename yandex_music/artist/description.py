@@ -11,6 +11,7 @@ class Description(YandexMusicObject):
         self.url = url
 
         self.client = client
+        self._id_attrs = (self.text, self.url)
 
     @classmethod
     def de_json(cls, data, client):

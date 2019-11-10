@@ -10,3 +10,4 @@
 
    readme
    yandex_music
+   changes

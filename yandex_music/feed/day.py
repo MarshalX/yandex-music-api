@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -11,12 +9,13 @@ class Day(YandexMusicObject):
                  tracks_to_play,
                  client=None,
                  **kwargs):
-        self.day = datetime.fromisoformat(day)
+        self.day = day
         self.events = events
         self.tracks_to_play_with_ads = tracks_to_play_with_ads
         self.tracks_to_play = tracks_to_play
 
         self.client = client
+        self._id_attrs = (self.day, self.events, self.tracks_to_play_with_ads, self.tracks_to_play)
 
     @classmethod
     def de_json(cls, data, client):

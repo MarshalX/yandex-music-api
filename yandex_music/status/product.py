@@ -84,7 +84,8 @@ class Product(YandexMusicObject):
         self.payment_method_types = payment_method_types
 
         self.client = client
-        self._id_attrs = (self.product_id,)
+        self._id_attrs = (self.product_id, self.type, self.common_period_duration, self.duration,
+                          self.trial_duration, self.product_id, self.feature, self.debug)
 
     @classmethod
     def de_json(cls, data, client):

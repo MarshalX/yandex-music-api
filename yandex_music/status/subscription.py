@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from yandex_music import YandexMusicObject
 
 
@@ -11,7 +9,7 @@ class Subscription(YandexMusicObject):
             :class:`yandex_music.AutoRenewable` представляющих автопродление.
         can_start_trial (:obj:`bool`): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`): mcdonalds TODO.
-        end (:obj:`datetime.datetime`): Дата окончания.
+        end (:obj:`str`): Дата окончания.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
 
@@ -36,9 +34,10 @@ class Subscription(YandexMusicObject):
         self.auto_renewable = auto_renewable
         self.can_start_trial = can_start_trial
         self.mcdonalds = mcdonalds
-        self.end = datetime.fromisoformat(end) if end else end
+        self.end = end
 
         self.client = client
+        self._id_attrs = (self.auto_renewable,)
 
     @classmethod
     def de_json(cls, data, client):
