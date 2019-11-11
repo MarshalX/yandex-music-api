@@ -9,7 +9,7 @@ class User(YandexMusicObject):
         login (:obj:`str`): Логин пользователя.
         name (:obj:`str`): Имя пользователя.
         sex (:obj:`str`): Пол пользователя.
-        verified (:obj:`bool`): Является ли пользователь подтвержденным.
+        verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
 
     Args:
@@ -17,7 +17,7 @@ class User(YandexMusicObject):
         login (:obj:`str`): Логин пользователя.
         name (:obj:`str`): Имя пользователя.
         sex (:obj:`str`): Пол пользователя.
-        verified (:obj:`bool`): Является ли пользователь подтвержденным.
+        verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
