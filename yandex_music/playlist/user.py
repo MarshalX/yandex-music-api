@@ -21,6 +21,7 @@ class User(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
+
     def __init__(self,
                  uid,
                  login,
