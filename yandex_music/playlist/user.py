@@ -5,20 +5,20 @@ class User(YandexMusicObject):
     """Класс представляющий пользователя.
 
     Attributes:
-        uid (:obj:'int'): Идентификатор пользователя.
-        login (:obj:'str'): Логин пользователя.
-        name (:obj:'str'): Имя пользователя.
-        sex (:obj:'str'): Пол пользователя.
-        verified (:obj:'bool'): Является ли пользователь подтвержденным.
-        client (:obj:'yandex_music.Client'): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
+        uid (:obj:`int`): Идентификатор пользователя.
+        login (:obj:`str`): Логин пользователя.
+        name (:obj:`str`): Имя пользователя.
+        sex (:obj:`str`): Пол пользователя.
+        verified (:obj:`bool`): Является ли пользователь подтвержденным.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
 
     Args:
-        uid (:obj:'int'): Идентификатор пользователя.
-        login (:obj:'str'): Логин пользователя.
-        name (:obj:'str'): Имя пользователя.
-        sex (:obj:'str'): Пол пользователя.
-        verified (:obj:'bool'): Является ли пользователь подтвержденным.
-        client (:obj:'yandex_music.Client', optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
+        uid (:obj:`int`): Идентификатор пользователя.
+        login (:obj:`str`): Логин пользователя.
+        name (:obj:`str`): Имя пользователя.
+        sex (:obj:`str`): Пол пользователя.
+        verified (:obj:`bool`): Является ли пользователь подтвержденным.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
     def __init__(self,
