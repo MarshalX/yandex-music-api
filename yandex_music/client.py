@@ -77,7 +77,11 @@ class Client(YandexMusicObject):
         self.base_url = base_url
         self.oauth_url = oauth_url
 
-        self._request = request or Request(self)
+        if request:
+            self._request = request
+            self._request.set_and_return_client(self)
+        else:
+            self._request = Request(self)
 
         self.account = self.account_status().account
 

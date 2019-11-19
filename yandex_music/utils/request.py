@@ -24,25 +24,29 @@ class Request:
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
         headers (:obj:`dict`, optional): Заголовки передаваемые с каждым запросом.
-        proxies (:obj:`dict`, optional): Прокси.
+        proxy_url (:obj:`str`, optional): Прокси.
     """
 
     def __init__(self,
-                 client,
+                 client=None,
                  headers=None,
-                 proxies=None):
-
-        self.client = client
-
+                 proxy_url=None):
         self.headers = headers or HEADERS.copy()
 
-        if self.client.token:
-            self.set_authorization(self.client.token)
+        self.client = self.set_and_return_client(client)
 
-        self.proxies = proxies  # TODO
+        self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
 
     def set_authorization(self, token):
         self.headers.update({'Authorization': f'OAuth {token}'})
+
+    def set_and_return_client(self, client):
+        self.client = client
+
+        if self.client and self.client.token:
+            self.set_authorization(self.client.token)
+
+        return self.client
 
     @staticmethod
     def _convert_camel_to_snake(text):
@@ -107,21 +111,21 @@ class Request:
             raise NetworkError(f'{message} ({resp.status_code})')
 
     def get(self, url, params=None, timeout=5, *args, **kwargs):
-        result = self._request_wrapper('GET', url, params=params, headers=self.headers, timeout=timeout,
-                                       *args, **kwargs)
+        result = self._request_wrapper('GET', url, params=params, headers=self.headers, proxies=self.proxies,
+                                       timeout=timeout, *args, **kwargs)
 
         return self._parse(result.content).result
 
     def post(self, url, data=None, timeout=5, *args, **kwargs):
-        result = self._request_wrapper('POST', url, headers=self.headers, data=data, timeout=timeout,
-                                       *args, **kwargs)
+        result = self._request_wrapper('POST', url, headers=self.headers, proxies=self.proxies, data=data,
+                                       timeout=timeout, *args, **kwargs)
 
         return self._parse(result.content).result
 
     def retrieve(self, url, timeout=5, *args, **kwargs):
-        return self._request_wrapper('GET', url, timeout=timeout, *args, **kwargs)
+        return self._request_wrapper('GET', url, proxies=self.proxies, timeout=timeout, *args, **kwargs)
 
     def download(self, url, filename, timeout=5, *args, **kwargs):
-        result = self.retrieve(url, timeout=timeout, *args, *kwargs)
+        result = self.retrieve(url, proxies=self.proxies, timeout=timeout, *args, *kwargs)
         with open(filename, 'wb') as f:
             f.write(result.content)

@@ -176,6 +176,25 @@ Microsoft Store. Так как API является закрытым и испо
 Первым треком из примера является следующий трек:
 music.yandex.ru/album/**1193829**/track/**10994777**
 
+Выполнение запросов с использование прокси:
+
+.. code:: python
+
+    from yandex_music.utils.request import Request
+    from yandex_music.client import Client
+
+    request = Request(proxy_url='socks5://user:password@host:port')
+    client = Client(request=request)
+
+Примеры proxy url:
+
+- socks5://user:password@host:port
+- http://host:port
+- https://host:port
+- http://user:password@host
+
+Больше примеров тут: `proxies - advanced usage - requests <https://2.python-requests.org/en/master/user/advanced/#proxies>`_
+
 --------------------
 Изучение по примерам
 --------------------

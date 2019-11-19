@@ -12,7 +12,7 @@ pytest-cov = "*"
 codecov = "*"
 
 [packages]
-requests = "*"
+requests = { extras = ["socks"] }
 
 [requires]
 python_version = "3.7"
