@@ -5,7 +5,8 @@ import requests
 
 from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
-from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError, CaptchaRequired
+from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError, CaptchaRequired, \
+    CaptchaWrong
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
@@ -98,8 +99,9 @@ class Request:
         parse = self._parse(resp.content)
         message = parse.error or 'Unknown HTTPError'
 
-        if message == '403 CAPTCHA required':
-            raise CaptchaRequired(message, CaptchaResponse.de_json(parse.result, self.client))
+        if 'CAPTCHA' in message:
+            exception = CaptchaWrong if 'Wrong' in message else CaptchaRequired
+            raise exception(message, CaptchaResponse.de_json(parse.result, self.client))
         elif resp.status_code in (401, 403):
             raise Unauthorized(message)
         elif resp.status_code == 400:

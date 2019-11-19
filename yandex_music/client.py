@@ -25,7 +25,6 @@ de_list_likes = {
     'playlist': PlaylistsLikes.de_list,
 }
 
-
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
@@ -82,7 +81,7 @@ class Client(YandexMusicObject):
         self.account = self.account_status().account
 
     @classmethod
-    def from_credentials(cls, username, password, *args, **kwargs):
+    def from_credentials(cls, username, password, x_captcha_answer=None, x_captcha_key=None, *args, **kwargs):
         """Инициализция клиента по логину и паролю.
 
         Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить и
@@ -91,13 +90,16 @@ class Client(YandexMusicObject):
         Args:
             username (:obj:`str`): Логин клиента (идентификатор).
             password (:obj:`str`): Пароль клиента (аутентификатор).
+            x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
+            x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
             **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
 
         Returns:
             :obj:`yandex_music.Client`.
         """
 
-        return cls(cls().generate_token_by_username_and_password(username, password), *args, **kwargs)
+        return cls(cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
+                                                                 x_captcha_key=x_captcha_key), *args, **kwargs)
 
     @classmethod
     def from_token(cls, token, *args, **kwargs):
@@ -116,14 +118,16 @@ class Client(YandexMusicObject):
         return cls(token=token, *args, **kwargs)
 
     @log
-    def generate_token_by_username_and_password(self, username, password, grant_type='password',
-                                                timeout=None, *args, **kwargs):
+    def generate_token_by_username_and_password(self, username, password, grant_type='password', x_captcha_answer=None,
+                                                x_captcha_key=None, timeout=None, *args, **kwargs):
         """Метод получения OAuth токена по логину и паролю.
 
         Args:
             username (:obj:`str`): Логин клиента (идентификатор).
             password (:obj:`str`): Пароль клиента (аутентификатор).
             grant_type (:obj:`str`, optional): Тип разрешения OAuth.
+            x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
+            x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -144,6 +148,9 @@ class Client(YandexMusicObject):
             'username': username,
             'password': password
         }
+
+        if x_captcha_answer and x_captcha_key:
+            data.update({'x_captcha_answer': x_captcha_answer, 'x_captcha_key': x_captcha_key})
 
         result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
 

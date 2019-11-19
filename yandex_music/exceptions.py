@@ -20,12 +20,25 @@ class Unauthorized(YandexMusicError):
     pass
 
 
-class CaptchaRequired(YandexMusicError):
+class Captcha(YandexMusicError):
+    """Базовый класс, представляющий исключение связанное с капчей.
+    """
+
+    pass
+
+
+class CaptchaRequired(Captcha):
     """Класс исключения, вызываемый в случае необходимости ввода проверочного кода.
     """
 
     pass
 
+
+class CaptchaWrong(Captcha):
+    """Класс исключения, вызываемый в случае неправильного ввода капчи.
+    """
+
+    pass
 
 class NetworkError(YandexMusicError):
     """Базовый класс исключений, вызываемых для ошибок, связанных с
