@@ -8,11 +8,11 @@ class Search(YandexMusicObject):
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
         best (:obj:`yandex_music.Best`): Лучший результат.
-        albums (:obj:`yandex_music.SearchResult`): Найденые альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Найденые исполнители.
-        playlists (:obj:`yandex_music.SearchResult`): Найденые плейлисты.
-        tracks (:obj:`yandex_music.SearchResult`): Найденые треки.
-        videos (:obj:`yandex_music.SearchResult`): Найденые видео.
+        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные альбомы.
+        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные исполнители.
+        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные плейлисты.
+        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные треки.
+        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные видео.
         misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
         nocorrect (:obj:`bool`): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
@@ -22,17 +22,18 @@ class Search(YandexMusicObject):
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
         best (:obj:`yandex_music.Best`): Лучший результат.
-        albums (:obj:`yandex_music.SearchResult`): Найденые альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Найденые исполнители.
-        playlists (:obj:`yandex_music.SearchResult`): Найденые плейлисты.
-        tracks (:obj:`yandex_music.SearchResult`): Найденые треки.
-        videos (:obj:`yandex_music.SearchResult`): Найденые видео.
-        misspell_corrected (:obj:`bool`): Была ли исправлена опечатка.
+        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные альбомы.
+        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные исполнители.
+        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные плейлисты.
+        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные треки.
+        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные видео.
+        misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
         nocorrect (:obj:`bool`): Было ли отключено исправление результата.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
+
     def __init__(self,
                  search_request_id,
                  text,
