@@ -176,6 +176,24 @@ Microsoft Store. Так как API является закрытым и испо
 Первым треком из примера является следующий трек:
 music.yandex.ru/album/**1193829**/track/**10994777**
 
+Пример инициализации клиента с обработкой капчи:
+
+.. code:: python
+
+    def init_client():
+        client = captcha_key = captcha_answer = None
+        while not client:
+            try:
+                client = Client.from_credentials('login', 'pass', captcha_answer, captcha_key)
+            except Captcha as e:
+                captcha = e.args[1]
+                captcha.download('captcha.png')
+
+                captcha_key = captcha.x_captcha_key
+                captcha_answer = input('Число с картинки: ')
+
+        return client
+
 --------------------
 Изучение по примерам
 --------------------
