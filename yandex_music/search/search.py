@@ -7,7 +7,7 @@ class Search(YandexMusicObject):
     Attributes:
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
-        best (:obj:`yandex_music.Best`): Лучший результат.
+        best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best` представляющий лучший результат.
         albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные альбомы.
         artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденных исполнителей.
         playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные плейлисты.
