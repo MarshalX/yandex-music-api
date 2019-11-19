@@ -23,7 +23,6 @@ from .artist.brief_info import BriefInfo
 from .artist.counts import Counts
 from .artist.description import Description
 from .artist.link import Link
-from .artist.pager import Pager
 from .artist.ratings import Ratings
 from .artist.vinyl import Vinyl
 
@@ -94,6 +93,7 @@ from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
 from .supplement.video_supplement import VideoSupplement
 
+from .pager import Pager
 from .cover import Cover
 from .experiments import Experiments
 from .invocation_info import InvocationInfo
