@@ -923,12 +923,12 @@ class Client(YandexMusicObject):
 
     @log
     def artists_albums(self, artist_id: str or int, page=0, page_size=20, sort_by='year', timeout=None, *args, **kwargs):
-        """Получение треков артиста.
+        """Получение альбомов артиста.
 
         Args:
             artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
             page (:obj:`int`, optional): Номер страницы.
-            page_size (:obj:`int`, optional): Количество треков на странице.
+            page_size (:obj:`int`, optional): Количество альбомов на странице.
             sort_by (:obj:`str`, optional): Параметр для сортирвки.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
