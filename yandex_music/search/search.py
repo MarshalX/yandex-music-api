@@ -14,6 +14,7 @@ class Search(YandexMusicObject):
         tracks (:obj:`yandex_music.SearchResult`): Найденые треки.
         videos (:obj:`yandex_music.SearchResult`): Найденые видео.
         misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
+        nocorrect (:obj:`bool`): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
 
@@ -27,6 +28,7 @@ class Search(YandexMusicObject):
         tracks (:obj:`yandex_music.SearchResult`): Найденые треки.
         videos (:obj:`yandex_music.SearchResult`): Найденые видео.
         misspell_corrected (:obj:`bool`): Была ли исправлена опечатка.
+        nocorrect (:obj:`bool`): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
