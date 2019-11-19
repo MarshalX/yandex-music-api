@@ -19,6 +19,7 @@ from .album.label import Label
 from .album.track_position import TrackPosition
 from .artist.artist import Artist
 from .artist.artist_tracks import ArtistTracks
+from .artist.artist_albums import ArtistAlbums
 from .artist.brief_info import BriefInfo
 from .artist.counts import Counts
 from .artist.description import Description
