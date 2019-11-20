@@ -4,7 +4,8 @@ from datetime import datetime
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement, ArtistTracks
+    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement, ArtistTracks, \
+    ArtistAlbums
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken
@@ -24,7 +25,6 @@ de_list_likes = {
     'album': AlbumsLikes.de_list,
     'playlist': PlaylistsLikes.de_list,
 }
-
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
@@ -906,7 +906,10 @@ class Client(YandexMusicObject):
 
         Returns:
             :obj:`yandex_music.ArtistsTracks`: Объекта класса :class:`yandex_music.ArtistsTracks`
-            представляющий страницу списка треков артиста
+            представляющий страницу списка треков артиста, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
 
         url = f'{self.base_url}/artists/{artist_id}/tracks'
@@ -919,6 +922,42 @@ class Client(YandexMusicObject):
         result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
 
         return ArtistTracks.de_json(result, self)
+
+    @log
+    def artists_direct_albums(self, artist_id: str or int, page=0, page_size=20, sort_by='year',
+                              timeout=None, *args, **kwargs):
+        """Получение альбомов артиста.
+
+        Известные значения для sort_by: year, rating.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            page (:obj:`int`, optional): Номер страницы.
+            page_size (:obj:`int`, optional): Количество альбомов на странице.
+            sort_by (:obj:`str`, optional): Параметр для сортировки.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistAlbums`: Объекта класса :class:`yandex_music.ArtistsTracks`
+                представляющий страницу списка альбомов артиста, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/artists/{artist_id}/direct-albums'
+
+        params = {
+            'sort-by': sort_by,
+            'page': page,
+            'page-size': page_size
+        }
+
+        result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
+
+        return ArtistAlbums.de_json(result, self)
 
     def _like_action(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
                      timeout=None, *args, **kwargs):
@@ -1140,6 +1179,8 @@ class Client(YandexMusicObject):
     artistsBriefInfo = artists_brief_info
     #: Псевдоним для :attr:`artists_tracks`
     artistsTracks = artists_tracks
+    #: Псевдоним для :attr:`artists_direct_albums`
+    artistsDirectAlbums = artists_direct_albums
     #: Псевдоним для :attr:`users_likes_tracks_add`
     usersLikesTracksAdd = users_likes_tracks_add
     #: Псевдоним для :attr:`users_likes_tracks_remove`

@@ -95,6 +95,13 @@ class Artist(YandexMusicObject):
         """
         return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
 
+    def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs):
+        """Сокращение для::
+
+            client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
+        """
+        return self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data, client):
         if not data:
@@ -129,3 +136,5 @@ class Artist(YandexMusicObject):
     downloadOpImage = download_op_image
     #: Псевдоним для :attr:`get_tracks`
     getTracks = get_tracks
+    #: Псевдоним для :attr:`get_albums`
+    getAlbums = get_albums
