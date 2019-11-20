@@ -195,6 +195,23 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
 Больше примеров тут: `proxies - advanced usage - requests <https://2.python-requests.org/en/master/user/advanced/#proxies>`_
 
+Пример инициализации клиента с обработкой капчи:
+
+.. code:: python
+
+    def init_client():
+        client = captcha_key = captcha_answer = None
+        while not client:
+            try:
+                client = Client.from_credentials('login', 'pass', captcha_answer, captcha_key)
+            except Captcha as e:
+                e.captcha.download('captcha.png')
+
+                captcha_key = e.captcha.x_captcha_key
+                captcha_answer = input('Число с картинки: ')
+
+        return client
+
 --------------------
 Изучение по примерам
 --------------------

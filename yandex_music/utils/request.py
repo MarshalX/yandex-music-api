@@ -3,9 +3,10 @@ import json
 import logging
 import requests
 
+from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
-from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError
-
+from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError, CaptchaRequired, \
+    CaptchaWrong
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
@@ -78,6 +79,9 @@ class Request:
         except (AttributeError, ValueError):
             raise YandexMusicError('Invalid server response')
 
+        if not data.get('result'):
+            data = {'result': data, 'error': data.get('error'), 'error_description': data.get('error_description')}
+
         return Response.de_json(data, self.client)
 
     def _request_wrapper(self, *args, **kwargs):
@@ -96,9 +100,13 @@ class Request:
         if 200 <= resp.status_code <= 299:
             return resp
 
-        message = self._parse(resp.content).error or 'Unknown HTTPError'
+        parse = self._parse(resp.content)
+        message = parse.error or 'Unknown HTTPError'
 
-        if resp.status_code in (401, 403):
+        if 'CAPTCHA' in message:
+            exception = CaptchaWrong if 'Wrong' in message else CaptchaRequired
+            raise exception(message, CaptchaResponse.de_json(parse.result, self.client))
+        elif resp.status_code in (401, 403):
             raise Unauthorized(message)
         elif resp.status_code == 400:
             raise BadRequest(message)
