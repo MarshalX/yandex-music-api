@@ -186,10 +186,9 @@ music.yandex.ru/album/**1193829**/track/**10994777**
             try:
                 client = Client.from_credentials('login', 'pass', captcha_answer, captcha_key)
             except Captcha as e:
-                captcha = e.args[1]
-                captcha.download('captcha.png')
+                e.captcha.download('captcha.png')
 
-                captcha_key = captcha.x_captcha_key
+                captcha_key = e.captcha.x_captcha_key
                 captcha_answer = input('Число с картинки: ')
 
         return client
