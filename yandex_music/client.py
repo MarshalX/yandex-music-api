@@ -922,7 +922,7 @@ class Client(YandexMusicObject):
         return ArtistTracks.de_json(result, self)
 
     @log
-    def artists_albums(self, artist_id: str or int, page=0, page_size=20, sort_by='year', timeout=None, *args, **kwargs):
+    def artists_direct_albums(self, artist_id: str or int, page=0, page_size=20, sort_by='year', timeout=None, *args, **kwargs):
         """Получение альбомов артиста.
 
         Args:
@@ -936,7 +936,7 @@ class Client(YandexMusicObject):
 
         Returns:
             :obj:`yandex_music.ArtistAlbums`: Объекта класса :class:`yandex_music.ArtistsTracks`
-            представляющий страницу списка альбомов артиста
+            	представляющий страницу списка альбомов артиста
         """
 
         url = f'{self.base_url}/artists/{artist_id}/direct-albums'
@@ -1171,8 +1171,8 @@ class Client(YandexMusicObject):
     artistsBriefInfo = artists_brief_info
     #: Псевдоним для :attr:`artists_tracks`
     artistsTracks = artists_tracks
-    #: Псевдоним для :attr:`artists_albums`
-    artistsAlbums = artists_albums
+    #: Псевдоним для :attr:`artists_direct_albums`
+    artistsDirectAlbums = artists_direct_albums
     #: Псевдоним для :attr:`users_likes_tracks_add`
     usersLikesTracksAdd = users_likes_tracks_add
     #: Псевдоним для :attr:`users_likes_tracks_remove`

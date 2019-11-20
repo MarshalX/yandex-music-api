@@ -98,9 +98,9 @@ class Artist(YandexMusicObject):
     def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs):
         """Сокращение для::
 
-            client.artists_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
+            client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
         """
-        return self.client.artists_albums(self.id, page, page_size, sort_by, *args, **kwargs)
+        return self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data, client):
