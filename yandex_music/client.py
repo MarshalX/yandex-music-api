@@ -26,7 +26,6 @@ de_list_likes = {
     'playlist': PlaylistsLikes.de_list,
 }
 
-
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
@@ -907,7 +906,10 @@ class Client(YandexMusicObject):
 
         Returns:
             :obj:`yandex_music.ArtistsTracks`: Объекта класса :class:`yandex_music.ArtistsTracks`
-            представляющий страницу списка треков артиста
+            представляющий страницу списка треков артиста, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
 
         url = f'{self.base_url}/artists/{artist_id}/tracks'
@@ -922,21 +924,27 @@ class Client(YandexMusicObject):
         return ArtistTracks.de_json(result, self)
 
     @log
-    def artists_direct_albums(self, artist_id: str or int, page=0, page_size=20, sort_by='year', timeout=None, *args, **kwargs):
+    def artists_direct_albums(self, artist_id: str or int, page=0, page_size=20, sort_by='year',
+                              timeout=None, *args, **kwargs):
         """Получение альбомов артиста.
+
+        Известные значения для sort_by: year, rating.
 
         Args:
             artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
             page (:obj:`int`, optional): Номер страницы.
             page_size (:obj:`int`, optional): Количество альбомов на странице.
-            sort_by (:obj:`str`, optional): Параметр для сортирвки.
+            sort_by (:obj:`str`, optional): Параметр для сортировки.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.ArtistAlbums`: Объекта класса :class:`yandex_music.ArtistsTracks`
-            	представляющий страницу списка альбомов артиста
+                представляющий страницу списка альбомов артиста, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
 
         url = f'{self.base_url}/artists/{artist_id}/direct-albums'
