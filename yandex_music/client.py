@@ -99,7 +99,7 @@ class Client(YandexMusicObject):
             x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
             x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
             captch_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
-                принимать объект класса :class:`yandex_music.exceptions.Captcha` и возвращать строку с кодом. 
+                принимать объект класса :class:`yandex_music.exceptions.Captcha` и возвращать строку с кодом.
             **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
 
         Returns:
