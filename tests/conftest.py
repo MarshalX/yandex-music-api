@@ -102,11 +102,11 @@ def album_without_tracks(album_factory, artist_without_tracks):
 
 
 @pytest.fixture(scope='session')
-def playlist_factory(user, cover, made_for, track_short, play_counter):
+def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_absence):
     class PlaylistFactory:
         def get(self):
-            return Playlist(user, TestPlaylist.uid, TestPlaylist.kind, TestPlaylist.title, TestPlaylist.track_count,
-                            cover, made_for, play_counter, TestPlaylist.tags, TestPlaylist.revision,
+            return Playlist(user, cover, made_for, play_counter, playlist_absence, TestPlaylist.uid, TestPlaylist.kind,
+                            TestPlaylist.title, TestPlaylist.track_count, TestPlaylist.tags, TestPlaylist.revision,
                             TestPlaylist.snapshot, TestPlaylist.visibility, TestPlaylist.collective,
                             TestPlaylist.created, TestPlaylist.modified, TestPlaylist.available, TestPlaylist.is_banner,
                             TestPlaylist.is_premiere, TestPlaylist.duration_ms, TestPlaylist.og_image, [track_short],

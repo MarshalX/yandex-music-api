@@ -134,7 +134,11 @@ class Playlist(YandexMusicObject):
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
-        data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absense'), client)    # очепятка яндуха
+
+        data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absence'), client)    # на случай фикса
+        if data.get('playlist_absense'):    # очепятка яндуха
+            data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absense'), client)
+            data.pop('playlist_absense')
 
         return cls(client=client, **data)
 
