@@ -8,7 +8,7 @@ from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, 
     ArtistAlbums
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
-from yandex_music.exceptions import InvalidToken
+from yandex_music.exceptions import InvalidToken, Captcha
 
 CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
 CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
@@ -86,25 +86,44 @@ class Client(YandexMusicObject):
         self.account = self.account_status().account
 
     @classmethod
-    def from_credentials(cls, username, password, x_captcha_answer=None, x_captcha_key=None, *args, **kwargs):
+    def from_credentials(cls, username, password, x_captcha_answer=None, x_captcha_key=None, captcha_callback=None,
+                         *args, **kwargs):
         """Инициализция клиента по логину и паролю.
 
-        Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить и
-        использовать при следующих инициализациях клиента. Не храните логины и пароли!
+        Note:
+            Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить
+            и использовать при следующих инициализациях клиента. Не храните логины и пароли!
 
         Args:
             username (:obj:`str`): Логин клиента (идентификатор).
             password (:obj:`str`): Пароль клиента (аутентификатор).
             x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
             x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
+            captcha_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
+                принимать объект класса :class:`yandex_music.exceptions.Captcha` и возвращать проверочный код.
             **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
 
         Returns:
             :obj:`yandex_music.Client`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
 
-        return cls(cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
-                                                                 x_captcha_key=x_captcha_key), *args, **kwargs)
+        token = None
+        while not token:
+            try:
+                token = cls().generate_token_by_username_and_password(username, password,
+                                                                      x_captcha_answer=x_captcha_answer,
+                                                                      x_captcha_key=x_captcha_key)
+            except Captcha as e:
+                if not captcha_callback:
+                    raise e
+
+                x_captcha_answer = captcha_callback(e.captcha)
+                x_captcha_key = e.captcha.x_captcha_key
+
+        return cls(token, *args, **kwargs)
 
     @classmethod
     def from_token(cls, token, *args, **kwargs):

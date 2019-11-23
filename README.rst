@@ -212,6 +212,16 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
         return client
 
+Пример инициализации клиента с обработкой капчи при помощи callback-функции:
+
+.. code:: python
+
+    def proc_captcha(captcha):
+        captcha.download('captcha.png')
+        return input('Число с картинки: ')
+
+    client = Client.from_credentials('login', 'pass', captcha_callback=proc_captcha)
+
 --------------------
 Изучение по примерам
 --------------------
