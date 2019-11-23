@@ -86,7 +86,7 @@ class Client(YandexMusicObject):
         self.account = self.account_status().account
 
     @classmethod
-    def from_credentials(cls, username, password, x_captcha_answer=None, x_captcha_key=None, captch_callback=None,
+    def from_credentials(cls, username, password, x_captcha_answer=None, x_captcha_key=None, captcha_callback=None,
                          *args, **kwargs):
         """Инициализция клиента по логину и паролю.
 
@@ -98,7 +98,7 @@ class Client(YandexMusicObject):
             password (:obj:`str`): Пароль клиента (аутентификатор).
             x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
             x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
-            captch_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
+            captcha_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
                 принимать объект класса :class:`yandex_music.exceptions.Captcha` и возвращать строку с кодом.
             **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
 
@@ -106,18 +106,18 @@ class Client(YandexMusicObject):
             :obj:`yandex_music.Client`.
         """
 
-        token = x_captcha_key = x_captcha_answer = None
-        if captch_callback:
+        token = None
+        if captcha_callback:
             while not token:
                 try:
                     token = cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
-                                                                          x_captcha_key=x_captcha_key, captch_callback=captch_callback)
+                                                                          x_captcha_key=x_captcha_key)
                 except Captcha as e:
-                    x_captcha_answer = captch_callback(e.captcha)
+                    x_captcha_answer = captcha_callback(e.captcha)
                     x_captcha_key = e.captcha.x_captcha_key
         else:
             token = cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
-                                                                  x_captcha_key=x_captcha_key, captch_callback=captch_callback)
+                                                                  x_captcha_key=x_captcha_key)
 
         return cls(token, *args, **kwargs)
 
