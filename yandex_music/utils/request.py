@@ -134,6 +134,6 @@ class Request:
         return self._request_wrapper('GET', url, proxies=self.proxies, timeout=timeout, *args, **kwargs)
 
     def download(self, url, filename, timeout=5, *args, **kwargs):
-        result = self.retrieve(url, proxies=self.proxies, timeout=timeout, *args, *kwargs)
+        result = self.retrieve(url, timeout=timeout, *args, *kwargs)
         with open(filename, 'wb') as f:
             f.write(result.content)
