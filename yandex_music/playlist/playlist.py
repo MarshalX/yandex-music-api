@@ -4,13 +4,14 @@ from yandex_music import YandexMusicObject
 class Playlist(YandexMusicObject):
     def __init__(self,
                  owner,
-                 uid,
-                 kind,
-                 title,
-                 track_count,
                  cover,
                  made_for,
                  play_counter,
+                 playlist_absence,
+                 uid=None,
+                 kind=None,
+                 title=None,
+                 track_count=None,
                  tags=None,
                  revision=None,
                  snapshot=None,
@@ -36,14 +37,15 @@ class Playlist(YandexMusicObject):
                  client=None,
                  **kwargs):
         self.owner = owner
+        self.cover = cover
+        self.made_for = made_for
+        self.play_counter = play_counter
+        self.playlist_absence = playlist_absence
+
         self.uid = uid
         self.kind = kind
         self.title = title
         self.track_count = track_count
-        self.cover = cover
-        self.made_for = made_for
-        self.play_counter = play_counter
-
         self.revision = revision
         self.snapshot = snapshot
         self.visibility = visibility
@@ -68,8 +70,7 @@ class Playlist(YandexMusicObject):
         self.tags = tags
 
         self.client = client
-        self._id_attrs = (self.uid, self.kind, self.title, self.track_count, self.cover,
-                          self.made_for, self.play_counter)
+        self._id_attrs = (self.uid, self.kind, self.title, self.playlist_absence)
 
     @property
     def is_mine(self):
@@ -127,12 +128,13 @@ class Playlist(YandexMusicObject):
             return None
 
         data = super(Playlist, cls).de_json(data, client)
-        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort
+        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
+        data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absense'), client)    # очепятка яндуха
 
         return cls(client=client, **data)
 
