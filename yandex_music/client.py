@@ -107,17 +107,16 @@ class Client(YandexMusicObject):
         """
 
         token = None
-        if captcha_callback:
-            while not token:
-                try:
-                    token = cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
-                                                                          x_captcha_key=x_captcha_key)
-                except Captcha as e:
+        while not token:
+            try:
+                token = cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
+                                                                      x_captcha_key=x_captcha_key)
+            except Captcha as e:
+                if captcha_callback:
                     x_captcha_answer = captcha_callback(e.captcha)
                     x_captcha_key = e.captcha.x_captcha_key
-        else:
-            token = cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
-                                                                  x_captcha_key=x_captcha_key)
+                else:
+                    raise e
 
         return cls(token, *args, **kwargs)
 
