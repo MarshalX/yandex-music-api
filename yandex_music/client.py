@@ -90,8 +90,9 @@ class Client(YandexMusicObject):
                          *args, **kwargs):
         """Инициализция клиента по логину и паролю.
 
-        Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить и
-        использовать при следующих инициализациях клиента. Не храните логины и пароли!
+        Note:
+            Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить
+            и использовать при следующих инициализациях клиента. Не храните логины и пароли!
 
         Args:
             username (:obj:`str`): Логин клиента (идентификатор).
@@ -99,24 +100,28 @@ class Client(YandexMusicObject):
             x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
             x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
             captcha_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
-                принимать объект класса :class:`yandex_music.exceptions.Captcha` и возвращать строку с кодом.
+                принимать объект класса :class:`yandex_music.exceptions.Captcha` и возвращать проверочный код.
             **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
 
         Returns:
             :obj:`yandex_music.Client`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
 
         token = None
         while not token:
             try:
-                token = cls().generate_token_by_username_and_password(username, password, x_captcha_answer=x_captcha_answer,
+                token = cls().generate_token_by_username_and_password(username, password,
+                                                                      x_captcha_answer=x_captcha_answer,
                                                                       x_captcha_key=x_captcha_key)
             except Captcha as e:
-                if captcha_callback:
-                    x_captcha_answer = captcha_callback(e.captcha)
-                    x_captcha_key = e.captcha.x_captcha_key
-                else:
+                if not captcha_callback:
                     raise e
+
+                x_captcha_answer = captcha_callback(e.captcha)
+                x_captcha_key = e.captcha.x_captcha_key
 
         return cls(token, *args, **kwargs)
 
