@@ -79,7 +79,7 @@ class Request:
         except (AttributeError, ValueError):
             raise YandexMusicError('Invalid server response')
 
-        if not data.get('result'):
+        if data.get('result') is None:
             data = {'result': data, 'error': data.get('error'), 'error_description': data.get('error_description')}
 
         return Response.de_json(data, self.client)

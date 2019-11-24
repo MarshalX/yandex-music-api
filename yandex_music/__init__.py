@@ -32,6 +32,7 @@ from .playlist.made_for import MadeFor
 from .playlist.user import User
 from .playlist.play_counter import PlayCounter
 from .playlist.playlist_id import PlaylistId
+from .playlist.playlist_absence import PlaylistAbsence
 from .playlist.playlist import Playlist
 
 from .tracks_list import TracksList
@@ -113,4 +114,5 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre',
            'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum',
            'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId',
-           'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums']
+           'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums',
+           'PlaylistAbsence']

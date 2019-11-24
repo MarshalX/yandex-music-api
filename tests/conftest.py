@@ -6,7 +6,7 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, PassportPhone, User, Promotion, \
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
-    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block
+    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -15,7 +15,7 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestUser, TestPassportPhone, TestPromotion, TestTitle, TestPersonalPlaylistsData, TestRotorSettings, \
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
-    TestSearchResult, TestBlockEntity, TestBlock
+    TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence
 
 
 @pytest.fixture(scope='session')
@@ -102,11 +102,11 @@ def album_without_tracks(album_factory, artist_without_tracks):
 
 
 @pytest.fixture(scope='session')
-def playlist_factory(user, cover, made_for, track_short, play_counter):
+def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_absence):
     class PlaylistFactory:
         def get(self):
-            return Playlist(user, TestPlaylist.uid, TestPlaylist.kind, TestPlaylist.title, TestPlaylist.track_count,
-                            cover, made_for, play_counter, TestPlaylist.tags, TestPlaylist.revision,
+            return Playlist(user, cover, made_for, play_counter, playlist_absence, TestPlaylist.uid, TestPlaylist.kind,
+                            TestPlaylist.title, TestPlaylist.track_count, TestPlaylist.tags, TestPlaylist.revision,
                             TestPlaylist.snapshot, TestPlaylist.visibility, TestPlaylist.collective,
                             TestPlaylist.created, TestPlaylist.modified, TestPlaylist.available, TestPlaylist.is_banner,
                             TestPlaylist.is_premiere, TestPlaylist.duration_ms, TestPlaylist.og_image, [track_short],
@@ -253,6 +253,11 @@ def made_for(user, case_forms):
 @pytest.fixture(scope='session')
 def play_counter():
     return PlayCounter(TestPlayCounter.value, TestPlayCounter.description, TestPlayCounter.updated)
+
+
+@pytest.fixture(scope='session')
+def playlist_absence():
+    return PlaylistAbsence(TestPlaylistAbsence.kind, TestPlaylistAbsence.reason)
 
 
 @pytest.fixture(scope='session')
