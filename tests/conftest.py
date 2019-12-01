@@ -22,7 +22,7 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
 def artist_factory(cover, counts, ratings, link, description):
     class ArtistFactory:
         def get(self, popular_tracks):
-            return Artist(TestArtist.id, TestArtist.name, TestArtist.various, TestArtist.composer, cover,
+            return Artist(TestArtist.id, TestArtist.name, cover, TestArtist.various, TestArtist.composer,
                           TestArtist.genres, TestArtist.op_image, TestArtist.no_pictures_from_search, counts,
                           TestArtist.available, ratings, [link], TestArtist.tickets_available, TestArtist.likes_count,
                           popular_tracks, TestArtist.regions, TestArtist.decomposed, TestArtist.full_names, description,
@@ -46,10 +46,10 @@ def artist_without_tracks(artist_factory):
 def track_factory(major, normalization):
     class TrackFactory:
         def get(self, artists, albums):
-            return Track(TestTrack.id, TestTrack.title, TestTrack.available, TestTrack.available_for_premium_users,
-                         artists, albums, TestTrack.lyrics_available, TestTrack.real_id, TestTrack.og_image,
-                         TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms, TestTrack.storage_dir,
-                         TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
+            return Track(TestTrack.id, TestTrack.title, TestTrack.available, artists, albums,
+                         TestTrack.available_for_premium_users, TestTrack.lyrics_available, TestTrack.real_id,
+                         TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms,
+                         TestTrack.storage_dir, TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
                          TestTrack.available_as_rbt, TestTrack.content_warning, TestTrack.explicit,
                          TestTrack.preview_duration_ms, TestTrack.available_full_without_permission)
 
