@@ -6,10 +6,10 @@ class Track(YandexMusicObject):
                  id,
                  title,
                  available,
-                 available_for_premium_users,
                  artists,
                  albums,
-                 lyrics_available,
+                 available_for_premium_users=None,
+                 lyrics_available=None,
                  real_id=None,
                  og_image=None,
                  type=None,
@@ -31,11 +31,11 @@ class Track(YandexMusicObject):
         self.id = id
         self.title = title
         self.available = available
-        self.available_for_premium_users = available_for_premium_users
         self.artists = artists
         self.albums = albums
-        self.lyrics_available = lyrics_available
 
+        self.available_for_premium_users = available_for_premium_users
+        self.lyrics_available = lyrics_available
         self.real_id = real_id
         self.og_image = og_image
         self.type = type

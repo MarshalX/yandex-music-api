@@ -5,9 +5,9 @@ class Artist(YandexMusicObject):
     def __init__(self,
                  id,
                  name,
-                 various,
-                 composer,
                  cover,
+                 various=None,
+                 composer=None,
                  genres=None,
                  op_image=None,
                  no_pictures_from_search=None,
@@ -32,10 +32,10 @@ class Artist(YandexMusicObject):
                  **kwargs):
         self.id = id
         self.name = name
-        self.various = various
-        self.composer = composer
         self.cover = cover
 
+        self.various = various
+        self.composer = composer
         self.genres = genres
         self.op_image = op_image
         self.no_pictures_from_search = no_pictures_from_search
