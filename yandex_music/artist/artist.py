@@ -5,9 +5,9 @@ class Artist(YandexMusicObject):
     def __init__(self,
                  id,
                  name,
-                 various,
-                 composer,
                  cover,
+                 various=None,
+                 composer=None,
                  genres=None,
                  op_image=None,
                  no_pictures_from_search=None,
@@ -32,10 +32,10 @@ class Artist(YandexMusicObject):
                  **kwargs):
         self.id = id
         self.name = name
-        self.various = various
-        self.composer = composer
         self.cover = cover
 
+        self.various = various
+        self.composer = composer
         self.genres = genres
         self.op_image = op_image
         self.no_pictures_from_search = no_pictures_from_search
@@ -55,12 +55,12 @@ class Artist(YandexMusicObject):
         self.db_aliases = db_aliases
         self.aliases = aliases
 
-        # Оставлено строкой потому что может прийти конкретная дата или просто год
+        # Может прийти конкретная дата или просто год
         self.init_date = init_date
         self.end_date = end_date
 
         self.client = client
-        self._id_attrs = (self.id, self.name, self.various, self.composer, self.cover)
+        self._id_attrs = (self.id, self.name, self.cover)
 
     def download_op_image(self, filename, size='200x200'):
         """Загрузка обложки.
@@ -94,6 +94,13 @@ class Artist(YandexMusicObject):
             client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
         """
         return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
+
+    def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs):
+        """Сокращение для::
+
+            client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
+        """
+        return self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data, client):
@@ -129,3 +136,5 @@ class Artist(YandexMusicObject):
     downloadOpImage = download_op_image
     #: Псевдоним для :attr:`get_tracks`
     getTracks = get_tracks
+    #: Псевдоним для :attr:`get_albums`
+    getAlbums = get_albums

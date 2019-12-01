@@ -50,14 +50,11 @@ class TestArtist:
         assert artist.end_date == self.end_date
 
     def test_de_json_required(self, client, cover):
-        json_dict = {'id': self.id, 'name': self.name, 'various': self.various, 'composer': self.composer,
-                     'cover': cover.to_dict()}
+        json_dict = {'id': self.id, 'name': self.name, 'cover': cover.to_dict()}
         artist = Artist.de_json(json_dict, client)
 
         assert artist.id == self.id
         assert artist.name == self.name
-        assert artist.various == self.various
-        assert artist.composer == self.composer
         assert artist.cover == cover
 
     def test_de_json_all(self, client, cover, counts, ratings, link, track_without_artists, description):
@@ -100,9 +97,9 @@ class TestArtist:
         assert artist.end_date == self.end_date
 
     def test_equality(self, cover):
-        a = Artist(self.id, self.name, self.various, self.composer, cover)
-        b = Artist(self.id, '', self.various, self.composer, None)
-        c = Artist(self.id, self.name, self.various, self.composer, cover)
+        a = Artist(self.id, self.name, cover)
+        b = Artist(self.id, '', None)
+        c = Artist(self.id, self.name, cover)
 
         assert a != b
         assert hash(a) != hash(b)

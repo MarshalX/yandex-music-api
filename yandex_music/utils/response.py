@@ -24,7 +24,7 @@ class Response(YandexMusicObject):
 
     @property
     def result(self):
-        return self._result or self.data
+        return self.data if self._result is None else self._result
 
     @classmethod
     def de_json(cls, data, client):

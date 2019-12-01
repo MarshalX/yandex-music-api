@@ -20,6 +20,38 @@ class Unauthorized(YandexMusicError):
     pass
 
 
+class Captcha(YandexMusicError):
+    """Базовый класс, представляющий исключение связанное с капчей.
+
+    Attributes:
+        captcha (:obj:`yandex_music.utils.captcha_response.CaptchaResponse`): Объект класса
+            :class:`yandex_music.utils.captcha_response.CaptchaResponse` представляющий капчу.
+
+    Args:
+        msg (:obj:`str`): Сообщение с ошибкой.
+        captcha (:obj:`yandex_music.utils.captcha_response.CaptchaResponse`): Объект класса
+            :class:`yandex_music.utils.captcha_response.CaptchaResponse` представляющий капчу.
+    """
+
+    def __init__(self, msg, captcha, *args, **kwargs):
+        self.captcha = captcha
+        super().__init__(msg, *args, **kwargs)
+
+
+class CaptchaRequired(Captcha):
+    """Класс исключения, вызываемый в случае необходимости ввода проверочного кода.
+    """
+
+    pass
+
+
+class CaptchaWrong(Captcha):
+    """Класс исключения, вызываемый в случае неправильного ввода капчи.
+    """
+
+    pass
+
+
 class NetworkError(YandexMusicError):
     """Базовый класс исключений, вызываемых для ошибок, связанных с
     запросами к серверу.
@@ -37,4 +69,4 @@ class TimedOut(NetworkError):
     """
 
     def __init__(self):
-        super(TimedOut, self).__init__('Timed out')
+        super().__init__('Timed out')

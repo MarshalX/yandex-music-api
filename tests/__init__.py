@@ -39,6 +39,7 @@ from .test_play_context import TestPlayContext
 from .test_play_contexts_data import TestPlayContextsData
 from .test_play_counter import TestPlayCounter
 from .test_playlist import TestPlaylist
+from .test_playlist_absence import TestPlaylistAbsence
 from .test_playlist_id import TestPlaylistId
 from .test_playlist_id import TestPlaylistId
 from .test_plus import TestPlus
