@@ -56,8 +56,7 @@ class Track(YandexMusicObject):
         self.download_info = None
 
         self.client = client
-        self._id_attrs = (self.id, self.title, self.available, self.available_for_premium_users,
-                          self.artists, self.albums, self.lyrics_available)
+        self._id_attrs = (self.id, self.title, self.available, self.artists, self.albums)
 
     def get_download_info(self, get_direct_links=False):
         self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)

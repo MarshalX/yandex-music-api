@@ -55,12 +55,12 @@ class Artist(YandexMusicObject):
         self.db_aliases = db_aliases
         self.aliases = aliases
 
-        # Оставлено строкой потому что может прийти конкретная дата или просто год
+        # Может прийти конкретная дата или просто год
         self.init_date = init_date
         self.end_date = end_date
 
         self.client = client
-        self._id_attrs = (self.id, self.name, self.various, self.composer, self.cover)
+        self._id_attrs = (self.id, self.name, self.cover)
 
     def download_op_image(self, filename, size='200x200'):
         """Загрузка обложки.
