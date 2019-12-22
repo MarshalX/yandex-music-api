@@ -37,6 +37,11 @@
    :target: https://t.me/yandex_music_api
    :alt: Telegram чат
 
+.. image:: https://opencollective.com/yandex-music/all/badge.svg?label=financial+contributors
+    :alt: Financial Contributors on Open Collective
+    :target: https://opencollective.com/yandex-music
+
+
 
 ==========
 Содержание
@@ -286,6 +291,37 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 =============
 
 Спасибо разработчикам ``python-telegram-bot``. Выбрал Вас в качестве примера.
+
+=============
+Contributors
+=============
+
+Code Contributors
+------------------
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+.. image:: https://opencollective.com/yandex-music/contributors.svg?width=890&button=false 
+
+Financial Contributors
+------------------
+
+Become a financial contributor and help us sustain our community. Contribute_
+
+Individuals
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: https://opencollective.com/yandex-music/individuals.svg?width=890
+    :target: https://opencollective.com/yandex-music
+
+Organizations
+~~~~~~~~~~~~~~~~~~~~~~
+
+Support this project with your organization. Your logo will show up here with a link to your website. Contribute_
+
+.. image:: https://opencollective.com/yandex-music/organization/0/avatar.svg
+    :target: https://opencollective.com/yandex-music/organization/0/website
+
+.. _Contribute: https://opencollective.com/yandex-music
 
 ========
 Лицензия
