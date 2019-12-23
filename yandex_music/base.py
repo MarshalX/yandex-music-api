@@ -1,6 +1,11 @@
-import json
-
 from abc import ABCMeta
+
+ujson = False
+try:
+    import ujson as json
+    ujson = True
+except ImportError:
+    import json
 
 
 class YandexMusicObject:
@@ -26,7 +31,7 @@ class YandexMusicObject:
         return data
 
     def to_json(self):
-        return json.dumps(self.to_dict())
+        return json.dumps(self.to_dict(), ensure_ascii=not ujson)
 
     def to_dict(self):
         def parse(val):
