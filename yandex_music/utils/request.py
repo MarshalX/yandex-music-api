@@ -1,7 +1,11 @@
 import re
-import json
 import logging
 import requests
+
+# Не используется ujson из-за отсутствия в нём object_hook'a
+# Отправка вообще application/x-www-form-urlencoded, а не JSON'a
+# https://github.com/psf/requests/blob/master/requests/models.py#L508
+import json
 
 from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
@@ -72,6 +76,7 @@ class Request:
         try:
             decoded_s = json_data.decode('utf-8')
             data = json.loads(decoded_s, object_hook=Request._object_hook)
+
         except UnicodeDecodeError:
             logging.getLogger(__name__).debug(
                 'Logging raw invalid UTF-8 response:\n%r', json_data)
