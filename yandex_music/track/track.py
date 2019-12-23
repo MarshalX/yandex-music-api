@@ -105,14 +105,14 @@ class Track(YandexMusicObject):
 
             client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
-        return self.client.users_likes_tracks_add(self.track_id, self.client.account.uid, *args, **kwargs)
+        return self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
     def dislike(self, *args, **kwargs):
         """Сокращение для::
 
             client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
-        return self.client.users_likes_tracks_remove(self.track_id, self.client.account.uid, *args, **kwargs)
+        return self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
     @property
     def track_id(self):

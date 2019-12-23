@@ -74,7 +74,7 @@ class Playlist(YandexMusicObject):
 
     @property
     def is_mine(self):
-        return self.owner.uid == self.client.account.uid
+        return self.owner.uid == self.client.me.account.uid
 
     @property
     def playlist_id(self):
@@ -113,14 +113,14 @@ class Playlist(YandexMusicObject):
 
             client.users_likes_playlists_add(playlist.uid, user.id *args, **kwargs)
         """
-        return self.client.users_likes_playlists_add(self.uid, self.client.account.uid, *args, **kwargs)
+        return self.client.users_likes_playlists_add(self.uid, self.client.me.account.uid, *args, **kwargs)
 
     def dislike(self, *args, **kwargs):
         """Сокращение для::
 
             client.users_likes_playlists_remove(playlist.uid, user.id *args, **kwargs)
         """
-        return self.client.users_likes_playlists_remove(self.uid, self.client.account.uid, *args, **kwargs)
+        return self.client.users_likes_playlists_remove(self.uid, self.client.me.account.uid, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data, client):
