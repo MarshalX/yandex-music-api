@@ -49,6 +49,9 @@ def log(method):
 class Client(YandexMusicObject):
     """Класс представляющий клиент Yandex Music.
 
+    При `fetch_account_status = False` многие сокращения перестанут работать в связи с тем, что неоткуда будет взять
+    uid аккаунта для отправки запроса. Так же в большинстве методов придётся передавать uid явно.
+
     Attributes:
         logger (:obj:`logging.Logger`): Объект логера.
         token (:obj:`str`): Уникальный ключ для аутентификации.
@@ -497,6 +500,9 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
+        if uid is None and self.me is not None:
+            uid = self.me.account.uid
+
         url = f'{self.base_url}/play-audio'
 
         data = {
@@ -504,7 +510,7 @@ class Client(YandexMusicObject):
             'from-cache': from_cache,
             'from': from_,
             'play-id': play_id or '',
-            'uid': uid or self.account.uid,
+            'uid': uid,
             'timestamp': timestamp or f'{datetime.now().isoformat()}Z',
             'track-length-seconds': track_length_seconds,
             'total-played-seconds': total_played_seconds,
@@ -628,8 +634,8 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/playlists'
 
@@ -662,8 +668,8 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/create'
 
@@ -695,8 +701,8 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/delete'
 
@@ -724,8 +730,8 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/name'
 
@@ -758,8 +764,8 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/change'
 
@@ -799,8 +805,8 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         diff = Difference().add_insert(at, {'id': track_id, 'album_id': album_id})
 
@@ -831,8 +837,8 @@ class Client(YandexMusicObject):
             :class:`yandex_music.YandexMusicError`
         """
 
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         diff = Difference().add_delete(from_, to)
 
@@ -991,8 +997,8 @@ class Client(YandexMusicObject):
 
     def _like_action(self, object_type: str, ids: str or int or list, remove: bool = False, user_id: str or int = None,
                      timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         action = 'remove' if remove else 'add-multiple'
         url = f'{self.base_url}/users/{user_id}/likes/{object_type}s/{action}'
@@ -1072,8 +1078,8 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists_list(self, user_id: int or str = None, timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/list'
 
@@ -1082,8 +1088,8 @@ class Client(YandexMusicObject):
         return Playlist.de_list(result, self)
 
     def _get_likes(self, object_type, user_id: int or str = None, params=None, timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/likes/{object_type}s'
 
@@ -1115,8 +1121,8 @@ class Client(YandexMusicObject):
     @log
     def users_dislikes_tracks(self, user_id: int or str = None, if_modified_since_revision=0,
                               timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         url = f'{self.base_url}/users/{user_id}/dislikes/tracks'
 
@@ -1127,8 +1133,8 @@ class Client(YandexMusicObject):
 
     def _dislike_action(self, ids: str or int or list, remove: bool = False, user_id: str or int = None,
                         timeout=None, *args, **kwargs):
-        if user_id is None:
-            user_id = self.account.uid
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
 
         action = 'remove' if remove else 'add-multiple'
         url = f'{self.base_url}/users/{user_id}/dislikes/tracks/{action}'
