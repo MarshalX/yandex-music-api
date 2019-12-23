@@ -113,9 +113,9 @@ class Client(YandexMusicObject):
         token = None
         while not token:
             try:
-                token = cls().generate_token_by_username_and_password(username, password,
-                                                                      x_captcha_answer=x_captcha_answer,
-                                                                      x_captcha_key=x_captcha_key)
+                token = cls(*args, **kwargs).generate_token_by_username_and_password(username, password,
+                                                                                     x_captcha_answer=x_captcha_answer,
+                                                                                     x_captcha_key=x_captcha_key)
             except Captcha as e:
                 if not captcha_callback:
                     raise e
