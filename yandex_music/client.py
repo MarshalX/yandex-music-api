@@ -54,18 +54,19 @@ class Client(YandexMusicObject):
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
-        account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` предоставляющего основную
+        me (:obj:`yandex_music.Status`): Объект класса :class:`yandex_music.Status` предоставляющего основную
             информацию об аккаунте.
 
     Args:
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
+        fetch_account_status (:obj:`bool`, optional): Получить ли информацию об аккаунте при инициализации объекта.
         base_url (:obj:`str`, optional): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`, optional): Ссылка на OAuth Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
     """
 
-    def __init__(self, token=None, base_url=None, oauth_url=None, request=None):
+    def __init__(self, token=None, fetch_account_status=True, base_url=None, oauth_url=None, request=None):
         self.logger = logging.getLogger(__name__)
         self.token = token
 
@@ -83,7 +84,9 @@ class Client(YandexMusicObject):
         else:
             self._request = Request(self)
 
-        self.account = self.account_status().account
+        self.me = None
+        if fetch_account_status:
+            self.me = self.account_status()
 
     @classmethod
     def from_credentials(cls, username, password, x_captcha_answer=None, x_captcha_key=None, captcha_callback=None,
@@ -139,7 +142,7 @@ class Client(YandexMusicObject):
             :obj:`yandex_music.Client`.
         """
 
-        return cls(token=token, *args, **kwargs)
+        return cls(token, *args, **kwargs)
 
     @log
     def generate_token_by_username_and_password(self, username, password, grant_type='password', x_captcha_answer=None,
