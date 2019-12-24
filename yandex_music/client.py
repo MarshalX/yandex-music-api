@@ -1074,7 +1074,7 @@ class Client(YandexMusicObject):
                                   timeout: Union[int, float] = None, *args, **kwargs) -> bool:
         return self._like_action('album', album_ids, True, user_id, timeout, *args, **kwargs)
 
-    def _get_list(self, object_type: str, ids: Union[List[Union[str, int], int, str]],
+    def _get_list(self, object_type: str, ids: Union[List[Union[str, int]], int, str],
                   params: dict = None, timeout: Union[int, float] = None,
                   *args, **kwargs) -> List[Union[Artist, Album, Track, Playlist]]:
         if params is None:
@@ -1088,22 +1088,22 @@ class Client(YandexMusicObject):
         return de_list.get(object_type)(result, self)
 
     @log
-    def artists(self, artist_ids: Union[List[Union[str, int], int, str]], timeout: Union[int, float] = None,
+    def artists(self, artist_ids: Union[List[Union[str, int]], int, str], timeout: Union[int, float] = None,
                 *args, **kwargs) -> List[Artist]:
         return self._get_list('artist', artist_ids, timeout=timeout, *args, **kwargs)
 
     @log
-    def albums(self, album_ids: Union[List[Union[str, int], int, str]], timeout: Union[int, float] = None,
+    def albums(self, album_ids: Union[List[Union[str, int]], int, str], timeout: Union[int, float] = None,
                *args, **kwargs) -> List[Album]:
         return self._get_list('album', album_ids, timeout=timeout, *args, **kwargs)
 
     @log
-    def tracks(self, track_ids: Union[List[Union[str, int], int, str]], with_positions: bool = True,
+    def tracks(self, track_ids: Union[List[Union[str, int]], int, str], with_positions: bool = True,
                timeout: Union[int, float] = None, *args, **kwargs) -> List[Track]:
         return self._get_list('track', track_ids, {'with-positions': with_positions}, timeout, *args, **kwargs)
 
     @log
-    def playlists_list(self, playlist_ids: Union[List[Union[str, int], int, str]], timeout: Union[int, float] = None,
+    def playlists_list(self, playlist_ids: Union[List[Union[str, int]], int, str], timeout: Union[int, float] = None,
                        *args, **kwargs) -> List[Playlist]:
         return self._get_list('playlist', playlist_ids, timeout=timeout, *args, **kwargs)
 
