@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .base import YandexMusicObject
 
 from .settings import Settings

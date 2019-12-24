@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -14,7 +19,7 @@ class Video(YandexMusicObject):
                  text=None,
                  html_auto_play_video_player=None,
                  regions=None,
-                 client=None,
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.title = title
 
@@ -36,7 +41,7 @@ class Video(YandexMusicObject):
         self._id_attrs = (self.provider_video_id, self.youtube_url, self.title)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Video']:
         if not data:
             return None
 
@@ -45,7 +50,7 @@ class Video(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Video']:
         if not data:
             return []
 

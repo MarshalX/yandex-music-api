@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Product, Price
+
 from yandex_music import YandexMusicObject
 
 
@@ -7,7 +12,7 @@ class Settings(YandexMusicObject):
     Attributes:
         in_app_products (:obj:`list` из :obj:`yandex_music.Product`): Список объектов класса
             :class:`yandex_music.Product` представляющий продаваемые продукты внутри приложения.
-        native_products (:obj:`list`) из :obj:`yandex_music.Product`: Список объектов класса
+        native_products (:obj:`list` из :obj:`yandex_music.Product`): Список объектов класса
             :class:`yandex_music.Product` представляющий продаваемые продукты всплывающими окнами.
         web_payment_url (:obj:`str`): Ссылка для осуществления платежа.
         web_payment_month_product_price (:obj:`yandex_music.Price`): Объект класса :class:`yandex_music.Price`
@@ -31,12 +36,12 @@ class Settings(YandexMusicObject):
     """
 
     def __init__(self,
-                 in_app_products,
-                 native_products,
-                 web_payment_url,
-                 promo_codes_enabled,
-                 web_payment_month_product_price=None,
-                 client=None,
+                 in_app_products: List['Product'],
+                 native_products: List['Product'],
+                 web_payment_url: str,
+                 promo_codes_enabled: bool,
+                 web_payment_month_product_price: Optional['Price'] = None,
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.in_app_products = in_app_products
         self.native_products = native_products
@@ -48,7 +53,7 @@ class Settings(YandexMusicObject):
         self._id_attrs = (self.in_app_products, self.native_products, self.web_payment_url, self.promo_codes_enabled)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Settings']:
         """Десериализация объекта.
 
         Args:
