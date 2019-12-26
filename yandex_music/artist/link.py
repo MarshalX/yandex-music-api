@@ -5,13 +5,13 @@ class Link(YandexMusicObject):
     def __init__(self,
                  title,
                  href,
-                 type,
+                 type_,
                  social_network=None,
                  client=None,
                  **kwargs):
         self.title = title
         self.href = href
-        self.type = type
+        self.type = type_
 
         self.social_network = social_network
 

@@ -3,8 +3,8 @@ from yandex_music import YandexMusicObject
 
 class Event(YandexMusicObject):
     def __init__(self,
-                 id,
-                 type,
+                 id_,
+                 type_,
                  type_for_from=None,
                  title=None,
                  tracks=None,
@@ -15,8 +15,8 @@ class Event(YandexMusicObject):
                  tracks_count=None,
                  client=None,
                  **kwargs):
-        self.id = id
-        self.type = type
+        self.id = id_
+        self.type = type_
 
         self.type_for_from = type_for_from
         self.title = title

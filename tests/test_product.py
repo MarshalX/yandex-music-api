@@ -37,7 +37,7 @@ class TestProduct:
         assert product.payment_method_types == self.payment_method_types
 
     def test_de_json_required(self, client, price):
-        json_dict = {'product_id': self.product_id, 'type': self.type,
+        json_dict = {'product_id': self.product_id, 'type_': self.type,
                      'common_period_duration': self.common_period_duration, 'duration': self.duration,
                      'trial_duration': self.trial_duration, 'price': price.to_dict(), 'feature': self.feature,
                      'debug': self.debug}
@@ -53,7 +53,7 @@ class TestProduct:
         assert product.debug == self.debug
 
     def test_de_json_all(self, client, price):
-        json_dict = {'product_id': self.product_id, 'type': self.type,
+        json_dict = {'product_id': self.product_id, 'type_': self.type,
                      'common_period_duration': self.common_period_duration, 'duration': self.duration,
                      'trial_duration': self.trial_duration, 'price': price.to_dict(), 'feature': self.feature,
                      'debug': self.debug, 'features': self.features, 'description': self.description,

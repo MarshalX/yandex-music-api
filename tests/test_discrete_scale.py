@@ -12,7 +12,7 @@ class TestDiscreteScale:
         assert discrete_scale.max == value
 
     def test_de_json_required(self, client, value):
-        json_dict = {'type': self.type, 'name': self.name, 'min': value.to_dict(), 'max': value.to_dict()}
+        json_dict = {'type_': self.type, 'name': self.name, 'min_': value.to_dict(), 'max_': value.to_dict()}
         discrete_scale = DiscreteScale.de_json(json_dict, client)
 
         assert discrete_scale.type == self.type
@@ -21,7 +21,7 @@ class TestDiscreteScale:
         assert discrete_scale.max == value
 
     def test_de_json_all(self, client, value):
-        json_dict = {'type': self.type, 'name': self.name, 'min': value.to_dict(), 'max': value.to_dict()}
+        json_dict = {'type_': self.type, 'name': self.name, 'min_': value.to_dict(), 'max_': value.to_dict()}
         discrete_scale = DiscreteScale.de_json(json_dict, client)
 
         assert discrete_scale.type == self.type

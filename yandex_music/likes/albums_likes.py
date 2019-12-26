@@ -4,11 +4,11 @@ from yandex_music import YandexMusicObject
 class AlbumsLikes(YandexMusicObject):
     def __init__(self,
                  timestamp,
-                 id=None,
+                 id_=None,
                  album=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.album = album
         self.timestamp = timestamp
 

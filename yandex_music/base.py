@@ -1,12 +1,16 @@
 from abc import ABCMeta
 from typing import Optional
 
+import builtins
+
 ujson: bool = False
 try:
     import ujson as json
     ujson = True
 except ImportError:
     import json
+
+reserved_names = [name.lower() for name in dir(builtins)]
 
 
 class YandexMusicObject:
@@ -48,6 +52,11 @@ class YandexMusicObject:
         data = self.__dict__.copy()
         data.pop('client', None)
         data.pop('_id_attrs', None)
+
+        for k, v in data.copy().items():
+            if k.lower() in reserved_names:
+                data.pop(k)
+                data.update({f'{k}_': v})
 
         return parse(data)
 

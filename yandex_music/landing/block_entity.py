@@ -15,14 +15,14 @@ de_json = {
 
 class BlockEntity(YandexMusicObject):
     def __init__(self,
-                 id,
-                 type,
+                 id_,
+                 type_,
                  data,
                  client=None,
                  **kwargs):
 
-        self.id = id
-        self.type = type
+        self.id = id_
+        self.type = type_
         self.data = data
 
         self.client = client
@@ -34,7 +34,7 @@ class BlockEntity(YandexMusicObject):
             return None
 
         data = super(BlockEntity, cls).de_json(data, client)
-        data['data'] = de_json.get(data.get('type'))(data.get('data'), client)
+        data['data'] = de_json.get(data.get('type_'))(data.get('data'), client)
 
         return cls(client=client, **data)
 

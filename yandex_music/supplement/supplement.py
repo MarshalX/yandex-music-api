@@ -14,7 +14,7 @@ class Supplement(YandexMusicObject):
             Music.
 
     Args:
-        id (:obj:`int`): Уникальный идентификатор дополнительной информации.
+        id_ (:obj:`int`): Уникальный идентификатор дополнительной информации.
         lyrics (:obj:`yandex_music.Lyrics`): Объект класса :class:`yandex_music.Lyrics` представляющий текст песни.
         videos (:obj:`yandex_music.VideoSupplement`): Объект класса :class:`yandex_music.VideoSupplement` представляющий
             видео.
@@ -25,13 +25,13 @@ class Supplement(YandexMusicObject):
     """
 
     def __init__(self,
-                 id,
+                 id_,
                  lyrics,
                  videos,
                  radio_is_available,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.lyrics = lyrics
         self.videos = videos
         self.radio_is_available = radio_is_available
@@ -53,7 +53,7 @@ class Supplement(YandexMusicObject):
         """
         if not data:
             return None
-        
+
         data = super(Supplement, cls).de_json(data, client)
         from yandex_music import Lyrics, VideoSupplement
         data['lyrics'] = Lyrics.de_json(data.get('lyrics'), client)

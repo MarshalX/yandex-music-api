@@ -26,7 +26,7 @@ class TestCover:
         cover = Cover.de_json(json_dict, client)
 
     def test_de_json_all(self, client):
-        json_dict = {'type': self.type, 'uri': self.uri, 'items_uri': self.items_uri, 'dir': self.dir,
+        json_dict = {'type_': self.type, 'uri': self.uri, 'items_uri': self.items_uri, 'dir_': self.dir,
                      'version': self.version, 'custom': self.custom, 'prefix': self.prefix, 'error': self.error}
         cover = Cover.de_json(json_dict, client)
 

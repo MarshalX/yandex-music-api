@@ -27,11 +27,11 @@ class SearchResult(YandexMusicObject):
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod
-    def de_json(cls, data, client, type=None):
+    def de_json(cls, data, client, type_=None):
         if not data:
             return None
 
         data = super(SearchResult, cls).de_json(data, client)
-        data['results'] = de_json_result.get(type)(data.get('results'), client)
+        data['results'] = de_json_result.get(type_)(data.get('results'), client)
 
         return cls(client=client, **data)

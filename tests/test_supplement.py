@@ -19,7 +19,7 @@ class TestSupplement:
         assert supplement.radio_is_available == self.radio_is_available
 
     def test_de_json_required(self, client, lyrics, video_supplement):
-        json_dict = {'id': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()],
+        json_dict = {'id_': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()],
                      'radio_is_available': self.radio_is_available}
         supplement = Supplement.de_json(json_dict, client)
 
@@ -29,7 +29,7 @@ class TestSupplement:
         assert supplement.radio_is_available == self.radio_is_available
 
     def test_de_json_all(self, client, lyrics, video_supplement):
-        json_dict = {'id': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()],
+        json_dict = {'id_': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()],
                      'radio_is_available': self.radio_is_available}
         supplement = Supplement.de_json(json_dict, client)
 

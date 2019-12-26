@@ -22,10 +22,10 @@ class Cover(YandexMusicObject):
             Music.
 
     Args:
-        type (:obj:`str`, optional): Тип обложки.
+        type_ (:obj:`str`, optional): Тип обложки.
         uri (:obj:`str`, optional): Ссылка на изображение.
         items_uri (:obj:`str`, optional): Список ссылок на изображения.
-        dir (:obj:`str`, optional): Директория хранения изображения на сервере.
+        dir_ (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         prefix (:obj:`str`, optional): Уникальный идентификатор.
@@ -36,21 +36,21 @@ class Cover(YandexMusicObject):
     """
 
     def __init__(self,
-                 type: Optional[str] = None,
+                 type_: Optional[str] = None,
                  uri: Optional[str] = None,
                  items_uri: Optional[str] = None,
-                 dir: Optional[str] = None,
+                 dir_: Optional[str] = None,
                  version: Optional[str] = None,
                  custom: Optional[bool] = None,
                  prefix: Optional[str] = None,
                  error: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs):
-        self.type = type
+        self.type = type_
         self.uri = uri
         self.items_uri = items_uri
         self.prefix = prefix
-        self.dir = dir
+        self.dir = dir_
         self.version = version
         self.custom = custom
         self.error = error

@@ -12,12 +12,12 @@ de_json_result = {
 
 class Best(YandexMusicObject):
     def __init__(self,
-                 type,
+                 type_,
                  result,
                  text=None,
                  client=None,
                  **kwargs):
-        self.type = type
+        self.type = type_
         self.result = result
 
         self.text = text
@@ -31,6 +31,6 @@ class Best(YandexMusicObject):
             return None
 
         data = super(Best, cls).de_json(data, client)
-        data['result'] = de_json_result.get(data.get('type'))(data.get('result'), client)
+        data['result'] = de_json_result.get(data.get('type_'))(data.get('result'), client)
 
         return cls(client=client, **data)
