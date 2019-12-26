@@ -24,7 +24,7 @@ class TestPlaylistsLikes:
         assert playlists_likes.timestamp == self.timestamp
 
     def test_de_json_all(self, client, playlist):
-        json_dict = {'timestamp': self.timestamp, 'id': self.id, 'playlist': playlist.to_dict()}
+        json_dict = {'timestamp': self.timestamp, 'id_': self.id, 'playlist': playlist.to_dict()}
         playlists_likes = PlaylistsLikes.de_json(json_dict, client)
 
         assert playlists_likes.timestamp == self.timestamp

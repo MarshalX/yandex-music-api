@@ -10,13 +10,13 @@ class TestTrackId:
         assert track_id.album_id == self.album_id
 
     def test_de_json_required(self, client):
-        json_dict = {'id': self.id}
+        json_dict = {'id_': self.id}
         track_id = TrackId.de_json(json_dict, client)
 
         assert track_id.id == self.id
 
     def test_de_json_all(self, client):
-        json_dict = {'id': self.id, 'album_id': self.album_id}
+        json_dict = {'id_': self.id, 'album_id': self.album_id}
         track_id = TrackId.de_json(json_dict, client)
 
         assert track_id.id == self.id

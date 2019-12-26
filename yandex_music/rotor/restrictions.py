@@ -33,6 +33,6 @@ class Restrictions(YandexMusicObject):
         data = super(Restrictions, cls).de_json(data, client)
 
         for key, value in data.items():
-            data[key] = de_json.get(value.get('type'))(value, client)
+            data[key] = de_json.get(value.get('type_'))(value, client)
 
         return cls(client=client, **data)

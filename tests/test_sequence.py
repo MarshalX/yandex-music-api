@@ -11,7 +11,7 @@ class TestSequence:
         assert sequence.liked == self.liked
 
     def test_de_json_required(self, client, track):
-        json_dict = {'type': self.type, 'track': track.to_dict(), 'liked': self.liked}
+        json_dict = {'type_': self.type, 'track': track.to_dict(), 'liked': self.liked}
         sequence = Sequence.de_json(json_dict, client)
 
         assert sequence.type == self.type
@@ -19,7 +19,7 @@ class TestSequence:
         assert sequence.liked == self.liked
 
     def test_de_json_all(self, client, track):
-        json_dict = {'type': self.type, 'track': track.to_dict(), 'liked': self.liked}
+        json_dict = {'type_': self.type, 'track': track.to_dict(), 'liked': self.liked}
         sequence = Sequence.de_json(json_dict, client)
 
         assert sequence.type == self.type

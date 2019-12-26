@@ -43,7 +43,7 @@ class TestGenre:
         assert genre.hide_in_regions == self.hide_in_regions
 
     def test_de_json_required(self, client, title, images):
-        json_dict = {'id': self.id, 'weight': self.weight, 'composer_top': self.composer_top, 'title': self.title,
+        json_dict = {'id_': self.id, 'weight': self.weight, 'composer_top': self.composer_top, 'title': self.title,
                      'titles': {'uz': title.to_dict()}, 'images': images.to_dict(), 'show_in_menu': self.show_in_menu}
         genre = Genre.de_json(json_dict, client)
 
@@ -56,7 +56,7 @@ class TestGenre:
         assert genre.show_in_menu == self.show_in_menu
 
     def test_de_json_all(self, client, title, images, icon, genre_without_sub_genre):
-        json_dict = {'id': self.id, 'weight': self.weight, 'composer_top': self.composer_top, 'title': self.title,
+        json_dict = {'id_': self.id, 'weight': self.weight, 'composer_top': self.composer_top, 'title': self.title,
                      'titles': {'uz': title.to_dict()}, 'images': images.to_dict(), 'show_in_menu': self.show_in_menu,
                      'full_title': self.full_title, 'url_part': self.url_part, 'color': self.color,
                      'radio_icon': icon.to_dict(), 'sub_genres': [genre_without_sub_genre.to_dict()],

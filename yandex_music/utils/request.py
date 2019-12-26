@@ -66,7 +66,7 @@ class Request:
         cleaned_object = {}
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
-            if key in reserved_names:
+            if key.lower() in reserved_names:
                 key += '_'
 
             if len(key) and key[0].isdigit():

@@ -48,7 +48,7 @@ class TestTrack:
         assert track.available_full_without_permission == self.available_full_without_permission
 
     def test_de_json_required(self, client, artist, album):
-        json_dict = {'id': self.id, 'title': self.title, 'available': self.available,
+        json_dict = {'id_': self.id, 'title': self.title, 'available': self.available,
                      'artists': [artist.to_dict()], 'albums': [album.to_dict()]}
         track = Track.de_json(json_dict, client)
 
@@ -59,11 +59,11 @@ class TestTrack:
         assert track.albums == [album]
 
     def test_de_json_all(self, client, artist, album, major, normalization):
-        json_dict = {'id': self.id, 'title': self.title, 'available': self.available,
+        json_dict = {'id_': self.id, 'title': self.title, 'available': self.available,
                      'available_for_premium_users': self.available_for_premium_users,
                      'artists': [artist.to_dict()], 'albums': [album.to_dict()],
                      'lyrics_available': self.lyrics_available, 'real_id': self.real_id,
-                     'og_image': self.og_image, 'type': self.type, 'cover_uri': self.cover_uri,
+                     'og_image': self.og_image, 'type_': self.type, 'cover_uri': self.cover_uri,
                      'major': major.to_dict(), 'duration_ms': self.duration_ms, 'storage_dir': self.storage_dir,
                      'file_size': self.file_size, 'normalization': normalization.to_dict(), 'error': self.error,
                      'regions': self.regions, 'available_as_rbt': self.available_as_rbt,
