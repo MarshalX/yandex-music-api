@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -21,10 +26,10 @@ class Pager(YandexMusicObject):
     """
 
     def __init__(self,
-                 total,
-                 page,
-                 per_page,
-                 client=None,
+                 total: int,
+                 page: int,
+                 per_page: int,
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.total = total
         self.page = page
@@ -34,7 +39,7 @@ class Pager(YandexMusicObject):
         self._id_attrs = (self.total, self.page, self.per_page)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Pager']:
         """Десериализация объекта.
 
         Args:

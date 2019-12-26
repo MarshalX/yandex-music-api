@@ -1,3 +1,9 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+    from xml.dom.minicompat import NodeList
+
 from hashlib import md5
 import xml.dom.minidom as minidom
 
@@ -29,12 +35,12 @@ class DownloadInfo(YandexMusicObject):
     """
 
     def __init__(self,
-                 codec,
-                 bitrate_in_kbps,
-                 gain,
-                 preview,
-                 download_info_url,
-                 client=None,
+                 codec: str,
+                 bitrate_in_kbps: int,
+                 gain: bool,
+                 preview: bool,
+                 download_info_url: str,
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.codec = codec
         self.bitrate_in_kbps = bitrate_in_kbps
@@ -48,7 +54,7 @@ class DownloadInfo(YandexMusicObject):
         self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
 
     @staticmethod
-    def _get_text_node_data(elements):
+    def _get_text_node_data(elements: 'NodeList') -> str:
         """:obj:`str`: Получение текстовой информации из узлов XML элемента."""
         for element in elements:
             nodes = element.childNodes
@@ -56,7 +62,7 @@ class DownloadInfo(YandexMusicObject):
                 if node.nodeType == node.TEXT_NODE:
                     return node.data
 
-    def get_direct_link(self):
+    def get_direct_link(self) -> str:
         """Получение прямой ссылки на загрузку из XML ответа.
 
         Метод доступен только одну минуту с момента получения информации о загрузке, иначе 410 ошибка!
@@ -80,7 +86,7 @@ class DownloadInfo(YandexMusicObject):
 
         return self.direct_link
 
-    def download(self, filename):
+    def download(self, filename: str) -> None:
         """Загрузка трека.
 
         Args:
@@ -93,7 +99,7 @@ class DownloadInfo(YandexMusicObject):
         self.client.request.download(self.direct_link, filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['DownloadInfo']:
         """Десериализация объекта.
 
         Args:
@@ -112,7 +118,7 @@ class DownloadInfo(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client, get_direct_links=False):
+    def de_list(cls, data: dict, client: 'Client', get_direct_links: bool = False) -> List['DownloadInfo']:
         """Десериализация списка объектов.
 
         Args:

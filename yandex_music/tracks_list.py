@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List, Iterator
+
+if TYPE_CHECKING:
+    from yandex_music import Client, TrackShort
+
 from yandex_music import YandexMusicObject
 
 
@@ -21,10 +26,10 @@ class TracksList(YandexMusicObject):
     """
 
     def __init__(self,
-                 uid,
-                 revision,
-                 tracks,
-                 client=None,
+                 uid: int,
+                 revision: int,
+                 tracks: List['TrackShort'],
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.uid = uid
         self.revision = revision
@@ -33,19 +38,19 @@ class TracksList(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.uid, self.tracks)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item) -> 'TrackShort':
         return self.tracks[item]
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator['TrackShort']:
         return iter(self.tracks)
 
     @property
-    def tracks_ids(self):
+    def tracks_ids(self) -> List[str]:
         """:obj:`list` из :obj:`str`: Список уникальных идентификаторов треков."""
         return [track.track_id for track in self.tracks]
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['TracksList']:
         """Десериализация объекта.
 
         Args:

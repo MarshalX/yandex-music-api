@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -31,15 +36,15 @@ class Cover(YandexMusicObject):
     """
 
     def __init__(self,
-                 type_=None,
-                 uri=None,
-                 items_uri=None,
-                 dir_=None,
-                 version=None,
-                 custom=None,
-                 prefix=None,
-                 error=None,
-                 client=None,
+                 type_: Optional[str] = None,
+                 uri: Optional[str] = None,
+                 items_uri: Optional[str] = None,
+                 dir_: Optional[str] = None,
+                 version: Optional[str] = None,
+                 custom: Optional[bool] = None,
+                 prefix: Optional[str] = None,
+                 error: Optional[str] = None,
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.type = type_
         self.uri = uri
@@ -53,7 +58,7 @@ class Cover(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
-    def download(self, filename, index=0, size='200x200'):
+    def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
@@ -67,7 +72,7 @@ class Cover(YandexMusicObject):
         self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:
         """Десериализация объекта.
 
         Args:
@@ -86,7 +91,7 @@ class Cover(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Cover']:
         """Десериализация списка объектов.
 
         Args:

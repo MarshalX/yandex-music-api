@@ -1,3 +1,9 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from yandex_music.utils.captcha_response import CaptchaResponse
+
+
 class YandexMusicError(Exception):
     """Базовый класс, представляющий исключения общего характера. """
 
@@ -33,7 +39,7 @@ class Captcha(YandexMusicError):
             :class:`yandex_music.utils.captcha_response.CaptchaResponse` представляющий капчу.
     """
 
-    def __init__(self, msg, captcha, *args, **kwargs):
+    def __init__(self, msg: str, captcha: 'CaptchaResponse', *args, **kwargs):
         self.captcha = captcha
         super().__init__(msg, *args, **kwargs)
 

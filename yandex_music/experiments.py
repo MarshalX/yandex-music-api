@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -16,14 +21,14 @@ class Experiments(YandexMusicObject):
     """
 
     def __init__(self,
-                 client=None,
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.__dict__.update(kwargs)
 
         self.client = client
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Experiments']:
         """Десериализация объекта.
 
         Args:
