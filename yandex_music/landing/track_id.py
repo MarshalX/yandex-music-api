@@ -3,11 +3,11 @@ from yandex_music import YandexMusicObject
 
 class TrackId(YandexMusicObject):
     def __init__(self,
-                 id,
+                 id_,
                  album_id=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
 
         self.album_id = album_id
         self.client = client

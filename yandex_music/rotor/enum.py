@@ -3,12 +3,12 @@ from yandex_music import YandexMusicObject
 
 class Enum(YandexMusicObject):
     def __init__(self,
-                 type,
+                 type_,
                  name,
                  possible_values,
                  client=None,
                  **kwargs):
-        self.type = type
+        self.type = type_
         self.name = name
         self.possible_values = possible_values
 

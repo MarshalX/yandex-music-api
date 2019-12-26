@@ -3,7 +3,7 @@ from yandex_music import YandexMusicObject
 
 class Artist(YandexMusicObject):
     def __init__(self,
-                 id,
+                 id_,
                  name,
                  cover,
                  various=None,
@@ -30,7 +30,7 @@ class Artist(YandexMusicObject):
                  end_date=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.name = name
         self.cover = cover
 

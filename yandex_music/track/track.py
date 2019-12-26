@@ -3,7 +3,7 @@ from yandex_music import YandexMusicObject
 
 class Track(YandexMusicObject):
     def __init__(self,
-                 id,
+                 id_,
                  title,
                  available,
                  artists,
@@ -12,7 +12,7 @@ class Track(YandexMusicObject):
                  lyrics_available=None,
                  real_id=None,
                  og_image=None,
-                 type=None,
+                 type_=None,
                  cover_uri=None,
                  major=None,
                  duration_ms=None,
@@ -28,7 +28,7 @@ class Track(YandexMusicObject):
                  available_full_without_permission=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.title = title
         self.available = available
         self.artists = artists
@@ -38,7 +38,7 @@ class Track(YandexMusicObject):
         self.lyrics_available = lyrics_available
         self.real_id = real_id
         self.og_image = og_image
-        self.type = type
+        self.type = type_
         self.cover_uri = cover_uri
         self.major = major
         self.duration_ms = duration_ms

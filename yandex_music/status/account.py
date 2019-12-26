@@ -82,15 +82,15 @@ class Account(YandexMusicObject):
         if self.uid:
             self._id_attrs = (self.uid,)
 
-    def download_avatar(self, filename, format='normal'):
+    def download_avatar(self, filename, format_='normal'):
         """Загрузка изображения пользователя.
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
-            format (:obj:`str`): Формат желаемого изображения (normal, orig, small, big).
+            format_ (:obj:`str`): Формат желаемого изображения (normal, orig, small, big).
         """
 
-        self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format}', filename)
+        self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod
     def de_json(cls, data, client):

@@ -3,13 +3,13 @@ from yandex_music import YandexMusicObject
 
 class GeneratedPlaylist(YandexMusicObject):
     def __init__(self,
-                 type,
+                 type_,
                  ready,
                  notify,
                  data,
                  client=None,
                  **kwargs):
-        self.type = type
+        self.type = type_
         self.ready = ready
         self.notify = notify
         self.data = data

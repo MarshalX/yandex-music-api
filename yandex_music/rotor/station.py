@@ -36,7 +36,7 @@ class Station(YandexMusicObject):
 
         data = super(Station, cls).de_json(data, client)
         from yandex_music import Id, Icon, Restrictions
-        data['id'] = Id.de_json(data.get('id'), client)
+        data['id_'] = Id.de_json(data.get('id_'), client)
         data['parent_id'] = Id.de_json(data.get('parent_id'), client)
         data['icon'] = Icon.de_json(data.get('icon'), client)
         data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)

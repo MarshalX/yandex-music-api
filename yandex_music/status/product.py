@@ -26,7 +26,7 @@ class Product(YandexMusicObject):
 
     Args:
         product_id (:obj:`str`): Уникальный идентификатор.
-        type (:obj:`str`): Тип продаваемого.
+        type_ (:obj:`str`): Тип продаваемого.
         common_period_duration (:obj:`str`): Длительность общего периода.
         duration (:obj:`int`): Длительность.
         trial_duration (:obj:`int`): Длительность испытательного срока.
@@ -48,7 +48,7 @@ class Product(YandexMusicObject):
 
     def __init__(self,
                  product_id,
-                 type,
+                 type_,
                  common_period_duration,
                  duration,
                  trial_duration,
@@ -66,7 +66,7 @@ class Product(YandexMusicObject):
                  client=None,
                  **kwargs):
         self.product_id = product_id
-        self.type = type
+        self.type = type_
         self.common_period_duration = common_period_duration
         self.duration = duration
         self.trial_duration = trial_duration

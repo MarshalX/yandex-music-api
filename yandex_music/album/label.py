@@ -3,25 +3,25 @@ from yandex_music import YandexMusicObject
 
 class Label(YandexMusicObject):
     """Класс, представляющий лейбл альбома.
-    
+
         Attributes:
             id (:obj:`int`): Идентификатор альбома.
             name (:obj:`str`): Название альбома.
             client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
                 Music.
         Args:
-            id (:obj:`int`): Идентификатор альбома.
+            id_ (:obj:`int`): Идентификатор альбома.
             name (:obj:`str`): Название альбома.
             client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
                 Yandex Music.
             **kwargs: Произвольные ключевые аргументы полученные от API.
         """
     def __init__(self,
-                 id,
+                 id_,
                  name,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.name = name
 
         self.client = client
@@ -33,8 +33,8 @@ class Label(YandexMusicObject):
         
              Args:
                  data (:obj:`dict`): Поля и значения десериализуемого объекта.
-                 client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                     Music.
+                 client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
+                    Yandex Music.
              Returns:
                  :obj:`yandex_music.Label`: Объект класса :class:`yandex_music.Label`.
         """

@@ -3,7 +3,7 @@ from yandex_music import YandexMusicObject
 
 class Album(YandexMusicObject):
     def __init__(self,
-                 id,
+                 id_,
                  title,
                  track_count,
                  artists,
@@ -25,12 +25,12 @@ class Album(YandexMusicObject):
                  volumes=None,
                  year=None,
                  release_date=None,
-                 type=None,
+                 type_=None,
                  track_position=None,
                  regions=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.title = title
         self.track_count = track_count
         self.artists = artists
@@ -51,7 +51,7 @@ class Album(YandexMusicObject):
         self.very_important = very_important
         self.available_for_mobile = available_for_mobile
         self.available_partially = available_partially
-        self.type = type
+        self.type = type_
         self.track_position = track_position
         self.regions = regions
         self.original_release_year = original_release_year

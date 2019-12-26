@@ -3,12 +3,12 @@ from yandex_music import YandexMusicObject
 
 class Sequence(YandexMusicObject):
     def __init__(self,
-                 type,
+                 type_,
                  track,
                  liked,
                  client=None,
                  **kwargs):
-        self.type = type
+        self.type = type_
         self.track = track
         self.liked = liked
 

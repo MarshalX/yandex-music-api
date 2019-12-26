@@ -3,12 +3,12 @@ from yandex_music import YandexMusicObject
 
 class ArtistsLikes(YandexMusicObject):
     def __init__(self,
-                 id=None,
+                 id_=None,
                  artist=None,
                  timestamp=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.artist = artist
         self.timestamp = timestamp
 
