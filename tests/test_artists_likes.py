@@ -22,7 +22,7 @@ class TestArtistsLikes:
         artists_likes = ArtistsLikes.de_json(json_dict, client)
 
     def test_de_json_all(self, client, artist):
-        json_dict = {'id': self.id, 'artist': artist.to_dict(), 'timestamp': self.timestamp}
+        json_dict = {'id_': self.id, 'artist': artist.to_dict(), 'timestamp': self.timestamp}
         artists_likes = ArtistsLikes.de_json(json_dict, client)
 
         assert artists_likes.id == self.id

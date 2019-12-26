@@ -15,7 +15,7 @@ class Lyrics(YandexMusicObject):
             Music.
 
     Args:
-        id (:obj:`int`): Уникальный идентификатор текста трека.
+        id_ (:obj:`int`): Уникальный идентификатор текста трека.
         lyrics (:obj:`str`): Первые строки текст песни.
         has_rights (:obj:`bool`): Есть ли права.
         full_lyrics (:obj:`str`): Текст песни.
@@ -27,7 +27,7 @@ class Lyrics(YandexMusicObject):
     """
 
     def __init__(self,
-                 id,
+                 id_,
                  lyrics,
                  full_lyrics,
                  has_rights,
@@ -35,7 +35,7 @@ class Lyrics(YandexMusicObject):
                  show_translation,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.lyrics = lyrics
         self.full_lyrics = full_lyrics
         self.has_rights = has_rights
@@ -60,7 +60,7 @@ class Lyrics(YandexMusicObject):
         """
         if not data:
             return None
-        
+
         data = super(Lyrics, cls).de_json(data, client)
 
         return cls(client=client, **data)

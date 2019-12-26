@@ -3,8 +3,8 @@ from yandex_music import YandexMusicObject
 
 class Block(YandexMusicObject):
     def __init__(self,
-                 id,
-                 type,
+                 id_,
+                 type_,
                  type_for_from,
                  title,
                  entities,
@@ -13,8 +13,8 @@ class Block(YandexMusicObject):
                  client=None,
                  **kwargs):
 
-        self.id = id
-        self.type = type
+        self.id = id_
+        self.type = type_
         self.type_for_from = type_for_from
         self.title = title
         self.entities = entities
@@ -37,7 +37,7 @@ class Block(YandexMusicObject):
         from yandex_music import BlockEntity, PlayContextsData, PersonalPlaylistsData
         data['entities'] = BlockEntity.de_list(data.get('entities'), client)
 
-        block_type = data.get('type')
+        block_type = data.get('type_')
         if block_type == 'personal-playlists':
             data['data'] = PersonalPlaylistsData.de_json(data.get('data'), client)
         elif block_type == 'play-contexts':

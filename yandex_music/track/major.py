@@ -3,11 +3,11 @@ from yandex_music import YandexMusicObject
 
 class Major(YandexMusicObject):
     def __init__(self,
-                 id,
+                 id_,
                  name,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.name = name
 
         self.client = client

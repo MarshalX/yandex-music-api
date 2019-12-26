@@ -17,7 +17,7 @@ class ArtistTracks(YandexMusicObject):
             Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
-    
+
     def __init__(self,
                  tracks,
                  pager,

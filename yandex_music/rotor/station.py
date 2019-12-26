@@ -3,7 +3,7 @@ from yandex_music import YandexMusicObject
 
 class Station(YandexMusicObject):
     def __init__(self,
-                 id,
+                 id_,
                  name,
                  icon,
                  mts_icon,
@@ -14,7 +14,7 @@ class Station(YandexMusicObject):
                  parent_id=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.name = name
         self.icon = icon
         self.mts_icon = mts_icon
@@ -36,7 +36,7 @@ class Station(YandexMusicObject):
 
         data = super(Station, cls).de_json(data, client)
         from yandex_music import Id, Icon, Restrictions
-        data['id'] = Id.de_json(data.get('id'), client)
+        data['id_'] = Id.de_json(data.get('id_'), client)
         data['parent_id'] = Id.de_json(data.get('parent_id'), client)
         data['icon'] = Icon.de_json(data.get('icon'), client)
         data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)

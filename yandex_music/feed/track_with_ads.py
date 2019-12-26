@@ -3,11 +3,11 @@ from yandex_music import YandexMusicObject
 
 class TrackWithAds(YandexMusicObject):
     def __init__(self,
-                 type,
+                 type_,
                  track,
                  client=None,
                  **kwargs):
-        self.type = type
+        self.type = type_
         self.track = track
 
         self.client = client

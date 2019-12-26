@@ -52,10 +52,9 @@ class TestAlbum:
         assert album.regions == self.regions
 
     def test_de_json_required(self, client, artist, label):
-        json_dict = {'id': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
+        json_dict = {'id_': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
                      'artists': [artist.to_dict()], 'labels': [label.to_dict()],
-                     'available': self.available,
-                     'available_for_premium_users': self.available_for_premium_users}
+                     'available': self.available, 'available_for_premium_users': self.available_for_premium_users}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
@@ -68,7 +67,7 @@ class TestAlbum:
         assert album.available_for_premium_users == self.available_for_premium_users
 
     def test_de_json_all(self, client, artist, label, track_position, track):
-        json_dict = {'id': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
+        json_dict = {'id_': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
                      'artists': [artist.to_dict()], 'labels': [label.to_dict()], 'available': self.available,
                      'available_for_premium_users': self.available_for_premium_users,
                      'content_warning': self.content_warning, 'original_release_year': self.original_release_year,
@@ -77,7 +76,7 @@ class TestAlbum:
                      'available_partially': self.available_partially, 'bests': self.bests, 'prerolls': self.prerolls,
                      'volumes': [[track.to_dict()]], 'year': self.year,
                      'release_date': self.release_date,
-                     'type': self.type, 'track_position': track_position.to_dict(), 'regions': self.regions}
+                     'type_': self.type, 'track_position': track_position.to_dict(), 'regions': self.regions}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id

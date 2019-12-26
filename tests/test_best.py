@@ -15,7 +15,7 @@ class TestBest:
     def test_de_json_required(self, client, best_with_result):
         best_fixture, result = best_with_result
 
-        json_dict = {'type': best_fixture.type, 'result': result.to_dict()}
+        json_dict = {'type_': best_fixture.type, 'result': result.to_dict()}
         best = Best.de_json(json_dict, client)
 
         assert best.type == best_fixture.type
@@ -24,7 +24,7 @@ class TestBest:
     def test_de_json_all(self, client, best_with_result):
         best_fixture, result = best_with_result
 
-        json_dict = {'type': best_fixture.type, 'result': result.to_dict(), 'text': self.text}
+        json_dict = {'type_': best_fixture.type, 'result': result.to_dict(), 'text': self.text}
         best = Best.de_json(json_dict, client)
 
         assert best.type == best_fixture.type

@@ -3,7 +3,7 @@ from yandex_music import YandexMusicObject
 
 class Genre(YandexMusicObject):
     def __init__(self,
-                 id,
+                 id_,
                  weight,
                  composer_top,
                  title,
@@ -18,7 +18,7 @@ class Genre(YandexMusicObject):
                  hide_in_regions=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.weight = weight
         self.composer_top = composer_top
         self.title = title

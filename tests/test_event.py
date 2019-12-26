@@ -23,14 +23,14 @@ class TestEvent:
         assert event.tracks_count == self.tracks_count
 
     def test_de_json_required(self, client):
-        json_dict = {'id': self.id, 'type': self.type}
+        json_dict = {'id_': self.id, 'type_': self.type}
         event = Event.de_json(json_dict, client)
 
         assert event.id == self.id
         assert event.type == self.type
 
     def test_de_json_all(self, client, track, artist_event, album_event):
-        json_dict = {'id': self.id, 'type': self.type, 'type_for_from': self.type_for_from, 'title': self.title,
+        json_dict = {'id_': self.id, 'type_': self.type, 'type_for_from': self.type_for_from, 'title': self.title,
                      'tracks': [track.to_dict()], 'artists': [artist_event.to_dict()],
                      'albums': [album_event.to_dict()], 'message': self.message, 'device': self.device,
                      'tracks_count': self.tracks_count}

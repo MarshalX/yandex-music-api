@@ -424,7 +424,7 @@ def value():
 
 
 @pytest.fixture(scope='session')
-def id():
+def id_():
     return Id(TestId.type, TestId.tag)
 
 
@@ -434,8 +434,8 @@ def sequence(track):
 
 
 @pytest.fixture(scope='session')
-def station(id, icon, restrictions):
-    return Station(id, TestStation.name, icon, icon, icon, TestStation.id_for_from, restrictions, restrictions, id)
+def station(id_, icon, restrictions):
+    return Station(id_, TestStation.name, icon, icon, icon, TestStation.id_for_from, restrictions, restrictions, id_)
 
 
 @pytest.fixture(scope='session')

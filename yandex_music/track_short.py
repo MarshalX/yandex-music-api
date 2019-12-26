@@ -12,7 +12,7 @@ class TrackShort(YandexMusicObject):
             Music.
 
     Args:
-        id (:obj:`str`): Уникальный идентификатор трека.
+        id_ (:obj:`str`): Уникальный идентификатор трека.
         timestamp (:obj:`str`): Дата TODO.
         album_id (:obj:`str`, optional): Уникальный идентификатор альбома.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
@@ -21,12 +21,12 @@ class TrackShort(YandexMusicObject):
     """
 
     def __init__(self,
-                 id,
+                 id_,
                  timestamp,
                  album_id=None,
                  client=None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.timestamp = timestamp
 
         self.album_id = album_id
