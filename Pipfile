@@ -11,6 +11,7 @@ pytest = "*"
 pytest-cov = "*"
 codecov = "*"
 ujson = "*"
+importlib_metadata = "*"
 
 [packages]
 requests = {extras = ["socks"]}
