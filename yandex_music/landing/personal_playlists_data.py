@@ -1,18 +1,23 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
 class PersonalPlaylistsData(YandexMusicObject):
     def __init__(self,
                  is_wizard_passed,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.is_wizard_passed = is_wizard_passed
 
         self.client = client
         self._id_attrs = (self.is_wizard_passed,)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

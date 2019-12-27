@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -11,8 +16,8 @@ class Feed(YandexMusicObject):
                  today,
                  days,
                  next_revision=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.can_get_more_events = can_get_more_events
         self.pumpkin = pumpkin
         self.is_wizard_passed = is_wizard_passed
@@ -27,7 +32,7 @@ class Feed(YandexMusicObject):
         self._id_attrs = (self.can_get_more_events, self.generated_playlists, self.headlines, self.today, self.days)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

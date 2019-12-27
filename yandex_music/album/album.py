@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -28,8 +33,8 @@ class Album(YandexMusicObject):
                  type_=None,
                  track_position=None,
                  regions=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.id = id_
         self.title = title
         self.track_count = track_count
@@ -106,7 +111,7 @@ class Album(YandexMusicObject):
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 
@@ -121,7 +126,7 @@ class Album(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client'):
         if not data:
             return []
 

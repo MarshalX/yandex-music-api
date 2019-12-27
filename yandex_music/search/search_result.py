@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
 
 
@@ -16,8 +21,8 @@ class SearchResult(YandexMusicObject):
                  per_page,
                  order,
                  results,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.total = total
         self.per_page = per_page
         self.order = order

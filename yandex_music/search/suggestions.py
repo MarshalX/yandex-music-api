@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Best
+
 from yandex_music import YandexMusicObject
 
 
@@ -5,8 +10,8 @@ class Suggestions(YandexMusicObject):
     def __init__(self,
                  best,
                  suggestions,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.best = best
         self.suggestions = suggestions
 
@@ -20,7 +25,7 @@ class Suggestions(YandexMusicObject):
         return iter(self.suggestions)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Suggestions']:
         if not data:
             return None
 

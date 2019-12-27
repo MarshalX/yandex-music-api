@@ -1,13 +1,18 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, User, Cover, MadeFor, TrackShort, PlaylistAbsence, PlayCounter
+
 from yandex_music import YandexMusicObject
 
 
 class Playlist(YandexMusicObject):
     def __init__(self,
-                 owner,
-                 cover,
-                 made_for,
-                 play_counter,
-                 playlist_absence,
+                 owner: Optional['User'],
+                 cover: Optional['Cover'],
+                 made_for: Optional['MadeFor'],
+                 play_counter: Optional['PlayCounter'],
+                 playlist_absence: Optional['PlaylistAbsence'],
                  uid=None,
                  kind=None,
                  title=None,
@@ -34,8 +39,8 @@ class Playlist(YandexMusicObject):
                  description_formatted=None,
                  is_for_from=None,
                  regions=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.owner = owner
         self.cover = cover
         self.made_for = made_for
@@ -73,14 +78,14 @@ class Playlist(YandexMusicObject):
         self._id_attrs = (self.uid, self.kind, self.title, self.playlist_absence)
 
     @property
-    def is_mine(self):
+    def is_mine(self) -> bool:
         return self.owner.uid == self.client.me.account.uid
 
     @property
-    def playlist_id(self):
+    def playlist_id(self) -> str:
         return f'{self.owner.uid}:{self.kind}'
 
-    def download_animated_cover(self, filename, size='200x200'):
+    def download_animated_cover(self, filename: str, size: Optional[str] = '200x200') -> None:
         """Загрузка анимированной обложки.
 
         Args:
@@ -90,7 +95,7 @@ class Playlist(YandexMusicObject):
 
         self.client.request.download(f'https://{self.animated_cover_uri.replace("%%", size)}', filename)
 
-    def download_og_image(self, filename, size='200x200'):
+    def download_og_image(self, filename: str, size: Optional[str] = '200x200') -> None:
         """Загрузка обложки.
 
         Используйте это только когда нет self.cover!
@@ -102,20 +107,20 @@ class Playlist(YandexMusicObject):
 
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
-    def rename(self, name):
+    def rename(self, name: str) -> None:
         client, kind = self.client, self.kind
 
         self.__dict__.clear()
         self.__dict__.update(client.users_playlists_name(kind, name).__dict__)
 
-    def like(self, *args, **kwargs):
+    def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_playlists_add(playlist.uid, user.id *args, **kwargs)
         """
         return self.client.users_likes_playlists_add(self.uid, self.client.me.account.uid, *args, **kwargs)
 
-    def dislike(self, *args, **kwargs):
+    def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_playlists_remove(playlist.uid, user.id *args, **kwargs)
@@ -123,7 +128,7 @@ class Playlist(YandexMusicObject):
         return self.client.users_likes_playlists_remove(self.uid, self.client.me.account.uid, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Playlist']:
         if not data:
             return None
 
@@ -143,7 +148,7 @@ class Playlist(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Playlist']:
         if not data:
             return []
 

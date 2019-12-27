@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -5,8 +10,8 @@ class Major(YandexMusicObject):
     def __init__(self,
                  id_,
                  name,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.id = id_
         self.name = name
 
@@ -14,7 +19,7 @@ class Major(YandexMusicObject):
         self._id_attrs = (self.id, self.name)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

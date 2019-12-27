@@ -1,14 +1,19 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Id, Sequence
+
 from yandex_music import YandexMusicObject
 
 
 class StationTracksResult(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 sequence,
+                 id_: Optional['Id'],
+                 sequence: List['Sequence'],
                  batch_id,
                  pumpkin,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.id = id_
         self.sequence = sequence
         self.batch_id = batch_id
@@ -18,7 +23,7 @@ class StationTracksResult(YandexMusicObject):
         self._id_attrs = (self.id, self.sequence, self.batch_id, self.pumpkin)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data, client) -> Optional['StationTracksResult']:
         if not data:
             return None
 

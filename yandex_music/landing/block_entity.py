@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject, Promotion, Album, Playlist, MixLink, PlayContext, ChartItem,\
     GeneratedPlaylist
 
@@ -18,8 +23,8 @@ class BlockEntity(YandexMusicObject):
                  id_,
                  type_,
                  data,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
 
         self.id = id_
         self.type = type_
@@ -29,7 +34,7 @@ class BlockEntity(YandexMusicObject):
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 
@@ -39,7 +44,7 @@ class BlockEntity(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client'):
         if not data:
             return []
 

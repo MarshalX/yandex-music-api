@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -9,8 +14,8 @@ class StationResult(YandexMusicObject):
                  ad_params,
                  explanation=None,
                  prerolls=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.station = station
         self.settings = settings
         self.settings2 = settings2
@@ -22,7 +27,7 @@ class StationResult(YandexMusicObject):
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 
@@ -36,7 +41,7 @@ class StationResult(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client'):
         if not data:
             return []
 

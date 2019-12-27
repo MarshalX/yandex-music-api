@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -5,8 +10,8 @@ class Images(YandexMusicObject):
     def __init__(self,
                  _208x208=None,
                  _300x300=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self._208x208 = _208x208
         self._300x300 = _300x300
 
@@ -31,7 +36,7 @@ class Images(YandexMusicObject):
         self.client.request.download(self._300x300, filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

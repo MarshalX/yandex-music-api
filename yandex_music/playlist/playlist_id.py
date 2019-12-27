@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -5,8 +10,8 @@ class PlaylistId(YandexMusicObject):
     def __init__(self,
                  uid,
                  kind,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.uid = uid
         self.kind = kind
 
@@ -14,7 +19,7 @@ class PlaylistId(YandexMusicObject):
         self._id_attrs = (self.uid, self.kind)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         """Десериализация объекта.
 
         Args:
@@ -34,7 +39,7 @@ class PlaylistId(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client'):
         """Десериализация списка объектов.
 
         Args:

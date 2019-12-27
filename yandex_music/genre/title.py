@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -5,8 +10,8 @@ class Title(YandexMusicObject):
     def __init__(self,
                  title,
                  full_title=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.title = title
         self.full_title = full_title
 
@@ -14,7 +19,7 @@ class Title(YandexMusicObject):
         self._id_attrs = (self.title, self.full_title)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

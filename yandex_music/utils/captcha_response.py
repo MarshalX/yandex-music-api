@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -27,8 +32,8 @@ class CaptchaResponse(YandexMusicObject):
                  x_captcha_key,
                  error_description,
                  error,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.x_captcha_url = x_captcha_url
         self.x_captcha_key = x_captcha_key
         self.error_description = error_description
@@ -51,7 +56,7 @@ class CaptchaResponse(YandexMusicObject):
         self.client.request.download(self.x_captcha_url, filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         """Десериализация объекта.
 
         Args:

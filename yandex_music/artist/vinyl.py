@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -9,8 +14,8 @@ class Vinyl(YandexMusicObject):
                  year,
                  price,
                  media,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.url = url
         self.picture = picture
         self.title = title
@@ -22,7 +27,7 @@ class Vinyl(YandexMusicObject):
         self._id_attrs = (self.title, self.price, self.year, self.url, self.price, self.media)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         """Десериализация объекта.
 
         Args:
@@ -42,7 +47,7 @@ class Vinyl(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client'):
         """Десериализация списка объектов.
 
         Args:

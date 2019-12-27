@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -11,8 +16,8 @@ class AdParams(YandexMusicObject):
                  ad_volume,
                  genre_id=None,
                  genre_name=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.partner_id = partner_id
         self.category_id = category_id
         self.page_ref = page_ref
@@ -28,7 +33,7 @@ class AdParams(YandexMusicObject):
                           self.target_ref, self.other_params, self.ad_volume)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

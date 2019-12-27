@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -6,8 +11,8 @@ class ArtistEvent(YandexMusicObject):
                  artist,
                  tracks,
                  similar_to_artists_from_history,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.artist = artist
         self.tracks = tracks
         self.similar_to_artists_from_history = similar_to_artists_from_history
@@ -16,7 +21,7 @@ class ArtistEvent(YandexMusicObject):
         self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 
@@ -29,7 +34,7 @@ class ArtistEvent(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client'):
         if not data:
             return []
 

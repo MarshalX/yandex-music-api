@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -6,8 +11,8 @@ class Landing(YandexMusicObject):
                  pumpkin,
                  content_id,
                  blocks,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
 
         self.pumpkin = pumpkin
         self.content_id = content_id
@@ -20,7 +25,7 @@ class Landing(YandexMusicObject):
         return self.blocks[item]
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

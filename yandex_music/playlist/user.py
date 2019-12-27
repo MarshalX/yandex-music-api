@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -28,8 +33,8 @@ class User(YandexMusicObject):
                  name,
                  sex,
                  verified,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.uid = uid
         self.login = login
         self.name = name
@@ -50,7 +55,7 @@ class User(YandexMusicObject):
         self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         """Десериализация объекта.
 
         Args:

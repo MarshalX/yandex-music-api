@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -12,8 +17,8 @@ class Promotion(YandexMusicObject):
                  text_color,
                  gradient,
                  image,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.promo_id = promo_id
         self.title = title
         self.subtitle = subtitle
@@ -29,7 +34,7 @@ class Promotion(YandexMusicObject):
                           self.url, self.url_scheme, self.text_color, self.gradient, self.image)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 
@@ -38,7 +43,7 @@ class Promotion(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client'):
         if not data:
             return []
 

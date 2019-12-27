@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -6,8 +11,8 @@ class PlayCounter(YandexMusicObject):
                  value,
                  description,
                  updated,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.value = value
         self.description = description
         self.updated = updated
@@ -16,7 +21,7 @@ class PlayCounter(YandexMusicObject):
         self._id_attrs = (self.value, self.description, self.updated)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 

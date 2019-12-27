@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -9,8 +14,8 @@ class CaseForms(YandexMusicObject):
                  accusative,
                  instrumental,
                  prepositional,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.nominative = nominative
         self.genitive = genitive
         self.dative = dative
@@ -23,7 +28,7 @@ class CaseForms(YandexMusicObject):
                           self.accusative, self.instrumental, self.prepositional)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client'):
         if not data:
             return None
 
