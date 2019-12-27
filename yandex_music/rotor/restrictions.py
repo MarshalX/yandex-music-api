@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -15,10 +15,10 @@ de_json = {
 class Restrictions(YandexMusicObject):
     def __init__(self,
                  language,
-                 diversity,
-                 mood=None,
-                 energy=None,
-                 mood_energy=None,
+                 diversity: Optional[Union['Enum', 'DiscreteScale']],
+                 mood: Optional[Union['Enum', 'DiscreteScale']] = None,
+                 energy: Optional[Union['Enum', 'DiscreteScale']] = None,
+                 mood_energy: Optional[Union['Enum', 'DiscreteScale']] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.language = language
@@ -31,7 +31,7 @@ class Restrictions(YandexMusicObject):
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Restrictions']:
         if not data:
             return None
 

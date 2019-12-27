@@ -1,22 +1,22 @@
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Id, Icon, Restrictions
 
 from yandex_music import YandexMusicObject
 
 
 class Station(YandexMusicObject):
     def __init__(self,
-                 id_,
+                 id_: Optional['Id'],
                  name,
-                 icon,
-                 mts_icon,
-                 geocell_icon,
+                 icon: Optional['Icon'],
+                 mts_icon: Optional['Icon'],
+                 geocell_icon: Optional['Icon'],
                  id_for_from,
-                 restrictions,
-                 restrictions2,
-                 parent_id=None,
+                 restrictions: Optional['Restrictions'],
+                 restrictions2: Optional['Restrictions'],
+                 parent_id: Optional['Id'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -35,7 +35,7 @@ class Station(YandexMusicObject):
                           self.id_for_from, self.restrictions, self.restrictions2)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Station']:
         if not data:
             return None
 

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -17,9 +17,9 @@ de_json_result = {
 
 class Best(YandexMusicObject):
     def __init__(self,
-                 type_,
-                 result,
-                 text=None,
+                 type_: str,
+                 result: Optional[Union[Track, Artist, Album, Playlist, Video]],
+                 text: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.type = type_

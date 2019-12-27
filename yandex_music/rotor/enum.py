@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Value
 
 from yandex_music import YandexMusicObject
 
@@ -10,7 +10,7 @@ class Enum(YandexMusicObject):
     def __init__(self,
                  type_,
                  name,
-                 possible_values,
+                 possible_values: List['Value'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.type = type_
@@ -21,7 +21,7 @@ class Enum(YandexMusicObject):
         self._id_attrs = (self.type, self.name, self.possible_values)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Enum']:
         if not data:
             return None
 

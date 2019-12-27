@@ -8,7 +8,7 @@ from yandex_music import YandexMusicObject
 
 class Suggestions(YandexMusicObject):
     def __init__(self,
-                 best,
+                 best: Optional['Best'],
                  suggestions,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

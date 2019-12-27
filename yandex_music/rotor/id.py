@@ -19,7 +19,7 @@ class Id(YandexMusicObject):
         self._id_attrs = (self.type, self.tag)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Id']:
         if not data:
             return None
 

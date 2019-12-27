@@ -1,7 +1,7 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, StationResult
 
 from yandex_music import YandexMusicObject
 
@@ -9,7 +9,7 @@ from yandex_music import YandexMusicObject
 class Dashboard(YandexMusicObject):
     def __init__(self,
                  dashboard_id,
-                 stations,
+                 stations: List['StationResult'],
                  pumpkin,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

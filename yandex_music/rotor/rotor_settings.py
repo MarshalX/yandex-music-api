@@ -26,7 +26,7 @@ class RotorSettings(YandexMusicObject):
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['RotorSettings']:
         if not data:
             return None
 

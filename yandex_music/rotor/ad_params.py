@@ -33,7 +33,7 @@ class AdParams(YandexMusicObject):
                           self.target_ref, self.other_params, self.ad_volume)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['AdParams']:
         if not data:
             return None
 

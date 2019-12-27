@@ -19,7 +19,7 @@ class Value(YandexMusicObject):
         self._id_attrs = (self.value, self.name)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Value']:
         if not data:
             return None
 
@@ -28,7 +28,7 @@ class Value(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['Value']:
         if not data:
             return []
 
