@@ -8,7 +8,7 @@ from yandex_music import YandexMusicObject
 
 class PersonalPlaylistsData(YandexMusicObject):
     def __init__(self,
-                 is_wizard_passed,
+                 is_wizard_passed: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.is_wizard_passed = is_wizard_passed
@@ -17,7 +17,7 @@ class PersonalPlaylistsData(YandexMusicObject):
         self._id_attrs = (self.is_wizard_passed,)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PersonalPlaylistsData']:
         if not data:
             return None
 

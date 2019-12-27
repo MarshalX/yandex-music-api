@@ -15,7 +15,8 @@ class User(YandexMusicObject):
         name (:obj:`str`): Имя пользователя.
         sex (:obj:`str`): Пол пользователя.
         verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
 
     Args:
         uid (:obj:`int`): Идентификатор пользователя.
@@ -23,16 +24,17 @@ class User(YandexMusicObject):
         name (:obj:`str`): Имя пользователя.
         sex (:obj:`str`): Пол пользователя.
         verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
-                 uid,
-                 login,
-                 name,
-                 sex,
-                 verified,
+                 uid: int,
+                 login: str,
+                 name: str,
+                 sex: str,
+                 verified: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.uid = uid
@@ -44,7 +46,7 @@ class User(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.uid, self.login)
 
-    def download_avatar(self, filename, format_='normal'):
+    def download_avatar(self, filename: str, format_: str = 'normal') -> None:
         """Загрузка изображения пользователя.
 
         Args:
@@ -55,7 +57,7 @@ class User(YandexMusicObject):
         self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['User']:
         """Десериализация объекта.
 
         Args:

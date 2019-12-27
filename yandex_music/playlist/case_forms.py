@@ -28,7 +28,7 @@ class CaseForms(YandexMusicObject):
                           self.accusative, self.instrumental, self.prepositional)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['CaseForms']:
         if not data:
             return None
 

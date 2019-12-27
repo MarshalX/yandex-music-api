@@ -1,7 +1,7 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Union
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, BlockEntity, PersonalPlaylistsData, PlayContextsData
 
 from yandex_music import YandexMusicObject
 
@@ -12,9 +12,9 @@ class Block(YandexMusicObject):
                  type_,
                  type_for_from,
                  title,
-                 entities,
+                 entities: List['BlockEntity'],
                  description=None,
-                 data=None,
+                 data: Optional[Union[PersonalPlaylistsData, PlayContextsData]] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
 
@@ -30,11 +30,11 @@ class Block(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: int) -> 'BlockEntity':
         return self.entities[item]
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Block']:
         if not data:
             return None
 
@@ -51,7 +51,7 @@ class Block(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['Block']:
         if not data:
             return []
 

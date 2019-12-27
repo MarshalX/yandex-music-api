@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Union
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -21,8 +21,9 @@ de_json = {
 class BlockEntity(YandexMusicObject):
     def __init__(self,
                  id_,
-                 type_,
-                 data,
+                 type_: str,
+                 data: Optional[Union['GeneratedPlaylist', 'Promotion', 'Album',
+                                      'Playlist', 'ChartItem', 'PlayContext', 'MixLink']],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
 
@@ -34,7 +35,7 @@ class BlockEntity(YandexMusicObject):
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['BlockEntity']:
         if not data:
             return None
 
@@ -44,7 +45,7 @@ class BlockEntity(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['BlockEntity']:
         if not data:
             return []
 

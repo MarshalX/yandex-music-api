@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, TrackShortOld
 
 from yandex_music import YandexMusicObject
 
@@ -11,7 +11,7 @@ class PlayContext(YandexMusicObject):
                  client_,
                  context,
                  context_item,
-                 tracks,
+                 tracks: List['TrackShortOld'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.client_ = client_
@@ -23,7 +23,7 @@ class PlayContext(YandexMusicObject):
         self._id_attrs = (self.client_, self.context_item, self.context_item, self.tracks)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PlayContext']:
         if not data:
             return None
 

@@ -29,7 +29,7 @@ class MixLink(YandexMusicObject):
         self._id_attrs = (self.url, self.title, self.url_scheme, self.text_color,
                           self.background_color, self.background_image_uri, self.cover_white)
 
-    def download_background_image(self, filename, size='200x200'):
+    def download_background_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка заднего фона.
 
         Args:
@@ -40,7 +40,7 @@ class MixLink(YandexMusicObject):
         self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:
         if not data:
             return None
 
@@ -49,7 +49,7 @@ class MixLink(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['MixLink']:
         if not data:
             return []
 

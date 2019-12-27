@@ -24,8 +24,8 @@ class PlaylistAbsence(YandexMusicObject):
     """
 
     def __init__(self,
-                 kind,
-                 reason,
+                 kind: int,
+                 reason: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.kind = kind
@@ -35,7 +35,7 @@ class PlaylistAbsence(YandexMusicObject):
         self._id_attrs = (self.kind, self.reason)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistAbsence']:
         """Десериализация объекта.
 
         Args:

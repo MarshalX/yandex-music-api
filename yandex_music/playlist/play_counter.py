@@ -21,7 +21,7 @@ class PlayCounter(YandexMusicObject):
         self._id_attrs = (self.value, self.description, self.updated)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PlayCounter']:
         if not data:
             return None
 

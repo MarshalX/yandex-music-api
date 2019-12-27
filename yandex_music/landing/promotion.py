@@ -34,7 +34,7 @@ class Promotion(YandexMusicObject):
                           self.url, self.url_scheme, self.text_color, self.gradient, self.image)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:
         if not data:
             return None
 
@@ -43,7 +43,7 @@ class Promotion(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['Promotion']:
         if not data:
             return []
 

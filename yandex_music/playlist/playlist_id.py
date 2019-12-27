@@ -19,7 +19,7 @@ class PlaylistId(YandexMusicObject):
         self._id_attrs = (self.uid, self.kind)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistId']:
         """Десериализация объекта.
 
         Args:
@@ -39,7 +39,7 @@ class PlaylistId(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['PlaylistId']:
         """Десериализация списка объектов.
 
         Args:

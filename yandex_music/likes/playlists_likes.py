@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Playlist
 
 from yandex_music import YandexMusicObject
 
@@ -10,7 +10,7 @@ class PlaylistsLikes(YandexMusicObject):
     def __init__(self,
                  timestamp,
                  id_=None,
-                 playlist=None,
+                 playlist: Optional['Playlist'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -21,7 +21,7 @@ class PlaylistsLikes(YandexMusicObject):
         self._id_attrs = (self.id, self.playlist)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistsLikes']:
         if not data:
             return None
 
@@ -32,7 +32,7 @@ class PlaylistsLikes(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['PlaylistsLikes']:
         if not data:
             return []
 

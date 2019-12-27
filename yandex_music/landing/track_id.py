@@ -19,7 +19,7 @@ class TrackId(YandexMusicObject):
         self._id_attrs = (self.id, self.album_id)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:
         if not data:
             return None
 
