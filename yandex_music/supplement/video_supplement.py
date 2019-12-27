@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -29,15 +34,15 @@ class VideoSupplement(YandexMusicObject):
     """
 
     def __init__(self,
-                 cover,
-                 title,
-                 provider,
-                 provider_video_id,
-                 url=None,
-                 embed_url=None,
-                 embed=None,
-                 client=None,
-                 **kwargs):
+                 cover: str,
+                 title: str,
+                 provider: str,
+                 provider_video_id: str,
+                 url: Optional[str] = None,
+                 embed_url: Optional[str] = None,
+                 embed: Optional[str] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.cover = cover
         self.title = title
         self.provider = provider
@@ -51,7 +56,7 @@ class VideoSupplement(YandexMusicObject):
         self._id_attrs = (self.cover, self.title, self.provider_video_id)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['VideoSupplement']:
         """Десериализация объекта.
 
         Args:
@@ -70,7 +75,7 @@ class VideoSupplement(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['VideoSupplement']:
         """Десериализация списка объектов.
 
         Args:
@@ -79,7 +84,8 @@ class VideoSupplement(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.VideoSupplement`: Список объектов класса :class:`yandex_music.VideoSupplement`.
+            :obj:`list` из :obj:`yandex_music.VideoSupplement`: Список объектов класса
+                :class:`yandex_music.VideoSupplement`.
         """
         if not data:
             return []

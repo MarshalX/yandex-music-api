@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Price
+
 from yandex_music import YandexMusicObject, Price
 
 
@@ -47,24 +52,24 @@ class Product(YandexMusicObject):
     """
 
     def __init__(self,
-                 product_id,
-                 type_,
-                 common_period_duration,
-                 duration,
-                 trial_duration,
-                 price,
-                 feature,
-                 debug,
-                 features=None,
-                 description=None,
-                 available=None,
-                 trial_available=None,
-                 vendor_trial_available=None,
-                 button_text=None,
-                 button_additional_text=None,
-                 payment_method_types=None,
-                 client=None,
-                 **kwargs):
+                 product_id: str,
+                 type_: str,
+                 common_period_duration: str,
+                 duration: int,
+                 trial_duration: int,
+                 price: Optional['Price'],
+                 feature: str,
+                 debug: bool,
+                 features: Optional[List[str]] = None,
+                 description: Optional[str] = None,
+                 available: Optional[bool] = None,
+                 trial_available: Optional[bool] = None,
+                 vendor_trial_available: Optional[bool] = None,
+                 button_text: Optional[str] = None,
+                 button_additional_text: Optional[str] = None,
+                 payment_method_types: Optional[List[str]] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.product_id = product_id
         self.type = type_
         self.common_period_duration = common_period_duration
@@ -88,7 +93,7 @@ class Product(YandexMusicObject):
                           self.trial_duration, self.product_id, self.feature, self.debug)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Product']:
         """Десериализация объекта.
 
         Args:
@@ -108,7 +113,7 @@ class Product(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Product']:
         """Десериализация списка объектов.
 
         Args:

@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -19,10 +24,10 @@ class Plus(YandexMusicObject):
     """
 
     def __init__(self,
-                 has_plus,
-                 is_tutorial_completed,
-                 client=None,
-                 **kwargs):
+                 has_plus: bool,
+                 is_tutorial_completed: bool,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.has_plus = has_plus
         self.is_tutorial_completed = is_tutorial_completed
 
@@ -30,7 +35,7 @@ class Plus(YandexMusicObject):
         self._id_attrs = (self.has_plus, self.is_tutorial_completed)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Plus']:
         """Десериализация объекта.
 
         Args:
