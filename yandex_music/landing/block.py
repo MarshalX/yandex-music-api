@@ -14,7 +14,7 @@ class Block(YandexMusicObject):
                  title,
                  entities: List['BlockEntity'],
                  description=None,
-                 data: Optional[Union[PersonalPlaylistsData, PlayContextsData]] = None,
+                 data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
 
