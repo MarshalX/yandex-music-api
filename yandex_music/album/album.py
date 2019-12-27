@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Artist, Label, TrackPosition, Track
 
 from yandex_music import YandexMusicObject
 
@@ -11,8 +11,8 @@ class Album(YandexMusicObject):
                  id_,
                  title,
                  track_count,
-                 artists,
-                 labels,
+                 artists: List['Artist'],
+                 labels: List['Label'],
                  available,
                  available_for_premium_users,
                  cover_uri=None,
@@ -27,11 +27,11 @@ class Album(YandexMusicObject):
                  available_partially=None,
                  bests=None,
                  prerolls=None,
-                 volumes=None,
+                 volumes: List['Track'] = None,
                  year=None,
                  release_date=None,
                  type_=None,
-                 track_position=None,
+                 track_position: Optional['TrackPosition'] = None,
                  regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
@@ -66,7 +66,7 @@ class Album(YandexMusicObject):
         self._id_attrs = (self.id, self.title, self.track_count, self.artists, self.labels,
                           self.available_for_premium_users, self.available)
 
-    def with_tracks(self, *args, **kwargs):
+    def with_tracks(self, *args, **kwargs) -> Optional['Album']:
         """Сокращение для::
 
             client.albums_with_tracks(album.id, *args, **kwargs)
@@ -74,7 +74,7 @@ class Album(YandexMusicObject):
 
         return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
-    def download_cover(self, filename, size='200x200'):
+    def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
@@ -84,7 +84,7 @@ class Album(YandexMusicObject):
 
         self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
-    def download_og_image(self, filename, size='200x200'):
+    def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Предпочтительнее использовать self.download_cover().
@@ -96,14 +96,14 @@ class Album(YandexMusicObject):
 
         self.client.request.download(f'https://{self.og_image("%%", size)}', filename)
 
-    def like(self, *args, **kwargs):
+    def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    def dislike(self, *args, **kwargs):
+    def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
@@ -111,7 +111,7 @@ class Album(YandexMusicObject):
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Album']:
         if not data:
             return None
 
@@ -126,7 +126,7 @@ class Album(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['Album']:
         if not data:
             return []
 

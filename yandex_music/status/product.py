@@ -60,14 +60,14 @@ class Product(YandexMusicObject):
                  price: Optional['Price'],
                  feature: str,
                  debug: bool,
-                 features: Optional[List[str]] = None,
+                 features: List[str] = None,
                  description: Optional[str] = None,
                  available: Optional[bool] = None,
                  trial_available: Optional[bool] = None,
                  vendor_trial_available: Optional[bool] = None,
                  button_text: Optional[str] = None,
                  button_additional_text: Optional[str] = None,
-                 payment_method_types: Optional[List[str]] = None,
+                 payment_method_types: List[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.product_id = product_id

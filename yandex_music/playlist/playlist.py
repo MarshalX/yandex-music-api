@@ -85,7 +85,7 @@ class Playlist(YandexMusicObject):
     def playlist_id(self) -> str:
         return f'{self.owner.uid}:{self.kind}'
 
-    def download_animated_cover(self, filename: str, size: Optional[str] = '200x200') -> None:
+    def download_animated_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка анимированной обложки.
 
         Args:
@@ -95,7 +95,7 @@ class Playlist(YandexMusicObject):
 
         self.client.request.download(f'https://{self.animated_cover_uri.replace("%%", size)}', filename)
 
-    def download_og_image(self, filename: str, size: Optional[str] = '200x200') -> None:
+    def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Используйте это только когда нет self.cover!

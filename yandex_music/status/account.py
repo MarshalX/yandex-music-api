@@ -61,9 +61,9 @@ class Account(YandexMusicObject):
                  display_name: Optional[str] = None,
                  hosted_user: Optional[bool] = None,
                  birthday: Optional[str] = None,
-                 passport_phones: Optional[List['PassportPhone']] = None,
+                 passport_phones: List['PassportPhone'] = None,
                  registered_at: Optional[str] = None,
-                 has_info_for_app_metrica: Optional[bool] = False,
+                 has_info_for_app_metrica: bool = False,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.now = now
@@ -87,7 +87,7 @@ class Account(YandexMusicObject):
         if self.uid:
             self._id_attrs = (self.uid,)
 
-    def download_avatar(self, filename: str, format_: Optional[str] = 'normal') -> None:
+    def download_avatar(self, filename: str, format_: str = 'normal') -> None:
         """Загрузка изображения пользователя.
 
         Args:

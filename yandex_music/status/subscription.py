@@ -30,7 +30,7 @@ class Subscription(YandexMusicObject):
     """
 
     def __init__(self,
-                 auto_renewable: Optional[List['AutoRenewable']] = None,
+                 auto_renewable: List['AutoRenewable'] = None,
                  can_start_trial: Optional[bool] = None,
                  mcdonalds: Optional[bool] = None,
                  end: Optional[str] = None,
