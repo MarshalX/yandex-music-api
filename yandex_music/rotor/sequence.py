@@ -8,9 +8,9 @@ from yandex_music import YandexMusicObject
 
 class Sequence(YandexMusicObject):
     def __init__(self,
-                 type_,
+                 type_: str,
                  track: Optional['Track'],
-                 liked,
+                 liked: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.type = type_

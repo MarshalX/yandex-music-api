@@ -519,9 +519,9 @@ def block_entity(request, results, types):
 
 @pytest.fixture(scope='session')
 def block(block_entity, data_with_type):
-    data, type = data_with_type
+    data, type_ = data_with_type
 
-    return Block(TestBlock.id, type, TestBlock.type_for_from, TestBlock.title, [block_entity],
+    return Block(TestBlock.id, type_, TestBlock.type_for_from, TestBlock.title, [block_entity],
                  TestBlock.description, data)
 
 

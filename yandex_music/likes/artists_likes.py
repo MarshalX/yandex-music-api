@@ -10,7 +10,7 @@ class ArtistsLikes(YandexMusicObject):
     def __init__(self,
                  id_=None,
                  artist: Optional['Artist'] = None,
-                 timestamp=None,
+                 timestamp: str = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_

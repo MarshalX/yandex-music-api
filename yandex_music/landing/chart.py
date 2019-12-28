@@ -8,10 +8,10 @@ from yandex_music import YandexMusicObject
 
 class Chart(YandexMusicObject):
     def __init__(self,
-                 position,
-                 progress,
-                 listeners,
-                 shift,
+                 position: int,
+                 progress: str,
+                 listeners: int,
+                 shift: int,
                  track_id: Optional['TrackId'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

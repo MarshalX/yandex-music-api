@@ -8,12 +8,12 @@ from yandex_music import YandexMusicObject
 
 class Vinyl(YandexMusicObject):
     def __init__(self,
-                 url,
-                 picture,
-                 title,
-                 year,
-                 price,
-                 media,
+                 url: str,
+                 picture: str,
+                 title: str,
+                 year: int,
+                 price: int,
+                 media: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.url = url

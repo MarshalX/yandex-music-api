@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class DiscreteScale(YandexMusicObject):
     def __init__(self,
-                 type_,
-                 name,
+                 type_: str,
+                 name: str,
                  min_: Optional['Value'],
                  max_: Optional['Value'],
                  client: Optional['Client'] = None,

@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class Title(YandexMusicObject):
     def __init__(self,
-                 title,
-                 full_title=None,
+                 title: str,
+                 full_title: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.title = title

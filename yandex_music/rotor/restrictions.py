@@ -14,7 +14,7 @@ de_json = {
 
 class Restrictions(YandexMusicObject):
     def __init__(self,
-                 language,
+                 language: Optional[Union['Enum', 'DiscreteScale']],
                  diversity: Optional[Union['Enum', 'DiscreteScale']],
                  mood: Optional[Union['Enum', 'DiscreteScale']] = None,
                  energy: Optional[Union['Enum', 'DiscreteScale']] = None,

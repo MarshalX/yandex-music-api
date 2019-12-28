@@ -20,7 +20,7 @@ de_json = {
 
 class BlockEntity(YandexMusicObject):
     def __init__(self,
-                 id_,
+                 id_: str,
                  type_: str,
                  data: Optional[Union['GeneratedPlaylist', 'Promotion', 'Album',
                                       'Playlist', 'ChartItem', 'PlayContext', 'MixLink']],

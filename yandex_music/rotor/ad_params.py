@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -8,12 +8,12 @@ from yandex_music import YandexMusicObject
 
 class AdParams(YandexMusicObject):
     def __init__(self,
-                 partner_id,
-                 category_id,
-                 page_ref,
-                 target_ref,
-                 other_params,
-                 ad_volume,
+                 partner_id: Union[str, int],
+                 category_id: Union[str, int],
+                 page_ref: str,
+                 target_ref: str,
+                 other_params: str,
+                 ad_volume: int,
                  genre_id=None,
                  genre_name=None,
                  client: Optional['Client'] = None,

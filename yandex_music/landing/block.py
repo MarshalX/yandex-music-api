@@ -8,12 +8,12 @@ from yandex_music import YandexMusicObject
 
 class Block(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 type_,
-                 type_for_from,
-                 title,
+                 id_: str,
+                 type_: str,
+                 type_for_from: str,
+                 title: str,
                  entities: List['BlockEntity'],
-                 description=None,
+                 description: Optional[str] = None,
                  data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

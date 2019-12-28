@@ -9,11 +9,11 @@ from yandex_music import YandexMusicObject
 class Station(YandexMusicObject):
     def __init__(self,
                  id_: Optional['Id'],
-                 name,
+                 name: str,
                  icon: Optional['Icon'],
                  mts_icon: Optional['Icon'],
                  geocell_icon: Optional['Icon'],
-                 id_for_from,
+                 id_for_from: str,
                  restrictions: Optional['Restrictions'],
                  restrictions2: Optional['Restrictions'],
                  parent_id: Optional['Id'] = None,

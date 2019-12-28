@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
     from yandex_music import Client, Best
@@ -9,7 +9,7 @@ from yandex_music import YandexMusicObject
 class Suggestions(YandexMusicObject):
     def __init__(self,
                  best: Optional['Best'],
-                 suggestions,
+                 suggestions: List[str],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.best = best

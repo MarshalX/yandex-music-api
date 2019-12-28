@@ -8,14 +8,14 @@ from yandex_music import YandexMusicObject
 
 class Feed(YandexMusicObject):
     def __init__(self,
-                 can_get_more_events,
-                 pumpkin,
-                 is_wizard_passed,
+                 can_get_more_events: bool,
+                 pumpkin: bool,
+                 is_wizard_passed: bool,
                  generated_playlists: List['GeneratedPlaylist'],
-                 headlines,
-                 today,
-                 days: Optional['Day'],
-                 next_revision=None,
+                 headlines: list,
+                 today: str,
+                 days: List['Day'],
+                 next_revision: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.can_get_more_events = can_get_more_events

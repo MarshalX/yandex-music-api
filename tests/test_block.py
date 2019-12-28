@@ -55,7 +55,7 @@ class TestBlock:
 
     def test_equality(self, block_entity):
         a = Block(self.id, self.type, self.type_for_from, self.title, [block_entity])
-        b = Block('', self.type, self.type_for_from, self.title, None)
+        b = Block('', self.type, self.type_for_from, self.title, [])
         c = Block(self.id, self.type, self.type_for_from, self.title, [block_entity])
 
         assert a != b

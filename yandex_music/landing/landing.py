@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Union
 
 if TYPE_CHECKING:
     from yandex_music import Client, Block
@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class Landing(YandexMusicObject):
     def __init__(self,
-                 pumpkin,
-                 content_id,
+                 pumpkin: bool,
+                 content_id: Union[str, int],
                  blocks: List['Block'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class Id(YandexMusicObject):
     def __init__(self,
-                 type_,
-                 tag,
+                 type_: str,
+                 tag: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.type = type_

@@ -8,9 +8,9 @@ from yandex_music import YandexMusicObject
 
 class Dashboard(YandexMusicObject):
     def __init__(self,
-                 dashboard_id,
+                 dashboard_id: str,
                  stations: List['StationResult'],
-                 pumpkin,
+                 pumpkin: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.dashboard_id = dashboard_id

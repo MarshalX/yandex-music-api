@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class TrackId(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 album_id=None,
+                 id_: int,
+                 album_id: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_

@@ -8,16 +8,16 @@ from yandex_music import YandexMusicObject
 
 class Event(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 type_,
-                 type_for_from=None,
-                 title=None,
+                 id_: str,
+                 type_: str,
+                 type_for_from: Optional[str] = None,
+                 title: Optional[str] = None,
                  tracks: List['Track'] = None,
                  artists: List['ArtistEvent'] = None,
                  albums: List['AlbumEvent'] = None,
                  message=None,
                  device=None,
-                 tracks_count=None,
+                 tracks_count: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_

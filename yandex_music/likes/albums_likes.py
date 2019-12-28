@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class AlbumsLikes(YandexMusicObject):
     def __init__(self,
-                 timestamp,
-                 id_=None,
+                 timestamp: str,
+                 id_: Optional[int] = None,
                  album: Optional['Album'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

@@ -8,12 +8,12 @@ from yandex_music import YandexMusicObject
 
 class CaseForms(YandexMusicObject):
     def __init__(self,
-                 nominative,
-                 genitive,
-                 dative,
-                 accusative,
-                 instrumental,
-                 prepositional,
+                 nominative: str,
+                 genitive: str,
+                 dative: str,
+                 accusative: str,
+                 instrumental: str,
+                 prepositional: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.nominative = nominative

@@ -12,8 +12,8 @@ class StationResult(YandexMusicObject):
                  settings: Optional['RotorSettings'],
                  settings2: Optional['RotorSettings'],
                  ad_params: Optional['AdParams'],
-                 explanation=None,
-                 prerolls=None,
+                 explanation: Optional[str] = None,
+                 prerolls: Optional[list] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.station = station

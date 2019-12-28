@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class TrackPosition(YandexMusicObject):
     def __init__(self,
-                 volume,
-                 index,
+                 volume: int,
+                 index: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.volume = volume

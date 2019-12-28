@@ -8,15 +8,15 @@ from yandex_music import YandexMusicObject
 
 class Promotion(YandexMusicObject):
     def __init__(self,
-                 promo_id,
-                 title,
-                 subtitle,
-                 heading,
-                 url,
-                 url_scheme,
-                 text_color,
-                 gradient,
-                 image,
+                 promo_id: str,
+                 title: str,
+                 subtitle: str,
+                 heading: str,
+                 url: str,
+                 url_scheme: str,
+                 text_color: str,
+                 gradient: str,
+                 image: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.promo_id = promo_id

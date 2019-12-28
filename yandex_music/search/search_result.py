@@ -17,9 +17,9 @@ de_json_result = {
 
 class SearchResult(YandexMusicObject):
     def __init__(self,
-                 total,
-                 per_page,
-                 order,
+                 total: int,
+                 per_page: int,
+                 order: int,
                  results: List[Union[Track, Artist, Album, Playlist, Video]],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

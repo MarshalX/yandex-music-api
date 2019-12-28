@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class Normalization(YandexMusicObject):
     def __init__(self,
-                 gain,
-                 peak,
+                 gain: float,
+                 peak: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.gain = gain
@@ -19,7 +19,7 @@ class Normalization(YandexMusicObject):
         self._id_attrs = (self.gain, self.peak)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Normalization']:
         if not data:
             return None
 

@@ -10,8 +10,8 @@ class StationTracksResult(YandexMusicObject):
     def __init__(self,
                  id_: Optional['Id'],
                  sequence: List['Sequence'],
-                 batch_id,
-                 pumpkin,
+                 batch_id: str,
+                 pumpkin: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_

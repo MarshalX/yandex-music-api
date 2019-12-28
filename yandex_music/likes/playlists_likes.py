@@ -8,7 +8,7 @@ from yandex_music import YandexMusicObject
 
 class PlaylistsLikes(YandexMusicObject):
     def __init__(self,
-                 timestamp,
+                 timestamp: str,
                  id_=None,
                  playlist: Optional['Playlist'] = None,
                  client: Optional['Client'] = None,

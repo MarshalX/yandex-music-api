@@ -8,9 +8,9 @@ from yandex_music import YandexMusicObject
 
 class Ratings(YandexMusicObject):
     def __init__(self,
-                 week,
-                 month,
-                 day=None,
+                 week: int,
+                 month: int,
+                 day: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.week = week

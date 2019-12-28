@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class Major(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 name,
+                 id_: int,
+                 name: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -19,7 +19,7 @@ class Major(YandexMusicObject):
         self._id_attrs = (self.id, self.name)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Major']:
         if not data:
             return None
 

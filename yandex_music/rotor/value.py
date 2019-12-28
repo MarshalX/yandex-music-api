@@ -8,8 +8,8 @@ from yandex_music import YandexMusicObject
 
 class Value(YandexMusicObject):
     def __init__(self,
-                 value,
-                 name,
+                 value: str,
+                 name: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.value = value

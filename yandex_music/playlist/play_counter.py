@@ -8,9 +8,9 @@ from yandex_music import YandexMusicObject
 
 class PlayCounter(YandexMusicObject):
     def __init__(self,
-                 value,
-                 description,
-                 updated,
+                 value: int,
+                 description: str,
+                 updated: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.value = value

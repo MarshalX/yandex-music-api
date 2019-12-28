@@ -9,7 +9,7 @@ from yandex_music import YandexMusicObject
 class TrackShortOld(YandexMusicObject):
     def __init__(self,
                  track_id: Optional['TrackId'],
-                 timestamp,
+                 timestamp: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.track_id = track_id

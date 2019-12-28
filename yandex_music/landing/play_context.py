@@ -8,9 +8,9 @@ from yandex_music import YandexMusicObject
 
 class PlayContext(YandexMusicObject):
     def __init__(self,
-                 client_,
-                 context,
-                 context_item,
+                 client_: str,
+                 context: str,
+                 context_item: str,
                  tracks: List['TrackShortOld'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

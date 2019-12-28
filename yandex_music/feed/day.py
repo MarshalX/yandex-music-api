@@ -8,7 +8,7 @@ from yandex_music import YandexMusicObject
 
 class Day(YandexMusicObject):
     def __init__(self,
-                 day,
+                 day: str,
                  events: List['Event'],
                  tracks_to_play_with_ads: List['TrackWithAds'],
                  tracks_to_play: List['Track'],

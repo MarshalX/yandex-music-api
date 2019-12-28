@@ -30,7 +30,7 @@ class PromoCodeStatus(YandexMusicObject):
     def __init__(self,
                  status: str,
                  status_desc: str,
-                 account_status: 'Status',
+                 account_status: Optional['Status'],
                  client: Optional['Client'] = None,
                  **kwargs):
         self.status = status

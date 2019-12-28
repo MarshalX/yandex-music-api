@@ -8,13 +8,13 @@ from yandex_music import YandexMusicObject
 
 class MixLink(YandexMusicObject):
     def __init__(self,
-                 title,
-                 url,
-                 url_scheme,
-                 text_color,
-                 background_color,
-                 background_image_uri,
-                 cover_white,
+                 title: str,
+                 url: str,
+                 url_scheme: str,
+                 text_color: str,
+                 background_color: str,
+                 background_image_uri: str,
+                 cover_white: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.title = title

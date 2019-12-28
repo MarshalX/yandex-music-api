@@ -49,10 +49,10 @@ class TestStation:
         assert station.parent_id == id_
 
     def test_equality(self, id_, icon, restrictions):
-        a = Station(id_, icon, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
-        b = Station(id_, icon, self.name, None, icon, icon, self.id_for_from, restrictions, restrictions)
-        c = Station(id_, icon, '', icon, icon, None, self.id_for_from, restrictions, restrictions)
-        d = Station(id_, icon, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
+        a = Station(id_, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
+        b = Station(id_, self.name, None, icon, icon, self.id_for_from, restrictions, restrictions)
+        c = Station(id_, '', icon, icon, icon, self.id_for_from, restrictions, restrictions)
+        d = Station(id_, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
 
         assert a != b != c
         assert hash(a) != hash(b) != hash(c)

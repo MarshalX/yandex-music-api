@@ -4,7 +4,7 @@ from yandex_music import InvocationInfo
 class TestInvocationInfo:
     hostname = 'myt1-0261-c2e-msk-myt-music-st-e72-18274.gencfg-c.yandex.net'
     req_id = '1573172241066040-16981638052883278246'
-    exec_duration_millis = '0'
+    exec_duration_millis = 0
 
     def test_expected_values(self, invocation_info):
         assert invocation_info.hostname == self.hostname

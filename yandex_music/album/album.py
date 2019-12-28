@@ -8,29 +8,29 @@ from yandex_music import YandexMusicObject
 
 class Album(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 title,
-                 track_count,
+                 id_: int,
+                 title: str,
+                 track_count: int,
                  artists: List['Artist'],
                  labels: List['Label'],
-                 available,
-                 available_for_premium_users,
-                 cover_uri=None,
+                 available: bool,
+                 available_for_premium_users: bool,
+                 cover_uri: Optional[str] = None,
                  content_warning=None,
                  original_release_year=None,
-                 genre=None,
-                 og_image=None,
-                 buy=None,
-                 recent=None,
-                 very_important=None,
-                 available_for_mobile=None,
-                 available_partially=None,
-                 bests=None,
-                 prerolls=None,
+                 genre: Optional[str] = None,
+                 og_image: Optional[str] = None,
+                 buy: Optional[list] = None,
+                 recent: Optional[bool] = None,
+                 very_important: Optional[bool] = None,
+                 available_for_mobile: Optional[bool] = None,
+                 available_partially: Optional[bool] = None,
+                 bests: Optional[List[int]] = None,
+                 prerolls: Optional[list] = None,
                  volumes: List['Track'] = None,
-                 year=None,
-                 release_date=None,
-                 type_=None,
+                 year: Optional[int] = None,
+                 release_date: Optional[str] = None,
+                 type_: Optional[str] = None,
                  track_position: Optional['TrackPosition'] = None,
                  regions=None,
                  client: Optional['Client'] = None,
@@ -94,7 +94,7 @@ class Album(YandexMusicObject):
             size (:obj:`str`, optional): Размер обложки.
         """
 
-        self.client.request.download(f'https://{self.og_image("%%", size)}', filename)
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::

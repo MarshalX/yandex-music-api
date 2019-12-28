@@ -8,9 +8,9 @@ from yandex_music import YandexMusicObject
 
 class GeneratedPlaylist(YandexMusicObject):
     def __init__(self,
-                 type_,
-                 ready,
-                 notify,
+                 type_: str,
+                 ready: bool,
+                 notify: bool,
                  data: Optional['Playlist'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

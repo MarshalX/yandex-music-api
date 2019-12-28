@@ -8,10 +8,10 @@ from yandex_music import YandexMusicObject
 
 class Link(YandexMusicObject):
     def __init__(self,
-                 title,
-                 href,
-                 type_,
-                 social_network=None,
+                 title: str,
+                 href: str,
+                 type_: str,
+                 social_network: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.title = title

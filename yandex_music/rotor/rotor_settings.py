@@ -8,10 +8,10 @@ from yandex_music import YandexMusicObject
 
 class RotorSettings(YandexMusicObject):
     def __init__(self,
-                 language,
-                 diversity,
-                 mood=None,
-                 energy=None,
+                 language: str,
+                 diversity: str,
+                 mood: Optional[int] = None,
+                 energy: Optional[int] = None,
                  mood_energy=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:

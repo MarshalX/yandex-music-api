@@ -8,10 +8,10 @@ from yandex_music import YandexMusicObject
 
 class Counts(YandexMusicObject):
     def __init__(self,
-                 tracks,
-                 direct_albums,
-                 also_albums,
-                 also_tracks,
+                 tracks: int,
+                 direct_albums: int,
+                 also_albums: int,
+                 also_tracks: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.tracks = tracks
