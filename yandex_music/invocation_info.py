@@ -28,7 +28,7 @@ class InvocationInfo(YandexMusicObject):
     def __init__(self,
                  hostname: str,
                  req_id: str,
-                 exec_duration_millis: Optional[str] = None,
+                 exec_duration_millis: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs):
         self.hostname = hostname

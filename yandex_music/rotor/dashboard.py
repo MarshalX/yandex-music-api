@@ -1,13 +1,18 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, StationResult
+
 from yandex_music import YandexMusicObject
 
 
 class Dashboard(YandexMusicObject):
     def __init__(self,
-                 dashboard_id,
-                 stations,
-                 pumpkin,
-                 client=None,
-                 **kwargs):
+                 dashboard_id: str,
+                 stations: List['StationResult'],
+                 pumpkin: bool,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.dashboard_id = dashboard_id
         self.stations = stations
         self.pumpkin = pumpkin
@@ -16,7 +21,7 @@ class Dashboard(YandexMusicObject):
         self._id_attrs = (self.dashboard_id, self.stations, self.pumpkin)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Dashboard']:
         if not data:
             return None
 

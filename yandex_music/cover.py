@@ -45,7 +45,7 @@ class Cover(YandexMusicObject):
                  prefix: Optional[str] = None,
                  error: Optional[str] = None,
                  client: Optional['Client'] = None,
-                 **kwargs):
+                 **kwargs) -> None:
         self.type = type_
         self.uri = uri
         self.items_uri = items_uri

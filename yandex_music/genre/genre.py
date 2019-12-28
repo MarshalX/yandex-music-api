@@ -1,23 +1,28 @@
+from typing import TYPE_CHECKING, Optional, List, Dict
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Title, Icon, Images
+
 from yandex_music import YandexMusicObject
 
 
 class Genre(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 weight,
-                 composer_top,
-                 title,
-                 titles,
-                 images,
-                 show_in_menu,
-                 full_title=None,
-                 url_part=None,
-                 color=None,
-                 radio_icon=None,
-                 sub_genres=None,
+                 id_: str,
+                 weight: int,
+                 composer_top: bool,
+                 title: str,
+                 titles: Dict[str, Optional['Title']],
+                 images: Optional['Images'],
+                 show_in_menu: bool,
+                 full_title: Optional[str] = None,
+                 url_part: Optional[str] = None,
+                 color: Optional[str] = None,
+                 radio_icon: Optional['Icon'] = None,
+                 sub_genres: List['Genre'] = None,
                  hide_in_regions=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.id = id_
         self.weight = weight
         self.composer_top = composer_top
@@ -37,7 +42,7 @@ class Genre(YandexMusicObject):
         self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Genre']:
         if not data:
             return None
 
@@ -51,7 +56,7 @@ class Genre(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Genre']:
         if not data:
             return []
 

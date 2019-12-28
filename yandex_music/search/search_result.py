@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List, Union
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
 
 
@@ -12,12 +17,12 @@ de_json_result = {
 
 class SearchResult(YandexMusicObject):
     def __init__(self,
-                 total,
-                 per_page,
-                 order,
-                 results,
-                 client=None,
-                 **kwargs):
+                 total: int,
+                 per_page: int,
+                 order: int,
+                 results: List[Union[Track, Artist, Album, Playlist, Video]],
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.total = total
         self.per_page = per_page
         self.order = order
@@ -27,7 +32,7 @@ class SearchResult(YandexMusicObject):
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod
-    def de_json(cls, data, client, type_=None):
+    def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['SearchResult']:
         if not data:
             return None
 

@@ -1,35 +1,40 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Cover, Ratings, Counts, Link, Track, Description, ArtistTracks, ArtistAlbums
+
 from yandex_music import YandexMusicObject
 
 
 class Artist(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 name,
-                 cover,
-                 various=None,
+                 id_: int,
+                 name: str,
+                 cover: Optional['Cover'],
+                 various: Optional[bool] = None,
                  composer=None,
                  genres=None,
                  op_image=None,
                  no_pictures_from_search=None,
-                 counts=None,
-                 available=None,
-                 ratings=None,
-                 links=None,
-                 tickets_available=None,
-                 likes_count=None,
-                 popular_tracks=None,
+                 counts: Optional['Counts'] = None,
+                 available: Optional[bool] = None,
+                 ratings: Optional['Ratings'] = None,
+                 links: List['Link'] = None,
+                 tickets_available: Optional[bool] = None,
+                 likes_count: Optional[int] = None,
+                 popular_tracks: List['Track'] = None,
                  regions=None,
                  decomposed=None,
                  full_names=None,
-                 description=None,
+                 description: Optional['Description'] = None,
                  countries=None,
                  en_wikipedia_link=None,
                  db_aliases=None,
                  aliases=None,
-                 init_date=None,
+                 init_date: Optional[str] = None,
                  end_date=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.id = id_
         self.name = name
         self.cover = cover
@@ -62,7 +67,7 @@ class Artist(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.name, self.cover)
 
-    def download_op_image(self, filename, size='200x200'):
+    def download_op_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Используйте это только когда нет self.cover!
@@ -74,28 +79,28 @@ class Artist(YandexMusicObject):
 
         self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
 
-    def like(self, *args, **kwargs):
+    def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_artists_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    def dislike(self, *args, **kwargs):
+    def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_artists_remove(artist.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_artists_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    def get_tracks(self, page=0, page_size=20, *args, **kwargs):
+    def get_tracks(self, page=0, page_size=20, *args, **kwargs) -> Optional['ArtistTracks']:
         """Сокращение для::
 
             client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
         """
         return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
 
-    def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs):
+    def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs) -> Optional['ArtistAlbums']:
         """Сокращение для::
 
             client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
@@ -103,7 +108,7 @@ class Artist(YandexMusicObject):
         return self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Artist']:
         if not data:
             return None
 
@@ -120,7 +125,7 @@ class Artist(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Artist']:
         if not data:
             return []
 

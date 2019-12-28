@@ -8,9 +8,9 @@ class TestProduct:
     description = None
     duration = 30
     trial_duration = 0
-    feature = ['basic-music']
+    feature = 'basic-music'
     debug = False
-    features = 'basic-music'
+    features = ['basic-music']
     available = None
     trial_available = None
     vendor_trial_available = None
@@ -83,7 +83,7 @@ class TestProduct:
     def test_equality(self, price):
         a = Product(self.product_id, self.type, self.common_period_duration, self.duration, self.trial_duration, price,
                     self.feature, self.debug)
-        b = Product(10, self.type, self.common_period_duration, self.duration, self.trial_duration, price,
+        b = Product('', self.type, self.common_period_duration, self.duration, self.trial_duration, price,
                     self.feature, self.debug)
         c = Product(self.product_id, self.type, self.common_period_duration, self.duration, self.trial_duration, price,
                     self.feature, self.debug)

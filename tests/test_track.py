@@ -98,7 +98,7 @@ class TestTrack:
 
     def test_equality(self, artist, album):
         a = Track(self.id, self.title, self.available, [artist], [album])
-        b = Track(self.id, '', self.available, [artist], [None])
+        b = Track(self.id, '', self.available, [artist], [])
         c = Track(self.id, self.title, self.available, [artist], [album])
 
         assert a != b

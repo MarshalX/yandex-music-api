@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List, Union
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject, Promotion, Album, Playlist, MixLink, PlayContext, ChartItem,\
     GeneratedPlaylist
 
@@ -15,11 +20,12 @@ de_json = {
 
 class BlockEntity(YandexMusicObject):
     def __init__(self,
-                 id_,
-                 type_,
-                 data,
-                 client=None,
-                 **kwargs):
+                 id_: str,
+                 type_: str,
+                 data: Optional[Union['GeneratedPlaylist', 'Promotion', 'Album',
+                                      'Playlist', 'ChartItem', 'PlayContext', 'MixLink']],
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
 
         self.id = id_
         self.type = type_
@@ -29,7 +35,7 @@ class BlockEntity(YandexMusicObject):
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['BlockEntity']:
         if not data:
             return None
 
@@ -39,7 +45,7 @@ class BlockEntity(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['BlockEntity']:
         if not data:
             return []
 

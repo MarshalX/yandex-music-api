@@ -1,14 +1,19 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
 class Counts(YandexMusicObject):
     def __init__(self,
-                 tracks,
-                 direct_albums,
-                 also_albums,
-                 also_tracks,
-                 client=None,
-                 **kwargs):
+                 tracks: int,
+                 direct_albums: int,
+                 also_albums: int,
+                 also_tracks: int,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.tracks = tracks
         self.direct_albums = direct_albums
         self.also_albums = also_albums
@@ -18,7 +23,7 @@ class Counts(YandexMusicObject):
         self._id_attrs = (self.tracks, self.direct_albums, self.also_albums, self.also_tracks)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Counts']:
         if not data:
             return None
 

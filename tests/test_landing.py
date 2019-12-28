@@ -36,7 +36,7 @@ class TestLanding:
     def test_equality(self, block):
         a = Landing(self.pumpkin, self.content_id, [block])
         b = Landing(self.pumpkin, '', [block])
-        c = Landing(self.pumpkin, self.content_id, None)
+        c = Landing(self.pumpkin, self.content_id, [])
         d = Landing(self.pumpkin, self.content_id, [block])
 
         assert a != b != c

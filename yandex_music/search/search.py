@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Best, SearchResult
+
 from yandex_music import YandexMusicObject
 
 
@@ -8,11 +13,16 @@ class Search(YandexMusicObject):
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
         best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best` представляющий лучший результат.
-        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденных исполнителей.
-        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные плейлисты.
-        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные треки.
-        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные видео.
+        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные альбомы.
+        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденных исполнителей.
+        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные плейлисты.
+        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные треки.
+        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные видео.
         misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
         nocorrect (:obj:`bool`): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
@@ -22,31 +32,36 @@ class Search(YandexMusicObject):
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
         best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best` представляющий лучший результат.
-        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденных исполнителей.
-        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные плейлисты.
-        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные треки.
-        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий найденные видео.
+        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные альбомы.
+        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденных исполнителей.
+        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные плейлисты.
+        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные треки.
+        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
+            найденные видео.
         misspell_corrected (:obj:`bool`, optional): Был ли исправлен запрос.
         nocorrect (:obj:`bool`, optional): Было ли отключено исправление результата.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
-                 search_request_id,
-                 text,
-                 best,
-                 albums,
-                 artists,
-                 playlists,
-                 tracks,
-                 videos,
-                 misspell_corrected=None,
-                 nocorrect=None,
-                 client=None,
-                 **kwargs):
+                 search_request_id: str,
+                 text: str,
+                 best: Optional['Best'],
+                 albums: Optional['SearchResult'],
+                 artists: Optional['SearchResult'],
+                 playlists: Optional['SearchResult'],
+                 tracks: Optional['SearchResult'],
+                 videos: Optional['SearchResult'],
+                 misspell_corrected: Optional[bool] = None,
+                 nocorrect: Optional[bool] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.search_request_id = search_request_id
         self.text = text
         self.best = best
@@ -64,7 +79,7 @@ class Search(YandexMusicObject):
                           self.artists, self.playlists, self.tracks, self.videos)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
         """Десериализация объекта.
 
         Args:

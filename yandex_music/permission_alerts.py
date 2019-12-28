@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -22,7 +22,7 @@ class PermissionAlerts(YandexMusicObject):
     """
 
     def __init__(self,
-                 alerts,
+                 alerts: List[str],
                  client: Optional['Client'] = None,
                  **kwargs):
         self.alerts = alerts

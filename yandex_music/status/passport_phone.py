@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -17,16 +22,16 @@ class PassportPhone(YandexMusicObject):
     """
 
     def __init__(self,
-                 phone,
-                 client=None,
-                 **kwargs):
+                 phone: str,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.phone = phone
 
         self.client = client
         self._id_attrs = (self.phone,)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:
         """Десериализация объекта.
 
         Args:
@@ -45,7 +50,7 @@ class PassportPhone(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['PassportPhone']:
         """Десериализация списка объектов.
 
         Args:

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Union
 
 if TYPE_CHECKING:
     from yandex_music import Client, Track
@@ -26,7 +26,7 @@ class TrackShort(YandexMusicObject):
     """
 
     def __init__(self,
-                 id_: str,
+                 id_: Union[str, int],
                  timestamp: str,
                  album_id: Optional[str] = None,
                  client: Optional['Client'] = None,

@@ -1,12 +1,17 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, TrackId
+
 from yandex_music import YandexMusicObject
 
 
 class TrackShortOld(YandexMusicObject):
     def __init__(self,
-                 track_id,
-                 timestamp,
-                 client=None,
-                 **kwargs):
+                 track_id: Optional['TrackId'],
+                 timestamp: str,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.track_id = track_id
         self.timestamp = timestamp
 
@@ -14,7 +19,7 @@ class TrackShortOld(YandexMusicObject):
         self._id_attrs = (self.track_id,)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackShortOld']:
         if not data:
             return None
 
@@ -25,7 +30,7 @@ class TrackShortOld(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['TrackShortOld']:
         if not data:
             return []
 

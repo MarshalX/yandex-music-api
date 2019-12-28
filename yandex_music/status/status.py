@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Account, Permissions, Subscription, Plus
+
 from yandex_music import YandexMusicObject
 
 
@@ -45,19 +50,19 @@ class Status(YandexMusicObject):
     """
 
     def __init__(self,
-                 account,
-                 permissions,
-                 subscription=None,
-                 cache_limit=None,
-                 subeditor=None,
-                 subeditor_level=None,
-                 plus=None,
-                 default_email=None,
-                 skips_per_hour=None,
-                 station_exists=None,
-                 premium_region=None,
-                 client=None,
-                 **kwargs):
+                 account: Optional['Account'],
+                 permissions: Optional['Permissions'],
+                 subscription: Optional['Subscription'] = None,
+                 cache_limit: Optional[int] = None,
+                 subeditor: Optional[bool] = None,
+                 subeditor_level: Optional[int] = None,
+                 plus: Optional['Plus'] = None,
+                 default_email: Optional[str] = None,
+                 skips_per_hour: Optional[int] = None,
+                 station_exists: Optional[bool] = None,
+                 premium_region: Optional[int] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.account = account
         self.permissions = permissions
 
@@ -75,7 +80,7 @@ class Status(YandexMusicObject):
         self._id_attrs = (self.account, self.permissions)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Status']:
         """Десериализация объекта.
 
         Args:

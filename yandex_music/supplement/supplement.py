@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Lyrics, VideoSupplement
+
 from yandex_music import YandexMusicObject
 
 
@@ -25,12 +30,12 @@ class Supplement(YandexMusicObject):
     """
 
     def __init__(self,
-                 id_,
-                 lyrics,
-                 videos,
-                 radio_is_available,
-                 client=None,
-                 **kwargs):
+                 id_: int,
+                 lyrics: Optional['Lyrics'],
+                 videos: List['VideoSupplement'],
+                 radio_is_available: bool,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.id = id_
         self.lyrics = lyrics
         self.videos = videos
@@ -40,7 +45,7 @@ class Supplement(YandexMusicObject):
         self._id_attrs = (self.id, self.lyrics, self.videos, self.radio_is_available)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Supplement']:
         """Десериализация объекта.
 
         Args:

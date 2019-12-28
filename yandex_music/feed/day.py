@@ -1,14 +1,19 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Event, Track, TrackWithAds
+
 from yandex_music import YandexMusicObject
 
 
 class Day(YandexMusicObject):
     def __init__(self,
-                 day,
-                 events,
-                 tracks_to_play_with_ads,
-                 tracks_to_play,
-                 client=None,
-                 **kwargs):
+                 day: str,
+                 events: List['Event'],
+                 tracks_to_play_with_ads: List['TrackWithAds'],
+                 tracks_to_play: List['Track'],
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.day = day
         self.events = events
         self.tracks_to_play_with_ads = tracks_to_play_with_ads
@@ -18,7 +23,7 @@ class Day(YandexMusicObject):
         self._id_attrs = (self.day, self.events, self.tracks_to_play_with_ads, self.tracks_to_play)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Day']:
         if not data:
             return None
 
@@ -31,7 +36,7 @@ class Day(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Day']:
         if not data:
             return []
 
