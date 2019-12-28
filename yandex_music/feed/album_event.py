@@ -1,15 +1,15 @@
 from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Album, Track
 
 from yandex_music import YandexMusicObject
 
 
 class AlbumEvent(YandexMusicObject):
     def __init__(self,
-                 album,
-                 tracks,
+                 album: Optional['Album'],
+                 tracks: List['Track'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.album = album
@@ -19,7 +19,7 @@ class AlbumEvent(YandexMusicObject):
         self._id_attrs = (self.album, self.tracks)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['AlbumEvent']:
         if not data:
             return None
 
@@ -31,7 +31,7 @@ class AlbumEvent(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['AlbumEvent']:
         if not data:
             return []
 

@@ -23,7 +23,7 @@ class Counts(YandexMusicObject):
         self._id_attrs = (self.tracks, self.direct_albums, self.also_albums, self.also_tracks)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Counts']:
         if not data:
             return None
 

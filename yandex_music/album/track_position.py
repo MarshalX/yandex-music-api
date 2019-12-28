@@ -19,7 +19,7 @@ class TrackPosition(YandexMusicObject):
         self._id_attrs = (self.volume, self.index)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackPosition']:
         if not data:
             return None
 

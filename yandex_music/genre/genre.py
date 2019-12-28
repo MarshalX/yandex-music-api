@@ -1,7 +1,7 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Dict
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Title, Icon, Images
 
 from yandex_music import YandexMusicObject
 
@@ -12,14 +12,14 @@ class Genre(YandexMusicObject):
                  weight,
                  composer_top,
                  title,
-                 titles,
-                 images,
+                 titles: Dict[str, Optional['Title']],
+                 images: Optional['Images'],
                  show_in_menu,
                  full_title=None,
                  url_part=None,
                  color=None,
-                 radio_icon=None,
-                 sub_genres=None,
+                 radio_icon: Optional['Icon'] = None,
+                 sub_genres: List['Genre'] = None,
                  hide_in_regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
@@ -42,7 +42,7 @@ class Genre(YandexMusicObject):
         self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Genre']:
         if not data:
             return None
 
@@ -56,7 +56,7 @@ class Genre(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['Genre']:
         if not data:
             return []
 

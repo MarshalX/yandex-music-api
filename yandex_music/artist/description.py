@@ -19,7 +19,7 @@ class Description(YandexMusicObject):
         self._id_attrs = (self.text, self.url)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Description']:
         """Десериализация объекта.
 
         Args:

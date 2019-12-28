@@ -24,7 +24,7 @@ class Link(YandexMusicObject):
         self._id_attrs = (self.title, self.href, self.type)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Link']:
         if not data:
             return None
 
@@ -33,7 +33,7 @@ class Link(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['Link']:
         if not data:
             return []
 

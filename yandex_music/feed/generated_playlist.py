@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Playlist
 
 from yandex_music import YandexMusicObject
 
@@ -11,7 +11,7 @@ class GeneratedPlaylist(YandexMusicObject):
                  type_,
                  ready,
                  notify,
-                 data,
+                 data: Optional['Playlist'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.type = type_
@@ -23,7 +23,7 @@ class GeneratedPlaylist(YandexMusicObject):
         self._id_attrs = (self.type, self.ready, self.notify, self.data)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['GeneratedPlaylist']:
         if not data:
             return None
 
@@ -34,7 +34,7 @@ class GeneratedPlaylist(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['GeneratedPlaylist']:
         if not data:
             return []
 

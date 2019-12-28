@@ -27,7 +27,7 @@ class Vinyl(YandexMusicObject):
         self._id_attrs = (self.title, self.price, self.year, self.url, self.price, self.media)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Vinyl']:
         """Десериализация объекта.
 
         Args:
@@ -47,7 +47,7 @@ class Vinyl(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client'):
+    def de_list(cls, data: dict, client: 'Client') -> List['Vinyl']:
         """Десериализация списка объектов.
 
         Args:

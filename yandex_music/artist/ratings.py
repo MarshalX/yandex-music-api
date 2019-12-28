@@ -22,7 +22,7 @@ class Ratings(YandexMusicObject):
         self._id_attrs = (self.week, self.month)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Ratings']:
         if not data:
             return None
 
