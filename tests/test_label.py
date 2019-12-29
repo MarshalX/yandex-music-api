@@ -9,6 +9,9 @@ class TestLabel:
         assert label.id == self.id
         assert label.name == self.name
 
+    def test_de_list_none(self, client):
+        assert Label.de_list({}, client) == []
+
     def test_de_json_none(self, client):
         assert Label.de_json({}, client) is None
 

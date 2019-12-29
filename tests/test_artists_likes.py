@@ -20,6 +20,9 @@ class TestArtistsLikes:
     def test_de_json_none(self, client):
         assert ArtistsLikes.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert ArtistsLikes.de_list({}, client) == []
+
     def test_de_json_required(self, client):
         json_dict = {}
         artists_likes = ArtistsLikes.de_json(json_dict, client)

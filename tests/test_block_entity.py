@@ -25,6 +25,9 @@ class TestBlockEntity:
         assert block_entity.type == type_
         assert block_entity.data == data
 
+    def test_de_list_none(self, client):
+        assert BlockEntity.de_list({}, client) == []
+
     def test_de_json_none(self, client):
         assert BlockEntity.de_json({}, client) is None
 

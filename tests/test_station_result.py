@@ -16,6 +16,9 @@ class TestStationResult:
     def test_de_json_none(self, client):
         assert StationResult.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert StationResult.de_list({}, client) == []
+
     def test_de_json_required(self, client, station, rotor_settings, ad_params):
         json_dict = {'station': station.to_dict(), 'settings': rotor_settings.to_dict(),
                      'settings2': rotor_settings.to_dict(), 'ad_params': ad_params.to_dict()}

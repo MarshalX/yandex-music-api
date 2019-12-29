@@ -64,6 +64,9 @@ class TestPlaylist:
     def test_de_json_none(self, client):
         assert Playlist.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert Playlist.de_list({}, client) == []
+
     def test_de_json_required(self, client, user, cover, made_for, play_counter, playlist_absence):
         json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
                      'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),

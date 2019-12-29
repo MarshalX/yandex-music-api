@@ -10,6 +10,9 @@ class TestArtistEvent:
     def test_de_json_none(self, client):
         assert ArtistEvent.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert ArtistEvent.de_list({}, client) == []
+
     def test_de_json_required(self, client, artist, track):
         json_dict = {'artist': artist.to_dict(), 'tracks': [track.to_dict()],
                      'similar_to_artists_from_history': [artist.to_dict()]}

@@ -16,6 +16,9 @@ class TestLink:
     def test_de_json_none(self, client):
         assert Link.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert Link.de_list({}, client) == []
+
     def test_de_json_required(self, client):
         json_dict = {'title': self.title, 'href': self.href, 'type_': self.type}
         link = Link.de_json(json_dict, client)

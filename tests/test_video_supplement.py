@@ -24,6 +24,9 @@ class TestVideoSupplement:
     def test_de_json_none(self, client):
         assert VideoSupplement.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert VideoSupplement.de_list({}, client) == []
+
     def test_de_json_required(self, client):
         json_dict = {'cover': self.cover, 'title': self.title, 'provider': self.provider,
                      'provider_video_id': self.provider_video_id}

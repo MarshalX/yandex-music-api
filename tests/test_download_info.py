@@ -27,6 +27,9 @@ class TestDownloadInfo:
     def test_de_json_none(self, client):
         assert DownloadInfo.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert DownloadInfo.de_list({}, client) == []
+
     def test_de_json_required(self, client):
         json_dict = {'codec': self.codec, 'bitrate_in_kbps': self.bitrate_in_kbps, 'gain': self.gain,
                      'preview': self.preview, 'download_info_url': self.download_info_url}

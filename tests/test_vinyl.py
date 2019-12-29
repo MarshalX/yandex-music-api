@@ -20,6 +20,9 @@ class TestVinyl:
     def test_de_json_none(self, client):
         assert Vinyl.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert Vinyl.de_list({}, client) == []
+
     def test_de_json_required(self, client):
         json_dict = {'url': self.url, 'picture': self.picture, 'title': self.title, 'year': self.year,
                      'price': self.price, 'media': self.media}

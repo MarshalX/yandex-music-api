@@ -11,6 +11,9 @@ class TestTrackWithAds:
     def test_de_json_none(self, client):
         assert TrackWithAds.de_json({}, client) is None
 
+    def test_de_list_none(self, client):
+        assert TrackWithAds.de_list({}, client) == []
+
     def test_de_json_required(self, client, track):
         json_dict = {'type_': self.type, 'track': track.to_dict()}
         track_with_ads = TrackWithAds.de_json(json_dict, client)
