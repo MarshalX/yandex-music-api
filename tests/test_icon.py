@@ -9,6 +9,9 @@ class TestIcon:
         assert icon.background_color == self.background_color
         assert icon.image_url == self.image_url
 
+    def test_de_json_none(self, client):
+        assert Icon.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'background_color': self.background_color, 'image_url': self.image_url}
         icon = Icon.de_json(json_dict, client)

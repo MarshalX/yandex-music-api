@@ -9,6 +9,9 @@ class TestValue:
         assert value.value == self.value
         assert value.name == self.name
 
+    def test_de_json_none(self, client):
+        assert Value.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'value': self.value, 'name': self.name}
         value = Value.de_json(json_dict, client)

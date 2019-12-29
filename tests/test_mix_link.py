@@ -19,6 +19,9 @@ class TestMixLink:
         assert mix_link.background_image_uri == self.background_image_uri
         assert mix_link.cover_white == self.cover_white
 
+    def test_de_json_none(self, client):
+        assert MixLink.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'title': self.title, 'url': self.url, 'url_scheme': self.url_scheme, 'text_color': self.text_color,
                      'background_color': self.background_color, 'background_image_uri': self.background_image_uri,

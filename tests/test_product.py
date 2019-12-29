@@ -36,6 +36,9 @@ class TestProduct:
         assert product.button_additional_text == self.button_additional_text
         assert product.payment_method_types == self.payment_method_types
 
+    def test_de_json_none(self, client):
+        assert Product.de_json({}, client) is None
+
     def test_de_json_required(self, client, price):
         json_dict = {'product_id': self.product_id, 'type_': self.type,
                      'common_period_duration': self.common_period_duration, 'duration': self.duration,

@@ -17,6 +17,9 @@ class TestLanding:
         assert landing.content_id == self.content_id
         assert landing.blocks == [block]
 
+    def test_de_json_none(self, client):
+        assert Landing.de_json({}, client) is None
+
     def test_de_json_required(self, client, block):
         json_dict = {'pumpkin': self.pumpkin, 'content_id': self.content_id, 'blocks': [block.to_dict()]}
         landing = Landing.de_json(json_dict, client)

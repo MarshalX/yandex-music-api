@@ -11,6 +11,9 @@ class TestPager:
         assert pager.page == self.page
         assert pager.per_page == self.per_page
 
+    def test_de_json_none(self, client):
+        assert Pager.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'total': self.total, 'page': self.page, 'per_page': self.per_page}
         pager = Pager.de_json(json_dict, client)

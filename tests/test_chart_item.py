@@ -6,6 +6,9 @@ class TestChartItem:
         assert chart_item.track == track
         assert chart_item.chart == chart
 
+    def test_de_json_none(self, client):
+        assert ChartItem.de_json({}, client) is None
+
     def test_de_json_required(self, client, track, chart):
         json_dict = {'track': track.to_dict(), 'chart': chart.to_dict()}
         chart_item = ChartItem.de_json(json_dict, client)

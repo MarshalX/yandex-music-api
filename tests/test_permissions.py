@@ -11,6 +11,9 @@ class TestPermissions:
         assert permissions.values == self.values
         assert permissions.default == self.default
 
+    def test_de_json_none(self, client):
+        assert Permissions.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'until': self.until, 'values': self.values, 'default': self.default}
         permissions = Permissions.de_json(json_dict, client)

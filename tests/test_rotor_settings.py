@@ -15,6 +15,9 @@ class TestRotorSettings:
         assert rotor_settings.energy == self.energy
         assert rotor_settings.mood_energy == self.mood_energy
 
+    def test_de_json_none(self, client):
+        assert RotorSettings.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'language': self.language, 'diversity': self.diversity}
         rotor_settings = RotorSettings.de_json(json_dict, client)

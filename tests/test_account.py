@@ -32,6 +32,9 @@ class TestAccount:
         assert account.registered_at == self.registered_at
         assert account.has_info_for_app_metrica == self.has_info_for_app_metrica
 
+    def test_de_json_none(self, client):
+        assert Account.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'now': self.now, 'service_available': self.service_available}
         account = Account.de_json(json_dict, client)

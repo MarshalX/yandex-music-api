@@ -9,6 +9,9 @@ class TestNormalization:
         assert normalization.gain == self.gain
         assert normalization.peak == self.peak
 
+    def test_de_json_none(self, client):
+        assert Normalization.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'gain': self.gain, 'peak': self.peak}
         normalization = Normalization.de_json(json_dict, client)

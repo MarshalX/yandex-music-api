@@ -9,6 +9,9 @@ class TestId:
         assert id_.type == self.type
         assert id_.tag == self.tag
 
+    def test_de_json_none(self, client):
+        assert Id.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'type_': self.type, 'tag': self.tag}
         id_ = Id.de_json(json_dict, client)

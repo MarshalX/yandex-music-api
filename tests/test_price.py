@@ -9,6 +9,9 @@ class TestPrice:
         assert price.amount == self.amount
         assert price.currency == self.currency
 
+    def test_de_json_none(self, client):
+        assert Price.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'amount': self.amount, 'currency': self.currency}
         price = Price.de_json(json_dict, client)

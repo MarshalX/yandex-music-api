@@ -6,6 +6,9 @@ class TestMadeFor:
         assert made_for.user_info == user
         assert made_for.case_forms == case_forms
 
+    def test_de_json_none(self, client):
+        assert MadeFor.de_json({}, client) is None
+
     def test_de_json_required(self, client, user, case_forms):
         json_dict = {'user_info': user.to_dict(), 'case_forms': case_forms.to_dict()}
         made_for = MadeFor.de_json(json_dict, client)

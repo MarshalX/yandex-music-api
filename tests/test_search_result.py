@@ -14,6 +14,9 @@ class TestSearchResult:
         assert search_result.order == self.order
         assert search_result.results == results
 
+    def test_de_json_none(self, client):
+        assert SearchResult.de_json({}, client) is None
+
     def test_de_json_required(self, client, result_with_type):
         result, type = result_with_type
 

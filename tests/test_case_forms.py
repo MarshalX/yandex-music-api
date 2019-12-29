@@ -17,6 +17,9 @@ class TestCaseForms:
         assert case_forms.instrumental == self.instrumental
         assert case_forms.prepositional == self.prepositional
 
+    def test_de_json_none(self, client):
+        assert CaseForms.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'nominative': self.nominative, 'genitive': self.genitive, 'dative': self.dative,
                      'accusative': self.accusative, 'instrumental': self.instrumental,

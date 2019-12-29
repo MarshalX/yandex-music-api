@@ -27,6 +27,9 @@ class TestBlock:
         assert block.description == self.description
         assert block.data == data
 
+    def test_de_json_none(self, client):
+        assert Block.de_json({}, client) is None
+
     def test_de_json_required(self, client, block_entity):
         json_dict = {'id_': self.id, 'type_': self.type, 'type_for_from': self.type_for_from, 'title': self.title,
                      'entities': [block_entity.to_dict()]}

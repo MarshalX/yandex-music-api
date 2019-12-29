@@ -51,6 +51,9 @@ class TestAlbum:
         assert album.track_position == track_position
         assert album.regions == self.regions
 
+    def test_de_json_none(self, client):
+        assert Album.de_json({}, client) is None
+
     def test_de_json_required(self, client, artist, label):
         json_dict = {'id_': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
                      'artists': [artist.to_dict()], 'labels': [label.to_dict()],

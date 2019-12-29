@@ -29,6 +29,9 @@ class TestBriefInfo:
         assert brief_info.playlist_ids == [playlist_id]
         assert brief_info.tracks_in_chart == [chart]
 
+    def test_de_json_none(self, client):
+        assert BriefInfo.de_json({}, client) is None
+
     def test_de_json_required(self, client, artist, track, album, cover, playlist_id, video, vinyl):
         json_dict = {'artist': artist.to_dict(), 'albums': [album.to_dict()], 'also_albums': [album.to_dict()],
                      'last_release_ids': self.last_release_ids, 'popular_tracks': [track.to_dict()],

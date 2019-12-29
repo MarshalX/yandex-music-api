@@ -18,6 +18,9 @@ class TestAutoRenewable:
         assert auto_renewable.finished == self.finished
         assert auto_renewable.order_id == self.order_id
 
+    def test_de_json_none(self, client):
+        assert AutoRenewable.de_json({}, client) is None
+
     def test_de_json_required(self, client, product):
         json_dict = {'expires': self.expires, 'vendor': self.vendor, 'vendor_help_url': self.vendor_help_url,
                      'product_id': self.product_id, 'product': product.to_dict(), 'finished': self.finished}

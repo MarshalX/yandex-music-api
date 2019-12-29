@@ -9,6 +9,9 @@ class TestTrackPosition:
         assert track_position.volume == self.volume
         assert track_position.index == self.index
 
+    def test_de_json_none(self, client):
+        assert TrackPosition.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'volume': self.volume, 'index': self.index}
         track_position = TrackPosition.de_json(json_dict, client)
