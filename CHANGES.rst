@@ -19,6 +19,7 @@
 **Незначительные изменения и/или исправления**
 
 - Добавлен аргумент ``fetch_account_status`` для опциональности получения информации об аккаунте при инициализации клиента (`#162`_).
+- Добавлены тесты c передачей пустого словаря в ``de_json`` и ``de_list`` (`#174`_).
 - Использование ``ujson`` при наличии, обновлены зависимости (`#161`_).
 - Добавлен в зависимости для разработки ``importlib_metadata`` для поддержки старых версий (в новой версии ``pytest`` его больше не используют, в угоду ``importlib.metadata`` `#pytest-5537`_)) (`#161`_).
 - Добавлен в зависимости для разработки ``atomicwrites``, который используется ``pytest`` теперь только на ``Windows`` - `#pytest-6148`_ (`#161`_).
@@ -31,6 +32,7 @@
 .. _`#159`: https://github.com/MarshalX/yandex-music-api/issues/159
 .. _`#168`: https://github.com/MarshalX/yandex-music-api/issues/168
 .. _`#120`: https://github.com/MarshalX/yandex-music-api/issues/120
+.. _`#174`: https://github.com/MarshalX/yandex-music-api/issues/174
 .. _`#pytest-5537`: https://github.com/pytest-dev/pytest/issues/5537
 .. _`#pytest-6148`: https://github.com/pytest-dev/pytest/pull/6148
 
