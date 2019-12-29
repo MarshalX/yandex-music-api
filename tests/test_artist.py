@@ -50,7 +50,7 @@ class TestArtist:
         assert artist.end_date == self.end_date
 
     def test_de_json_required(self, client, cover):
-        json_dict = {'id': self.id, 'name': self.name, 'cover': cover.to_dict()}
+        json_dict = {'id_': self.id, 'name': self.name, 'cover': cover.to_dict()}
         artist = Artist.de_json(json_dict, client)
 
         assert artist.id == self.id
@@ -58,7 +58,7 @@ class TestArtist:
         assert artist.cover == cover
 
     def test_de_json_all(self, client, cover, counts, ratings, link, track_without_artists, description):
-        json_dict = {'id': self.id, 'name': self.name, 'various': self.various, 'composer': self.composer,
+        json_dict = {'id_': self.id, 'name': self.name, 'various': self.various, 'composer': self.composer,
                      'cover': cover.to_dict(), 'genres': self.genres, 'op_image': self.op_image,
                      'no_pictures_from_search': self.no_pictures_from_search, 'counts': counts.to_dict(),
                      'available': self.available, 'ratings': ratings.to_dict(), 'links': [link.to_dict()],

@@ -60,7 +60,7 @@ class TestFeed:
     def test_equality(self, generated_playlist, day):
         a = Feed(self.can_get_more_events, self.pumpkin, self.is_wizard_passed, [generated_playlist], self.headlines,
                  self.today, [day])
-        b = Feed(False, self.pumpkin, self.is_wizard_passed, None, self.headlines, self.today, [day])
+        b = Feed(False, self.pumpkin, self.is_wizard_passed, [], self.headlines, self.today, [day])
         c = Feed(self.can_get_more_events, self.pumpkin, self.is_wizard_passed, [generated_playlist], self.headlines,
                  self.today, [day])
 

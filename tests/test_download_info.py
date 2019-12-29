@@ -11,7 +11,7 @@ def download_info():
 
 class TestDownloadInfo:
     codec = 'mp3'
-    bitrate_in_kbps = 'mp3'
+    bitrate_in_kbps = 192
     gain = False
     preview = False
     download_info_url = 'https://storage.mds.yandex.net/file-download-info/136146_d158926e.14534319.6.10994777/320' \

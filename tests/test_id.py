@@ -5,23 +5,23 @@ class TestId:
     type = 'user'
     tag = 'onyourwave'
 
-    def test_expected_values(self, id):
-        assert id.type == self.type
-        assert id.tag == self.tag
+    def test_expected_values(self, id_):
+        assert id_.type == self.type
+        assert id_.tag == self.tag
 
     def test_de_json_required(self, client):
-        json_dict = {'type': self.type, 'tag': self.tag}
-        id = Id.de_json(json_dict, client)
+        json_dict = {'type_': self.type, 'tag': self.tag}
+        id_ = Id.de_json(json_dict, client)
 
-        assert id.type == self.type
-        assert id.tag == self.tag
+        assert id_.type == self.type
+        assert id_.tag == self.tag
 
     def test_de_json_all(self, client):
-        json_dict = {'type': self.type, 'tag': self.tag}
-        id = Id.de_json(json_dict, client)
+        json_dict = {'type_': self.type, 'tag': self.tag}
+        id_ = Id.de_json(json_dict, client)
 
-        assert id.type == self.type
-        assert id.tag == self.tag
+        assert id_.type == self.type
+        assert id_.tag == self.tag
 
     def test_equality(self):
         a = Id(self.type, self.tag)

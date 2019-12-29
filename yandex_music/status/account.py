@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, PassportPhone
+
 from yandex_music import YandexMusicObject
 
 
@@ -45,22 +50,22 @@ class Account(YandexMusicObject):
     """
 
     def __init__(self,
-                 now,
-                 service_available,
-                 region=None,
-                 uid=None,
-                 login=None,
-                 full_name=None,
-                 second_name=None,
-                 first_name=None,
-                 display_name=None,
-                 hosted_user=None,
-                 birthday=None,
-                 passport_phones=None,
-                 registered_at=None,
-                 has_info_for_app_metrica=False,
-                 client=None,
-                 **kwargs):
+                 now: str,
+                 service_available: bool,
+                 region: Optional[int] = None,
+                 uid: Optional[int] = None,
+                 login: Optional[str] = None,
+                 full_name: Optional[str] = None,
+                 second_name: Optional[str] = None,
+                 first_name: Optional[str] = None,
+                 display_name: Optional[str] = None,
+                 hosted_user: Optional[bool] = None,
+                 birthday: Optional[str] = None,
+                 passport_phones: List['PassportPhone'] = None,
+                 registered_at: Optional[str] = None,
+                 has_info_for_app_metrica: bool = False,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.now = now
         self.service_available = service_available
 
@@ -82,18 +87,18 @@ class Account(YandexMusicObject):
         if self.uid:
             self._id_attrs = (self.uid,)
 
-    def download_avatar(self, filename, format='normal'):
+    def download_avatar(self, filename: str, format_: str = 'normal') -> None:
         """Загрузка изображения пользователя.
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
-            format (:obj:`str`): Формат желаемого изображения (normal, orig, small, big).
+            format_ (:obj:`str`): Формат желаемого изображения (normal, orig, small, big).
         """
 
-        self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format}', filename)
+        self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Account']:
         """Десериализация объекта.
 
         Args:

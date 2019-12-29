@@ -28,7 +28,7 @@ class TestBlock:
         assert block.data == data
 
     def test_de_json_required(self, client, block_entity):
-        json_dict = {'id': self.id, 'type': self.type, 'type_for_from': self.type_for_from, 'title': self.title,
+        json_dict = {'id_': self.id, 'type_': self.type, 'type_for_from': self.type_for_from, 'title': self.title,
                      'entities': [block_entity.to_dict()]}
         block = Block.de_json(json_dict, client)
 
@@ -41,7 +41,7 @@ class TestBlock:
     def test_de_json_all(self, client, block_entity, data_with_type):
         data, type = data_with_type
 
-        json_dict = {'id': self.id, 'type': type, 'type_for_from': self.type_for_from, 'title': self.title,
+        json_dict = {'id_': self.id, 'type_': type, 'type_for_from': self.type_for_from, 'title': self.title,
                      'entities': [block_entity.to_dict()], 'description': self.description, 'data': data.to_dict()}
         block = Block.de_json(json_dict, client)
 
@@ -55,7 +55,7 @@ class TestBlock:
 
     def test_equality(self, block_entity):
         a = Block(self.id, self.type, self.type_for_from, self.title, [block_entity])
-        b = Block('', self.type, self.type_for_from, self.title, None)
+        b = Block('', self.type, self.type_for_from, self.title, [])
         c = Block(self.id, self.type, self.type_for_from, self.title, [block_entity])
 
         assert a != b

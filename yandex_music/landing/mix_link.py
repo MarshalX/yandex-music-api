@@ -1,17 +1,22 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
 class MixLink(YandexMusicObject):
     def __init__(self,
-                 title,
-                 url,
-                 url_scheme,
-                 text_color,
-                 background_color,
-                 background_image_uri,
-                 cover_white,
-                 client=None,
-                 **kwargs):
+                 title: str,
+                 url: str,
+                 url_scheme: str,
+                 text_color: str,
+                 background_color: str,
+                 background_image_uri: str,
+                 cover_white: str,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.title = title
         self.url = url
         self.url_scheme = url_scheme
@@ -24,7 +29,7 @@ class MixLink(YandexMusicObject):
         self._id_attrs = (self.url, self.title, self.url_scheme, self.text_color,
                           self.background_color, self.background_image_uri, self.cover_white)
 
-    def download_background_image(self, filename, size='200x200'):
+    def download_background_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка заднего фона.
 
         Args:
@@ -35,7 +40,7 @@ class MixLink(YandexMusicObject):
         self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:
         if not data:
             return None
 
@@ -44,7 +49,7 @@ class MixLink(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['MixLink']:
         if not data:
             return []
 

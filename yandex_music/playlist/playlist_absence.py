@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -19,10 +24,10 @@ class PlaylistAbsence(YandexMusicObject):
     """
 
     def __init__(self,
-                 kind,
-                 reason,
-                 client=None,
-                 **kwargs):
+                 kind: int,
+                 reason: str,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.kind = kind
         self.reason = reason
 
@@ -30,7 +35,7 @@ class PlaylistAbsence(YandexMusicObject):
         self._id_attrs = (self.kind, self.reason)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistAbsence']:
         """Десериализация объекта.
 
         Args:

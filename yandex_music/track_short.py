@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List, Union
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Track
+
 from yandex_music import YandexMusicObject
 
 
@@ -12,7 +17,7 @@ class TrackShort(YandexMusicObject):
             Music.
 
     Args:
-        id (:obj:`str`): Уникальный идентификатор трека.
+        id_ (:obj:`str`): Уникальный идентификатор трека.
         timestamp (:obj:`str`): Дата TODO.
         album_id (:obj:`str`, optional): Уникальный идентификатор альбома.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
@@ -21,12 +26,12 @@ class TrackShort(YandexMusicObject):
     """
 
     def __init__(self,
-                 id,
-                 timestamp,
-                 album_id=None,
-                 client=None,
+                 id_: Union[str, int],
+                 timestamp: str,
+                 album_id: Optional[str] = None,
+                 client: Optional['Client'] = None,
                  **kwargs):
-        self.id = id
+        self.id = id_
         self.timestamp = timestamp
 
         self.album_id = album_id
@@ -37,7 +42,7 @@ class TrackShort(YandexMusicObject):
         self._id_attrs = (self.id, self.album_id)
 
     @property
-    def track(self):
+    def track(self) -> 'Track':
         """:obj:`yandex_music.Track`: Объект класса :class:`yandex_music.Track` представляющий полную версию трека."""
         if self._track:
             return self._track
@@ -47,7 +52,7 @@ class TrackShort(YandexMusicObject):
         return self._track
 
     @property
-    def track_id(self):
+    def track_id(self) -> str:
         """:obj:`str`:  Уникальный идентификатор трека состоящий из его номера и номера альбома или просто из номера."""
 
         if self.album_id:
@@ -56,7 +61,7 @@ class TrackShort(YandexMusicObject):
         return f'{self.id}'
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackShort']:
         """Десериализация объекта.
 
         Args:
@@ -75,7 +80,7 @@ class TrackShort(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['TrackShort']:
         """Десериализация списка объектов.
 
         Args:

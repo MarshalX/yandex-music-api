@@ -19,14 +19,14 @@ class TestTrackShort:
         assert track_short.album_id == self.album_id
 
     def test_de_json_required(self, client):
-        json_dict = {'id': self.id, 'timestamp': self.timestamp}
+        json_dict = {'id_': self.id, 'timestamp': self.timestamp}
         track_short = TrackShort.de_json(json_dict, client)
 
         assert track_short.id == self.id
         assert track_short.timestamp == self.timestamp
 
     def test_de_json_all(self, client):
-        json_dict = {'id': self.id, 'timestamp': self.timestamp, 'album_id': self.album_id}
+        json_dict = {'id_': self.id, 'timestamp': self.timestamp, 'album_id': self.album_id}
         track_short = TrackShort.de_json(json_dict, client)
 
         assert track_short.id == self.id

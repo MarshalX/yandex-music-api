@@ -1,15 +1,20 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
 class RotorSettings(YandexMusicObject):
     def __init__(self,
-                 language,
-                 diversity,
-                 mood=None,
-                 energy=None,
+                 language: str,
+                 diversity: str,
+                 mood: Optional[int] = None,
+                 energy: Optional[int] = None,
                  mood_energy=None,
-                 client=None,
-                 **kwargs):
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.language = language
         self.diversity = diversity
 
@@ -21,7 +26,7 @@ class RotorSettings(YandexMusicObject):
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['RotorSettings']:
         if not data:
             return None
 

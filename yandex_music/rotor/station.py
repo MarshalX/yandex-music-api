@@ -1,20 +1,25 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Id, Icon, Restrictions
+
 from yandex_music import YandexMusicObject
 
 
 class Station(YandexMusicObject):
     def __init__(self,
-                 id,
-                 name,
-                 icon,
-                 mts_icon,
-                 geocell_icon,
-                 id_for_from,
-                 restrictions,
-                 restrictions2,
-                 parent_id=None,
-                 client=None,
-                 **kwargs):
-        self.id = id
+                 id_: Optional['Id'],
+                 name: str,
+                 icon: Optional['Icon'],
+                 mts_icon: Optional['Icon'],
+                 geocell_icon: Optional['Icon'],
+                 id_for_from: str,
+                 restrictions: Optional['Restrictions'],
+                 restrictions2: Optional['Restrictions'],
+                 parent_id: Optional['Id'] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
+        self.id = id_
         self.name = name
         self.icon = icon
         self.mts_icon = mts_icon
@@ -30,13 +35,13 @@ class Station(YandexMusicObject):
                           self.id_for_from, self.restrictions, self.restrictions2)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Station']:
         if not data:
             return None
 
         data = super(Station, cls).de_json(data, client)
         from yandex_music import Id, Icon, Restrictions
-        data['id'] = Id.de_json(data.get('id'), client)
+        data['id_'] = Id.de_json(data.get('id_'), client)
         data['parent_id'] = Id.de_json(data.get('parent_id'), client)
         data['icon'] = Icon.de_json(data.get('icon'), client)
         data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)

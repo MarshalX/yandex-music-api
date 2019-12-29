@@ -1,23 +1,33 @@
-import json
-
 from abc import ABCMeta
+from typing import Optional
+
+import builtins
+
+ujson: bool = False
+try:
+    import ujson as json
+    ujson = True
+except ImportError:
+    import json
+
+reserved_names = [name.lower() for name in dir(builtins)]
 
 
 class YandexMusicObject:
     __metaclass__ = ABCMeta
-    _id_attrs = ()
+    _id_attrs: tuple = ()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.to_dict())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self)
 
     def __getitem__(self, item):
         return self.__dict__[item]
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client) -> Optional[dict]:
         if not data:
             return None
 
@@ -25,10 +35,10 @@ class YandexMusicObject:
 
         return data
 
-    def to_json(self):
-        return json.dumps(self.to_dict())
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), ensure_ascii=not ujson)
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         def parse(val):
             if hasattr(val, 'to_dict'):
                 return val.to_dict()
@@ -43,9 +53,14 @@ class YandexMusicObject:
         data.pop('client', None)
         data.pop('_id_attrs', None)
 
+        for k, v in data.copy().items():
+            if k.lower() in reserved_names:
+                data.pop(k)
+                data.update({f'{k}_': v})
+
         return parse(data)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, self.__class__):
             return self._id_attrs == other._id_attrs
         return super(YandexMusicObject, self).__eq__(other)

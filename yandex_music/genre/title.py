@@ -1,12 +1,17 @@
+from typing import TYPE_CHECKING, Optional, Dict
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
 class Title(YandexMusicObject):
     def __init__(self,
-                 title,
-                 full_title=None,
-                 client=None,
-                 **kwargs):
+                 title: str,
+                 full_title: Optional[str] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.title = title
         self.full_title = full_title
 
@@ -14,7 +19,7 @@ class Title(YandexMusicObject):
         self._id_attrs = (self.title, self.full_title)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Title']:
         if not data:
             return None
 
@@ -23,7 +28,7 @@ class Title(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_dict(cls, data, client):
+    def de_dict(cls, data, client) -> Dict[str, Optional['Title']]:
         if not data:
             return {}
 

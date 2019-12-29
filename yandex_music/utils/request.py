@@ -1,6 +1,12 @@
 import re
-import json
 import logging
+import builtins
+
+# Не используется ujson из-за отсутствия в нём object_hook'a
+# Отправка вообще application/x-www-form-urlencoded, а не JSON'a
+# https://github.com/psf/requests/blob/master/requests/models.py#L508
+import json
+
 import requests
 
 from yandex_music.utils.captcha_response import CaptchaResponse
@@ -13,6 +19,7 @@ HEADERS = {
     'X-Yandex-Music-Client': 'WindowsPhone/3.20',
 }
 
+reserved_names = [name.lower() for name in dir(builtins)] + ['client']
 
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
@@ -59,7 +66,8 @@ class Request:
         cleaned_object = {}
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
-            key = key.replace('client', 'client_')
+            if key.lower() in reserved_names:
+                key += '_'
 
             if len(key) and key[0].isdigit():
                 key = '_' + key
@@ -72,6 +80,7 @@ class Request:
         try:
             decoded_s = json_data.decode('utf-8')
             data = json.loads(decoded_s, object_hook=Request._object_hook)
+
         except UnicodeDecodeError:
             logging.getLogger(__name__).debug(
                 'Logging raw invalid UTF-8 response:\n%r', json_data)

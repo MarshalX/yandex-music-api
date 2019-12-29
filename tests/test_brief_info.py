@@ -75,9 +75,9 @@ class TestBriefInfo:
     def test_equality(self, artist, track, album, cover, playlist_id, video, vinyl):
         a = BriefInfo(artist, [album], [album], self.last_release_ids, [track], [artist], [cover], self.concerts,
                       [video], [vinyl], self.has_promotions, [playlist_id])
-        b = BriefInfo(artist, [album], [album], self.last_release_ids, None, [artist], [cover], self.concerts,
+        b = BriefInfo(artist, [album], [album], self.last_release_ids, [], [artist], [cover], self.concerts,
                       [video], [vinyl], True, [playlist_id])
-        c = BriefInfo(artist, [album], [album], [1, 2, 3], [track], [artist], None, self.concerts,
+        c = BriefInfo(artist, [album], [album], [1, 2, 3], [track], [artist], [], self.concerts,
                       [video], [vinyl], self.has_promotions, [playlist_id])
         d = BriefInfo(artist, [album], [album], self.last_release_ids, [track], [artist], [cover], self.concerts,
                       [video], [vinyl], self.has_promotions, [playlist_id])

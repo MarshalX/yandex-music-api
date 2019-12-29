@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -17,15 +22,15 @@ class PermissionAlerts(YandexMusicObject):
     """
 
     def __init__(self,
-                 alerts,
-                 client=None,
+                 alerts: List[str],
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.alerts = alerts
 
         self.client = client
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PermissionAlerts']:
         """Десериализация объекта.
 
         Args:

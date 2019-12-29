@@ -26,30 +26,30 @@ class TestBlockEntity:
         assert block_entity.data == data
 
     def test_de_json_required(self, client, block_entity_data_with_type):
-        data, type = block_entity_data_with_type
+        data, type_ = block_entity_data_with_type
 
-        json_dict = {'id': self.id, 'type': type, 'data': data.to_dict()}
+        json_dict = {'id_': self.id, 'type_': type_, 'data': data.to_dict()}
         block_entity = BlockEntity.de_json(json_dict, client)
 
         assert block_entity.id == self.id
-        assert block_entity.type == type
+        assert block_entity.type == type_
         assert block_entity.data == data
 
     def test_de_json_all(self, client, block_entity_data_with_type):
-        data, type = block_entity_data_with_type
+        data, type_ = block_entity_data_with_type
 
-        json_dict = {'id': self.id, 'type': type, 'data': data.to_dict()}
+        json_dict = {'id_': self.id, 'type_': type_, 'data': data.to_dict()}
         block_entity = BlockEntity.de_json(json_dict, client)
 
         assert block_entity.id == self.id
-        assert block_entity.type == type
+        assert block_entity.type == type_
         assert block_entity.data == data
 
     def test_equality(self, block_entity_data_with_type):
         data, type = block_entity_data_with_type
 
         a = BlockEntity(self.id, type, data)
-        b = BlockEntity(self.id, None, data)
+        b = BlockEntity(self.id, '', data)
         c = BlockEntity('', type, data)
         d = BlockEntity(self.id, type, data)
 

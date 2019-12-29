@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -17,10 +22,10 @@ class Cover(YandexMusicObject):
             Music.
 
     Args:
-        type (:obj:`str`, optional): Тип обложки.
+        type_ (:obj:`str`, optional): Тип обложки.
         uri (:obj:`str`, optional): Ссылка на изображение.
         items_uri (:obj:`str`, optional): Список ссылок на изображения.
-        dir (:obj:`str`, optional): Директория хранения изображения на сервере.
+        dir_ (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         prefix (:obj:`str`, optional): Уникальный идентификатор.
@@ -31,21 +36,21 @@ class Cover(YandexMusicObject):
     """
 
     def __init__(self,
-                 type=None,
-                 uri=None,
-                 items_uri=None,
-                 dir=None,
-                 version=None,
-                 custom=None,
-                 prefix=None,
-                 error=None,
-                 client=None,
-                 **kwargs):
-        self.type = type
+                 type_: Optional[str] = None,
+                 uri: Optional[str] = None,
+                 items_uri: Optional[str] = None,
+                 dir_: Optional[str] = None,
+                 version: Optional[str] = None,
+                 custom: Optional[bool] = None,
+                 prefix: Optional[str] = None,
+                 error: Optional[str] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
+        self.type = type_
         self.uri = uri
         self.items_uri = items_uri
         self.prefix = prefix
-        self.dir = dir
+        self.dir = dir_
         self.version = version
         self.custom = custom
         self.error = error
@@ -53,7 +58,7 @@ class Cover(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
-    def download(self, filename, index=0, size='200x200'):
+    def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
@@ -67,7 +72,7 @@ class Cover(YandexMusicObject):
         self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:
         """Десериализация объекта.
 
         Args:
@@ -86,7 +91,7 @@ class Cover(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Cover']:
         """Десериализация списка объектов.
 
         Args:

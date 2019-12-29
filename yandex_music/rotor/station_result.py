@@ -1,16 +1,21 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Station, RotorSettings, AdParams
+
 from yandex_music import YandexMusicObject
 
 
 class StationResult(YandexMusicObject):
     def __init__(self,
-                 station,
-                 settings,
-                 settings2,
-                 ad_params,
-                 explanation=None,
-                 prerolls=None,
-                 client=None,
-                 **kwargs):
+                 station: Optional['Station'],
+                 settings: Optional['RotorSettings'],
+                 settings2: Optional['RotorSettings'],
+                 ad_params: Optional['AdParams'],
+                 explanation: Optional[str] = None,
+                 prerolls: Optional[list] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.station = station
         self.settings = settings
         self.settings2 = settings2
@@ -22,7 +27,7 @@ class StationResult(YandexMusicObject):
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['StationResult']:
         if not data:
             return None
 
@@ -36,7 +41,7 @@ class StationResult(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['StationResult']:
         if not data:
             return []
 

@@ -10,9 +10,12 @@ sphinx_rtd_theme = "*"
 pytest = "*"
 pytest-cov = "*"
 codecov = "*"
+ujson = "*"
+importlib_metadata = "*"
+atomicwrites = "*"
 
 [packages]
-requests = { extras = ["socks"] }
+requests = {extras = ["socks"]}
 
 [requires]
 python_version = "3.7"

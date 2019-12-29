@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
@@ -15,7 +20,7 @@ class Lyrics(YandexMusicObject):
             Music.
 
     Args:
-        id (:obj:`int`): Уникальный идентификатор текста трека.
+        id_ (:obj:`int`): Уникальный идентификатор текста трека.
         lyrics (:obj:`str`): Первые строки текст песни.
         has_rights (:obj:`bool`): Есть ли права.
         full_lyrics (:obj:`str`): Текст песни.
@@ -27,15 +32,15 @@ class Lyrics(YandexMusicObject):
     """
 
     def __init__(self,
-                 id,
-                 lyrics,
-                 full_lyrics,
-                 has_rights,
-                 text_language,
-                 show_translation,
-                 client=None,
-                 **kwargs):
-        self.id = id
+                 id_: int,
+                 lyrics: str,
+                 full_lyrics: str,
+                 has_rights: bool,
+                 text_language: str,
+                 show_translation: bool,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
+        self.id = id_
         self.lyrics = lyrics
         self.full_lyrics = full_lyrics
         self.has_rights = has_rights
@@ -47,7 +52,7 @@ class Lyrics(YandexMusicObject):
                           self.text_language, self.show_translation)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Lyrics']:
         """Десериализация объекта.
 
         Args:
@@ -60,7 +65,7 @@ class Lyrics(YandexMusicObject):
         """
         if not data:
             return None
-        
+
         data = super(Lyrics, cls).de_json(data, client)
 
         return cls(client=client, **data)

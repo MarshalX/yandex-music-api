@@ -1,12 +1,17 @@
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+
 from yandex_music import YandexMusicObject
 
 
 class Description(YandexMusicObject):
     def __init__(self,
-                 text,
-                 url,
-                 client=None,
-                 **kwargs):
+                 text: str,
+                 url: str,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.text = text
         self.url = url
 
@@ -14,7 +19,7 @@ class Description(YandexMusicObject):
         self._id_attrs = (self.text, self.url)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Description']:
         """Десериализация объекта.
 
         Args:

@@ -40,7 +40,7 @@ class TestSuggestions:
     def test_equality(self, best):
         a = Suggestions(best, self.suggestions)
         b = Suggestions(None, self.suggestions)
-        c = Suggestions(best, '')
+        c = Suggestions(best, [])
         d = Suggestions(best, self.suggestions)
 
         assert a != b != c

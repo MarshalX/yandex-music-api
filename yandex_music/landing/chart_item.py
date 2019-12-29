@@ -1,12 +1,17 @@
+from typing import TYPE_CHECKING, Optional, List
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Track, Chart
+
 from yandex_music import YandexMusicObject
 
 
 class ChartItem(YandexMusicObject):
     def __init__(self,
-                 track,
-                 chart,
-                 client=None,
-                 **kwargs):
+                 track: Optional['Track'],
+                 chart: Optional['Chart'],
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
         self.track = track
         self.chart = chart
 
@@ -14,7 +19,7 @@ class ChartItem(YandexMusicObject):
         self._id_attrs = (self.track, self.chart)
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['ChartItem']:
         if not data:
             return None
 
@@ -26,7 +31,7 @@ class ChartItem(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['ChartItem']:
         if not data:
             return []
 

@@ -1,6 +1,11 @@
-import json
-
 from enum import Enum
+
+ujson = False
+try:
+    import ujson as json
+    ujson = True
+except ImportError:
+    import json
 
 
 class Operation(Enum):
@@ -13,7 +18,7 @@ class Difference:
         self.operations = []
 
     def to_json(self):
-        return json.dumps(self.operations)
+        return json.dumps(self.operations, ensure_ascii=not ujson)
 
     def add_delete(self, from_, to):
         operation = {

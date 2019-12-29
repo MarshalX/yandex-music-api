@@ -1,34 +1,39 @@
+from typing import TYPE_CHECKING, Optional, List, Union
+
+if TYPE_CHECKING:
+    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement, DownloadInfo
+
 from yandex_music import YandexMusicObject
 
 
 class Track(YandexMusicObject):
     def __init__(self,
-                 id,
-                 title,
-                 available,
-                 artists,
-                 albums,
-                 available_for_premium_users=None,
-                 lyrics_available=None,
-                 real_id=None,
-                 og_image=None,
-                 type=None,
-                 cover_uri=None,
-                 major=None,
-                 duration_ms=None,
-                 storage_dir=None,
-                 file_size=None,
-                 normalization=None,
+                 id_: Union[str, int],
+                 title: str,
+                 available: bool,
+                 artists: List['Artist'],
+                 albums: List['Album'],
+                 available_for_premium_users: Optional[bool] = None,
+                 lyrics_available: Optional[bool] = None,
+                 real_id: Optional[Union[str, int]] = None,
+                 og_image: Optional[str] = None,
+                 type_: Optional[str] = None,
+                 cover_uri: Optional[str] = None,
+                 major: Optional['Major'] = None,
+                 duration_ms: Optional[int] = None,
+                 storage_dir: Optional[str] = None,
+                 file_size: Optional[int] = None,
+                 normalization: Optional['Normalization'] = None,
                  error=None,
                  regions=None,
                  available_as_rbt=None,
                  content_warning=None,
                  explicit=None,
-                 preview_duration_ms=None,
-                 available_full_without_permission=None,
-                 client=None,
-                 **kwargs):
-        self.id = id
+                 preview_duration_ms: Optional[int] = None,
+                 available_full_without_permission: Optional[bool] = None,
+                 client: Optional['Client'] = None,
+                 **kwargs) -> None:
+        self.id = id_
         self.title = title
         self.available = available
         self.artists = artists
@@ -38,7 +43,7 @@ class Track(YandexMusicObject):
         self.lyrics_available = lyrics_available
         self.real_id = real_id
         self.og_image = og_image
-        self.type = type
+        self.type = type_
         self.cover_uri = cover_uri
         self.major = major
         self.duration_ms = duration_ms
@@ -58,19 +63,19 @@ class Track(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.title, self.available, self.artists, self.albums)
 
-    def get_download_info(self, get_direct_links=False):
+    def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
         self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
 
         return self.download_info
 
-    def get_supplement(self, *args, **kwargs):
+    def get_supplement(self, *args, **kwargs) -> Optional['Supplement']:
         """Сокращение для::
 
             client.track_supplement(track.id, *args, **kwargs)
         """
         return self.client.track_supplement(self.id, *args, **kwargs)
 
-    def download_cover(self, filename, size='200x200'):
+    def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
@@ -80,7 +85,7 @@ class Track(YandexMusicObject):
 
         self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
-    def download_og_image(self, filename, size='200x200'):
+    def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Предпочтительнее использовать self.download_cover().
@@ -92,7 +97,7 @@ class Track(YandexMusicObject):
 
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
-    def download(self, filename, codec='mp3', bitrate_in_kbps=192):
+    def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         if self.download_info is None:
             self.get_download_info()
 
@@ -100,26 +105,26 @@ class Track(YandexMusicObject):
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
                 info.download(filename)
 
-    def like(self, *args, **kwargs):
+    def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
-        return self.client.users_likes_tracks_add(self.track_id, self.client.account.uid, *args, **kwargs)
+        return self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
-    def dislike(self, *args, **kwargs):
+    def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
-        return self.client.users_likes_tracks_remove(self.track_id, self.client.account.uid, *args, **kwargs)
+        return self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
     @property
-    def track_id(self):
+    def track_id(self) -> str:
         return f'{self.id}'
 
     @classmethod
-    def de_json(cls, data, client):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Track']:
         if not data:
             return None
 
@@ -133,7 +138,7 @@ class Track(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data, client):
+    def de_list(cls, data: dict, client: 'Client') -> List['Track']:
         if not data:
             return []
 
