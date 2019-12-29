@@ -9,6 +9,9 @@ class TestPlaylistAbsence:
         assert playlist_absence.kind == self.kind
         assert playlist_absence.reason == self.reason
 
+    def test_de_json_none(self, client):
+        assert PlaylistAbsence.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'kind': self.kind, 'reason': self.reason}
         playlist_absence = PlaylistAbsence.de_json(json_dict, client)

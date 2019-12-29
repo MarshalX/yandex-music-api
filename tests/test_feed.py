@@ -27,6 +27,9 @@ class TestFeed:
         assert feed.days == [day]
         assert feed.next_revision == self.next_revision
 
+    def test_de_json_none(self, client):
+        assert Feed.de_json({}, client) is None
+
     def test_de_json_required(self, client, generated_playlist, day):
         json_dict = {'can_get_more_events': self.can_get_more_events, 'pumpkin': self.pumpkin,
                      'is_wizard_passed': self.is_wizard_passed, 'generated_playlists': [generated_playlist.to_dict()],

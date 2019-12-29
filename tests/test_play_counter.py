@@ -11,6 +11,9 @@ class TestPlayCounter:
         assert play_counter.description == self.description
         assert play_counter.updated == self.updated
 
+    def test_de_json_none(self, client):
+        assert PlayCounter.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'value': self.value, 'description': self.description, 'updated': self.updated}
         play_counter = PlayCounter.de_json(json_dict, client)

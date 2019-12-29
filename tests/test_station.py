@@ -16,6 +16,9 @@ class TestStation:
         assert station.restrictions2 == restrictions
         assert station.parent_id == id_
 
+    def test_de_json_none(self, client):
+        assert Station.de_json({}, client) is None
+
     def test_de_json_required(self, client, id_, icon, restrictions):
         json_dict = {'id_': id_.to_dict(), 'name': self.name, 'icon': icon.to_dict(), 'mts_icon': icon.to_dict(),
                      'geocell_icon': icon.to_dict(), 'id_for_from': self.id_for_from,

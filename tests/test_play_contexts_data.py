@@ -5,6 +5,9 @@ class TestPlayContextsData:
     def test_expected_values(self, play_contexts_data, track_short_old):
         assert play_contexts_data.other_tracks == [track_short_old]
 
+    def test_de_json_none(self, client):
+        assert PlayContextsData.de_json({}, client) is None
+
     def test_de_json_required(self, client, track_short_old):
         json_dict = {'other_tracks': [track_short_old.to_dict()]}
         play_contexts_data = PlayContextsData.de_json(json_dict, client)

@@ -15,6 +15,9 @@ class TestUser:
         assert user.sex == self.sex
         assert user.verified == self.verified
 
+    def test_de_json_none(self, client):
+        assert User.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'uid': self.uid, 'login': self.login, 'name': self.name, 'sex': self.sex,
                      'verified': self.verified}

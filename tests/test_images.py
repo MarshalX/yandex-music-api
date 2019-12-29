@@ -9,6 +9,9 @@ class TestImages:
         assert images._208x208 == self._208x208
         assert images._300x300 == self._300x300
 
+    def test_de_json_none(self, client):
+        assert Images.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {}
         images = Images.de_json(json_dict, client)

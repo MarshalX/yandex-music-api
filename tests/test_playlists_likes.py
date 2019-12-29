@@ -17,6 +17,12 @@ class TestPlaylistsLikes:
         assert playlists_likes.id == self.id
         assert playlists_likes.playlist == playlist
 
+    def test_de_json_none(self, client):
+        assert PlaylistsLikes.de_json({}, client) is None
+
+    def test_de_list_none(self, client):
+        assert PlaylistsLikes.de_list({}, client) == []
+
     def test_de_json_required(self, client):
         json_dict = {'timestamp': self.timestamp}
         playlists_likes = PlaylistsLikes.de_json(json_dict, client)

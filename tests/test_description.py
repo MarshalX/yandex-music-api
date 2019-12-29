@@ -11,6 +11,9 @@ class TestDescription:
         assert description.text == self.text
         assert description.url == self.url
 
+    def test_de_json_none(self, client):
+        assert Description.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'text': self.text, 'url': self.url}
         description = Description.de_json(json_dict, client)

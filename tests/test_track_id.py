@@ -9,6 +9,9 @@ class TestTrackId:
         assert track_id.id == self.id
         assert track_id.album_id == self.album_id
 
+    def test_de_json_none(self, client):
+        assert TrackId.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'id_': self.id}
         track_id = TrackId.de_json(json_dict, client)

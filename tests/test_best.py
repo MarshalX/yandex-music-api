@@ -12,6 +12,9 @@ class TestBest:
         assert best.result == result
         assert best.text == self.text
 
+    def test_de_json_none(self, client):
+        assert Best.de_json({}, client) is None
+
     def test_de_json_required(self, client, best_with_result):
         best_fixture, result = best_with_result
 

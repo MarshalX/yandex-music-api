@@ -21,6 +21,9 @@ class TestAdParams:
         assert ad_params.genre_id == self.genre_id
         assert ad_params.genre_name == self.genre_name
 
+    def test_de_json_none(self, client):
+        assert AdParams.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'partner_id': self.partner_id, 'category_id': self.category_id, 'page_ref': self.page_ref,
                      'target_ref': self.target_ref, 'other_params': self.other_params, 'ad_volume': self.ad_volume}

@@ -19,11 +19,17 @@ class TestBlockEntity:
     type = 'personal-playlist'
 
     def test_expected_values(self, block_entity_with_data_and_type):
-        block_entity, data, type = block_entity_with_data_and_type
+        block_entity, data, type_ = block_entity_with_data_and_type
 
         assert block_entity.id == self.id
-        assert block_entity.type == type
+        assert block_entity.type == type_
         assert block_entity.data == data
+
+    def test_de_list_none(self, client):
+        assert BlockEntity.de_list({}, client) == []
+
+    def test_de_json_none(self, client):
+        assert BlockEntity.de_json({}, client) is None
 
     def test_de_json_required(self, client, block_entity_data_with_type):
         data, type_ = block_entity_data_with_type

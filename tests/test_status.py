@@ -23,6 +23,9 @@ class TestStatus:
         assert status.station_exists == self.station_exists
         assert status.premium_region == self.premium_region
 
+    def test_de_json_none(self, client):
+        assert Status.de_json({}, client) is None
+
     def test_de_json_required(self, client, account, permissions):
         json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict()}
         status = Status.de_json(json_dict, client)

@@ -18,6 +18,9 @@ class TestSupplement:
         assert supplement.videos == [video_supplement]
         assert supplement.radio_is_available == self.radio_is_available
 
+    def test_de_json_none(self, client):
+        assert Supplement.de_json({}, client) is None
+
     def test_de_json_required(self, client, lyrics, video_supplement):
         json_dict = {'id_': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()],
                      'radio_is_available': self.radio_is_available}

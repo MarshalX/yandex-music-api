@@ -10,6 +10,9 @@ class TestEnum:
         assert enum.name == self.name
         assert enum.possible_values == [value]
 
+    def test_de_json_none(self, client):
+        assert Enum.de_json({}, client) is None
+
     def test_de_json_required(self, client, value):
         json_dict = {'type_': self.type, 'name': self.name, 'possible_values': [value.to_dict()]}
         enum = Enum.de_json(json_dict, client)
