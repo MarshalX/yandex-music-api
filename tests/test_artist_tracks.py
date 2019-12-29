@@ -13,6 +13,9 @@ class TestArtistTracks:
         assert artist_tracks.tracks == [track]
         assert artist_tracks.pager == pager
 
+    def test_de_json_none(self, client):
+        assert ArtistTracks.de_json({}, client) is None
+
     def test_de_json_required(self, client, track, pager):
         json_dict = {'tracks': [track.to_dict()], 'pager': pager.to_dict()}
         artist_tracks = ArtistTracks.de_json(json_dict, client)

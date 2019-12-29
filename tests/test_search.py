@@ -39,6 +39,9 @@ class TestSearch:
         assert search.misspell_corrected == self.misspell_corrected
         assert search.nocorrect == self.nocorrect
 
+    def test_de_json_none(self, client):
+        assert Search.de_json({}, client) is None
+
     def test_de_json_required(self, client, best, search_result):
         json_dict = {'search_request_id': self.search_request_id, 'text': self.text, 'best': best.to_dict(),
                      'albums': search_result(3).to_dict(), 'artists': search_result(2).to_dict(),

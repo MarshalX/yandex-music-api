@@ -23,6 +23,9 @@ class TestSuggestions:
         assert suggestions.best == best
         assert suggestions.suggestions == self.suggestions
 
+    def test_de_json_none(self, client):
+        assert Suggestions.de_json({}, client) is None
+
     def test_de_json_required(self, client, best):
         json_dict = {'best': best.to_dict(), 'suggestions': self.suggestions}
         suggestions = Suggestions.de_json(json_dict, client)

@@ -11,6 +11,9 @@ class TestRatings:
         assert ratings.month == self.month
         assert ratings.day == self.day
 
+    def test_de_json_none(self, client):
+        assert Ratings.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'week': self.week, 'month': self.month}
         ratings = Ratings.de_json(json_dict, client)

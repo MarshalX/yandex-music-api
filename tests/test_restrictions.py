@@ -9,6 +9,9 @@ class TestRestrictions:
         assert restrictions.energy == discrete_scale
         assert restrictions.mood_energy == enum
 
+    def test_de_json_none(self, client):
+        assert Restrictions.de_json({}, client) is None
+
     def test_de_json_required(self, client, enum):
         json_dict = {'language': enum.to_dict(), 'diversity': enum.to_dict()}
         restrictions = Restrictions.de_json(json_dict, client)

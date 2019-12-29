@@ -32,6 +32,9 @@ class TestLyrics:
         assert lyrics.text_language == self.text_language
         assert lyrics.show_translation == self.show_translation
 
+    def test_de_json_none(self, client):
+        assert Lyrics.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'id_': self.id, 'lyrics': self.lyrics, 'full_lyrics': self.full_lyrics,
                      'has_rights': self.has_rights, 'text_language': self.text_language,

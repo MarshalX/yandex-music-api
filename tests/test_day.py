@@ -10,6 +10,12 @@ class TestDay:
         assert day.tracks_to_play_with_ads == [track_with_ads]
         assert day.tracks_to_play == [track]
 
+    def test_de_json_none(self, client):
+        assert Day.de_json({}, client) is None
+
+    def test_de_list_none(self, client):
+        assert Day.de_list({}, client) == []
+
     def test_de_json_required(self, client, event, track_with_ads, track):
         json_dict = {'day': self.day, 'events': [event.to_dict()], 'tracks_to_play_with_ads': [track_with_ads.to_dict()],
                      'tracks_to_play': [track.to_dict()]}

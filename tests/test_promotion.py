@@ -23,6 +23,12 @@ class TestPromotion:
         assert promotion.gradient == self.gradient
         assert promotion.image == self.image
 
+    def test_de_list_none(self, client):
+        assert Promotion.de_list({}, client) == []
+
+    def test_de_json_none(self, client):
+        assert Promotion.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'promo_id': self.promo_id, 'title': self.title, 'subtitle': self.subtitle, 'heading': self.heading,
                      'url': self.url, 'url_scheme': self.url_scheme, 'text_color': self.text_color,

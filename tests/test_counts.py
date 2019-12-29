@@ -13,6 +13,9 @@ class TestCounts:
         assert counts.also_albums == self.also_albums
         assert counts.also_tracks == self.also_tracks
 
+    def test_de_json_none(self, client):
+        assert Counts.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'tracks': self.tracks, 'direct_albums': self.direct_albums, 'also_albums': self.also_albums,
                      'also_tracks': self.also_tracks}

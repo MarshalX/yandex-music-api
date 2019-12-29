@@ -12,6 +12,9 @@ class TestSubscription:
         assert subscription.mcdonalds == self.mcdonalds
         assert subscription.end == self.end
 
+    def test_de_json_none(self, client):
+        assert Subscription.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {}
         subscription = Subscription.de_json(json_dict, client)

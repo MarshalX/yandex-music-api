@@ -9,6 +9,9 @@ class TestTitle:
         assert title.title == self.title
         assert title.full_title == self.full_title
 
+    def test_de_json_none(self, client):
+        assert Title.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'title': self.title}
         title = Title.de_json(json_dict, client)

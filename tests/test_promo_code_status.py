@@ -17,6 +17,9 @@ class TestPromoCodeStatus:
         assert promo_code_status.status_desc == self.status_desc
         assert promo_code_status.account_status == status
 
+    def test_de_json_none(self, client):
+        assert PromoCodeStatus.de_json({}, client) is None
+
     def test_de_json_required(self, client, status):
         json_dict = {'status': self.status, 'status_desc': self.status_desc, 'account_status': status.to_dict()}
         promo_code_status = PromoCodeStatus.de_json(json_dict, client)

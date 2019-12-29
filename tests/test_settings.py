@@ -12,6 +12,9 @@ class TestSettings:
         assert settings.promo_codes_enabled == self.promo_codes_enabled
         assert settings.web_payment_month_product_price == price
 
+    def test_de_json_none(self, client):
+        assert Settings.de_json({}, client) is None
+
     def test_de_json_required(self, client, product):
         json_dict = {'in_app_products': [product.to_dict()], 'native_products': [product.to_dict()],
                      'web_payment_url': self.web_payment_url, 'promo_codes_enabled': self.promo_codes_enabled}

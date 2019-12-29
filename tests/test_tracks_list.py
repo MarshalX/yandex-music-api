@@ -17,6 +17,9 @@ class TestTracksList:
         assert tracks_list.revision == self.revision
         assert tracks_list.tracks == [track_short]
 
+    def test_de_json_none(self, client):
+        assert TracksList.de_json({}, client) is None
+
     def test_de_json_required(self, client, track_short):
         json_dict = {'uid': self.uid, 'revision': self.revision, 'tracks': [track_short.to_dict()]}
         tracks_list = TracksList.de_json(json_dict, client)

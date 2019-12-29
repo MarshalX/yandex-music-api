@@ -27,6 +27,12 @@ class TestVideo:
         assert video.html_auto_play_video_player == self.html_auto_play_video_player
         assert video.regions == self.regions
 
+    def test_de_json_none(self, client):
+        assert Video.de_json({}, client) is None
+
+    def test_de_list_none(self, client):
+        assert Video.de_list({}, client) == []
+
     def test_de_json_required(self, client):
         json_dict = {'title': self.title}
         video = Video.de_json(json_dict, client)

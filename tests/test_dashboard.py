@@ -17,6 +17,9 @@ class TestDashboard:
         assert dashboard.stations == [station_result]
         assert dashboard.pumpkin == self.pumpkin
 
+    def test_de_json_none(self, client):
+        assert Dashboard.de_json({}, client) is None
+
     def test_de_json_required(self, client, station_result):
         json_dict = {'dashboard_id': self.dashboard_id, 'stations': [station_result.to_dict()], 'pumpkin': self.pumpkin}
         dashboard = Dashboard.de_json(json_dict, client)

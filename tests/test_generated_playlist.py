@@ -12,6 +12,12 @@ class TestGeneratedPlaylist:
         assert generated_playlist.notify == self.notify
         assert generated_playlist.data == playlist
 
+    def test_de_json_none(self, client):
+        assert GeneratedPlaylist.de_json({}, client) is None
+
+    def test_de_list_none(self, client):
+        assert GeneratedPlaylist.de_list({}, client) == []
+
     def test_de_json_required(self, client, playlist):
         json_dict = {'type_': self.type, 'ready': self.ready, 'notify': self.notify, 'data': playlist.to_dict()}
         generated_playlist = GeneratedPlaylist.de_json(json_dict, client)

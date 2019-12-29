@@ -11,6 +11,9 @@ class TestInvocationInfo:
         assert invocation_info.req_id == self.req_id
         assert invocation_info.exec_duration_millis == self.exec_duration_millis
 
+    def test_de_json_none(self, client):
+        assert InvocationInfo.de_json({}, client) is None
+
     def test_de_json_required(self, client):
         json_dict = {'hostname': self.hostname, 'req_id': self.req_id}
         invocation_info = InvocationInfo.de_json(json_dict, client)
