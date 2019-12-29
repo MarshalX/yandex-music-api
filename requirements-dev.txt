@@ -2,3 +2,6 @@ requests
 pytest
 codecov
 pytest-cov
+ujson
+importlib_metadata
+atomicwrites
