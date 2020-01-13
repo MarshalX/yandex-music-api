@@ -81,9 +81,9 @@ def album_factory(label, track_position):
     class AlbumFactory:
         def get(self, artists, volumes):
             return Album(TestAlbum.id, TestAlbum.title, TestAlbum.track_count, artists, [label],
-                         TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.cover_uri,
-                         TestAlbum.content_warning, TestAlbum.original_release_year, TestAlbum.genre,
-                         TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
+                         TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.version,
+                         TestAlbum.cover_uri, TestAlbum.content_warning, TestAlbum.original_release_year,
+                         TestAlbum.genre, TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
                          TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests,
                          TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
                          track_position, TestAlbum.regions)

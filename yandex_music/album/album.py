@@ -15,6 +15,7 @@ class Album(YandexMusicObject):
                  labels: List['Label'],
                  available: bool,
                  available_for_premium_users: bool,
+                 version: Optional[str] = None,
                  cover_uri: Optional[str] = None,
                  content_warning=None,
                  original_release_year=None,
@@ -43,6 +44,7 @@ class Album(YandexMusicObject):
         self.available_for_premium_users = available_for_premium_users
         self.available = available
 
+        self.version = version
         self.cover_uri = cover_uri
         self.genre = genre
         self.year = year
