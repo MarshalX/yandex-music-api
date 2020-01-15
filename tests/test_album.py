@@ -4,6 +4,7 @@ from yandex_music import Album
 class TestAlbum:
     id = 5239478
     title = 'In the End'
+    version = 'feat. Mark Van Hoen & Mike Harding'
     cover_uri = 'avatars.yandex.net/get-music-content/95061/89c14a7d.a.5239478-1/%%'
     track_count = 3
     available = True
@@ -27,6 +28,7 @@ class TestAlbum:
     def test_expected_values(self, album, artist_without_tracks, label, track_position, track_without_albums):
         assert album.id == self.id
         assert album.title == self.title
+        assert album.version == self.version
         assert album.cover_uri == self.cover_uri
         assert album.track_count == self.track_count
         assert album.artists == [artist_without_tracks]
@@ -75,7 +77,7 @@ class TestAlbum:
     def test_de_json_all(self, client, artist, label, track_position, track):
         json_dict = {'id_': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
                      'artists': [artist.to_dict()], 'labels': [label.to_dict()], 'available': self.available,
-                     'available_for_premium_users': self.available_for_premium_users,
+                     'available_for_premium_users': self.available_for_premium_users, 'version': self.version,
                      'content_warning': self.content_warning, 'original_release_year': self.original_release_year,
                      'genre': self.genre, 'og_image': self.og_image, 'buy': self.buy, 'recent': self.recent,
                      'very_important': self.very_important, 'available_for_mobile': self.available_for_mobile,
@@ -87,6 +89,7 @@ class TestAlbum:
 
         assert album.id == self.id
         assert album.title == self.title
+        assert album.version == self.version
         assert album.cover_uri == self.cover_uri
         assert album.track_count == self.track_count
         assert album.artists == [artist]
