@@ -751,6 +751,38 @@ class Client(YandexMusicObject):
         return Playlist.de_json(result, self)
 
     @log
+    def users_playlists_visibility(self, kind: Union[str, int], visibility: str, user_id: str = None,
+                                   timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
+        """Изменение видимости плейлиста.
+
+        Видимость (visibility) может быть задана только одним из двух значений: private, public.
+
+        Args:
+            kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
+            visibility (:obj:`str`): Новое название.
+            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Playlist`: Объекта класса :class:`yandex_music.Playlist`
+            представляющий изменённый плейлист, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/visibility'
+
+        result = self._request.post(url, {'value': visibility}, timeout=timeout, *args, **kwargs)
+
+        return Playlist.de_json(result, self)
+
+    @log
     def users_playlists_change(self, kind: Union[str, int], diff: str, revision: int = 1, user_id: str = None,
                                timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Изменение плейлиста.
