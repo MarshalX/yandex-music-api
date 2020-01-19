@@ -24,12 +24,10 @@ class TestVinyl:
         assert Vinyl.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'url': self.url, 'picture': self.picture, 'title': self.title, 'year': self.year,
-                     'price': self.price, 'media': self.media}
+        json_dict = {'url': self.url, 'title': self.title, 'year': self.year, 'price': self.price, 'media': self.media}
         vinyl = Vinyl.de_json(json_dict, client)
 
         assert vinyl.url == self.url
-        assert vinyl.picture == self.picture
         assert vinyl.title == self.title
         assert vinyl.year == self.year
         assert vinyl.price == self.price
@@ -48,9 +46,9 @@ class TestVinyl:
         assert vinyl.media == self.media
 
     def test_equality(self):
-        a = Vinyl(self.url, self.picture, self.title, 2020, 200, self.media)
-        b = Vinyl(self.url, self.picture, self.title, self.year, self.price, self.media)
-        c = Vinyl(self.url, self.picture, self.title, self.year, self.price, self.media)
+        a = Vinyl(self.url, self.title, 2020, 200, self.media, self.picture)
+        b = Vinyl(self.url, self.title, self.year, self.price, self.media, self.picture)
+        c = Vinyl(self.url, self.title, self.year, self.price, self.media, self.picture)
 
         assert a != b
         assert hash(a) != hash(b)
