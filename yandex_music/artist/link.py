@@ -9,11 +9,12 @@ from yandex_music import YandexMusicObject
 class Link(YandexMusicObject):
     """Класс, представляющий ссылку на официальную страницу исполнителя.
 
+    Известные типы страниц: `official` - официальный сайт и `social` - социальная сеть.
+
     Attributes:
         title (:obj:`str`): Название страницы.
         href (:obj:`str`): URL страницы.
-        type_ (:obj:`str`): Тип страницы. Известные значения: official — официальный сайт и
-            social — социальная сеть.
+        type_ (:obj:`str`): Тип страницы.
         social_network (:obj:`str`): Название социальной сети.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
@@ -21,8 +22,7 @@ class Link(YandexMusicObject):
     Args:
         title (:obj:`str`): Название страницы.
         href (:obj:`str`): URL страницы.
-        type_ (:obj:`str`): Тип страницы. Известные значения: official — официальный сайт и
-            social — социальная сеть.
+        type_ (:obj:`str`): Тип страницы.
         social_network (:obj:`str`, optional): Название социальной сети.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
