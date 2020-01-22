@@ -916,14 +916,41 @@ class Client(YandexMusicObject):
         return StationResult.de_list(result, self)
 
     @log
-    def rotor_station_genre_feedback(self, genre: str, type_: str, timestamp: int = None,
-                                     from_: str = None, batch_id: Union[str, int] = None,
-                                     track_id: str = None, timeout: Union[int, float] = None,
-                                     *args, **kwargs) -> bool:
+    def rotor_station_feedback(self, station: str, type_: str, timestamp: Union[str, float, int] = None,
+                               from_: str = None, batch_id: str = None, total_played_seconds: float = None,
+                               track_id: Union[str, int] = None, timeout: Union[int, float] = None,
+                               *args, **kwargs) -> bool:
+        """Отправка ответной реакции на происходящее при прослушивании радио.
+
+        Сообщения о начале прослушивания радио, начале и конце трека, его пропуска.
+
+        Известные типы фидбека: radioStarted, trackStarted, trackFinished, skip
+        Пример station: user:onyourwave, genre:allrock
+        Пример from_: mobile-radio-user-123456789
+
+        Args:
+            station (:obj:`str`): Станция.
+            type_ (:obj:`int`): Тип отправляемого фидбека.
+            timestamp (:obj:`int`): Текущее время и дата.
+            from_ (:obj:`int`): Откуда начато воспроизведение радио.
+            batch_id (:obj:`int`): Уникальный идентификатор партии треков. Возвращается при получении треков.
+            total_played_seconds (:obj:`int`): Сколько было проиграно секунд трека перед действием.
+            track_id (:obj:`int` | :obj:`str`): Уникальной идентификатор трека.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         if timestamp is None:
             timestamp = datetime.now().timestamp()
 
-        url = f'{self.base_url}/rotor/station/genre:{genre}/feedback'
+        url = f'{self.base_url}/rotor/station/{station}/feedback'
 
         params = {}
         data = {
@@ -931,42 +958,85 @@ class Client(YandexMusicObject):
             'timestamp': timestamp
         }
 
-        if batch_id and track_id:
-            data.update({'trackId': track_id})
+        if batch_id:
             params = {'batch-id': batch_id}
+
+        if track_id:
+            data.update({'trackId': track_id})
 
         if from_:
             data.update({'from': from_})
+
+        if total_played_seconds:
+            data.update({'totalPlayedSeconds': total_played_seconds})
 
         result = self._request.post(url, params=params, json=data, timeout=timeout, *args, **kwargs)
 
         return result == 'ok'
 
     @log
-    def rotor_station_genre_feedback_radio_started(self, genre: str, from_: str, timestamp: int = None,
-                                                   timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        return self.rotor_station_genre_feedback(genre, 'radioStarted', timestamp, from_, timeout, *args, **kwargs)
+    def rotor_station_feedback_radio_started(self, station: str, from_: str, batch_id: str = None,
+                                             timestamp: Union[str, float, int] = None,
+                                             timeout: Union[int, float] = None, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+            client.rotor_station_feedback(station, 'radioStarted', timestamp, from, *args, **kwargs)
+        """
+        return self.rotor_station_feedback(station, 'radioStarted', timestamp, from_=from_, batch_id=batch_id,
+                                           timeout=timeout, *args, **kwargs)
 
     @log
-    def rotor_station_genre_feedback_track_started(self, genre: str, track_id: str, batch_id: Union[str, int],
-                                                   timestamp: int = None, timeout: Union[int, float] = None,
-                                                   *args, **kwargs) -> bool:
-        return self.rotor_station_genre_feedback(genre, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id,
-                                                 timeout=timeout, *args, **kwargs)
+    def rotor_station_feedback_track_started(self, station: str, track_id: Union[str, int], batch_id: str = None,
+                                             timestamp: Union[str, float, int] = None,
+                                             timeout: Union[int, float] = None, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+            client.rotor_station_feedback(station, 'trackStarted', timestamp, track_id, *args, **kwargs)
+        """
+        return self.rotor_station_feedback(station, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id,
+                                           timeout=timeout, *args, **kwargs)
 
     @log
-    def rotor_station_genre_info(self, genre: str, timeout: Union[int, float] = None,
-                                 *args, **kwargs) -> List[StationResult]:
-        url = f'{self.base_url}/rotor/station/genre:{genre}/info'
+    def rotor_station_feedback_track_finished(self, station: str, track_id: Union[str, int],
+                                              total_played_seconds: float, batch_id: str = None,
+                                              timestamp: Union[str, float, int] = None,
+                                              timeout: Union[int, float] = None, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+            client.rotor_station_feedback(station, 'trackFinished', timestamp, track_id, total_played_seconds,
+                *args, **kwargs)
+        """
+        return self.rotor_station_feedback(station, 'trackFinished', timestamp, track_id=track_id,
+                                           total_played_seconds=total_played_seconds, batch_id=batch_id,
+                                           timeout=timeout, *args, **kwargs)
+
+    @log
+    def rotor_station_feedback_skip(self, station: str, track_id: Union[str, int],
+                                    total_played_seconds: float, batch_id: str = None,
+                                    timestamp: Union[str, float, int] = None,
+                                    timeout: Union[int, float] = None, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+            client.rotor_station_feedback(station, 'skip', timestamp, track_id, total_played_seconds,
+                *args, **kwargs)
+        """
+        return self.rotor_station_feedback(station, 'skip', timestamp, track_id=track_id,
+                                           total_played_seconds=total_played_seconds, batch_id=batch_id,
+                                           timeout=timeout, *args, **kwargs)
+
+    @log
+    def rotor_station_info(self, station: str, timeout: Union[int, float] = None,
+                           *args, **kwargs) -> List[StationResult]:
+        url = f'{self.base_url}/rotor/station/{station}/info'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return StationResult.de_list(result, self)
 
     @log
-    def rotor_station_genre_tracks(self, genre: str, timeout: Union[int, float] = None,
-                                   *args, **kwargs) -> Optional[StationTracksResult]:
-        url = f'{self.base_url}/rotor/station/genre:{genre}/tracks'
+    def rotor_station_tracks(self, station: str, timeout: Union[int, float] = None,
+                             *args, **kwargs) -> Optional[StationTracksResult]:
+        url = f'{self.base_url}/rotor/station/{station}/tracks'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
@@ -1276,16 +1346,16 @@ class Client(YandexMusicObject):
     rotorStationsDashboard = rotor_stations_dashboard
     #: Псевдоним для :attr:`rotor_stations_list`
     rotorStationsList = rotor_stations_list
-    #: Псевдоним для :attr:`rotor_station_genre_feedback`
-    rotorStationGenreFeedback = rotor_station_genre_feedback
-    #: Псевдоним для :attr:`rotor_station_genre_feedback_radio_started`
-    rotorStationGenreFeedbackRadioStarted = rotor_station_genre_feedback_radio_started
-    #: Псевдоним для :attr:`rotor_station_genre_feedback_track_started`
-    rotorStationGenreFeedbackTrackStarted = rotor_station_genre_feedback_track_started
+    #: Псевдоним для :attr:`rotor_station_feedback`
+    rotorStationFeedback = rotor_station_feedback
+    #: Псевдоним для :attr:`rotor_station_feedback_radio_started`
+    rotorStationFeedbackRadioStarted = rotor_station_feedback_radio_started
+    #: Псевдоним для :attr:`rotor_station_feedback_track_started`
+    rotorStationFeedbackTrackStarted = rotor_station_feedback_track_started
     #: Псевдоним для :attr:`rotor_station_genre_info`
-    rotorStationGenreInfo = rotor_station_genre_info
-    #: Псевдоним для :attr:`rotor_station_genre_tracks`
-    rotorStationGenreTracks = rotor_station_genre_tracks
+    rotorStationInfo = rotor_station_info
+    #: Псевдоним для :attr:`rotor_station_tracks`
+    rotorStationTracks = rotor_station_tracks
     #: Псевдоним для :attr:`artists_brief_info`
     artistsBriefInfo = artists_brief_info
     #: Псевдоним для :attr:`artists_tracks`
