@@ -16,6 +16,28 @@ de_json_result = {
 
 
 class SearchResult(YandexMusicObject):
+    """Класс, представляющий результаты поиска.
+
+        Attributes:
+            total (:obj:`int`): Количество результатов.
+            per_page (:obj:`int`): Максимальное количество результатов на странице.
+            order (:obj:`int`): Позиция блока.
+            results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
+                | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Args:
+            total (:obj:`int`): Количество результатов.
+            per_page (:obj:`int`): Максимальное количество результатов на странице.
+            order (:obj:`int`): Позиция блока.
+            results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
+                | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
+            client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+            **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  total: int,
                  per_page: int,
@@ -33,6 +55,17 @@ class SearchResult(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['SearchResult']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            type_ (:obj:`str`, optional): Тип результата.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.SearchResult`: Объект класса :class:`yandex_music.SearchResult`.
+        """
         if not data:
             return None
 
