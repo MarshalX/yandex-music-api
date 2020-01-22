@@ -37,6 +37,7 @@ class SearchResult(YandexMusicObject):
                 Music.
             **kwargs: Произвольные ключевые аргументы полученные от API.
     """
+    
     def __init__(self,
                  total: int,
                  per_page: int,
