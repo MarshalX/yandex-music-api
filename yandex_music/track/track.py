@@ -121,6 +121,8 @@ class Track(YandexMusicObject):
 
     @property
     def track_id(self) -> str:
+        if self.albums:
+            return f'{self.id}:{self.albums[0].id}'
         return f'{self.id}'
 
     @classmethod

@@ -917,25 +917,26 @@ class Client(YandexMusicObject):
 
     @log
     def rotor_station_feedback(self, station: str, type_: str, timestamp: Union[str, float, int] = None,
-                               from_: str = None, batch_id: str = None, total_played_seconds: float = None,
+                               from_: str = None, batch_id: str = None, total_played_seconds: Union[int, float] = None,
                                track_id: Union[str, int] = None, timeout: Union[int, float] = None,
                                *args, **kwargs) -> bool:
         """Отправка ответной реакции на происходящее при прослушивании радио.
 
         Сообщения о начале прослушивания радио, начале и конце трека, его пропуска.
 
-        Известные типы фидбека: radioStarted, trackStarted, trackFinished, skip
-        Пример station: user:onyourwave, genre:allrock
-        Пример from_: mobile-radio-user-123456789
+        Известные типы фидбека: radioStarted, trackStarted, trackFinished, skip.
+        Пример station: user:onyourwave, genre:allrock.
+        Пример from_: mobile-radio-user-123456789.
 
         Args:
             station (:obj:`str`): Станция.
-            type_ (:obj:`int`): Тип отправляемого фидбека.
-            timestamp (:obj:`int`): Текущее время и дата.
-            from_ (:obj:`int`): Откуда начато воспроизведение радио.
-            batch_id (:obj:`int`): Уникальный идентификатор партии треков. Возвращается при получении треков.
-            total_played_seconds (:obj:`int`): Сколько было проиграно секунд трека перед действием.
-            track_id (:obj:`int` | :obj:`str`): Уникальной идентификатор трека.
+            type_ (:obj:`str`): Тип отправляемого фидбека.
+            timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Текущее время и дата.
+            from_ (:obj:`str`, optional): Откуда начато воспроизведение радио.
+            batch_id (:obj:`str`, optional): Уникальный идентификатор партии треков. Возвращается при получении треков.
+            total_played_seconds (:obj:`int` |:obj:`float`, optional): Сколько было проиграно секунд трека
+                перед действием.
+            track_id (:obj:`int` | :obj:`str`, optional): Уникальной идентификатор трека.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -1034,11 +1035,44 @@ class Client(YandexMusicObject):
         return StationResult.de_list(result, self)
 
     @log
-    def rotor_station_tracks(self, station: str, timeout: Union[int, float] = None,
-                             *args, **kwargs) -> Optional[StationTracksResult]:
+    def rotor_station_tracks(self, station: str, settings2: bool = True, queue: Union[str, int] = None,
+                             timeout: Union[int, float] = None, *args, **kwargs) -> Optional[StationTracksResult]:
+        """Получение 5 треков определённой станции.
+
+        Для продолжения цепочки треков необходимо:
+        1. Передавать ID трека, что был до этого (первый в цепочки).
+        2. Отправить фидбек о конче или скипе трека, что был передан в `queue`.
+        3. Отправить фидбек о начале следующего трека (второй в цепочки).
+        4. Выполнить запрос получения треков. В ответе придёт новые треки или произойдёт сдвиг цепочки на 1 элемент.
+
+        Проход по цепочке до коцна не изучен. Часто встречаются дубликаты.
+
+        Args:
+            station (:obj:`str`): Станция.
+            settings2 (:obj:`bool`, optional): Использовать ли второй набор настроек.
+            queue (:obj:`str` | :obj:`int` , optional): Уникальной идентификатор трека, который только что был.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.StationTracksResult`: Объекта класса :class:`yandex_music.StationTracksResult`
+            представляющий последовательность треков станции, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/rotor/station/{station}/tracks'
 
-        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+        params = {}
+        if settings2:
+            params = {'settings2': True}
+
+        if queue:
+            params = {'queue': queue}
+
+        result = self._request.get(url, params=params, timeout=timeout, *args, **kwargs)
 
         return StationTracksResult.de_json(result, self)
 
