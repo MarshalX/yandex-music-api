@@ -941,7 +941,7 @@ class Client(YandexMusicObject):
     @log
     def rotor_stations_list(self, language: str = 'ru', timeout: Union[int, float] = None,
                             *args, **kwargs) -> List[StationResult]:
-        """Получение всех радиостанций.
+        """Получение всех радиостанций с настройками пользователя.
 
         Чтобы определить что за тип станции (жанры, настроения, занятие и т.д.) необходимо смотреть в пол `id_for_from`.
 
@@ -1078,7 +1078,7 @@ class Client(YandexMusicObject):
     @log
     def rotor_station_info(self, station: str, timeout: Union[int, float] = None,
                            *args, **kwargs) -> List[StationResult]:
-        """Получение информации о станции.
+        """Получение информации о станции и пользовательских настроек на неё.
 
         Args:
             station (:obj:`str`): Станция.
@@ -1101,9 +1101,52 @@ class Client(YandexMusicObject):
         return StationResult.de_list(result, self)
 
     @log
+    def rotor_station_settings2(self, station: str, mood_energy: str, diversity: str, language: str = 'not-russian',
+                                timeout: Union[int, float] = None, *args, **kwargs) -> bool:
+        """Изменение настроек определённой станции.
+
+        Доступные значения для `mood_energy`: `fun`, `active`, `calm`, `sad`, `all`.
+        Доступные значения для `diversity`: `favorite`, `popular`, `discover`, `default`.
+        Доступные значения для `language`: `not-russian`, `russian`, `any`.
+
+        У станций в `restrictions` есть Enum'ы, а в них `possible_values` - доступные значения для поля.
+
+        Не некоторых аккаунтах не меняется язык...
+
+        Args:
+            station (:obj:`str`): Станция.
+            mood_energy (:obj:`str`): Настроение.
+            diversity (:obj:`str`): Треки.
+            language (:obj:`str`): Язык.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/rotor/station/{station}/settings2'
+
+        data = {
+            'moodEnergy': mood_energy,
+            'diversity': diversity
+        }
+
+        if language:
+            data.update({'language': language})
+
+        result = self._request.post(url, json=data, timeout=timeout, *args, **kwargs)
+
+        return result == 'ok'
+
+    @log
     def rotor_station_tracks(self, station: str, settings2: bool = True, queue: Union[str, int] = None,
                              timeout: Union[int, float] = None, *args, **kwargs) -> Optional[StationTracksResult]:
-        """Получение 5 треков определённой станции.
+        """Получение цепочки треков определённой станции.
 
         Для продолжения цепочки треков необходимо:
         1. Передавать ID трека, что был до этого (первый в цепочки).
@@ -1436,6 +1479,8 @@ class Client(YandexMusicObject):
     usersPlaylistsDelete = users_playlists_delete
     #: Псевдоним для :attr:`users_playlists_name`
     usersPlaylistsName = users_playlists_name
+    #: Псевдоним для :attr:`users_playlists_visibility`
+    usersPlaylistsVisibility = users_playlists_visibility
     #: Псевдоним для :attr:`users_playlists_change`
     usersPlaylistsChange = users_playlists_change
     #: Псевдоним для :attr:`users_playlists_insert_track`
@@ -1454,8 +1499,14 @@ class Client(YandexMusicObject):
     rotorStationFeedbackRadioStarted = rotor_station_feedback_radio_started
     #: Псевдоним для :attr:`rotor_station_feedback_track_started`
     rotorStationFeedbackTrackStarted = rotor_station_feedback_track_started
-    #: Псевдоним для :attr:`rotor_station_genre_info`
+    #: Псевдоним для :attr:`rotor_station_feedback_track_finished`
+    rotorStationFeedbackTrackFinished = rotor_station_feedback_track_finished
+    #: Псевдоним для :attr:`rotor_station_feedback_skip`
+    rotorStationFeedbackSkip = rotor_station_feedback_skip
+    #: Псевдоним для :attr:`rotor_station_info`
     rotorStationInfo = rotor_station_info
+    #: Псевдоним для :attr:`rotor_station_settings2`
+    rotorStationSettings2 = rotor_station_settings2
     #: Псевдоним для :attr:`rotor_station_tracks`
     rotorStationTracks = rotor_station_tracks
     #: Псевдоним для :attr:`artists_brief_info`
