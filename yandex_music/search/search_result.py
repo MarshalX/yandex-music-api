@@ -16,12 +16,12 @@ de_json_result = {
 
 
 class SearchResult(YandexMusicObject):
-    """Класс, представляющий результат поиска.
+    """Класс, представляющий результаты поиска.
 
         Attributes:
             total (:obj:`int`): Количество результатов.
             per_page (:obj:`int`): Максимальное количество результатов на странице.
-            order (:obj:`int`): Номер страницы.
+            order (:obj:`int`): Позиция блока.
             results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
                 | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
             client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
@@ -30,7 +30,7 @@ class SearchResult(YandexMusicObject):
         Args:
             total (:obj:`int`): Количество результатов.
             per_page (:obj:`int`): Максимальное количество результатов на странице.
-            order (:obj:`int`): Номер страницы.
+            order (:obj:`int`): Позиция блока.
             results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
                 | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
             client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
