@@ -891,6 +891,23 @@ class Client(YandexMusicObject):
 
     @log
     def rotor_account_status(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Status]:
+        """Получение статуса пользователя с дополнителньыми полями.
+
+        Данный статус отличается от обычного наличием дополнительных полей, например, `skips_per_hour`.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status`
+            представляющий статус пользователя с дополнительными полями от радио, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/rotor/account/status'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -900,6 +917,21 @@ class Client(YandexMusicObject):
     @log
     def rotor_stations_dashboard(self, timeout: Union[int, float] = None,
                                  *args, **kwargs) -> Optional[Dashboard]:
+        """Получение рекомендованных станций текущего пользователя.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Dashboard`: Объекта класса :class:`yandex_music.Dashboard`
+            представляющий рекомендованные станции, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/rotor/stations/dashboard'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -907,8 +939,26 @@ class Client(YandexMusicObject):
         return Dashboard.de_json(result, self)
 
     @log
-    def rotor_stations_list(self, language: str = 'en', timeout: Union[int, float] = None,
+    def rotor_stations_list(self, language: str = 'ru', timeout: Union[int, float] = None,
                             *args, **kwargs) -> List[StationResult]:
+        """Получение всех радиостанций.
+
+        Чтобы определить что за тип станции (жанры, настроения, занятие и т.д.) необходимо смотреть в пол `id_for_from`.
+
+        Args:
+            language (:obj:`str`): Язык, на котором будет информация о станциях.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.StationResult`: Список объектов класса :class:`yandex_music.StationResult`
+            представляющих станцию, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/rotor/stations/list'
 
         result = self._request.get(url, {'language': language}, timeout=timeout, *args, **kwargs)
@@ -924,9 +974,9 @@ class Client(YandexMusicObject):
 
         Сообщения о начале прослушивания радио, начале и конце трека, его пропуска.
 
-        Известные типы фидбека: radioStarted, trackStarted, trackFinished, skip.
-        Пример station: user:onyourwave, genre:allrock.
-        Пример from_: mobile-radio-user-123456789.
+        Известные типы фидбека: `radioStarted`, `trackStarted`, `trackFinished`, `skip`.
+        Пример `station`: `user:onyourwave`, `genre:allrock`.
+        Пример `from_`: `mobile-radio-user-123456789`.
 
         Args:
             station (:obj:`str`): Станция.
@@ -1028,6 +1078,22 @@ class Client(YandexMusicObject):
     @log
     def rotor_station_info(self, station: str, timeout: Union[int, float] = None,
                            *args, **kwargs) -> List[StationResult]:
+        """Получение информации о станции.
+
+        Args:
+            station (:obj:`str`): Станция.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.StationResult`: Список из одного объекта класса
+            :class:`yandex_music.StationResult` представляющего информацию о станции, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/rotor/station/{station}/info'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
@@ -1046,6 +1112,8 @@ class Client(YandexMusicObject):
         4. Выполнить запрос получения треков. В ответе придёт новые треки или произойдёт сдвиг цепочки на 1 элемент.
 
         Проход по цепочке до коцна не изучен. Часто встречаются дубликаты.
+
+        Все официальные клиенты выполняют запросы с `settings2 = True`.
 
         Args:
             station (:obj:`str`): Станция.
