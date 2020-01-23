@@ -32,7 +32,7 @@ class Album(YandexMusicObject):
         available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`, optional): Доступен ли альбом частично.
         bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
-        volumes (:obj:`list` из :obj:`int`, optional): Треки альбома, разделенные по пластинкам.
+        volumes (:obj:`list` из :obj:`list` из :obj:`int`, optional): Треки альбома, разделенные по пластинкам.
         year (:obj:`int`, optional): Год выпуска.
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
         type (:obj:`str`, optional): Тип альбома.
@@ -60,7 +60,7 @@ class Album(YandexMusicObject):
         available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`, optional): Доступен ли альбом частично.
         bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
-        volumes (:obj:`list` из :obj:`int`, optional): Треки альбома, разделенные по пластинкам.
+        volumes (:obj:`list` из :obj:`list` из :obj:`int`, optional): Треки альбома, разделенные по пластинкам.
         year (:obj:`int`, optional): Год выпуска.
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
         type_ (:obj:`str`, optional): Тип альбома.
@@ -92,7 +92,7 @@ class Album(YandexMusicObject):
                  available_partially: Optional[bool] = None,
                  bests: Optional[List[int]] = None,
                  prerolls: Optional[list] = None,
-                 volumes: List['Track'] = None,
+                 volumes: List[List['Track']] = None,
                  year: Optional[int] = None,
                  release_date: Optional[str] = None,
                  type_: Optional[str] = None,
