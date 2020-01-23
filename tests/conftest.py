@@ -80,7 +80,7 @@ def track_without_artists_and_albums(track_factory):
 def album_factory(label, track_position):
     class AlbumFactory:
         def get(self, artists, volumes):
-            return Album(TestAlbum.id, TestAlbum.title, TestAlbum.track_count, artists, [label],
+            return Album(TestAlbum.id, TestAlbum.error, TestAlbum.title, TestAlbum.track_count, artists, [label],
                          TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.version,
                          TestAlbum.cover_uri, TestAlbum.content_warning, TestAlbum.original_release_year,
                          TestAlbum.genre, TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,

@@ -15,6 +15,7 @@ class Album(YandexMusicObject):
 
     Attributes:
         id (:obj:`int`): Идентификатор альбома.
+        error (:obj:`str`): Ошибка получения альбома.
         title (:obj:`str`): Название альбома.
         track_count (:obj:`int`): Количество треков.
         artists (:obj:`list` из :obj:`yandex_music.Artist`): Список объектов класса
@@ -23,35 +24,36 @@ class Album(YandexMusicObject):
             :class:`yandex_music.Label` представляющие лейблы.
         available (:obj:`bool`): Доступен ли альбом.
         available_for_premium_users (:obj:`bool`): Доступен ли альбом для пользователей с подпиской.
-        version (:obj:`str`, optional): Версия.
-        cover_uri (:obj:`str`, optional): Ссылка на обложку.
-        content_warning (optional): Предупреждение о содержании альбома.
-        genre (:obj:`str`, optional): Жанр музыки
-        og_image (:obj:`str`, optional): Ссылка на обложку.
-        recent (:obj:`bool`, optional): Является ли альбом новым.
-        very_important (:obj:`bool`, optional): Моного ли треков альбома находятся в чарте.
-        available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
-        available_partially (:obj:`bool`, optional): Доступен ли альбом частично.
-        bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
-        volumes (:obj:`list` из :obj:`list` из :obj:`int`, optional): Треки альбома, разделенные по пластинкам.
-        year (:obj:`int`, optional): Год выпуска.
-        release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
-        type (:obj:`str`, optional): Тип альбома.
-        track_position (:obj:`yandex_music.TrackPosition`, optional): Объект класса :class:`yandex_music.Label`
+        version (:obj:`str`): Версия.
+        cover_uri (:obj:`str`): Ссылка на обложку.
+        content_warning: Предупреждение о содержании альбома.
+        genre (:obj:`str`): Жанр музыки
+        og_image (:obj:`str`): Ссылка на обложку.
+        recent (:obj:`bool`): Является ли альбом новым.
+        very_important (:obj:`bool`): Моного ли треков альбома находятся в чарте.
+        available_for_mobile (:obj:`bool`): Доступен ли альбом из приложения для телефона.
+        available_partially (:obj:`bool`): Доступен ли альбом частично.
+        bests (:obj:`list` из :obj:`int`): ID лучших треков альбома.
+        volumes (:obj:`list` из :obj:`list` из :obj:`int`): Треки альбома, разделенные по пластинкам.
+        year (:obj:`int`): Год выпуска.
+        release_date (:obj:`str`): Дата релиза в формате ISO 8601.
+        type (:obj:`str`): Тип альбома.
+        track_position (:obj:`yandex_music.TrackPosition`): Объект класса :class:`yandex_music.Label`
             представляющий позицию трека. Возвращается от API при получении альбома вместе с треком.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
 
     Args:
         id_ (:obj:`int`): Идентификатор альбома.
-        title (:obj:`str`): Название альбома.
-        track_count (:obj:`int`): Количество треков.
-        artists (:obj:`list` из :obj:`yandex_music.Artist`): Список объектов класса
+        error (:obj:`str`, optional): Ошибка получения альбома.
+        title (:obj:`str`, optional): Название альбома.
+        track_count (:obj:`int`, optional): Количество треков.
+        artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Список объектов класса
             :class:`yandex_music.Artist` представляющие артистов.
-        labels (:obj:`list` из :obj:`yandex_music.Label`): Список объектов класса
+        labels (:obj:`list` из :obj:`yandex_music.Label`, optional): Список объектов класса
             :class:`yandex_music.Label` представляющие лейблы.
-        available (:obj:`bool`): Доступен ли альбом.
-        available_for_premium_users (:obj:`bool`): Доступен ли альбом для пользователей с подпиской.
+        available (:obj:`bool`, optional): Доступен ли альбом.
+        available_for_premium_users (:obj:`bool`, optional): Доступен ли альбом для пользователей с подпиской.
         version (:obj:`str`, optional): Версия.
         cover_uri (:obj:`str`, optional): Ссылка на обложку.
         content_warning (optional): Предупреждение о содержании альбома.
@@ -75,12 +77,13 @@ class Album(YandexMusicObject):
 
     def __init__(self,
                  id_: int,
-                 title: str,
-                 track_count: int,
-                 artists: List['Artist'],
-                 labels: List['Label'],
-                 available: bool,
-                 available_for_premium_users: bool,
+                 error: Optional[str] = None,
+                 title: Optional[str] = None,
+                 track_count: Optional[int] = None,
+                 artists: List['Artist'] = None,
+                 labels: List['Label'] = None,
+                 available: Optional[bool] = None,
+                 available_for_premium_users: Optional[bool] = None,
                  version: Optional[str] = None,
                  cover_uri: Optional[str] = None,
                  content_warning=None,
@@ -94,7 +97,7 @@ class Album(YandexMusicObject):
                  available_partially: Optional[bool] = None,
                  bests: Optional[List[int]] = None,
                  prerolls: Optional[list] = None,
-                 volumes: List[List['Track']] = None,
+                 volumes: Optional[List[List['Track']]] = None,
                  year: Optional[int] = None,
                  release_date: Optional[str] = None,
                  type_: Optional[str] = None,
@@ -103,13 +106,14 @@ class Album(YandexMusicObject):
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
+
+        self.error = error
         self.title = title
         self.track_count = track_count
         self.artists = artists
         self.labels = labels
         self.available_for_premium_users = available_for_premium_users
         self.available = available
-
         self.version = version
         self.cover_uri = cover_uri
         self.genre = genre
@@ -131,8 +135,7 @@ class Album(YandexMusicObject):
         self.content_warning = content_warning
 
         self.client = client
-        self._id_attrs = (self.id, self.title, self.track_count, self.artists, self.labels,
-                          self.available_for_premium_users, self.available)
+        self._id_attrs = (self.id,)
 
     def with_tracks(self, *args, **kwargs) -> Optional['Album']:
         """Сокращение для::
