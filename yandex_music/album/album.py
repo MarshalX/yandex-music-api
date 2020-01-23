@@ -9,12 +9,13 @@ from yandex_music import YandexMusicObject
 class Album(YandexMusicObject):
     def __init__(self,
                  id_: int,
-                 title: str,
-                 track_count: int,
-                 artists: List['Artist'],
-                 labels: List['Label'],
-                 available: bool,
-                 available_for_premium_users: bool,
+                 error: Optional[str] = None,
+                 title: Optional[str] = None,
+                 track_count: Optional[int] = None,
+                 artists: List['Artist'] = None,
+                 labels: List['Label'] = None,
+                 available: Optional[bool] = None,
+                 available_for_premium_users: Optional[bool] = None,
                  version: Optional[str] = None,
                  cover_uri: Optional[str] = None,
                  content_warning=None,
@@ -28,7 +29,7 @@ class Album(YandexMusicObject):
                  available_partially: Optional[bool] = None,
                  bests: Optional[List[int]] = None,
                  prerolls: Optional[list] = None,
-                 volumes: List['Track'] = None,
+                 volumes: Optional[List['Track']] = None,
                  year: Optional[int] = None,
                  release_date: Optional[str] = None,
                  type_: Optional[str] = None,
@@ -37,13 +38,14 @@ class Album(YandexMusicObject):
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
+
+        self.error = error
         self.title = title
         self.track_count = track_count
         self.artists = artists
         self.labels = labels
         self.available_for_premium_users = available_for_premium_users
         self.available = available
-
         self.version = version
         self.cover_uri = cover_uri
         self.genre = genre
@@ -65,8 +67,7 @@ class Album(YandexMusicObject):
         self.content_warning = content_warning
 
         self.client = client
-        self._id_attrs = (self.id, self.title, self.track_count, self.artists, self.labels,
-                          self.available_for_premium_users, self.available)
+        self._id_attrs = (self.id,)
 
     def with_tracks(self, *args, **kwargs) -> Optional['Album']:
         """Сокращение для::

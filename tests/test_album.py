@@ -3,6 +3,7 @@ from yandex_music import Album
 
 class TestAlbum:
     id = 5239478
+    error = 'not-found'
     title = 'In the End'
     version = 'feat. Mark Van Hoen & Mike Harding'
     cover_uri = 'avatars.yandex.net/get-music-content/95061/89c14a7d.a.5239478-1/%%'
@@ -27,6 +28,7 @@ class TestAlbum:
 
     def test_expected_values(self, album, artist_without_tracks, label, track_position, track_without_albums):
         assert album.id == self.id
+        assert album.error == self.error
         assert album.title == self.title
         assert album.version == self.version
         assert album.cover_uri == self.cover_uri
@@ -59,35 +61,26 @@ class TestAlbum:
     def test_de_list_none(self, client):
         assert Album.de_list({}, client) == []
 
-    def test_de_json_required(self, client, artist, label):
-        json_dict = {'id_': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
-                     'artists': [artist.to_dict()], 'labels': [label.to_dict()],
-                     'available': self.available, 'available_for_premium_users': self.available_for_premium_users}
+    def test_de_json_required(self, client):
+        json_dict = {'id_': self.id}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
-        assert album.title == self.title
-        assert album.cover_uri == self.cover_uri
-        assert album.track_count == self.track_count
-        assert album.artists == [artist]
-        assert album.labels == [label]
-        assert album.available == self.available
-        assert album.available_for_premium_users == self.available_for_premium_users
 
     def test_de_json_all(self, client, artist, label, track_position, track):
-        json_dict = {'id_': self.id, 'title': self.title, 'cover_uri': self.cover_uri, 'track_count': self.track_count,
-                     'artists': [artist.to_dict()], 'labels': [label.to_dict()], 'available': self.available,
-                     'available_for_premium_users': self.available_for_premium_users, 'version': self.version,
-                     'content_warning': self.content_warning, 'original_release_year': self.original_release_year,
-                     'genre': self.genre, 'og_image': self.og_image, 'buy': self.buy, 'recent': self.recent,
-                     'very_important': self.very_important, 'available_for_mobile': self.available_for_mobile,
-                     'available_partially': self.available_partially, 'bests': self.bests, 'prerolls': self.prerolls,
-                     'volumes': [[track.to_dict()]], 'year': self.year,
-                     'release_date': self.release_date,
-                     'type_': self.type, 'track_position': track_position.to_dict(), 'regions': self.regions}
+        json_dict = {'id_': self.id, 'error': self.error, 'title': self.title, 'cover_uri': self.cover_uri,
+                     'track_count': self.track_count, 'artists': [artist.to_dict()], 'labels': [label.to_dict()],
+                     'available': self.available, 'available_for_premium_users': self.available_for_premium_users,
+                     'version': self.version, 'content_warning': self.content_warning, 'regions': self.regions,
+                     'original_release_year': self.original_release_year, 'genre': self.genre, 'buy': self.buy,
+                     'og_image': self.og_image, 'recent': self.recent, 'very_important': self.very_important,
+                     'available_for_mobile': self.available_for_mobile, 'available_partially': self.available_partially,
+                     'bests': self.bests, 'prerolls': self.prerolls, 'volumes': [[track.to_dict()]], 'year': self.year,
+                     'release_date': self.release_date, 'type_': self.type, 'track_position': track_position.to_dict()}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
+        assert album.error == self.error
         assert album.title == self.title
         assert album.version == self.version
         assert album.cover_uri == self.cover_uri
@@ -115,11 +108,9 @@ class TestAlbum:
         assert album.regions == self.regions
 
     def test_equality(self, artist, label):
-        a = Album(self.id, self.title, self.track_count, [artist], [label], self.available,
-                  self.available_for_premium_users)
-        b = Album(10, '', 99, [artist], [label], self.available, self.available_for_premium_users)
-        c = Album(self.id, self.title, self.track_count, [artist], [label], self.available,
-                  self.available_for_premium_users)
+        a = Album(self.id)
+        b = Album(10)
+        c = Album(self.id)
 
         assert a != b
         assert hash(a) != hash(b)
