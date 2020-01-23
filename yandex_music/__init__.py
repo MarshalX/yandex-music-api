@@ -35,6 +35,11 @@ from .playlist.playlist_id import PlaylistId
 from .playlist.playlist_absence import PlaylistAbsence
 from .playlist.playlist import Playlist
 
+from .shot.shot_type import ShotType
+from .shot.shot_data import ShotData
+from .shot.shot import Shot
+from .shot.shot_event import ShotEvent
+
 from .tracks_list import TracksList
 from .track.major import Major
 from .track.normalization import Normalization
@@ -112,6 +117,6 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld',
            'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre',
            'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum',
-           'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId',
-           'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums',
-           'PlaylistAbsence']
+           'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult', 'BriefInfo', 'Description',
+           'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums',
+           'PlaylistAbsence', 'Shot', 'ShotEvent', 'ShotType', 'ShotData']
