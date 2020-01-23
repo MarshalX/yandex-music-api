@@ -16,6 +16,7 @@ class Album(YandexMusicObject):
     Attributes:
         id (:obj:`int`): Идентификатор альбома.
         title (:obj:`str`): Название альбома.
+        track_count (:obj:`int`): Количество треков.
         artists (:obj:`list` из :obj:`yandex_music.Artist`): Список объектов класса
             :class:`yandex_music.Artist` представляющие артистов.
         labels (:obj:`list` из :obj:`yandex_music.Label`): Список объектов класса
@@ -44,6 +45,7 @@ class Album(YandexMusicObject):
     Args:
         id_ (:obj:`int`): Идентификатор альбома.
         title (:obj:`str`): Название альбома.
+        track_count (:obj:`int`): Количество треков.
         artists (:obj:`list` из :obj:`yandex_music.Artist`): Список объектов класса
             :class:`yandex_music.Artist` представляющие артистов.
         labels (:obj:`list` из :obj:`yandex_music.Label`): Список объектов класса
