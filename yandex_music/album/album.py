@@ -13,6 +13,8 @@ class Album(YandexMusicObject):
 
     Известные предупреждения о содержании: explicit - ненормативная лексика.
 
+    Известные ошибки: not-found - альбом с таким ID не существует.
+
     Attributes:
         id (:obj:`int`): Идентификатор альбома.
         error (:obj:`str`): Ошибка получения альбома.
@@ -26,7 +28,7 @@ class Album(YandexMusicObject):
         available_for_premium_users (:obj:`bool`): Доступен ли альбом для пользователей с подпиской.
         version (:obj:`str`): Версия.
         cover_uri (:obj:`str`): Ссылка на обложку.
-        content_warning: Предупреждение о содержании альбома.
+        content_warning (:obj:`str`): Предупреждение о содержании альбома.
         genre (:obj:`str`): Жанр музыки
         og_image (:obj:`str`): Ссылка на обложку.
         recent (:obj:`bool`): Является ли альбом новым.
@@ -56,7 +58,7 @@ class Album(YandexMusicObject):
         available_for_premium_users (:obj:`bool`, optional): Доступен ли альбом для пользователей с подпиской.
         version (:obj:`str`, optional): Версия.
         cover_uri (:obj:`str`, optional): Ссылка на обложку.
-        content_warning (optional): Предупреждение о содержании альбома.
+        content_warning (:obj:`str`, optional): Предупреждение о содержании альбома.
         genre (:obj:`str`, optional): Жанр музыки
         og_image (:obj:`str`, optional): Ссылка на обложку.
         recent (:obj:`bool`, optional): Является ли альбом новым.
@@ -86,7 +88,7 @@ class Album(YandexMusicObject):
                  available_for_premium_users: Optional[bool] = None,
                  version: Optional[str] = None,
                  cover_uri: Optional[str] = None,
-                 content_warning=None,
+                 content_warning: Optional[str] = None,
                  original_release_year=None,
                  genre: Optional[str] = None,
                  og_image: Optional[str] = None,
