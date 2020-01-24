@@ -70,3 +70,6 @@ from .test_value import TestValue
 from .test_video import TestVideo
 from .test_video_supplement import TestVideoSupplement
 from .test_vinyl import TestVinyl
+from .test_shot_type import TestShotType
+from .test_shot_data import TestShotData
+from .test_shot import TestShot

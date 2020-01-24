@@ -6,7 +6,7 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, PassportPhone, User, Promotion, \
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
-    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence
+    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -15,7 +15,7 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestUser, TestPassportPhone, TestPromotion, TestTitle, TestPersonalPlaylistsData, TestRotorSettings, \
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
-    TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence
+    TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType
 
 
 @pytest.fixture(scope='session')
@@ -436,6 +436,21 @@ def sequence(track):
 @pytest.fixture(scope='session')
 def station(id_, icon, restrictions):
     return Station(id_, TestStation.name, icon, icon, icon, TestStation.id_for_from, restrictions, restrictions, id_)
+
+
+@pytest.fixture(scope='session')
+def shot_type():
+    return ShotType(TestShotType.id, TestShotType.title)
+
+
+@pytest.fixture(scope='session')
+def shot_data(shot_type):
+    return ShotData(TestShotData.cover_uri, TestShotData.mds_url, TestShotData.shot_text, shot_type)
+
+
+@pytest.fixture(scope='session')
+def shot(shot_data):
+    return Shot(TestShot.order, TestShot.played, shot_data, TestShot.shot_id, TestShot.status)
 
 
 @pytest.fixture(scope='session')

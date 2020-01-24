@@ -6,7 +6,7 @@ from typing import Callable, Union, List, Optional
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
     Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement, ArtistTracks, \
-    ArtistAlbums
+    ArtistAlbums, ShotEvent
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken, Captcha
@@ -1443,6 +1443,57 @@ class Client(YandexMusicObject):
                                      timeout: Union[int, float] = None, *args, **kwargs) -> bool:
         return self._dislike_action(track_ids, True, user_id, timeout, *args, **kwargs)
 
+    @log
+    def after_track(self, next_track_id: Union[str, int], context_item: str, prev_track_id: Union[str, int] = None,
+                    context: str = 'playlist', types: str = 'shot', from_: str = 'mobile-landing-origin-default',
+                    timeout: Union[int, float] = None, *args, **kwargs) -> Optional[ShotEvent]:
+        """Получение рекламы или шота от Алисы после трека.
+
+        При получения шота от Алисы `prev_track_id` можно не указывать.
+
+        Если `context = 'playlist'`, то в `context_item` необходимо передать `{OWNER_PLAYLIST}:{ID_PLAYLIST}`.
+        Плейлист с Алисой имеет владельца с `id = 940441070`.
+
+        ID плейлиста можно получить из блоков landing'a. Получить шот чужого плейлиста нельзя.
+
+        Известные значения `context`: `playlist`.
+        Известные значения `types`: `shot`, `ad`.
+
+        Args:
+            prev_track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор предыдущего трека.
+            next_track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор следующего трека.
+            context_item (:obj:`str`): Уникальный идентификатор контекста.
+            context (:obj:`str`, optional): Место, откуда было вызвано получение.
+            types (:obj:`str`, optional): Тип того, что вернуть после трека.
+            from_ (:obj:`str`, optional): Место, с которого попали в контекст.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ShotEvent`: Объекта класса :class:`yandex_music.ShotEvent`
+                представляющий шоты от Алисы, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/after-track'
+
+        params = {
+            'from': from_,
+            'prevTrackId': prev_track_id,
+            'nextTrackId': next_track_id,
+            'context': context,
+            'contextItem': context_item,
+            'types': types,
+        }
+
+        result = self._request.get(url, params=params, timeout=timeout, *args, **kwargs)
+
+        # TODO судя по всему эндпоинт ещё возвращает рекламу после треков для пользователей без подписки.
+        return ShotEvent.de_json(result.get('shot_event'), self)
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`from_credentials`
@@ -1549,3 +1600,5 @@ class Client(YandexMusicObject):
     usersDislikesTracksAdd = users_dislikes_tracks_add
     #: Псевдоним для :attr:`users_dislikes_tracks_remove`
     usersDislikesTracksRemove = users_dislikes_tracks_remove
+    #: Псевдоним для :attr:`after_track`
+    afterTrack = after_track

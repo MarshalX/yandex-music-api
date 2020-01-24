@@ -6,6 +6,7 @@ import builtins
 # Отправка вообще application/x-www-form-urlencoded, а не JSON'a
 # https://github.com/psf/requests/blob/master/requests/models.py#L508
 import json
+from typing import Optional
 
 import requests
 
@@ -16,7 +17,7 @@ from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, Yand
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
-    'X-Yandex-Music-Client': 'WindowsPhone/3.20',
+    'X-Yandex-Music-Client': 'YandexMusicAndroid/23020055',
 }
 
 reserved_names = [name.lower() for name in dir(builtins)] + ['client']
@@ -76,7 +77,7 @@ class Request:
 
         return cleaned_object
 
-    def _parse(self, json_data) -> Response:
+    def _parse(self, json_data) -> Optional[Response]:
         try:
             decoded_s = json_data.decode('utf-8')
             data = json.loads(decoded_s, object_hook=Request._object_hook)
