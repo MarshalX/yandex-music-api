@@ -41,7 +41,7 @@ class Album(YandexMusicObject):
         release_date (:obj:`str`): Дата релиза в формате ISO 8601.
         type (:obj:`str`): Тип альбома.
         track_position (:obj:`yandex_music.TrackPosition`): Объект класса :class:`yandex_music.TrackPosition`
-            представляющий позицию трека. Возвращается от API при получении альбома вместе с треком.
+            представляющий позицию трека. Возвращается при получении альбома в составе трека.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
 
@@ -71,7 +71,7 @@ class Album(YandexMusicObject):
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
         type_ (:obj:`str`, optional): Тип альбома.
         track_position (:obj:`yandex_music.TrackPosition`, optional): Объект класса :class:`yandex_music.TrackPosition`
-            представляющий позицию трека. Возвращается при получении алюбома в составе трека.
+            представляющий позицию трека. Возвращается при получении альбома в составе трека.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
