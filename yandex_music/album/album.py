@@ -11,9 +11,9 @@ class Album(YandexMusicObject):
 
     Известные типы альбома: `single` - сингл, `compilation` - сборник.
 
-    Известные предупреждения о содержании: explicit - ненормативная лексика.
+    Известные предупреждения о содержимом: `explicit` - ненормативная лексика.
 
-    Известные ошибки: not-found - альбом с таким ID не существует.
+    Известные ошибки: `not-found` - альбом с таким ID не существует.
 
     Attributes:
         id (:obj:`int`): Идентификатор альбома.
@@ -26,21 +26,21 @@ class Album(YandexMusicObject):
             :class:`yandex_music.Label` представляющие лейблы.
         available (:obj:`bool`): Доступен ли альбом.
         available_for_premium_users (:obj:`bool`): Доступен ли альбом для пользователей с подпиской.
-        version (:obj:`str`): Версия.
+        version (:obj:`str`): Дополнительная информация об альбоме.
         cover_uri (:obj:`str`): Ссылка на обложку.
-        content_warning (:obj:`str`): Предупреждение о содержании альбома.
-        genre (:obj:`str`): Жанр музыки
+        content_warning (:obj:`str`): Предупреждение о содержимом альбома.
+        genre (:obj:`str`): Жанр музыки.
         og_image (:obj:`str`): Ссылка на обложку.
         recent (:obj:`bool`): Является ли альбом новым.
         very_important (:obj:`bool`): Моного ли треков альбома находятся в чарте.
         available_for_mobile (:obj:`bool`): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`): Доступен ли альбом частично.
         bests (:obj:`list` из :obj:`int`): ID лучших треков альбома.
-        volumes (:obj:`list` из :obj:`list` из :obj:`int`): Треки альбома, разделенные по пластинкам.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`): Треки альбома, разделенные по пластинкам.
         year (:obj:`int`): Год выпуска.
         release_date (:obj:`str`): Дата релиза в формате ISO 8601.
         type (:obj:`str`): Тип альбома.
-        track_position (:obj:`yandex_music.TrackPosition`): Объект класса :class:`yandex_music.Label`
+        track_position (:obj:`yandex_music.TrackPosition`): Объект класса :class:`yandex_music.TrackPosition`
             представляющий позицию трека. Возвращается от API при получении альбома вместе с треком.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
@@ -56,22 +56,22 @@ class Album(YandexMusicObject):
             :class:`yandex_music.Label` представляющие лейблы.
         available (:obj:`bool`, optional): Доступен ли альбом.
         available_for_premium_users (:obj:`bool`, optional): Доступен ли альбом для пользователей с подпиской.
-        version (:obj:`str`, optional): Версия.
+        version (:obj:`str`, optional): Дополнительная информация об альбоме.
         cover_uri (:obj:`str`, optional): Ссылка на обложку.
-        content_warning (:obj:`str`, optional): Предупреждение о содержании альбома.
-        genre (:obj:`str`, optional): Жанр музыки
+        content_warning (:obj:`str`, optional): Предупреждение о содержимом альбома.
+        genre (:obj:`str`, optional): Жанр музыки.
         og_image (:obj:`str`, optional): Ссылка на обложку.
         recent (:obj:`bool`, optional): Является ли альбом новым.
         very_important (:obj:`bool`, optional): Моного ли треков альбома находятся в чарте.
         available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`, optional): Доступен ли альбом частично.
         bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
-        volumes (:obj:`list` из :obj:`list` из :obj:`int`, optional): Треки альбома, разделенные по пластинкам.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`, optional): Треки альбома, разделенные по пластинкам.
         year (:obj:`int`, optional): Год выпуска.
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
         type_ (:obj:`str`, optional): Тип альбома.
-        track_position (:obj:`yandex_music.TrackPosition`, optional): Объект класса :class:`yandex_music.Label`
-            представляющий позицию трека. Возвращается от API при получении альбома вместе с треком.
+        track_position (:obj:`yandex_music.TrackPosition`, optional): Объект класса :class:`yandex_music.TrackPosition`
+            представляющий позицию трека. Возвращается при получении алюбома в составе трека.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
