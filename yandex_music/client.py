@@ -1229,10 +1229,17 @@ class Client(YandexMusicObject):
         return self._dislike_action(track_ids, True, user_id, timeout, *args, **kwargs)
 
     @log
-    def after_track(self, prev_track_id: Union[str, int], next_track_id: Union[str, int], context_item: str,
+    def after_track(self, next_track_id: Union[str, int], context_item: str, prev_track_id: Union[str, int] = None,
                     context: str = 'playlist', types: str = 'shot', from_: str = 'mobile-landing-origin-default',
                     timeout: Union[int, float] = None, *args, **kwargs) -> Optional[ShotEvent]:
         """Получение рекламы или шота от Алисы после трека.
+
+        При получения шота от Алисы `prev_track_id` можно не указывать.
+
+        Если `context = 'playlist'`, то в `context_item` необходимо передать `{OWNER_PLAYLIST}:{ID_PLAYLIST}`.
+        Плейлист с Алисой имеет владельца с `id = 940441070`.
+
+        ID плейлиста можно получить из блоков landing'a. Получить шот чужого плейлиста нельзя.
 
         Известные значения `context`: `playlist`.
         Известные значения `types`: `shot`, `ad`.
@@ -1240,7 +1247,7 @@ class Client(YandexMusicObject):
         Args:
             prev_track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор предыдущего трека.
             next_track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор следующего трека.
-            context_item (:obj:`str`): TODO (уникальный идентификатор контекста).
+            context_item (:obj:`str`): Уникальный идентификатор контекста.
             context (:obj:`str`, optional): Место, откуда было вызвано получение.
             types (:obj:`str`, optional): Тип того, что вернуть после трека.
             from_ (:obj:`str`, optional): Место, с которого попали в контекст.
@@ -1270,7 +1277,7 @@ class Client(YandexMusicObject):
         result = self._request.get(url, params=params, timeout=timeout, *args, **kwargs)
 
         # TODO судя по всему эндпоинт ещё возвращает рекламу после треков для пользователей без подписки.
-        return ShotEvent.de_json(result, self)
+        return ShotEvent.de_json(result.get('shot_event'), self)
 
     # camelCase псевдонимы
 

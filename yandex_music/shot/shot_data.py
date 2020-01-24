@@ -44,6 +44,25 @@ class ShotData(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.cover_uri, self.mds_url, self.shot_text, self.shot_type)
 
+    def download_cover(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+
+        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+
+    def download_mds(self, filename: str) -> None:
+        """Загрузка аудиоверсии шота.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+        """
+
+        self.client.request.download(self.mds_url, filename)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotData']:
         """Десериализация объекта.
@@ -64,3 +83,10 @@ class ShotData(YandexMusicObject):
         data['shot_type'] = ShotType.de_json(data.get('shot_type'), client)
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`download_cover`
+    downloadCover = download_cover
+    #: Псевдоним для :attr:`download_mds`
+    downloadMds = download_mds
