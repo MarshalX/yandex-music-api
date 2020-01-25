@@ -457,6 +457,8 @@ class Client(YandexMusicObject):
             :obj:`yandex_music.Supplement`: Объект класса `yandex_music.Supplement` представляющий дополнительную
                 информацию о треке.
 
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
 
         url = f'{self.base_url}/tracks/{track_id}/supplement'
@@ -468,6 +470,22 @@ class Client(YandexMusicObject):
     @log
     def tracks_similar(self, track_id: Union[str, int], timeout: Union[int, float] = None,
                        *args, **kwargs) -> Optional:
+        """Получение похожих треков.
+
+        Args:
+            track_id (:obj:`str`): Уникальный идентификатор трека.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.TracksSimilar`: Объект класса `yandex_music.TracksSimilar` представляющий список похожих
+                треков на другой трек.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
         url = f'{self.base_url}/tracks/{track_id}/similar'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)

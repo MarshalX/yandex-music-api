@@ -7,6 +7,24 @@ from yandex_music import YandexMusicObject
 
 
 class TracksSimilar(YandexMusicObject):
+    """Класс, представляющий список похожих треков на другой трек.
+
+    Attributes:
+        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track` представляющий трек.
+        similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Список объектов класса
+            :class:`yandex_music.Track` представляющие похожие треки на `track`.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+
+    Args:
+        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track` представляющий трек.
+        similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Список объектов класса
+            :class:`yandex_music.Track` представляющие похожие треки на `track`.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  track: Optional['Track'],
                  similar_tracks: List['Track'],
