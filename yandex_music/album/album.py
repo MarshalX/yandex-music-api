@@ -7,6 +7,76 @@ from yandex_music import YandexMusicObject
 
 
 class Album(YandexMusicObject):
+    """Класс, представляющий альбом.
+
+    Известные типы альбома: `single` - сингл, `compilation` - сборник.
+
+    Известные предупреждения о содержимом: `explicit` - ненормативная лексика.
+
+    Известные ошибки: `not-found` - альбом с таким ID не существует.
+
+    Attributes:
+        id (:obj:`int`): Идентификатор альбома.
+        error (:obj:`str`): Ошибка получения альбома.
+        title (:obj:`str`): Название альбома.
+        track_count (:obj:`int`): Количество треков.
+        artists (:obj:`list` из :obj:`yandex_music.Artist`): Список объектов класса
+            :class:`yandex_music.Artist` представляющие артистов.
+        labels (:obj:`list` из :obj:`yandex_music.Label`): Список объектов класса
+            :class:`yandex_music.Label` представляющие лейблы.
+        available (:obj:`bool`): Доступен ли альбом.
+        available_for_premium_users (:obj:`bool`): Доступен ли альбом для пользователей с подпиской.
+        version (:obj:`str`): Дополнительная информация об альбоме.
+        cover_uri (:obj:`str`): Ссылка на обложку.
+        content_warning (:obj:`str`): Предупреждение о содержимом альбома.
+        genre (:obj:`str`): Жанр музыки.
+        og_image (:obj:`str`): Ссылка на превью Open Graph.
+        recent (:obj:`bool`): Является ли альбом новым.
+        very_important (:obj:`bool`): Популярен ли альбом у слушателей.
+        available_for_mobile (:obj:`bool`): Доступен ли альбом из приложения для телефона.
+        available_partially (:obj:`bool`): Доступен ли альбом частично для пользователей без подписки.
+        bests (:obj:`list` из :obj:`int`): ID лучших треков альбома.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`): Треки альбома, разделенные по дискам.
+        year (:obj:`int`): Год релиза.
+        release_date (:obj:`str`): Дата релиза в формате ISO 8601.
+        type (:obj:`str`): Тип альбома.
+        track_position (:obj:`yandex_music.TrackPosition`): Объект класса :class:`yandex_music.TrackPosition`
+            представляющий позицию трека. Возвращается при получении альбома в составе трека.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
+
+    Args:
+        id_ (:obj:`int`): Идентификатор альбома.
+        error (:obj:`str`, optional): Ошибка получения альбома.
+        title (:obj:`str`, optional): Название альбома.
+        track_count (:obj:`int`, optional): Количество треков.
+        artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Список объектов класса
+            :class:`yandex_music.Artist` представляющие артистов.
+        labels (:obj:`list` из :obj:`yandex_music.Label`, optional): Список объектов класса
+            :class:`yandex_music.Label` представляющие лейблы.
+        available (:obj:`bool`, optional): Доступен ли альбом.
+        available_for_premium_users (:obj:`bool`, optional): Доступен ли альбом для пользователей с подпиской.
+        version (:obj:`str`, optional): Дополнительная информация об альбоме.
+        cover_uri (:obj:`str`, optional): Ссылка на обложку.
+        content_warning (:obj:`str`, optional): Предупреждение о содержимом альбома.
+        genre (:obj:`str`, optional): Жанр музыки.
+        og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
+        recent (:obj:`bool`, optional): Является ли альбом новым.
+        very_important (:obj:`bool`, optional): Популярен ли альбом у слушателей.
+        available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
+        available_partially (:obj:`bool`, optional): Доступен ли альбом частично для пользователей без подписки.
+        bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`, optional): Треки альбома, разделенные по дискам.
+        year (:obj:`int`, optional): Год релиза.
+        release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
+        type_ (:obj:`str`, optional): Тип альбома.
+        track_position (:obj:`yandex_music.TrackPosition`, optional): Объект класса :class:`yandex_music.TrackPosition`
+            представляющий позицию трека. Возвращается при получении альбома в составе трека.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  id_: int,
                  error: Optional[str] = None,
@@ -18,7 +88,7 @@ class Album(YandexMusicObject):
                  available_for_premium_users: Optional[bool] = None,
                  version: Optional[str] = None,
                  cover_uri: Optional[str] = None,
-                 content_warning=None,
+                 content_warning: Optional[str] = None,
                  original_release_year=None,
                  genre: Optional[str] = None,
                  og_image: Optional[str] = None,
@@ -29,7 +99,7 @@ class Album(YandexMusicObject):
                  available_partially: Optional[bool] = None,
                  bests: Optional[List[int]] = None,
                  prerolls: Optional[list] = None,
-                 volumes: Optional[List['Track']] = None,
+                 volumes: Optional[List[List['Track']]] = None,
                  year: Optional[int] = None,
                  release_date: Optional[str] = None,
                  type_: Optional[str] = None,
@@ -115,6 +185,16 @@ class Album(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Album']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Album`: Объект класса :class:`yandex_music.Album`.
+        """
         if not data:
             return None
 
@@ -130,6 +210,16 @@ class Album(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data: dict, client: 'Client') -> List['Album']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Album`: Список объектов класса :class:`yandex_music.Album`.
+        """
         if not data:
             return []
 
