@@ -32,7 +32,7 @@ class Album(YandexMusicObject):
         genre (:obj:`str`): Жанр музыки.
         og_image (:obj:`str`): Ссылка на обложку.
         recent (:obj:`bool`): Является ли альбом новым.
-        very_important (:obj:`bool`): Моного ли треков альбома находятся в чарте.
+        very_important (:obj:`bool`): Популярен ли альбом у слушателей.
         available_for_mobile (:obj:`bool`): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`): Доступен ли альбом частично.
         bests (:obj:`list` из :obj:`int`): ID лучших треков альбома.
@@ -62,7 +62,7 @@ class Album(YandexMusicObject):
         genre (:obj:`str`, optional): Жанр музыки.
         og_image (:obj:`str`, optional): Ссылка на обложку.
         recent (:obj:`bool`, optional): Является ли альбом новым.
-        very_important (:obj:`bool`, optional): Моного ли треков альбома находятся в чарте.
+        very_important (:obj:`bool`, optional): Популярен ли альбом у слушателей.
         available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`, optional): Доступен ли альбом частично.
         bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
