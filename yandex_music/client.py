@@ -6,7 +6,7 @@ from typing import Callable, Union, List, Optional
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
     Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement, ArtistTracks, \
-    ArtistAlbums, ShotEvent, TracksSimilar
+    ArtistAlbums, ShotEvent, SimilarTracks
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken, Captcha
@@ -479,7 +479,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.TracksSimilar`: Объект класса `yandex_music.TracksSimilar` представляющий список похожих
+            :obj:`yandex_music.SimilarTracks`: Объект класса `yandex_music.SimilarTracks` представляющий список похожих
                 треков на другой трек.
 
         Raises:
@@ -490,7 +490,7 @@ class Client(YandexMusicObject):
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        return TracksSimilar.de_json(result, self)
+        return SimilarTracks.de_json(result, self)
 
     @log
     def play_audio(self,

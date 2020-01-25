@@ -6,7 +6,7 @@ if TYPE_CHECKING:
 from yandex_music import YandexMusicObject
 
 
-class TracksSimilar(YandexMusicObject):
+class SimilarTracks(YandexMusicObject):
     """Класс, представляющий список похожих треков на другой трек.
 
     Attributes:
@@ -37,11 +37,11 @@ class TracksSimilar(YandexMusicObject):
         self._id_attrs = (self.track, self.similar_tracks)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['TracksSimilar']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['SimilarTracks']:
         if not data:
             return None
 
-        data = super(TracksSimilar, cls).de_json(data, client)
+        data = super(SimilarTracks, cls).de_json(data, client)
         from yandex_music import Track
         data['track'] = Track.de_json(data.get('track'), client)
         data['similar_tracks'] = Track.de_list(data.get('similar_tracks'), client)
