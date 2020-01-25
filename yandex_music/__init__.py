@@ -44,6 +44,7 @@ from .tracks_list import TracksList
 from .track.major import Major
 from .track.normalization import Normalization
 from .track.track import Track
+from .track.tracks_similar import TracksSimilar
 
 from .likes.albums_likes import AlbumsLikes
 from .likes.artists_likes import ArtistsLikes
@@ -119,4 +120,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum',
            'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult', 'BriefInfo', 'Description',
            'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums',
-           'PlaylistAbsence', 'Shot', 'ShotEvent', 'ShotType', 'ShotData']
+           'PlaylistAbsence', 'Shot', 'ShotEvent', 'ShotType', 'ShotData', 'TracksSimilar']
