@@ -30,14 +30,14 @@ class Album(YandexMusicObject):
         cover_uri (:obj:`str`): Ссылка на обложку.
         content_warning (:obj:`str`): Предупреждение о содержимом альбома.
         genre (:obj:`str`): Жанр музыки.
-        og_image (:obj:`str`): Ссылка на обложку.
+        og_image (:obj:`str`): Ссылка на превью Open Graph.
         recent (:obj:`bool`): Является ли альбом новым.
         very_important (:obj:`bool`): Популярен ли альбом у слушателей.
         available_for_mobile (:obj:`bool`): Доступен ли альбом из приложения для телефона.
-        available_partially (:obj:`bool`): Доступен ли альбом частично.
+        available_partially (:obj:`bool`): Доступен ли альбом частично для пользователей без подписки.
         bests (:obj:`list` из :obj:`int`): ID лучших треков альбома.
-        volumes (:obj:`list` из :obj:`list` из :obj:`Track`): Треки альбома, разделенные по пластинкам.
-        year (:obj:`int`): Год выпуска.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`): Треки альбома, разделенные по дискам.
+        year (:obj:`int`): Год релиза.
         release_date (:obj:`str`): Дата релиза в формате ISO 8601.
         type (:obj:`str`): Тип альбома.
         track_position (:obj:`yandex_music.TrackPosition`): Объект класса :class:`yandex_music.TrackPosition`
@@ -60,14 +60,14 @@ class Album(YandexMusicObject):
         cover_uri (:obj:`str`, optional): Ссылка на обложку.
         content_warning (:obj:`str`, optional): Предупреждение о содержимом альбома.
         genre (:obj:`str`, optional): Жанр музыки.
-        og_image (:obj:`str`, optional): Ссылка на обложку.
+        og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         recent (:obj:`bool`, optional): Является ли альбом новым.
         very_important (:obj:`bool`, optional): Популярен ли альбом у слушателей.
         available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
-        available_partially (:obj:`bool`, optional): Доступен ли альбом частично.
+        available_partially (:obj:`bool`, optional): Доступен ли альбом частично для пользователей без подписки.
         bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
-        volumes (:obj:`list` из :obj:`list` из :obj:`Track`, optional): Треки альбома, разделенные по пластинкам.
-        year (:obj:`int`, optional): Год выпуска.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`, optional): Треки альбома, разделенные по дискам.
+        year (:obj:`int`, optional): Год релиза.
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
         type_ (:obj:`str`, optional): Тип альбома.
         track_position (:obj:`yandex_music.TrackPosition`, optional): Объект класса :class:`yandex_music.TrackPosition`
