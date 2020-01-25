@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, List
 if TYPE_CHECKING:
     from yandex_music import Client, Price
 
-from yandex_music import YandexMusicObject, Price
+from yandex_music import YandexMusicObject
 
 
 class Product(YandexMusicObject):
@@ -108,6 +108,7 @@ class Product(YandexMusicObject):
             return None
 
         data = super(Product, cls).de_json(data, client)
+        from yandex_music import Price
         data['price'] = Price.de_json(data.get('price'), client)
 
         return cls(client=client, **data)

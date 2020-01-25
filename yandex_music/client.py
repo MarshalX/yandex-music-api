@@ -1543,6 +1543,8 @@ class Client(YandexMusicObject):
     tracksDownloadInfo = tracks_download_info
     #: Псевдоним для :attr:`track_supplement`
     trackSupplement = track_supplement
+    #: Псевдоним для :attr:`tracks_similar`
+    tracksSimilar = tracks_similar
     #: Псевдоним для :attr:`play_audio`
     playAudio = play_audio
     #: Псевдоним для :attr:`albums_with_tracks`

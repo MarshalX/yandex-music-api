@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, List
 if TYPE_CHECKING:
     from yandex_music import Client, Product
 
-from yandex_music import YandexMusicObject, Product
+from yandex_music import YandexMusicObject
 
 
 class AutoRenewable(YandexMusicObject):
@@ -71,6 +71,7 @@ class AutoRenewable(YandexMusicObject):
             return None
 
         data = super(AutoRenewable, cls).de_json(data, client)
+        from yandex_music import Product
         data['product'] = Product.de_json(data.get('product'), client)
 
         return cls(client=client, **data)

@@ -53,7 +53,7 @@ class Label(YandexMusicObject):
     @classmethod
     def de_list(cls, data: dict, client: 'Client') -> List['Label']:
         """Десериализация списка объектов.
-        
+
             Args:
                 data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
                 client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
