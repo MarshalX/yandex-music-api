@@ -6,7 +6,7 @@ from typing import Callable, Union, List, Optional
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
     Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement, ArtistTracks, \
-    ArtistAlbums, ShotEvent, SimilarTracks
+    ArtistAlbums, ShotEvent, SimilarTracks, UserSettings
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken, Captcha
@@ -238,6 +238,55 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return Status.de_json(result, self)
+
+    @log
+    def account_settings(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Settings]:
+        """Получение настроек текущего пользователя.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` предоставляющий
+                настройки пользователя, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/account/settings'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return UserSettings.de_json(result, self)
+
+    @log
+    def account_settings_set(self, param: str, value: Union[str, int, bool], timeout: Union[int, float] = None,
+                             *args, **kwargs) -> Optional[Settings]:
+        """Изменение настроек текущего пользователя.
+
+        Доступные названия параметров есть поля в классе :class:`yandex_music.UserSettings`, только в CamelCase.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` предоставляющий
+                настройки пользователя, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/account/settings'
+
+        result = self._request.get(url, params={param: value}, timeout=timeout, *args, **kwargs)
+
+        return UserSettings.de_json(result, self)
 
     @log
     def settings(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Settings]:
@@ -651,14 +700,43 @@ class Client(YandexMusicObject):
         return Suggestions.de_json(result, self)
 
     @log
-    def users_playlists(self, kind: Union[List[Union[str, int]], str, int], user_id: str = None,
+    def users_settings(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
+                       *args, **kwargs) -> Optional[Settings]:
+        """Получение настроек пользователя.
+
+        Для получения настроек пользователя нужно быть авторизованным или владеть `user_id`.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` предоставляющий
+                настройки пользователя, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/settings'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return UserSettings.de_json(result.get('user_settings'), self)
+
+    @log
+    def users_playlists(self, kind: Union[List[Union[str, int]], str, int], user_id: Union[str, int] = None,
                         timeout: Union[int, float] = None,  *args, **kwargs) -> List[Playlist]:
         """Получение плейлиста или списка плейлистов по уникальным идентификаторам.
 
         Args:
             kind (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста
                 или их список.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -685,14 +763,14 @@ class Client(YandexMusicObject):
         return Playlist.de_list(result, self)
 
     @log
-    def users_playlists_create(self, title: str, visibility: str = 'public', user_id: str = None,
+    def users_playlists_create(self, title: str, visibility: str = 'public', user_id: Union[str, int] = None,
                                timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Создание плейлиста.
 
         Args:
             title (:obj:`str`): Название.
             visibility (:obj:`str`, optional): Модификатор доступа.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -720,13 +798,13 @@ class Client(YandexMusicObject):
         return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_delete(self, kind: Union[str, int], user_id: str = None,
+    def users_playlists_delete(self, kind: Union[str, int], user_id: Union[str, int] = None,
                                timeout: Union[int, float] = None, *args, **kwargs) -> bool:
         """Удаление плейлиста.
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -748,14 +826,14 @@ class Client(YandexMusicObject):
         return result == 'ok'
 
     @log
-    def users_playlists_name(self, kind: Union[str, int], name: str, user_id: str = None,
+    def users_playlists_name(self, kind: Union[str, int], name: str, user_id: Union[str, int] = None,
                              timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Изменение названия плейлиста.
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             name (:obj:`str`): Новое название.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -778,7 +856,7 @@ class Client(YandexMusicObject):
         return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_visibility(self, kind: Union[str, int], visibility: str, user_id: str = None,
+    def users_playlists_visibility(self, kind: Union[str, int], visibility: str, user_id: Union[str, int] = None,
                                    timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Изменение видимости плейлиста.
 
@@ -787,7 +865,7 @@ class Client(YandexMusicObject):
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             visibility (:obj:`str`): Новое название.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -810,8 +888,9 @@ class Client(YandexMusicObject):
         return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_change(self, kind: Union[str, int], diff: str, revision: int = 1, user_id: str = None,
-                               timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
+    def users_playlists_change(self, kind: Union[str, int], diff: str, revision: int = 1,
+                               user_id: Union[str, int] = None, timeout: Union[int, float] = None,
+                               *args, **kwargs) -> Optional[Playlist]:
         """Изменение плейлиста.
 
         Для получения отличий есть вспомогательный класс :class:`from yandex_music.utils.difference.Difference`.
@@ -821,7 +900,7 @@ class Client(YandexMusicObject):
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             revision (:obj:`int`): TODO.
             diff (:obj:`str`): JSON представления отличий старого и нового плейлиста.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -851,7 +930,7 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists_insert_track(self, kind: Union[str, int], track_id: Union[str, int], album_id: Union[str, int],
-                                     at: int = 0, revision: int = 1, user_id: str = None,
+                                     at: int = 0, revision: int = 1, user_id: Union[str, int] = None,
                                      timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Добавление трека в плейлист.
 
@@ -863,7 +942,7 @@ class Client(YandexMusicObject):
             album_id (:obj:`str` | :obj:`int`): Уникальный идентификатор альбома.
             at (:obj:`int`): Индекс для вставки.
             revision (:obj:`int`): TODO.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -885,7 +964,7 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists_delete_track(self, kind: Union[str, int], from_: int, to: int, revision: int = 1,
-                                     user_id: str = None, timeout: Union[int, float] = None,
+                                     user_id: Union[str, int] = None, timeout: Union[int, float] = None,
                                      *args, **kwargs) -> Optional[Playlist]:
         """Удаление треков из плейлиста.
 
@@ -896,7 +975,7 @@ class Client(YandexMusicObject):
             from_ (:obj:`int`): С какого индекса.
             to (:obj:`int`): По какой индекс.
             revision (:obj:`int`): TODO.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).

@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Status(YandexMusicObject):
-    """Класс представляющий подробную информацию об аккаунте пользователя.
+    """Класс, представляющий подробную информацию об аккаунте пользователя.
 
     Attributes:
         account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` предоставляющий основную

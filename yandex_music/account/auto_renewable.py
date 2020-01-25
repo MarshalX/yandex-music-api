@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class AutoRenewable(YandexMusicObject):
-    """Класс представляющий автопродление подписки.
+    """Класс, представляющий автопродление подписки.
 
     Attributes:
         expires (:obj:`str`): Дата истечения подписки.

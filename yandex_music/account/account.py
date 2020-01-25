@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Account(YandexMusicObject):
-    """Класс предоставляющий основную информацию об аккаунте пользователя.
+    """Класс, предоставляющий основную информацию об аккаунте пользователя.
 
     Attributes:
         now (:obj:`str`): Текущая дата и время.
