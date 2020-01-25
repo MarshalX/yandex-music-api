@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Search(YandexMusicObject):
-    """Класс представляющий результаты поиска.
+    """Класс, представляющий результаты поиска.
 
     Attributes:
         search_request_id (:obj:`str`): ID запроса.

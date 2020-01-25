@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class ArtistTracks(YandexMusicObject):
-    """Класс представляющий страницу списка треков артиста.
+    """Класс, представляющий страницу списка треков артиста.
 
     Attributes:
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Список треков артиста.

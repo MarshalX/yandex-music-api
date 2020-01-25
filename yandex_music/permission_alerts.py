@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class PermissionAlerts(YandexMusicObject):
-    """Класс представляющий оповещения.
+    """Класс, представляющий оповещения.
 
     Attributes:
         alerts (:obj:`list` из :obj:`str`): Список оповещений.

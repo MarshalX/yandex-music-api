@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Subscription(YandexMusicObject):
-    """Класс, предоставляющий информацию о подписках пользователя.
+    """Класс, представляющий информацию о подписках пользователя.
 
     Attributes:
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Список объектов класса

@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Pager(YandexMusicObject):
-    """Класс представляющий пагинатор.
+    """Класс, представляющий пагинатор.
 
     Attributes:
         total (:obj:`int`): Всего треков.

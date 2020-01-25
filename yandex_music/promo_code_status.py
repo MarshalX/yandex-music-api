@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class PromoCodeStatus(YandexMusicObject):
-    """Класс представляющий статус активации промо-кода.
+    """Класс, представляющий статус активации промо-кода.
 
     Attributes:
         status (:obj:`str`): Статус операции.

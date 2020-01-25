@@ -8,7 +8,7 @@
     yandex_music.utils
     yandex_music.genre
     yandex_music.track
-    yandex_music.status
+    yandex_music.account
     yandex_music.likes
     yandex_music.album
     yandex_music.search

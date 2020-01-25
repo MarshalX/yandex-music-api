@@ -11,7 +11,7 @@ from yandex_music import YandexMusicObject
 
 
 class DownloadInfo(YandexMusicObject):
-    """Класс представляющий информацию о вариантах загрузки трека.
+    """Класс, представляющий информацию о вариантах загрузки трека.
 
     Attributes:
         codec (:obj:`str`): Кодек аудиофайла.
