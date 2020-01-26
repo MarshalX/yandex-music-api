@@ -99,7 +99,11 @@ class UserSettings(YandexMusicObject):
         self.show_disk_tracks_in_library = show_disk_tracks_in_library
 
         self.client = client
-        self._id_attrs = (self.uid, )
+        self._id_attrs = (self.uid, self.last_fm_scrobbling_enabled, self.shuffle_enabled, self.volume_percents,
+                          self.modified, self.facebook_scrobbling_enabled, self.add_new_track_on_playlist_top,
+                          self.user_music_visibility, self.user_social_visibility, self.rbt_disabled, self.theme,
+                          self.promos_disabled, self.auto_play_radio, self.ads_disabled, self.disk_enabled,
+                          self.show_disk_tracks_in_library)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['UserSettings']:
