@@ -12,13 +12,13 @@ class Icon(YandexMusicObject):
     Attributes:
         background_color (:obj:`str`): Цвет заднего фона в HEX.
         image_url (:obj:`str`): Ссылка на изображение.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         background_color (:obj:`str`): Цвет заднего фона в HEX.
         image_url (:obj:`str`): Ссылка на изображение.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -41,7 +41,6 @@ class Icon(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер иконки.
         """
-
         self.client.request.download(f'https://{self.image_url.replace("%%", size)}', filename)
 
     @classmethod
@@ -50,8 +49,8 @@ class Icon(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Icon`: Объект класса :class:`yandex_music.Icon`.

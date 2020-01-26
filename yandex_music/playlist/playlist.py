@@ -7,6 +7,18 @@ if TYPE_CHECKING:
 
 
 class Playlist(YandexMusicObject):
+    """Класс, представляющий .
+
+    Attributes:
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
+
+    Args:
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  owner: Optional['User'],
                  cover: Optional['Cover'],
@@ -92,7 +104,6 @@ class Playlist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением (GIF).
             size (:obj:`str`, optional): Размер анимированной обложки.
         """
-
         self.client.request.download(f'https://{self.animated_cover_uri.replace("%%", size)}', filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
@@ -104,7 +115,6 @@ class Playlist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
     def rename(self, name: str) -> None:
@@ -133,8 +143,8 @@ class Playlist(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Playlist`: Объект класса :class:`yandex_music.Playlist`.
@@ -163,8 +173,8 @@ class Playlist(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Playlist`: Список объектов класса :class:`yandex_music.Playlist`.

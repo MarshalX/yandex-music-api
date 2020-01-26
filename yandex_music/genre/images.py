@@ -7,6 +7,18 @@ if TYPE_CHECKING:
 
 
 class Images(YandexMusicObject):
+    """Класс, представляющий .
+
+    Attributes:
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
+
+    Args:
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  _208x208: Optional[str] = None,
                  _300x300: Optional[str] = None,
@@ -23,7 +35,6 @@ class Images(YandexMusicObject):
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
         """
-
         self.client.request.download(self._208x208, filename)
 
     def download_300x300(self, filename: str) -> None:
@@ -32,7 +43,6 @@ class Images(YandexMusicObject):
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
         """
-
         self.client.request.download(self._300x300, filename)
 
     @classmethod
@@ -41,8 +51,8 @@ class Images(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Images`: Объект класса :class:`yandex_music.Images`.

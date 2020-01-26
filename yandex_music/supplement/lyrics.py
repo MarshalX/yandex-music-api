@@ -16,8 +16,8 @@ class Lyrics(YandexMusicObject):
         full_lyrics (:obj:`str`): Текст песни.
         text_language (:obj:`str`): Язык текста.
         show_translation (:obj:`bool`): Показывать ли перевод.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор текста трека.
@@ -26,7 +26,7 @@ class Lyrics(YandexMusicObject):
         full_lyrics (:obj:`str`): Текст песни.
         text_language (:obj:`str`): Язык песни.
         show_translation (:obj:`bool`): Показывать ли перевод.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -57,8 +57,8 @@ class Lyrics(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Lyrics`: Объект класса :class:`yandex_music.Lyrics`.

@@ -17,8 +17,8 @@ class VideoSupplement(YandexMusicObject):
         url (:obj:`str`): URL на видео.
         embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
         embed (:obj:`str`): HTML тег для встраивания видео.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         cover (:obj:`str`): URL на обложку видео.
@@ -28,8 +28,8 @@ class VideoSupplement(YandexMusicObject):
         url (:obj:`str`): URL на видео.
         embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
         embed (:obj:`str`): HTML тег для встраивания видео.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -61,8 +61,8 @@ class VideoSupplement(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.VideoSupplement`: Объект класса :class:`yandex_music.VideoSupplement`.
@@ -80,8 +80,8 @@ class VideoSupplement(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.VideoSupplement`: Список объектов класса

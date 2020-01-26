@@ -17,15 +17,15 @@ class Link(YandexMusicObject):
         href (:obj:`str`): URL страницы.
         type_ (:obj:`str`): Тип страницы.
         social_network (:obj:`str`): Название социальной сети.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         title (:obj:`str`): Название страницы.
         href (:obj:`str`): URL страницы.
         type_ (:obj:`str`): Тип страницы.
         social_network (:obj:`str`, optional): Название социальной сети.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
     """
 
@@ -51,8 +51,8 @@ class Link(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Link`: Объект класса :class:`yandex_music.Link`.
@@ -70,8 +70,8 @@ class Link(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Link`: Список объектов класса :class:`yandex_music.Link`.

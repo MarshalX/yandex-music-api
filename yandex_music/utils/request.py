@@ -30,8 +30,8 @@ class Request:
     файлов.
 
     Args:
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
         headers (:obj:`dict`, optional): Заголовки передаваемые с каждым запросом.
         proxy_url (:obj:`str`, optional): Прокси.
     """

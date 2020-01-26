@@ -19,8 +19,8 @@ class Shot(YandexMusicObject):
             основную информацию о шоте.
         shot_id (:obj:`str`): Уникальный идентификатор шота.
         status (:obj:`str`): Статус шота.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         order (:obj:`int`): Порядковый номер при воспроизведении.
@@ -29,7 +29,7 @@ class Shot(YandexMusicObject):
             основную информацию о шоте.
         shot_id (:obj:`str`): Уникальный идентификатор шота.
         status (:obj:`str`): Статус шота.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -57,8 +57,8 @@ class Shot(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Shot`: Объект класса :class:`yandex_music.Shot`.
@@ -78,8 +78,8 @@ class Shot(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Shot`: Список объектов класса :class:`yandex_music.Shot`.

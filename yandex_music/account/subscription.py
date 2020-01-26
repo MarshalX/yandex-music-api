@@ -15,8 +15,8 @@ class Subscription(YandexMusicObject):
         can_start_trial (:obj:`bool`): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`): mcdonalds TODO.
         end (:obj:`str`): Дата окончания.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`, optional): Список объектов класса
@@ -24,7 +24,7 @@ class Subscription(YandexMusicObject):
         can_start_trial (:obj:`bool`, optional): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`, optional): mcdonalds TODO.
         end (:obj:`str`, optional): Дата окончания.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -50,8 +50,8 @@ class Subscription(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Subscription`: Объект класса :class:`yandex_music.Subscription`.

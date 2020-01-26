@@ -26,8 +26,8 @@ class Product(YandexMusicObject):
         button_text (:obj:`str`): Текст кнопки.
         button_additional_text (:obj:`str`): Дополнительный текст кнопки.
         payment_method_types (:obj:`list` из :obj:`str`): Способы оплаты.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         product_id (:obj:`str`): Уникальный идентификатор.
@@ -46,7 +46,7 @@ class Product(YandexMusicObject):
         button_text (:obj:`str`, optional): Текст кнопки.
         button_additional_text (:obj:`str`, optional): Дополнительный текст кнопки.
         payment_method_types (:obj:`list` из :obj:`str`, optional): Способы оплаты.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -98,8 +98,8 @@ class Product(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Product`: Объект класса :class:`yandex_music.Product`.
@@ -119,8 +119,8 @@ class Product(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Product`: Список объектов класса :class:`yandex_music.Product`.

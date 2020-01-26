@@ -7,6 +7,18 @@ if TYPE_CHECKING:
 
 
 class Artist(YandexMusicObject):
+    """Класс, представляющий .
+
+    Attributes:
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
+
+    Args:
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  id_: int,
                  name: str,
@@ -76,7 +88,6 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-
         self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
 
     def like(self, *args, **kwargs) -> bool:
@@ -113,8 +124,8 @@ class Artist(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Artist`: Объект класса :class:`yandex_music.Artist`.
@@ -140,8 +151,8 @@ class Artist(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Artist`: Список объектов класса :class:`yandex_music.Artist`.

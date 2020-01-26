@@ -12,13 +12,13 @@ class ArtistTracks(YandexMusicObject):
     Attributes:
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Список треков артиста.
         pager (:obj:`yandex_music.Pager`): Объект класса :class:`yandex_music.Pager` представляющий пагинатор.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Список треков артиста.
         pager (:obj:`yandex_music.Pager`): Объект класса :class:`yandex_music.Pager` представляющий пагинатор.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -40,8 +40,8 @@ class ArtistTracks(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.ArtistsTracks`: Объект класса :class:`yandex_music.ArtistsTracks`.

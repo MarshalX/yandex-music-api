@@ -13,14 +13,14 @@ class SimilarTracks(YandexMusicObject):
         track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track` представляющий трек.
         similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Список объектов класса
             :class:`yandex_music.Track` представляющие похожие треки на `track`.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track` представляющий трек.
         similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Список объектов класса
             :class:`yandex_music.Track` представляющие похожие треки на `track`.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -42,8 +42,8 @@ class SimilarTracks(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.SimilarTracks`: Объект класса :class:`yandex_music.SimilarTracks`.

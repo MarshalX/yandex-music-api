@@ -15,8 +15,8 @@ class Supplement(YandexMusicObject):
         videos (:obj:`yandex_music.VideoSupplement`): Объект класса :class:`yandex_music.VideoSupplement` представляющий
             видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор дополнительной информации.
@@ -24,7 +24,7 @@ class Supplement(YandexMusicObject):
         videos (:obj:`yandex_music.VideoSupplement`): Объект класса :class:`yandex_music.VideoSupplement` представляющий
             видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -50,8 +50,8 @@ class Supplement(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Supplement`: Объект класса :class:`yandex_music.Supplement`.

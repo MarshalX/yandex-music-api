@@ -25,8 +25,8 @@ class Status(YandexMusicObject):
         skips_per_hour (:obj:`int`): Количество переключение треков на радио в час.
         station_exists (:obj:`bool`): Наличие станции TODO.
         premium_region (:obj:`int`): Регион TODO.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` представляющий основную
@@ -44,7 +44,7 @@ class Status(YandexMusicObject):
         skips_per_hour (:obj:`int`, optional): Количество переключение треков на радио в час.
         station_exists (:obj:`bool`, optional): Наличие станции TODO.
         premium_region (:obj:`int`, optional): Регион TODO.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -85,8 +85,8 @@ class Status(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Status`: Объект класса :class:`yandex_music.Status`.

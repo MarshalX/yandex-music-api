@@ -36,8 +36,8 @@ class UserSettings(YandexMusicObject):
         ads_disabled (:obj:`bool`): Не показывать рекламу.
         disk_enabled (:obj:`bool`): TODO.
         show_disk_tracks_in_library (:obj:`bool`): Показывать локальные треки в библиотеке.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         uid (:obj:`int`): Уникальный идентификатор пользователя.
@@ -56,7 +56,7 @@ class UserSettings(YandexMusicObject):
         ads_disabled (:obj:`bool`, optional): Не показывать рекламу.
         disk_enabled (:obj:`bool`, optional): TODO.
         show_disk_tracks_in_library (:obj:`bool`, optional): Показывать локальные треки в библиотеке.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -111,8 +111,8 @@ class UserSettings(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.UserSettings`: Объект класса :class:`yandex_music.UserSettings`.

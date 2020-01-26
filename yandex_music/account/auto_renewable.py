@@ -17,8 +17,8 @@ class AutoRenewable(YandexMusicObject):
         product (:obj:`yandex_music.Product`): Объект класса :class:`yandex_music.Product` представляющий продукт.
         order_id (:obj:`int`): Уникальный идентификатор заказа.
         finished (:obj:`bool`): Завершенность автопродления.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         expires (:obj:`str`): Дата истечения подписки.
@@ -29,7 +29,7 @@ class AutoRenewable(YandexMusicObject):
         product (:obj:`yandex_music.Product`, optional): Объект класса :class:`yandex_music.Product` представляющий
             продукт.
         order_id (:obj:`int`): Уникальный идентификатор заказа.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -62,8 +62,8 @@ class AutoRenewable(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.AutoRenewable`: Объект класса :class:`yandex_music.AutoRenewable`.
@@ -83,8 +83,8 @@ class AutoRenewable(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.AutoRenewable`: Список объектов класса

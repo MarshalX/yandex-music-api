@@ -11,12 +11,12 @@ class Experiments(YandexMusicObject):
     """Класс представления каких-то свистелок-перделок, флажков, режимов экспериментальных функций.
 
     Attributes:
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
         название_эксперимента (:obj:`str`, optional): Содержит режим или состояние, или функцию, или ещё что угодно.
 
     Args:
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Собственно тут и передаются все эти свистелки.
     """
@@ -34,8 +34,8 @@ class Experiments(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.Experiments`: Объект класса :class:`yandex_music.Experiments`.

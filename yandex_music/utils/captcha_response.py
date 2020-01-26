@@ -14,15 +14,15 @@ class CaptchaResponse(YandexMusicObject):
         x_captcha_key (:obj:`str`): Уникальный ключ капчи.
         error_description (:obj:`str`): Описание ошибки.
         error (:obj:`str`): Код ошибки.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         x_captcha_url (:obj:`str`): Ссылка на изображение с капчей.
         x_captcha_key (:obj:`str`): Уникальный ключ капчи.
         error_description (:obj:`str`): Описание ошибки.
         error (:obj:`str`): Код ошибки.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -49,7 +49,6 @@ class CaptchaResponse(YandexMusicObject):
             filename (:obj:`str`, optional): Путь и(или) название файла вместе с расширением. По умолчанию ключ
                 капчи и расширение `.gif`.
         """
-
         if not filename:
             filename = f'{self.x_captcha_key}.gif'
 
@@ -61,8 +60,8 @@ class CaptchaResponse(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.utils.captcha_response.CaptchaResponse`: Объект класса

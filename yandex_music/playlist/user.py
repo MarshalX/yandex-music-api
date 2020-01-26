@@ -15,8 +15,8 @@ class User(YandexMusicObject):
         name (:obj:`str`): Имя пользователя.
         sex (:obj:`str`): Пол пользователя.
         verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
     Args:
         uid (:obj:`int`): Идентификатор пользователя.
@@ -24,7 +24,7 @@ class User(YandexMusicObject):
         name (:obj:`str`): Имя пользователя.
         sex (:obj:`str`): Пол пользователя.
         verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -53,7 +53,6 @@ class User(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             format_ (:obj:`str`, optional): Формат желаемого изображения (`normal`, `orig`, `small`, `big`).
         """
-
         self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod
@@ -62,8 +61,8 @@ class User(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
+                Yandex Music.
 
         Returns:
             :obj:`yandex_music.User`: Объект класса :class:`yandex_music.User`.
