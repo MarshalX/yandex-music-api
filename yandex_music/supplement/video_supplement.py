@@ -85,7 +85,7 @@ class VideoSupplement(YandexMusicObject):
 
         Returns:
             :obj:`list` из :obj:`yandex_music.VideoSupplement`: Список объектов класса
-                :class:`yandex_music.VideoSupplement`.
+            :class:`yandex_music.VideoSupplement`.
         """
         if not data:
             return []

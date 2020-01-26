@@ -24,6 +24,16 @@ class PlayContext(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlayContext']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.PlayContext`: Объект класса :class:`yandex_music.PlayContext`.
+        """
         if not data:
             return None
 

@@ -1,7 +1,7 @@
-yandex_music.utils.request.Response
-===================================
+yandex_music.utils.response.Response
+====================================
 
-.. autoclass:: yandex_music.utils.request.Response
+.. autoclass:: yandex_music.utils.response.Response
     :members:
     :undoc-members:
     :show-inheritance:

@@ -109,6 +109,16 @@ class Artist(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Artist']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Artist`: Объект класса :class:`yandex_music.Artist`.
+        """
         if not data:
             return None
 
@@ -126,6 +136,16 @@ class Artist(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data: dict, client: 'Client') -> List['Artist']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Artist`: Список объектов класса :class:`yandex_music.Artist`.
+        """
         if not data:
             return []
 

@@ -20,6 +20,16 @@ class TrackPosition(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackPosition']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.TrackPosition`: Объект класса :class:`yandex_music.TrackPosition`.
+        """
         if not data:
             return None
 

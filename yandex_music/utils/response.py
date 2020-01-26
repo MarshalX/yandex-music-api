@@ -32,7 +32,17 @@ class Response(YandexMusicObject):
         return self.data if self._result is None else self._result
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client'):
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Response']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.utils.response.Response`: Объект класса :class:`yandex_music.utils.response.Response`.
+        """
         if not data:
             return None
 

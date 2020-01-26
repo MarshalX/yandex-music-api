@@ -59,6 +59,7 @@ class Label(YandexMusicObject):
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
             client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
                 Yandex Music.
+
         Returns:
             :obj:`list` из :obj:`yandex_music.Label`: Список объектов класса :class:`yandex_music.Label`.
         """

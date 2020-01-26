@@ -1,11 +1,14 @@
-from abc import ABCMeta
-from typing import Optional
-
 import builtins
+from abc import ABCMeta
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from yandex_music import Client
 
 ujson: bool = False
 try:
     import ujson as json
+
     ujson = True
 except ImportError:
     import json
@@ -27,7 +30,17 @@ class YandexMusicObject:
         return self.__dict__[item]
 
     @classmethod
-    def de_json(cls, data: dict, client) -> Optional[dict]:
+    def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.YandexMusicObject`: Объект класса :class:`yandex_music.YandexMusicObject`.
+        """
         if not data:
             return None
 

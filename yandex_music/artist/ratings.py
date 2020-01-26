@@ -23,6 +23,16 @@ class Ratings(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Ratings']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.Ratings`: Объект класса :class:`yandex_music.Ratings`.
+        """
         if not data:
             return None
 

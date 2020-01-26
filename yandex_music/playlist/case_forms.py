@@ -29,6 +29,16 @@ class CaseForms(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['CaseForms']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+                Music.
+
+        Returns:
+            :obj:`yandex_music.CaseForms`: Объект класса :class:`yandex_music.CaseForms`.
+        """
         if not data:
             return None
 
