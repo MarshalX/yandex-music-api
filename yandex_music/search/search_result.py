@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
+from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
 
 
 de_json_result = {
@@ -18,24 +18,24 @@ de_json_result = {
 class SearchResult(YandexMusicObject):
     """Класс, представляющий результаты поиска.
 
-        Attributes:
-            total (:obj:`int`): Количество результатов.
-            per_page (:obj:`int`): Максимальное количество результатов на странице.
-            order (:obj:`int`): Позиция блока.
-            results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
-                | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+    Attributes:
+        total (:obj:`int`): Количество результатов.
+        per_page (:obj:`int`): Максимальное количество результатов на странице.
+        order (:obj:`int`): Позиция блока.
+        results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
+            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
 
-        Args:
-            total (:obj:`int`): Количество результатов.
-            per_page (:obj:`int`): Максимальное количество результатов на странице.
-            order (:obj:`int`): Позиция блока.
-            results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
-                | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
-            client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
-            **kwargs: Произвольные ключевые аргументы полученные от API.
+    Args:
+        total (:obj:`int`): Количество результатов.
+        per_page (:obj:`int`): Максимальное количество результатов на странице.
+        order (:obj:`int`): Позиция блока.
+        results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
+            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,

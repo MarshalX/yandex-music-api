@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, PassportPhone
-
-from yandex_music import YandexMusicObject
 
 
 class Account(YandexMusicObject):
@@ -92,9 +92,8 @@ class Account(YandexMusicObject):
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
-            format_ (:obj:`str`): Формат желаемого изображения (normal, orig, small, big).
+            format_ (:obj:`str`): Формат желаемого изображения (`normal`, `orig`, `small`, `big`).
         """
-
         self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod

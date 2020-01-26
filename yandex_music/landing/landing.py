@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Block
-
-from yandex_music import YandexMusicObject
 
 
 class Landing(YandexMusicObject):

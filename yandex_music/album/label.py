@@ -1,26 +1,27 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class Label(YandexMusicObject):
     """Класс, представляющий лейбл альбома.
 
-        Attributes:
-            id (:obj:`int`): Идентификатор альбома.
-            name (:obj:`str`): Название альбома.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
-        Args:
-            id_ (:obj:`int`): Идентификатор альбома.
-            name (:obj:`str`): Название альбома.
-            client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий
-                клиент Yandex Music.
-            **kwargs: Произвольные ключевые аргументы полученные от API.
-        """
+    Attributes:
+        id (:obj:`int`): Идентификатор альбома.
+        name (:obj:`str`): Название альбома.
+        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
+            Music.
+    Args:
+        id_ (:obj:`int`): Идентификатор альбома.
+        name (:obj:`str`): Название альбома.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий
+            клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  id_: int,
                  name: str,
@@ -36,12 +37,12 @@ class Label(YandexMusicObject):
     def de_json(cls, data: dict, client: 'Client') -> Optional['Label']:
         """Десериализация объекта.
         
-             Args:
-                 data (:obj:`dict`): Поля и значения десериализуемого объекта.
-                 client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
-                    Yandex Music.
-             Returns:
-                 :obj:`yandex_music.Label`: Объект класса :class:`yandex_music.Label`.
+         Args:
+             data (:obj:`dict`): Поля и значения десериализуемого объекта.
+             client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
+                Yandex Music.
+         Returns:
+             :obj:`yandex_music.Label`: Объект класса :class:`yandex_music.Label`.
         """
         if not data:
             return None
@@ -54,12 +55,12 @@ class Label(YandexMusicObject):
     def de_list(cls, data: dict, client: 'Client') -> List['Label']:
         """Десериализация списка объектов.
 
-            Args:
-                data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-                client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
-                    Yandex Music.
-            Returns:
-                :obj:`list` из :obj:`yandex_music.Label`: Список объектов класса :class:`yandex_music.Label`.
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент
+                Yandex Music.
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Label`: Список объектов класса :class:`yandex_music.Label`.
         """
         if not data:
             return []

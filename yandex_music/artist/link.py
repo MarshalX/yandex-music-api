@@ -1,15 +1,16 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class Link(YandexMusicObject):
     """Класс, представляющий ссылку на официальную страницу исполнителя.
 
-    Известные типы страниц: `official` - официальный сайт и `social` - социальная сеть.
+    Note:
+        Известные типы страниц: `official` - официальный сайт и `social` - социальная сеть.
 
     Attributes:
         title (:obj:`str`): Название страницы.

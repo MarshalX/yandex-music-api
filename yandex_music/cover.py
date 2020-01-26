@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class Cover(YandexMusicObject):
@@ -12,7 +12,7 @@ class Cover(YandexMusicObject):
     Attributes:
         type (:obj:`str`): Тип обложки.
         uri (:obj:`str`): Ссылка на изображение.
-        items_uri (:obj:`str`): ССписок ссылок на изображения.
+        items_uri (:obj:`str`): Список ссылок на изображения.
         dir (:obj:`str`): Директория хранения изображения на сервере.
         version (:obj:`str`): Версия.
         custom (:obj:`bool`): Является ли обложка пользовательской.
@@ -63,7 +63,7 @@ class Cover(YandexMusicObject):
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
-            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет self.uri.
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
 

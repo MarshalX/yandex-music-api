@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Normalization, Major, Album, Artist, Supplement, DownloadInfo
-
-from yandex_music import YandexMusicObject
 
 
 class Track(YandexMusicObject):
@@ -88,7 +88,7 @@ class Track(YandexMusicObject):
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
-        Предпочтительнее использовать self.download_cover().
+        Предпочтительнее использовать `self.download_cover()`.
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.

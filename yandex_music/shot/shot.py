@@ -1,15 +1,16 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, ShotData
-
-from yandex_music import YandexMusicObject
 
 
 class Shot(YandexMusicObject):
     """Класс, представляющий шот от Алисы.
 
-    Известные значения поля `status`: `ready`.
+    Note:
+        Известные значения поля `status`: `ready`.
 
     Attributes:
         order (:obj:`int`): Порядковый номер при воспроизведении.

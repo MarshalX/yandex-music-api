@@ -1,19 +1,20 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Artist, Label, TrackPosition, Track
-
-from yandex_music import YandexMusicObject
 
 
 class Album(YandexMusicObject):
     """Класс, представляющий альбом.
 
-    Известные типы альбома: `single` - сингл, `compilation` - сборник.
+    Note:
+        Известные типы альбома: `single` - сингл, `compilation` - сборник.
 
-    Известные предупреждения о содержимом: `explicit` - ненормативная лексика.
+        Известные предупреждения о содержимом: `explicit` - ненормативная лексика.
 
-    Известные ошибки: `not-found` - альбом с таким ID не существует.
+        Известные ошибки: `not-found` - альбом с таким ID не существует.
 
     Attributes:
         id (:obj:`int`): Идентификатор альбома.
@@ -144,7 +145,6 @@ class Album(YandexMusicObject):
 
             client.albums_with_tracks(album.id, *args, **kwargs)
         """
-
         return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
     def download_cover(self, filename: str, size: str = '200x200') -> None:
@@ -154,19 +154,17 @@ class Album(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-
         self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
-        Предпочтительнее использовать self.download_cover().
+        Предпочтительнее использовать `self.download_cover()`.
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
     def like(self, *args, **kwargs) -> bool:

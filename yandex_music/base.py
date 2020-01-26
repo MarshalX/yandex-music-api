@@ -45,7 +45,7 @@ class YandexMusicObject:
             elif isinstance(val, list):
                 return [parse(it) for it in val]
             elif isinstance(val, dict):
-                return {k: parse(v) for k, v in val.items()}
+                return {key: parse(value) for key, value in val.items()}
             else:
                 return val
 

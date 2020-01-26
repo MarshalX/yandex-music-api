@@ -1,16 +1,16 @@
 from typing import TYPE_CHECKING, Optional
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class ShotType(YandexMusicObject):
     """Класс, представляющий тип шота от Алисы.
 
     Attributes:
-        id_ (:obj:`str`): Уникальный идентификатор типа.
+        id (:obj:`str`): Уникальный идентификатор типа.
         title (:obj:`str`): Заголовок шота.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
@@ -28,11 +28,11 @@ class ShotType(YandexMusicObject):
                  title: str,
                  client: Optional['Client'] = None,
                  **kwargs):
-        self.id_ = id_
+        self.id = id_
         self.title = title
 
         self.client = client
-        self._id_attrs = (self.id_, self.title)
+        self._id_attrs = (self.id, self.title)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotType']:

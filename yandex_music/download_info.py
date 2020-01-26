@@ -1,13 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
-if TYPE_CHECKING:
-    from yandex_music import Client
-    from xml.dom.minicompat import NodeList
-
 from hashlib import md5
 import xml.dom.minidom as minidom
 
 from yandex_music import YandexMusicObject
+
+if TYPE_CHECKING:
+    from yandex_music import Client
+    from xml.dom.minicompat import NodeList
 
 
 class DownloadInfo(YandexMusicObject):

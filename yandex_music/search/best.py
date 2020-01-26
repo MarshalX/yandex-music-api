@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, Union
 
+from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
 
 
 de_json_result = {

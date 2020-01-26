@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Track, Pager
-
-from yandex_music import YandexMusicObject
 
 
 class ArtistTracks(YandexMusicObject):
@@ -18,8 +18,8 @@ class ArtistTracks(YandexMusicObject):
     Args:
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Список треков артиста.
         pager (:obj:`yandex_music.Pager`): Объект класса :class:`yandex_music.Pager` представляющий пагинатор.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
+            Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 

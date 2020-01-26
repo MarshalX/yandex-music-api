@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class PassportPhone(YandexMusicObject):
@@ -59,7 +59,8 @@ class PassportPhone(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.PassportPhone`: Список объектов класса :class:`yandex_music.PassportPhone`.
+            :obj:`list` из :obj:`yandex_music.PassportPhone`: Список объектов класса
+            :class:`yandex_music.PassportPhone`.
         """
         if not data:
             return []

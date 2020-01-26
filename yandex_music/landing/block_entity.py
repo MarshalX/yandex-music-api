@@ -1,11 +1,10 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
-if TYPE_CHECKING:
-    from yandex_music import Client
-
-from yandex_music import YandexMusicObject, Promotion, Album, Playlist, MixLink, PlayContext, ChartItem,\
+from yandex_music import YandexMusicObject, Promotion, Album, Playlist, MixLink, PlayContext, ChartItem, \
     GeneratedPlaylist
 
+if TYPE_CHECKING:
+    from yandex_music import Client
 
 de_json = {
     'personal-playlist': GeneratedPlaylist.de_json,

@@ -243,7 +243,7 @@ class Client(YandexMusicObject):
         return Status.de_json(result, self)
 
     @log
-    def account_settings(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Settings]:
+    def account_settings(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[UserSettings]:
         """Получение настроек текущего пользователя.
 
         Args:
@@ -268,7 +268,7 @@ class Client(YandexMusicObject):
     @log
     def account_settings_set(self, param: str = None, value: Union[str, int, bool] = None,
                              data: Dict[str, Union[str, int, bool]] = None, timeout: Union[int, float] = None,
-                             *args, **kwargs) -> Optional[Settings]:
+                             *args, **kwargs) -> Optional[UserSettings]:
         """Изменение настроек текущего пользователя.
 
         Note:
@@ -530,7 +530,7 @@ class Client(YandexMusicObject):
 
     @log
     def tracks_similar(self, track_id: Union[str, int], timeout: Union[int, float] = None,
-                       *args, **kwargs) -> Optional:
+                       *args, **kwargs) -> Optional[SimilarTracks]:
         """Получение похожих треков.
 
         Args:
@@ -713,7 +713,7 @@ class Client(YandexMusicObject):
 
     @log
     def users_settings(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
-                       *args, **kwargs) -> Optional[Settings]:
+                       *args, **kwargs) -> Optional[UserSettings]:
         """Получение настроек пользователя.
 
         Note:

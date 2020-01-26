@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class Vinyl(YandexMusicObject):
@@ -38,7 +38,6 @@ class Vinyl(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Vinyl`: Объект класса :class:`yandex_music.Vinyl`.
         """
-
         if not data:
             return None
 
