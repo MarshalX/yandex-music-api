@@ -25,9 +25,10 @@ class AutoRenewable(YandexMusicObject):
         vendor (:obj:`str`): Продавец.
         vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
         product_id (:obj:`str`): Уникальный идентификатор продукта.
-        product (:obj:`yandex_music.Product`): Объект класса :class:`yandex_music.Product` представляющий продукт.
-        order_id (:obj:`int`): Уникальный идентификатор заказа.
         finished (:obj:`bool`): Завершенность автопродления.
+        product (:obj:`yandex_music.Product`, optional): Объект класса :class:`yandex_music.Product` представляющий
+            продукт.
+        order_id (:obj:`int`): Уникальный идентификатор заказа.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -37,23 +38,23 @@ class AutoRenewable(YandexMusicObject):
                  expires: str,
                  vendor: str,
                  vendor_help_url: str,
-                 product_id: str,
                  product: Optional['Product'],
                  finished: bool,
+                 product_id: Optional[str] = None,
                  order_id: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.expires = expires
         self.vendor = vendor
         self.vendor_help_url = vendor_help_url
-        self.product_id = product_id
         self.product = product
         self.finished = finished
 
+        self.product_id = product_id
         self.order_id = order_id
 
         self.client = client
-        self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product_id, self.product, self.finished)
+        self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product, self.finished)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['AutoRenewable']:
