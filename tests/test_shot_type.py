@@ -6,7 +6,7 @@ class TestShotType:
     title = 'Шот от Алисы'
 
     def test_expected_values(self, shot_type):
-        assert shot_type.id_ == self.id
+        assert shot_type.id == self.id
         assert shot_type.title == self.title
 
     def test_de_json_none(self, client):
@@ -16,14 +16,14 @@ class TestShotType:
         json_dict = {'id_': self.id, 'title': self.title}
         shot_type = ShotType.de_json(json_dict, client)
 
-        assert shot_type.id_ == self.id
+        assert shot_type.id == self.id
         assert shot_type.title == self.title
 
     def test_de_json_all(self, client):
         json_dict = {'id_': self.id, 'title': self.title}
         shot_type = ShotType.de_json(json_dict, client)
 
-        assert shot_type.id_ == self.id
+        assert shot_type.id == self.id
         assert shot_type.title == self.title
 
     def test_equality(self):
