@@ -328,7 +328,7 @@ def permissions():
 @pytest.fixture(scope='session')
 def auto_renewable(product):
     return AutoRenewable(TestAutoRenewable.expires, TestAutoRenewable.vendor, TestAutoRenewable.vendor_help_url,
-                         TestAutoRenewable.product_id, product, TestAutoRenewable.finished, TestAutoRenewable.order_id)
+                         product, TestAutoRenewable.finished, TestAutoRenewable.product_id, TestAutoRenewable.order_id)
 
 
 @pytest.fixture(scope='session')
