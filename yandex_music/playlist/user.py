@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class User(YandexMusicObject):
-    """Класс представляющий пользователя.
+    """Класс, представляющий пользователя.
 
     Attributes:
         uid (:obj:`int`): Идентификатор пользователя.

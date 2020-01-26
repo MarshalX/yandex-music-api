@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class InvocationInfo(YandexMusicObject):
-    """Класс представляющий информацию о запросе.
+    """Класс, представляющий информацию о запросе.
 
     Attributes:
         hostname (:obj:`str`): Имя удалённого сервера.

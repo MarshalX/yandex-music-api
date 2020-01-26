@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class TracksList(YandexMusicObject):
-    """Класс представляющий список треков.
+    """Класс, представляющий список треков.
 
     Attributes:
         uid (:obj:`int`): Уникальный идентификатор пользователя.

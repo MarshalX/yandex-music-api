@@ -7,19 +7,19 @@ from yandex_music import YandexMusicObject
 
 
 class Status(YandexMusicObject):
-    """Класс представляющий подробную информацию об аккаунте пользователя.
+    """Класс, представляющий подробную информацию об аккаунте пользователя.
 
     Attributes:
-        account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` предоставляющий основную
+        account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` представляющий основную
             информацию об аккаунте.
-        permissions (:obj:`yandex_music.Permissions`): Объект класса :class:`yandex_music.Permissions` предоставляющий
+        permissions (:obj:`yandex_music.Permissions`): Объект класса :class:`yandex_music.Permissions` представляющий
             информацию о правах пользователя.
-        subscription (:obj:`yandex_music.Subscription`): Объект класса :class:`yandex_music.Subscription` предоставляющий
+        subscription (:obj:`yandex_music.Subscription`): Объект класса :class:`yandex_music.Subscription` представляющий
             информацию о подписках
         cache_limit (:obj:`int`): Максимальное количество загруженных треков.
         subeditor (:obj:`bool`): Наличие статуса модератора проверки корректности информации.
         subeditor_level (:obj:`int`): Уровень статуса модератора.
-        plus (:obj:`yandex_music.Plus`): Объект класса :class:`yandex_music.Plus` предоставляющий информацию о Plus
+        plus (:obj:`yandex_music.Plus`): Объект класса :class:`yandex_music.Plus` представляющий информацию о Plus
             подписке.
         default_email (:obj:`str`): Основной e-mail адрес аккаунта.
         skips_per_hour (:obj:`int`): Количество переключение треков на радио в час.
@@ -29,16 +29,16 @@ class Status(YandexMusicObject):
             Music.
 
     Args:
-        account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` предоставляющий основную
+        account (:obj:`yandex_music.Account`): Объект класса :class:`yandex_music.Account` представляющий основную
             информацию об аккаунте.
-        permissions (:obj:`yandex_music.Permissions`): Объект класса :class:`yandex_music.Permissions` предоставляющий
+        permissions (:obj:`yandex_music.Permissions`): Объект класса :class:`yandex_music.Permissions` представляющий
             информацию о правах пользователя.
-        subscription (:obj:`yandex_music.Subscription`): Объект класса :class:`yandex_music.Subscription` предоставляющий
+        subscription (:obj:`yandex_music.Subscription`): Объект класса :class:`yandex_music.Subscription` представляющий
             информацию о подписках
         cache_limit (:obj:`int`, optional): Максимальное количество загруженных треков.
         subeditor (:obj:`bool`, optional): Наличие статуса модератора проверки корректности информации.
         subeditor_level (:obj:`int`, optional): Уровень статуса модератора.
-        plus (:obj:`yandex_music.Plus`, optional): Объект класса :class:`yandex_music.Plus` предоставляющий информацию о
+        plus (:obj:`yandex_music.Plus`, optional): Объект класса :class:`yandex_music.Plus` представляющий информацию о
             Plus подписке.
         default_email (:obj:`str`, optional): Основной e-mail адрес аккаунта.
         skips_per_hour (:obj:`int`, optional): Количество переключение треков на радио в час.

@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Product(YandexMusicObject):
-    """Класс представляющий продаваемый продукт.
+    """Класс, представляющий продаваемый продукт.
 
     Attributes:
         product_id (:obj:`str`): Уникальный идентификатор.

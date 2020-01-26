@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Cover(YandexMusicObject):
-    """Класс представляющий обложку.
+    """Класс, представляющий обложку.
 
     Attributes:
         type (:obj:`str`): Тип обложки.

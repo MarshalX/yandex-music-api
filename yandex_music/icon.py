@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Icon(YandexMusicObject):
-    """Класс представляющий иконку.
+    """Класс, представляющий иконку.
 
     Attributes:
         background_color (:obj:`str`): Цвет заднего фона в HEX.

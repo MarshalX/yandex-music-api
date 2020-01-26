@@ -6,36 +6,36 @@ if TYPE_CHECKING:
 from yandex_music import YandexMusicObject
 
 
-class Plus(YandexMusicObject):
-    """Класс представляющий Plus подписку.
+class Price(YandexMusicObject):
+    """Класс, представляющий цену.
 
     Attributes:
-        has_plus (:obj:`bool`): Наличие.
-        is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
+        amount (:obj:`int`): Количество единиц.
+        currency (:obj:`str`): Валюта.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
             Music.
 
     Args:
-        has_plus (:obj:`bool`): Наличие.
-        is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
+        amount (:obj:`int`): Количество единиц.
+        currency (:obj:`str`): Валюта.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
-                 has_plus: bool,
-                 is_tutorial_completed: bool,
+                 amount: int,
+                 currency: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        self.has_plus = has_plus
-        self.is_tutorial_completed = is_tutorial_completed
+        self.amount = amount
+        self.currency = currency
 
         self.client = client
-        self._id_attrs = (self.has_plus, self.is_tutorial_completed)
+        self._id_attrs = (self.amount, self.currency)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Plus']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Price']:
         """Десериализация объекта.
 
         Args:
@@ -44,11 +44,11 @@ class Plus(YandexMusicObject):
                 Music.
 
         Returns:
-            :obj:`yandex_music.Plus`: Объект класса :class:`yandex_music.Plus`.
+            :obj:`yandex_music.Price`: Объект класса :class:`yandex_music.Price`.
         """
         if not data:
             return None
 
-        data = super(Plus, cls).de_json(data, client)
+        data = super(Price, cls).de_json(data, client)
 
         return cls(client=client, **data)

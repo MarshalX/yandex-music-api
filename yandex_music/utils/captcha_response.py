@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class CaptchaResponse(YandexMusicObject):
-    """Класс представляющий ответ сервера с запросом на ввод капчи.
+    """Класс, представляющий ответ сервера с запросом на ввод капчи.
 
     Attributes:
         x_captcha_url (:obj:`str`): Ссылка на изображение с капчей.

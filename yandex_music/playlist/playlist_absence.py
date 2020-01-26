@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class PlaylistAbsence(YandexMusicObject):
-    """Класс представляющий причину отсутствия плейлиста.
+    """Класс, представляющий причину отсутствия плейлиста.
 
     Attributes:
         kind (:obj:`int`): Уникальный идентификатор плейлиста.

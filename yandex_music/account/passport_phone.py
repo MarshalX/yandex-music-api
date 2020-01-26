@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class PassportPhone(YandexMusicObject):
-    """Класс представляющий номер телефона пользователя.
+    """Класс, представляющий номер телефона пользователя.
 
     Attributes:
         phone (:obj:`str`): Номер телефона.

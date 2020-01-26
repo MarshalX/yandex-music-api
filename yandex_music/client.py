@@ -1,12 +1,13 @@
 import logging
 import functools
+
 from datetime import datetime
-from typing import Callable, Union, List, Optional
+from typing import Callable, Union, List, Optional, Dict
 
 from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
     TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
     Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement, ArtistTracks, \
-    ArtistAlbums, ShotEvent, SimilarTracks
+    ArtistAlbums, ShotEvent, SimilarTracks, UserSettings
 from yandex_music.utils.request import Request
 from yandex_music.utils.difference import Difference
 from yandex_music.exceptions import InvalidToken, Captcha
@@ -48,17 +49,18 @@ def log(method):
 
 
 class Client(YandexMusicObject):
-    """Класс представляющий клиент Yandex Music.
+    """Класс, представляющий клиент Yandex Music.
 
-    При `fetch_account_status = False` многие сокращения перестанут работать в связи с тем, что неоткуда будет взять
-    uid аккаунта для отправки запроса. Так же в большинстве методов придётся передавать uid явно.
+    Note:
+        При `fetch_account_status = False` многие сокращения перестанут работать в связи с тем, что неоткуда будет взять
+        uid аккаунта для отправки запроса. Так же в большинстве методов придётся передавать `uid` явно.
 
     Attributes:
         logger (:obj:`logging.Logger`): Объект логера.
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
-        me (:obj:`yandex_music.Status`): Объект класса :class:`yandex_music.Status` предоставляющего основную
+        me (:obj:`yandex_music.Status`): Объект класса :class:`yandex_music.Status` представляющего основную
             информацию об аккаунте.
 
     Args:
@@ -137,7 +139,8 @@ class Client(YandexMusicObject):
     def from_token(cls, token: str, *args, **kwargs) -> 'Client':
         """Инициализция клиента по токену.
 
-        Ничем не отличается от Client(token). Так исторически сложилось.
+        Note:
+            Ничем не отличается от `Client(token)`. Так исторически сложилось.
 
         Args:
             token (:obj:`str`, optional): Уникальный ключ для аутентификации.
@@ -226,7 +229,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status` предоставляющий информацию об
+            :obj:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status` представляющий информацию об
             аккаунте если валиден, иначе :obj:`None`.
 
         Raises:
@@ -240,6 +243,63 @@ class Client(YandexMusicObject):
         return Status.de_json(result, self)
 
     @log
+    def account_settings(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Settings]:
+        """Получение настроек текущего пользователя.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` представляющий
+            настройки пользователя, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/account/settings'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return UserSettings.de_json(result, self)
+
+    @log
+    def account_settings_set(self, param: str = None, value: Union[str, int, bool] = None,
+                             data: Dict[str, Union[str, int, bool]] = None, timeout: Union[int, float] = None,
+                             *args, **kwargs) -> Optional[Settings]:
+        """Изменение настроек текущего пользователя.
+
+        Note:
+            Доступные названия параметров есть поля в классе :class:`yandex_music.UserSettings`, только в CamelCase.
+
+        Args:
+            param (:obj:`str`): Название параметра для изменения.
+            value (:obj:`str` | :obj:`int` | :obj:`bool`): Значение параметра.
+            data (:obj:`dict`): Словарь параметров и значений для множественного изменения.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` представляющий
+            настройки пользователя, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/account/settings'
+
+        if not data:
+            data = {param: value}
+
+        result = self._request.post(url, data=data, timeout=timeout, *args, **kwargs)
+
+        return UserSettings.de_json(result, self)
+
+    @log
     def settings(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Settings]:
         """Получение предложений по покупке. Нет обязательных параметров.
 
@@ -249,7 +309,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Settings`: Объекта класса :class:`yandex_music.Settings` предоставляющий информацию о
+            :obj:`yandex_music.Settings`: Объекта класса :class:`yandex_music.Settings` представляющий информацию о
             предлагаемых продуктах, иначе :obj:`None`.
 
         Raises:
@@ -370,8 +430,9 @@ class Client(YandexMusicObject):
                 *args, **kwargs) -> Optional[Landing]:
         """Получение лендинг-страницы содержащий блоки с новыми релизами, чартами, плейлистами с новинками и т.д.
 
-        Поддерживаемые типы блоков: personalplaylists, promotions, new-releases, new-playlists, mixes,c hart, artists,
-        albums, playlists, play_contexts.
+        Note:
+            Поддерживаемые типы блоков: `personalplaylists`, `promotions`, `new-releases`, `new-playlists`, `mixes`,
+            `chart`, `artists`, `albums`, `playlists`, `play_contexts`.
 
         Args:
             blocks (:obj:`str` | :obj:`list` из :obj:`str`): Блок или список блоков необходимых для выдачи.
@@ -455,7 +516,7 @@ class Client(YandexMusicObject):
 
         Returns:
             :obj:`yandex_music.Supplement`: Объект класса `yandex_music.Supplement` представляющий дополнительную
-                информацию о треке.
+            информацию о треке.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -480,7 +541,7 @@ class Client(YandexMusicObject):
 
         Returns:
             :obj:`yandex_music.SimilarTracks`: Объект класса `yandex_music.SimilarTracks` представляющий список похожих
-                треков на другой трек.
+            треков на другой трек.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -651,14 +712,46 @@ class Client(YandexMusicObject):
         return Suggestions.de_json(result, self)
 
     @log
-    def users_playlists(self, kind: Union[List[Union[str, int]], str, int], user_id: str = None,
+    def users_settings(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
+                       *args, **kwargs) -> Optional[Settings]:
+        """Получение настроек пользователя.
+
+        Note:
+            Для получения настроек пользователя нужно быть авторизованным или владеть `user_id`.
+
+        Args:
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя чьи настройки хотим
+                получить.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` представляющий
+            настройки пользователя, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/settings'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return UserSettings.de_json(result.get('user_settings'), self)
+
+    @log
+    def users_playlists(self, kind: Union[List[Union[str, int]], str, int], user_id: Union[str, int] = None,
                         timeout: Union[int, float] = None,  *args, **kwargs) -> List[Playlist]:
         """Получение плейлиста или списка плейлистов по уникальным идентификаторам.
 
         Args:
             kind (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста
                 или их список.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -685,14 +778,14 @@ class Client(YandexMusicObject):
         return Playlist.de_list(result, self)
 
     @log
-    def users_playlists_create(self, title: str, visibility: str = 'public', user_id: str = None,
+    def users_playlists_create(self, title: str, visibility: str = 'public', user_id: Union[str, int] = None,
                                timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Создание плейлиста.
 
         Args:
             title (:obj:`str`): Название.
             visibility (:obj:`str`, optional): Модификатор доступа.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -720,13 +813,13 @@ class Client(YandexMusicObject):
         return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_delete(self, kind: Union[str, int], user_id: str = None,
+    def users_playlists_delete(self, kind: Union[str, int], user_id: Union[str, int] = None,
                                timeout: Union[int, float] = None, *args, **kwargs) -> bool:
         """Удаление плейлиста.
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -748,14 +841,14 @@ class Client(YandexMusicObject):
         return result == 'ok'
 
     @log
-    def users_playlists_name(self, kind: Union[str, int], name: str, user_id: str = None,
+    def users_playlists_name(self, kind: Union[str, int], name: str, user_id: Union[str, int] = None,
                              timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Изменение названия плейлиста.
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             name (:obj:`str`): Новое название.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -778,16 +871,17 @@ class Client(YandexMusicObject):
         return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_visibility(self, kind: Union[str, int], visibility: str, user_id: str = None,
+    def users_playlists_visibility(self, kind: Union[str, int], visibility: str, user_id: Union[str, int] = None,
                                    timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Изменение видимости плейлиста.
 
-        Видимость (visibility) может быть задана только одним из двух значений: private, public.
+        Note:
+            Видимость (`visibility`) может быть задана только одним из двух значений: `private`, `public`.
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             visibility (:obj:`str`): Новое название.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -810,18 +904,21 @@ class Client(YandexMusicObject):
         return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_change(self, kind: Union[str, int], diff: str, revision: int = 1, user_id: str = None,
-                               timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
+    def users_playlists_change(self, kind: Union[str, int], diff: str, revision: int = 1,
+                               user_id: Union[str, int] = None, timeout: Union[int, float] = None,
+                               *args, **kwargs) -> Optional[Playlist]:
         """Изменение плейлиста.
 
-        Для получения отличий есть вспомогательный класс :class:`from yandex_music.utils.difference.Difference`.
-        Так же существуют уже готовые методы-обёртки над операциями.
+        Note:
+            Для получения отличий есть вспомогательный класс :class:`yandex_music.utils.difference.Difference`.
+
+            Так же существуют уже готовые методы-обёртки над операциями.
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             revision (:obj:`int`): TODO.
             diff (:obj:`str`): JSON представления отличий старого и нового плейлиста.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -851,11 +948,12 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists_insert_track(self, kind: Union[str, int], track_id: Union[str, int], album_id: Union[str, int],
-                                     at: int = 0, revision: int = 1, user_id: str = None,
+                                     at: int = 0, revision: int = 1, user_id: Union[str, int] = None,
                                      timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Playlist]:
         """Добавление трека в плейлист.
 
-        Трек можно вставить с любое место плейлиста задав индекс вставки (аргумент at).
+        Note:
+            Трек можно вставить с любое место плейлиста задав индекс вставки (аргумент `at`).
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
@@ -863,7 +961,7 @@ class Client(YandexMusicObject):
             album_id (:obj:`str` | :obj:`int`): Уникальный идентификатор альбома.
             at (:obj:`int`): Индекс для вставки.
             revision (:obj:`int`): TODO.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -885,18 +983,19 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists_delete_track(self, kind: Union[str, int], from_: int, to: int, revision: int = 1,
-                                     user_id: str = None, timeout: Union[int, float] = None,
+                                     user_id: Union[str, int] = None, timeout: Union[int, float] = None,
                                      *args, **kwargs) -> Optional[Playlist]:
         """Удаление треков из плейлиста.
 
-        Для удаление необходимо указать границы с какого по какой элемент (трек) удалить.
+        Note:
+            Для удаление необходимо указать границы с какого по какой элемент (трек) удалить.
 
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             from_ (:obj:`int`): С какого индекса.
             to (:obj:`int`): По какой индекс.
             revision (:obj:`int`): TODO.
-            user_id: (:obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -920,7 +1019,8 @@ class Client(YandexMusicObject):
     def rotor_account_status(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Status]:
         """Получение статуса пользователя с дополнителньыми полями.
 
-        Данный статус отличается от обычного наличием дополнительных полей, например, `skips_per_hour`.
+        Note:
+            Данный статус отличается от обычного наличием дополнительных полей, например, `skips_per_hour`.
 
         Args:
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
@@ -970,7 +1070,9 @@ class Client(YandexMusicObject):
                             *args, **kwargs) -> List[StationResult]:
         """Получение всех радиостанций с настройками пользователя.
 
-        Чтобы определить что за тип станции (жанры, настроения, занятие и т.д.) необходимо смотреть в пол `id_for_from`.
+        Note:
+            Чтобы определить что за тип станции (жанры, настроения, занятие и т.д.) необходимо смотреть в поле
+            `id_for_from`.
 
         Args:
             language (:obj:`str`): Язык, на котором будет информация о станциях.
@@ -999,11 +1101,14 @@ class Client(YandexMusicObject):
                                *args, **kwargs) -> bool:
         """Отправка ответной реакции на происходящее при прослушивании радио.
 
-        Сообщения о начале прослушивания радио, начале и конце трека, его пропуска.
+        Note:
+            Сообщения о начале прослушивания радио, начале и конце трека, его пропуска.
 
-        Известные типы фидбека: `radioStarted`, `trackStarted`, `trackFinished`, `skip`.
-        Пример `station`: `user:onyourwave`, `genre:allrock`.
-        Пример `from_`: `mobile-radio-user-123456789`.
+            Известные типы фидбека: `radioStarted`, `trackStarted`, `trackFinished`, `skip`.
+
+            Пример `station`: `user:onyourwave`, `genre:allrock`.
+
+            Пример `from_`: `mobile-radio-user-123456789`.
 
         Args:
             station (:obj:`str`): Станция.
@@ -1059,6 +1164,12 @@ class Client(YandexMusicObject):
         """Сокращение для::
 
             client.rotor_station_feedback(station, 'radioStarted', timestamp, from, *args, **kwargs)
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
         return self.rotor_station_feedback(station, 'radioStarted', timestamp, from_=from_, batch_id=batch_id,
                                            timeout=timeout, *args, **kwargs)
@@ -1070,6 +1181,12 @@ class Client(YandexMusicObject):
         """Сокращение для::
 
             client.rotor_station_feedback(station, 'trackStarted', timestamp, track_id, *args, **kwargs)
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
         return self.rotor_station_feedback(station, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id,
                                            timeout=timeout, *args, **kwargs)
@@ -1082,7 +1199,13 @@ class Client(YandexMusicObject):
         """Сокращение для::
 
             client.rotor_station_feedback(station, 'trackFinished', timestamp, track_id, total_played_seconds,
-                *args, **kwargs)
+            *args, **kwargs)
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
         return self.rotor_station_feedback(station, 'trackFinished', timestamp, track_id=track_id,
                                            total_played_seconds=total_played_seconds, batch_id=batch_id,
@@ -1096,7 +1219,13 @@ class Client(YandexMusicObject):
         """Сокращение для::
 
             client.rotor_station_feedback(station, 'skip', timestamp, track_id, total_played_seconds,
-                *args, **kwargs)
+            *args, **kwargs)
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
         """
         return self.rotor_station_feedback(station, 'skip', timestamp, track_id=track_id,
                                            total_played_seconds=total_played_seconds, batch_id=batch_id,
@@ -1132,13 +1261,14 @@ class Client(YandexMusicObject):
                                 timeout: Union[int, float] = None, *args, **kwargs) -> bool:
         """Изменение настроек определённой станции.
 
-        Доступные значения для `mood_energy`: `fun`, `active`, `calm`, `sad`, `all`.
-        Доступные значения для `diversity`: `favorite`, `popular`, `discover`, `default`.
-        Доступные значения для `language`: `not-russian`, `russian`, `any`.
+        Note:
+            Доступные значения для `mood_energy`: `fun`, `active`, `calm`, `sad`, `all`.
 
-        У станций в `restrictions` есть Enum'ы, а в них `possible_values` - доступные значения для поля.
+            Доступные значения для `diversity`: `favorite`, `popular`, `discover`, `default`.
 
-        Не некоторых аккаунтах не меняется язык...
+            Доступные значения для `language`: `not-russian`, `russian`, `any`.
+
+            У станций в `restrictions` есть Enum'ы, а в них `possible_values` - доступные значения для поля.
 
         Args:
             station (:obj:`str`): Станция.
@@ -1175,15 +1305,17 @@ class Client(YandexMusicObject):
                              timeout: Union[int, float] = None, *args, **kwargs) -> Optional[StationTracksResult]:
         """Получение цепочки треков определённой станции.
 
-        Для продолжения цепочки треков необходимо:
-        1. Передавать ID трека, что был до этого (первый в цепочки).
-        2. Отправить фидбек о конче или скипе трека, что был передан в `queue`.
-        3. Отправить фидбек о начале следующего трека (второй в цепочки).
-        4. Выполнить запрос получения треков. В ответе придёт новые треки или произойдёт сдвиг цепочки на 1 элемент.
+        Note:
+            Для продолжения цепочки треков необходимо:
 
-        Проход по цепочке до коцна не изучен. Часто встречаются дубликаты.
+            1. Передавать `ID` трека, что был до этого (первый в цепочки).
+            2. Отправить фидбек о конче или скипе трека, что был передан в `queue`.
+            3. Отправить фидбек о начале следующего трека (второй в цепочки).
+            4. Выполнить запрос получения треков. В ответе придёт новые треки или произойдёт сдвиг цепочки на 1 элемент.
 
-        Все официальные клиенты выполняют запросы с `settings2 = True`.
+            Проход по цепочке до коцна не изучен. Часто встречаются дубликаты.
+
+            Все официальные клиенты выполняют запросы с `settings2 = True`.
 
         Args:
             station (:obj:`str`): Станция.
@@ -1261,7 +1393,8 @@ class Client(YandexMusicObject):
                               *args, **kwargs) -> Optional[ArtistAlbums]:
         """Получение альбомов артиста.
 
-        Известные значения для sort_by: year, rating.
+        Note:
+            Известные значения для `sort_by`: `year`, `rating`.
 
         Args:
             artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
@@ -1476,15 +1609,17 @@ class Client(YandexMusicObject):
                     timeout: Union[int, float] = None, *args, **kwargs) -> Optional[ShotEvent]:
         """Получение рекламы или шота от Алисы после трека.
 
-        При получения шота от Алисы `prev_track_id` можно не указывать.
+        Note:
+            При получения шота от Алисы `prev_track_id` можно не указывать.
 
-        Если `context = 'playlist'`, то в `context_item` необходимо передать `{OWNER_PLAYLIST}:{ID_PLAYLIST}`.
-        Плейлист с Алисой имеет владельца с `id = 940441070`.
+            Если `context = 'playlist'`, то в `context_item` необходимо передать `{OWNER_PLAYLIST}:{ID_PLAYLIST}`.
+            Плейлист с Алисой имеет владельца с `id = 940441070`.
 
-        ID плейлиста можно получить из блоков landing'a. Получить шот чужого плейлиста нельзя.
+            ID плейлиста можно получить из блоков landing'a. Получить шот чужого плейлиста нельзя.
 
-        Известные значения `context`: `playlist`.
-        Известные значения `types`: `shot`, `ad`.
+            Известные значения `context`: `playlist`.
+
+            Известные значения `types`: `shot`, `ad`.
 
         Args:
             prev_track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор предыдущего трека.
@@ -1499,7 +1634,7 @@ class Client(YandexMusicObject):
 
         Returns:
             :obj:`yandex_music.ShotEvent`: Объекта класса :class:`yandex_music.ShotEvent`
-                представляющий шоты от Алисы, иначе :obj:`None`.
+            представляющий шоты от Алисы, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`

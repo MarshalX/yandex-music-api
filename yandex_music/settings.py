@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class Settings(YandexMusicObject):
-    """Класс представляющий предложения по покупке.
+    """Класс, представляющий предложения по покупке.
 
     Attributes:
         in_app_products (:obj:`list` из :obj:`yandex_music.Product`): Список объектов класса

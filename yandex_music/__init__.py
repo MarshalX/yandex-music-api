@@ -4,15 +4,16 @@ from .settings import Settings
 from .permission_alerts import PermissionAlerts
 from .experiments import Experiments
 
-from .status.status import Status
-from .status.account import Account
-from .status.plus import Plus
-from .status.subscription import Subscription
-from .status.price import Price
-from .status.product import Product
-from .status.auto_renewable import AutoRenewable
-from .status.passport_phone import PassportPhone
-from .status.permissions import Permissions
+from .account.status import Status
+from .account.account import Account
+from .account.plus import Plus
+from .account.user_settings import UserSettings
+from .account.subscription import Subscription
+from .account.price import Price
+from .account.product import Product
+from .account.auto_renewable import AutoRenewable
+from .account.passport_phone import PassportPhone
+from .account.permissions import Permissions
 
 from .album.album import Album
 from .album.label import Label
@@ -120,4 +121,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum',
            'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult', 'BriefInfo', 'Description',
            'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums',
-           'PlaylistAbsence', 'Shot', 'ShotEvent', 'ShotType', 'ShotData', 'SimilarTracks']
+           'PlaylistAbsence', 'Shot', 'ShotEvent', 'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings']

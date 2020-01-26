@@ -7,7 +7,7 @@ from yandex_music import YandexMusicObject
 
 
 class TrackShort(YandexMusicObject):
-    """Класс представляющий укороченную версию трека с неполными данными.
+    """Класс, представляющий укороченную версию трека с неполными данными.
 
     Attributes:
         id (:obj:`str`): Уникальный идентификатор трека.
