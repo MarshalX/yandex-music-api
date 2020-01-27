@@ -16,13 +16,21 @@ de_json_result = {
 
 
 class Best(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий лучший результат поиска.
 
     Attributes:
+        type_ (:obj:`str`): Тип лучшего результата.
+        result (:obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
+            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Лучший результат.
+        text (:obj:`str`): TODO.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        type (:obj:`str`): Тип лучшего результата.
+        result (:obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
+            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Лучший результат.
+        text (:obj:`str`, optional): TODO.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
