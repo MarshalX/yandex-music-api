@@ -7,13 +7,27 @@ if TYPE_CHECKING:
 
 
 class GeneratedPlaylist(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий автоматически сгенерированный плейлист.
+
+    Note:
+        Известные значения `type`: `playlistOfTheDay`, `origin`, `recentTracks`, `neverHeard`, `podcasts`,
+        `missedLikes`.
 
     Attributes:
+        type (:obj:`str`): Тип сгенерированного плейлиста.
+        ready (:obj:`bool`): Готовность плейлиста.
+        notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
+        data (:obj:`yandex_music.Playlist`): Объект класса :class:`yandex_music.Playlist`, представляющий \
+            сгенерированный плейлист.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        type_ (:obj:`str`): Тип сгенерированного плейлиста.
+        ready (:obj:`bool`): Готовность плейлиста.
+        notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
+        data (:obj:`yandex_music.Playlist`, optional): Объект класса :class:`yandex_music.Playlist`, представляющий \
+            сгенерированный плейлист.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
