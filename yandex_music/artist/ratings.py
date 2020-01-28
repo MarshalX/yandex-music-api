@@ -7,13 +7,19 @@ if TYPE_CHECKING:
 
 
 class Ratings(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий рейтинг исполнителя.
 
     Attributes:
+        week (:obj:`int`): Значение еженедельного рейтинга.
+        month (:obj:`int`): Значение ежемесячного рейтинга.
+        day (:obj:`int`): Значение дневного рейтинга.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        week (:obj:`int`): Значение еженедельного рейтинга.
+        month (:obj:`int`): Значение ежемесячного рейтинга.
+        day (:obj:`int`, optional): Значение дневного рейтинга.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
