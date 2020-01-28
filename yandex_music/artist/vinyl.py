@@ -7,13 +7,25 @@ if TYPE_CHECKING:
 
 
 class Vinyl(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий виниловую пластинку.
 
     Attributes:
+        url (:obj:`str`): Ссылка на пластинку в магазине.
+        title (:obj:`str`): Заголовок.
+        year (:obj:`int`): Год выпуска.
+        price (:obj:`int`): Цена.
+        media (:obj:`str`): Средство распространения.
+        picture (:obj:`str`): Ссылка на обложку.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        url (:obj:`str`): Ссылка на пластинку в магазине.
+        title (:obj:`str`): Заголовок.
+        year (:obj:`int`): Год выпуска.
+        price (:obj:`int`): Цена.
+        media (:obj:`str`): Средство распространения.
+        picture (:obj:`str`, optional): Ссылка на обложку.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
