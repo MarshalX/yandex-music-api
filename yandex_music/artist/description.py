@@ -7,13 +7,21 @@ if TYPE_CHECKING:
 
 
 class Description(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий описание исполнителя из другого источника.
+
+    Note:
+        Очень редкий объект, у минимального количества исполнителей.
+        Обычно берётся информация из википедии.
 
     Attributes:
+        text (:obj:`str`): Описание исполнителя.
+        url (:obj:`str`): Ссылка на источник.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        text (:obj:`str`): Описание исполнителя.
+        url (:obj:`str`): Ссылка на источник.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
