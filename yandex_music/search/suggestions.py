@@ -7,13 +7,17 @@ if TYPE_CHECKING:
 
 
 class Suggestions(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий подсказки при поиске.
 
     Attributes:
+        best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best`, представляющий лучший результат.
+        suggestions (:obj:`list` из :obj:`str`): Список подсказок-дополнений для поискового запроса.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best`, представляющий лучший результат.
+        suggestions (:obj:`list` из :obj:`str`): Список подсказок-дополнений для поискового запроса.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
