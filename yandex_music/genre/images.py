@@ -7,13 +7,17 @@ if TYPE_CHECKING:
 
 
 class Images(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий изображение жанра.
 
     Attributes:
+        _208x208 (:obj:`str`): Ссылка на изображение размером 208 на 208.
+        _300x300 (:obj:`str`): Ссылка на изображение размером 300 на 300.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        _208x208 (:obj:`str`, optional): Ссылка на изображение размером 208 на 208.
+        _300x300 (:obj:`str`, optional): Ссылка на изображение размером 300 на 300.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
