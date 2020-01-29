@@ -7,13 +7,17 @@ if TYPE_CHECKING:
 
 
 class Value(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий значение(переменную).
 
     Attributes:
+        value (:obj:`str`): Значение.
+        name (:obj:`str`): Название.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        value (:obj:`str`): Значение.
+        name (:obj:`str`): Название.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
