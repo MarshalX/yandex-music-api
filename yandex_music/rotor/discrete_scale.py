@@ -7,13 +7,27 @@ if TYPE_CHECKING:
 
 
 class DiscreteScale(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий дискретное значение.
+
+    Note:
+        Известные значения поля `type`: `discrete-scale`.
 
     Attributes:
+        type (:obj:`str`): Тип.
+        name (:obj:`str`): Название.
+        min (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий минимальное значение.
+        max (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий максимальное
+            значение.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        type_ (:obj:`str`): Тип.
+        name (:obj:`str`): Название.
+        min_ (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий минимальное
+            значение.
+        max_ (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий максимальное
+            значение.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
