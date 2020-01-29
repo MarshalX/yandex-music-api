@@ -7,13 +7,17 @@ if TYPE_CHECKING:
 
 
 class Title(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий заголовок жанра.
 
     Attributes:
+        title (:obj:`str`): Заголовок.
+        full_title (:obj:`str`): Полный заголовок.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        title (:obj:`str`): Заголовок.
+        full_title (:obj:`str`, optional): Полный заголовок.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
