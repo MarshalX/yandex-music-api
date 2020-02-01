@@ -7,13 +7,20 @@ if TYPE_CHECKING:
 
 
 class Id(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий уникальный идентификатор станции.
+
+    Note:
+        Известные типы станций: `user`, `genre`.
 
     Attributes:
+        type (:obj:`str`): Тип станции.
+        tag (:obj:`str`): Тег станции.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        type_ (:obj:`str`): Тип станции.
+        tag (:obj:`str`): Тег станции.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
