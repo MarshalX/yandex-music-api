@@ -10,15 +10,15 @@ class Ratings(YandexMusicObject):
     """Класс, представляющий рейтинг исполнителя.
 
     Attributes:
-        week (:obj:`int`): Значение еженедельного рейтинга.
         month (:obj:`int`): Значение ежемесячного рейтинга.
+        week (:obj:`int`): Значение еженедельного рейтинга.
         day (:obj:`int`): Значение дневного рейтинга.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
-        week (:obj:`int`): Значение еженедельного рейтинга.
         month (:obj:`int`): Значение ежемесячного рейтинга.
+        week (:obj:`int`, optional): Значение еженедельного рейтинга.
         day (:obj:`int`, optional): Значение дневного рейтинга.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
@@ -26,8 +26,8 @@ class Ratings(YandexMusicObject):
     """
 
     def __init__(self,
-                 week: int,
                  month: int,
+                 week: Optional[int] = None,
                  day: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
