@@ -1407,7 +1407,7 @@ class Client(YandexMusicObject):
 
         Returns:
             :obj:`yandex_music.ArtistAlbums`: Объекта класса :class:`yandex_music.ArtistsTracks`
-                представляющий страницу списка альбомов артиста, иначе :obj:`None`.
+            представляющий страницу списка альбомов артиста, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
