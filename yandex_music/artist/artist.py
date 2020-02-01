@@ -21,8 +21,9 @@ class Artist(YandexMusicObject):
 
     def __init__(self,
                  id_: int,
-                 name: str,
-                 cover: Optional['Cover'],
+                 error: Optional[str] = None,
+                 name: Optional[str] = None,
+                 cover: Optional['Cover'] = None,
                  various: Optional[bool] = None,
                  composer=None,
                  genres=None,
@@ -48,9 +49,10 @@ class Artist(YandexMusicObject):
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
+
+        self.error = error
         self.name = name
         self.cover = cover
-
         self.various = various
         self.composer = composer
         self.genres = genres

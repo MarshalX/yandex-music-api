@@ -22,12 +22,13 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
 def artist_factory(cover, counts, ratings, link, description):
     class ArtistFactory:
         def get(self, popular_tracks):
-            return Artist(TestArtist.id, TestArtist.name, cover, TestArtist.various, TestArtist.composer,
-                          TestArtist.genres, TestArtist.op_image, TestArtist.no_pictures_from_search, counts,
-                          TestArtist.available, ratings, [link], TestArtist.tickets_available, TestArtist.likes_count,
-                          popular_tracks, TestArtist.regions, TestArtist.decomposed, TestArtist.full_names, description,
-                          TestArtist.countries, TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases,
-                          TestArtist.init_date, TestArtist.end_date)
+            return Artist(TestArtist.id, TestArtist.error, TestArtist.name, cover, TestArtist.various,
+                          TestArtist.composer, TestArtist.genres, TestArtist.op_image,
+                          TestArtist.no_pictures_from_search, counts, TestArtist.available, ratings, [link],
+                          TestArtist.tickets_available, TestArtist.likes_count,  popular_tracks, TestArtist.regions,
+                          TestArtist.decomposed, TestArtist.full_names, description, TestArtist.countries,
+                          TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases, TestArtist.init_date,
+                          TestArtist.end_date)
 
     return ArtistFactory()
 
@@ -242,7 +243,7 @@ def video_supplement():
 
 @pytest.fixture(scope='session')
 def ratings():
-    return Ratings(TestRatings.week, TestRatings.month, TestRatings.day)
+    return Ratings(TestRatings.month, TestRatings.week, TestRatings.day)
 
 
 @pytest.fixture(scope='session')
