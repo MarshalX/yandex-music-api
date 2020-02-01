@@ -7,13 +7,32 @@ if TYPE_CHECKING:
 
 
 class AdParams(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий параметры рекламного объявления.
+
+    Note:
+        Известные дополнительные параметры(`other_params`): `user:{ID}`.
 
     Attributes:
+        partner_id (:obj:`str` | :obj:`int`): Уникальный идентификатор заказчика рекламы.
+        category_id (:obj:`str` | :obj:`int`): Уникальный идентификатор категории рекламы.
+        page_ref (:obj:`str`): Ссылка на ссылающуюся страницу.
+        target_ref (:obj:`str`): Ссылка на целевую страницу.
+        other_params (:obj:`str`): Другие параметры.
+        ad_volume (:obj:`int`): Громкость воспроизводимой рекламы.
+        genre_id (:obj:`str`): Уникальный идентификатор жанра.
+        genre_name (:obj:`str`): Название жанра.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        partner_id (:obj:`str` | :obj:`int`): Уникальный идентификатор заказчика рекламы.
+        category_id (:obj:`str` | :obj:`int`): Уникальный идентификатор категории рекламы.
+        page_ref (:obj:`str`): Ссылка на ссылающуюся страницу.
+        target_ref (:obj:`str`): Ссылка на целевую страницу.
+        other_params (:obj:`str`): Другие параметры.
+        ad_volume (:obj:`int`): Громкость воспроизводимой рекламы.
+        genre_id (:obj:`str`, optional): Уникальный идентификатор жанра.
+        genre_name (:obj:`str`, optional): Название жанра.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -26,8 +45,8 @@ class AdParams(YandexMusicObject):
                  target_ref: str,
                  other_params: str,
                  ad_volume: int,
-                 genre_id=None,
-                 genre_name=None,
+                 genre_id: Optional[str] = None,
+                 genre_name: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.partner_id = partner_id
