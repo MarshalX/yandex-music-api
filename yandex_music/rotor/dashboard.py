@@ -7,13 +7,21 @@ if TYPE_CHECKING:
 
 
 class Dashboard(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий рекомендованные станций пользователя.
 
     Attributes:
+        dashboard_id (:obj:`str`): Уникальный идентификатор панели.
+        stations (:obj:`list` из :obj:`yandex_music.StationResult`): Список объектов класса
+            :class:`yandex_music.StationResult`, представляющих станции со всеми возможными настройками и параметрами.
+        pumpkin (:obj:`str`): Хэллоуин.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        dashboard_id (:obj:`str`): Уникальный идентификатор панели.
+        stations (:obj:`list` из :obj:`yandex_music.StationResult`): Список объектов класса
+            :class:`yandex_music.StationResult`, представляющих станции со всеми возможными настройками и параметрами.
+        pumpkin (:obj:`str`): Хэллоуин.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
