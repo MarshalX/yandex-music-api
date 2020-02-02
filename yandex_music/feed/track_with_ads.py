@@ -7,13 +7,20 @@ if TYPE_CHECKING:
 
 
 class TrackWithAds(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий трек с рекламой.
+
+    Note:
+        Поле `type` встречалось только с значением `track`.
 
     Attributes:
+        type (:obj:`str`): Тип TODO.
+        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track`, представляющий трек.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        type_ (:obj:`str`): Тип TODO.
+        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track`, представляющий трек.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
