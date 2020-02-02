@@ -7,13 +7,25 @@ if TYPE_CHECKING:
 
 
 class CaseForms(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий склонения имени.
 
     Attributes:
+        nominative (:obj:`str`): Именительный.
+        genitive (:obj:`str`): Родительный.
+        dative (:obj:`str`): Дательный.
+        accusative (:obj:`str`): Винительный.
+        instrumental (:obj:`str`): Творительный.
+        prepositional (:obj:`str`): Предложный.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        nominative (:obj:`str`): Именительный.
+        genitive (:obj:`str`): Родительный.
+        dative (:obj:`str`): Дательный.
+        accusative (:obj:`str`): Винительный.
+        instrumental (:obj:`str`): Творительный.
+        prepositional (:obj:`str`): Предложный.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
