@@ -7,13 +7,23 @@ if TYPE_CHECKING:
 
 
 class PlayCounter(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий счётчик дней.
+
+    Note:
+        Присутствует только у плейлиста дня. Счётчик считает количество дней подряд, на протяжении которых был
+        прослушан плейлист.
 
     Attributes:
+        value (:obj:`int`): Значение (количество дней).
+        description (:obj:`str`): Описание счётчика.
+        updated (:obj:`bool`): Обновлён ли сегодня (в этих сутках).
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        value (:obj:`int`): Значение (количество дней).
+        description (:obj:`str`): Описание счётчика.
+        updated (:obj:`bool`): Обновлён ли сегодня (в этих сутках).
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
