@@ -21,7 +21,7 @@ class RotorSettings(YandexMusicObject):
     Attributes:
         language (:obj:`str`): Язык.
         diversity (:obj:`str`): Разнообразие (треки).
-        mood (:obj:`int`): Грустное.
+        mood (:obj:`int`): Настроение (старое).
         energy (:obj:`int`): Энергичное.
         mood_energy (:obj:`str`): Настроение.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
@@ -30,7 +30,7 @@ class RotorSettings(YandexMusicObject):
     Args:
         language (:obj:`str`): Язык.
         diversity (:obj:`str`): Разнообразие (треки).
-        mood (:obj:`int`, optional): Грустное.
+        mood (:obj:`int`, optional): Настроение (старое).
         energy (:obj:`int`, optional): Энергичное.
         mood_energy (:obj:`str`, optional): Настроение.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
