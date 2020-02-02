@@ -7,13 +7,17 @@ if TYPE_CHECKING:
 
 
 class PlaylistId(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий уникальный идентификатор плейлиста.
 
     Attributes:
+        uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
+        kind (:obj:`int`): Уникальный идентификатор плейлиста.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
+        kind (:obj:`int`): Уникальный идентификатор плейлиста.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
