@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 
 class CaseForms(YandexMusicObject):
-    """Класс, представляющий склонения имени.
+    """Класс, представляющий склонение имени.
 
     Attributes:
         nominative (:obj:`str`): Именительный.
