@@ -32,7 +32,7 @@ class TestRestrictions:
 
     def test_equality(self, enum, discrete_scale):
         a = Restrictions(enum, enum)
-        b = Restrictions(enum, None, discrete_scale, discrete_scale, discrete_scale, enum)
+        b = Restrictions(enum, None)
         c = Restrictions(enum, enum)
 
         assert a != b
