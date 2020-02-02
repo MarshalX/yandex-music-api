@@ -7,13 +7,43 @@ if TYPE_CHECKING:
 
 
 class Station(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий станцию.
+
+    Note:
+        `id_for_from` обозначает предка станции, например, жанр, настроение или занятие.
+        Неизвестно когда используется `id_for_from`, а когда `parent_id`.
 
     Attributes:
+        id (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный идентификатор
+            станции.
+        name (:obj:`str`): Название станции.
+        icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку станции.
+        mts_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
+        geocell_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
+        id_for_from (:obj:`str`): Категория (тип) станции.
+        restrictions (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
+            представляющий ограничения для настроек станции старого формата.
+        restrictions2 (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
+            представляющий ограничения для настроек станции.
+        parent_id (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный
+            идентификатор станции, являющейся предком текущей.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        id_ (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный идентификатор
+            станции.
+        name (:obj:`str`): Название станции.
+        icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку станции.
+        mts_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
+        geocell_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
+        id_for_from (:obj:`str`): Категория (тип) станции.
+        restrictions (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
+            представляющий ограничения для настроек станции старого формата.
+        restrictions2 (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
+            представляющий ограничения для настроек станции.
+        parent_id (:obj:`yandex_music.Id`, optional): Объект класса :class:`yandex_music.Id`, представляющий уникальный
+            идентификатор станции, являющейся предком текущей.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
