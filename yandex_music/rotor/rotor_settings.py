@@ -7,13 +7,32 @@ if TYPE_CHECKING:
 
 
 class RotorSettings(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий настройки станции.
+
+    Note:
+        Поля `energy`, `mood` используются в старых настройках (`settings1`).
+
+        Значения `mood_energy`: `fun`, `active`, `calm`, `sad`, `all`.
+
+        Значения `diversity`: `favorite`, `popular`, `discover`, `default`.
+
+        Значения `language`: `not-russian`, `russian`, `any`.
 
     Attributes:
+        language (:obj:`str`): Язык.
+        diversity (:obj:`str`): Разнообразие (треки).
+        mood (:obj:`int`): Грустное.
+        energy (:obj:`int`): Энергичное.
+        mood_energy (:obj:`str`): Настроение.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        language (:obj:`str`): Язык.
+        diversity (:obj:`str`): Разнообразие (треки).
+        mood (:obj:`int`, optional): Грустное.
+        energy (:obj:`int`, optional): Энергичное.
+        mood_energy (:obj:`str`, optional): Настроение.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -24,7 +43,7 @@ class RotorSettings(YandexMusicObject):
                  diversity: str,
                  mood: Optional[int] = None,
                  energy: Optional[int] = None,
-                 mood_energy=None,
+                 mood_energy: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.language = language
