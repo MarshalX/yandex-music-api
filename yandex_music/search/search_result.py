@@ -18,7 +18,11 @@ de_json_result = {
 class SearchResult(YandexMusicObject):
     """Класс, представляющий результаты поиска.
 
+    Note:
+        Значения поля `type`: `track`, `artist`, `playlist`, `album`, `video`.
+
     Attributes:
+        type (:obj:`str`):  Тип результата.
         total (:obj:`int`): Количество результатов.
         per_page (:obj:`int`): Максимальное количество результатов на странице.
         order (:obj:`int`): Позиция блока.
@@ -28,6 +32,7 @@ class SearchResult(YandexMusicObject):
                 Yandex Music.
 
     Args:
+        type_ (:obj:`str`):  Тип результата.
         total (:obj:`int`): Количество результатов.
         per_page (:obj:`int`): Максимальное количество результатов на странице.
         order (:obj:`int`): Позиция блока.
@@ -39,12 +44,14 @@ class SearchResult(YandexMusicObject):
     """
 
     def __init__(self,
+                 type_: str,
                  total: int,
                  per_page: int,
                  order: int,
                  results: List[Union[Track, Artist, Album, Playlist, Video]],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        self.type = type_
         self.total = total
         self.per_page = per_page
         self.order = order
@@ -70,6 +77,7 @@ class SearchResult(YandexMusicObject):
             return None
 
         data = super(SearchResult, cls).de_json(data, client)
+        data['type_'] = type_
         data['results'] = de_json_result.get(type_)(data.get('results'), client)
 
         return cls(client=client, **data)

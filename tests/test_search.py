@@ -5,10 +5,10 @@ from yandex_music import Search, SearchResult
 
 
 @pytest.fixture(scope='class')
-def search_result(results):
+def search_result(results, types):
     def make_search_result(param):
-        return SearchResult(TestSearchResult.total, TestSearchResult.per_page,
-                            TestSearchResult.order, [results[param]])
+        return SearchResult(types[param], TestSearchResult.total, TestSearchResult.per_page, TestSearchResult.order,
+                            [results[param]])
 
     return make_search_result
 

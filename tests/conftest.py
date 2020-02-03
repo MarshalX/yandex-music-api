@@ -552,6 +552,6 @@ def data_with_type(request, results, types):
 
 
 @pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
-def search_result_with_results(request, results):
-    return SearchResult(TestSearchResult.total, TestSearchResult.per_page,
-                        TestSearchResult.order, [results[request.param]]), [results[request.param]]
+def search_result_with_results_and_type(request, types, results):
+    return SearchResult(types[request.param], TestSearchResult.total, TestSearchResult.per_page, TestSearchResult.order,
+                        [results[request.param]]), [results[request.param]], types[request.param]
