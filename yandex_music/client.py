@@ -1,16 +1,15 @@
-import logging
 import functools
-
+import logging
 from datetime import datetime
-from typing import Callable, Union, List, Optional, Dict
+from typing import Callable, Dict, List, Optional, Union
 
-from yandex_music import YandexMusicObject, Status, Settings, PermissionAlerts, Experiments, Artist, Album, Playlist, \
-    TracksList, Track, AlbumsLikes, ArtistsLikes, PlaylistsLikes, Feed, PromoCodeStatus, DownloadInfo, Search, \
-    Suggestions, Landing, Genre, Dashboard, StationResult, StationTracksResult, BriefInfo, Supplement, ArtistTracks, \
-    ArtistAlbums, ShotEvent, SimilarTracks, UserSettings
-from yandex_music.utils.request import Request
+from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
+    Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, SimilarTracks, \
+    StationResult, StationTracksResult, Status, Suggestions, Supplement, Track, TracksList, UserSettings, \
+    YandexMusicObject
+from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
-from yandex_music.exceptions import InvalidToken, Captcha
+from yandex_music.utils.request import Request
 
 CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
 CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
@@ -20,12 +19,6 @@ de_list = {
     'album': Album.de_list,
     'track': Track.de_list,
     'playlist': Playlist.de_list,
-}
-
-de_list_likes = {
-    'artist': ArtistsLikes.de_list,
-    'album': AlbumsLikes.de_list,
-    'playlist': PlaylistsLikes.de_list,
 }
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -745,7 +738,7 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists(self, kind: Union[List[Union[str, int]], str, int], user_id: Union[str, int] = None,
-                        timeout: Union[int, float] = None,  *args, **kwargs) -> List[Playlist]:
+                        timeout: Union[int, float] = None, *args, **kwargs) -> List[Playlist]:
         """Получение плейлиста или списка плейлистов по уникальным идентификаторам.
 
         Args:
@@ -1531,8 +1524,7 @@ class Client(YandexMusicObject):
         return Playlist.de_list(result, self)
 
     def _get_likes(self, object_type: str, user_id: Union[str, int] = None, params: dict = None,
-                   timeout: Union[int, float] = None, *args, **kwargs) \
-            -> Union[List[ArtistsLikes], List[AlbumsLikes], List[PlaylistsLikes], Optional[TracksList]]:
+                   timeout: Union[int, float] = None, *args, **kwargs) -> Union[List[Like], Optional[TracksList]]:
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -1543,7 +1535,7 @@ class Client(YandexMusicObject):
         if object_type == 'track':
             return TracksList.de_json(result.get('library'), self)
 
-        return de_list_likes.get(object_type)(result, self)
+        return Like.de_list(result, self, object_type)
 
     @log
     def users_likes_tracks(self, user_id: Union[str, int] = None, if_modified_since_revision: int = 0,
@@ -1553,17 +1545,17 @@ class Client(YandexMusicObject):
 
     @log
     def users_likes_albums(self, user_id: Union[str, int] = None, rich: bool = True, timeout: Union[int, float] = None,
-                           *args, **kwargs) -> List[AlbumsLikes]:
+                           *args, **kwargs) -> List[Like]:
         return self._get_likes('album', user_id, {'rich': rich}, timeout, *args, **kwargs)
 
     @log
     def users_likes_artists(self, user_id: Union[str, int] = None, with_timestamps: bool = True,
-                            timeout: Union[int, float] = None, *args, **kwargs) -> List[ArtistsLikes]:
+                            timeout: Union[int, float] = None, *args, **kwargs) -> List[Like]:
         return self._get_likes('artist', user_id, {'with-timestamps': with_timestamps}, timeout, *args, **kwargs)
 
     @log
     def users_likes_playlists(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
-                              *args, **kwargs) -> List[PlaylistsLikes]:
+                              *args, **kwargs) -> List[Like]:
         return self._get_likes('playlist', user_id, timeout=timeout, *args, **kwargs)
 
     @log
