@@ -47,10 +47,6 @@ from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
 
-from .likes.albums_likes import AlbumsLikes
-from .likes.artists_likes import ArtistsLikes
-from .likes.playlists_likes import PlaylistsLikes
-
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
 from .feed.artist_event import ArtistEvent
@@ -102,6 +98,7 @@ from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
 from .supplement.video_supplement import VideoSupplement
 
+from .like import Like
 from .pager import Pager
 from .cover import Cover
 from .invocation_info import InvocationInfo
@@ -114,11 +111,11 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Subscription', 'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments',
            'Cover', 'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album',
            'PlayCounter', 'Playlist', 'TrackShort', 'TracksList', 'Major', 'Normalization', 'TrackPosition', 'Track',
-           'AlbumsLikes', 'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent',
-           'AlbumEvent', 'Feed', 'Event', 'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'Best', 'Search',
-           'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld',
-           'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre',
-           'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum',
-           'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult', 'BriefInfo', 'Description',
-           'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums',
-           'PlaylistAbsence', 'Shot', 'ShotEvent', 'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings']
+           'Like', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent', 'AlbumEvent', 'Feed', 'Event',
+           'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'Best', 'Search', 'Suggestions', 'MixLink',
+           'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld', 'PersonalPlaylistsData', 'Promotion',
+           'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre', 'Icon', 'Images', 'Id', 'Station',
+           'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult',
+           'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
+           'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
+           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings']
