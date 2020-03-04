@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Tuple, List
 
 from yandex_music import YandexMusicObject
 
@@ -77,6 +77,19 @@ class Search(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.search_request_id, self.text, self.best, self.albums,
                           self.artists, self.playlists, self.tracks, self.videos)
+
+    def by_order(self) -> List['SearchResult']:
+        """Получение результатов поиска в виде отсортированного списка.
+        Returns:
+            :obj:`list` из :obj:`yandex_music.search.SearchResult`:
+            Список объектов класса :class:`yandex_music.search.SearchResult`
+            представляющий результаты поиска.
+        """
+        return sorted([getattr(self, attr) for attr in self.get_result_attributes()], key=lambda sr: sr.order)
+
+    @staticmethod
+    def get_result_attributes() -> Tuple[str, str, str, str, str]:
+        return 'albums', 'artists', 'playlists', 'tracks', 'videos'
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
