@@ -11,6 +11,7 @@ class TestTrack:
     og_image = 'avatars.yandex.net/get-music-content/28589/daef4251.a.1193829-1/%%'
     type = 'music'
     cover_uri = 'avatars.yandex.net/get-music-content/28589/daef4251.a.1193829-1/%%'
+    version = 'Radio Edit'
     duration_ms = 251270
     storage_dir = '51327_109b74ca.36526310.1.609676'
     file_size = 6036792
@@ -35,6 +36,7 @@ class TestTrack:
         assert track.type == self.type
         assert track.cover_uri == self.cover_uri
         assert track.major == major
+        assert track.version == self.version
         assert track.duration_ms == self.duration_ms
         assert track.storage_dir == self.storage_dir
         assert track.file_size == self.file_size

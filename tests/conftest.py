@@ -49,7 +49,7 @@ def track_factory(major, normalization):
         def get(self, artists, albums):
             return Track(TestTrack.id, TestTrack.title, TestTrack.available, artists, albums,
                          TestTrack.available_for_premium_users, TestTrack.lyrics_available, TestTrack.real_id,
-                         TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms,
+                         TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major, TestTrack.version, TestTrack.duration_ms,
                          TestTrack.storage_dir, TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
                          TestTrack.available_as_rbt, TestTrack.content_warning, TestTrack.explicit,
                          TestTrack.preview_duration_ms, TestTrack.available_full_without_permission)
