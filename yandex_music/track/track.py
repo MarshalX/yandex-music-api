@@ -32,6 +32,7 @@ class Track(YandexMusicObject):
                  type_: Optional[str] = None,
                  cover_uri: Optional[str] = None,
                  major: Optional['Major'] = None,
+                 version: Optional[str] = None,
                  duration_ms: Optional[int] = None,
                  storage_dir: Optional[str] = None,
                  file_size: Optional[int] = None,
@@ -58,6 +59,7 @@ class Track(YandexMusicObject):
         self.type = type_
         self.cover_uri = cover_uri
         self.major = major
+        self.version = version
         self.duration_ms = duration_ms
         self.storage_dir = storage_dir
         self.file_size = file_size
