@@ -52,7 +52,8 @@ def track_factory(major, normalization):
                          TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms,
                          TestTrack.storage_dir, TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
                          TestTrack.available_as_rbt, TestTrack.content_warning, TestTrack.explicit,
-                         TestTrack.preview_duration_ms, TestTrack.available_full_without_permission)
+                         TestTrack.preview_duration_ms, TestTrack.available_full_without_permission, TestTrack.version,
+                         TestTrack.remember_position)
 
     return TrackFactory()
 

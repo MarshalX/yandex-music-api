@@ -43,6 +43,8 @@ class Track(YandexMusicObject):
                  explicit=None,
                  preview_duration_ms: Optional[int] = None,
                  available_full_without_permission: Optional[bool] = None,
+                 version: Optional[str] = None,
+                 remember_position: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -69,6 +71,8 @@ class Track(YandexMusicObject):
         self.explicit = explicit
         self.preview_duration_ms = preview_duration_ms
         self.available_full_without_permission = available_full_without_permission
+        self.version = version
+        self.remember_position = remember_position
 
         self.download_info = None
 
