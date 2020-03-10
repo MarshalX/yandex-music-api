@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
+from yandex_music.exceptions import InvalidBitrate
 
 if TYPE_CHECKING:
     from yandex_music import Client, Normalization, Major, Album, Artist, Supplement, DownloadInfo
@@ -118,6 +119,9 @@ class Track(YandexMusicObject):
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
                 info.download(filename)
+                break
+        else:
+            raise InvalidBitrate('Unavailable bitrate')
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::

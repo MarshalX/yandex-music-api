@@ -26,6 +26,12 @@ class Unauthorized(YandexMusicError):
     pass
 
 
+class InvalidBitrate(YandexMusicError):
+    """Класс исключения, вызываемого при попытке загрузки трека
+    с недоступным битрейтом.
+    """
+
+
 class Captcha(YandexMusicError):
     """Базовый класс, представляющий исключение связанное с капчей.
 
