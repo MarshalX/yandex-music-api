@@ -7,13 +7,17 @@ if TYPE_CHECKING:
 
 
 class Normalization(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий значения для нормализации трека.
 
     Attributes:
+        gain (:obj:`str`): Значение гейна, которое нужно применить к аудиосигналу.
+        peak (:obj:`int`): Пиковая точка волны аудиосигнала.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
                 Yandex Music.
 
     Args:
+        gain (:obj:`str`): Значение гейна, которое нужно применить к аудиосигналу.
+        peak (:obj:`int`): Пиковая точка волны аудиосигнала.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
