@@ -79,9 +79,8 @@ class DownloadInfo(YandexMusicObject):
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
         s = self._get_text_node_data(doc.getElementsByTagName('s'))
         sign = md5(('XGRlBW9FXlekgbPrRHuSiA' + path[1::] + s).encode('utf-8')).hexdigest()
-        # TODO sign для AAC кодека
 
-        self.direct_link = f'https://{host}/get-{self.codec}/{sign}/{ts}{path}'
+        self.direct_link = f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
         return self.direct_link
 
