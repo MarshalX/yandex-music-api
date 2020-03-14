@@ -7,13 +7,90 @@ if TYPE_CHECKING:
 
 
 class Playlist(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий плейлист.
+
+    Note:
+        Известные значения `visibility`: `public` - публичный плейлист, `private` - приватный плейлист.
 
     Attributes:
+        owner (:obj:`yandex_music.User`): Объект класса :class:`yandex_music.User`, представляющий владельца
+            плейлиста.
+        cover (:obj:`yandex_music.Cover`): Объект класса :class:`yandex_music.Cover`, представляющий обложку
+            альбома.
+        made_for (:obj:`yandex_music.MadeFor`): Объект класса :class:`yandex_music.MadeFor`, представляющий
+            пользователя для которого был создан плейлист. Присутствует только у персональных плейлистов.
+        play_counter (:obj:`yandex_music.PlayCounter`): Объект класса :class:`yandex_music.PlayCounter`,
+            представляющий счетчик дней. Присутствует только у плейлиста дня.
+        playlist_absence (:obj:`yandex_music.PlaylistAbsence`): Объект класса
+            :class:`yandex_music.PlaylistAbsence`, представляющий причину отсутствия плейлиста.
+        uid (:obj:`int`): Идентификатор владельца плейлиста.
+        kind (:obj:`int`): Идентификатор плейлиста.
+        title (:obj:`str`): Название плейлиста.
+        track_count (:obj:`int`): Количество треков.
+        tags (:obj:`list`): Список тегов плейлиста.
+        revision (:obj:`int`): Актуальность данных TODO.
+        snapshot (:obj:`int`): Версия плейлиста. Увеличивается на 1 при каждом изменении.
+        visibility (:obj:`str`): Видимость плейлиста.
+        collective (:obj:`bool`): Есть ли у плейлиста соавторы.
+        created (:obj:`str`): Дата создания в формате ISO 8601.
+        modified (:obj:`str`): Дата последнего изменения в формате ISO 8601.
+        available (:obj:`bool`): TODO
+        is_banner (:obj:`bool`): TODO
+        is_premiere (:obj:`bool`): TODO
+        duration_ms (:obj:`int`): Длительность в миллисекундах.
+        og_image (:obj:`str`): Ссылка на превью Open Graph.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
+        prerolls (:obj:`list`): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных
+            плейлистов.
+        likes_count (:obj:`int`): Количество лайков.
+        generated_playlist_type (:obj:`str`): Тип генерируемого плейлиста.
+        animated_cover_uri (:obj:`str`): Ссылка на анимированную обложку.
+        ever_played (:obj:`str`): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
+        description (:obj:`str`): Описание плейлиста с разметкой Markdown.
+        description_formatted (:obj:`str`): Описание плейлиста. Только текст, без разметки.
+        is_for_from: TODO
+        regions: TODO
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            Yandex Music.
 
     Args:
+        owner (:obj:`yandex_music.User`, optional): Объект класса :class:`yandex_music.User`, представляющий владельца
+            плейлиста.
+        cover (:obj:`yandex_music.Cover`, optional): Объект класса :class:`yandex_music.Cover`, представляющий обложку
+            альбома.
+        made_for (:obj:`yandex_music.MadeFor`, optional): Объект класса :class:`yandex_music.MadeFor`, представляющий
+            пользователя для которого был создан плейлист. Присутствует только у персональных плейлистов.
+        play_counter (:obj:`yandex_music.PlayCounter`, optional): Объект класса :class:`yandex_music.PlayCounter`,
+            представляющий счетчик дней. Присутствует только у плейлиста дня.
+        playlist_absence (:obj:`yandex_music.PlaylistAbsence`, optional): Объект класса
+            :class:`yandex_music.PlaylistAbsence`, представляющий причину отсутствия плейлиста.
+        uid (:obj:`int`, optional): Идентификатор владельца плейлиста.
+        kind (:obj:`int`, optional): Идентификатор плейлиста.
+        title (:obj:`str`, optional): Название плейлиста.
+        track_count (:obj:`int`, optional): Количество треков.
+        tags (:obj:`list`, optional): Список тегов плейлиста.
+        revision (:obj:`int`, optional): Актуальность данных TODO.
+        snapshot (:obj:`int`, optional): Версия плейлиста. Увеличивается на 1 при каждом изменении.
+        visibility (:obj:`str`, optional): Видимость плейлиста.
+        collective (:obj:`bool`, optional): Есть ли у плейлиста соавторы.
+        created (:obj:`str`, optional): Дата создания в формате ISO 8601.
+        modified (:obj:`str`, optional): Дата последнего изменения в формате ISO 8601.
+        available (:obj:`bool`, optional): TODO
+        is_banner (:obj:`bool`, optional): TODO
+        is_premiere (:obj:`bool`, optional): TODO
+        duration_ms (:obj:`int`, optional): Длительность в миллисекундах.
+        og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`, optional): Список треков.
+        prerolls (:obj:`list`, optional): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных
+            плейлистов.
+        likes_count (:obj:`int`, optional): Количество лайков.
+        generated_playlist_type (:obj:`str`, optional): Тип генерируемого плейлиста.
+        animated_cover_uri (:obj:`str`, optional): Ссылка на анимированную обложку.
+        ever_played (:obj:`str`, optional): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
+        description (:obj:`str`, optional): Описание плейлиста с разметкой Markdown.
+        description_formatted (:obj:`str`, optional): Описание плейлиста. Только текст, без разметки.
+        is_for_from: TODO
+        regions: TODO
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
