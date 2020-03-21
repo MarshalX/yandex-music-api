@@ -13,16 +13,14 @@ class ShotData(YandexMusicObject):
         cover_uri (:obj:`str`): Ссылка на обложку шота (иконка Алисы).
         mds_url (:obj:`str`): Ссылка на аудиоверсию шота в озвучке от Алисы.
         shot_text (:obj:`str`): Текстовая версия шота.
-        shot_type (:obj:`yandex_music.ShotType`): Объект класса :class:`yandex_music.ShotType` представляющий тип
-            шота.
+        shot_type (:obj:`yandex_music.ShotType`): Тип шота.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         cover_uri (:obj:`str`): Ссылка на обложку шота (иконка Алисы).
         mds_url (:obj:`str`): Ссылка на аудиоверсию шота в озвучке от Алисы.
         shot_text (:obj:`str`): Текстовая версия шота.
-        shot_type (:obj:`yandex_music.ShotType`): Объект класса :class:`yandex_music.ShotType` представляющий тип
-            шота.
+        shot_type (:obj:`yandex_music.ShotType`): Тип шота.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -68,7 +66,7 @@ class ShotData(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ShotData`: Объект класса :class:`yandex_music.ShotData`.
+            :obj:`yandex_music.ShotData`: Основная информация о шоте.
         """
         if not data:
             return None

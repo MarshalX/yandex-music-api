@@ -52,7 +52,7 @@ class Promotion(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Promotion`: Объект класса :class:`yandex_music.Promotion`.
+            :obj:`yandex_music.Promotion`: TODO.
         """
         if not data:
             return None
@@ -70,7 +70,7 @@ class Promotion(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Promotion`: Список объектов класса :class:`yandex_music.Promotion`.
+            :obj:`list` из :obj:`yandex_music.Promotion`: TODO.
         """
         if not data:
             return []

@@ -53,7 +53,7 @@ class Counts(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Counts`: Объект класса :class:`yandex_music.Counts`.
+            :obj:`yandex_music.Counts`: Cчётчик некоторых значений исполнителя.
         """
         if not data:
             return None

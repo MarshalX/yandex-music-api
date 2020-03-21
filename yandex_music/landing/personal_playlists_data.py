@@ -35,7 +35,7 @@ class PersonalPlaylistsData(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PersonalPlaylistsData`: Объект класса :class:`yandex_music.PersonalPlaylistsData`.
+            :obj:`yandex_music.PersonalPlaylistsData`: TODO.
         """
         if not data:
             return None

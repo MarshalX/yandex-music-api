@@ -41,7 +41,7 @@ class Value(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Value`: Объект класса :class:`yandex_music.Value`.
+            :obj:`yandex_music.Value`: Значение.
         """
         if not data:
             return None
@@ -59,7 +59,7 @@ class Value(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Value`: Список объектов класса :class:`yandex_music.Value`.
+            :obj:`list` из :obj:`yandex_music.Value`: Значения.
         """
         if not data:
             return []

@@ -14,35 +14,27 @@ class Station(YandexMusicObject):
         Неизвестно когда используется `id_for_from`, а когда `parent_id`.
 
     Attributes:
-        id (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный идентификатор
-            станции.
+        id (:obj:`yandex_music.Id`): Уникальный идентификатор станции.
         name (:obj:`str`): Название станции.
-        icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку станции.
-        mts_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
-        geocell_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
+        icon (:obj:`yandex_music.Icon`): Иконка станции.
+        mts_icon (:obj:`yandex_music.Icon`): Иконка TODO.
+        geocell_icon (:obj:`yandex_music.Icon`): Иконка TODO.
         id_for_from (:obj:`str`): Категория (тип) станции.
-        restrictions (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
-            представляющий ограничения для настроек станции старого формата.
-        restrictions2 (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
-            представляющий ограничения для настроек станции.
-        parent_id (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный
-            идентификатор станции, являющейся предком текущей.
+        restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
+        restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
+        parent_id (:obj:`yandex_music.Id`): Уникальный идентификатор станции, являющейся предком текущей.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
-        id_ (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный идентификатор
-            станции.
+        id_ (:obj:`yandex_music.Id`): Уникальный идентификатор станции.
         name (:obj:`str`): Название станции.
-        icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку станции.
-        mts_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
-        geocell_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Icon`, представляющий иконку TODO.
+        icon (:obj:`yandex_music.Icon`): Иконка станции.
+        mts_icon (:obj:`yandex_music.Icon`): Иконка TODO.
+        geocell_icon (:obj:`yandex_music.Icon`): Иконка TODO.
         id_for_from (:obj:`str`): Категория (тип) станции.
-        restrictions (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
-            представляющий ограничения для настроек станции старого формата.
-        restrictions2 (:obj:`yandex_music.Restrictions`): Объект класса :class:`yandex_music.Restrictions`,
-            представляющий ограничения для настроек станции.
-        parent_id (:obj:`yandex_music.Id`, optional): Объект класса :class:`yandex_music.Id`, представляющий уникальный
-            идентификатор станции, являющейся предком текущей.
+        restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
+        restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
+        parent_id (:obj:`yandex_music.Id`, optional): Уникальный идентификатор станции, являющейся предком текущей.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -83,7 +75,7 @@ class Station(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Station`: Объект класса :class:`yandex_music.Station`.
+            :obj:`yandex_music.Station`: Станция.
         """
         if not data:
             return None

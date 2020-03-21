@@ -46,7 +46,7 @@ class Ratings(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Ratings`: Объект класса :class:`yandex_music.Ratings`.
+            :obj:`yandex_music.Ratings`: Рейтинг исполнителя.
         """
         if not data:
             return None

@@ -61,8 +61,7 @@ class CaptchaResponse(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.utils.captcha_response.CaptchaResponse`: Объект класса
-            :class:`yandex_music.utils.captcha_response.CaptchaResponse`.
+            :obj:`yandex_music.utils.captcha_response.CaptchaResponse`: Ответ сервера с запросом на ввод капчи.
         """
         if not data:
             return None

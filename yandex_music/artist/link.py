@@ -52,7 +52,7 @@ class Link(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Link`: Объект класса :class:`yandex_music.Link`.
+            :obj:`yandex_music.Link`: Ссылка на официальную страницу исполнителя.
         """
         if not data:
             return None
@@ -70,7 +70,7 @@ class Link(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Link`: Список объектов класса :class:`yandex_music.Link`.
+            :obj:`list` из :obj:`yandex_music.Link`: Ссылки на официальные страницы исполнителя.
         """
         if not data:
             return []

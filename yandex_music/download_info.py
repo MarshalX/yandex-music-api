@@ -102,7 +102,7 @@ class DownloadInfo(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.DownloadInfo`: Объект класса :class:`yandex_music.DownloadInfo`.
+            :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
         if not data:
             return None
@@ -121,7 +121,7 @@ class DownloadInfo(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Список объектов класса :class:`yandex_music.DownloadInfo`.
+            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
         if not data:
             return []

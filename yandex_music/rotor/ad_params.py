@@ -70,7 +70,7 @@ class AdParams(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.AdParams`: Объект класса :class:`yandex_music.AdParams`.
+            :obj:`yandex_music.AdParams`: Параметры рекламного объявления.
         """
         if not data:
             return None

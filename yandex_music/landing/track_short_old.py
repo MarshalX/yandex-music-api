@@ -37,7 +37,7 @@ class TrackShortOld(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackShortOld`: Объект класса :class:`yandex_music.TrackShortOld`.
+            :obj:`yandex_music.TrackShortOld`: TODO.
         """
         if not data:
             return None
@@ -57,8 +57,7 @@ class TrackShortOld(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.TrackShortOld`: Список объектов класса
-            :class:`yandex_music.TrackShortOld`.
+            :obj:`list` из :obj:`yandex_music.TrackShortOld`: TODO.
         """
         if not data:
             return []

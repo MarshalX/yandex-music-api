@@ -45,7 +45,7 @@ class Description(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Description`: Объект класса :class:`yandex_music.Descriptions`.
+            :obj:`yandex_music.Description`: Описание исполнителя из другого источника.
         """
         if not data:
             return None

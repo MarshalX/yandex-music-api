@@ -37,7 +37,7 @@ class Major(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Major`: Объект класса :class:`yandex_music.Major`.
+            :obj:`yandex_music.Major`: TODO.
         """
         if not data:
             return None

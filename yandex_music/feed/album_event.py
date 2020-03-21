@@ -37,7 +37,7 @@ class AlbumEvent(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.AlbumEvent`: Объект класса :class:`yandex_music.AlbumEvent`.
+            :obj:`yandex_music.AlbumEvent`: TODO.
         """
         if not data:
             return None
@@ -58,7 +58,7 @@ class AlbumEvent(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.AlbumEvent`: Список объектов класса :class:`yandex_music.AlbumEvent`.
+            :obj:`list` из :obj:`yandex_music.AlbumEvent`: TODO.
         """
         if not data:
             return []

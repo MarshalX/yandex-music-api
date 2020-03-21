@@ -12,15 +12,13 @@ class PromoCodeStatus(YandexMusicObject):
     Attributes:
         status (:obj:`str`): Статус операции.
         status_desc (:obj:`str`): Описание статуса.
-        account_status (:obj:`yandex_music.Status`): Объект класса :class:`yandex_music.Status` представляющий подробную
-            информацию об аккаунте пользователя.
+        account_status (:obj:`yandex_music.Status`): Информация об аккаунте пользователя.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         status (:obj:`str`): Статус операции.
         status_desc (:obj:`str`): Описание статуса.
-        account_status (:obj:`yandex_music.Status`): Объект класса :class:`yandex_music.Status` представляющий подробную
-            информацию об аккаунте пользователя.
+        account_status (:obj:`yandex_music.Status`): Информация об аккаунте пользователя.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -47,7 +45,7 @@ class PromoCodeStatus(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PromoCodeStatus`: Объект класса :class:`yandex_music.PromoCodeStatus`.
+            :obj:`yandex_music.PromoCodeStatus`: Статус активации промо-кода.
         """
         if not data:
             return None

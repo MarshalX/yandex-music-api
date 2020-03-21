@@ -11,15 +11,15 @@ class Dashboard(YandexMusicObject):
 
     Attributes:
         dashboard_id (:obj:`str`): Уникальный идентификатор панели.
-        stations (:obj:`list` из :obj:`yandex_music.StationResult`): Список объектов класса
-            :class:`yandex_music.StationResult`, представляющих станции со всеми возможными настройками и параметрами.
+        stations (:obj:`list` из :obj:`yandex_music.StationResult`): Станции со всеми возможными настройками и
+            параметрами.
         pumpkin (:obj:`str`): Хэллоуин.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         dashboard_id (:obj:`str`): Уникальный идентификатор панели.
-        stations (:obj:`list` из :obj:`yandex_music.StationResult`): Список объектов класса
-            :class:`yandex_music.StationResult`, представляющих станции со всеми возможными настройками и параметрами.
+        stations (:obj:`list` из :obj:`yandex_music.StationResult`): Станции со всеми возможными настройками и
+            параметрами.
         pumpkin (:obj:`str`): Хэллоуин.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -47,7 +47,7 @@ class Dashboard(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Dashboard`: Объект класса :class:`yandex_music.Dashboard`.
+            :obj:`yandex_music.Dashboard`: Рекомендованные станций пользователя.
         """
         if not data:
             return None

@@ -150,7 +150,7 @@ class Track(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Track`: Объект класса :class:`yandex_music.Track`.
+            :obj:`yandex_music.Track`: TODO.
         """
         if not data:
             return None
@@ -173,7 +173,7 @@ class Track(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Track`: Список объектов класса :class:`yandex_music.Track`.
+            :obj:`list` из :obj:`yandex_music.Track`: TODO.
         """
         if not data:
             return []

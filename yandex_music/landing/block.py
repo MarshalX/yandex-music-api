@@ -52,7 +52,7 @@ class Block(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Block`: Объект класса :class:`yandex_music.Block`.
+            :obj:`yandex_music.Block`: TODO.
         """
         if not data:
             return None
@@ -78,7 +78,7 @@ class Block(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Block`: Список объектов класса :class:`yandex_music.Block`.
+            :obj:`list` из :obj:`yandex_music.Block`: TODO.
         """
         if not data:
             return []

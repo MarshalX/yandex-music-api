@@ -41,7 +41,7 @@ class Title(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Title`: Объект класса :class:`yandex_music.Title`.
+            :obj:`yandex_music.Title`: Заголовок жанра.
         """
         if not data:
             return None
@@ -59,7 +59,7 @@ class Title(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Title`: Список объектов класса :class:`yandex_music.Title`.
+            :obj:`list` из :obj:`yandex_music.Title`: Заголовки жанров.
         """
         if not data:
             return {}

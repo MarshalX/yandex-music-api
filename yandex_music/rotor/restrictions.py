@@ -15,29 +15,19 @@ class Restrictions(YandexMusicObject):
     """Класс, представляющий ограничения для настроек станции.
 
     Attributes:
-        language (:obj:`yandex_music.Enum`): Объект класса :class:`yandex_music.Enum`, представляющий перечисление
-            значений для языков.
-        diversity (:obj:`yandex_music.Enum`): Объект класса :class:`yandex_music.Enum`, представляющий перечисление
-            значений для разнообразия (треков).
-        mood (:obj:`yandex_music.DiscreteScale`): Объект класса :class:`yandex_music.DiscreteScale`, представляющий
-            ограничения для значения настроения.
-        energy (:obj:`yandex_music.DiscreteScale`): Объект класса :class:`yandex_music.DiscreteScale`, представляющий
-            ограничения для значения энергичности.
-        mood_energy (:obj:`yandex_music.Enum`): Объект класса :class:`yandex_music.Enum`, представляющий перечисление
-            значений для настроения.
+        language (:obj:`yandex_music.Enum`): Перечисление значений для языков.
+        diversity (:obj:`yandex_music.Enum`): Перечисление значений для разнообразия (треков).
+        mood (:obj:`yandex_music.DiscreteScale`): Ограничение для значений настроения.
+        energy (:obj:`yandex_music.DiscreteScale`): Ограничение для значений энергичности.
+        mood_energy (:obj:`yandex_music.Enum`): Значения для настроения.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
-        language (:obj:`yandex_music.Enum`): Объект класса :class:`yandex_music.Enum`, представляющий перечисление
-            значений для языков.
-        diversity (:obj:`yandex_music.Enum`): Объект класса :class:`yandex_music.Enum`, представляющий перечисление
-            значений для разнообразия (треков).
-        mood (:obj:`yandex_music.DiscreteScale`, optional): Объект класса :class:`yandex_music.DiscreteScale`,
-            представляющий ограничения для значения настроения.
-        energy (:obj:`yandex_music.DiscreteScale`, optional): Объект класса :class:`yandex_music.DiscreteScale`,
-            представляющий ограничения для значения энергичности.
-        mood_energy (:obj:`yandex_music.Enum`, optional): Объект класса :class:`yandex_music.Enum`, представляющий
-            перечисление значений для настроения.
+        language (:obj:`yandex_music.Enum`): Перечисление значений для языков.
+        diversity (:obj:`yandex_music.Enum`): Перечисление значений для разнообразия (треков).
+        mood (:obj:`yandex_music.DiscreteScale`, optional): Ограничение для значений настроения.
+        energy (:obj:`yandex_music.DiscreteScale`, optional): Ограничение для значений энергичности.
+        mood_energy (:obj:`yandex_music.Enum`, optional): Значения для настроения.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -68,7 +58,7 @@ class Restrictions(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Restrictions`: Объект класса :class:`yandex_music.Restrictions`.
+            :obj:`yandex_music.Restrictions`: Ограничения для настроек станции.
         """
         if not data:
             return None

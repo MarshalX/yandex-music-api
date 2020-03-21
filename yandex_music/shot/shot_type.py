@@ -41,7 +41,7 @@ class ShotType(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ShotType`: Объект класса :class:`yandex_music.ShotType`.
+            :obj:`yandex_music.ShotType`: Тип шота от Алисы.
         """
         if not data:
             return None

@@ -39,7 +39,7 @@ class Sequence(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Sequence`: Объект класса :class:`yandex_music.Sequence`.
+            :obj:`yandex_music.Sequence`: TODO.
         """
         if not data:
             return None
@@ -59,7 +59,7 @@ class Sequence(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Sequence`: Список объектов класса :class:`yandex_music.Sequence`.
+            :obj:`list` из :obj:`yandex_music.Sequence`: TODO.
         """
         if not data:
             return []

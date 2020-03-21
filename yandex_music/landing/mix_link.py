@@ -57,7 +57,7 @@ class MixLink(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.MixLink`: Объект класса :class:`yandex_music.MixLink`.
+            :obj:`yandex_music.MixLink`: TODO.
         """
         if not data:
             return None
@@ -75,7 +75,7 @@ class MixLink(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.MixLink`: Список объектов класса :class:`yandex_music.MixLink`.
+            :obj:`list` из :obj:`yandex_music.MixLink`: TODO.
         """
         if not data:
             return []

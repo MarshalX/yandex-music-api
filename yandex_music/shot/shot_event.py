@@ -11,14 +11,12 @@ class ShotEvent(YandexMusicObject):
 
     Attributes:
         event_id (:obj:`str`): Уникальный идентификатор события.
-        shots (:obj:`list` из :obj:`yandex_music.Shot`): Список объектов класса :class:`yandex_music.Shot`
-            представляющие шоты от Алисы.
+        shots (:obj:`list` из :obj:`yandex_music.Shot`): Шоты от Алисы.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         event_id (:obj:`str`): Уникальный идентификатор события.
-        shots (:obj:`list` из :obj:`yandex_music.Shot`): Список объектов класса :class:`yandex_music.Shot`
-            представляющие шоты от Алисы.
+        shots (:obj:`list` из :obj:`yandex_music.Shot`): Шоты от Алисы.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -43,7 +41,7 @@ class ShotEvent(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ShotEvent`: Объект класса :class:`yandex_music.ShotEvent`.
+            :obj:`yandex_music.ShotEvent`: Событие-шот перед началом следующего трека.
         """
         if not data:
             return None

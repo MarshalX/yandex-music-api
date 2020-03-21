@@ -46,7 +46,7 @@ class InvocationInfo(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.InvocationInfo`: Объект класса :class:`yandex_music.InvocationInfo`.
+            :obj:`yandex_music.InvocationInfo`: Информация о запросе.
         """
         if not data:
             return None

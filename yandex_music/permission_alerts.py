@@ -36,7 +36,7 @@ class PermissionAlerts(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PermissionAlerts`: Объект класса :class:`yandex_music.PermissionAlerts`.
+            :obj:`yandex_music.PermissionAlerts`: Оповещение.
         """
         if not data:
             return None

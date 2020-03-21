@@ -45,7 +45,7 @@ class Pager(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Pager`: Объект класса :class:`yandex_music.Pager`.
+            :obj:`yandex_music.Pager`: Пагинатор.
         """
         if not data:
             return None

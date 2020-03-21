@@ -62,7 +62,7 @@ class User(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.User`: Объект класса :class:`yandex_music.User`.
+            :obj:`yandex_music.User`: Пользователь.
         """
         if not data:
             return None

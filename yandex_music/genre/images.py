@@ -56,7 +56,7 @@ class Images(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Images`: Объект класса :class:`yandex_music.Images`.
+            :obj:`yandex_music.Images`: Изображение жанра.
         """
         if not data:
             return None

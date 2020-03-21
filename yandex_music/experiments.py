@@ -35,7 +35,7 @@ class Experiments(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Experiments`: Объект класса :class:`yandex_music.Experiments`.
+            :obj:`yandex_music.Experiments`: Какие-то свистелки-перделки, флажки, режимы экспериментальных функций.
         """
         if not data:
             return None

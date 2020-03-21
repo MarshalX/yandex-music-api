@@ -41,7 +41,7 @@ class PlaylistAbsence(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PlaylistAbsence`: Объект класса :class:`yandex_music.PlaylistAbsence`.
+            :obj:`yandex_music.PlaylistAbsence`: Причина отсутствия плейлиста.
         """
         if not data:
             return None

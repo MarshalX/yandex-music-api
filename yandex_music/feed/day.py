@@ -41,7 +41,7 @@ class Day(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Day`: Объект класса :class:`yandex_music.Day`.
+            :obj:`yandex_music.Day`: TODO.
         """
         if not data:
             return None
@@ -63,7 +63,7 @@ class Day(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Day`: Список объектов класса :class:`yandex_music.Day`.
+            :obj:`list` из :obj:`yandex_music.Day`: TODO.
         """
         if not data:
             return []

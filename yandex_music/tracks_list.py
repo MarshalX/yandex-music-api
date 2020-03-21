@@ -12,13 +12,13 @@ class TracksList(YandexMusicObject):
     Attributes:
         uid (:obj:`int`): Уникальный идентификатор пользователя.
         revision (:obj:`int`): Актуальность данных TODO.
-        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков в укороченной версии.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         uid (:obj:`int`): Уникальный идентификатор пользователя.
         revision (:obj:`int`): Актуальность данных TODO.
-        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков в укороченной версии.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -56,7 +56,7 @@ class TracksList(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TracksList`: Объект класса :class:`yandex_music.TracksList`.
+            :obj:`yandex_music.TracksList`: Список треков.
         """
         if not data:
             return None

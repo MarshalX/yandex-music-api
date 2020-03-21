@@ -62,7 +62,7 @@ class VideoSupplement(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.VideoSupplement`: Объект класса :class:`yandex_music.VideoSupplement`.
+            :obj:`yandex_music.VideoSupplement`: Видеоклип.
         """
         if not data:
             return None
@@ -80,8 +80,7 @@ class VideoSupplement(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.VideoSupplement`: Список объектов класса
-            :class:`yandex_music.VideoSupplement`.
+            :obj:`list` из :obj:`yandex_music.VideoSupplement`: Видеоклипы.
         """
         if not data:
             return []

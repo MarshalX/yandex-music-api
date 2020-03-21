@@ -37,7 +37,7 @@ class ChartItem(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ChartItem`: Объект класса :class:`yandex_music.ChartItem`.
+            :obj:`yandex_music.ChartItem`: TODO.
         """
         if not data:
             return None
@@ -58,7 +58,7 @@ class ChartItem(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.ChartItem`: Список объектов класса :class:`yandex_music.ChartItem`.
+            :obj:`list` из :obj:`yandex_music.ChartItem`: TODO.
         """
         if not data:
             return []

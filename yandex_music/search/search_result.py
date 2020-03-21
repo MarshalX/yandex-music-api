@@ -68,7 +68,7 @@ class SearchResult(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.SearchResult`: Объект класса :class:`yandex_music.SearchResult`.
+            :obj:`yandex_music.SearchResult`: Результаты поиска.
         """
         if not data:
             return None

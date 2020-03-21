@@ -57,7 +57,7 @@ class Best(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Best`: Объект класса :class:`yandex_music.Best`.
+            :obj:`yandex_music.Best`: Лучший результат.
         """
         if not data:
             return None

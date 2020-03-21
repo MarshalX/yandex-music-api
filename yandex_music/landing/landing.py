@@ -43,7 +43,7 @@ class Landing(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Landing`: Объект класса :class:`yandex_music.Landing`.
+            :obj:`yandex_music.Landing`: TODO.
         """
         if not data:
             return None

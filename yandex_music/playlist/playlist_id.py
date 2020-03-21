@@ -41,7 +41,7 @@ class PlaylistId(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PlaylistId`: Объект класса :class:`yandex_music.PlaylistId`.
+            :obj:`yandex_music.PlaylistId`: Уникальный идентификатор плейлиста.
         """
         if not data:
             return None
@@ -59,7 +59,7 @@ class PlaylistId(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.PlaylistId`: Список объектов класса :class:`yandex_music.PlaylistId`.
+            :obj:`list` из :obj:`yandex_music.PlaylistId`: Уникальные идентификаторы плейлистов.
         """
         if not data:
             return []

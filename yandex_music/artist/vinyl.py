@@ -57,7 +57,7 @@ class Vinyl(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Vinyl`: Объект класса :class:`yandex_music.Vinyl`.
+            :obj:`yandex_music.Vinyl`: Ваниловая пластинка.
         """
         if not data:
             return None
@@ -75,7 +75,7 @@ class Vinyl(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Vinyl`: Список объектов класса :class:`yandex_music.Vinyl`.
+            :obj:`list` из :obj:`yandex_music.Vinyl`: Ваниловые пластинки.
         """
         if not data:
             return []

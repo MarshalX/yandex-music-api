@@ -19,7 +19,6 @@ reserved_names = [name.lower() for name in dir(builtins)]
 class YandexMusicObject:
     __metaclass__ = ABCMeta
     _id_attrs: tuple = ()
-
     def __str__(self) -> str:
         return str(self.to_dict())
 
@@ -38,7 +37,7 @@ class YandexMusicObject:
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.YandexMusicObject`: Объект класса :class:`yandex_music.YandexMusicObject`.
+            :obj:`yandex_music.YandexMusicObject` | :obj:`None`: :obj:`yandex_music.YandexMusicObject` или :obj:`None`.
         """
         if not data:
             return None

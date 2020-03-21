@@ -49,7 +49,7 @@ class PlayCounter(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PlayCounter`: Объект класса :class:`yandex_music.PlayCounter`.
+            :obj:`yandex_music.PlayCounter`: Счетчик дней.
         """
         if not data:
             return None

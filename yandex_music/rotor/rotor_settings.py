@@ -63,7 +63,7 @@ class RotorSettings(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.RotorSettings`: Объект класса :class:`yandex_music.RotorSettings`.
+            :obj:`yandex_music.RotorSettings`: Настройки станции.
         """
         if not data:
             return None

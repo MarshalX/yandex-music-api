@@ -50,7 +50,7 @@ class Feed(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Feed`: Объект класса :class:`yandex_music.Feed`.
+            :obj:`yandex_music.Feed`: TODO.
         """
         if not data:
             return None

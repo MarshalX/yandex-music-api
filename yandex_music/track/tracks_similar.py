@@ -10,15 +10,13 @@ class SimilarTracks(YandexMusicObject):
     """Класс, представляющий список похожих треков на другой трек.
 
     Attributes:
-        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track` представляющий трек.
-        similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Список объектов класса
-            :class:`yandex_music.Track` представляющие похожие треки на `track`.
+        track (:obj:`yandex_music.Track`): Трек.
+        similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Похожие треки на `track`.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
-        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track` представляющий трек.
-        similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Список объектов класса
-            :class:`yandex_music.Track` представляющие похожие треки на `track`.
+        track (:obj:`yandex_music.Track`): Трек.
+        similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Похожие треки на `track`.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -43,7 +41,7 @@ class SimilarTracks(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.SimilarTracks`: Объект класса :class:`yandex_music.SimilarTracks`.
+            :obj:`yandex_music.SimilarTracks`: Список похожих треков на другой трек.
         """
         if not data:
             return None

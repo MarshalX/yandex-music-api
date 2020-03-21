@@ -41,7 +41,7 @@ class StationTracksResult(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.StationTracksResult`: Объект класса :class:`yandex_music.StationTracksResult`.
+            :obj:`yandex_music.StationTracksResult`: TODO.
         """
         if not data:
             return None

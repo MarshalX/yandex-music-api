@@ -62,7 +62,7 @@ class BriefInfo(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.BriefInfo`: Объект класса :class:`yandex_music.BriefInfo`.
+            :obj:`yandex_music.BriefInfo`: TODO.
         """
         if not data:
             return None

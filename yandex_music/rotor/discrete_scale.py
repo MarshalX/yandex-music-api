@@ -15,18 +15,15 @@ class DiscreteScale(YandexMusicObject):
     Attributes:
         type (:obj:`str`): Тип.
         name (:obj:`str`): Название.
-        min (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий минимальное значение.
-        max (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий максимальное
-            значение.
+        min (:obj:`yandex_music.Value`): Минимальное значение.
+        max (:obj:`yandex_music.Value`): Максимальное значение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`): Тип.
         name (:obj:`str`): Название.
-        min_ (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий минимальное
-            значение.
-        max_ (:obj:`yandex_music.Value`): Объект класса :class:`yandex_music.Value`, представляющий максимальное
-            значение.
+        min_ (:obj:`yandex_music.Value`): Минимальное значение.
+        max_ (:obj:`yandex_music.Value`): Максимальное значение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -55,7 +52,7 @@ class DiscreteScale(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.DiscreteScale`: Объект класса :class:`yandex_music.DiscreteScale`.
+            :obj:`yandex_music.DiscreteScale`: Дискретное значение.
         """
         if not data:
             return None

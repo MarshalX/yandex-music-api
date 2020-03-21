@@ -35,7 +35,7 @@ class PlayContextsData(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PlayContextsData`: Объект класса :class:`yandex_music.PlayContextsData`.
+            :obj:`yandex_music.PlayContextsData`: TODO.
         """
         if not data:
             return None

@@ -41,7 +41,7 @@ class TrackShort(YandexMusicObject):
 
     @property
     def track(self) -> 'Track':
-        """:obj:`yandex_music.Track`: Объект класса :class:`yandex_music.Track` представляющий полную версию трека."""
+        """:obj:`yandex_music.Track`: Полная версия трека."""
         if self._track:
             return self._track
 
@@ -66,7 +66,7 @@ class TrackShort(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackShort`: Объект класса :class:`yandex_music.TrackShort`.
+            :obj:`yandex_music.TrackShort`: Укороченная версия трека с неполными данными.
         """
         if not data:
             return None
@@ -84,7 +84,7 @@ class TrackShort(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.TrackShort`: Список объектов класса :class:`yandex_music.TrackShort`.
+            :obj:`list` из :obj:`yandex_music.TrackShort`: Укороченные версии треков с неполными данными.
         """
         if not data:
             return []

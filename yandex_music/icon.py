@@ -50,7 +50,7 @@ class Icon(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Icon`: Объект класса :class:`yandex_music.Icon`.
+            :obj:`yandex_music.Icon`: Иконка.
         """
         if not data:
             return None

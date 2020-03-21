@@ -50,7 +50,7 @@ class Response(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.utils.response.Response`: Объект класса :class:`yandex_music.utils.response.Response`.
+            :obj:`yandex_music.utils.response.Response`: TODO.
         """
         if not data:
             return None

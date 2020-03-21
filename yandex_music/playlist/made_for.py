@@ -10,17 +10,13 @@ class MadeFor(YandexMusicObject):
     """Класс, представляющий пользователя, для которого был сделан плейлист.
 
     Attributes:
-        user_info (:obj:`yandex_music.User`): Объект класса :class:`yandex_music.User`, представляющий пользователя,
-            для которого был сделан плейлист.
-        case_forms (:obj:`yandex_music.CaseForms`): Объект класса :class:`yandex_music.CaseForms`, представляющий
-            склонение имени пользователя, для которого был сделан плейлист.
+        user_info (:obj:`yandex_music.User`): Пользователь, для которого был сделан плейлист.
+        case_forms (:obj:`yandex_music.CaseForms`): Склонение имени пользователя, для которого был сделан плейлист.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
-        user_info (:obj:`yandex_music.User`): Объект класса :class:`yandex_music.User`, представляющий пользователя,
-            для которого был сделан плейлист.
-        case_forms (:obj:`yandex_music.CaseForms`): Объект класса :class:`yandex_music.CaseForms`, представляющий
-            склонение имени пользователя, для которого был сделан плейлист.
+        user_info (:obj:`yandex_music.User`): Пользователь, для которого был сделан плейлист.
+        case_forms (:obj:`yandex_music.CaseForms`): Склонение имени пользователя, для которого был сделан плейлист.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -45,7 +41,7 @@ class MadeFor(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.MadeFor`: Объект класса :class:`yandex_music.MadeFor`.
+            :obj:`yandex_music.MadeFor`: Пользователь, для которого был сделан плейлист.
         """
         if not data:
             return None

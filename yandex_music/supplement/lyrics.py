@@ -58,7 +58,7 @@ class Lyrics(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Lyrics`: Объект класса :class:`yandex_music.Lyrics`.
+            :obj:`yandex_music.Lyrics`: Текст трека.
         """
         if not data:
             return None

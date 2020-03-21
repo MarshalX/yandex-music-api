@@ -15,8 +15,7 @@ class Shot(YandexMusicObject):
     Attributes:
         order (:obj:`int`): Порядковый номер при воспроизведении.
         played (:obj:`bool`): Был ли проигран шот.
-        shot_data (:obj:`yandex_music.ShotData`): Объект класса :class:`yandex_music.ShotData` представляющий
-            основную информацию о шоте.
+        shot_data (:obj:`yandex_music.ShotData`): Основная информация о шоте.
         shot_id (:obj:`str`): Уникальный идентификатор шота.
         status (:obj:`str`): Статус шота.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -24,8 +23,7 @@ class Shot(YandexMusicObject):
     Args:
         order (:obj:`int`): Порядковый номер при воспроизведении.
         played (:obj:`bool`): Был ли проигран шот.
-        shot_data (:obj:`yandex_music.ShotData`): Объект класса :class:`yandex_music.ShotData` представляющий
-            основную информацию о шоте.
+        shot_data (:obj:`yandex_music.ShotData`): Основная информация о шоте.
         shot_id (:obj:`str`): Уникальный идентификатор шота.
         status (:obj:`str`): Статус шота.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -58,7 +56,7 @@ class Shot(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Shot`: Объект класса :class:`yandex_music.Shot`.
+            :obj:`yandex_music.Shot`: Шот от Алисы.
         """
         if not data:
             return None
@@ -78,7 +76,7 @@ class Shot(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Shot`: Список объектов класса :class:`yandex_music.Shot`.
+            :obj:`list` из :obj:`yandex_music.Shot`: Шоты от Алисы.
         """
         if not data:
             return []

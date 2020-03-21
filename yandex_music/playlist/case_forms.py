@@ -58,7 +58,7 @@ class CaseForms(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.CaseForms`: Объект класса :class:`yandex_music.CaseForms`.
+            :obj:`yandex_music.CaseForms`: TODO.
         """
         if not data:
             return None

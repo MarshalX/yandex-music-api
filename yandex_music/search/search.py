@@ -12,17 +12,12 @@ class Search(YandexMusicObject):
     Attributes:
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
-        best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best` представляющий лучший результат.
-        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденных исполнителей.
-        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные плейлисты.
-        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные треки.
-        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные видео.
+        best (:obj:`yandex_music.Best`): Лучший результат.
+        albums (:obj:`yandex_music.SearchResult`): Найденные альбомы.
+        artists (:obj:`yandex_music.SearchResult`): Найденне исполнителеи.
+        playlists (:obj:`yandex_music.SearchResult`): Найденные плейлисты.
+        tracks (:obj:`yandex_music.SearchResult`): Найденные треки.
+        videos (:obj:`yandex_music.SearchResult`): Найденные видео.
         misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
         nocorrect (:obj:`bool`): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -30,17 +25,12 @@ class Search(YandexMusicObject):
     Args:
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
-        best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best` представляющий лучший результат.
-        albums (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденных исполнителей.
-        playlists (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные плейлисты.
-        tracks (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные треки.
-        videos (:obj:`yandex_music.SearchResult`): Объект класса :class:`yandex_music.SearchResult` представляющий
-            найденные видео.
+        best (:obj:`yandex_music.Best`): Лучший результат.
+        albums (:obj:`yandex_music.SearchResult`): Найденные альбомы.
+        artists (:obj:`yandex_music.SearchResult`): Найденне исполнителеи.
+        playlists (:obj:`yandex_music.SearchResult`): Найденные плейлисты.
+        tracks (:obj:`yandex_music.SearchResult`): Найденные треки.
+        videos (:obj:`yandex_music.SearchResult`): Найденные видео.
         misspell_corrected (:obj:`bool`, optional): Был ли исправлен запрос.
         nocorrect (:obj:`bool`, optional): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -85,7 +75,7 @@ class Search(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Search`: Объект класса :class:`yandex_music.Search`.
+            :obj:`yandex_music.Search`: Результаты поиска.
         """
         if not data:
             return None

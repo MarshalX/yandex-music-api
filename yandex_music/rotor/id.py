@@ -44,7 +44,7 @@ class Id(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Id`: Объект класса :class:`yandex_music.Id`.
+            :obj:`yandex_music.Id`: Уникальный идентификатор станции.
         """
         if not data:
             return None

@@ -14,12 +14,12 @@ class TrackWithAds(YandexMusicObject):
 
     Attributes:
         type (:obj:`str`): Тип TODO.
-        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track`, представляющий трек.
+        track (:obj:`yandex_music.Track`): Трек.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`): Тип TODO.
-        track (:obj:`yandex_music.Track`): Объект класса :class:`yandex_music.Track`, представляющий трек.
+        track (:obj:`yandex_music.Track`): Трек.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -44,7 +44,7 @@ class TrackWithAds(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackWithAds`: Объект класса :class:`yandex_music.TrackWithAds`.
+            :obj:`yandex_music.TrackWithAds`: Трек с рекламой.
         """
         if not data:
             return None
@@ -64,7 +64,7 @@ class TrackWithAds(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.TrackWithAds`: Список объектов класса :class:`yandex_music.TrackWithAds`.
+            :obj:`list` из :obj:`yandex_music.TrackWithAds`: Треки с рекламой.
         """
         if not data:
             return []

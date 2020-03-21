@@ -11,12 +11,12 @@ class ArtistAlbums(YandexMusicObject):
 
     Attributes:
         albums (:obj:`list` из :obj:`yandex_music.Album`): Список альбомов артиста.
-        pager (:obj:`yandex_music.Pager`): Объект класса :class:`yandex_music.Pager` представляющий пагинатор.
+        pager (:obj:`yandex_music.Pager`): Пагинатор.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         albums (:obj:`list` из :obj:`yandex_music.Album`): Список альбомов артиста.
-        pager (:obj:`yandex_music.Pager`): Объект класса :class:`yandex_music.Pager` представляющий пагинатор.
+        pager (:obj:`yandex_music.Pager`): Пагинатор.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -41,7 +41,7 @@ class ArtistAlbums(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ArtistAlbums`: Объект класса :class:`yandex_music.ArtistAlbums`.
+            :obj:`yandex_music.ArtistAlbums`: Список альбомов артиста.
         """
         if not data:
             return None
