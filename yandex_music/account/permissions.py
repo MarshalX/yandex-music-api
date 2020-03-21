@@ -45,7 +45,8 @@ class Permissions(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Permissions`: Объект класса :class:`yandex_music.Permissions`.
+            :obj:`yandex_music.Permissions`: Информация о правах пользователя, их изначальных значениях и даты
+                окончания.
         """
         if not data:
             return None

@@ -78,7 +78,7 @@ class Status(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Status`: Объект класса :class:`yandex_music.Status`.
+            :obj:`yandex_music.Status`: Информация об аккаунте пользователя.
         """
         if not data:
             return None

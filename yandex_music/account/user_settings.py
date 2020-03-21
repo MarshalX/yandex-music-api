@@ -112,7 +112,7 @@ class UserSettings(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.UserSettings`: Объект класса :class:`yandex_music.UserSettings`.
+            :obj:`yandex_music.UserSettings`: Настройки пользователя.
         """
         if not data:
             return None

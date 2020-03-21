@@ -37,7 +37,7 @@ class PassportPhone(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PassportPhone`: Объект класса :class:`yandex_music.PassportPhone`.
+            :obj:`yandex_music.PassportPhone`: Номер телефона пользователя.
         """
         if not data:
             return None
@@ -55,8 +55,7 @@ class PassportPhone(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.PassportPhone`: Список объектов класса
-            :class:`yandex_music.PassportPhone`.
+            :obj:`list` из :obj:`yandex_music.PassportPhone`: Номера телефонов пользователя.
         """
         if not data:
             return []

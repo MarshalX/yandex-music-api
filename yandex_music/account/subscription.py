@@ -49,7 +49,7 @@ class Subscription(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Subscription`: Объект класса :class:`yandex_music.Subscription`.
+            :obj:`yandex_music.Subscription`: Информация о подписках пользователя.
         """
         if not data:
             return None

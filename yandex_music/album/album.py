@@ -184,7 +184,7 @@ class Album(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Album`: Объект класса :class:`yandex_music.Album`.
+            :obj:`yandex_music.Album`: Алюбом.
         """
         if not data:
             return None
@@ -208,7 +208,7 @@ class Album(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Album`: Список объектов класса :class:`yandex_music.Album`.
+            :obj:`list` из :obj:`yandex_music.Album`: Альбомы.
         """
         if not data:
             return []

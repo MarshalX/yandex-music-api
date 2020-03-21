@@ -41,7 +41,7 @@ class Plus(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Plus`: Объект класса :class:`yandex_music.Plus`.
+            :obj:`yandex_music.Plus`: Plus подписка.
         """
         if not data:
             return None

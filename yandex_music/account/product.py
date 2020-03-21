@@ -99,7 +99,7 @@ class Product(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Product`: Объект класса :class:`yandex_music.Product`.
+            :obj:`yandex_music.Product`: Продоваемый продукт.
         """
         if not data:
             return None
@@ -119,7 +119,7 @@ class Product(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Product`: Список объектов класса :class:`yandex_music.Product`.
+            :obj:`list` из :obj:`yandex_music.Product`: Продоваемые продукты.
         """
         if not data:
             return []

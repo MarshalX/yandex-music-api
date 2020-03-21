@@ -37,7 +37,7 @@ class TrackPosition(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackPosition`: Объект класса :class:`yandex_music.TrackPosition`.
+            :obj:`yandex_music.TrackPosition`: TODO.
         """
         if not data:
             return None

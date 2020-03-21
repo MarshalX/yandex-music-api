@@ -101,7 +101,7 @@ class Account(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Account`: Объект класса :class:`yandex_music.Account`.
+            :obj:`yandex_music.Account`: Основная информация об аккаунте пользователя.
         """
         if not data:
             return None

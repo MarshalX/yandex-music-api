@@ -39,7 +39,7 @@ class Label(YandexMusicObject):
              data (:obj:`dict`): Поля и значения десериализуемого объекта.
              client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
          Returns:
-             :obj:`yandex_music.Label`: Объект класса :class:`yandex_music.Label`.
+             :obj:`yandex_music.Label`: Лейбл.
         """
         if not data:
             return None
@@ -57,7 +57,7 @@ class Label(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Label`: Список объектов класса :class:`yandex_music.Label`.
+            :obj:`list` из :obj:`yandex_music.Label`: Лейблы.
         """
         if not data:
             return []

@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 
 class AutoRenewable(YandexMusicObject):
-    """Класс, представляющий автопродление подписки.
+    """Класс, представляющий информацию об автопродлении подписки.
 
     Attributes:
         expires (:obj:`str`): Дата истечения подписки.
@@ -62,7 +62,7 @@ class AutoRenewable(YandexMusicObject):
             client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.AutoRenewable`: Объект класса :class:`yandex_music.AutoRenewable`.
+            :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
         """
         if not data:
             return None
@@ -82,8 +82,7 @@ class AutoRenewable(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.AutoRenewable`: Список объектов класса
-            :class:`yandex_music.AutoRenewable`.
+            :obj:`list` из :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
         """
         if not data:
             return []
