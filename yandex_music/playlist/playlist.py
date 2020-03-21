@@ -12,6 +12,9 @@ class Playlist(YandexMusicObject):
     Note:
         Известные значения `visibility`: `public` - публичный плейлист, `private` - приватный плейлист.
 
+        Известные значения `generated_playlist_type`: `playlistOfTheDay` - Плейлист дня, `recentTracks` - Премьера,
+        `neverHeard` - Дежавю, `podcasts` - Подкасты недели, `missedLikes` - Тайник, `origin` - Плейлист с Алисой.
+
     Attributes:
         owner (:obj:`yandex_music.User`): Объект класса :class:`yandex_music.User`, представляющий владельца
             плейлиста.
@@ -34,9 +37,9 @@ class Playlist(YandexMusicObject):
         collective (:obj:`bool`): Есть ли у плейлиста соавторы.
         created (:obj:`str`): Дата создания в формате ISO 8601.
         modified (:obj:`str`): Дата последнего изменения в формате ISO 8601.
-        available (:obj:`bool`): TODO
-        is_banner (:obj:`bool`): TODO
-        is_premiere (:obj:`bool`): TODO
+        available (:obj:`bool`): Доступен TODO.
+        is_banner (:obj:`bool`): Является ли банером TODO.
+        is_premiere (:obj:`bool`): Является ли премьерой TODO.
         duration_ms (:obj:`int`): Длительность в миллисекундах.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
@@ -48,8 +51,8 @@ class Playlist(YandexMusicObject):
         ever_played (:obj:`str`): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
         description (:obj:`str`): Описание плейлиста с разметкой Markdown.
         description_formatted (:obj:`str`): Описание плейлиста. Только текст, без разметки.
-        is_for_from: TODO
-        regions: TODO
+        is_for_from: TODO.
+        regions: Регион TODO.
         client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
 
@@ -75,9 +78,9 @@ class Playlist(YandexMusicObject):
         collective (:obj:`bool`, optional): Есть ли у плейлиста соавторы.
         created (:obj:`str`, optional): Дата создания в формате ISO 8601.
         modified (:obj:`str`, optional): Дата последнего изменения в формате ISO 8601.
-        available (:obj:`bool`, optional): TODO
-        is_banner (:obj:`bool`, optional): TODO
-        is_premiere (:obj:`bool`, optional): TODO
+        available (:obj:`bool`, optional): Доступен TODO.
+        is_banner (:obj:`bool`, optional): Является ли банером TODO.
+        is_premiere (:obj:`bool`, optional): Является ли премьерой TODO.
         duration_ms (:obj:`int`, optional): Длительность в миллисекундах.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`, optional): Список треков.
@@ -89,8 +92,8 @@ class Playlist(YandexMusicObject):
         ever_played (:obj:`str`, optional): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
         description (:obj:`str`, optional): Описание плейлиста с разметкой Markdown.
         description_formatted (:obj:`str`, optional): Описание плейлиста. Только текст, без разметки.
-        is_for_from: TODO
-        regions: TODO
+        is_for_from: TODO.
+        regions: Регион TODO.
         client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
             Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
