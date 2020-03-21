@@ -7,30 +7,50 @@ if TYPE_CHECKING:
 
 
 class Video(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий Видео.
 
-    Attributes:
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+       Attributes:
+            title: (:obj:`str`): Название видео
+            cover: (:obj:`str`, optional): Ссылка на изображение.
+            embed_url: (:obj:`str`, optional): Ссылка на видео.
+            provider: (:obj:`str`, optional): Провайдер видео.
+            provider_video_id: (:obj:`Union[int, str]`, optional): Идентификатор видео.
+            youtube_url: (:obj:`str`, optional): Ссылка на видео Youtube.
+            thumbnail_url: (:obj:`str`, optional): Ссылка на изображение.
+            duration: (:obj:`int`, optional): Длительность видео в секундах.
+            text: (:obj:`str`, optional): Текст.
+            html_auto_play_video_player: (): html тег для встраивания в разметку страницы.
+            regions: (:obj:`List[str]`, optional): Регион TODO.
+            client (:obj:`yandex_music.Client`):  Клиент Yandex Music.
 
-    Args:
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
-    """
+       Args:
+            title: (:obj:`str`): Название видео
+            cover: (:obj:`str`, optional): Ссылка на изображение.
+            embed_url: (:obj:`str`, optional):
+            provider: (:obj:`str`, optional): Провайдер видео.
+            provider_video_id: (:obj:`Union[int, str]`, optional): ID видео для провайдера.
+            youtube_url: (:obj:`str`, optional): Ссылка на видео Youtube.
+            thumbnail_url: (:obj:`str`, optional): Ссылка на изображение.
+            duration: (:obj:`int`, optional): Длительность видео в секундах.
+            text: (:obj:`str`, optional): Текст.
+            html_auto_play_video_player: (): html тег для встраивания в разметку страницы.
+            regions: (:obj:`List[str]`, optional): Регион TODO.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+            **kwargs: Произвольные ключевые аргументы полученные от API.
+       """
 
     def __init__(self,
                  title: str,
                  cover: Optional[str] = None,
                  embed_url: Optional[str] = None,
-                 provider: Optional['str'] = None,
+                 provider: Optional[str] = None,
                  provider_video_id: Optional[Union[int, str]] = None,
                  youtube_url: Optional[str] = None,
                  thumbnail_url: Optional[str] = None,
-                 duration=None,
-                 text=None,
-                 html_auto_play_video_player=None,
-                 regions=None,
+                 duration: Optional[int] = None,
+                 text: Optional[str] = None,
+                 html_auto_play_video_player: Optional[str] = None,
+                 regions: Optional[List[str]] = None,
                  client: Optional['Client'] = None,
                  **kwargs):
         self.title = title
@@ -58,8 +78,7 @@ class Video(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Video`: Объект класса :class:`yandex_music.Video`.
@@ -77,8 +96,7 @@ class Video(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Video`: Список объектов класса :class:`yandex_music.Video`.
