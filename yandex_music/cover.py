@@ -18,8 +18,7 @@ class Cover(YandexMusicObject):
         custom (:obj:`bool`): Является ли обложка пользовательской.
         prefix (:obj:`str`): Уникальный идентификатор.
         error (:obj:`str`): Сообщение об ошибке.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`, optional): Тип обложки.
@@ -30,8 +29,7 @@ class Cover(YandexMusicObject):
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         prefix (:obj:`str`, optional): Уникальный идентификатор.
         error (:obj:`str`, optional): Сообщение об ошибке.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -76,11 +74,10 @@ class Cover(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Cover`: Объект класса :class:`yandex_music.Cover`.
+            :obj:`yandex_music.Cover`: Обложка.
         """
         if not data:
             return None
@@ -95,11 +92,10 @@ class Cover(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Cover`: Список объектов класса :class:`yandex_music.Cover`.
+            :obj:`list` из :obj:`yandex_music.Cover`: Обложки.
         """
         if not data:
             return []

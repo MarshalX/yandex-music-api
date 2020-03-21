@@ -11,21 +11,17 @@ class Supplement(YandexMusicObject):
 
     Attributes:
         id (:obj:`int`): Уникальный идентификатор дополнительной информации.
-        lyrics (:obj:`yandex_music.Lyrics`): Объект класса :class:`yandex_music.Lyrics` представляющий текст песни.
-        videos (:obj:`yandex_music.VideoSupplement`): Объект класса :class:`yandex_music.VideoSupplement` представляющий
-            видео.
+        lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
+        videos (:obj:`yandex_music.VideoSupplement`): Видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор дополнительной информации.
-        lyrics (:obj:`yandex_music.Lyrics`): Объект класса :class:`yandex_music.Lyrics` представляющий текст песни.
-        videos (:obj:`yandex_music.VideoSupplement`): Объект класса :class:`yandex_music.VideoSupplement` представляющий
-            видео.
+        lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
+        videos (:obj:`yandex_music.VideoSupplement`): Видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -50,11 +46,10 @@ class Supplement(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Supplement`: Объект класса :class:`yandex_music.Supplement`.
+            :obj:`yandex_music.Supplement`: Дополнительная информация о треке.
         """
         if not data:
             return None

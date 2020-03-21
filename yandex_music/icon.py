@@ -12,14 +12,12 @@ class Icon(YandexMusicObject):
     Attributes:
         background_color (:obj:`str`): Цвет заднего фона в HEX.
         image_url (:obj:`str`): Ссылка на изображение.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         background_color (:obj:`str`): Цвет заднего фона в HEX.
         image_url (:obj:`str`): Ссылка на изображение.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -49,11 +47,10 @@ class Icon(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Icon`: Объект класса :class:`yandex_music.Icon`.
+            :obj:`yandex_music.Icon`: Иконка.
         """
         if not data:
             return None

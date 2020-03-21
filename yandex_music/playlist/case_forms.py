@@ -16,8 +16,7 @@ class CaseForms(YandexMusicObject):
         accusative (:obj:`str`): Винительный.
         instrumental (:obj:`str`): Творительный.
         prepositional (:obj:`str`): Предложный.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         nominative (:obj:`str`): Именительный.
@@ -26,8 +25,7 @@ class CaseForms(YandexMusicObject):
         accusative (:obj:`str`): Винительный.
         instrumental (:obj:`str`): Творительный.
         prepositional (:obj:`str`): Предложный.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -57,11 +55,10 @@ class CaseForms(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.CaseForms`: Объект класса :class:`yandex_music.CaseForms`.
+            :obj:`yandex_music.CaseForms`: TODO.
         """
         if not data:
             return None

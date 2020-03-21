@@ -10,16 +10,14 @@ class Suggestions(YandexMusicObject):
     """Класс, представляющий подсказки при поиске.
 
     Attributes:
-        best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best`, представляющий лучший результат.
+        best (:obj:`yandex_music.Best`): Лучший результат.
         suggestions (:obj:`list` из :obj:`str`): Список подсказок-дополнений для поискового запроса.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
-        best (:obj:`yandex_music.Best`): Объект класса :class:`yandex_music.Best`, представляющий лучший результат.
+        best (:obj:`yandex_music.Best`): Лучший результат.
         suggestions (:obj:`list` из :obj:`str`): Список подсказок-дополнений для поискового запроса.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -46,11 +44,10 @@ class Suggestions(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Suggestions`: Объект класса :class:`yandex_music.Suggestions`.
+            :obj:`yandex_music.Suggestions`: Подсказки при поиске.
         """
         if not data:
             return None

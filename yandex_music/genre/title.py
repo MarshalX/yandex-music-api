@@ -12,14 +12,12 @@ class Title(YandexMusicObject):
     Attributes:
         title (:obj:`str`): Заголовок.
         full_title (:obj:`str`): Полный заголовок.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         title (:obj:`str`): Заголовок.
         full_title (:obj:`str`, optional): Полный заголовок.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -40,11 +38,10 @@ class Title(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Title`: Объект класса :class:`yandex_music.Title`.
+            :obj:`yandex_music.Title`: Заголовок жанра.
         """
         if not data:
             return None
@@ -59,11 +56,10 @@ class Title(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Title`: Список объектов класса :class:`yandex_music.Title`.
+            :obj:`list` из :obj:`yandex_music.Title`: Заголовки жанров.
         """
         if not data:
             return {}

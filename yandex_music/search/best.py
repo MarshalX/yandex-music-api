@@ -23,16 +23,14 @@ class Best(YandexMusicObject):
         result (:obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
             | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Лучший результат.
         text (:obj:`str`): TODO.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         type (:obj:`str`): Тип лучшего результата.
         result (:obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
             | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Лучший результат.
         text (:obj:`str`, optional): TODO.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -56,11 +54,10 @@ class Best(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Best`: Объект класса :class:`yandex_music.Best`.
+            :obj:`yandex_music.Best`: Лучший результат.
         """
         if not data:
             return None

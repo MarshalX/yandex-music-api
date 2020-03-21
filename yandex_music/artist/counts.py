@@ -18,16 +18,14 @@ class Counts(YandexMusicObject):
         direct_albums (:obj:`int`): Количество альбомов.
         also_albums (:obj:`int`): Количество дополнительных треков.
         also_tracks (:obj:`int`): Количество дополнительных альбомов.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         tracks (:obj:`int`): Количество треков.
         direct_albums (:obj:`int`): Количество альбомов.
         also_albums (:obj:`int`): Количество дополнительных треков.
         also_tracks (:obj:`int`): Количество дополнительных альбомов.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -52,11 +50,10 @@ class Counts(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Counts`: Объект класса :class:`yandex_music.Counts`.
+            :obj:`yandex_music.Counts`: Cчётчик некоторых значений исполнителя.
         """
         if not data:
             return None
