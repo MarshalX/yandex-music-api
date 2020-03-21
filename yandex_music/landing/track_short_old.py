@@ -7,12 +7,20 @@ if TYPE_CHECKING:
 
 
 class TrackShortOld(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий сокращённую версию трека.
+
+    Note:
+        Данная версия менее богата полями и найдена позже первой, поэтому была принята как за старую версию.
+        Другая версия сокращённого трека: :class:`yandex_music.TrackShort`.
 
     Attributes:
+        track_id (:obj:`yandex_music.TrackId` | :obj:`None`): Уникальный идентификатор трека.
+        timestamp (:obj:`str`): Дата TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
+        track_id (:obj:`yandex_music.TrackId`): Уникальный идентификатор трека.
+        timestamp (:obj:`str`): Дата TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -37,7 +45,7 @@ class TrackShortOld(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackShortOld`: TODO.
+            :obj:`yandex_music.TrackShortOld`: Сокращённая версия трека или :obj:`None`.
         """
         if not data:
             return None
@@ -57,7 +65,7 @@ class TrackShortOld(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.TrackShortOld`: TODO.
+            :obj:`list` из :obj:`yandex_music.TrackShortOld`: Сокращённые версии треков.
         """
         if not data:
             return []
