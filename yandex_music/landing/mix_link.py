@@ -7,12 +7,31 @@ if TYPE_CHECKING:
 
 
 class MixLink(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий ссылку (кликабельный блок) на подборку.
+
+    Note:
+        В цветах может как оказаться HEX (`#6c65a9`), так и какой-нибудь `transparent`.
+
+        Ссылка со схемой отличается от просто ссылки наличием `yandexmusic://` в начале.
 
     Attributes:
+        title (:obj:`str`): Заголовок ссылки.
+        url (:obj:`str`): Ссылка на подборку.
+        url_scheme (:obj:`str`): Ссылка со схемой на подборку.
+        text_color (:obj:`str`): Цвет текста (HEX).
+        background_color (:obj:`str`): Цвет заднего фона.
+        background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
+        cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        title (:obj:`str`): Заголовок ссылки.
+        url (:obj:`str`): Ссылка на подборку.
+        url_scheme (:obj:`str`): Ссылка со схемой на подборку.
+        text_color (:obj:`str`): Цвет текста (HEX).
+        background_color (:obj:`str`): Цвет заднего фона.
+        background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
+        cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -57,7 +76,7 @@ class MixLink(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.MixLink`: TODO.
+            :obj:`yandex_music.MixLink`: Блок-ссылка на подборку.
         """
         if not data:
             return None
@@ -75,7 +94,7 @@ class MixLink(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.MixLink`: TODO.
+            :obj:`list` из :obj:`yandex_music.MixLink`: Блоки-ссылки на подборки.
         """
         if not data:
             return []
