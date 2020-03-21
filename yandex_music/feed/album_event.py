@@ -7,12 +7,16 @@ if TYPE_CHECKING:
 
 
 class AlbumEvent(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий альбом в событии фида.
 
     Attributes:
+        album (:obj:`yandex_music.Album` | :obj:`None`): Альбом.
+        tracks (:obj:`list` из :obj:`yandex_music.Track`): Треки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        album (:obj:`yandex_music.Album` | :obj:`None`): Альбом.
+        tracks (:obj:`list` из :obj:`yandex_music.Track`): Треки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -37,7 +41,7 @@ class AlbumEvent(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.AlbumEvent`: TODO.
+            :obj:`yandex_music.AlbumEvent`: Альбом в событии фида.
         """
         if not data:
             return None
@@ -58,7 +62,7 @@ class AlbumEvent(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.AlbumEvent`: TODO.
+            :obj:`list` из :obj:`yandex_music.AlbumEvent`: Альбомы в событии фида.
         """
         if not data:
             return []
