@@ -7,38 +7,37 @@ if TYPE_CHECKING:
 
 
 class Video(YandexMusicObject):
-    """Класс, представляющий Видео.
+    """Класс, представляющий видео.
 
        Attributes:
-            title: (:obj:`str`): Название видео
-            cover: (:obj:`str`, optional): Ссылка на изображение.
-            embed_url: (:obj:`str`, optional): Ссылка на видео.
-            provider: (:obj:`str`, optional): Провайдер видео.
-            provider_video_id: (:obj:`Union[int, str]`, optional): Идентификатор видео.
-            youtube_url: (:obj:`str`, optional): Ссылка на видео Youtube.
-            thumbnail_url: (:obj:`str`, optional): Ссылка на изображение.
-            duration: (:obj:`int`, optional): Длительность видео в секундах.
-            text: (:obj:`str`, optional): Текст.
-            html_auto_play_video_player: (): html тег для встраивания в разметку страницы.
-            regions: (:obj:`List[str]`, optional): Регион TODO.
-            client (:obj:`yandex_music.Client`):  Клиент Yandex Music.
+            title (:obj:`str`): Название видео.
+            cover (:obj:`str`, optional): Ссылка на изображение.
+            embed_url (:obj:`str`, optional): Ссылка на видео.
+            provider (:obj:`str`, optional): Провайдер видео.
+            provider_video_id (:obj:`int` | :obj:`str`, optional): Идентификатор видео.
+            youtube_url (:obj:`str`, optional): Ссылка на видео Youtube.
+            thumbnail_url (:obj:`str`, optional): Ссылка на изображение.
+            duration (:obj:`int`, optional): Длительность видео в секундах.
+            text (:obj:`str`, optional): Текст.
+            html_auto_play_video_player (:obj:`str`, optional): html тег для встраивания в разметку страницы.
+            regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
        Args:
-            title: (:obj:`str`): Название видео
-            cover: (:obj:`str`, optional): Ссылка на изображение.
-            embed_url: (:obj:`str`, optional): Ссылка на видео
-            provider: (:obj:`str`, optional): Провайдер видео.
-            provider_video_id: (:obj:`Union[int, str]`, optional): Идентификатор видео.
-            youtube_url: (:obj:`str`, optional): Ссылка на видео Youtube.
-            thumbnail_url: (:obj:`str`, optional): Ссылка на изображение.
-            duration: (:obj:`int`, optional): Длительность видео в секундах.
-            text: (:obj:`str`, optional): Текст.
-            html_auto_play_video_player: (): html тег для встраивания в разметку страницы.
-            regions: (:obj:`List[str]`, optional): Регион TODO.
+            title (:obj:`str`): Название видео.
+            cover (:obj:`str`, optional): Ссылка на изображение.
+            embed_url (:obj:`str`, optional): Ссылка на видео.
+            provider (:obj:`str`, optional): Провайдер видео.
+            provider_video_id (:obj:`int` | :obj:`str`, optional): Идентификатор видео.
+            youtube_url (:obj:`str`, optional): Ссылка на видео Youtube.
+            thumbnail_url (:obj:`str`, optional): Ссылка на изображение.
+            duration (:obj:`int`, optional): Длительность видео в секундах.
+            text (:obj:`str`, optional): Текст.
+            html_auto_play_video_player (:obj:`str`, optional): html тег для встраивания в разметку страницы.
+            regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
             **kwargs: Произвольные ключевые аргументы полученные от API.
        """
-
 
     def __init__(self,
                  title: str,
