@@ -7,12 +7,16 @@ if TYPE_CHECKING:
 
 
 class TrackId(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий уникальный идентификатор трека.
 
     Attributes:
+        id_ (:obj:`int`): Уникальный идентификатор трека.
+        album_id (:obj:`int`): Уникальный идентификатор альбома.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        id_ (:obj:`int`): Уникальный идентификатор трека.
+        album_id (:obj:`int`, optional): Уникальный идентификатор альбома.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -37,7 +41,7 @@ class TrackId(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackId`: TODO.
+            :obj:`yandex_music.TrackId`: Уникальный идентификатор трека.
         """
         if not data:
             return None
