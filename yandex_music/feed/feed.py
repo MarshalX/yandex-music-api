@@ -7,12 +7,31 @@ if TYPE_CHECKING:
 
 
 class Feed(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий фид.
+
+    Note:
+        Несмотря на то, что days это :obj:`list`, обычно возвращается только один день - текущий.
 
     Attributes:
+        can_get_more_events (:obj:`bool`): Можно ли получить больше событий.
+        pumpkin (:obj:`bool`): Хэллоуин.
+        is_wizard_passed (:obj:`bool`): TODO.
+        generated_playlists (:obj:`list` из :obj:`yandex_music.GeneratedPlaylist`): Сгенерированные плейлисты.
+        headlines (:obj:`list` из :obj:`str`): Заголовки.
+        today (:obj:`str`): Сегодняшняя дата в формате YYYY-MM-DD.
+        days (:obj:`list` из :obj:`yandex_music.Day`): Дни.
+        next_revision (:obj:`str`): Дата следующих изменений в формате YYYY-MM-DD.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        can_get_more_events (:obj:`bool`): Можно ли получить больше событий.
+        pumpkin (:obj:`bool`): Хэллоуин.
+        is_wizard_passed (:obj:`bool`): TODO.
+        generated_playlists (:obj:`list` из :obj:`yandex_music.GeneratedPlaylist`): Сгенерированные плейлисты.
+        headlines (:obj:`list` из :obj:`str`): Заголовки.
+        today (:obj:`str`): Сегодняшняя дата в формате YYYY-MM-DD.
+        days (:obj:`list` из :obj:`yandex_music.Day`): Дни.
+        next_revision (:obj:`str`, optional): Дата следующих изменений в формате YYYY-MM-DD.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -50,7 +69,7 @@ class Feed(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Feed`: TODO.
+            :obj:`yandex_music.Feed`: Фид.
         """
         if not data:
             return None
