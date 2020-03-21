@@ -26,9 +26,9 @@ class Video(YandexMusicObject):
        Args:
             title: (:obj:`str`): Название видео
             cover: (:obj:`str`, optional): Ссылка на изображение.
-            embed_url: (:obj:`str`, optional):
+            embed_url: (:obj:`str`, optional): Ссылка на видео
             provider: (:obj:`str`, optional): Провайдер видео.
-            provider_video_id: (:obj:`Union[int, str]`, optional): ID видео для провайдера.
+            provider_video_id: (:obj:`Union[int, str]`, optional): Идентификатор видео.
             youtube_url: (:obj:`str`, optional): Ссылка на видео Youtube.
             thumbnail_url: (:obj:`str`, optional): Ссылка на изображение.
             duration: (:obj:`int`, optional): Длительность видео в секундах.
