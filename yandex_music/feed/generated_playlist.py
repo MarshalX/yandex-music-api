@@ -19,8 +19,7 @@ class GeneratedPlaylist(YandexMusicObject):
         notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
         data (:obj:`yandex_music.Playlist`): Объект класса :class:`yandex_music.Playlist`, представляющий \
             сгенерированный плейлист.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`): Тип сгенерированного плейлиста.
@@ -28,8 +27,7 @@ class GeneratedPlaylist(YandexMusicObject):
         notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
         data (:obj:`yandex_music.Playlist`, optional): Объект класса :class:`yandex_music.Playlist`, представляющий \
             сгенерированный плейлист.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -54,8 +52,7 @@ class GeneratedPlaylist(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.GeneratedPlaylist`: Объект класса :class:`yandex_music.GeneratedPlaylist`.
@@ -75,8 +72,7 @@ class GeneratedPlaylist(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.GeneratedPlaylist`: Список объектов класса

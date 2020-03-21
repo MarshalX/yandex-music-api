@@ -13,15 +13,13 @@ class Ratings(YandexMusicObject):
         month (:obj:`int`): Значение ежемесячного рейтинга.
         week (:obj:`int`): Значение еженедельного рейтинга.
         day (:obj:`int`): Значение дневного рейтинга.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         month (:obj:`int`): Значение ежемесячного рейтинга.
         week (:obj:`int`, optional): Значение еженедельного рейтинга.
         day (:obj:`int`, optional): Значение дневного рейтинга.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -45,8 +43,7 @@ class Ratings(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Ratings`: Объект класса :class:`yandex_music.Ratings`.

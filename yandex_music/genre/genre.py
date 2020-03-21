@@ -26,8 +26,7 @@ class Genre(YandexMusicObject):
         sub_genres (:obj:`list` из :obj:`yandex_music.Genre`): Список объектов класса :class:`yandex_music.Genre`,
             представляющие поджанры текущего жанра музыки.
         hide_in_regions (:obj:`list`): В каких регионах скрывать жанр.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`str`): Уникальный идентификатор жанра.
@@ -46,8 +45,7 @@ class Genre(YandexMusicObject):
         sub_genres (:obj:`list` из :obj:`yandex_music.Genre`, optional): Список объектов класса
             :class:`yandex_music.Genre`, представляющие поджанры текущего жанра музыки.
         hide_in_regions (:obj:`list`, optional): В каких регионах скрывать жанр.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -91,8 +89,7 @@ class Genre(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Genre`: Объект класса :class:`yandex_music.Genre`.
@@ -115,8 +112,7 @@ class Genre(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Genre`: Список объектов класса :class:`yandex_music.Genre`.

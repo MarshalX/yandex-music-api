@@ -12,14 +12,12 @@ class PlaylistAbsence(YandexMusicObject):
     Attributes:
         kind (:obj:`int`): Уникальный идентификатор плейлиста.
         reason (:obj:`str`): Причина отсутствия.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         kind (:obj:`int`): Уникальный идентификатор плейлиста.
         reason (:obj:`str`): Причина отсутствия.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -40,8 +38,7 @@ class PlaylistAbsence(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.PlaylistAbsence`: Объект класса :class:`yandex_music.PlaylistAbsence`.

@@ -16,16 +16,12 @@ class Playlist(YandexMusicObject):
         `neverHeard` - Дежавю, `podcasts` - Подкасты недели, `missedLikes` - Тайник, `origin` - Плейлист с Алисой.
 
     Attributes:
-        owner (:obj:`yandex_music.User`): Объект класса :class:`yandex_music.User`, представляющий владельца
-            плейлиста.
-        cover (:obj:`yandex_music.Cover`): Объект класса :class:`yandex_music.Cover`, представляющий обложку
-            альбома.
-        made_for (:obj:`yandex_music.MadeFor`): Объект класса :class:`yandex_music.MadeFor`, представляющий
-            пользователя для которого был создан плейлист. Присутствует только у персональных плейлистов.
-        play_counter (:obj:`yandex_music.PlayCounter`): Объект класса :class:`yandex_music.PlayCounter`,
-            представляющий счетчик дней. Присутствует только у плейлиста дня.
-        playlist_absence (:obj:`yandex_music.PlaylistAbsence`): Объект класса
-            :class:`yandex_music.PlaylistAbsence`, представляющий причину отсутствия плейлиста.
+        owner (:obj:`yandex_music.User`): Владелец плейлиста.
+        cover (:obj:`yandex_music.Cover`): Обложка альбома.
+        made_for (:obj:`yandex_music.MadeFor`): Пользователь для которого был создан плейлист. Присутствует только у
+            персональных плейлистов.
+        play_counter (:obj:`yandex_music.PlayCounter`): Счетчик дней. Присутствует только у плейлиста дня.
+        playlist_absence (:obj:`yandex_music.PlaylistAbsence`): Причина отсутствия плейлиста.
         uid (:obj:`int`): Идентификатор владельца плейлиста.
         kind (:obj:`int`): Идентификатор плейлиста.
         title (:obj:`str`): Название плейлиста.
@@ -43,8 +39,7 @@ class Playlist(YandexMusicObject):
         duration_ms (:obj:`int`): Длительность в миллисекундах.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
-        prerolls (:obj:`list`): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных
-            плейлистов.
+        prerolls (:obj:`list`): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных плейлистов.
         likes_count (:obj:`int`): Количество лайков.
         generated_playlist_type (:obj:`str`): Тип генерируемого плейлиста.
         animated_cover_uri (:obj:`str`): Ссылка на анимированную обложку.
@@ -53,20 +48,15 @@ class Playlist(YandexMusicObject):
         description_formatted (:obj:`str`): Описание плейлиста. Только текст, без разметки.
         is_for_from: TODO.
         regions: Регион TODO.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
-        owner (:obj:`yandex_music.User`, optional): Объект класса :class:`yandex_music.User`, представляющий владельца
-            плейлиста.
-        cover (:obj:`yandex_music.Cover`, optional): Объект класса :class:`yandex_music.Cover`, представляющий обложку
-            альбома.
-        made_for (:obj:`yandex_music.MadeFor`, optional): Объект класса :class:`yandex_music.MadeFor`, представляющий
-            пользователя для которого был создан плейлист. Присутствует только у персональных плейлистов.
-        play_counter (:obj:`yandex_music.PlayCounter`, optional): Объект класса :class:`yandex_music.PlayCounter`,
-            представляющий счетчик дней. Присутствует только у плейлиста дня.
-        playlist_absence (:obj:`yandex_music.PlaylistAbsence`, optional): Объект класса
-            :class:`yandex_music.PlaylistAbsence`, представляющий причину отсутствия плейлиста.
+        owner (:obj:`yandex_music.User`, optional): Владелец плейлиста.
+        cover (:obj:`yandex_music.Cover`, optional): Обложка альбома.
+        made_for (:obj:`yandex_music.MadeFor`, optional): Пользователь для которого был создан плейлист. Присутствует только у
+            персональных плейлистов.
+        play_counter (:obj:`yandex_music.PlayCounter`, optional): Счетчик дней. Присутствует только у плейлиста дня.
+        playlist_absence (:obj:`yandex_music.PlaylistAbsence`, optional): Причина отсутствия плейлиста.
         uid (:obj:`int`, optional): Идентификатор владельца плейлиста.
         kind (:obj:`int`, optional): Идентификатор плейлиста.
         title (:obj:`str`, optional): Название плейлиста.
@@ -94,8 +84,7 @@ class Playlist(YandexMusicObject):
         description_formatted (:obj:`str`, optional): Описание плейлиста. Только текст, без разметки.
         is_for_from: TODO.
         regions: Регион TODO.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -223,8 +212,7 @@ class Playlist(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Playlist`: Объект класса :class:`yandex_music.Playlist`.
@@ -253,8 +241,7 @@ class Playlist(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Playlist`: Список объектов класса :class:`yandex_music.Playlist`.

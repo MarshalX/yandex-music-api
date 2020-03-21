@@ -28,8 +28,7 @@ class Like(YandexMusicObject):
             артиста.
         playlist (:obj:`yandex_music.Playlist`): Объект класса :class:`yandex_music.Playlist`, представляющий
             понравившейся плейлист.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         type (:obj:`str`): Тип объекта с отметкой.
@@ -41,8 +40,7 @@ class Like(YandexMusicObject):
             понравившегося артиста.
         playlist (:obj:`yandex_music.Playlist`, optional): Объект класса :class:`yandex_music.Playlist`, представляющий
             понравившейся плейлист.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -73,8 +71,7 @@ class Like(YandexMusicObject):
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
             type_ (:obj:`str`, optional): Тип объекта с отметкой "мне нравится".
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Like`: Объект класса :class:`yandex_music.Like`.
@@ -105,8 +102,7 @@ class Like(YandexMusicObject):
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
             type_ (:obj:`str`, optional): Тип объекта с отметкой "мне нравится".
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Like`: Список объектов класса :class:`yandex_music.Like`.

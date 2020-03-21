@@ -21,10 +21,8 @@ class Album(YandexMusicObject):
         error (:obj:`str`): Ошибка получения альбома.
         title (:obj:`str`): Название альбома.
         track_count (:obj:`int`): Количество треков.
-        artists (:obj:`list` из :obj:`yandex_music.Artist`): Список объектов класса
-            :class:`yandex_music.Artist` представляющие артистов.
-        labels (:obj:`list` из :obj:`yandex_music.Label`): Список объектов класса
-            :class:`yandex_music.Label` представляющие лейблы.
+        artists (:obj:`list` из :obj:`yandex_music.Artist`): Артисты.
+        labels (:obj:`list` из :obj:`yandex_music.Label`): Лейблы.
         available (:obj:`bool`): Доступен ли альбом.
         available_for_premium_users (:obj:`bool`): Доступен ли альбом для пользователей с подпиской.
         version (:obj:`str`): Дополнительная информация об альбоме.
@@ -41,20 +39,17 @@ class Album(YandexMusicObject):
         year (:obj:`int`): Год релиза.
         release_date (:obj:`str`): Дата релиза в формате ISO 8601.
         type (:obj:`str`): Тип альбома.
-        track_position (:obj:`yandex_music.TrackPosition`): Объект класса :class:`yandex_music.TrackPosition`
-            представляющий позицию трека. Возвращается при получении альбома в составе трека.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        track_position (:obj:`yandex_music.TrackPosition`): Позиция трека в альбоме. Возвращается при получении
+            альбома в составе трека.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`int`): Идентификатор альбома.
         error (:obj:`str`, optional): Ошибка получения альбома.
         title (:obj:`str`, optional): Название альбома.
         track_count (:obj:`int`, optional): Количество треков.
-        artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Список объектов класса
-            :class:`yandex_music.Artist` представляющие артистов.
-        labels (:obj:`list` из :obj:`yandex_music.Label`, optional): Список объектов класса
-            :class:`yandex_music.Label` представляющие лейблы.
+        artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Артисты.
+        labels (:obj:`list` из :obj:`yandex_music.Label`, optional): Лейблы.
         available (:obj:`bool`, optional): Доступен ли альбом.
         available_for_premium_users (:obj:`bool`, optional): Доступен ли альбом для пользователей с подпиской.
         version (:obj:`str`, optional): Дополнительная информация об альбоме.
@@ -71,10 +66,9 @@ class Album(YandexMusicObject):
         year (:obj:`int`, optional): Год релиза.
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
         type_ (:obj:`str`, optional): Тип альбома.
-        track_position (:obj:`yandex_music.TrackPosition`, optional): Объект класса :class:`yandex_music.TrackPosition`
-            представляющий позицию трека. Возвращается при получении альбома в составе трека.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        track_position (:obj:`yandex_music.TrackPosition`, optional): Позиция трека в альбоме. Возвращается при
+            получении альбома в составе трека.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -187,8 +181,7 @@ class Album(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Album`: Объект класса :class:`yandex_music.Album`.
@@ -212,8 +205,7 @@ class Album(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Album`: Список объектов класса :class:`yandex_music.Album`.

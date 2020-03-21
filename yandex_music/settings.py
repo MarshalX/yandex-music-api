@@ -18,8 +18,7 @@ class Settings(YandexMusicObject):
         web_payment_month_product_price (:obj:`yandex_music.Price`): Объект класса :class:`yandex_music.Price`
             представляющий цену продукта за месяц.
         promo_codes_enabled (:obj:`bool`): Доступно ли использование промо-кодов.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         in_app_products (:obj:`list` из :obj:`yandex_music.Product`): Список объектов класса
@@ -30,8 +29,7 @@ class Settings(YandexMusicObject):
         web_payment_month_product_price (:obj:`yandex_music.Price`, optional): Объект класса :class:`yandex_music.Price`
             представляющий цену продукта за месяц.
         promo_codes_enabled (:obj:`bool`): Доступно ли использование промо-кодов.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -58,8 +56,7 @@ class Settings(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Settings`: Объект класса :class:`yandex_music.Settings`.

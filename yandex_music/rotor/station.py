@@ -27,8 +27,7 @@ class Station(YandexMusicObject):
             представляющий ограничения для настроек станции.
         parent_id (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный
             идентификатор станции, являющейся предком текущей.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`yandex_music.Id`): Объект класса :class:`yandex_music.Id`, представляющий уникальный идентификатор
@@ -44,8 +43,7 @@ class Station(YandexMusicObject):
             представляющий ограничения для настроек станции.
         parent_id (:obj:`yandex_music.Id`, optional): Объект класса :class:`yandex_music.Id`, представляющий уникальный
             идентификатор станции, являющейся предком текущей.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -82,8 +80,7 @@ class Station(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Station`: Объект класса :class:`yandex_music.Station`.

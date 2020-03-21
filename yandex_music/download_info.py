@@ -20,8 +20,7 @@ class DownloadInfo(YandexMusicObject):
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
         direct_link (:obj:`str`): Прямая ссылка на загрузку. Доступна после получения ссылки.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         codec (:obj:`str`): Кодек аудиофайла.
@@ -29,8 +28,7 @@ class DownloadInfo(YandexMusicObject):
         gain (:obj:`bool`): Усиление TODO.
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -101,8 +99,7 @@ class DownloadInfo(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.DownloadInfo`: Объект класса :class:`yandex_music.DownloadInfo`.
@@ -121,8 +118,7 @@ class DownloadInfo(YandexMusicObject):
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
             get_direct_links (:obj:`bool`): Получать ли сразу прямые ссылки на загрузку.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.DownloadInfo`: Список объектов класса :class:`yandex_music.DownloadInfo`.

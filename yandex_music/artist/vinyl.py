@@ -16,8 +16,7 @@ class Vinyl(YandexMusicObject):
         price (:obj:`int`): Цена.
         media (:obj:`str`): Средство распространения.
         picture (:obj:`str`): Ссылка на обложку.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         url (:obj:`str`): Ссылка на пластинку в магазине.
@@ -26,8 +25,7 @@ class Vinyl(YandexMusicObject):
         price (:obj:`int`): Цена.
         media (:obj:`str`): Средство распространения.
         picture (:obj:`str`, optional): Ссылка на обложку.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -56,8 +54,7 @@ class Vinyl(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.Vinyl`: Объект класса :class:`yandex_music.Vinyl`.
@@ -75,8 +72,7 @@ class Vinyl(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Vinyl`: Список объектов класса :class:`yandex_music.Vinyl`.

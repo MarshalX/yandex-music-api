@@ -28,8 +28,7 @@ class SearchResult(YandexMusicObject):
         order (:obj:`int`): Позиция блока.
         results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
             | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`):  Тип результата.
@@ -38,8 +37,7 @@ class SearchResult(YandexMusicObject):
         order (:obj:`int`): Позиция блока.
         results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
             | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -67,8 +65,7 @@ class SearchResult(YandexMusicObject):
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
             type_ (:obj:`str`, optional): Тип результата.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
             :obj:`yandex_music.SearchResult`: Объект класса :class:`yandex_music.SearchResult`.
