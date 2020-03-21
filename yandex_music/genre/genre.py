@@ -15,19 +15,15 @@ class Genre(YandexMusicObject):
         composer_top (:obj:`bool`): TODO.
         title (:obj:`str`): Заголовок жанра.
         titles (:obj:`dict`): Словарь заголовков на разных языках, где ключ - язык.
-        images (:obj:`yandex_music.Images`): Объект класса :class:`yandex_music.Images`, представляющий изображение
-            жанра.
+        images (:obj:`yandex_music.Images`): Изображение жанра.
         show_in_menu (:obj:`bool`): Показывать в меню.
         full_title (:obj:`str`): Полный заголовок.
         url_part (:obj:`str`): Часть ссылки на жанр для открытия в браузере.
         color (:obj:`str`): Цвет фона изображения.
-        radio_icon (:obj:`yandex_music.Icon`): Объект класса :class:`yandex_music.Images`, представляющий иконку радио
-            жанра.
-        sub_genres (:obj:`list` из :obj:`yandex_music.Genre`): Список объектов класса :class:`yandex_music.Genre`,
-            представляющие поджанры текущего жанра музыки.
+        radio_icon (:obj:`yandex_music.Icon`): Иконка радио жанра.
+        sub_genres (:obj:`list` из :obj:`yandex_music.Genre`): Поджанры текущего жанра музыки.
         hide_in_regions (:obj:`list`): В каких регионах скрывать жанр.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`str`): Уникальный идентификатор жанра.
@@ -35,19 +31,15 @@ class Genre(YandexMusicObject):
         composer_top (:obj:`bool`): TODO.
         title (:obj:`str`): Заголовок жанра.
         titles (:obj:`dict`): Словарь заголовков на разных языках, где ключ - язык.
-        images (:obj:`yandex_music.Images`): Объект класса :class:`yandex_music.Images`, представляющий изображение
-            жанра.
+        images (:obj:`yandex_music.Images`): Изображение жанра.
         show_in_menu (:obj:`bool`): Показывать в меню.
         full_title (:obj:`str`, optional): Полный заголовок.
         url_part (:obj:`str`, optional): Часть ссылки на жанр для открытия в браузере.
         color (:obj:`str`, optional): Цвет фона изображения.
-        radio_icon (:obj:`yandex_music.Icon`, optional): Объект класса :class:`yandex_music.Images`, представляющий
-            иконку радио жанра.
-        sub_genres (:obj:`list` из :obj:`yandex_music.Genre`, optional): Список объектов класса
-            :class:`yandex_music.Genre`, представляющие поджанры текущего жанра музыки.
+        radio_icon (:obj:`yandex_music.Icon`, optional): Иконка радио жанра.
+        sub_genres (:obj:`list` из :obj:`yandex_music.Genre`, optional): Поджанры текущего жанра музыки.
         hide_in_regions (:obj:`list`, optional): В каких регионах скрывать жанр.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -91,11 +83,10 @@ class Genre(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Genre`: Объект класса :class:`yandex_music.Genre`.
+            :obj:`yandex_music.Genre`: Жанр музыки.
         """
         if not data:
             return None
@@ -115,11 +106,10 @@ class Genre(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Genre`: Список объектов класса :class:`yandex_music.Genre`.
+            :obj:`list` из :obj:`yandex_music.Genre`: Жанры музыки.
         """
         if not data:
             return []

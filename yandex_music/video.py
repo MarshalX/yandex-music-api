@@ -39,6 +39,7 @@ class Video(YandexMusicObject):
             **kwargs: Произвольные ключевые аргументы полученные от API.
        """
 
+
     def __init__(self,
                  title: str,
                  cover: Optional[str] = None,
@@ -81,7 +82,7 @@ class Video(YandexMusicObject):
             client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Video`: Объект класса :class:`yandex_music.Video`.
+            :obj:`yandex_music.Video`: TODO.
         """
         if not data:
             return None
@@ -99,7 +100,7 @@ class Video(YandexMusicObject):
             client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Video`: Список объектов класса :class:`yandex_music.Video`.
+            :obj:`list` из :obj:`yandex_music.Video`: TODOqq.
         """
         if not data:
             return []

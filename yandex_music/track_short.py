@@ -13,15 +13,13 @@ class TrackShort(YandexMusicObject):
         id (:obj:`str`): Уникальный идентификатор трека.
         timestamp (:obj:`str`): Дата TODO.
         album_id (:obj:`str`): Уникальный идентификатор альбома.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`str`): Уникальный идентификатор трека.
         timestamp (:obj:`str`): Дата TODO.
         album_id (:obj:`str`, optional): Уникальный идентификатор альбома.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -43,7 +41,7 @@ class TrackShort(YandexMusicObject):
 
     @property
     def track(self) -> 'Track':
-        """:obj:`yandex_music.Track`: Объект класса :class:`yandex_music.Track` представляющий полную версию трека."""
+        """:obj:`yandex_music.Track`: Полная версия трека."""
         if self._track:
             return self._track
 
@@ -65,11 +63,10 @@ class TrackShort(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackShort`: Объект класса :class:`yandex_music.TrackShort`.
+            :obj:`yandex_music.TrackShort`: Укороченная версия трека с неполными данными.
         """
         if not data:
             return None
@@ -84,11 +81,10 @@ class TrackShort(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.TrackShort`: Список объектов класса :class:`yandex_music.TrackShort`.
+            :obj:`list` из :obj:`yandex_music.TrackShort`: Укороченные версии треков с неполными данными.
         """
         if not data:
             return []

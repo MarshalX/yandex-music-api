@@ -21,8 +21,7 @@ class AdParams(YandexMusicObject):
         ad_volume (:obj:`int`): Громкость воспроизводимой рекламы.
         genre_id (:obj:`str`): Уникальный идентификатор жанра.
         genre_name (:obj:`str`): Название жанра.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         partner_id (:obj:`str` | :obj:`int`): Уникальный идентификатор заказчика рекламы.
@@ -33,8 +32,7 @@ class AdParams(YandexMusicObject):
         ad_volume (:obj:`int`): Громкость воспроизводимой рекламы.
         genre_id (:obj:`str`, optional): Уникальный идентификатор жанра.
         genre_name (:obj:`str`, optional): Название жанра.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -69,11 +67,10 @@ class AdParams(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.AdParams`: Объект класса :class:`yandex_music.AdParams`.
+            :obj:`yandex_music.AdParams`: Параметры рекламного объявления.
         """
         if not data:
             return None

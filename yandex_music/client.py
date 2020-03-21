@@ -53,8 +53,7 @@ class Client(YandexMusicObject):
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
-        me (:obj:`yandex_music.Status`): Объект класса :class:`yandex_music.Status` представляющего основную
-            информацию об аккаунте.
+        me (:obj:`yandex_music.Status`): Информация об аккаунте.
 
     Args:
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
@@ -222,8 +221,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status` представляющий информацию об
-            аккаунте если валиден, иначе :obj:`None`.
+            :obj:`yandex_music.Status` | :obj:`None`: Информация об аккаунте если он валиден, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -245,8 +243,8 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` представляющий
-            настройки пользователя, иначе :obj:`None`.
+            :obj:`yandex_music.UserSettings` | :obj:`None`: Настройки пользователя если аккаунт валиден,
+                иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -276,8 +274,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` представляющий
-            настройки пользователя, иначе :obj:`None`.
+            :obj:`yandex_music.UserSettings` | :obj:`None`: Настройки пользователя или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -302,8 +299,8 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Settings`: Объекта класса :class:`yandex_music.Settings` представляющий информацию о
-            предлагаемых продуктах, иначе :obj:`None`.
+            :obj:`yandex_music.Settings` | :obj:`None`: Информацию о предлагаемых продуктах если аккаунт валиден
+                или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -325,8 +322,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.PermissionAlerts`: Объекта класса :class:`yandex_music.PermissionAlerts`
-            представляющий оповещения, иначе :obj:`None`.
+            :obj:`yandex_music.PermissionAlerts` | :obj:`None`: Оповещения если аккаунт валиден или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -348,8 +344,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Experiments`: Объекта класса :class:`yandex_music.Experiments`
-            представляющий состояния экспериментальных функций, иначе :obj:`None`.
+            :obj:`yandex_music.Experiments` | :obj:`None`: Состояние экспериментальных функций или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -374,8 +369,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.PromoCodeStatus`: Объекта класса :class:`yandex_music.PromoCodeStatus`
-            представляющий информацию об активации промо-кода, иначе :obj:`None`.
+            :obj:`yandex_music.PromoCodeStatus` | :obj:`None`: Информация об активации промо-кода или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -397,8 +391,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Feed`: Объекта класса :class:`yandex_music.Feed`
-            представляющий умные плейлисты пользователя, иначе :obj:`None`.
+            :obj:`yandex_music.Feed` | :obj:`None`: Умные плейлисты пользователя или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -434,8 +427,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Landing`: Объекта класса :class:`yandex_music.Landing`
-            представляющий лендинг-страницу, иначе :obj:`None`.
+            :obj:`yandex_music.Landing` | :obj:`None`: Лендинг-страница или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -457,8 +449,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Genre`: Список объектов класса :class:`yandex_music.Genre`
-            представляющих жанры музыки, иначе :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.Genre` | :obj:`None`: Жанры музыки или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -483,8 +474,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Список объектов класса :class:`yandex_music.DownloadInfo`
-            представляющих варианты загрузки трека, иначе :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.DownloadInfo` | :obj:`None`: Варианты загрузки трека или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -508,8 +498,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Supplement`: Объект класса `yandex_music.Supplement` представляющий дополнительную
-            информацию о треке.
+            :obj:`yandex_music.Supplement`: Дополнительная информация о треке.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -533,8 +522,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.SimilarTracks`: Объект класса `yandex_music.SimilarTracks` представляющий список похожих
-            треков на другой трек.
+            :obj:`yandex_music.SimilarTracks`: Похожие треки на другой трек.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -623,8 +611,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Album`: Объект класса :class:`yandex_music.Album` представляющий альбом,
-            иначе :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.Album` | :obj:`None`: Альбом или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -658,8 +645,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Search`: Объекта класса :class:`yandex_music.Search`
-            представляющий результаты поиска, иначе :obj:`None`.
+            :obj:`yandex_music.Search` | :obj:`None`: Результаты поиска или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -691,8 +677,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Suggestions`: Объекта класса :class:`yandex_music.Suggestions`
-            представляющий подсказки для запроса, иначе :obj:`None`.
+            :obj:`yandex_music.Suggestions` | :obj:`None`: Подсказки для запроса или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -720,8 +705,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.UserSettings`: Объекта класса :class:`yandex_music.UserSettings` представляющий
-            настройки пользователя, иначе :obj:`None`.
+            :obj:`yandex_music.UserSettings` | :obj:`None`: Настройки пользователя или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -750,8 +734,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Playlist`: Список объектов класса :class:`yandex_music.Playlist`
-            представляющих плейлист, иначе :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.Playlist` | :obj:`None`: Плейлист или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -784,8 +767,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Playlist`: Объекта класса :class:`yandex_music.Playlist`
-            представляющий созданный плейлист, иначе :obj:`None`.
+            :obj:`yandex_music.Playlist` | :obj:`None`: Созданный плейлист или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -847,8 +829,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Playlist`: Объекта класса :class:`yandex_music.Playlist`
-            представляющий изменённый плейлист, иначе :obj:`None`.
+            :obj:`yandex_music.Playlist` | :obj:`None`: Изменённый плейлист или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -880,8 +861,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Playlist`: Объекта класса :class:`yandex_music.Playlist`
-            представляющий изменённый плейлист, иначе :obj:`None`.
+            :obj:`yandex_music.Playlist` | :obj:`None`: Изменённый плейлист или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -917,8 +897,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Playlist`: Объекта класса :class:`yandex_music.Playlist`
-            представляющий изменённый плейлист, иначе :obj:`None`.
+            :obj:`yandex_music.Playlist`: Изменённый плейлист или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -960,8 +939,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Playlist`: Объекта класса :class:`yandex_music.Playlist`
-            представляющий изменённый плейлист, иначе :obj:`None`.
+            :obj:`yandex_music.Playlist`: Изменённый плейлист или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -994,8 +972,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Playlist`: Объекта класса :class:`yandex_music.Playlist`
-            представляющий изменённый плейлист, иначе :obj:`None`.
+            :obj:`yandex_music.Playlist` | :obj:`None`: Изменённый плейлист или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1021,8 +998,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Status`: Объекта класса :class:`yandex_music.Status`
-            представляющий статус пользователя с дополнительными полями от радио, иначе :obj:`None`.
+            :obj:`yandex_music.Status` | :obj:`None`: Статус пользователя с дополнительными полями от радио или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1045,8 +1021,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.Dashboard`: Объекта класса :class:`yandex_music.Dashboard`
-            представляющий рекомендованные станции, иначе :obj:`None`.
+            :obj:`yandex_music.Dashboard` | :obj:`None`: Рекомендованные станции или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1074,8 +1049,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.StationResult`: Список объектов класса :class:`yandex_music.StationResult`
-            представляющих станцию, иначе :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.StationResult` | :obj:`None`: Станции или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1236,8 +1210,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.StationResult`: Список из одного объекта класса
-            :class:`yandex_music.StationResult` представляющего информацию о станции, иначе :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.StationResult` | :obj:`None`: Информация о станции или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1319,8 +1292,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.StationTracksResult`: Объекта класса :class:`yandex_music.StationTracksResult`
-            представляющий последовательность треков станции, иначе :obj:`None`.
+            :obj:`yandex_music.StationTracksResult` | :obj:`None`: Последовательность треков станции или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1362,8 +1334,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.ArtistsTracks`: Объекта класса :class:`yandex_music.ArtistsTracks`
-            представляющий страницу списка треков артиста, иначе :obj:`None`.
+            :obj:`yandex_music.ArtistsTracks` | :obj:`None`: Страница списка треков артиста или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1399,8 +1370,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.ArtistAlbums`: Объекта класса :class:`yandex_music.ArtistsTracks`
-            представляющий страницу списка альбомов артиста, иначе :obj:`None`.
+            :obj:`yandex_music.ArtistAlbums` | :obj:`None`: Страница списка альбомов артиста или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`
@@ -1625,8 +1595,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.ShotEvent`: Объекта класса :class:`yandex_music.ShotEvent`
-            представляющий шоты от Алисы, иначе :obj:`None`.
+            :obj:`yandex_music.ShotEvent`: Шот от Алисы или :obj:`None`.
 
         Raises:
             :class:`yandex_music.YandexMusicError`

@@ -24,8 +24,7 @@ class RotorSettings(YandexMusicObject):
         mood (:obj:`int`): Настроение (старое).
         energy (:obj:`int`): Энергичное.
         mood_energy (:obj:`str`): Настроение.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         language (:obj:`str`): Язык.
@@ -33,8 +32,7 @@ class RotorSettings(YandexMusicObject):
         mood (:obj:`int`, optional): Настроение (старое).
         energy (:obj:`int`, optional): Энергичное.
         mood_energy (:obj:`str`, optional): Настроение.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -62,11 +60,10 @@ class RotorSettings(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.RotorSettings`: Объект класса :class:`yandex_music.RotorSettings`.
+            :obj:`yandex_music.RotorSettings`: Настройки станции.
         """
         if not data:
             return None

@@ -12,14 +12,12 @@ class Value(YandexMusicObject):
     Attributes:
         value (:obj:`str`): Значение.
         name (:obj:`str`): Название.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         value (:obj:`str`): Значение.
         name (:obj:`str`): Название.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -40,11 +38,10 @@ class Value(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Value`: Объект класса :class:`yandex_music.Value`.
+            :obj:`yandex_music.Value`: Значение.
         """
         if not data:
             return None
@@ -59,11 +56,10 @@ class Value(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Value`: Список объектов класса :class:`yandex_music.Value`.
+            :obj:`list` из :obj:`yandex_music.Value`: Значения.
         """
         if not data:
             return []

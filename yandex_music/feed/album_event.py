@@ -10,12 +10,10 @@ class AlbumEvent(YandexMusicObject):
     """Класс, представляющий .
 
     Attributes:
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -36,11 +34,10 @@ class AlbumEvent(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.AlbumEvent`: Объект класса :class:`yandex_music.AlbumEvent`.
+            :obj:`yandex_music.AlbumEvent`: TODO.
         """
         if not data:
             return None
@@ -58,11 +55,10 @@ class AlbumEvent(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.AlbumEvent`: Список объектов класса :class:`yandex_music.AlbumEvent`.
+            :obj:`list` из :obj:`yandex_music.AlbumEvent`: TODO.
         """
         if not data:
             return []

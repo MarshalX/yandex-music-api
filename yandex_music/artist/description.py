@@ -16,14 +16,12 @@ class Description(YandexMusicObject):
     Attributes:
         text (:obj:`str`): Описание исполнителя.
         url (:obj:`str`): Ссылка на источник.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
     Args:
         text (:obj:`str`): Описание исполнителя.
         url (:obj:`str`): Ссылка на источник.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client`, представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -44,11 +42,10 @@ class Description(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client`, представляющий клиент
-                Yandex Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Description`: Объект класса :class:`yandex_music.Descriptions`.
+            :obj:`yandex_music.Description`: Описание исполнителя из другого источника.
         """
         if not data:
             return None
