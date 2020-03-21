@@ -19,7 +19,7 @@ class Video(YandexMusicObject):
             thumbnail_url (:obj:`str`, optional): Ссылка на изображение.
             duration (:obj:`int`, optional): Длительность видео в секундах.
             text (:obj:`str`, optional): Текст.
-            html_auto_play_video_player (:obj:`str`, optional): html тег для встраивания в разметку страницы.
+            html_auto_play_video_player (:obj:`str`, optional): HTML тег для встраивания в разметку страницы.
             regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
             client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -33,7 +33,7 @@ class Video(YandexMusicObject):
             thumbnail_url (:obj:`str`, optional): Ссылка на изображение.
             duration (:obj:`int`, optional): Длительность видео в секундах.
             text (:obj:`str`, optional): Текст.
-            html_auto_play_video_player (:obj:`str`, optional): html тег для встраивания в разметку страницы.
+            html_auto_play_video_player (:obj:`str`, optional): HTML тег для встраивания в разметку страницы.
             regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
             **kwargs: Произвольные ключевые аргументы полученные от API.
