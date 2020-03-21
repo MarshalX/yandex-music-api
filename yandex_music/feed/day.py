@@ -7,12 +7,20 @@ if TYPE_CHECKING:
 
 
 class Day(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий день в фиде.
 
     Attributes:
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        day (:obj:`str`): Дата в формате YYYY-MM-DD.
+        events (:obj:`list` из :obj:`yandex_music.Event`): События TODO.
+        tracks_to_play_with_ads (:obj:`list` из :obj:`yandex_music.TrackWithAds`): Треки для проигрывания с рекламой.
+        tracks_to_play (:obj:`list` из :obj:`yandex_music.Track`): Треки для проигрывания.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        day (:obj:`str`): Дата в формате YYYY-MM-DD.
+        events (:obj:`list` из :obj:`yandex_music.Event`): События TODO.
+        tracks_to_play_with_ads (:obj:`list` из :obj:`yandex_music.TrackWithAds`): Треки для проигрывания с рекламой.
+        tracks_to_play (:obj:`list` из :obj:`yandex_music.Track`): Треки для проигрывания.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -41,7 +49,7 @@ class Day(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Day`: TODO.
+            :obj:`yandex_music.Day`: День в фиде.
         """
         if not data:
             return None
@@ -63,7 +71,7 @@ class Day(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Day`: TODO.
+            :obj:`list` из :obj:`yandex_music.Day`: Дни в фиде.
         """
         if not data:
             return []
