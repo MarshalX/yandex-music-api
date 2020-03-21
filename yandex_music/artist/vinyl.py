@@ -16,7 +16,7 @@ class Vinyl(YandexMusicObject):
         price (:obj:`int`): Цена.
         media (:obj:`str`): Средство распространения.
         picture (:obj:`str`): Ссылка на обложку.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         url (:obj:`str`): Ссылка на пластинку в магазине.

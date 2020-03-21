@@ -21,7 +21,7 @@ class AdParams(YandexMusicObject):
         ad_volume (:obj:`int`): Громкость воспроизводимой рекламы.
         genre_id (:obj:`str`): Уникальный идентификатор жанра.
         genre_name (:obj:`str`): Название жанра.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         partner_id (:obj:`str` | :obj:`int`): Уникальный идентификатор заказчика рекламы.

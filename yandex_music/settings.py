@@ -15,7 +15,7 @@ class Settings(YandexMusicObject):
         web_payment_url (:obj:`str`): Ссылка для осуществления платежа.
         web_payment_month_product_price (:obj:`yandex_music.Price`): Цена продукта за месяц.
         promo_codes_enabled (:obj:`bool`): Доступно ли использование промо-кодов.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         in_app_products (:obj:`list` из :obj:`yandex_music.Product`): Продаваемые продукты внутри приложения.

@@ -24,7 +24,7 @@ class RotorSettings(YandexMusicObject):
         mood (:obj:`int`): Настроение (старое).
         energy (:obj:`int`): Энергичное.
         mood_energy (:obj:`str`): Настроение.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         language (:obj:`str`): Язык.

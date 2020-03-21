@@ -12,7 +12,7 @@ class Title(YandexMusicObject):
     Attributes:
         title (:obj:`str`): Заголовок.
         full_title (:obj:`str`): Полный заголовок.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         title (:obj:`str`): Заголовок.

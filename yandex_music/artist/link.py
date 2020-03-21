@@ -17,7 +17,7 @@ class Link(YandexMusicObject):
         href (:obj:`str`): URL страницы.
         type_ (:obj:`str`): Тип страницы.
         social_network (:obj:`str`): Название социальной сети.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         title (:obj:`str`): Название страницы.

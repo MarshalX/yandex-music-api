@@ -18,7 +18,7 @@ class GeneratedPlaylist(YandexMusicObject):
         ready (:obj:`bool`): Готовность плейлиста.
         notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
         data (:obj:`yandex_music.Playlist`): Сгенерированный плейлист.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`): Тип сгенерированного плейлиста.

@@ -14,7 +14,7 @@ class Supplement(YandexMusicObject):
         lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
         videos (:obj:`yandex_music.VideoSupplement`): Видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор дополнительной информации.

@@ -14,7 +14,7 @@ class ShotData(YandexMusicObject):
         mds_url (:obj:`str`): Ссылка на аудиоверсию шота в озвучке от Алисы.
         shot_text (:obj:`str`): Текстовая версия шота.
         shot_type (:obj:`yandex_music.ShotType`): Тип шота.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         cover_uri (:obj:`str`): Ссылка на обложку шота (иконка Алисы).

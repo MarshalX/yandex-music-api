@@ -12,7 +12,7 @@ class Price(YandexMusicObject):
     Attributes:
         amount (:obj:`int`): Количество единиц.
         currency (:obj:`str`): Валюта.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         amount (:obj:`int`): Количество единиц.

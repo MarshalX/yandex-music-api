@@ -12,7 +12,7 @@ class Value(YandexMusicObject):
     Attributes:
         value (:obj:`str`): Значение.
         name (:obj:`str`): Название.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         value (:obj:`str`): Значение.

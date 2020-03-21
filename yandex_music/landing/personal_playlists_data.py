@@ -10,7 +10,7 @@ class PersonalPlaylistsData(YandexMusicObject):
     """Класс, представляющий .
 
     Attributes:
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.

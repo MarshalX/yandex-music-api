@@ -11,12 +11,13 @@ class TrackShortOld(YandexMusicObject):
 
     Note:
         Данная версия менее богата полями и найдена позже первой, поэтому была принята как за старую версию.
+
         Другая версия сокращённого трека: :class:`yandex_music.TrackShort`.
 
     Attributes:
         track_id (:obj:`yandex_music.TrackId` | :obj:`None`): Уникальный идентификатор трека.
         timestamp (:obj:`str`): Дата TODO.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         track_id (:obj:`yandex_music.TrackId`): Уникальный идентификатор трека.

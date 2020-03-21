@@ -12,7 +12,7 @@ class Normalization(YandexMusicObject):
     Attributes:
         gain (:obj:`str`): Значение гейна, которое нужно применить к аудиосигналу.
         peak (:obj:`int`): Пиковая точка волны аудиосигнала.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         gain (:obj:`str`): Значение гейна, которое нужно применить к аудиосигналу.

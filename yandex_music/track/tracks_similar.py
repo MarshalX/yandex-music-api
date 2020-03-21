@@ -12,7 +12,7 @@ class SimilarTracks(YandexMusicObject):
     Attributes:
         track (:obj:`yandex_music.Track`): Трек.
         similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Похожие треки на `track`.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         track (:obj:`yandex_music.Track`): Трек.

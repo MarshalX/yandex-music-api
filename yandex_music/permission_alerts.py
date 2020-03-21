@@ -11,7 +11,7 @@ class PermissionAlerts(YandexMusicObject):
 
     Attributes:
         alerts (:obj:`list` из :obj:`str`): Список оповещений.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         alerts (:obj:`list` из :obj:`str`): Список оповещений.

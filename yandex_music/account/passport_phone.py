@@ -11,7 +11,7 @@ class PassportPhone(YandexMusicObject):
 
     Attributes:
         phone (:obj:`str`): Номер телефона.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         phone (:obj:`str`): Номер телефона.

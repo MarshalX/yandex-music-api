@@ -12,7 +12,7 @@ class ShotType(YandexMusicObject):
     Attributes:
         id (:obj:`str`): Уникальный идентификатор типа.
         title (:obj:`str`): Заголовок шота.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`str`): Уникальный идентификатор типа.

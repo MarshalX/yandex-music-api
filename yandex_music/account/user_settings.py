@@ -36,7 +36,7 @@ class UserSettings(YandexMusicObject):
         ads_disabled (:obj:`bool`): Не показывать рекламу.
         disk_enabled (:obj:`bool`): TODO.
         show_disk_tracks_in_library (:obj:`bool`): Показывать локальные треки в библиотеке.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         uid (:obj:`int`): Уникальный идентификатор пользователя.

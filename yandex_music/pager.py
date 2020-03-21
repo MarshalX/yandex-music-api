@@ -13,7 +13,7 @@ class Pager(YandexMusicObject):
         total (:obj:`int`): Всего треков.
         page (:obj:`int`): Номер страницы.
         per_page (:obj:`int`): Количество треков на странице.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         total (:obj:`int`): Всего треков.

@@ -12,7 +12,7 @@ class PlaylistAbsence(YandexMusicObject):
     Attributes:
         kind (:obj:`int`): Уникальный идентификатор плейлиста.
         reason (:obj:`str`): Причина отсутствия.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         kind (:obj:`int`): Уникальный идентификатор плейлиста.

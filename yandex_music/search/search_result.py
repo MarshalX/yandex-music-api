@@ -28,7 +28,7 @@ class SearchResult(YandexMusicObject):
         order (:obj:`int`): Позиция блока.
         results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
             | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`):  Тип результата.

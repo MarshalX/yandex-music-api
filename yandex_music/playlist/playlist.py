@@ -48,7 +48,7 @@ class Playlist(YandexMusicObject):
         description_formatted (:obj:`str`): Описание плейлиста. Только текст, без разметки.
         is_for_from: TODO.
         regions: Регион TODO.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         owner (:obj:`yandex_music.User`, optional): Владелец плейлиста.

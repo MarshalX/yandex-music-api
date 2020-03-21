@@ -12,7 +12,7 @@ class PlaylistId(YandexMusicObject):
     Attributes:
         uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
         kind (:obj:`int`): Уникальный идентификатор плейлиста.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.

@@ -16,7 +16,7 @@ class Description(YandexMusicObject):
     Attributes:
         text (:obj:`str`): Описание исполнителя.
         url (:obj:`str`): Ссылка на источник.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         text (:obj:`str`): Описание исполнителя.

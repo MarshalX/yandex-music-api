@@ -17,7 +17,7 @@ class PlayCounter(YandexMusicObject):
         value (:obj:`int`): Значение (количество дней).
         description (:obj:`str`): Описание счётчика.
         updated (:obj:`bool`): Обновлён ли сегодня (в этих сутках).
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         value (:obj:`int`): Значение (количество дней).

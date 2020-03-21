@@ -12,7 +12,7 @@ class Plus(YandexMusicObject):
     Attributes:
         has_plus (:obj:`bool`): Наличие.
         is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         has_plus (:obj:`bool`): Наличие.

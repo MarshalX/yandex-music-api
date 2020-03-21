@@ -20,7 +20,7 @@ class Restrictions(YandexMusicObject):
         mood (:obj:`yandex_music.DiscreteScale`): Ограничение для значений настроения.
         energy (:obj:`yandex_music.DiscreteScale`): Ограничение для значений энергичности.
         mood_energy (:obj:`yandex_music.Enum`): Значения для настроения.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         language (:obj:`yandex_music.Enum`): Перечисление значений для языков.

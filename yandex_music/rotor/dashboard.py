@@ -14,7 +14,7 @@ class Dashboard(YandexMusicObject):
         stations (:obj:`list` из :obj:`yandex_music.StationResult`): Станции со всеми возможными настройками и
             параметрами.
         pumpkin (:obj:`str`): Хэллоуин.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         dashboard_id (:obj:`str`): Уникальный идентификатор панели.

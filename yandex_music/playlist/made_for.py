@@ -12,7 +12,7 @@ class MadeFor(YandexMusicObject):
     Attributes:
         user_info (:obj:`yandex_music.User`): Пользователь, для которого был сделан плейлист.
         case_forms (:obj:`yandex_music.CaseForms`): Склонение имени пользователя, для которого был сделан плейлист.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         user_info (:obj:`yandex_music.User`): Пользователь, для которого был сделан плейлист.

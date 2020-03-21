@@ -12,7 +12,7 @@ class Icon(YandexMusicObject):
     Attributes:
         background_color (:obj:`str`): Цвет заднего фона в HEX.
         image_url (:obj:`str`): Ссылка на изображение.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         background_color (:obj:`str`): Цвет заднего фона в HEX.

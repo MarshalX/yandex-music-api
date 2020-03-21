@@ -21,7 +21,7 @@ class Status(YandexMusicObject):
         skips_per_hour (:obj:`int`): Количество переключение треков на радио в час.
         station_exists (:obj:`bool`): Наличие станции TODO.
         premium_region (:obj:`int`): Регион TODO.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         account (:obj:`yandex_music.Account`): Основная информация об аккаунте

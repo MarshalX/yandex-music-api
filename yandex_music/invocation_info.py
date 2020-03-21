@@ -13,7 +13,7 @@ class InvocationInfo(YandexMusicObject):
         hostname (:obj:`str`): Имя удалённого сервера.
         req_id (:obj:`str`): Номер запроса.
         exec_duration_millis (:obj:`str`): Время выполнения в миллисекундах.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         hostname (:obj:`str`): Имя удалённого сервера.

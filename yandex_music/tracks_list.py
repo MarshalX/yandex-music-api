@@ -13,7 +13,7 @@ class TracksList(YandexMusicObject):
         uid (:obj:`int`): Уникальный идентификатор пользователя.
         revision (:obj:`int`): Актуальность данных TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков в укороченной версии.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         uid (:obj:`int`): Уникальный идентификатор пользователя.

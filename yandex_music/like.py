@@ -25,7 +25,7 @@ class Like(YandexMusicObject):
         album (:obj:`yandex_music.Album`): Понравившейся альбом.
         artist (:obj:`yandex_music.Artist`): Понравившейся артист.
         playlist (:obj:`yandex_music.Playlist`): Понравившейся плейлист.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type (:obj:`str`): Тип объекта с отметкой.

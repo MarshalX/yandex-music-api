@@ -16,7 +16,7 @@ class Lyrics(YandexMusicObject):
         full_lyrics (:obj:`str`): Текст песни.
         text_language (:obj:`str`): Язык текста.
         show_translation (:obj:`bool`): Показывать ли перевод.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор текста трека.

@@ -13,7 +13,7 @@ class TrackShort(YandexMusicObject):
         id (:obj:`str`): Уникальный идентификатор трека.
         timestamp (:obj:`str`): Дата TODO.
         album_id (:obj:`str`): Уникальный идентификатор альбома.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`str`): Уникальный идентификатор трека.

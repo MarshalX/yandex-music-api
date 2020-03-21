@@ -17,7 +17,7 @@ class VideoSupplement(YandexMusicObject):
         url (:obj:`str`): URL на видео.
         embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
         embed (:obj:`str`): HTML тег для встраивания видео.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         cover (:obj:`str`): URL на обложку видео.

@@ -18,7 +18,7 @@ class Counts(YandexMusicObject):
         direct_albums (:obj:`int`): Количество альбомов.
         also_albums (:obj:`int`): Количество дополнительных треков.
         also_tracks (:obj:`int`): Количество дополнительных альбомов.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         tracks (:obj:`int`): Количество треков.

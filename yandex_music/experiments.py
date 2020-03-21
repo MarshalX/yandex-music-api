@@ -11,8 +11,8 @@ class Experiments(YandexMusicObject):
     """Класс, представляющий какие-то свистелки-перделки, флажки, режимы экспериментальных функций.
 
     Attributes:
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        название_эксперимента (:obj:`str`, optional): Содержит режим или состояние, или функцию, или ещё что угодно.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+        название_эксперимента (:obj:`str`): Содержит режим или состояние, или функцию, или ещё что угодно.
 
     Args:
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.

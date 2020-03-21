@@ -16,7 +16,7 @@ class CaseForms(YandexMusicObject):
         accusative (:obj:`str`): Винительный.
         instrumental (:obj:`str`): Творительный.
         prepositional (:obj:`str`): Предложный.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         nominative (:obj:`str`): Именительный.

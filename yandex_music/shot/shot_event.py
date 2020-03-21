@@ -12,7 +12,7 @@ class ShotEvent(YandexMusicObject):
     Attributes:
         event_id (:obj:`str`): Уникальный идентификатор события.
         shots (:obj:`list` из :obj:`yandex_music.Shot`): Шоты от Алисы.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         event_id (:obj:`str`): Уникальный идентификатор события.

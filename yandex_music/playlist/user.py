@@ -15,7 +15,7 @@ class User(YandexMusicObject):
         name (:obj:`str`): Имя пользователя.
         sex (:obj:`str`): Пол пользователя.
         verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         uid (:obj:`int`): Идентификатор пользователя.

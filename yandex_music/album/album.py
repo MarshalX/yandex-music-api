@@ -41,7 +41,7 @@ class Album(YandexMusicObject):
         type (:obj:`str`): Тип альбома.
         track_position (:obj:`yandex_music.TrackPosition`): Позиция трека в альбоме. Возвращается при получении
             альбома в составе трека.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`int`): Идентификатор альбома.

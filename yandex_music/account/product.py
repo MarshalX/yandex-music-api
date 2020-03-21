@@ -26,7 +26,7 @@ class Product(YandexMusicObject):
         button_text (:obj:`str`): Текст кнопки.
         button_additional_text (:obj:`str`): Дополнительный текст кнопки.
         payment_method_types (:obj:`list` из :obj:`str`): Способы оплаты.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         product_id (:obj:`str`): Уникальный идентификатор.

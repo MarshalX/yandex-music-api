@@ -12,7 +12,7 @@ class Suggestions(YandexMusicObject):
     Attributes:
         best (:obj:`yandex_music.Best`): Лучший результат.
         suggestions (:obj:`list` из :obj:`str`): Список подсказок-дополнений для поискового запроса.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         best (:obj:`yandex_music.Best`): Лучший результат.

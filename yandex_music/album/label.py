@@ -12,7 +12,7 @@ class Label(YandexMusicObject):
     Attributes:
         id (:obj:`int`): Идентификатор альбома.
         name (:obj:`str`): Название альбома.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     Args:
         id_ (:obj:`int`): Идентификатор альбома.
         name (:obj:`str`): Название альбома.

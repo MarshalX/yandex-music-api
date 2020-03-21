@@ -17,7 +17,7 @@ class DiscreteScale(YandexMusicObject):
         name (:obj:`str`): Название.
         min (:obj:`yandex_music.Value`): Минимальное значение.
         max (:obj:`yandex_music.Value`): Максимальное значение.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`): Тип.

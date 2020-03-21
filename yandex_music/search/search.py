@@ -14,20 +14,20 @@ class Search(YandexMusicObject):
         text (:obj:`str`): Текст запроса.
         best (:obj:`yandex_music.Best`): Лучший результат.
         albums (:obj:`yandex_music.SearchResult`): Найденные альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Найденне исполнителеи.
+        artists (:obj:`yandex_music.SearchResult`): Найденные исполнители.
         playlists (:obj:`yandex_music.SearchResult`): Найденные плейлисты.
         tracks (:obj:`yandex_music.SearchResult`): Найденные треки.
         videos (:obj:`yandex_music.SearchResult`): Найденные видео.
         misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
         nocorrect (:obj:`bool`): Было ли отключено исправление результата.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
         best (:obj:`yandex_music.Best`): Лучший результат.
         albums (:obj:`yandex_music.SearchResult`): Найденные альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Найденне исполнителеи.
+        artists (:obj:`yandex_music.SearchResult`): Найденные исполнители.
         playlists (:obj:`yandex_music.SearchResult`): Найденные плейлисты.
         tracks (:obj:`yandex_music.SearchResult`): Найденные треки.
         videos (:obj:`yandex_music.SearchResult`): Найденные видео.

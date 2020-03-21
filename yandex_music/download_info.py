@@ -20,7 +20,7 @@ class DownloadInfo(YandexMusicObject):
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
         direct_link (:obj:`str`): Прямая ссылка на загрузку. Доступна после получения ссылки.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         codec (:obj:`str`): Кодек аудиофайла.

@@ -13,7 +13,7 @@ class Enum(YandexMusicObject):
         type (:obj:`str`): Тип перечисления.
         name (:obj:`str`): Название перечисления.
         possible_values (:obj:`list` из :obj:`yandex_Music.Value`): Доступные значения.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`): Тип перечисления.

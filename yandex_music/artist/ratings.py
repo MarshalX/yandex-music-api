@@ -13,7 +13,7 @@ class Ratings(YandexMusicObject):
         month (:obj:`int`): Значение ежемесячного рейтинга.
         week (:obj:`int`): Значение еженедельного рейтинга.
         day (:obj:`int`): Значение дневного рейтинга.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         month (:obj:`int`): Значение ежемесячного рейтинга.

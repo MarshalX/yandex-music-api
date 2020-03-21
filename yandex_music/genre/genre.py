@@ -23,7 +23,7 @@ class Genre(YandexMusicObject):
         radio_icon (:obj:`yandex_music.Icon`): Иконка радио жанра.
         sub_genres (:obj:`list` из :obj:`yandex_music.Genre`): Поджанры текущего жанра музыки.
         hide_in_regions (:obj:`list`): В каких регионах скрывать жанр.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`str`): Уникальный идентификатор жанра.

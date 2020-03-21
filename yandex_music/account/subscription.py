@@ -14,7 +14,7 @@ class Subscription(YandexMusicObject):
         can_start_trial (:obj:`bool`): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`): mcdonalds TODO.
         end (:obj:`str`): Дата окончания.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`, optional): Автопродление.

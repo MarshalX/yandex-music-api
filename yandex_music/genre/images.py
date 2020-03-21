@@ -12,7 +12,7 @@ class Images(YandexMusicObject):
     Attributes:
         _208x208 (:obj:`str`): Ссылка на изображение размером 208 на 208.
         _300x300 (:obj:`str`): Ссылка на изображение размером 300 на 300.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         _208x208 (:obj:`str`, optional): Ссылка на изображение размером 208 на 208.

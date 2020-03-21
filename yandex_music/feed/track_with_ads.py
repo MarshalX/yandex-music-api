@@ -15,7 +15,7 @@ class TrackWithAds(YandexMusicObject):
     Attributes:
         type (:obj:`str`): Тип TODO.
         track (:obj:`yandex_music.Track`): Трек.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`): Тип TODO.

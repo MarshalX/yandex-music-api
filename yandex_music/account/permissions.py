@@ -13,7 +13,7 @@ class Permissions(YandexMusicObject):
         until (:obj:`str`): Дата окончания прав.
         values (:obj:`list` из :obj:`str`): Список прав.
         default (:obj:`list` из :obj:`str`): Список изначальных прав.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         until (:obj:`str`): Дата окончания прав.

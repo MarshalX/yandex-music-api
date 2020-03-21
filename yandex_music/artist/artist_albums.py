@@ -12,7 +12,7 @@ class ArtistAlbums(YandexMusicObject):
     Attributes:
         albums (:obj:`list` из :obj:`yandex_music.Album`): Список альбомов артиста.
         pager (:obj:`yandex_music.Pager`): Пагинатор.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         albums (:obj:`list` из :obj:`yandex_music.Album`): Список альбомов артиста.

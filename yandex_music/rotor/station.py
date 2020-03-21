@@ -23,7 +23,7 @@ class Station(YandexMusicObject):
         restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
         restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
         parent_id (:obj:`yandex_music.Id`): Уникальный идентификатор станции, являющейся предком текущей.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`yandex_music.Id`): Уникальный идентификатор станции.

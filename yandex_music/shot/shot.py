@@ -18,7 +18,7 @@ class Shot(YandexMusicObject):
         shot_data (:obj:`yandex_music.ShotData`): Основная информация о шоте.
         shot_id (:obj:`str`): Уникальный идентификатор шота.
         status (:obj:`str`): Статус шота.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         order (:obj:`int`): Порядковый номер при воспроизведении.

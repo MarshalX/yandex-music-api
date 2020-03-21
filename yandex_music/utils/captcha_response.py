@@ -14,7 +14,7 @@ class CaptchaResponse(YandexMusicObject):
         x_captcha_key (:obj:`str`): Уникальный ключ капчи.
         error_description (:obj:`str`): Описание ошибки.
         error (:obj:`str`): Код ошибки.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         x_captcha_url (:obj:`str`): Ссылка на изображение с капчей.
