@@ -7,12 +7,21 @@ if TYPE_CHECKING:
 
 
 class Sequence(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий звено последовательности.
+
+    Note:
+        Известные значения поля `type_`: `track`. Возможно есть `ad`.
 
     Attributes:
+        type_ (:obj:`str`): Тип звена.
+        track (:obj:`yandex_music.Track` | :obj:`None`): Трек.
+        liked (:obj:`bool`): Связанное ли.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        type_ (:obj:`str`): Тип звена.
+        track (:obj:`yandex_music.Track` | :obj:`None`): Трек.
+        liked (:obj:`bool`): Связанное ли.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -39,7 +48,7 @@ class Sequence(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Sequence`: TODO.
+            :obj:`yandex_music.Sequence`: Звено последовательности.
         """
         if not data:
             return None
@@ -59,7 +68,7 @@ class Sequence(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Sequence`: TODO.
+            :obj:`list` из :obj:`yandex_music.Sequence`: Последовательность треков.
         """
         if not data:
             return []
