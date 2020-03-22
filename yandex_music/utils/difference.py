@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List, Union
 
 ujson = False
 try:
@@ -9,6 +10,12 @@ except ImportError:
 
 
 class Operation(Enum):
+    """Класс перечисления типов операций для изменения плейлиста.
+
+    Note:
+        Существует две операции: вставка, удаление.
+    """
+
     INSERT = 'insert'
     DELETE = 'delete'
 
@@ -30,7 +37,7 @@ class Difference:
         self.operations.append(operation)
         return self
 
-    def add_insert(self, at, tracks: dict or list):
+    def add_insert(self, at, tracks: Union[dict, List[dict]]):
         if not isinstance(tracks, list):
             tracks = [tracks]
 
