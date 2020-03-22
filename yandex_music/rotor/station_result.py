@@ -7,12 +7,24 @@ if TYPE_CHECKING:
 
 
 class StationResult(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий радиостанцию с настройками.
 
     Attributes:
+        station (:obj:`yandex_music.Station` | :obj:`None`): Станция.
+        settings (:obj:`yandex_music.RotorSettings` | :obj:`None`): Первый набор настроек.
+        settings2 (:obj:`yandex_music.RotorSettings` | :obj:`None`): Второй набор настроек.
+        ad_params (:obj:`yandex_music.AdParams` | :obj:`None`): Настройки рекламы.
+        explanation (:obj:`str`): TODO.
+        prerolls (:obj:`list` из :obj:`str`): Прероллы TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        station (:obj:`yandex_music.Station` | :obj:`None`): Станция.
+        settings (:obj:`yandex_music.RotorSettings` | :obj:`None`): Первый набор настроек.
+        settings2 (:obj:`yandex_music.RotorSettings` | :obj:`None`): Второй набор настроек.
+        ad_params (:obj:`yandex_music.AdParams` | :obj:`None`): Настройки рекламы.
+        explanation (:obj:`str`, optional): TODO.
+        prerolls (:obj:`list` из :obj:`str`, optional): Прероллы TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -45,7 +57,7 @@ class StationResult(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.StationResult`: TODO.
+            :obj:`yandex_music.StationResult`: Радиостанция с настройками.
         """
         if not data:
             return None
@@ -68,7 +80,7 @@ class StationResult(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.StationResult`: TODO.
+            :obj:`list` из :obj:`yandex_music.StationResult`: Радиостанции с настройками.
         """
         if not data:
             return []
