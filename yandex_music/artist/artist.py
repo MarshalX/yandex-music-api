@@ -10,7 +10,7 @@ class Artist(YandexMusicObject):
     """Класс, представляющий исполнителя.
 
     Attributes:
-        id: (:obj:`int`): Идентификатор.
+        id: (:obj:`int`): Уникальный идентификатор.
         error (:obj:`str`): Сообщение об ошибке.
         name (:obj:`str`): Название.
         cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
@@ -19,10 +19,10 @@ class Artist(YandexMusicObject):
         genres (:obj:`list` из :obj:`str`): Жанры.
         op_image (:obj:`str`): Адресс обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
-        counts (:obj:`yandex_music.artist.Counts` | :obj:`None`): Количество альбомов, треков и т.п.
+        counts (:obj:`yandex_music.Counts` | :obj:`None`): Количество альбомов, треков и т.п.
         available (:obj:`bool`): TODO.
-        ratings (:obj:`yandex_music.artist.Ratings` | :obj:`None`): Рейтинги.
-        links (:obj:`list` из :obj:`yandex_music.artist.Link`): Ссылки на ресурсы исполнителя.
+        ratings (:obj:`yandex_music.Ratings` | :obj:`None`): Рейтинги.
+        links (:obj:`list` из :obj:`yandex_music.Link`): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`): Имеются ли в продаже билеты на концерт.
         regions (:obj:`list` из :obj:`str`): Регион TODO.
         decomposed: TODO.
@@ -34,12 +34,12 @@ class Artist(YandexMusicObject):
         en_wikipedia_link (:obj:`str`): Адресс страницы на wikipedia.org.
         db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разнх языках.
         aliases: TODO.
-        init_date (:obj:`str`): Дата начала в формате YYYY-MM-DD или 'YYYY'.
-        end_date (:obj:`str`): Дата окончания в формате YYYY-MM-DD или 'YYYY'.
+        init_date (:obj:`str`): Дата начала в формате YYYY-MM-DD или YYYY.
+        end_date (:obj:`str`): Дата окончания в формате YYYY-MM-DD или YYYY.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        id_: (:obj:`int`): Идентификатор.
+        id_: (:obj:`int`): Уникальный идентификатор.
         error (:obj:`str`, optional): Сообщение об ошибке.
         name (:obj:`str`, optional): Название.
         cover (:obj:`yandex_music.Cover`, optional): Обложка.
@@ -48,10 +48,10 @@ class Artist(YandexMusicObject):
         genres (:obj:`list` из :obj:`str`): Жанры.
         op_image (:obj:`str`, optional): Адресс обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
-        counts (:obj:`yandex_music.artist.Counts`, optional): Количество альбомов, треков и т.п.
+        counts (:obj:`yandex_music.Counts`, optional): Количество альбомов, треков и т.п.
         available (:obj:`bool`, optional): TODO.
-        ratings (:obj:`yandex_music.artist.Ratings`, optional): Рейтинги.
-        links (:obj:`list` из :obj:`yandex_music.artist.Link`, optional): Ссылки на ресурсы исполнителя.
+        ratings (:obj:`yandex_music.Ratings`, optional): Рейтинги.
+        links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`, optional): Имеются ли в продаже билеты на концерт.
         likes_count (:obj:`int`, optional): Количество лайков.
         popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
@@ -61,10 +61,10 @@ class Artist(YandexMusicObject):
         description (:obj:`yandex_music.Description`, optional): Описание.
         countries (:obj:`list` из :obj:`str`, optional): Страны.
         en_wikipedia_link (:obj:`str`, optional): Адресс страницы на wikipedia.org.
-        db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разнх языках.
+        db_aliases (:obj:`list` из :obj:`str`, optional): Другие названия. Как правило названия на разнх языках.
         aliases: TODO.
-        init_date (:obj:`str`, optional): Дата начала в формате YYYY-MM-DD или 'YYYY'.
-        end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или 'YYYY'.
+        init_date (:obj:`str`, optional): Дата начала в формате YYYY-MM-DD или YYYY.
+        end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или YYYY.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
