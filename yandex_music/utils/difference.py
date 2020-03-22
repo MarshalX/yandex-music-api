@@ -43,7 +43,7 @@ class Difference:
         """
         return json.dumps(self.operations, ensure_ascii=not ujson)
 
-    def add_delete(self, from_, to):
+    def add_delete(self, from_: int, to: int) -> 'Difference':
         """Добавление операции удаления.
 
         Note:
@@ -65,7 +65,7 @@ class Difference:
         self.operations.append(operation)
         return self
 
-    def add_insert(self, at, tracks: Union[dict, List[dict]]):
+    def add_insert(self, at: int, tracks: Union[dict, List[dict]]) -> 'Difference':
         """Добавление операции вставки.
 
         Note:
