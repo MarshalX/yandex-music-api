@@ -173,6 +173,10 @@ class Track(YandexMusicObject):
     def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
 
+        Note:
+            Известные значения `codec`: `mp3`, `aac`.
+            Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
+
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
