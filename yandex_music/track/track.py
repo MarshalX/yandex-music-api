@@ -175,6 +175,7 @@ class Track(YandexMusicObject):
 
         Note:
             Известные значения `codec`: `mp3`, `aac`.
+
             Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
 
         Args:
