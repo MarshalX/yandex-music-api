@@ -20,7 +20,7 @@ class Artist(YandexMusicObject):
         op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts` | :obj:`None`): Счётчики.
-        available (:obj:`bool`): TODO.
+        available (:obj:`bool`): Доступен ли для прослушивания.
         ratings (:obj:`yandex_music.Ratings` | :obj:`None`): Рейтинги.
         links (:obj:`list` из :obj:`yandex_music.Link`): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`): Имеются ли в продаже билеты на концерт.
@@ -49,7 +49,7 @@ class Artist(YandexMusicObject):
         op_image (:obj:`str`, optional): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts`, optional): Счётчики.
-        available (:obj:`bool`, optional): TODO.
+        available (:obj:`bool`, optional): Доступен ли для прослушивания.
         ratings (:obj:`yandex_music.Ratings`, optional): Рейтинги.
         links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`, optional): Имеются ли в продаже билеты на концерт.
