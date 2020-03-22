@@ -7,12 +7,20 @@ if TYPE_CHECKING:
 
 
 class StationTracksResult(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий последовательность треков станции.
 
     Attributes:
+        id_ (:obj:`yandex_music.Id` | :obj:`None`): Уникальный идентификатор станции.
+        sequence (:obj:`list` из :obj:`yandex_music.Sequence`): Последовательность треков.
+        batch_id (:obj:`str`): Уникальный идентификатор партии (последовательности).
+        pumpkin (:obj:`bool`): Хэллоуин.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        id_ (:obj:`yandex_music.Id`): Уникальный идентификатор станции.
+        sequence (:obj:`list` из :obj:`yandex_music.Sequence`): Последовательность треков.
+        batch_id (:obj:`str`): Уникальный идентификатор партии (последовательности).
+        pumpkin (:obj:`bool`): Хэллоуин.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -41,7 +49,7 @@ class StationTracksResult(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.StationTracksResult`: TODO.
+            :obj:`yandex_music.StationTracksResult`: Последовательность треков станции.
         """
         if not data:
             return None
