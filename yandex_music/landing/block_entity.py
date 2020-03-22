@@ -18,9 +18,20 @@ de_json = {
 
 
 class BlockEntity(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий содержимое блока.
+
+    Note:
+        В зависимости от поля `type_`, в поле `data` будет объект соответствующего типа.
+
+        Известные значения поля `type_`: `personal-playlist`, `promotion`, `album`, `playlist`, `chart-item`,
+        `play-context`, `mix-link`.
 
     Attributes:
+        id_ (:obj:`str`): Уникальный идентификатор содержимого.
+        type_ (:obj:`str`): Тип содержимого.
+        data (:obj:`yandex_music.GeneratedPlaylist` | :obj:`yandex_music.Promotion` | :obj:`yandex_music.Album` |
+            :obj:`yandex_music.Playlist` | :obj:`yandex_music.ChartItem` | :obj:`yandex_music.PlayContext`  |
+            :obj:`yandex_music.MixLink`): Содержимое.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -52,7 +63,7 @@ class BlockEntity(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.BlockEntity`: TODO.
+            :obj:`yandex_music.BlockEntity`: Сущность (объект) блока.
         """
         if not data:
             return None
@@ -71,7 +82,7 @@ class BlockEntity(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.BlockEntity`: TODO.
+            :obj:`list` из :obj:`yandex_music.BlockEntity`: Содержимое блока.
         """
         if not data:
             return []
