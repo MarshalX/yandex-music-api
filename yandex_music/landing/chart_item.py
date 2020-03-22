@@ -7,12 +7,16 @@ if TYPE_CHECKING:
 
 
 class ChartItem(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий трек в чарте.
 
     Attributes:
+        track (:obj:`yandex_music.Track` | :obj:`None`): Трек.
+        chart (:obj:`yandex_music.Chart` | :obj:`None`): Элемент чарта.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        track (:obj:`yandex_music.Track` | :obj:`None`): Трек.
+        chart (:obj:`yandex_music.Chart` | :obj:`None`): Элемент чарт.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -37,7 +41,7 @@ class ChartItem(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ChartItem`: TODO.
+            :obj:`yandex_music.ChartItem`: Трек в чарте.
         """
         if not data:
             return None
@@ -58,7 +62,7 @@ class ChartItem(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.ChartItem`: TODO.
+            :obj:`list` из :obj:`yandex_music.ChartItem`: Треки в чартах.
         """
         if not data:
             return []
