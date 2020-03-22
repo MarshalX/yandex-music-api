@@ -10,7 +10,7 @@ class Artist(YandexMusicObject):
     """Класс, представляющий исполнителя.
 
     Attributes:
-        id: (:obj:`int`): Уникальный идентификатор.
+        id (:obj:`int`): Уникальный идентификатор.
         error (:obj:`str`): Сообщение об ошибке.
         name (:obj:`str`): Название.
         cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
@@ -39,7 +39,7 @@ class Artist(YandexMusicObject):
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        id_: (:obj:`int`): Уникальный идентификатор.
+        id_ (:obj:`int`): Уникальный идентификатор.
         error (:obj:`str`, optional): Сообщение об ошибке.
         name (:obj:`str`, optional): Название.
         cover (:obj:`yandex_music.Cover`, optional): Обложка.
