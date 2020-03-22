@@ -7,12 +7,14 @@ if TYPE_CHECKING:
 
 
 class PlayContextsData(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий проигрываемый контекст.
 
     Attributes:
+        other_tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Другие треки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        other_tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Другие треки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -35,7 +37,7 @@ class PlayContextsData(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PlayContextsData`: TODO.
+            :obj:`yandex_music.PlayContextsData`: Проигрываемый контекст.
         """
         if not data:
             return None
