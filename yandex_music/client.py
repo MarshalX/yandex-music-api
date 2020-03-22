@@ -1446,7 +1446,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_tracks_add(self, track_ids: Union[List[Union[str, int]], str, int], user_id: Union[str, int] = None,
                                timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Ставит отметку "Мне нравится" треку/трекам.
+        """Поставить отметку "Мне нравится" треку/трекам.
         
         Note:
             Так же снимает отметку "Не рекомендовать" если она есть.
@@ -1472,7 +1472,7 @@ class Client(YandexMusicObject):
     def users_likes_tracks_remove(self, track_ids: Union[List[Union[str, int]], str, int],
                                   user_id: Union[str, int] = None,
                                   timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Снимает отметку "Мне нравится" у трека/треков.
+        """Снять отметку "Мне нравится" у трека/треков.
 
         Args:
             track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1495,7 +1495,7 @@ class Client(YandexMusicObject):
     def users_likes_artists_add(self, artist_ids: Union[List[Union[str, int]], str, int],
                                 user_id: Union[str, int] = None,
                                 timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Ставит отметку "Мне нравится" исполнителю/исполнителям.
+        """Поставить отметку "Мне нравится" исполнителю/исполнителям.
 
         Args:
             artist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1517,7 +1517,7 @@ class Client(YandexMusicObject):
     def users_likes_artists_remove(self, artist_ids: Union[List[Union[str, int]], str, int],
                                    user_id: Union[str, int] = None,
                                    timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Снимает отметку "Мне нравится" у исполнителя/исполнителей.
+        """Снять отметку "Мне нравится" у исполнителя/исполнителей.
 
         Args:
             artist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1540,7 +1540,7 @@ class Client(YandexMusicObject):
     def users_likes_playlists_add(self, playlist_ids: Union[List[Union[str, int]], str, int],
                                   user_id: Union[str, int] = None,
                                   timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Ставит отметку "Мне нравится" плейлисту/плейлистам.
+        """Поставить отметку "Мне нравится" плейлисту/плейлистам.
 
         Note:
             Индификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - индификатор
@@ -1567,7 +1567,7 @@ class Client(YandexMusicObject):
     def users_likes_playlists_remove(self, playlist_ids: Union[List[Union[str, int]], str, int],
                                      user_id: Union[str, int] = None,
                                      timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Снимает отметку "Мне нравится" у плейлиста/плейлистов.
+        """Снять отметку "Мне нравится" у плейлиста/плейлистов.
 
         Note:
             Индификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - индификатор
@@ -1593,7 +1593,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_albums_add(self, album_ids: Union[List[Union[str, int]], str, int], user_id: Union[str, int] = None,
                                timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Ставит отметку "Мне нравится" альбому/альбомам.
+        """Поставить отметку "Мне нравится" альбому/альбомам.
 
         Args:
             album_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1616,7 +1616,7 @@ class Client(YandexMusicObject):
     def users_likes_albums_remove(self, album_ids: Union[List[Union[str, int]], str, int],
                                   user_id: Union[str, int] = None,
                                   timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Снимает отметку "Мне нравится" у альбома/альбомов.
+        """Снять отметку "Мне нравится" у альбома/альбомов.
 
         Args:
             album_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1957,7 +1957,7 @@ class Client(YandexMusicObject):
     def users_dislikes_tracks_add(self, track_ids: Union[List[Union[str, int]], str, int],
                                   user_id: Union[str, int] = None,
                                   timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Ставит отметку "Не рекомендовать" треку/трекам.
+        """Поставить отметку "Не рекомендовать" треку/трекам.
         
         Note:
             Так же снимает отметку "Мне нравится" если она есть.
@@ -1983,7 +1983,7 @@ class Client(YandexMusicObject):
     def users_dislikes_tracks_remove(self, track_ids: Union[List[Union[str, int]], str, int],
                                      user_id: Union[str, int] = None,
                                      timeout: Union[int, float] = None, *args, **kwargs) -> bool:
-        """Снимает отметку "Не рекомендовать" у трека/треков.
+        """Снять отметку "Не рекомендовать" у трека/треков.
 
         Args:
             track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
