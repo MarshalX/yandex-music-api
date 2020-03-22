@@ -6,6 +6,7 @@
     yandex_music.client
     yandex_music.base
     yandex_music.cover
+    yandex_music.like
     yandex_music.download_info
     yandex_music.experiments
     yandex_music.icon
@@ -26,7 +27,6 @@
     yandex_music.feed
     yandex_music.genre
     yandex_music.landing
-    yandex_music.likes
     yandex_music.playlist
     yandex_music.rotor
     yandex_music.search
