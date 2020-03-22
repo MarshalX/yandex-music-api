@@ -17,7 +17,7 @@ class Artist(YandexMusicObject):
         various (:obj:`bool`): TODO.
         composer (:obj:`bool`): TODO.
         genres (:obj:`list` из :obj:`str`): Жанры.
-        op_image (:obj:`str`): Адресс обложки. Используется когда не указано поле cover.
+        op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts` | :obj:`None`): Количество альбомов, треков и т.п.
         available (:obj:`bool`): TODO.
@@ -31,8 +31,8 @@ class Artist(YandexMusicObject):
         full_names: TODO.
         description (:obj:`yandex_music.Description` | :obj:`None`): Описание.
         countries (:obj:`list` из :obj:`str`): Страны.
-        en_wikipedia_link (:obj:`str`): Адресс страницы на wikipedia.org.
-        db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разнх языках.
+        en_wikipedia_link (:obj:`str`): Адрес страницы на wikipedia.org.
+        db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разных языках.
         aliases: TODO.
         init_date (:obj:`str`): Дата начала в формате YYYY-MM-DD или YYYY.
         end_date (:obj:`str`): Дата окончания в формате YYYY-MM-DD или YYYY.
@@ -46,7 +46,7 @@ class Artist(YandexMusicObject):
         various (:obj:`bool`, optional): TODO.
         composer (:obj:`bool`, optional): TODO.
         genres (:obj:`list` из :obj:`str`, optional): Жанры.
-        op_image (:obj:`str`, optional): Адресс обложки. Используется когда не указано поле cover.
+        op_image (:obj:`str`, optional): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts`, optional): Количество альбомов, треков и т.п.
         available (:obj:`bool`, optional): TODO.
@@ -60,8 +60,8 @@ class Artist(YandexMusicObject):
         full_names: TODO.
         description (:obj:`yandex_music.Description`, optional): Описание.
         countries (:obj:`list` из :obj:`str`, optional): Страны.
-        en_wikipedia_link (:obj:`str`, optional): Адресс страницы на wikipedia.org.
-        db_aliases (:obj:`list` из :obj:`str`, optional): Другие названия. Как правило названия на разнх языках.
+        en_wikipedia_link (:obj:`str`, optional): Адрес страницы на wikipedia.org.
+        db_aliases (:obj:`list` из :obj:`str`, optional): Другие названия. Как правило названия на разных языках.
         aliases: TODO.
         init_date (:obj:`str`, optional): Дата начала в формате YYYY-MM-DD или YYYY.
         end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или YYYY.
