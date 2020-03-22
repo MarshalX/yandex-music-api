@@ -30,7 +30,7 @@ class Track(YandexMusicObject):
         major (:obj:`yandex_music.Major` | :obj:`None`): Мейджор-лейбл.
         duration_ms (:obj:`int`): Длительность трека в миллисекундах.
         storage_dir (:obj:`str`): В какой папке на сервере хранится файл TODO.
-        file_size (:obj:`int`): Размер файла.
+        file_size (:obj:`int`):  Размер файла. TODO добавить единицу измерения.
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`): Значения для нормализации трека.
         error (:obj:`str`): Сообщение об ошибке.
         regions (:obj:`list` из :obj:`str`): Регион TODO.
