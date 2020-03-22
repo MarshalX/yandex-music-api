@@ -7,12 +7,16 @@ if TYPE_CHECKING:
 
 
 class Major(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий мейджор-лейбл звукозаписи.
 
     Attributes:
+        id_ (:obj:`int`): Уникальный идентификатор.
+        name (:obj:`str`): Название.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        id_ (:obj:`int`): Уникальный идентификатор.
+        name (:obj:`str`): Название.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -37,7 +41,7 @@ class Major(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Major`: TODO.
+            :obj:`yandex_music.Major`: Мейджор-лейбл звукозаписи.
         """
         if not data:
             return None
