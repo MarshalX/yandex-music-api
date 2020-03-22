@@ -7,12 +7,21 @@ if TYPE_CHECKING:
 
 
 class TrackPosition(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий позицию трека.
+
+    None:
+        Позиция трека в альбоме, который возвращается при получении самого трека.
+
+        Volume на фронте именуется как "Диск".
 
     Attributes:
+        volume (:obj:`int`): Номер альбома.
+        index (:obj:`int`): Порядковый номер трека.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        volume (:obj:`int`): Номер альбома.
+        index (:obj:`int`): Порядковый номер трека.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -37,7 +46,7 @@ class TrackPosition(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TrackPosition`: TODO.
+            :obj:`yandex_music.TrackPosition`: Позиция трека.
         """
         if not data:
             return None
