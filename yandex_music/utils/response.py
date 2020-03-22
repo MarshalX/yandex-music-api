@@ -3,26 +3,42 @@ from typing import TYPE_CHECKING, Optional
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, InvocationInfo
 
 
 class Response(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий ответ API.
+
+    Note:
+        У ответа сервера два варианта возврата данных. Через корень (без вложенности, на уровне `invocation_info`)
+        используется от силы пару раз. И в поле `result`. Второй считается основным.
+
+        В `data` лежит копия всего ответа.
 
     Attributes:
+        data (:obj:`dict`): Ответ на запрос. Используется тогда, когда отсутствует `result`.
+        invocation_info (:obj:`yandex_music.InvocationInfo` | :obj:`None`): Информация о запросе.
+        result (:obj:`dict`): Ответ на запрос (секция с результатом).
+        error (:obj:`str`): Код ошибки.
+        error_description (:obj:`str`): Описание ошибки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        data (:obj:`dict`): Ответ на запрос. Используется тогда, когда отсутствует `result`.
+        invocation_info (:obj:`yandex_music.InvocationInfo`, optional): Информация о запросе.
+        result (:obj:`dict`, optional): Ответ на запрос (секция с результатом).
+        error (:obj:`str`, optional): Код ошибки.
+        error_description (:obj:`str`, optional): Описание ошибки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
-                 data,
-                 invocation_info=None,
-                 result=None,
-                 error=None,
-                 error_description=None,
+                 data: dict,
+                 invocation_info: Optional['InvocationInfo'] = None,
+                 result: dict = None,
+                 error: str = None,
+                 error_description: str = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.data = data
@@ -34,11 +50,13 @@ class Response(YandexMusicObject):
         self.client = client
 
     @property
-    def error(self):
+    def error(self) -> str:
+        """:obj:`str`: Код ошибки вместе с описанием"""
         return f'{self._error} {self.error_description if self.error_description else ""}'
 
     @property
-    def result(self):
+    def result(self) -> dict:
+        """:obj:`dict`: Результат выполнения запроса. Данный для распаковки."""
         return self.data if self._result is None else self._result
 
     @classmethod
@@ -50,7 +68,7 @@ class Response(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.utils.response.Response`: TODO.
+            :obj:`yandex_music.utils.response.Response`: Ответ API.
         """
         if not data:
             return None
