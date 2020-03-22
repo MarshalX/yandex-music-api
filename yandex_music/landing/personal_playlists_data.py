@@ -7,12 +7,14 @@ if TYPE_CHECKING:
 
 
 class PersonalPlaylistsData(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий дополнительную информацию о персональном плейлисте.
 
     Attributes:
+        is_wizard_passed (:obj:`bool`): TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        is_wizard_passed (:obj:`bool`): TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -35,7 +37,7 @@ class PersonalPlaylistsData(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PersonalPlaylistsData`: TODO.
+            :obj:`yandex_music.PersonalPlaylistsData`: Дополнительная информация о персональном плейлисте.
         """
         if not data:
             return None
