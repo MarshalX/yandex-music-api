@@ -182,6 +182,9 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Raises:
+            :class:`yandex_music.exceptions.InvalidBitrate`: Если в `self.download_info` не найден подходящий трек.
         """
         if self.download_info is None:
             self.get_download_info()
