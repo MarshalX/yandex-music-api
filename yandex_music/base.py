@@ -19,6 +19,7 @@ reserved_names = [name.lower() for name in dir(builtins)]
 class YandexMusicObject:
     __metaclass__ = ABCMeta
     _id_attrs: tuple = ()
+
     def __str__(self) -> str:
         return str(self.to_dict())
 
@@ -47,9 +48,24 @@ class YandexMusicObject:
         return data
 
     def to_json(self) -> str:
+        """Сериализация объекта.
+
+        Returns:
+            :obj:`str`: Сериализованный в JSON объект.
+        """
         return json.dumps(self.to_dict(), ensure_ascii=not ujson)
 
     def to_dict(self) -> dict:
+        """Рекурсивная сериализация объекта.
+
+        Note:
+            Исключает из сериализации `client` и `_id_attrs` необходимые в `__eq__`.
+
+            К зарезервированным именам добавляет "_" в конец.
+
+        Returns:
+            :obj:`dict`: Сериализованный в dict объект.
+        """
         def parse(val):
             if hasattr(val, 'to_dict'):
                 return val.to_dict()
@@ -72,11 +88,27 @@ class YandexMusicObject:
         return parse(data)
 
     def __eq__(self, other) -> bool:
+        """Проверка на равенство двух объектов.
+
+        Note:
+            Проверка осуществляется по определённым атрибутам классов, перечисленных в множестве `_id_attrs`.
+
+        Returns:
+            :obj:`bool`: Одинаковые ли объекты (по содержимому).
+        """
         if isinstance(other, self.__class__):
             return self._id_attrs == other._id_attrs
         return super(YandexMusicObject, self).__eq__(other)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
+        """Реализация хеш-функции на основе ключевых атрибутов.
+
+        Note:
+            Так как перечень ключевых атрибутов хранится в виде множества, для вычисления хеша он замораживается.
+
+        Returns:
+            :obj:`int`: Хеш объекта.
+        """
         if self._id_attrs:
             frozen_attrs = tuple(frozenset(attr) if isinstance(attr, list) else attr for attr in self._id_attrs)
             return hash((self.__class__, frozen_attrs))
