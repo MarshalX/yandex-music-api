@@ -13,15 +13,15 @@ class Artist(YandexMusicObject):
         id: (:obj:`int`): Идентификатор.
         error (:obj:`str`): Сообщение об ошибке.
         name (:obj:`str`): Название.
-        cover (:obj:`yandex_music.Cover`): Обложка.
+        cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
         various (:obj:`bool`): TODO.
         composer (:obj:`bool`): TODO.
         genres (:obj:`list` из :obj:`str`): Жанры.
         op_image (:obj:`str`): Адресс обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
-        counts (:obj:`yandex_music.artist.Counts`): Количество альбомов, треков и т.п.
+        counts (:obj:`yandex_music.artist.Counts` | :obj:`None`): Количество альбомов, треков и т.п.
         available (:obj:`bool`): TODO.
-        ratings (:obj:`yandex_music.artist.Ratings`): Рейтинги.
+        ratings (:obj:`yandex_music.artist.Ratings` | :obj:`None`): Рейтинги.
         links (:obj:`list` из :obj:`yandex_music.artist.Link`): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`): Имеются ли в продаже билеты на концерт.
         regions (:obj:`list` из :obj:`str`): Регион TODO.
@@ -29,7 +29,7 @@ class Artist(YandexMusicObject):
         popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
         likes_count (:obj:`int`): Количество лайков.
         full_names: TODO.
-        description (:obj:`yandex_music.Description`): Описание.
+        description (:obj:`yandex_music.Description` | :obj:`None`): Описание.
         countries (:obj:`list` из :obj:`str`): Страны.
         en_wikipedia_link (:obj:`str`): Адресс страницы на wikipedia.org.
         db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разнх языках.
