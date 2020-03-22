@@ -14,7 +14,7 @@ import requests
 from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
 from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError, CaptchaRequired, \
-    CaptchaWrong
+    CaptchaWrong, TimedOut
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -164,7 +164,7 @@ class Request:
             :obj:`yandex_music.utils.response.Response`: Ответ API.
 
         Raises:
-            :class:`TimeoutError`: При превышении времени ожидания.
+            :class:`yandex_music.exceptions.TimedOut`: При превышении времени ожидания.
             :class:`yandex_music.exceptions.Unauthorized`: При невалидном токене, долгом ожидании прямой ссылки на файл.
             :class:`yandex_music.exceptions.BadRequest`: При неправильном запросе.
             :class:`yandex_music.exceptions.NetworkError`: При проблемах с сетью.
@@ -179,7 +179,7 @@ class Request:
         try:
             resp = requests.request(*args, **kwargs)
         except requests.Timeout:
-            raise TimeoutError()
+            raise TimedOut()
         except requests.RequestException as e:
             raise NetworkError(e)
 
@@ -219,7 +219,6 @@ class Request:
             :obj:`yandex_music.utils.response.Response`: Ответ API.
 
         Raises:
-            :class:`TimeoutError`: При превышении времени ожидания.
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         result = self._request_wrapper('GET', url, params=params, headers=self.headers, proxies=self.proxies,
@@ -242,7 +241,6 @@ class Request:
             :obj:`yandex_music.utils.response.Response`: Ответ API.
 
         Raises:
-            :class:`TimeoutError`: При превышении времени ожидания.
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         result = self._request_wrapper('POST', url, headers=self.headers, proxies=self.proxies, data=data,
@@ -264,7 +262,6 @@ class Request:
             :obj:`Response`: Экземляр объекта ответа библиотеки `requests`.
 
         Raises:
-            :class:`TimeoutError`: При превышении времени ожидания.
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return self._request_wrapper('GET', url, proxies=self.proxies, timeout=timeout, *args, **kwargs)
@@ -281,7 +278,6 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
         Raises:
-            :class:`TimeoutError`: При превышении времени ожидания.
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         result = self.retrieve(url, timeout=timeout, *args, *kwargs)

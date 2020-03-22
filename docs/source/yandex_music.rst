@@ -8,6 +8,7 @@
     yandex_music.cover
     yandex_music.download_info
     yandex_music.experiments
+    yandex_music.exceptions
     yandex_music.icon
     yandex_music.invocation_info
     yandex_music.pager
