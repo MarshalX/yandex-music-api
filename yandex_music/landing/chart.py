@@ -7,12 +7,25 @@ if TYPE_CHECKING:
 
 
 class Chart(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий элемент чарта.
+
+    Note:
+        Смещение - это количество позиций, на которые трек поднялся или опустился в чарте.
 
     Attributes:
+        position (:obj:`int`): Позиция.
+        progress (:obj:`str`): TODO.
+        listeners (:obj:`int`): Количество слушателей.
+        shift (:obj:`int`): Смещение.
+        track_id (:obj:`yandex_music.TrackId` | :obj:`None`): Уникальный идентификатор трека.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        position (:obj:`int`): Позиция.
+        progress (:obj:`str`): TODO.
+        listeners (:obj:`int`): Количество слушателей.
+        shift (:obj:`int`): Смещение.
+        track_id (:obj:`yandex_music.TrackId`, optional): Уникальный идентификатор трека.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -44,7 +57,7 @@ class Chart(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Chart`: TODO.
+            :obj:`yandex_music.Chart`: Элемент чарта.
         """
         if not data:
             return None
@@ -64,7 +77,7 @@ class Chart(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Chart`: TODO.
+            :obj:`list` из :obj:`yandex_music.Chart`: Чарт.
         """
         if not data:
             return []
