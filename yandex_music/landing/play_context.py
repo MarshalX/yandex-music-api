@@ -7,12 +7,27 @@ if TYPE_CHECKING:
 
 
 class PlayContext(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий проигрываемый контекст.
+
+    Note:
+        Известные значения поля `client_`: `android`.
+
+        Поле `context` хранит в себе место воспроизведения, например, `playlist`.
+
+        Поле `context_item` хранит в себе уникальный идентификатор context'a, т.е. в нашем случае playlist'a.
 
     Attributes:
+        client_ (:obj:`str`): Клиент.
+        context (:obj:`str`): Тип контекста.
+        context_item (:obj:`str`): Предмет контекста.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Треки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        client_ (:obj:`str`): Клиент.
+        context (:obj:`str`): Тип контекста.
+        context_item (:obj:`str`): Предмет контекста.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Треки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -41,7 +56,7 @@ class PlayContext(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PlayContext`: TODO.
+            :obj:`yandex_music.PlayContext`: Проигрываемый контекст.
         """
         if not data:
             return None
