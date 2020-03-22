@@ -7,13 +7,65 @@ if TYPE_CHECKING:
 
 
 class Artist(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий исполнителя.
 
     Attributes:
+        id: (:obj:`int`): Уникальный идентификатор.
+        error (:obj:`str`): Сообщение об ошибке.
+        name (:obj:`str`): Название.
+        cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
+        various (:obj:`bool`): TODO.
+        composer (:obj:`bool`): TODO.
+        genres (:obj:`list` из :obj:`str`): Жанры.
+        op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
+        no_pictures_from_search: TODO.
+        counts (:obj:`yandex_music.Counts` | :obj:`None`): Счётчики.
+        available (:obj:`bool`): TODO.
+        ratings (:obj:`yandex_music.Ratings` | :obj:`None`): Рейтинги.
+        links (:obj:`list` из :obj:`yandex_music.Link`): Ссылки на ресурсы исполнителя.
+        tickets_available (:obj:`bool`): Имеются ли в продаже билеты на концерт.
+        regions (:obj:`list` из :obj:`str`): Регион TODO.
+        decomposed: TODO.
+        popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
+        likes_count (:obj:`int`): Количество лайков.
+        full_names: TODO.
+        description (:obj:`yandex_music.Description` | :obj:`None`): Описание.
+        countries (:obj:`list` из :obj:`str`): Страны.
+        en_wikipedia_link (:obj:`str`): Адрес страницы на wikipedia.org.
+        db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разных языках.
+        aliases: TODO.
+        init_date (:obj:`str`): Дата начала в формате YYYY-MM-DD или YYYY.
+        end_date (:obj:`str`): Дата окончания в формате YYYY-MM-DD или YYYY.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        id_: (:obj:`int`): Уникальный идентификатор.
+        error (:obj:`str`, optional): Сообщение об ошибке.
+        name (:obj:`str`, optional): Название.
+        cover (:obj:`yandex_music.Cover`, optional): Обложка.
+        various (:obj:`bool`, optional): TODO.
+        composer (:obj:`bool`, optional): TODO.
+        genres (:obj:`list` из :obj:`str`, optional): Жанры.
+        op_image (:obj:`str`, optional): Ссылка на изображение обложки. Используется когда не указано поле cover.
+        no_pictures_from_search: TODO.
+        counts (:obj:`yandex_music.Counts`, optional): Счётчики.
+        available (:obj:`bool`, optional): TODO.
+        ratings (:obj:`yandex_music.Ratings`, optional): Рейтинги.
+        links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
+        tickets_available (:obj:`bool`, optional): Имеются ли в продаже билеты на концерт.
+        likes_count (:obj:`int`, optional): Количество лайков.
+        popular_tracks (:obj:`list` :obj:`yandex_music.Track`, optional): Популярные треки.
+        regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
+        decomposed: TODO.
+        full_names: TODO.
+        description (:obj:`yandex_music.Description`, optional): Описание.
+        countries (:obj:`list` из :obj:`str`, optional): Страны.
+        en_wikipedia_link (:obj:`str`, optional): Адрес страницы на wikipedia.org.
+        db_aliases (:obj:`list` из :obj:`str`, optional): Другие названия. Как правило названия на разных языках.
+        aliases: TODO.
+        init_date (:obj:`str`, optional): Дата начала в формате YYYY-MM-DD или YYYY.
+        end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или YYYY.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -23,28 +75,28 @@ class Artist(YandexMusicObject):
                  name: Optional[str] = None,
                  cover: Optional['Cover'] = None,
                  various: Optional[bool] = None,
-                 composer=None,
-                 genres=None,
-                 op_image=None,
+                 composer: Optional[bool] = None,
+                 genres: Optional[List[str]] = None,
+                 op_image: Optional[str] = None,
                  no_pictures_from_search=None,
                  counts: Optional['Counts'] = None,
                  available: Optional[bool] = None,
                  ratings: Optional['Ratings'] = None,
-                 links: List['Link'] = None,
+                 links: Optional[List['Link']] = None,
                  tickets_available: Optional[bool] = None,
                  likes_count: Optional[int] = None,
-                 popular_tracks: List['Track'] = None,
-                 regions=None,
+                 popular_tracks: Optional[List['Track']] = None,
+                 regions: Optional[List[str]] = None,
                  decomposed=None,
                  full_names=None,
                  description: Optional['Description'] = None,
-                 countries=None,
-                 en_wikipedia_link=None,
-                 db_aliases=None,
+                 countries: Optional[List[str]] = None,
+                 en_wikipedia_link: Optional[str] = None,
+                 db_aliases: Optional[List[str]] = None,
                  aliases=None,
                  init_date: Optional[str] = None,
-                 end_date=None,
-                 client: Optional['Client'] = None,
+                 end_date: Optional[str] = None,
+                 client: 'Client' = None,
                  **kwargs) -> None:
         self.id = id_
 
@@ -124,10 +176,10 @@ class Artist(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Artist`: Артист.
+            :obj:`yandex_music.Artist`: Исполнитель.
         """
         if not data:
             return None
@@ -150,10 +202,10 @@ class Artist(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Artist`: Артисты.
+            :obj:`list` из :obj:`yandex_music.Artist`: Исполнители.
         """
         if not data:
             return []
