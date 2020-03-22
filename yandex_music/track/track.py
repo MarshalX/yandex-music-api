@@ -34,7 +34,7 @@ class Track(YandexMusicObject):
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`): Значения для нормализации трека.
         error (:obj:`str`): Сообщение об ошибке.
         regions (:obj:`list` из :obj:`str`): Регион TODO.
-        available_as_rbt (:obj:`int`): TODO.
+        available_as_rbt (:obj:`bool`): TODO.
         content_warning (:obj:`str`): Тип откровенного контента.
         explicit (:obj:`bool`): Содержит ли откровенный контент.
         preview_duration_ms (:obj:`int`): TODO.
@@ -63,7 +63,7 @@ class Track(YandexMusicObject):
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`, optional): Значения для нормализации трека.
         error (:obj:`str`, optional): Сообщение об ошибке.
         regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
-        available_as_rbt (:obj:`int`, optional): TODO.
+        available_as_rbt (:obj:`bool`, optional): TODO.
         content_warning (:obj:`str`, optional): Тип откровенного контента.
         explicit (:obj:`bool`, optional): Содержит ли откровенный контент.
         preview_duration_ms (:obj:`int`, optional): TODO.
