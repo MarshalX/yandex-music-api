@@ -7,12 +7,31 @@ if TYPE_CHECKING:
 
 
 class Block(YandexMusicObject):
-    """Класс, представляющий .
+    """Класс, представляющий блок лендинга.
+
+    Note:
+        Известные значения поля `type_`: `personal-playlists`, `play-contexts`.
 
     Attributes:
+        id_ (:obj:`str`): Уникальный идентификатор блока.
+        type_ (:obj:`str`): Тип блока.
+        type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
+        title (:obj:`str`): Заголовок.
+        entities (:obj:`list` из :obj:`yandex_music.BlockEntity`): Содержимое блока (сущности, объекты).
+        description (:obj:`str` | :obj:`None`): Описание.
+        data (:obj:`yandex_music.PersonalPlaylistsData` | :obj:`yandex_music.PlayContextsData` | :obj:`None`):
+            Дополнительные данные.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
+        id_ (:obj:`str`): Уникальный идентификатор блока.
+        type_ (:obj:`str`): Тип блока.
+        type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
+        title (:obj:`str`): Заголовок.
+        entities (:obj:`list` из :obj:`yandex_music.BlockEntity`): Содержимое блока (сущности, объекты).
+        description (:obj:`str`, optional): Описание.
+        data (:obj:`yandex_music.PersonalPlaylistsData` | :obj:`yandex_music.PlayContextsData`, optional):
+            Дополнительные данные.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -52,7 +71,7 @@ class Block(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Block`: TODO.
+            :obj:`yandex_music.Block`: Блок лендинга.
         """
         if not data:
             return None
@@ -78,7 +97,7 @@ class Block(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Block`: TODO.
+            :obj:`list` из :obj:`yandex_music.Block`: Блоки лендинга.
         """
         if not data:
             return []
