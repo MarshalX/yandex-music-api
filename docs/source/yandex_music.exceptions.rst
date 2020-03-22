@@ -1,5 +1,5 @@
-yandex_music.exceptions
-=======================
+Исключения yandex_music.exceptions
+==================================
 
 .. autoclass:: yandex_music.exceptions.YandexMusicError
     :members:
