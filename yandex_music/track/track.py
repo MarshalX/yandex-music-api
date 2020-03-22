@@ -135,6 +135,10 @@ class Track(YandexMusicObject):
         self._id_attrs = (self.id, self.title, self.available, self.artists, self.albums)
 
     def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
+        """Сокращение для::
+
+            client.tracks_download_info(self.track_id, get_direct_links)
+        """
         self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
 
         return self.download_info
@@ -167,6 +171,13 @@ class Track(YandexMusicObject):
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
     def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
+        """Загрузка трека.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+        """
         if self.download_info is None:
             self.get_download_info()
 
