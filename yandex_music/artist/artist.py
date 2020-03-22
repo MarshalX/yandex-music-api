@@ -19,7 +19,7 @@ class Artist(YandexMusicObject):
         genres (:obj:`list` из :obj:`str`): Жанры.
         op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
-        counts (:obj:`yandex_music.Counts` | :obj:`None`): Количество альбомов, треков и т.п.
+        counts (:obj:`yandex_music.Counts` | :obj:`None`): Счётчики.
         available (:obj:`bool`): TODO.
         ratings (:obj:`yandex_music.Ratings` | :obj:`None`): Рейтинги.
         links (:obj:`list` из :obj:`yandex_music.Link`): Ссылки на ресурсы исполнителя.
@@ -48,7 +48,7 @@ class Artist(YandexMusicObject):
         genres (:obj:`list` из :obj:`str`, optional): Жанры.
         op_image (:obj:`str`, optional): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
-        counts (:obj:`yandex_music.Counts`, optional): Количество альбомов, треков и т.п.
+        counts (:obj:`yandex_music.Counts`, optional): Счётчики.
         available (:obj:`bool`, optional): TODO.
         ratings (:obj:`yandex_music.Ratings`, optional): Рейтинги.
         links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
