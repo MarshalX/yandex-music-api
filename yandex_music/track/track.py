@@ -11,8 +11,9 @@ class Track(YandexMusicObject):
     """Класс, представляющий трек.
 
     Note:
-        Известные значения поля `content_warning`: `explicit`
-        Известные значения поля `type`: `music`
+        Известные значения поля `content_warning`: `explicit`.
+
+        Известные значения поля `type`: `music`.
 
     Attributes:
         id (:obj:`int` | :obj:`str`): Уникальный идентификатор.
@@ -20,15 +21,15 @@ class Track(YandexMusicObject):
         available (:obj:`bool`): Доступен ли для прослушивания.
         artists (:obj:`list` из :obj:`yandex_music.Artist`): Исполнители.
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
-        available_for_premium_users (:obj:`bool`): TODO.
-        lyrics_available (:obj:`bool`): Доступен ли текст.
+        available_for_premium_users (:obj:`bool`): Доступен ли для пользователей с подпиской.
+        lyrics_available (:obj:`bool`): Доступен ли текст песни.
         real_id (:obj:`int` | :obj:`str`): TODO.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         type (:obj:`str`): Тип.
-        cover_uri (:obj:`str`): Ссылка на изображение.
+        cover_uri (:obj:`str`): Ссылка на изображение с обложкой.
         major (:obj:`yandex_music.Major` | :obj:`None`): Мейджор-лейбл.
         duration_ms (:obj:`int`): Длительность трека в миллисекундах.
-        storage_dir (:obj:`str`): TODO.
+        storage_dir (:obj:`str`): В какой папке на сервере хранится файл TODO.
         file_size (:obj:`int`): Размер файла.
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`): Значения для нормализации трека.
         error (:obj:`str`): Сообщение об ошибке.
@@ -49,16 +50,16 @@ class Track(YandexMusicObject):
         available (:obj:`bool`, optional): Доступен ли для прослушивания.
         artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Исполнители.
         albums (:obj:`list` из :obj:`yandex_music.Album`, optional): Альбомы.
-        available_for_premium_users (:obj:`bool`, optional): TODO.
-        lyrics_available (:obj:`bool`, optional): Доступен ли текст.
+        available_for_premium_users (:obj:`bool`, optional): Доступен ли для пользователей с подпиской.
+        lyrics_available (:obj:`bool`, optional): Доступен ли текст песни.
         real_id (:obj:`int` | :obj:`str`, optional): TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         type_ (:obj:`str`, optional): Тип.
-        cover_uri (:obj:`str`, optional): Ссылка на изображение.
+        cover_uri (:obj:`str`, optional): Ссылка на изображение с обложкой.
         major (:obj:`yandex_music.Major`, optional): Мейджор-лейбл.
         duration_ms (:obj:`int`, optional): Длительность трека в миллисекундах.
-        storage_dir (:obj:`str`, optional): TODO.
-        file_size (:obj:`int`, optional): Размер файла.
+        storage_dir (:obj:`str`, optional): В какой папке на сервере хранится файл TODO.
+        file_size (:obj:`int`, optional): Размер файла. TODO добавить единицу измерения.
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`, optional): Значения для нормализации трека.
         error (:obj:`str`, optional): Сообщение об ошибке.
         regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
@@ -77,8 +78,8 @@ class Track(YandexMusicObject):
                  id_: Union[str, int],
                  title: Optional[str] = None,
                  available: Optional[bool] = None,
-                 artists: Optional[List['Artist']] = None,
-                 albums: Optional[List['Album']] = None,
+                 artists: List['Artist'] = None,
+                 albums: List['Album'] = None,
                  available_for_premium_users: Optional[bool] = None,
                  lyrics_available: Optional[bool] = None,
                  real_id: Optional[Union[str, int]] = None,
@@ -192,7 +193,7 @@ class Track(YandexMusicObject):
 
     @property
     def track_id(self) -> str:
-        """:obj:`str`:  Уникальный идентификатор трека состоящий из его номера и номера альбома или просто из номера."""
+        """:obj:`str`: Уникальный идентификатор трека состоящий из его номера и номера альбома или просто из номера."""
         if self.albums:
             return f'{self.id}:{self.albums[0].id}'
         return f'{self.id}'
