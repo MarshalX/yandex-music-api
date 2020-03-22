@@ -45,7 +45,7 @@ class Artist(YandexMusicObject):
         cover (:obj:`yandex_music.Cover`, optional): Обложка.
         various (:obj:`bool`, optional): TODO.
         composer (:obj:`bool`, optional): TODO.
-        genres (:obj:`list` из :obj:`str`): Жанры.
+        genres (:obj:`list` из :obj:`str`, optional): Жанры.
         op_image (:obj:`str`, optional): Адресс обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts`, optional): Количество альбомов, треков и т.п.
@@ -54,8 +54,8 @@ class Artist(YandexMusicObject):
         links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`, optional): Имеются ли в продаже билеты на концерт.
         likes_count (:obj:`int`, optional): Количество лайков.
-        popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
-        regions (:obj:`list` из :obj:`str`): Регион TODO.
+        popular_tracks (:obj:`list` :obj:`yandex_music.Track`, optional): Популярные треки.
+        regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
         decomposed: TODO.
         full_names: TODO.
         description (:obj:`yandex_music.Description`, optional): Описание.
@@ -82,10 +82,10 @@ class Artist(YandexMusicObject):
                  counts: Optional['Counts'] = None,
                  available: Optional[bool] = None,
                  ratings: Optional['Ratings'] = None,
-                 links: List['Link'] = None,
+                 links: Optional[List['Link']] = None,
                  tickets_available: Optional[bool] = None,
                  likes_count: Optional[int] = None,
-                 popular_tracks: List['Track'] = None,
+                 popular_tracks: Optional[List['Track']] = None,
                  regions: Optional[List[str]] = None,
                  decomposed=None,
                  full_names=None,
@@ -96,7 +96,7 @@ class Artist(YandexMusicObject):
                  aliases=None,
                  init_date: Optional[str] = None,
                  end_date: Optional[str] = None,
-                 client: Optional['Client'] = None,
+                 client: 'Client' = None,
                  **kwargs) -> None:
         self.id = id_
 
