@@ -440,11 +440,11 @@ class Client(YandexMusicObject):
         return Landing.de_json(result, self)
 
     @log
-    def chart(self, chart_menu_url: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> ChartInfo:
+    def chart(self, chart_option: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> ChartInfo:
         """Получение чарта.
 
         Args:
-            chart_menu_url (:obj:`str` optional): Параметры чарта.
+            chart_option (:obj:`str` optional): Параметры чарта.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -453,15 +453,15 @@ class Client(YandexMusicObject):
             :obj:`yandex_music.ChartInfo`: Чарт.
 
         Raises:
-            :class:`yandex_music.YandexMusicError`
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
 
         url = f'{self.base_url}/landing3/chart'
 
-        if chart_menu_url:
-            url = f'{url}/{chart_menu_url}'
+        if chart_option:
+            url = f'{url}/{chart_option}'
 
-        result = self._request.get(url, {}, timeout=timeout, *args, **kwargs)
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return ChartInfo.de_json(result, self)
 
@@ -2191,5 +2191,3 @@ class Client(YandexMusicObject):
     usersDislikesTracksRemove = users_dislikes_tracks_remove
     #: Псевдоним для :attr:`after_track`
     afterTrack = after_track
-
-
