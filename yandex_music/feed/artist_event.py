@@ -29,6 +29,8 @@ class ArtistEvent(YandexMusicObject):
                  similar_to_artists_from_history: List['Artist'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.artist = artist
         self.tracks = tracks
         self.similar_to_artists_from_history = similar_to_artists_from_history

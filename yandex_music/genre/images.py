@@ -26,6 +26,8 @@ class Images(YandexMusicObject):
                  _300x300: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self._208x208 = _208x208
         self._300x300 = _300x300
 

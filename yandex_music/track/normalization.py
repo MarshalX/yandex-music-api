@@ -26,6 +26,8 @@ class Normalization(YandexMusicObject):
                  peak: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.gain = gain
         self.peak = peak
 

@@ -26,6 +26,8 @@ class Suggestions(YandexMusicObject):
                  suggestions: List[str],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.best = best
         self.suggestions = suggestions
 

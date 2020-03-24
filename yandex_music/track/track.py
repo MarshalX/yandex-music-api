@@ -102,6 +102,8 @@ class Track(YandexMusicObject):
                  remember_position: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.title = title
         self.available = available

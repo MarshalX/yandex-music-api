@@ -26,6 +26,8 @@ class AlbumEvent(YandexMusicObject):
                  tracks: List['Track'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.album = album
         self.tracks = tracks
 

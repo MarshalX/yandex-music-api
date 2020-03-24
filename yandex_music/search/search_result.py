@@ -49,6 +49,8 @@ class SearchResult(YandexMusicObject):
                  results: List[Union[Track, Artist, Album, Playlist, Video]],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.total = total
         self.per_page = per_page

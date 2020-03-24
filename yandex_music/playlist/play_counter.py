@@ -33,6 +33,8 @@ class PlayCounter(YandexMusicObject):
                  updated: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.value = value
         self.description = description
         self.updated = updated

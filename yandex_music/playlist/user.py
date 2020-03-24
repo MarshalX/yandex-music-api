@@ -35,6 +35,8 @@ class User(YandexMusicObject):
                  verified: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.uid = uid
         self.login = login
         self.name = name

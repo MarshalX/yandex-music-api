@@ -62,6 +62,8 @@ class Account(YandexMusicObject):
                  has_info_for_app_metrica: bool = False,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.now = now
         self.service_available = service_available
 

@@ -68,6 +68,8 @@ class Product(YandexMusicObject):
                  payment_method_types: List[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.product_id = product_id
         self.type = type_
         self.common_period_duration = common_period_duration

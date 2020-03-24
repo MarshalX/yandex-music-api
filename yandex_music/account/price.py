@@ -26,6 +26,8 @@ class Price(YandexMusicObject):
                  currency: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.amount = amount
         self.currency = currency
 

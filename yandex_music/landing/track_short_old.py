@@ -31,6 +31,8 @@ class TrackShortOld(YandexMusicObject):
                  timestamp: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.track_id = track_id
         self.timestamp = timestamp
 

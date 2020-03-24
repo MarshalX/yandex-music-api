@@ -59,6 +59,8 @@ class BriefInfo(YandexMusicObject):
                  tracks_in_chart: List['Chart'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.artist = artist
         self.albums = albums
         self.also_albums = also_albums

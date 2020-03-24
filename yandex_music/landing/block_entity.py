@@ -46,6 +46,7 @@ class BlockEntity(YandexMusicObject):
                                       'Playlist', 'ChartItem', 'PlayContext', 'MixLink']],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
 
         self.id = id_
         self.type = type_

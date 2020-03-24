@@ -23,6 +23,8 @@ class PersonalPlaylistsData(YandexMusicObject):
                  is_wizard_passed: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.is_wizard_passed = is_wizard_passed
 
         self.client = client

@@ -59,6 +59,8 @@ class Genre(YandexMusicObject):
                  hide_in_regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.weight = weight
         self.composer_top = composer_top

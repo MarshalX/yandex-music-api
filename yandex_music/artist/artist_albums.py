@@ -26,6 +26,8 @@ class ArtistAlbums(YandexMusicObject):
                  pager: Optional['Pager'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.albums = albums
         self.pager = pager
 

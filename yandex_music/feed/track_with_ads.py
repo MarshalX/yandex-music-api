@@ -29,6 +29,8 @@ class TrackWithAds(YandexMusicObject):
                  track: Optional['Track'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.track = track
 

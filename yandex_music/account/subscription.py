@@ -32,6 +32,8 @@ class Subscription(YandexMusicObject):
                  end: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.auto_renewable = auto_renewable
         self.can_start_trial = can_start_trial
         self.mcdonalds = mcdonalds

@@ -36,6 +36,8 @@ class Counts(YandexMusicObject):
                  also_tracks: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.tracks = tracks
         self.direct_albums = direct_albums
         self.also_albums = also_albums

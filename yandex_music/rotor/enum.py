@@ -29,6 +29,8 @@ class Enum(YandexMusicObject):
                  possible_values: List['Value'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.name = name
         self.possible_values = possible_values

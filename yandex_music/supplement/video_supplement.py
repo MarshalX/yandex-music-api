@@ -41,6 +41,8 @@ class VideoSupplement(YandexMusicObject):
                  embed: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.cover = cover
         self.title = title
         self.provider = provider

@@ -29,6 +29,8 @@ class Id(YandexMusicObject):
                  tag: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.tag = tag
 
