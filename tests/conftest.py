@@ -217,7 +217,7 @@ def counts():
 
 @pytest.fixture(scope='session')
 def description():
-    return Description(TestDescription.text, TestDescription.url)
+    return Description(TestDescription.text, TestDescription.uri)
 
 
 @pytest.fixture(scope='session')
