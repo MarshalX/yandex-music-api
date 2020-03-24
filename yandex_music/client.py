@@ -7,6 +7,7 @@ from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, D
     Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, SimilarTracks, \
     StationResult, StationTracksResult, Status, Suggestions, Supplement, Track, TracksList, UserSettings, \
     YandexMusicObject
+from yandex_music.chart_info import ChartInfo
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -438,6 +439,32 @@ class Client(YandexMusicObject):
         result = self._request.get(url, {'blocks': blocks}, timeout=timeout, *args, **kwargs)
 
         return Landing.de_json(result, self)
+
+    @log
+    def chart(self, chart_menu_url: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> ChartInfo:
+        """Получение чарта.
+
+        Args:
+            chart_menu_url (:obj:`str` optional): Параметры чарта.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ChartInfo`: Чарт.
+
+        Raises:
+            :class:`yandex_music.YandexMusicError`
+        """
+
+        url = f'{self.base_url}/landing3/chart'
+
+        if chart_menu_url:
+            url = f'{url}/{chart_menu_url}'
+
+        result = self._request.get(url, {}, timeout=timeout, *args, **kwargs)
+
+        return ChartInfo.de_json(result, self)
 
     @log
     def genres(self, timeout: Union[int, float] = None, *args, **kwargs) -> List[Genre]:
@@ -2165,3 +2192,5 @@ class Client(YandexMusicObject):
     usersDislikesTracksRemove = users_dislikes_tracks_remove
     #: Псевдоним для :attr:`after_track`
     afterTrack = after_track
+
+
