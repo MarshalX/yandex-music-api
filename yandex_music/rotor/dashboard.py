@@ -31,6 +31,8 @@ class Dashboard(YandexMusicObject):
                  pumpkin: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.dashboard_id = dashboard_id
         self.stations = stations
         self.pumpkin = pumpkin

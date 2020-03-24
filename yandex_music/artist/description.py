@@ -30,6 +30,8 @@ class Description(YandexMusicObject):
                  uri: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.text = text
 
         self.uri = uri

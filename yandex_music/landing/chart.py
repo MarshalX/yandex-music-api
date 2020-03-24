@@ -38,6 +38,8 @@ class Chart(YandexMusicObject):
                  track_id: Optional['TrackId'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.position = position
         self.progress = progress
         self.listeners = listeners

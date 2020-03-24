@@ -46,6 +46,8 @@ class MixLink(YandexMusicObject):
                  cover_white: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.title = title
         self.url = url
         self.url_scheme = url_scheme

@@ -38,6 +38,8 @@ class CaseForms(YandexMusicObject):
                  prepositional: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.nominative = nominative
         self.genitive = genitive
         self.dative = dative

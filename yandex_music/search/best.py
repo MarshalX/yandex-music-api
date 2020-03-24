@@ -40,6 +40,8 @@ class Best(YandexMusicObject):
                  text: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.result = result
 

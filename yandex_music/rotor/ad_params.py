@@ -47,6 +47,8 @@ class AdParams(YandexMusicObject):
                  genre_name: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.partner_id = partner_id
         self.category_id = category_id
         self.page_ref = page_ref

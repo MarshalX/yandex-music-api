@@ -51,6 +51,8 @@ class Station(YandexMusicObject):
                  parent_id: Optional['Id'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.name = name
         self.icon = icon

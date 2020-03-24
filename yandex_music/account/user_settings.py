@@ -78,6 +78,8 @@ class UserSettings(YandexMusicObject):
                  show_disk_tracks_in_library: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.uid = uid
         self.last_fm_scrobbling_enabled = last_fm_scrobbling_enabled
         self.shuffle_enabled = shuffle_enabled

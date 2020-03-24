@@ -38,6 +38,8 @@ class Vinyl(YandexMusicObject):
                  picture: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.url = url
         self.picture = picture
         self.title = title

@@ -98,6 +98,8 @@ class Artist(YandexMusicObject):
                  end_date: Optional[str] = None,
                  client: 'Client' = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
 
         self.error = error

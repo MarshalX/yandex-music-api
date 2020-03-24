@@ -23,6 +23,8 @@ class PassportPhone(YandexMusicObject):
                  phone: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.phone = phone
 
         self.client = client

@@ -53,6 +53,8 @@ class Status(YandexMusicObject):
                  premium_region: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.account = account
         self.permissions = permissions
 

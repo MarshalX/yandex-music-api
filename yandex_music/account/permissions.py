@@ -29,6 +29,8 @@ class Permissions(YandexMusicObject):
                  default: List[str],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.until = until
         self.values = values
         self.default = default

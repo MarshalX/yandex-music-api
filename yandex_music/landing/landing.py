@@ -29,6 +29,7 @@ class Landing(YandexMusicObject):
                  blocks: List['Block'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
 
         self.pumpkin = pumpkin
         self.content_id = content_id

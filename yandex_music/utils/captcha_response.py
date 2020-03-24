@@ -32,6 +32,8 @@ class CaptchaResponse(YandexMusicObject):
                  error,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.x_captcha_url = x_captcha_url
         self.x_captcha_key = x_captcha_key
         self.error_description = error_description

@@ -32,6 +32,8 @@ class StationTracksResult(YandexMusicObject):
                  pumpkin: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.sequence = sequence
         self.batch_id = batch_id

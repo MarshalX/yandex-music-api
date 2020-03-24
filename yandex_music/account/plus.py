@@ -26,6 +26,8 @@ class Plus(YandexMusicObject):
                  is_tutorial_completed: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.has_plus = has_plus
         self.is_tutorial_completed = is_tutorial_completed
 

@@ -38,6 +38,8 @@ class StationResult(YandexMusicObject):
                  prerolls: Optional[list] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.station = station
         self.settings = settings
         self.settings2 = settings2

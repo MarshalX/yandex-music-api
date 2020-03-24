@@ -26,6 +26,8 @@ class MadeFor(YandexMusicObject):
                  case_forms: Optional['CaseForms'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.user_info = user_info
         self.case_forms = case_forms
 
