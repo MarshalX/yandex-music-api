@@ -10,12 +10,12 @@ class ChartInfo(YandexMusicObject):
     """Класс, представляющий чарт.
 
     Attributes:
-        id_ (:obj:`str`): Уникальный идентификатор блока.
-        type_ (:obj:`str`): Тип блока.
+        id (:obj:`str`): Уникальный идентификатор блока.
+        type (:obj:`str`): Тип блока.
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
         chart_description (:obj:`str`): Описание.
-        menu (:obj:`dict`): Меню. TODO
+        menu (:obj:`dict`): Меню. TODO.
         chart(:obj:`yandex_music.PlaylistId`): Плейлист.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -25,7 +25,7 @@ class ChartInfo(YandexMusicObject):
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
         chart_description (:obj:`str`): Описание.
-        menu (:obj:`dict`): Меню. TODO
+        menu (:obj:`dict`): Меню. TODO.
         chart(:obj:`yandex_music.PlaylistId`): Плейлист.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
