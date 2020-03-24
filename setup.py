@@ -42,7 +42,7 @@ setup(name='yandex-music',
       install_requires=requirements('default'),
       include_package_data=True,
       classifiers=[
-          'Development Status :: 2 - Pre-Alpha',
+          'Development Status :: 3 - Alpha',
           'Natural Language :: Russian',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
