@@ -44,6 +44,8 @@ class Cover(YandexMusicObject):
                  error: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.uri = uri
         self.items_uri = items_uri

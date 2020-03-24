@@ -38,6 +38,8 @@ class Lyrics(YandexMusicObject):
                  show_translation: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.lyrics = lyrics
         self.full_lyrics = full_lyrics

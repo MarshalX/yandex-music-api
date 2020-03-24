@@ -52,6 +52,8 @@ class Promotion(YandexMusicObject):
                  image: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.promo_id = promo_id
         self.title = title
         self.subtitle = subtitle

@@ -26,6 +26,8 @@ class PlaylistId(YandexMusicObject):
                  kind: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.uid = uid
         self.kind = kind
 

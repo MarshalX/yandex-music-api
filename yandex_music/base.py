@@ -1,3 +1,4 @@
+import logging
 import builtins
 from abc import ABCMeta
 from typing import TYPE_CHECKING, Optional
@@ -15,6 +16,9 @@ except ImportError:
 
 reserved_names = [name.lower() for name in dir(builtins)]
 
+logger = logging.getLogger(__name__)
+new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
+
 
 class YandexMusicObject:
     __metaclass__ = ABCMeta
@@ -28,6 +32,13 @@ class YandexMusicObject:
 
     def __getitem__(self, item):
         return self.__dict__[item]
+
+    @staticmethod
+    def handle_unknown_kwargs(obj, **kwargs):
+        if kwargs:
+            logger.warning(f'Found unknown fields received from API! Please copy warn message '
+                           f'and send to {new_issue_by_template_url} (github issue), thank you!')
+            logger.warning(f'Type: {type(obj)}; kwargs: {kwargs}')
 
     @classmethod
     def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:

@@ -50,6 +50,8 @@ class Search(YandexMusicObject):
                  nocorrect: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.search_request_id = search_request_id
         self.text = text
         self.best = best

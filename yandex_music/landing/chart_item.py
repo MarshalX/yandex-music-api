@@ -26,6 +26,8 @@ class ChartItem(YandexMusicObject):
                  chart: Optional['Chart'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.track = track
         self.chart = chart
 

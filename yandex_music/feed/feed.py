@@ -47,6 +47,8 @@ class Feed(YandexMusicObject):
                  next_revision: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.can_get_more_events = can_get_more_events
         self.pumpkin = pumpkin
         self.is_wizard_passed = is_wizard_passed

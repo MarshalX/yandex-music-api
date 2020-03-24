@@ -23,6 +23,8 @@ class PlayContextsData(YandexMusicObject):
                  other_tracks: List['TrackShortOld'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.other_tracks = other_tracks
 
         self.client = client

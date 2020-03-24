@@ -41,6 +41,8 @@ class AutoRenewable(YandexMusicObject):
                  order_id: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.expires = expires
         self.vendor = vendor
         self.vendor_help_url = vendor_help_url

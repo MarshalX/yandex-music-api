@@ -34,6 +34,8 @@ class Link(YandexMusicObject):
                  social_network: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.title = title
         self.href = href
         self.type = type_

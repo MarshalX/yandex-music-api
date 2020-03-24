@@ -26,6 +26,8 @@ class SimilarTracks(YandexMusicObject):
                  similar_tracks: List['Track'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.track = track
         self.similar_tracks = similar_tracks
 

@@ -31,6 +31,8 @@ class TrackPosition(YandexMusicObject):
                  index: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.volume = volume
         self.index = index
 

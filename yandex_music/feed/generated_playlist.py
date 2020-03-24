@@ -36,6 +36,8 @@ class GeneratedPlaylist(YandexMusicObject):
                  data: Optional['Playlist'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.ready = ready
         self.notify = notify

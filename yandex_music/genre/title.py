@@ -26,6 +26,8 @@ class Title(YandexMusicObject):
                  full_title: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.title = title
         self.full_title = full_title
 

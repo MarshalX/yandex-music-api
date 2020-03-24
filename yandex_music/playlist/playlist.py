@@ -122,6 +122,8 @@ class Playlist(YandexMusicObject):
                  regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.owner = owner
         self.cover = cover
         self.made_for = made_for

@@ -47,6 +47,8 @@ class Like(YandexMusicObject):
                  playlist: Optional['Playlist'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.type = type_
 

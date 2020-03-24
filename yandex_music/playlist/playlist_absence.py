@@ -26,6 +26,8 @@ class PlaylistAbsence(YandexMusicObject):
                  reason: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.kind = kind
         self.reason = reason
 

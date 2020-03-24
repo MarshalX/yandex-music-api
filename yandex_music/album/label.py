@@ -25,6 +25,8 @@ class Label(YandexMusicObject):
                  name: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.name = name
 
