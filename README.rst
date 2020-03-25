@@ -280,12 +280,15 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
     logger.setLevel(logging.DEBUG)
 
-=============
+============
 Документация
-=============
+============
 
 Документация ``yandex-music-api`` расположена на
 `readthedocs.io <https://yandex-music.readthedocs.io/>`_.
+Вашей отправной точкой должен быть класс ``Client``, а точнее его методы. Именно они выполняют все
+запросы на API и возвращают Вам готовые объекты.
+`Класс Client на readthedocs.io <https://yandex-music.readthedocs.io/ru/latest/yandex_music.client.html>`_.
 
 ================
 Получение помощи
@@ -338,14 +341,14 @@ API wrapper на Node.JS. Не обновлялся больше двух лет
 
 Плагин может проигрывать пользовательские плейлисты и плейлисты Яндекса, поиск по Яндекс Музыке, радио.
 
-Сайт проекта: `Kodi Yandex Music <https://angel777d.github.io/kodi.plugin.yandex-music/>`_.
+Сайт проекта: `ymkodi.ml <https://ymkodi.ml/>`_.
 
 Исходный код: `kodi.plugin.yandex-music  <https://github.com/Angel777d/kodi.plugin.yandex-music>`_
 
 Автор: `@Angel777d <https://github.com/Angel777d>`_
 
 .. image:: https://raw.githubusercontent.com/Angel777d/kodi.plugin.yandex-music/master/assets/img/kody_yandex_music_plugin.png
-   :target: https://angel777d.github.io/kodi.plugin.yandex-music/
+   :target: https://ymkodi.ml/
    :alt: Плагин для Kodi
 
 -------------------
