@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject, Playlist
 
@@ -15,7 +15,7 @@ class ChartInfo(YandexMusicObject):
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
         chart_description (:obj:`str`): Описание.
-        menu (:obj:`dict`): Меню. TODO.
+        menu (:obj:`dict`): Меню TODO.
         chart(:obj:`yandex_music.PlaylistId`): Плейлист.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -25,9 +25,9 @@ class ChartInfo(YandexMusicObject):
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
         chart_description (:obj:`str`): Описание.
-        menu (:obj:`dict`): Меню. TODO.
+        menu (:obj:`dict`): Меню TODO.
         chart(:obj:`yandex_music.PlaylistId`): Плейлист.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -39,7 +39,7 @@ class ChartInfo(YandexMusicObject):
                  chart_description: str,
                  menu: dict,
                  chart: 'Playlist',
-                 client: 'Client',
+                 client: Optional['Client'] = None,
                  **kwargs):
         self.id = id_
         self.type = type_
@@ -61,6 +61,8 @@ class ChartInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartInfo`: Чарт.
         """
+        if not data:
+            return None
 
         data = super(ChartInfo, cls).de_json(data, client)
         data['chart'] = Playlist.de_json(data.get('chart'), client)
