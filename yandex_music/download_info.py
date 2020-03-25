@@ -1,17 +1,17 @@
 from typing import TYPE_CHECKING, Optional, List
 
-if TYPE_CHECKING:
-    from yandex_music import Client
-    from xml.dom.minicompat import NodeList
-
 from hashlib import md5
 import xml.dom.minidom as minidom
 
 from yandex_music import YandexMusicObject
 
+if TYPE_CHECKING:
+    from yandex_music import Client
+    from xml.dom.minicompat import NodeList
+
 
 class DownloadInfo(YandexMusicObject):
-    """Класс представляющий информацию о вариантах загрузки трека.
+    """Класс, представляющий информацию о вариантах загрузки трека.
 
     Attributes:
         codec (:obj:`str`): Кодек аудиофайла.
@@ -20,8 +20,7 @@ class DownloadInfo(YandexMusicObject):
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
         direct_link (:obj:`str`): Прямая ссылка на загрузку. Доступна после получения ссылки.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         codec (:obj:`str`): Кодек аудиофайла.
@@ -29,8 +28,7 @@ class DownloadInfo(YandexMusicObject):
         gain (:obj:`bool`): Усиление TODO.
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -71,7 +69,6 @@ class DownloadInfo(YandexMusicObject):
             :obj:`str`: Прямая ссылка на загрузку трека.
 
         """
-
         result = self.client.request.retrieve(self.download_info_url)
 
         doc = minidom.parseString(result.text)
@@ -80,9 +77,8 @@ class DownloadInfo(YandexMusicObject):
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
         s = self._get_text_node_data(doc.getElementsByTagName('s'))
         sign = md5(('XGRlBW9FXlekgbPrRHuSiA' + path[1::] + s).encode('utf-8')).hexdigest()
-        # TODO sign для AAC кодека
 
-        self.direct_link = f'https://{host}/get-{self.codec}/{sign}/{ts}{path}'
+        self.direct_link = f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
         return self.direct_link
 
@@ -92,7 +88,6 @@ class DownloadInfo(YandexMusicObject):
         Args:
             filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
         """
-
         if self.direct_link is None:
             self.get_direct_link()
 
@@ -104,11 +99,10 @@ class DownloadInfo(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.DownloadInfo`: Объект класса :class:`yandex_music.DownloadInfo`.
+            :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
         if not data:
             return None
@@ -124,11 +118,10 @@ class DownloadInfo(YandexMusicObject):
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
             get_direct_links (:obj:`bool`): Получать ли сразу прямые ссылки на загрузку.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Список объектов класса :class:`yandex_music.DownloadInfo`.
+            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
         if not data:
             return []

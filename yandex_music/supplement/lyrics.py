@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class Lyrics(YandexMusicObject):
@@ -16,8 +16,7 @@ class Lyrics(YandexMusicObject):
         full_lyrics (:obj:`str`): Текст песни.
         text_language (:obj:`str`): Язык текста.
         show_translation (:obj:`bool`): Показывать ли перевод.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор текста трека.
@@ -26,8 +25,7 @@ class Lyrics(YandexMusicObject):
         full_lyrics (:obj:`str`): Текст песни.
         text_language (:obj:`str`): Язык песни.
         show_translation (:obj:`bool`): Показывать ли перевод.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -40,6 +38,8 @@ class Lyrics(YandexMusicObject):
                  show_translation: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.lyrics = lyrics
         self.full_lyrics = full_lyrics
@@ -57,11 +57,10 @@ class Lyrics(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Lyrics`: Объект класса :class:`yandex_music.Lyrics`.
+            :obj:`yandex_music.Lyrics`: Текст трека.
         """
         if not data:
             return None

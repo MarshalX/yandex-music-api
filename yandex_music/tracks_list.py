@@ -1,27 +1,25 @@
 from typing import TYPE_CHECKING, Optional, List, Iterator
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, TrackShort
 
-from yandex_music import YandexMusicObject
-
 
 class TracksList(YandexMusicObject):
-    """Класс представляющий список треков.
+    """Класс, представляющий список треков.
 
     Attributes:
         uid (:obj:`int`): Уникальный идентификатор пользователя.
         revision (:obj:`int`): Актуальность данных TODO.
-        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков в укороченной версии.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         uid (:obj:`int`): Уникальный идентификатор пользователя.
         revision (:obj:`int`): Актуальность данных TODO.
-        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков в укороченной версии.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -55,11 +53,10 @@ class TracksList(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.TracksList`: Объект класса :class:`yandex_music.TracksList`.
+            :obj:`yandex_music.TracksList`: Список треков.
         """
         if not data:
             return None

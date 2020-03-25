@@ -4,15 +4,16 @@ from .settings import Settings
 from .permission_alerts import PermissionAlerts
 from .experiments import Experiments
 
-from .status.status import Status
-from .status.account import Account
-from .status.plus import Plus
-from .status.subscription import Subscription
-from .status.price import Price
-from .status.product import Product
-from .status.auto_renewable import AutoRenewable
-from .status.passport_phone import PassportPhone
-from .status.permissions import Permissions
+from .account.status import Status
+from .account.account import Account
+from .account.plus import Plus
+from .account.user_settings import UserSettings
+from .account.subscription import Subscription
+from .account.price import Price
+from .account.product import Product
+from .account.auto_renewable import AutoRenewable
+from .account.passport_phone import PassportPhone
+from .account.permissions import Permissions
 
 from .album.album import Album
 from .album.label import Label
@@ -35,14 +36,16 @@ from .playlist.playlist_id import PlaylistId
 from .playlist.playlist_absence import PlaylistAbsence
 from .playlist.playlist import Playlist
 
+from .shot.shot_type import ShotType
+from .shot.shot_data import ShotData
+from .shot.shot import Shot
+from .shot.shot_event import ShotEvent
+
 from .tracks_list import TracksList
 from .track.major import Major
 from .track.normalization import Normalization
 from .track.track import Track
-
-from .likes.albums_likes import AlbumsLikes
-from .likes.artists_likes import ArtistsLikes
-from .likes.playlists_likes import PlaylistsLikes
+from .track.tracks_similar import SimilarTracks
 
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
@@ -95,6 +98,7 @@ from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
 from .supplement.video_supplement import VideoSupplement
 
+from .like import Like
 from .pager import Pager
 from .cover import Cover
 from .invocation_info import InvocationInfo
@@ -107,11 +111,11 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Subscription', 'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments',
            'Cover', 'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album',
            'PlayCounter', 'Playlist', 'TrackShort', 'TracksList', 'Major', 'Normalization', 'TrackPosition', 'Track',
-           'AlbumsLikes', 'ArtistsLikes', 'PlaylistsLikes', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent',
-           'AlbumEvent', 'Feed', 'Event', 'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'Best', 'Search',
-           'Suggestions', 'MixLink', 'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld',
-           'PersonalPlaylistsData', 'Promotion', 'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre',
-           'Icon', 'Images', 'Id', 'Station', 'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum',
-           'DiscreteScale', 'StationResult', 'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId',
-           'Vinyl', 'Supplement', 'Lyrics', 'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums',
-           'PlaylistAbsence']
+           'Like', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent', 'AlbumEvent', 'Feed', 'Event',
+           'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'Best', 'Search', 'Suggestions', 'MixLink',
+           'BlockEntity', 'Block', 'PlayContextsData', 'TrackId', 'TrackShortOld', 'PersonalPlaylistsData', 'Promotion',
+           'Landing', 'Chart', 'ChartItem', 'PlayContext', 'Title', 'Genre', 'Icon', 'Images', 'Id', 'Station',
+           'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult',
+           'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
+           'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
+           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings']

@@ -1,12 +1,34 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Station, RotorSettings, AdParams
 
-from yandex_music import YandexMusicObject
-
 
 class StationResult(YandexMusicObject):
+    """Класс, представляющий радиостанцию с настройками.
+
+    Attributes:
+        station (:obj:`yandex_music.Station` | :obj:`None`): Станция.
+        settings (:obj:`yandex_music.RotorSettings` | :obj:`None`): Первый набор настроек.
+        settings2 (:obj:`yandex_music.RotorSettings` | :obj:`None`): Второй набор настроек.
+        ad_params (:obj:`yandex_music.AdParams` | :obj:`None`): Настройки рекламы.
+        explanation (:obj:`str`): TODO.
+        prerolls (:obj:`list` из :obj:`str`): Прероллы TODO.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        station (:obj:`yandex_music.Station` | :obj:`None`): Станция.
+        settings (:obj:`yandex_music.RotorSettings` | :obj:`None`): Первый набор настроек.
+        settings2 (:obj:`yandex_music.RotorSettings` | :obj:`None`): Второй набор настроек.
+        ad_params (:obj:`yandex_music.AdParams` | :obj:`None`): Настройки рекламы.
+        explanation (:obj:`str`, optional): TODO.
+        prerolls (:obj:`list` из :obj:`str`, optional): Прероллы TODO.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  station: Optional['Station'],
                  settings: Optional['RotorSettings'],
@@ -16,6 +38,8 @@ class StationResult(YandexMusicObject):
                  prerolls: Optional[list] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.station = station
         self.settings = settings
         self.settings2 = settings2
@@ -28,6 +52,15 @@ class StationResult(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['StationResult']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.StationResult`: Радиостанция с настройками.
+        """
         if not data:
             return None
 
@@ -42,6 +75,15 @@ class StationResult(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data: dict, client: 'Client') -> List['StationResult']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.StationResult`: Радиостанции с настройками.
+        """
         if not data:
             return []
 

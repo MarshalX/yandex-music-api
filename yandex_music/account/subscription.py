@@ -1,31 +1,27 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, AutoRenewable
 
-from yandex_music import YandexMusicObject
-
 
 class Subscription(YandexMusicObject):
-    """Класс предоставляющий информацию о подписках пользователя.
+    """Класс, представляющий информацию о подписках пользователя.
 
     Attributes:
-        auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Список объектов класса
-            :class:`yandex_music.AutoRenewable` представляющих автопродление.
+        auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление.
         can_start_trial (:obj:`bool`): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`): mcdonalds TODO.
         end (:obj:`str`): Дата окончания.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`, optional): Список объектов класса
-            :class:`yandex_music.AutoRenewable` представляющих автопродление.
+        auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`, optional): Автопродление.
         can_start_trial (:obj:`bool`, optional): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`, optional): mcdonalds TODO.
         end (:obj:`str`, optional): Дата окончания.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -36,6 +32,8 @@ class Subscription(YandexMusicObject):
                  end: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.auto_renewable = auto_renewable
         self.can_start_trial = can_start_trial
         self.mcdonalds = mcdonalds
@@ -50,11 +48,10 @@ class Subscription(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Subscription`: Объект класса :class:`yandex_music.Subscription`.
+            :obj:`yandex_music.Subscription`: Информация о подписках пользователя.
         """
         if not data:
             return None

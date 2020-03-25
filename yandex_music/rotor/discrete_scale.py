@@ -1,12 +1,33 @@
 from typing import TYPE_CHECKING, Optional
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Value
 
-from yandex_music import YandexMusicObject
-
 
 class DiscreteScale(YandexMusicObject):
+    """Класс, представляющий дискретное значение.
+
+    Note:
+        Известные значения поля `type`: `discrete-scale`.
+
+    Attributes:
+        type (:obj:`str`): Тип.
+        name (:obj:`str`): Название.
+        min (:obj:`yandex_music.Value`): Минимальное значение.
+        max (:obj:`yandex_music.Value`): Максимальное значение.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        type_ (:obj:`str`): Тип.
+        name (:obj:`str`): Название.
+        min_ (:obj:`yandex_music.Value`): Минимальное значение.
+        max_ (:obj:`yandex_music.Value`): Максимальное значение.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  type_: str,
                  name: str,
@@ -14,6 +35,8 @@ class DiscreteScale(YandexMusicObject):
                  max_: Optional['Value'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.name = name
         self.min = min_
@@ -24,6 +47,15 @@ class DiscreteScale(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['DiscreteScale']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.DiscreteScale`: Дискретное значение.
+        """
         if not data:
             return None
 

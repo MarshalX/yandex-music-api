@@ -1,44 +1,110 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Cover, Ratings, Counts, Link, Track, Description, ArtistTracks, ArtistAlbums
 
-from yandex_music import YandexMusicObject
-
 
 class Artist(YandexMusicObject):
+    """Класс, представляющий исполнителя.
+
+    Attributes:
+        id (:obj:`int`): Уникальный идентификатор.
+        error (:obj:`str`): Сообщение об ошибке.
+        name (:obj:`str`): Название.
+        cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
+        various (:obj:`bool`): TODO.
+        composer (:obj:`bool`): TODO.
+        genres (:obj:`list` из :obj:`str`): Жанры.
+        op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
+        no_pictures_from_search: TODO.
+        counts (:obj:`yandex_music.Counts` | :obj:`None`): Счётчики.
+        available (:obj:`bool`): Доступен ли для прослушивания.
+        ratings (:obj:`yandex_music.Ratings` | :obj:`None`): Рейтинги.
+        links (:obj:`list` из :obj:`yandex_music.Link`): Ссылки на ресурсы исполнителя.
+        tickets_available (:obj:`bool`): Имеются ли в продаже билеты на концерт.
+        regions (:obj:`list` из :obj:`str`): Регион TODO.
+        decomposed: TODO.
+        popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
+        likes_count (:obj:`int`): Количество лайков.
+        full_names: TODO.
+        description (:obj:`yandex_music.Description` | :obj:`None`): Описание.
+        countries (:obj:`list` из :obj:`str`): Страны.
+        en_wikipedia_link (:obj:`str`): Адрес страницы на wikipedia.org.
+        db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разных языках.
+        aliases: TODO.
+        init_date (:obj:`str`): Дата начала в формате YYYY-MM-DD или YYYY.
+        end_date (:obj:`str`): Дата окончания в формате YYYY-MM-DD или YYYY.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        id_ (:obj:`int`): Уникальный идентификатор.
+        error (:obj:`str`, optional): Сообщение об ошибке.
+        name (:obj:`str`, optional): Название.
+        cover (:obj:`yandex_music.Cover`, optional): Обложка.
+        various (:obj:`bool`, optional): TODO.
+        composer (:obj:`bool`, optional): TODO.
+        genres (:obj:`list` из :obj:`str`, optional): Жанры.
+        op_image (:obj:`str`, optional): Ссылка на изображение обложки. Используется когда не указано поле cover.
+        no_pictures_from_search: TODO.
+        counts (:obj:`yandex_music.Counts`, optional): Счётчики.
+        available (:obj:`bool`, optional): Доступен ли для прослушивания.
+        ratings (:obj:`yandex_music.Ratings`, optional): Рейтинги.
+        links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
+        tickets_available (:obj:`bool`, optional): Имеются ли в продаже билеты на концерт.
+        likes_count (:obj:`int`, optional): Количество лайков.
+        popular_tracks (:obj:`list` :obj:`yandex_music.Track`, optional): Популярные треки.
+        regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
+        decomposed: TODO.
+        full_names: TODO.
+        description (:obj:`yandex_music.Description`, optional): Описание.
+        countries (:obj:`list` из :obj:`str`, optional): Страны.
+        en_wikipedia_link (:obj:`str`, optional): Адрес страницы на wikipedia.org.
+        db_aliases (:obj:`list` из :obj:`str`, optional): Другие названия. Как правило названия на разных языках.
+        aliases: TODO.
+        init_date (:obj:`str`, optional): Дата начала в формате YYYY-MM-DD или YYYY.
+        end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или YYYY.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  id_: int,
-                 name: str,
-                 cover: Optional['Cover'],
+                 error: Optional[str] = None,
+                 name: Optional[str] = None,
+                 cover: Optional['Cover'] = None,
                  various: Optional[bool] = None,
-                 composer=None,
-                 genres=None,
-                 op_image=None,
+                 composer: Optional[bool] = None,
+                 genres: Optional[List[str]] = None,
+                 op_image: Optional[str] = None,
                  no_pictures_from_search=None,
                  counts: Optional['Counts'] = None,
                  available: Optional[bool] = None,
                  ratings: Optional['Ratings'] = None,
-                 links: List['Link'] = None,
+                 links: Optional[List['Link']] = None,
                  tickets_available: Optional[bool] = None,
                  likes_count: Optional[int] = None,
-                 popular_tracks: List['Track'] = None,
-                 regions=None,
+                 popular_tracks: Optional[List['Track']] = None,
+                 regions: Optional[List[str]] = None,
                  decomposed=None,
                  full_names=None,
                  description: Optional['Description'] = None,
-                 countries=None,
-                 en_wikipedia_link=None,
-                 db_aliases=None,
+                 countries: Optional[List[str]] = None,
+                 en_wikipedia_link: Optional[str] = None,
+                 db_aliases: Optional[List[str]] = None,
                  aliases=None,
                  init_date: Optional[str] = None,
-                 end_date=None,
-                 client: Optional['Client'] = None,
+                 end_date: Optional[str] = None,
+                 client: 'Client' = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
+
+        self.error = error
         self.name = name
         self.cover = cover
-
         self.various = various
         self.composer = composer
         self.genres = genres
@@ -76,7 +142,6 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-
         self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
 
     def like(self, *args, **kwargs) -> bool:
@@ -109,6 +174,15 @@ class Artist(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Artist']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.Artist`: Исполнитель.
+        """
         if not data:
             return None
 
@@ -126,6 +200,15 @@ class Artist(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data: dict, client: 'Client') -> List['Artist']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Artist`: Исполнители.
+        """
         if not data:
             return []
 

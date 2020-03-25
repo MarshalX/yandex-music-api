@@ -1,12 +1,35 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, TrackId
 
-from yandex_music import YandexMusicObject
-
 
 class Chart(YandexMusicObject):
+    """Класс, представляющий элемент чарта.
+
+    Note:
+        Смещение - это количество позиций, на которые трек поднялся или опустился в чарте.
+
+    Attributes:
+        position (:obj:`int`): Позиция.
+        progress (:obj:`str`): TODO.
+        listeners (:obj:`int`): Количество слушателей.
+        shift (:obj:`int`): Смещение.
+        track_id (:obj:`yandex_music.TrackId` | :obj:`None`): Уникальный идентификатор трека.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        position (:obj:`int`): Позиция.
+        progress (:obj:`str`): TODO.
+        listeners (:obj:`int`): Количество слушателей.
+        shift (:obj:`int`): Смещение.
+        track_id (:obj:`yandex_music.TrackId`, optional): Уникальный идентификатор трека.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  position: int,
                  progress: str,
@@ -15,6 +38,8 @@ class Chart(YandexMusicObject):
                  track_id: Optional['TrackId'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.position = position
         self.progress = progress
         self.listeners = listeners
@@ -31,13 +56,11 @@ class Chart(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Chart`: Объект класса :class:`yandex_music.Chart`.
+            :obj:`yandex_music.Chart`: Элемент чарта.
         """
-
         if not data:
             return None
 
@@ -53,11 +76,10 @@ class Chart(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Chart`: Список объектов класса :class:`yandex_music.Chart`.
+            :obj:`list` из :obj:`yandex_music.Chart`: Чарт.
         """
         if not data:
             return []

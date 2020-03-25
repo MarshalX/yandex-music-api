@@ -1,10 +1,9 @@
-from typing import TYPE_CHECKING, Optional, Union
-
-if TYPE_CHECKING:
-    from yandex_music import Client
+from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject, Enum, DiscreteScale
 
+if TYPE_CHECKING:
+    from yandex_music import Client
 
 de_json = {
     'enum': Enum.de_json,
@@ -13,14 +12,36 @@ de_json = {
 
 
 class Restrictions(YandexMusicObject):
+    """Класс, представляющий ограничения для настроек станции.
+
+    Attributes:
+        language (:obj:`yandex_music.Enum`): Перечисление значений для языков.
+        diversity (:obj:`yandex_music.Enum`): Перечисление значений для разнообразия (треков).
+        mood (:obj:`yandex_music.DiscreteScale`): Ограничение для значений настроения.
+        energy (:obj:`yandex_music.DiscreteScale`): Ограничение для значений энергичности.
+        mood_energy (:obj:`yandex_music.Enum`): Значения для настроения.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        language (:obj:`yandex_music.Enum`): Перечисление значений для языков.
+        diversity (:obj:`yandex_music.Enum`): Перечисление значений для разнообразия (треков).
+        mood (:obj:`yandex_music.DiscreteScale`, optional): Ограничение для значений настроения.
+        energy (:obj:`yandex_music.DiscreteScale`, optional): Ограничение для значений энергичности.
+        mood_energy (:obj:`yandex_music.Enum`, optional): Значения для настроения.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
-                 language: Optional[Union['Enum', 'DiscreteScale']],
-                 diversity: Optional[Union['Enum', 'DiscreteScale']],
-                 mood: Optional[Union['Enum', 'DiscreteScale']] = None,
-                 energy: Optional[Union['Enum', 'DiscreteScale']] = None,
-                 mood_energy: Optional[Union['Enum', 'DiscreteScale']] = None,
+                 language: Optional['Enum'],
+                 diversity: Optional['Enum'],
+                 mood: Optional['DiscreteScale'] = None,
+                 energy: Optional['DiscreteScale'] = None,
+                 mood_energy: Optional['Enum'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.language = language
         self.diversity = diversity
         self.mood = mood
@@ -32,6 +53,15 @@ class Restrictions(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Restrictions']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.Restrictions`: Ограничения для настроек станции.
+        """
         if not data:
             return None
 

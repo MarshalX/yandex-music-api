@@ -1,25 +1,23 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Album, Pager
 
-from yandex_music import YandexMusicObject
-
 
 class ArtistAlbums(YandexMusicObject):
-    """Класс представляющий страницу списка альбомов артиста.
+    """Класс, представляющий страницу списка альбомов артиста.
 
     Attributes:
         albums (:obj:`list` из :obj:`yandex_music.Album`): Список альбомов артиста.
-        pager (:obj:`yandex_music.Pager`): Объект класса :class:`yandex_music.Pager` представляющий пагинатор.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        pager (:obj:`yandex_music.Pager`): Пагинатор.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         albums (:obj:`list` из :obj:`yandex_music.Album`): Список альбомов артиста.
-        pager (:obj:`yandex_music.Pager`): Объект класса :class:`yandex_music.Pager` представляющий пагинатор.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        pager (:obj:`yandex_music.Pager`): Пагинатор.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -28,6 +26,8 @@ class ArtistAlbums(YandexMusicObject):
                  pager: Optional['Pager'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.albums = albums
         self.pager = pager
 
@@ -40,11 +40,10 @@ class ArtistAlbums(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ArtistAlbums`: Объект класса :class:`yandex_music.ArtistAlbums`.
+            :obj:`yandex_music.ArtistAlbums`: Список альбомов артиста.
         """
         if not data:
             return None

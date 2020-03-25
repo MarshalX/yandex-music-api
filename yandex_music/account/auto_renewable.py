@@ -1,35 +1,33 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Product
 
-from yandex_music import YandexMusicObject, Product
-
 
 class AutoRenewable(YandexMusicObject):
-    """Класс представляющий автопродление подписки.
+    """Класс, представляющий информацию об автопродлении подписки.
 
     Attributes:
         expires (:obj:`str`): Дата истечения подписки.
         vendor (:obj:`str`): Продавец.
         vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
         product_id (:obj:`str`): Уникальный идентификатор продукта.
-        product (:obj:`yandex_music.Product`): Объект класса :class:`yandex_music.Product` представляющий продукт.
+        product (:obj:`yandex_music.Product`): Продукт.
         order_id (:obj:`int`): Уникальный идентификатор заказа.
         finished (:obj:`bool`): Завершенность автопродления.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         expires (:obj:`str`): Дата истечения подписки.
         vendor (:obj:`str`): Продавец.
         vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
         product_id (:obj:`str`): Уникальный идентификатор продукта.
-        product (:obj:`yandex_music.Product`): Объект класса :class:`yandex_music.Product` представляющий продукт.
-        order_id (:obj:`int`): Уникальный идентификатор заказа.
         finished (:obj:`bool`): Завершенность автопродления.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        product (:obj:`yandex_music.Product`, optional): Продукт.
+        order_id (:obj:`int`): Уникальный идентификатор заказа.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -37,23 +35,25 @@ class AutoRenewable(YandexMusicObject):
                  expires: str,
                  vendor: str,
                  vendor_help_url: str,
-                 product_id: str,
                  product: Optional['Product'],
                  finished: bool,
+                 product_id: Optional[str] = None,
                  order_id: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.expires = expires
         self.vendor = vendor
         self.vendor_help_url = vendor_help_url
-        self.product_id = product_id
         self.product = product
         self.finished = finished
 
+        self.product_id = product_id
         self.order_id = order_id
 
         self.client = client
-        self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product_id, self.product, self.finished)
+        self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product, self.finished)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['AutoRenewable']:
@@ -61,16 +61,16 @@ class AutoRenewable(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.AutoRenewable`: Объект класса :class:`yandex_music.AutoRenewable`.
+            :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
         """
         if not data:
             return None
 
         data = super(AutoRenewable, cls).de_json(data, client)
+        from yandex_music import Product
         data['product'] = Product.de_json(data.get('product'), client)
 
         return cls(client=client, **data)
@@ -81,11 +81,10 @@ class AutoRenewable(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.AutoRenewable`: Список объектов класса :class:`yandex_music.AutoRenewable`.
+            :obj:`list` из :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
         """
         if not data:
             return []

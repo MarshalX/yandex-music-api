@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Lyrics, VideoSupplement
-
-from yandex_music import YandexMusicObject
 
 
 class Supplement(YandexMusicObject):
@@ -11,21 +11,17 @@ class Supplement(YandexMusicObject):
 
     Attributes:
         id (:obj:`int`): Уникальный идентификатор дополнительной информации.
-        lyrics (:obj:`yandex_music.Lyrics`): Объект класса :class:`yandex_music.Lyrics` представляющий текст песни.
-        videos (:obj:`yandex_music.VideoSupplement`): Объект класса :class:`yandex_music.VideoSupplement` представляющий
-            видео.
+        lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
+        videos (:obj:`yandex_music.VideoSupplement`): Видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор дополнительной информации.
-        lyrics (:obj:`yandex_music.Lyrics`): Объект класса :class:`yandex_music.Lyrics` представляющий текст песни.
-        videos (:obj:`yandex_music.VideoSupplement`): Объект класса :class:`yandex_music.VideoSupplement` представляющий
-            видео.
+        lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
+        videos (:obj:`yandex_music.VideoSupplement`): Видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -36,6 +32,8 @@ class Supplement(YandexMusicObject):
                  radio_is_available: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.lyrics = lyrics
         self.videos = videos
@@ -50,11 +48,10 @@ class Supplement(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Supplement`: Объект класса :class:`yandex_music.Supplement`.
+            :obj:`yandex_music.Supplement`: Дополнительная информация о треке.
         """
         if not data:
             return None

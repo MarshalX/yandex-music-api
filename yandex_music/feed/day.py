@@ -1,12 +1,30 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Event, Track, TrackWithAds
 
-from yandex_music import YandexMusicObject
-
 
 class Day(YandexMusicObject):
+    """Класс, представляющий день в фиде.
+
+    Attributes:
+        day (:obj:`str`): Дата в формате YYYY-MM-DD.
+        events (:obj:`list` из :obj:`yandex_music.Event`): События TODO.
+        tracks_to_play_with_ads (:obj:`list` из :obj:`yandex_music.TrackWithAds`): Треки для проигрывания с рекламой.
+        tracks_to_play (:obj:`list` из :obj:`yandex_music.Track`): Треки для проигрывания.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        day (:obj:`str`): Дата в формате YYYY-MM-DD.
+        events (:obj:`list` из :obj:`yandex_music.Event`): События TODO.
+        tracks_to_play_with_ads (:obj:`list` из :obj:`yandex_music.TrackWithAds`): Треки для проигрывания с рекламой.
+        tracks_to_play (:obj:`list` из :obj:`yandex_music.Track`): Треки для проигрывания.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  day: str,
                  events: List['Event'],
@@ -14,6 +32,8 @@ class Day(YandexMusicObject):
                  tracks_to_play: List['Track'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.day = day
         self.events = events
         self.tracks_to_play_with_ads = tracks_to_play_with_ads
@@ -24,6 +44,15 @@ class Day(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Day']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.Day`: День в фиде.
+        """
         if not data:
             return None
 
@@ -37,6 +66,15 @@ class Day(YandexMusicObject):
 
     @classmethod
     def de_list(cls, data: dict, client: 'Client') -> List['Day']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Day`: Дни в фиде.
+        """
         if not data:
             return []
 

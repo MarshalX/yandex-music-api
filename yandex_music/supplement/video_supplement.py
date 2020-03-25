@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
-
-from yandex_music import YandexMusicObject
 
 
 class VideoSupplement(YandexMusicObject):
@@ -17,8 +17,7 @@ class VideoSupplement(YandexMusicObject):
         url (:obj:`str`): URL на видео.
         embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
         embed (:obj:`str`): HTML тег для встраивания видео.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         cover (:obj:`str`): URL на обложку видео.
@@ -28,8 +27,7 @@ class VideoSupplement(YandexMusicObject):
         url (:obj:`str`): URL на видео.
         embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
         embed (:obj:`str`): HTML тег для встраивания видео.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -43,6 +41,8 @@ class VideoSupplement(YandexMusicObject):
                  embed: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.cover = cover
         self.title = title
         self.provider = provider
@@ -61,11 +61,10 @@ class VideoSupplement(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.VideoSupplement`: Объект класса :class:`yandex_music.VideoSupplement`.
+            :obj:`yandex_music.VideoSupplement`: Видеоклип.
         """
         if not data:
             return None
@@ -80,12 +79,10 @@ class VideoSupplement(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.VideoSupplement`: Список объектов класса
-                :class:`yandex_music.VideoSupplement`.
+            :obj:`list` из :obj:`yandex_music.VideoSupplement`: Видеоклипы.
         """
         if not data:
             return []

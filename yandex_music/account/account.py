@@ -1,13 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, PassportPhone
 
-from yandex_music import YandexMusicObject
-
 
 class Account(YandexMusicObject):
-    """Класс предоставляющий основную информацию об аккаунте пользователя.
+    """Класс, представляющий основную информацию об аккаунте пользователя.
 
     Attributes:
         now (:obj:`str`): Текущая дата и время.
@@ -21,12 +21,10 @@ class Account(YandexMusicObject):
         service_available (:obj:`bool`): Доступен ли сервис.
         hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
         region (:obj:`int`): Регион.
-        passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Список объектов класса
-            :class:`yandex_music.PassportPhone` представляющие мобильные номера.
+        passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Мобильные номера.
         registered_at (:obj:`str`): Дата создания аккаунта.
         has_info_for_app_metrica (:obj:`bool`): Наличие информации для App Metrica.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         now (:obj:`str`): Текущая дата и время.
@@ -40,12 +38,10 @@ class Account(YandexMusicObject):
         hosted_user (:obj:`bool`, optional): Является ли пользователем чьим-то другим.
         birthday (:obj:`str`, optional): Дата рождения.
         region (:obj:`int`, optional): Регион.
-        passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Список объектов класса
-            :class:`yandex_music.PassportPhone` представляющие мобильные номера.
+        passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Мобильные номера.
         registered_at (:obj:`str`, optional): Дата создания учётной записи.
         has_info_for_app_metrica (:obj:`bool`, optional): Наличие информации для App Metrica.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -66,6 +62,8 @@ class Account(YandexMusicObject):
                  has_info_for_app_metrica: bool = False,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.now = now
         self.service_available = service_available
 
@@ -92,9 +90,8 @@ class Account(YandexMusicObject):
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
-            format_ (:obj:`str`): Формат желаемого изображения (normal, orig, small, big).
+            format_ (:obj:`str`): Формат желаемого изображения (`normal`, `orig`, `small`, `big`).
         """
-
         self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod
@@ -103,11 +100,10 @@ class Account(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Account`: Объект класса :class:`yandex_music.Account`.
+            :obj:`yandex_music.Account`: Основная информация об аккаунте пользователя.
         """
         if not data:
             return None

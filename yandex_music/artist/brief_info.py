@@ -1,12 +1,48 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl
 
-from yandex_music import YandexMusicObject
-
 
 class BriefInfo(YandexMusicObject):
+    """Класс, представляющий информацию об артисте.
+
+    Attributes:
+        artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
+        albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
+        also_albums (:obj:`list` из :obj:`yandex_music.Album`): Сборники.
+        last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных треков.
+        popular_tracks (:obj:`list` из :obj:`yandex_music.Track`): Популярные треки.
+        similar_artists (:obj:`list` из :obj:`yandex_music.Artist)`: Похожие артисты.
+        all_covers (:obj:`list` из :obj:`yandex_music.Cover`): Все обложки.
+        concerts (:obj:`str`): Концерты (тест-кейс с ними потерялся, мало у кого есть).
+        videos (:obj:`list` из :obj:`yandex_music.Video`): Видео.
+        vinyls (:obj:`list` из :obj:`yandex_music.Vinyl`): Пластинки.
+        has_promotions (:obj:`bool`): Рекламируется ли TODO.
+        playlist_ids (:obj:`list` из :obj:`yandex_music.PlaylistId`): Уникальные идентификаторы плейлистов.
+        tracks_in_chart (:obj:`list` из :obj:`yandex_music.Chart`): Треки в чарте.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
+        albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
+        also_albums (:obj:`list` из :obj:`yandex_music.Album`): Сборники.
+        last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных треков.
+        popular_tracks (:obj:`list` из :obj:`yandex_music.Track`): Популярные треки.
+        similar_artists (:obj:`list` из :obj:`yandex_music.Artist`): Похожие артисты.
+        all_covers (:obj:`list` из :obj:`yandex_music.Cover`): Все обложки.
+        concerts (:obj:`str`): Концерты (тест-кейс с ними потерялся, мало у кого есть).
+        videos (:obj:`list` из :obj:`yandex_music.Video`): Видео.
+        vinyls (:obj:`list` из :obj:`yandex_music.Vinyl`): Пластинки.
+        has_promotions (:obj:`bool`): Рекламируется ли TODO.
+        playlist_ids (:obj:`list` из :obj:`yandex_music.PlaylistId`): Уникальные идентификаторы плейлистов.
+        tracks_in_chart (:obj:`list` из :obj:`yandex_music.Chart`, optional): Треки в чарте.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  artist: Optional['Artist'],
                  albums: List['Album'],
@@ -23,6 +59,8 @@ class BriefInfo(YandexMusicObject):
                  tracks_in_chart: List['Chart'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.artist = artist
         self.albums = albums
         self.also_albums = also_albums
@@ -49,13 +87,11 @@ class BriefInfo(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.BriefInfo`: Объект класса :class:`yandex_music.BriefInfo`.
+            :obj:`yandex_music.BriefInfo`: Информация об артисте.
         """
-
         if not data:
             return None
 

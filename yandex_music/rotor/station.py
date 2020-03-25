@@ -1,12 +1,44 @@
 from typing import TYPE_CHECKING, Optional
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client, Id, Icon, Restrictions
 
-from yandex_music import YandexMusicObject
-
 
 class Station(YandexMusicObject):
+    """Класс, представляющий станцию.
+
+    Note:
+        `id_for_from` обозначает предка станции, например, жанр, настроение или занятие.
+        Неизвестно когда используется `id_for_from`, а когда `parent_id`.
+
+    Attributes:
+        id (:obj:`yandex_music.Id`): Уникальный идентификатор станции.
+        name (:obj:`str`): Название станции.
+        icon (:obj:`yandex_music.Icon`): Иконка станции.
+        mts_icon (:obj:`yandex_music.Icon`): Иконка TODO.
+        geocell_icon (:obj:`yandex_music.Icon`): Иконка TODO.
+        id_for_from (:obj:`str`): Категория (тип) станции.
+        restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
+        restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
+        parent_id (:obj:`yandex_music.Id`): Уникальный идентификатор станции, являющейся предком текущей.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        id_ (:obj:`yandex_music.Id`): Уникальный идентификатор станции.
+        name (:obj:`str`): Название станции.
+        icon (:obj:`yandex_music.Icon`): Иконка станции.
+        mts_icon (:obj:`yandex_music.Icon`): Иконка TODO.
+        geocell_icon (:obj:`yandex_music.Icon`): Иконка TODO.
+        id_for_from (:obj:`str`): Категория (тип) станции.
+        restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
+        restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
+        parent_id (:obj:`yandex_music.Id`, optional): Уникальный идентификатор станции, являющейся предком текущей.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  id_: Optional['Id'],
                  name: str,
@@ -19,6 +51,8 @@ class Station(YandexMusicObject):
                  parent_id: Optional['Id'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.id = id_
         self.name = name
         self.icon = icon
@@ -36,6 +70,15 @@ class Station(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Station']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.Station`: Станция.
+        """
         if not data:
             return None
 

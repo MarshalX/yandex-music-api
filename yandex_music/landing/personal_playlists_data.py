@@ -1,16 +1,30 @@
 from typing import TYPE_CHECKING, Optional
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
 
-from yandex_music import YandexMusicObject
-
 
 class PersonalPlaylistsData(YandexMusicObject):
+    """Класс, представляющий дополнительную информацию о персональном плейлисте.
+
+    Attributes:
+        is_wizard_passed (:obj:`bool`): TODO.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        is_wizard_passed (:obj:`bool`): TODO.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  is_wizard_passed: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.is_wizard_passed = is_wizard_passed
 
         self.client = client
@@ -18,6 +32,15 @@ class PersonalPlaylistsData(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PersonalPlaylistsData']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.PersonalPlaylistsData`: Дополнительная информация о персональном плейлисте.
+        """
         if not data:
             return None
 

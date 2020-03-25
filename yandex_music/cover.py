@@ -1,25 +1,24 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
 
-from yandex_music import YandexMusicObject
-
 
 class Cover(YandexMusicObject):
-    """Класс представляющий обложку.
+    """Класс, представляющий обложку.
 
     Attributes:
         type (:obj:`str`): Тип обложки.
         uri (:obj:`str`): Ссылка на изображение.
-        items_uri (:obj:`str`): ССписок ссылок на изображения.
+        items_uri (:obj:`str`): Список ссылок на изображения.
         dir (:obj:`str`): Директория хранения изображения на сервере.
         version (:obj:`str`): Версия.
         custom (:obj:`bool`): Является ли обложка пользовательской.
         prefix (:obj:`str`): Уникальный идентификатор.
         error (:obj:`str`): Сообщение об ошибке.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         type_ (:obj:`str`, optional): Тип обложки.
@@ -30,8 +29,7 @@ class Cover(YandexMusicObject):
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         prefix (:obj:`str`, optional): Уникальный идентификатор.
         error (:obj:`str`, optional): Сообщение об ошибке.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент
-            Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -46,6 +44,8 @@ class Cover(YandexMusicObject):
                  error: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
         self.type = type_
         self.uri = uri
         self.items_uri = items_uri
@@ -63,10 +63,9 @@ class Cover(YandexMusicObject):
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
-            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет self.uri.
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
-
         uri = self.uri or self.items_uri[index]
 
         self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
@@ -77,11 +76,10 @@ class Cover(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Cover`: Объект класса :class:`yandex_music.Cover`.
+            :obj:`yandex_music.Cover`: Обложка.
         """
         if not data:
             return None
@@ -96,11 +94,10 @@ class Cover(YandexMusicObject):
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Cover`: Список объектов класса :class:`yandex_music.Cover`.
+            :obj:`list` из :obj:`yandex_music.Cover`: Обложки.
         """
         if not data:
             return []

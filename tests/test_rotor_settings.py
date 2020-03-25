@@ -6,7 +6,7 @@ class TestRotorSettings:
     diversity = 'default'
     mood = 2
     energy = 2
-    mood_energy = None
+    mood_energy = 'fun'
 
     def test_expected_values(self, rotor_settings):
         assert rotor_settings.language == self.language

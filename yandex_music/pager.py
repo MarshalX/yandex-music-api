@@ -1,27 +1,25 @@
 from typing import TYPE_CHECKING, Optional
 
+from yandex_music import YandexMusicObject
+
 if TYPE_CHECKING:
     from yandex_music import Client
 
-from yandex_music import YandexMusicObject
-
 
 class Pager(YandexMusicObject):
-    """Класс представляющий пагинатор.
+    """Класс, представляющий пагинатор.
 
     Attributes:
         total (:obj:`int`): Всего треков.
         page (:obj:`int`): Номер страницы.
         per_page (:obj:`int`): Количество треков на странице.
-        client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         total (:obj:`int`): Всего треков.
         page (:obj:`int`): Номер страницы.
         per_page (:obj:`int`): Количество треков на странице.
-        client (:obj:`yandex_music.Client`, optional): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-            Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
@@ -44,11 +42,10 @@ class Pager(YandexMusicObject):
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Объект класса :class:`yandex_music.Client` представляющий клиент Yandex
-                Music.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Pager`: Объект класса :class:`yandex_music.Pager`.
+            :obj:`yandex_music.Pager`: Пагинатор.
         """
         if not data:
             return None

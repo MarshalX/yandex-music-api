@@ -21,6 +21,8 @@ class TestTrack:
     explicit = None
     preview_duration_ms = 30000
     available_full_without_permission = False
+    version = 'Radio Edit'
+    remember_position = False
 
     def test_expected_values(self, track, artist, album, major, normalization):
         assert track.id == self.id
@@ -46,6 +48,8 @@ class TestTrack:
         assert track.explicit == self.explicit
         assert track.preview_duration_ms == self.preview_duration_ms
         assert track.available_full_without_permission == self.available_full_without_permission
+        assert track.version == self.version
+        assert track.remember_position == self.remember_position
 
     def test_de_json_none(self, client):
         assert Track.de_json({}, client) is None
@@ -74,8 +78,9 @@ class TestTrack:
                      'file_size': self.file_size, 'normalization': normalization.to_dict(), 'error': self.error,
                      'regions': self.regions, 'available_as_rbt': self.available_as_rbt,
                      'content_warning': self.content_warning, 'explicit': self.explicit,
-                     'preview_duration_ms': self.preview_duration_ms,
-                     'available_full_without_permission': self.available_full_without_permission}
+                     'preview_duration_ms': self.preview_duration_ms, 'version': self.version,
+                     'available_full_without_permission': self.available_full_without_permission,
+                     'remember_position': self.remember_position}
         track = Track.de_json(json_dict, client)
 
         assert track.id == self.id
@@ -101,6 +106,8 @@ class TestTrack:
         assert track.explicit == self.explicit
         assert track.preview_duration_ms == self.preview_duration_ms
         assert track.available_full_without_permission == self.available_full_without_permission
+        assert track.version == self.version
+        assert track.remember_position == self.remember_position
 
     def test_equality(self, artist, album):
         a = Track(self.id, self.title, self.available, [artist], [album])
