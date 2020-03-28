@@ -13,17 +13,20 @@ class ChartInfoMenuItem(YandexMusicObject):
         title (:obj:`str`): Заголовок.
         url (:obj:`str`): Постфикс для запроса чарта.
         selected (:obj:`bool`): Текущий ли элемент.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         title (:obj:`str`): Заголовок.
         url (:obj:`str`): Постфикс для запроса чарта.
         selected (:obj:`bool`, optional): Текущий ли элемент.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self, title: str, url: str, selected: Optional[bool] = False):
+    def __init__(self, title: str, url: str, selected: Optional[bool] = False, client: Optional['Client'] = None):
         self.title = title
         self.url = url
         self.selected = selected
+        self.client = client
         self._id_attrs = (url, selected)
 
     @classmethod
@@ -42,7 +45,7 @@ class ChartInfoMenuItem(YandexMusicObject):
 
         data = super(ChartInfoMenuItem, cls).de_json(data, client)
 
-        return cls(**data)
+        return cls(client=client, **data)
 
     @classmethod
     def de_list(cls, data: list, client: 'Client') -> List['ChartInfoMenuItem']:
