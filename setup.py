@@ -30,7 +30,7 @@ with open('CHANGES.rst', 'r', encoding='utf-8') as f:
 
 
 setup(name='yandex-music',
-      version='0.1.1',
+      version='0.1.2',
       author='Il`ya Semyonov',
       author_email='Ilya@marshal.by',
       license='LGPLv3',
