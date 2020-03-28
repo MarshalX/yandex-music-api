@@ -1,1 +1,1 @@
-include LICENSE Pipfile.lock
+include LICENSE Pipfile.lock CHANGES.rst
