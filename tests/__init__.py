@@ -17,6 +17,8 @@ from .test_description import TestDescription
 from .test_discrete_scale import TestDiscreteScale
 from .test_enum import TestEnum
 from .test_event import TestEvent
+from .test_chart_info_menu_item import TestChartInfoMenuItem
+from .test_chart_info_menu import TestChartInfoMenu
 from .test_chart_info import TestChartInfo
 from .test_generated_playlist import TestGeneratedPlaylist
 from .test_genre import TestGenre

@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
-from yandex_music import YandexMusicObject, Playlist
+from yandex_music import YandexMusicObject, Playlist, ChartInfoMenu
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -17,7 +17,6 @@ class ChartInfo(YandexMusicObject):
         chart_description (:obj:`str`): Описание.
         menu (:obj:`dict`): Меню TODO.
         chart(:obj:`yandex_music.PlaylistId`): Плейлист.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         id_ (:obj:`str`): Уникальный идентификатор блока.
@@ -27,8 +26,6 @@ class ChartInfo(YandexMusicObject):
         chart_description (:obj:`str`): Описание.
         menu (:obj:`dict`): Меню TODO.
         chart(:obj:`yandex_music.PlaylistId`): Плейлист.
-        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
@@ -37,10 +34,8 @@ class ChartInfo(YandexMusicObject):
                  type_for_from: str,
                  title: str,
                  chart_description: str,
-                 menu: dict,
-                 chart: 'Playlist',
-                 client: Optional['Client'] = None,
-                 **kwargs):
+                 menu: 'ChartInfoMenu',
+                 chart: 'Playlist'):
         self.id = id_
         self.type = type_
         self.type_for_from = type_for_from
@@ -48,7 +43,7 @@ class ChartInfo(YandexMusicObject):
         self.chart_description = chart_description
         self.menu = menu
         self.chart = chart
-        self.client = client
+        self._id_attrs = (id_,)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> 'ChartInfo':
@@ -66,5 +61,6 @@ class ChartInfo(YandexMusicObject):
 
         data = super(ChartInfo, cls).de_json(data, client)
         data['chart'] = Playlist.de_json(data.get('chart'), client)
+        data['menu'] = ChartInfoMenu.de_json(data.get('menu'), client)
 
-        return cls(client=client, **data)
+        return cls(**data)
