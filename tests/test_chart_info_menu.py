@@ -3,7 +3,7 @@ from yandex_music import ChartInfoMenu, ChartInfoMenuItem
 
 class TestChartInfoMenu:
     def test_expected_values(self, chart_info_menu, chart_info_menu_item):
-        assert chart_info_menu.items[0] == chart_info_menu_item
+        assert chart_info_menu.items == [chart_info_menu_item]
 
     def test_de_json_none(self, client):
         assert ChartInfoMenu.de_json({}, client) is None
@@ -13,9 +13,9 @@ class TestChartInfoMenu:
             'items': [chart_info_menu_item.to_dict()],
         }
 
-        chartInfoMenu = ChartInfoMenu.de_json(json_dict, client)
+        chart_info_menu = ChartInfoMenu.de_json(json_dict, client)
 
-        assert chartInfoMenu.items[0] == chart_info_menu_item
+        assert chart_info_menu.items == [chart_info_menu_item]
 
     def test_equality(self, chart_info_menu_item):
         a = ChartInfoMenu([chart_info_menu_item])

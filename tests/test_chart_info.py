@@ -30,13 +30,13 @@ class TestChartInfo:
             'chart': playlist.to_dict()
         }
 
-        chartInfo = ChartInfo.de_json(json_dict, client)
+        chart_info = ChartInfo.de_json(json_dict, client)
 
-        assert chartInfo.id == self.id
-        assert chartInfo.type == self.type
-        assert chartInfo.type_for_from == self.type_for_from
-        assert chartInfo.title == self.title
-        assert chartInfo.chart_description == self.chart_description
+        assert chart_info.id == self.id
+        assert chart_info.type == self.type
+        assert chart_info.type_for_from == self.type_for_from
+        assert chart_info.title == self.title
+        assert chart_info.chart_description == self.chart_description
 
     def test_de_json_all(self, client, playlist, chart_info_menu):
         json_dict = {
@@ -49,20 +49,23 @@ class TestChartInfo:
             'chart': playlist.to_dict()
         }
 
-        chartInfo = ChartInfo.de_json(json_dict, client)
+        chart_info = ChartInfo.de_json(json_dict, client)
 
-        assert chartInfo.id == self.id
-        assert chartInfo.type == self.type
-        assert chartInfo.type_for_from == self.type_for_from
-        assert chartInfo.title == self.title
-        assert chartInfo.chart_description == self.chart_description
-        assert chartInfo.menu == chart_info_menu
-        assert chartInfo.chart == playlist
+        assert chart_info.id == self.id
+        assert chart_info.type == self.type
+        assert chart_info.type_for_from == self.type_for_from
+        assert chart_info.title == self.title
+        assert chart_info.chart_description == self.chart_description
+        assert chart_info.menu == chart_info_menu
+        assert chart_info.chart == playlist
 
     def test_equality(self, playlist, chart_info_menu):
-        a = ChartInfo(self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist)
-        b = ChartInfo("no_id", self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist)
-        c = ChartInfo(self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist)
+        a = ChartInfo(self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu,
+                      playlist)
+        b = ChartInfo("no_id", self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu,
+                      playlist)
+        c = ChartInfo(self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu,
+                      playlist)
 
         assert a != b
         assert hash(a) != hash(b)

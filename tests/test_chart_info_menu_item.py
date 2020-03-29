@@ -20,11 +20,11 @@ class TestChartInfoMenuItem:
             'url': self.url,
         }
 
-        chartInfoMenuItem = ChartInfoMenuItem.de_json(json_dict, client)
+        chart_info_menu_item = ChartInfoMenuItem.de_json(json_dict, client)
 
-        assert chartInfoMenuItem.title == self.title
-        assert chartInfoMenuItem.url == self.url
-        assert not chartInfoMenuItem.selected
+        assert chart_info_menu_item.title == self.title
+        assert chart_info_menu_item.url == self.url
+        assert not chart_info_menu_item.selected
 
     def test_de_json_all(self, client):
         json_dict = {
@@ -33,11 +33,11 @@ class TestChartInfoMenuItem:
             'selected': self.selected,
         }
 
-        chartInfoMenuItem = ChartInfoMenuItem.de_json(json_dict, client)
+        chart_info_menu_item = ChartInfoMenuItem.de_json(json_dict, client)
 
-        assert chartInfoMenuItem.title == self.title
-        assert chartInfoMenuItem.url == self.url
-        assert chartInfoMenuItem.selected == self.selected
+        assert chart_info_menu_item.title == self.title
+        assert chart_info_menu_item.url == self.url
+        assert chart_info_menu_item.selected == self.selected
 
     def test_equality(self):
         a = ChartInfoMenuItem(self.title, self.url, self.selected)

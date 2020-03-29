@@ -443,6 +443,10 @@ class Client(YandexMusicObject):
     def chart(self, chart_option: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> ChartInfo:
         """Получение чарта.
 
+        Note:
+            chart_option это постфикс к запросу из поля `menu` чарта.
+            Например на сайте можно выбрать глобальный чарт или российский.
+
         Args:
             chart_option (:obj:`str` optional): Параметры чарта.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания

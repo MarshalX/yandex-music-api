@@ -15,8 +15,8 @@ class ChartInfo(YandexMusicObject):
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
         chart_description (:obj:`str`): Описание.
-        menu (:obj:`dict`): Меню TODO.
-        chart(:obj:`yandex_music.PlaylistId`): Плейлист.
+        menu (:obj:`yandex_music.ChartInfoMenu` | :obj:`None`): Меню TODO.
+        chart (:obj:`yandex_music.Playlist` | :obj:`None`): Плейлист.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -25,8 +25,8 @@ class ChartInfo(YandexMusicObject):
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
         chart_description (:obj:`str`): Описание.
-        menu (:obj:`dict`): Меню TODO.
-        chart(:obj:`yandex_music.PlaylistId`): Плейлист.
+        menu (:obj:`yandex_music.ChartInfoMenu`, optional): Меню TODO.
+        chart (:obj:`yandex_music.Playlist`, optional): Плейлист.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -36,8 +36,8 @@ class ChartInfo(YandexMusicObject):
                  type_for_from: str,
                  title: str,
                  chart_description: str,
-                 menu: 'ChartInfoMenu',
-                 chart: 'Playlist',
+                 menu: Optional['ChartInfoMenu'] = None,
+                 chart: Optional['Playlist'] = None,
                  client: Optional['Client'] = None):
         self.id = id_
         self.type = type_
