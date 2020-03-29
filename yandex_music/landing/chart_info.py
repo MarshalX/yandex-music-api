@@ -36,8 +36,8 @@ class ChartInfo(YandexMusicObject):
                  type_for_from: str,
                  title: str,
                  chart_description: str,
-                 menu: Optional['ChartInfoMenu'] = None,
-                 chart: Optional['Playlist'] = None,
+                 menu: Optional['ChartInfoMenu'],
+                 chart: Optional['Playlist'],
                  client: Optional['Client'] = None):
         self.id = id_
         self.type = type_
