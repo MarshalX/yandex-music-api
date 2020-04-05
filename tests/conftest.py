@@ -430,7 +430,7 @@ def chart_info_menu(chart_info_menu_item):
 @pytest.fixture(scope='session')
 def chart_info(playlist, chart_info_menu):
     return ChartInfo(TestChartInfo.id, TestChartInfo.type, TestChartInfo.type_for_from, TestChartInfo.title,
-                     TestChartInfo.chart_description, chart_info_menu, playlist)
+                     chart_info_menu, playlist, TestChartInfo.chart_description)
 
 
 @pytest.fixture(scope='session')
