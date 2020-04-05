@@ -22,15 +22,16 @@ class ChartInfoMenuItem(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self, title: str, url: str, selected: Optional[bool] = False, client: Optional['Client'] = None):
+    def __init__(self, title: str, url: str, selected: bool = False, client: Optional['Client'] = None):
         self.title = title
         self.url = url
         self.selected = selected
+
         self.client = client
         self._id_attrs = (url, selected)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> 'ChartInfoMenuItem':
+    def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfoMenuItem']:
         """Десериализация объекта.
 
         Args:

@@ -20,11 +20,12 @@ class ChartInfoMenu(YandexMusicObject):
 
     def __init__(self, items: List['ChartInfoMenuItem'], client: Optional['Client'] = None):
         self.items = items
+
         self.client = client
         self._id_attrs = (self.items, )
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> 'ChartInfoMenu':
+    def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfoMenu']:
         """Десериализация объекта.
 
         Args:

@@ -440,7 +440,7 @@ class Client(YandexMusicObject):
         return Landing.de_json(result, self)
 
     @log
-    def chart(self, chart_option: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> ChartInfo:
+    def chart(self, chart_option: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> Optional[ChartInfo]:
         """Получение чарта.
 
         Note:

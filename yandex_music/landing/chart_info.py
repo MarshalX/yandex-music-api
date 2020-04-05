@@ -14,9 +14,9 @@ class ChartInfo(YandexMusicObject):
         type (:obj:`str`): Тип блока.
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
-        chart_description (:obj:`str`): Описание.
         menu (:obj:`yandex_music.ChartInfoMenu` | :obj:`None`): Меню TODO.
         chart (:obj:`yandex_music.Playlist` | :obj:`None`): Плейлист.
+        chart_description (:obj:`str`): Описание.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -24,9 +24,9 @@ class ChartInfo(YandexMusicObject):
         type_ (:obj:`str`): Тип блока.
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
-        chart_description (:obj:`str`): Описание.
         menu (:obj:`yandex_music.ChartInfoMenu`, optional): Меню TODO.
         chart (:obj:`yandex_music.Playlist`, optional): Плейлист.
+        chart_description (:obj:`str`, optional): Описание.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -35,22 +35,24 @@ class ChartInfo(YandexMusicObject):
                  type_: str,
                  type_for_from: str,
                  title: str,
-                 chart_description: str,
                  menu: Optional['ChartInfoMenu'],
                  chart: Optional['Playlist'],
+                 chart_description: Optional[str] = None,
                  client: Optional['Client'] = None):
         self.id = id_
         self.type = type_
         self.type_for_from = type_for_from
         self.title = title
-        self.chart_description = chart_description
+
         self.menu = menu
         self.chart = chart
+        self.chart_description = chart_description
+
         self.client = client
         self._id_attrs = (id_,)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> 'ChartInfo':
+    def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfo']:
         """Десериализация объекта.
 
         Args:
