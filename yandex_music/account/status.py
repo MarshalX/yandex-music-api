@@ -12,6 +12,7 @@ class Status(YandexMusicObject):
     Attributes:
         account (:obj:`yandex_music.Account`): Основная информация об аккаунте.
         permissions (:obj:`yandex_music.Permissions`): Информация о правах пользователя.
+        advertisement (:obj:`str`): Рекламное объявление.
         subscription (:obj:`yandex_music.Subscription`): Информация о подписках.
         cache_limit (:obj:`int`): Максимальное количество загруженных треков.
         subeditor (:obj:`bool`): Наличие статуса модератора проверки корректности информации.
@@ -26,7 +27,8 @@ class Status(YandexMusicObject):
     Args:
         account (:obj:`yandex_music.Account`): Основная информация об аккаунте
         permissions (:obj:`yandex_music.Permissions`): Информация о правах пользователя.
-        subscription (:obj:`yandex_music.Subscription`): Информация о подписках.
+        advertisement (:obj:`str`): Рекламное объявление.
+        subscription (:obj:`yandex_music.Subscription`, optional): Информация о подписках.
         cache_limit (:obj:`int`, optional): Максимальное количество загруженных треков.
         subeditor (:obj:`bool`, optional): Наличие статуса модератора проверки корректности информации.
         subeditor_level (:obj:`int`, optional): Уровень статуса модератора.
@@ -42,6 +44,7 @@ class Status(YandexMusicObject):
     def __init__(self,
                  account: Optional['Account'],
                  permissions: Optional['Permissions'],
+                 advertisement: str,
                  subscription: Optional['Subscription'] = None,
                  cache_limit: Optional[int] = None,
                  subeditor: Optional[bool] = None,
@@ -57,6 +60,7 @@ class Status(YandexMusicObject):
 
         self.account = account
         self.permissions = permissions
+        self.advertisement = advertisement
 
         self.subscription = subscription
         self.cache_limit = cache_limit
@@ -69,7 +73,7 @@ class Status(YandexMusicObject):
         self.premium_region = premium_region
 
         self.client = client
-        self._id_attrs = (self.account, self.permissions)
+        self._id_attrs = (self.account, self.permissions, self.advertisement)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Status']:

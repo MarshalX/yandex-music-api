@@ -406,9 +406,9 @@ def track_position():
 
 @pytest.fixture(scope='session')
 def status(account, permissions, subscription, plus):
-    return Status(account, permissions, subscription, TestStatus.cache_limit, TestStatus.subeditor,
-                  TestStatus.subeditor_level, plus, TestStatus.default_email, TestStatus.skips_per_hour,
-                  TestStatus.station_exists, TestStatus.premium_region)
+    return Status(account, permissions, TestStatus.advertisement, subscription, TestStatus.cache_limit,
+                  TestStatus.subeditor, TestStatus.subeditor_level, plus, TestStatus.default_email,
+                  TestStatus.skips_per_hour, TestStatus.station_exists, TestStatus.premium_region)
 
 
 @pytest.fixture(scope='session')
