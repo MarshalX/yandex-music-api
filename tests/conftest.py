@@ -376,8 +376,8 @@ def rotor_settings():
 @pytest.fixture(scope='session')
 def product(price):
     return Product(TestProduct.product_id, TestProduct.type, TestProduct.common_period_duration, TestProduct.duration,
-                   TestProduct.trial_duration, price, TestProduct.feature, TestProduct.debug, TestProduct.features,
-                   TestProduct.description, TestProduct.available, TestProduct.trial_available,
+                   TestProduct.trial_duration, price, TestProduct.feature, TestProduct.debug, TestProduct.plus,
+                   TestProduct.features, TestProduct.description, TestProduct.available, TestProduct.trial_available,
                    TestProduct.vendor_trial_available, TestProduct.button_text, TestProduct.button_additional_text,
                    TestProduct.payment_method_types)
 

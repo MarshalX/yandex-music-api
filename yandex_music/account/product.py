@@ -18,6 +18,7 @@ class Product(YandexMusicObject):
         price (:obj:`yandex_music.Price`): Цена.
         feature (:obj:`str`): Предоставляемая возможность.
         debug (:obj:`bool`): Отладочный продукт.
+        plus (:obj:`bool`): Даёт ли подписку "Плюс".
         features (:obj:`list` из :obj:`str`): Список предоставляемых возможностей.
         description (:obj:`str`): Описание.
         available (:obj:`bool`): Доступна ли покупка.
@@ -37,6 +38,7 @@ class Product(YandexMusicObject):
         price (:obj:`yandex_music.Price`): Цена.
         feature (:obj:`str`): Предоставляемая возможность.
         debug (:obj:`bool`): Отладочный продукт.
+        plus (:obj:`bool`): Даёт ли подписку "Плюс".
         features (:obj:`list` из :obj:`str`, optional): Список предоставляемых возможностей.
         description (:obj:`str`, optional): Описание.
         available (:obj:`bool`, optional): Доступна ли покупка.
@@ -58,6 +60,7 @@ class Product(YandexMusicObject):
                  price: Optional['Price'],
                  feature: str,
                  debug: bool,
+                 plus: bool,
                  features: List[str] = None,
                  description: Optional[str] = None,
                  available: Optional[bool] = None,
@@ -78,6 +81,7 @@ class Product(YandexMusicObject):
         self.price = price
         self.feature = feature
         self.debug = debug
+        self.plus = plus
 
         self.features = features
         self.description = description
