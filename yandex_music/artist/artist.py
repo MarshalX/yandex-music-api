@@ -17,6 +17,7 @@ class Artist(YandexMusicObject):
         various (:obj:`bool`): TODO.
         composer (:obj:`bool`): TODO.
         genres (:obj:`list` из :obj:`str`): Жанры.
+        og_image (:obj:`str`, optional): Ссылка на изображение для Open Graph.
         op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts` | :obj:`None`): Счётчики.
@@ -46,6 +47,7 @@ class Artist(YandexMusicObject):
         various (:obj:`bool`, optional): TODO.
         composer (:obj:`bool`, optional): TODO.
         genres (:obj:`list` из :obj:`str`, optional): Жанры.
+        og_image (:obj:`str`, optional): Ссылка на изображение для Open Graph.
         op_image (:obj:`str`, optional): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts`, optional): Счётчики.
@@ -77,6 +79,7 @@ class Artist(YandexMusicObject):
                  various: Optional[bool] = None,
                  composer: Optional[bool] = None,
                  genres: Optional[List[str]] = None,
+                 og_image: Optional[str] = None,
                  op_image: Optional[str] = None,
                  no_pictures_from_search=None,
                  counts: Optional['Counts'] = None,
@@ -108,6 +111,7 @@ class Artist(YandexMusicObject):
         self.various = various
         self.composer = composer
         self.genres = genres
+        self.og_image = og_image
         self.op_image = op_image
         self.no_pictures_from_search = no_pictures_from_search
         self.counts = counts
@@ -133,10 +137,20 @@ class Artist(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.name, self.cover)
 
+    def download_og_image(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка изображения для Open Graph.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+
     def download_op_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
-        Используйте это только когда нет self.cover!
+        Notes:
+            Используйте это только когда нет self.cover!
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
@@ -220,6 +234,8 @@ class Artist(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`download_og_image`
+    downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_op_image`
     downloadOpImage = download_op_image
     #: Псевдоним для :attr:`get_tracks`
