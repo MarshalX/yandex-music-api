@@ -73,3 +73,4 @@ from .test_vinyl import TestVinyl
 from .test_shot_type import TestShotType
 from .test_shot_data import TestShotData
 from .test_shot import TestShot
+from .test_renewable_remainder import TestRenewableRemainder

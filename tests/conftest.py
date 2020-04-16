@@ -6,7 +6,8 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, PassportPhone, User, Promotion, \
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
-    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot
+    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot, \
+    RenewableRemainder
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -15,7 +16,8 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestUser, TestPassportPhone, TestPromotion, TestTitle, TestPersonalPlaylistsData, TestRotorSettings, \
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
-    TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType
+    TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType, \
+    TestRenewableRemainder
 
 
 @pytest.fixture(scope='session')
@@ -339,6 +341,11 @@ def passport_phone():
 
 
 @pytest.fixture(scope='session')
+def renewable_remainder():
+    return RenewableRemainder(TestRenewableRemainder.days)
+
+
+@pytest.fixture(scope='session')
 def user():
     return User(TestUser.uid, TestUser.login, TestUser.name, TestUser.sex, TestUser.verified)
 
@@ -362,9 +369,9 @@ def price():
 
 
 @pytest.fixture(scope='session')
-def subscription(auto_renewable):
-    return Subscription([auto_renewable], TestSubscription.can_start_trial, TestSubscription.mcdonalds,
-                        TestSubscription.end)
+def subscription(renewable_remainder, auto_renewable):
+    return Subscription(renewable_remainder, [auto_renewable], TestSubscription.can_start_trial,
+                        TestSubscription.mcdonalds, TestSubscription.end)
 
 
 @pytest.fixture(scope='session')
