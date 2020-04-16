@@ -193,8 +193,8 @@ def icon():
 
 @pytest.fixture(scope='session')
 def cover():
-    return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir,
-                 TestCover.version, TestCover.custom, TestCover.prefix, TestCover.error)
+    return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir, TestCover.version,
+                 TestCover.custom, TestCover.is_custom, TestCover.prefix, TestCover.error)
 
 
 @pytest.fixture(scope='session')
