@@ -24,8 +24,8 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
 def artist_factory(cover, counts, ratings, link, description):
     class ArtistFactory:
         def get(self, popular_tracks):
-            return Artist(TestArtist.id, TestArtist.error, TestArtist.name, cover, TestArtist.various,
-                          TestArtist.composer, TestArtist.genres, TestArtist.op_image,
+            return Artist(TestArtist.id, TestArtist.reason, TestArtist.name, cover,
+                          TestArtist.various, TestArtist.composer, TestArtist.genres, TestArtist.op_image,
                           TestArtist.no_pictures_from_search, counts, TestArtist.available, ratings, [link],
                           TestArtist.tickets_available, TestArtist.likes_count,  popular_tracks, TestArtist.regions,
                           TestArtist.decomposed, TestArtist.full_names, description, TestArtist.countries,

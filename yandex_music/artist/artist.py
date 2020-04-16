@@ -11,7 +11,7 @@ class Artist(YandexMusicObject):
 
     Attributes:
         id (:obj:`int`): Уникальный идентификатор.
-        error (:obj:`str`): Сообщение об ошибке.
+        reason (:obj:`str`): Причина отсутствия исполнителя (сообщение об ошибке).
         name (:obj:`str`): Название.
         cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
         various (:obj:`bool`): TODO.
@@ -40,7 +40,7 @@ class Artist(YandexMusicObject):
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор.
-        error (:obj:`str`, optional): Сообщение об ошибке.
+        reason (:obj:`str`, optional): Причина отсутствия исполнителя (сообщение об ошибке).
         name (:obj:`str`, optional): Название.
         cover (:obj:`yandex_music.Cover`, optional): Обложка.
         various (:obj:`bool`, optional): TODO.
@@ -71,7 +71,7 @@ class Artist(YandexMusicObject):
 
     def __init__(self,
                  id_: int,
-                 error: Optional[str] = None,
+                 reason: Optional[str] = None,
                  name: Optional[str] = None,
                  cover: Optional['Cover'] = None,
                  various: Optional[bool] = None,
@@ -102,7 +102,7 @@ class Artist(YandexMusicObject):
 
         self.id = id_
 
-        self.error = error
+        self.reason = reason
         self.name = name
         self.cover = cover
         self.various = various
