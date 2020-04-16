@@ -166,7 +166,8 @@ def video():
 
 @pytest.fixture(scope='session')
 def vinyl():
-    return Vinyl(TestVinyl.url, TestVinyl.title, TestVinyl.year, TestVinyl.price, TestVinyl.media, TestVinyl.picture)
+    return Vinyl(TestVinyl.url, TestVinyl.title, TestVinyl.year, TestVinyl.price, TestVinyl.media, TestVinyl.offer_id,
+                 TestVinyl.artist_ids, TestVinyl.picture)
 
 
 @pytest.fixture(scope='session')
