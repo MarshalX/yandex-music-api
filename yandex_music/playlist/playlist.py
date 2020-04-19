@@ -208,6 +208,16 @@ class Playlist(YandexMusicObject):
         """
         return self.client.users_likes_playlists_remove(self.uid, self.client.me.account.uid, *args, **kwargs)
 
+    def fetch_tracks(self, *args, **kwargs) -> List['TrackShort']:
+        """
+            Запрашивает список треков выбранного плейлиста.
+
+            Сокращение для::
+
+                client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs)[0].tracks
+        """
+        return self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs)[0].tracks
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Playlist']:
         """Десериализация объекта.
