@@ -277,3 +277,5 @@ class Playlist(YandexMusicObject):
     downloadAnimatedCover = download_animated_cover
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
+    #: Псевдином для :attr:`fetch_tracks`
+    fetchTracks = fetch_tracks
