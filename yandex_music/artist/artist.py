@@ -11,12 +11,13 @@ class Artist(YandexMusicObject):
 
     Attributes:
         id (:obj:`int`): Уникальный идентификатор.
-        error (:obj:`str`): Сообщение об ошибке.
+        reason (:obj:`str`): Причина отсутствия исполнителя (сообщение об ошибке).
         name (:obj:`str`): Название.
         cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
         various (:obj:`bool`): TODO.
         composer (:obj:`bool`): TODO.
         genres (:obj:`list` из :obj:`str`): Жанры.
+        og_image (:obj:`str`, optional): Ссылка на изображение для Open Graph.
         op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts` | :obj:`None`): Счётчики.
@@ -40,12 +41,13 @@ class Artist(YandexMusicObject):
 
     Args:
         id_ (:obj:`int`): Уникальный идентификатор.
-        error (:obj:`str`, optional): Сообщение об ошибке.
+        reason (:obj:`str`, optional): Причина отсутствия исполнителя (сообщение об ошибке).
         name (:obj:`str`, optional): Название.
         cover (:obj:`yandex_music.Cover`, optional): Обложка.
         various (:obj:`bool`, optional): TODO.
         composer (:obj:`bool`, optional): TODO.
         genres (:obj:`list` из :obj:`str`, optional): Жанры.
+        og_image (:obj:`str`, optional): Ссылка на изображение для Open Graph.
         op_image (:obj:`str`, optional): Ссылка на изображение обложки. Используется когда не указано поле cover.
         no_pictures_from_search: TODO.
         counts (:obj:`yandex_music.Counts`, optional): Счётчики.
@@ -71,12 +73,13 @@ class Artist(YandexMusicObject):
 
     def __init__(self,
                  id_: int,
-                 error: Optional[str] = None,
+                 reason: Optional[str] = None,
                  name: Optional[str] = None,
                  cover: Optional['Cover'] = None,
                  various: Optional[bool] = None,
                  composer: Optional[bool] = None,
                  genres: Optional[List[str]] = None,
+                 og_image: Optional[str] = None,
                  op_image: Optional[str] = None,
                  no_pictures_from_search=None,
                  counts: Optional['Counts'] = None,
@@ -102,12 +105,13 @@ class Artist(YandexMusicObject):
 
         self.id = id_
 
-        self.error = error
+        self.reason = reason
         self.name = name
         self.cover = cover
         self.various = various
         self.composer = composer
         self.genres = genres
+        self.og_image = og_image
         self.op_image = op_image
         self.no_pictures_from_search = no_pictures_from_search
         self.counts = counts
@@ -133,10 +137,20 @@ class Artist(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.name, self.cover)
 
+    def download_og_image(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка изображения для Open Graph.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+
     def download_op_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
-        Используйте это только когда нет self.cover!
+        Notes:
+            Используйте это только когда нет self.cover!
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
@@ -220,6 +234,8 @@ class Artist(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`download_og_image`
+    downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_op_image`
     downloadOpImage = download_op_image
     #: Псевдоним для :attr:`get_tracks`

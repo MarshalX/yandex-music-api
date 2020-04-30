@@ -23,6 +23,7 @@ class Track(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
         available_for_premium_users (:obj:`bool`): Доступен ли для пользователей с подпиской.
         lyrics_available (:obj:`bool`): Доступен ли текст песни.
+        best (:obj:`bool`): Лучшей ли трек TODO.
         real_id (:obj:`int` | :obj:`str`): TODO.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         type (:obj:`str`): Тип.
@@ -52,6 +53,7 @@ class Track(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`, optional): Альбомы.
         available_for_premium_users (:obj:`bool`, optional): Доступен ли для пользователей с подпиской.
         lyrics_available (:obj:`bool`, optional): Доступен ли текст песни.
+        best (:obj:`bool`, optional): Лучшей ли трек TODO.
         real_id (:obj:`int` | :obj:`str`, optional): TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         type_ (:obj:`str`, optional): Тип.
@@ -82,6 +84,7 @@ class Track(YandexMusicObject):
                  albums: List['Album'] = None,
                  available_for_premium_users: Optional[bool] = None,
                  lyrics_available: Optional[bool] = None,
+                 best: Optional[bool] = None,
                  real_id: Optional[Union[str, int]] = None,
                  og_image: Optional[str] = None,
                  type_: Optional[str] = None,
@@ -105,13 +108,14 @@ class Track(YandexMusicObject):
         super().handle_unknown_kwargs(self, **kwargs)
 
         self.id = id_
+
         self.title = title
         self.available = available
         self.artists = artists
         self.albums = albums
-
         self.available_for_premium_users = available_for_premium_users
         self.lyrics_available = lyrics_available
+        self.best = best
         self.real_id = real_id
         self.og_image = og_image
         self.type = type_
@@ -134,7 +138,7 @@ class Track(YandexMusicObject):
         self.download_info = None
 
         self.client = client
-        self._id_attrs = (self.id, self.title, self.available, self.artists, self.albums)
+        self._id_attrs = (self.id,)
 
     def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
         """Сокращение для::

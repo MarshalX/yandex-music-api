@@ -10,6 +10,7 @@ class TestProduct:
     trial_duration = 0
     feature = 'basic-music'
     debug = False
+    plus = False
     features = ['basic-music']
     available = None
     trial_available = None
@@ -27,6 +28,7 @@ class TestProduct:
         assert product.price == price
         assert product.feature == self.feature
         assert product.debug == self.debug
+        assert product.plus == self.plus
         assert product.features == self.features
         assert product.description == self.description
         assert product.available == self.available
@@ -46,7 +48,7 @@ class TestProduct:
         json_dict = {'product_id': self.product_id, 'type_': self.type,
                      'common_period_duration': self.common_period_duration, 'duration': self.duration,
                      'trial_duration': self.trial_duration, 'price': price.to_dict(), 'feature': self.feature,
-                     'debug': self.debug}
+                     'debug': self.debug, 'plus': self.plus}
         product = Product.de_json(json_dict, client)
 
         assert product.product_id == self.product_id
@@ -57,12 +59,13 @@ class TestProduct:
         assert product.price == price
         assert product.feature == self.feature
         assert product.debug == self.debug
+        assert product.plus == self.plus
 
     def test_de_json_all(self, client, price):
         json_dict = {'product_id': self.product_id, 'type_': self.type,
                      'common_period_duration': self.common_period_duration, 'duration': self.duration,
                      'trial_duration': self.trial_duration, 'price': price.to_dict(), 'feature': self.feature,
-                     'debug': self.debug, 'features': self.features, 'description': self.description,
+                     'debug': self.debug, 'plus': self.plus, 'features': self.features, 'description': self.description,
                      'available': self.available, 'trial_available': self.trial_available,
                      'vendor_trial_available': self.vendor_trial_available, 'button_text': self.button_text,
                      'button_additional_text': self.button_additional_text,
@@ -77,6 +80,7 @@ class TestProduct:
         assert product.price == price
         assert product.feature == self.feature
         assert product.debug == self.debug
+        assert product.plus == self.plus
         assert product.features == self.features
         assert product.description == self.description
         assert product.available == self.available
@@ -88,11 +92,11 @@ class TestProduct:
 
     def test_equality(self, price):
         a = Product(self.product_id, self.type, self.common_period_duration, self.duration, self.trial_duration, price,
-                    self.feature, self.debug)
+                    self.feature, self.debug, self.plus)
         b = Product('', self.type, self.common_period_duration, self.duration, self.trial_duration, price,
-                    self.feature, self.debug)
+                    self.feature, self.debug, self.plus)
         c = Product(self.product_id, self.type, self.common_period_duration, self.duration, self.trial_duration, price,
-                    self.feature, self.debug)
+                    self.feature, self.debug, self.plus)
 
         assert a != b
         assert hash(a) != hash(b)

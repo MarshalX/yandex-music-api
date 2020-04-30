@@ -16,6 +16,8 @@ class Album(YandexMusicObject):
 
         Известные ошибки: `not-found` - альбом с таким ID не существует.
 
+        Известные значения поля `meta_type`: `music`.
+
     Attributes:
         id (:obj:`int`): Идентификатор альбома.
         error (:obj:`str`): Ошибка получения альбома.
@@ -56,6 +58,7 @@ class Album(YandexMusicObject):
         cover_uri (:obj:`str`, optional): Ссылка на обложку.
         content_warning (:obj:`str`, optional): Предупреждение о содержимом альбома.
         genre (:obj:`str`, optional): Жанр музыки.
+        meta_type (:obj:`str`, optional): Мета тип TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         recent (:obj:`bool`, optional): Является ли альбом новым.
         very_important (:obj:`bool`, optional): Популярен ли альбом у слушателей.
@@ -86,6 +89,7 @@ class Album(YandexMusicObject):
                  content_warning: Optional[str] = None,
                  original_release_year=None,
                  genre: Optional[str] = None,
+                 meta_type: Optional[str] = None,
                  og_image: Optional[str] = None,
                  buy: Optional[list] = None,
                  recent: Optional[bool] = None,
@@ -116,6 +120,7 @@ class Album(YandexMusicObject):
         self.version = version
         self.cover_uri = cover_uri
         self.genre = genre
+        self.meta_type = meta_type
         self.year = year
         self.release_date = release_date
         self.bests = bests

@@ -12,6 +12,7 @@ from .account.subscription import Subscription
 from .account.price import Price
 from .account.product import Product
 from .account.auto_renewable import AutoRenewable
+from .account.renewable_remainder import RenewableRemainder
 from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
@@ -118,4 +119,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult',
            'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
            'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
-           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings']
+           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder']

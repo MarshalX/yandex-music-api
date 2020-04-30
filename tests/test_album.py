@@ -13,6 +13,7 @@ class TestAlbum:
     content_warning = None
     original_release_year = None
     genre = 'alternative'
+    meta_type = 'music'
     og_image = 'avatars.yandex.net/get-music-content/95061/89c14a7d.a.5239478-1/%%'
     buy = []
     recent = False
@@ -40,6 +41,7 @@ class TestAlbum:
         assert album.content_warning == self.content_warning
         assert album.original_release_year == self.original_release_year
         assert album.genre == self.genre
+        assert album.meta_type == self.meta_type
         assert album.og_image == self.og_image
         assert album.buy == self.buy
         assert album.recent == self.recent
@@ -76,7 +78,8 @@ class TestAlbum:
                      'og_image': self.og_image, 'recent': self.recent, 'very_important': self.very_important,
                      'available_for_mobile': self.available_for_mobile, 'available_partially': self.available_partially,
                      'bests': self.bests, 'prerolls': self.prerolls, 'volumes': [[track.to_dict()]], 'year': self.year,
-                     'release_date': self.release_date, 'type_': self.type, 'track_position': track_position.to_dict()}
+                     'release_date': self.release_date, 'type_': self.type, 'track_position': track_position.to_dict(),
+                     'meta_type': self.meta_type}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
@@ -92,6 +95,7 @@ class TestAlbum:
         assert album.content_warning == self.content_warning
         assert album.original_release_year == self.original_release_year
         assert album.genre == self.genre
+        assert album.meta_type == self.meta_type
         assert album.og_image == self.og_image
         assert album.buy == self.buy
         assert album.recent == self.recent
