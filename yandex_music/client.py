@@ -723,8 +723,11 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists(self, kind: Union[List[Union[str, int]], str, int], user_id: Union[str, int] = None,
-                        timeout: Union[int, float] = None, *args, **kwargs) -> List[Playlist]:
+                        timeout: Union[int, float] = None, *args, **kwargs) -> Union[Playlist, List[Playlist]]:
         """Получение плейлиста или списка плейлистов по уникальным идентификаторам.
+
+        Note:
+            Если передан один `kind`, то вернётся не список плейлистов, а один плейлист.
 
         Args:
             kind (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста
@@ -735,7 +738,8 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Playlist` | :obj:`None`: Плейлист или :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.Playlist` | :obj:`yandex_music.Playlist` | :obj:`None`:
+            Список плейлистов или плейлист, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -744,15 +748,21 @@ class Client(YandexMusicObject):
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/playlists'
+        if isinstance(kind, list):
+            url = f'{self.base_url}/users/{user_id}/playlists'
 
-        data = {
-            'kinds': kind
-        }
+            data = {
+                'kinds': kind
+            }
 
-        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
+            result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
 
-        return Playlist.de_list(result, self)
+            return Playlist.de_list(result, self)
+        else:
+            url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
+            result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+            return Playlist.de_json(result, self)
 
     @log
     def users_playlists_create(self, title: str, visibility: str = 'public', user_id: Union[str, int] = None,
