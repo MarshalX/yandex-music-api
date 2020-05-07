@@ -765,9 +765,23 @@ class Client(YandexMusicObject):
             return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_recommendations(self, kind: Union[List[Union[str, int]], str, int],
-                                        user_id: Union[str, int] = None, timeout: Union[int, float] = None, *args,
-                                        **kwargs):
+    def users_playlists_recommendations(self, kind: Union[str, int], user_id: Union[str, int] = None,
+                                        timeout: Union[int, float] = None, *args, **kwargs):
+        """Получение рекомендаций для плейлиста.
+
+        Args:
+            kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
+            user_id (:obj:`str` | :obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.PlaylistsRecommendations` | :obj:`None`: Рекомендации для плейлиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 

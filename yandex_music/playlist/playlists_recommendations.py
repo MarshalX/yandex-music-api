@@ -7,9 +7,23 @@ if TYPE_CHECKING:
 
 
 class PlaylistsRecommendations(YandexMusicObject):
+    """Класс, представляющий рекомендации для плейлиста.
+
+    Attributes:
+        tracks (:obj:`list` из :obj:`yandex_music.Track`): Список рекомендованных треков.
+        batch_id (:obj:`str`): TODO.
+        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+    Args:
+        tracks (:obj:`list` из :obj:`yandex_music.Track`): Список рекомендованных треков.
+        batch_id (:obj:`str`, optional): TODO.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        **kwargs: Произвольные ключевые аргументы полученные от API.
+    """
+
     def __init__(self,
                  tracks: List['Track'],
-                 batch_id: str = None,
+                 batch_id: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         super().handle_unknown_kwargs(self, **kwargs)
@@ -22,6 +36,15 @@ class PlaylistsRecommendations(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistsRecommendations']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.PlaylistsRecommendations`: Рекомендации для плейлиста.
+        """
         if not data:
             return None
 
