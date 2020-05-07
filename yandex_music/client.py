@@ -2124,6 +2124,8 @@ class Client(YandexMusicObject):
     searchSuggest = search_suggest
     #: Псевдоним для :attr:`users_playlists`
     usersPlaylists = users_playlists
+    #: Псевдоним для :attr:`users_playlists_recommendations`
+    usersPlaylistsRecommendations = users_playlists_recommendations
     #: Псевдоним для :attr:`users_playlists_create`
     usersPlaylistsCreate = users_playlists_create
     #: Псевдоним для :attr:`users_playlists_delete`

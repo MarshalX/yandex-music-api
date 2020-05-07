@@ -271,6 +271,8 @@ class Playlist(YandexMusicObject):
     isMine = is_mine
     #: Псевдоним для :attr:`playlist_id`
     playlistId = playlist_id
+    #: Псевдоним для :attr:`get_recommendations`
+    getRecommendations = get_recommendations
     #: Псевдоним для :attr:`download_animated_cover`
     downloadAnimatedCover = download_animated_cover
     #: Псевдоним для :attr:`download_og_image`
