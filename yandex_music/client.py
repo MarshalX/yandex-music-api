@@ -6,7 +6,7 @@ from typing import Callable, Dict, List, Optional, Union
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
     Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, SimilarTracks, \
     StationResult, StationTracksResult, Status, Suggestions, Supplement, Track, TracksList, UserSettings, \
-    YandexMusicObject
+    YandexMusicObject, PlaylistsRecommendations
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -763,6 +763,19 @@ class Client(YandexMusicObject):
             result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
             return Playlist.de_json(result, self)
+
+    @log
+    def users_playlists_recommendations(self, kind: Union[List[Union[str, int]], str, int],
+                                        user_id: Union[str, int] = None, timeout: Union[int, float] = None, *args,
+                                        **kwargs):
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/recommendations'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return PlaylistsRecommendations.de_json(result, self)
 
     @log
     def users_playlists_create(self, title: str, visibility: str = 'public', user_id: Union[str, int] = None,
