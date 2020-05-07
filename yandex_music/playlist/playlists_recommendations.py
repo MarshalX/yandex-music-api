@@ -28,11 +28,11 @@ class PlaylistsRecommendations(YandexMusicObject):
                  **kwargs) -> None:
         super().handle_unknown_kwargs(self, **kwargs)
 
-        self.batchId = batch_id
+        self.batch_id = batch_id
         self.tracks = tracks
 
         self.client = client
-        self._id_attrs = (self.batchId, self.tracks)
+        self._id_attrs = (self.batch_id, self.tracks)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistsRecommendations']:
