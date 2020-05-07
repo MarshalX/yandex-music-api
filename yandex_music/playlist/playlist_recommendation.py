@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from yandex_music import Client, Track
 
 
-class PlaylistsRecommendations(YandexMusicObject):
+class PlaylistRecommendations(YandexMusicObject):
     """Класс, представляющий рекомендации для плейлиста.
 
     Attributes:
@@ -35,7 +35,7 @@ class PlaylistsRecommendations(YandexMusicObject):
         self._id_attrs = (self.batch_id, self.tracks)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistsRecommendations']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistRecommendations']:
         """Десериализация объекта.
 
         Args:
@@ -48,7 +48,7 @@ class PlaylistsRecommendations(YandexMusicObject):
         if not data:
             return None
 
-        data = super(PlaylistsRecommendations, cls).de_json(data, client)
+        data = super(PlaylistRecommendations, cls).de_json(data, client)
         from yandex_music import Track
         data['tracks'] = Track.de_list(data.get('tracks'), client)
 
