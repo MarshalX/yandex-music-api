@@ -1947,7 +1947,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_playlists(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
                               *args, **kwargs) -> List[Like]:
-        """Получение артистов с отметкой "Мне нравится".
+        """Получение плейлистов с отметкой "Мне нравится".
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
