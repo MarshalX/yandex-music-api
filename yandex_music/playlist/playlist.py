@@ -104,6 +104,7 @@ class Playlist(YandexMusicObject):
                  snapshot: Optional[int] = None,
                  visibility: Optional[str] = None,
                  collective: Optional[bool] = None,
+                 url_part: Optional[str] = None,
                  created: Optional[str] = None,
                  modified: Optional[str] = None,
                  available: Optional[bool] = None,
@@ -111,9 +112,17 @@ class Playlist(YandexMusicObject):
                  is_premiere: Optional[bool] = None,
                  duration_ms: Optional[int] = None,
                  og_image: Optional[str] = None,
+                 og_title: Optional[str] = None,
+                 image: Optional[str] = None,
+                 cover_without_text: Optional['Cover'] = None,
+                 background_color: Optional[str] = None,
+                 text_color: Optional[str] = None,
+                 id_for_from: Optional[str] = None,
                  tracks: List['TrackShort'] = None,
                  prerolls: Optional[list] = None,
                  likes_count: Optional[int] = None,
+                 similar_playlists: Optional[dict] = None,
+                 last_owner_playlists: Optional[dict] = None,
                  generated_playlist_type: Optional[str] = None,
                  animated_cover_uri: Optional[str] = None,
                  ever_played: Optional[bool] = None,
@@ -139,6 +148,7 @@ class Playlist(YandexMusicObject):
         self.snapshot = snapshot
         self.visibility = visibility
         self.collective = collective
+        self.url_part = url_part
         self.created = created
         self.modified = modified
         self.available = available
@@ -146,6 +156,12 @@ class Playlist(YandexMusicObject):
         self.is_premiere = is_premiere
         self.duration_ms = duration_ms
         self.og_image = og_image
+        self.og_title = og_title
+        self.image = image
+        self.cover_without_text = cover_without_text
+        self.background_color = background_color
+        self.text_color = text_color
+        self.id_for_from = id_for_from
         self.tracks = tracks
         self.prerolls = prerolls
         self.likes_count = likes_count
@@ -153,6 +169,8 @@ class Playlist(YandexMusicObject):
         self.description = description
         self.description_formatted = description_formatted
         self.ever_played = ever_played
+        self.similar_playlists = similar_playlists
+        self.last_owner_playlists = last_owner_playlists
         self.generated_playlist_type = generated_playlist_type
         self.is_for_from = is_for_from
         self.regions = regions
@@ -241,9 +259,13 @@ class Playlist(YandexMusicObject):
         from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
+        data['cover_without_text'] = Cover.de_json(data.get('cover_without_text'), client)
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
+
+        data['similar_playlists'] = Playlist.de_list(data.get('similar_playlists'), client)
+        data['last_owner_playlists'] = Playlist.de_list(data.get('last_owner_playlists'), client)
 
         data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absence'), client)    # на случай фикса
         if data.get('playlist_absense'):    # очепятка яндуха
@@ -266,11 +288,7 @@ class Playlist(YandexMusicObject):
         if not data:
             return []
 
-        playlists = list()
-        for playlist in data:
-            playlists.append(cls.de_json(playlist, client))
-
-        return playlists
+        return [cls.de_json(playlist, client) for playlist in data]
 
     # camelCase псевдонимы
 
@@ -284,5 +302,5 @@ class Playlist(YandexMusicObject):
     downloadAnimatedCover = download_animated_cover
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
-    #: Псевдином для :attr:`fetch_tracks`
+    #: Псевдоним для :attr:`fetch_tracks`
     fetchTracks = fetch_tracks
