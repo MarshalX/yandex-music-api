@@ -12,7 +12,7 @@ class ChartInfoMenuItem(YandexMusicObject):
     Attributes:
         title (:obj:`str`): Заголовок.
         url (:obj:`str`): Постфикс для запроса чарта.
-        selected (:obj:`bool`): Текущий ли элемент.
+        selected (:obj:`bool` | :obj:`None`): Текущий ли элемент.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -22,7 +22,7 @@ class ChartInfoMenuItem(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self, title: str, url: str, selected: bool = False, client: Optional['Client'] = None):
+    def __init__(self, title: str, url: str, selected: Optional[bool] = None, client: Optional['Client'] = None):
         self.title = title
         self.url = url
         self.selected = selected

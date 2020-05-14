@@ -24,7 +24,6 @@ class TestChartInfoMenuItem:
 
         assert chart_info_menu_item.title == self.title
         assert chart_info_menu_item.url == self.url
-        assert not chart_info_menu_item.selected
 
     def test_de_json_all(self, client):
         json_dict = {
