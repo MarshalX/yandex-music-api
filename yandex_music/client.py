@@ -4,9 +4,9 @@ from datetime import datetime
 from typing import Callable, Dict, List, Optional, Union
 
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
-    Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, SimilarTracks, \
-    StationResult, StationTracksResult, Status, Suggestions, Supplement, Track, TracksList, UserSettings, \
-    YandexMusicObject, ChartInfo
+    Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
+    StationResult, StationTracksResult, Status, Suggestions, SimilarTracks, Track, TracksList, UserSettings, \
+    YandexMusicObject, ChartInfo, TagResult
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -490,6 +490,35 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return Genre.de_list(result, self)
+
+    @log
+    def tags(self, tag_id: str, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[TagResult]:
+        """Получение тега (подборки).
+
+        Note:
+            Теги есть в `MixLink` у `Landing`, а также плейлистов в `.tags`.
+
+            У `MixLink` есть `URL`, но `tag_id` только его последняя часть.
+            Например, `/tag/belarus/`. `Tag` - `belarus`.
+
+        Args:
+            tag_id (:obj:`str`): Уникальный идентификатор тега.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Genre` | :obj:`None`: Жанры музыки или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/tags/{tag_id}/playlist-ids'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return TagResult.de_json(result, self)
 
     @log
     def tracks_download_info(self, track_id: Union[str, int], get_direct_links: bool = False,

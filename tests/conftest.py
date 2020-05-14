@@ -7,7 +7,7 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
     GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot, \
-    RenewableRemainder, ChartInfoMenuItem,  ChartInfoMenu,  ChartInfo
+    RenewableRemainder, ChartInfoMenuItem,  ChartInfoMenu,  ChartInfo, Tag
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -17,7 +17,7 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
     TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType, \
-    TestRenewableRemainder, TestChartInfoMenuItem, TestChartInfo
+    TestRenewableRemainder, TestChartInfoMenuItem, TestChartInfo, TestTag
 
 
 @pytest.fixture(scope='session')
@@ -135,6 +135,11 @@ def generated_playlist(playlist):
 @pytest.fixture(scope='session')
 def client():
     return Client()
+
+
+@pytest.fixture(scope='session')
+def tag():
+    return Tag(TestTag.id_, TestTag.value, TestTag.name, TestTag.og_description)
 
 
 @pytest.fixture(scope='session')
