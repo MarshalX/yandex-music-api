@@ -1850,6 +1850,41 @@ class Client(YandexMusicObject):
         return self._get_list('playlist', playlist_ids, timeout=timeout, *args, **kwargs)
 
     @log
+    def playlists_collective_join(self, user_id: int, token: str, timeout: Union[int, float] = None,
+                                  *args, **kwargs) -> bool:
+        """Присоединение к плейлисту как соавтор.
+
+        Note:
+            В качестве `user_id` принимается исключительно числовой уникальный идентификатор пользователя, не username.
+
+            Токен можно получить в Web-версии. Для этого, на странице плейлиста нужно нажать на
+            "Добавить соавтора". В полученной ссылке GET параметр `token` и будет токеном для присоединения.
+
+        Args:
+            user_id (:obj:`int`): Владелец плейлиста.
+            token (:obj:`str`): Токен для присоединения.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs: Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/playlists/collective/join'
+
+        params = {
+            'uid': user_id,
+            'token': token
+        }
+
+        result = self._request.post(url, params=params, timeout=timeout, *args, **kwargs)
+
+        return result == 'ok'
+
+    @log
     def users_playlists_list(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
                              *args, **kwargs) -> List[Playlist]:
         """Получение списка плейлистов пользователя.
@@ -2251,6 +2286,8 @@ class Client(YandexMusicObject):
     usersLikesAlbumsRemove = users_likes_albums_remove
     #: Псевдоним для :attr:`playlists_list`
     playlistsList = playlists_list
+    #: Псевдоним для :attr:`playlists_collective_join`
+    playlistsCollectiveJoin = playlists_collective_join
     #: Псевдоним для :attr:`users_playlists_list`
     usersPlaylistsList = users_playlists_list
     #: Псевдоним для :attr:`users_likes_tracks`
