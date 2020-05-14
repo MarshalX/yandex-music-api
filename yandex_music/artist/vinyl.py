@@ -15,6 +15,8 @@ class Vinyl(YandexMusicObject):
         year (:obj:`int`): Год выпуска.
         price (:obj:`int`): Цена.
         media (:obj:`str`): Средство распространения.
+        offer_id (:obj:`int`): Уникальный идентификатор предложения.
+        artist_ids (:obj:`list` из :obj:`int`): Перечень уникальный идентификаторов исполнителей.
         picture (:obj:`str`): Ссылка на обложку.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -24,6 +26,8 @@ class Vinyl(YandexMusicObject):
         year (:obj:`int`): Год выпуска.
         price (:obj:`int`): Цена.
         media (:obj:`str`): Средство распространения.
+        offer_id (:obj:`int`): Уникальный идентификатор предложения.
+        artist_ids (:obj:`list` из :obj:`int`): Перечень уникальный идентификаторов исполнителей.
         picture (:obj:`str`, optional): Ссылка на обложку.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -35,6 +39,8 @@ class Vinyl(YandexMusicObject):
                  year: int,
                  price: int,
                  media: str,
+                 offer_id: int,
+                 artist_ids: List[int],
                  picture: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
@@ -46,9 +52,12 @@ class Vinyl(YandexMusicObject):
         self.year = year
         self.price = price
         self.media = media
+        self.offer_id = offer_id
+        self.artist_ids = artist_ids
 
         self.client = client
-        self._id_attrs = (self.title, self.price, self.year, self.url, self.price, self.media)
+        self._id_attrs = (self.title, self.price, self.year, self.url, self.price,
+                          self.media, self.offer_id, self.artist_ids)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Vinyl']:

@@ -15,6 +15,7 @@ class Cover(YandexMusicObject):
         items_uri (:obj:`str`): Список ссылок на изображения.
         dir (:obj:`str`): Директория хранения изображения на сервере.
         version (:obj:`str`): Версия.
+        is_custom (:obj:`bool`): Является ли обложка пользовательской.
         custom (:obj:`bool`): Является ли обложка пользовательской.
         prefix (:obj:`str`): Уникальный идентификатор.
         error (:obj:`str`): Сообщение об ошибке.
@@ -26,6 +27,7 @@ class Cover(YandexMusicObject):
         items_uri (:obj:`str`, optional): Список ссылок на изображения.
         dir_ (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
+        is_custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         prefix (:obj:`str`, optional): Уникальный идентификатор.
         error (:obj:`str`, optional): Сообщение об ошибке.
@@ -40,6 +42,7 @@ class Cover(YandexMusicObject):
                  dir_: Optional[str] = None,
                  version: Optional[str] = None,
                  custom: Optional[bool] = None,
+                 is_custom: Optional[bool] = None,
                  prefix: Optional[str] = None,
                  error: Optional[str] = None,
                  client: Optional['Client'] = None,
@@ -53,6 +56,7 @@ class Cover(YandexMusicObject):
         self.dir = dir_
         self.version = version
         self.custom = custom
+        self.is_custom = is_custom
         self.error = error
 
         self.client = client
