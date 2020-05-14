@@ -1764,18 +1764,18 @@ class Client(YandexMusicObject):
         return self._get_list('playlist', playlist_ids, timeout=timeout, *args, **kwargs)
 
     @log
-    def playlists_collective_join(self, user_id: Union[str, int], token: str, timeout: Union[int, float] = None,
+    def playlists_collective_join(self, user_id: int, token: str, timeout: Union[int, float] = None,
                                   *args, **kwargs) -> bool:
-        """Получение плейлиста/плейлистов.
+        """Присоединение к плейлисту как соавтор.
 
         Note:
-            Токен можно получить в Web-версии. Для этого, на странице плейлиста нужно нажать на
-            "Добавить соавтора". В полученной ссылке GET параметр `token` и будет являтся токеном для присоединения.
+            В качестве `user_id` принимается исключительно числовой уникальный идентификатор пользователя, не username.
 
-            В этом методе можно использовать только ID пользователя, с логином не работает.
+            Токен можно получить в Web-версии. Для этого, на странице плейлиста нужно нажать на
+            "Добавить соавтора". В полученной ссылке GET параметр `token` и будет токеном для присоединения.
 
         Args:
-            user_id (:obj:`str` | :obj:`int`): Владелец плейлиста.
+            user_id (:obj:`int`): Владелец плейлиста.
             token (:obj:`str`): Токен для присоединения.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
