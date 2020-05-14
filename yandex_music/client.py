@@ -4,9 +4,9 @@ from datetime import datetime
 from typing import Callable, Dict, List, Optional, Union
 
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
-    Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, SimilarTracks, \
-    StationResult, StationTracksResult, Status, Suggestions, Supplement, Track, TracksList, UserSettings, \
-    YandexMusicObject, PlaylistRecommendations
+    Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
+    StationResult, StationTracksResult, Status, Suggestions, SimilarTracks, Track, TracksList, UserSettings, \
+    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -440,6 +440,36 @@ class Client(YandexMusicObject):
         return Landing.de_json(result, self)
 
     @log
+    def chart(self, chart_option: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> Optional[ChartInfo]:
+        """Получение чарта.
+
+        Note:
+            `chart_option` - это постфикс к запросу из поля `menu` чарта.
+            Например, на сайте можно выбрать глобальный (world) чарт или российский (russia).
+
+        Args:
+            chart_option (:obj:`str` optional): Параметры чарта.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ChartInfo`: Чарт.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/landing3/chart'
+
+        if chart_option:
+            url = f'{url}/{chart_option}'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return ChartInfo.de_json(result, self)
+
+    @log
     def genres(self, timeout: Union[int, float] = None, *args, **kwargs) -> List[Genre]:
         """Получение жанров музыки.
 
@@ -460,6 +490,35 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return Genre.de_list(result, self)
+
+    @log
+    def tags(self, tag_id: str, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[TagResult]:
+        """Получение тега (подборки).
+
+        Note:
+            Теги есть в `MixLink` у `Landing`, а также плейлистов в `.tags`.
+
+            У `MixLink` есть `URL`, но `tag_id` только его последняя часть.
+            Например, `/tag/belarus/`. `Tag` - `belarus`.
+
+        Args:
+            tag_id (:obj:`str`): Уникальный идентификатор тега.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Genre` | :obj:`None`: Жанры музыки или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/tags/{tag_id}/playlist-ids'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return TagResult.de_json(result, self)
 
     @log
     def tracks_download_info(self, track_id: Union[str, int], get_direct_links: bool = False,
@@ -1448,7 +1507,7 @@ class Client(YandexMusicObject):
         Note:
             Типы объектов: `track` - трек, `artist` - исполнитель, `playlist` - плейлист, `album` - альбом.
 
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1581,7 +1640,7 @@ class Client(YandexMusicObject):
         """Поставить отметку "Мне нравится" плейлисту/плейлистам.
 
         Note:
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1608,7 +1667,7 @@ class Client(YandexMusicObject):
         """Снять отметку "Мне нравится" у плейлиста/плейлистов.
 
         Note:
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1772,7 +1831,7 @@ class Client(YandexMusicObject):
         """Получение плейлиста/плейлистов.
 
         Note:
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1915,7 +1974,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_playlists(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
                               *args, **kwargs) -> List[Like]:
-        """Получение артистов с отметкой "Мне нравится".
+        """Получение плейлистов с отметкой "Мне нравится".
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан

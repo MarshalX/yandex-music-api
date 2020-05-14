@@ -11,3 +11,5 @@
     yandex_music.playlist.case_forms
     yandex_music.playlist.playlist_id
     yandex_music.playlist.playlist_recommendations
+    yandex_music.playlist.tag_result
+    yandex_music.playlist.tag

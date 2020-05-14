@@ -7,7 +7,7 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
     GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot, \
-    RenewableRemainder
+    RenewableRemainder, ChartInfoMenuItem,  ChartInfoMenu,  ChartInfo, Tag
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -17,7 +17,7 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
     TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType, \
-    TestRenewableRemainder
+    TestRenewableRemainder, TestChartInfoMenuItem, TestChartInfo, TestTag
 
 
 @pytest.fixture(scope='session')
@@ -135,6 +135,11 @@ def generated_playlist(playlist):
 @pytest.fixture(scope='session')
 def client():
     return Client()
+
+
+@pytest.fixture(scope='session')
+def tag():
+    return Tag(TestTag.id_, TestTag.value, TestTag.name, TestTag.og_description)
 
 
 @pytest.fixture(scope='session')
@@ -421,6 +426,22 @@ def chart(track_id):
 def event(track, artist_event, album_event):
     return Event(TestEvent.id, TestEvent.type, TestEvent.type_for_from, TestEvent.title, [track], [artist_event],
                  [album_event], TestEvent.message, TestEvent.device, TestEvent.tracks_count)
+
+
+@pytest.fixture(scope='session')
+def chart_info_menu_item():
+    return ChartInfoMenuItem(TestChartInfoMenuItem.title, TestChartInfoMenuItem.url, TestChartInfoMenuItem.selected)
+
+
+@pytest.fixture(scope='session')
+def chart_info_menu(chart_info_menu_item):
+    return ChartInfoMenu([chart_info_menu_item])
+
+
+@pytest.fixture(scope='session')
+def chart_info(playlist, chart_info_menu):
+    return ChartInfo(TestChartInfo.id, TestChartInfo.type, TestChartInfo.type_for_from, TestChartInfo.title,
+                     chart_info_menu, playlist, TestChartInfo.chart_description)
 
 
 @pytest.fixture(scope='session')
