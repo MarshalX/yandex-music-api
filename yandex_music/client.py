@@ -6,7 +6,7 @@ from typing import Callable, Dict, List, Optional, Union
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
     Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
     StationResult, StationTracksResult, Status, Suggestions, SimilarTracks, Track, TracksList, UserSettings, \
-    YandexMusicObject, ChartInfo, TagResult
+    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -822,6 +822,33 @@ class Client(YandexMusicObject):
             result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
             return Playlist.de_json(result, self)
+
+    @log
+    def users_playlists_recommendations(self, kind: Union[str, int], user_id: Union[str, int] = None,
+                                        timeout: Union[int, float] = None, *args, **kwargs):
+        """Получение рекомендаций для плейлиста.
+
+        Args:
+            kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
+            user_id (:obj:`str` | :obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.PlaylistRecommendations` | :obj:`None`: Рекомендации для плейлиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/recommendations'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return PlaylistRecommendations.de_json(result, self)
 
     @log
     def users_playlists_create(self, title: str, visibility: str = 'public', user_id: Union[str, int] = None,
@@ -2134,6 +2161,10 @@ class Client(YandexMusicObject):
     generateTokenByUsernameAndPassword = generate_token_by_username_and_password
     #: Псевдоним для :attr:`account_status`
     accountStatus = account_status
+    #: Псевдоним для :attr:`account_settings`
+    accountSettings = account_settings
+    #: Псевдоним для :attr:`account_settings_set`
+    accountSettingsSet = account_settings_set
     #: Псевдоним для :attr:`permission_alerts`
     permissionAlerts = permission_alerts
     #: Псевдоним для :attr:`account_experiments`
@@ -2154,8 +2185,12 @@ class Client(YandexMusicObject):
     albumsWithTracks = albums_with_tracks
     #: Псевдоним для :attr:`search_suggest`
     searchSuggest = search_suggest
+    #: Псевдоним для :attr:`users_settings`
+    usersSettings = users_settings
     #: Псевдоним для :attr:`users_playlists`
     usersPlaylists = users_playlists
+    #: Псевдоним для :attr:`users_playlists_recommendations`
+    usersPlaylistsRecommendations = users_playlists_recommendations
     #: Псевдоним для :attr:`users_playlists_create`
     usersPlaylistsCreate = users_playlists_create
     #: Псевдоним для :attr:`users_playlists_delete`

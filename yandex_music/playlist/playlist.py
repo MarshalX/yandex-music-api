@@ -3,7 +3,8 @@ from typing import TYPE_CHECKING, Optional, List
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client, User, Cover, MadeFor, TrackShort, PlaylistAbsence, PlayCounter
+    from yandex_music import Client, User, Cover, MadeFor, TrackShort, PlaylistAbsence, PlayCounter,\
+        PlaylistRecommendations
 
 
 class Playlist(YandexMusicObject):
@@ -168,6 +169,13 @@ class Playlist(YandexMusicObject):
     def playlist_id(self) -> str:
         return f'{self.owner.uid}:{self.kind}'
 
+    def get_recommendations(self, *args, **kwargs) -> Optional['PlaylistRecommendations']:
+        """Сокращение для::
+
+            client.users_playlists_recommendations(playlist.kind, playlist.owner.uid, *args, **kwargs)
+        """
+        return self.client.users_playlists_recommendations(self.kind, self.owner.uid, *args, **kwargs)
+
     def download_animated_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка анимированной обложки.
 
@@ -263,6 +271,8 @@ class Playlist(YandexMusicObject):
     isMine = is_mine
     #: Псевдоним для :attr:`playlist_id`
     playlistId = playlist_id
+    #: Псевдоним для :attr:`get_recommendations`
+    getRecommendations = get_recommendations
     #: Псевдоним для :attr:`download_animated_cover`
     downloadAnimatedCover = download_animated_cover
     #: Псевдоним для :attr:`download_og_image`

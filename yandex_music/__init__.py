@@ -38,6 +38,7 @@ from .playlist.tag import Tag
 from .playlist.tag_result import TagResult
 from .playlist.playlist_absence import PlaylistAbsence
 from .playlist.playlist import Playlist
+from .playlist.playlist_recommendation import PlaylistRecommendations
 
 from .shot.shot_type import ShotType
 from .shot.shot_data import ShotData
@@ -125,4 +126,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
            'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
            'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
-           'ChartInfoMenuItem', 'Tag', 'TagResult']
+           'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations']
