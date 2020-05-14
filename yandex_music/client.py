@@ -4,9 +4,9 @@ from datetime import datetime
 from typing import Callable, Dict, List, Optional, Union
 
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
-    Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, SimilarTracks, \
-    StationResult, StationTracksResult, Status, Suggestions, Supplement, Track, TracksList, UserSettings, \
-    YandexMusicObject
+    Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
+    StationResult, StationTracksResult, Status, Suggestions, SimilarTracks, Track, TracksList, UserSettings, \
+    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -440,6 +440,36 @@ class Client(YandexMusicObject):
         return Landing.de_json(result, self)
 
     @log
+    def chart(self, chart_option: str = '', timeout: Union[int, float] = None, *args, **kwargs) -> Optional[ChartInfo]:
+        """Получение чарта.
+
+        Note:
+            `chart_option` - это постфикс к запросу из поля `menu` чарта.
+            Например, на сайте можно выбрать глобальный (world) чарт или российский (russia).
+
+        Args:
+            chart_option (:obj:`str` optional): Параметры чарта.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ChartInfo`: Чарт.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/landing3/chart'
+
+        if chart_option:
+            url = f'{url}/{chart_option}'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return ChartInfo.de_json(result, self)
+
+    @log
     def genres(self, timeout: Union[int, float] = None, *args, **kwargs) -> List[Genre]:
         """Получение жанров музыки.
 
@@ -460,6 +490,35 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return Genre.de_list(result, self)
+
+    @log
+    def tags(self, tag_id: str, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[TagResult]:
+        """Получение тега (подборки).
+
+        Note:
+            Теги есть в `MixLink` у `Landing`, а также плейлистов в `.tags`.
+
+            У `MixLink` есть `URL`, но `tag_id` только его последняя часть.
+            Например, `/tag/belarus/`. `Tag` - `belarus`.
+
+        Args:
+            tag_id (:obj:`str`): Уникальный идентификатор тега.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+           :obj:`yandex_music.TagResult`: Тег с плейлистами.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/tags/{tag_id}/playlist-ids'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return TagResult.de_json(result, self)
 
     @log
     def tracks_download_info(self, track_id: Union[str, int], get_direct_links: bool = False,
@@ -723,8 +782,11 @@ class Client(YandexMusicObject):
 
     @log
     def users_playlists(self, kind: Union[List[Union[str, int]], str, int], user_id: Union[str, int] = None,
-                        timeout: Union[int, float] = None, *args, **kwargs) -> List[Playlist]:
+                        timeout: Union[int, float] = None, *args, **kwargs) -> Union[Playlist, List[Playlist]]:
         """Получение плейлиста или списка плейлистов по уникальным идентификаторам.
+
+        Note:
+            Если передан один `kind`, то вернётся не список плейлистов, а один плейлист.
 
         Args:
             kind (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста
@@ -735,7 +797,8 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Playlist` | :obj:`None`: Плейлист или :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.Playlist` | :obj:`yandex_music.Playlist` | :obj:`None`:
+            Список плейлистов или плейлист, иначе :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -744,15 +807,48 @@ class Client(YandexMusicObject):
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
-        url = f'{self.base_url}/users/{user_id}/playlists'
+        if isinstance(kind, list):
+            url = f'{self.base_url}/users/{user_id}/playlists'
 
-        data = {
-            'kinds': kind
-        }
+            data = {
+                'kinds': kind
+            }
 
-        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
+            result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
 
-        return Playlist.de_list(result, self)
+            return Playlist.de_list(result, self)
+        else:
+            url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
+            result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+            return Playlist.de_json(result, self)
+
+    @log
+    def users_playlists_recommendations(self, kind: Union[str, int], user_id: Union[str, int] = None,
+                                        timeout: Union[int, float] = None, *args, **kwargs):
+        """Получение рекомендаций для плейлиста.
+
+        Args:
+            kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
+            user_id (:obj:`str` | :obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.PlaylistRecommendations` | :obj:`None`: Рекомендации для плейлиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.me is not None:
+            user_id = self.me.account.uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/recommendations'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return PlaylistRecommendations.de_json(result, self)
 
     @log
     def users_playlists_create(self, title: str, visibility: str = 'public', user_id: Union[str, int] = None,
@@ -1411,7 +1507,7 @@ class Client(YandexMusicObject):
         Note:
             Типы объектов: `track` - трек, `artist` - исполнитель, `playlist` - плейлист, `album` - альбом.
 
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1544,7 +1640,7 @@ class Client(YandexMusicObject):
         """Поставить отметку "Мне нравится" плейлисту/плейлистам.
 
         Note:
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1571,7 +1667,7 @@ class Client(YandexMusicObject):
         """Снять отметку "Мне нравится" у плейлиста/плейлистов.
 
         Note:
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1735,7 +1831,7 @@ class Client(YandexMusicObject):
         """Получение плейлиста/плейлистов.
 
         Note:
-            Идентификатор плейлиста указывается в формате `playlist_id:owner_id`. Где `playlist_id` - идентификатор
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
         Args:
@@ -1752,6 +1848,41 @@ class Client(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return self._get_list('playlist', playlist_ids, timeout=timeout, *args, **kwargs)
+
+    @log
+    def playlists_collective_join(self, user_id: int, token: str, timeout: Union[int, float] = None,
+                                  *args, **kwargs) -> bool:
+        """Присоединение к плейлисту как соавтор.
+
+        Note:
+            В качестве `user_id` принимается исключительно числовой уникальный идентификатор пользователя, не username.
+
+            Токен можно получить в Web-версии. Для этого, на странице плейлиста нужно нажать на
+            "Добавить соавтора". В полученной ссылке GET параметр `token` и будет токеном для присоединения.
+
+        Args:
+            user_id (:obj:`int`): Владелец плейлиста.
+            token (:obj:`str`): Токен для присоединения.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs: Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/playlists/collective/join'
+
+        params = {
+            'uid': user_id,
+            'token': token
+        }
+
+        result = self._request.post(url, params=params, timeout=timeout, *args, **kwargs)
+
+        return result == 'ok'
 
     @log
     def users_playlists_list(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
@@ -1878,7 +2009,7 @@ class Client(YandexMusicObject):
     @log
     def users_likes_playlists(self, user_id: Union[str, int] = None, timeout: Union[int, float] = None,
                               *args, **kwargs) -> List[Like]:
-        """Получение артистов с отметкой "Мне нравится".
+        """Получение плейлистов с отметкой "Мне нравится".
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
@@ -2065,6 +2196,10 @@ class Client(YandexMusicObject):
     generateTokenByUsernameAndPassword = generate_token_by_username_and_password
     #: Псевдоним для :attr:`account_status`
     accountStatus = account_status
+    #: Псевдоним для :attr:`account_settings`
+    accountSettings = account_settings
+    #: Псевдоним для :attr:`account_settings_set`
+    accountSettingsSet = account_settings_set
     #: Псевдоним для :attr:`permission_alerts`
     permissionAlerts = permission_alerts
     #: Псевдоним для :attr:`account_experiments`
@@ -2085,8 +2220,12 @@ class Client(YandexMusicObject):
     albumsWithTracks = albums_with_tracks
     #: Псевдоним для :attr:`search_suggest`
     searchSuggest = search_suggest
+    #: Псевдоним для :attr:`users_settings`
+    usersSettings = users_settings
     #: Псевдоним для :attr:`users_playlists`
     usersPlaylists = users_playlists
+    #: Псевдоним для :attr:`users_playlists_recommendations`
+    usersPlaylistsRecommendations = users_playlists_recommendations
     #: Псевдоним для :attr:`users_playlists_create`
     usersPlaylistsCreate = users_playlists_create
     #: Псевдоним для :attr:`users_playlists_delete`
@@ -2147,6 +2286,8 @@ class Client(YandexMusicObject):
     usersLikesAlbumsRemove = users_likes_albums_remove
     #: Псевдоним для :attr:`playlists_list`
     playlistsList = playlists_list
+    #: Псевдоним для :attr:`playlists_collective_join`
+    playlistsCollectiveJoin = playlists_collective_join
     #: Псевдоним для :attr:`users_playlists_list`
     usersPlaylistsList = users_playlists_list
     #: Псевдоним для :attr:`users_likes_tracks`

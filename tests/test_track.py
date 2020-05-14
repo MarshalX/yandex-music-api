@@ -7,6 +7,7 @@ class TestTrack:
     available = True
     available_for_premium_users = True
     lyrics_available = False
+    best = False
     real_id = '10994777'
     og_image = 'avatars.yandex.net/get-music-content/28589/daef4251.a.1193829-1/%%'
     type = 'music'
@@ -32,6 +33,7 @@ class TestTrack:
         assert track.artists == [artist]
         assert track.albums == [album]
         assert track.lyrics_available == self.lyrics_available
+        assert track.best == self.best
         assert track.real_id == self.real_id
         assert track.og_image == self.og_image
         assert track.type == self.type
@@ -58,21 +60,16 @@ class TestTrack:
         assert Track.de_list({}, client) == []
 
     def test_de_json_required(self, client, artist, album):
-        json_dict = {'id_': self.id, 'title': self.title, 'available': self.available,
-                     'artists': [artist.to_dict()], 'albums': [album.to_dict()]}
+        json_dict = {'id_': self.id}
         track = Track.de_json(json_dict, client)
 
         assert track.id == self.id
-        assert track.title == self.title
-        assert track.available == self.available
-        assert track.artists == [artist]
-        assert track.albums == [album]
 
     def test_de_json_all(self, client, artist, album, major, normalization):
         json_dict = {'id_': self.id, 'title': self.title, 'available': self.available,
                      'available_for_premium_users': self.available_for_premium_users,
                      'artists': [artist.to_dict()], 'albums': [album.to_dict()],
-                     'lyrics_available': self.lyrics_available, 'real_id': self.real_id,
+                     'lyrics_available': self.lyrics_available, 'best': self.best, 'real_id': self.real_id,
                      'og_image': self.og_image, 'type_': self.type, 'cover_uri': self.cover_uri,
                      'major': major.to_dict(), 'duration_ms': self.duration_ms, 'storage_dir': self.storage_dir,
                      'file_size': self.file_size, 'normalization': normalization.to_dict(), 'error': self.error,
@@ -90,6 +87,7 @@ class TestTrack:
         assert track.artists == [artist]
         assert track.albums == [album]
         assert track.lyrics_available == self.lyrics_available
+        assert track.best == self.best
         assert track.real_id == self.real_id
         assert track.og_image == self.og_image
         assert track.type == self.type
@@ -109,10 +107,10 @@ class TestTrack:
         assert track.version == self.version
         assert track.remember_position == self.remember_position
 
-    def test_equality(self, artist, album):
-        a = Track(self.id, self.title, self.available, [artist], [album])
-        b = Track(self.id, '', self.available, [artist], [])
-        c = Track(self.id, self.title, self.available, [artist], [album])
+    def test_equality(self):
+        a = Track(self.id)
+        b = Track(10)
+        c = Track(self.id)
 
         assert a != b
         assert hash(a) != hash(b)

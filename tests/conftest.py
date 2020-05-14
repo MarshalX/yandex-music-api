@@ -6,7 +6,8 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     Account, Client, TrackShort, Value, DiscreteScale, PlaylistId, MixLink, Link, PassportPhone, User, Promotion, \
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
-    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot
+    GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot, \
+    RenewableRemainder, ChartInfoMenuItem,  ChartInfoMenu,  ChartInfo, Tag
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -15,15 +16,16 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestUser, TestPassportPhone, TestPromotion, TestTitle, TestPersonalPlaylistsData, TestRotorSettings, \
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
-    TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType
+    TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType, \
+    TestRenewableRemainder, TestChartInfoMenuItem, TestChartInfo, TestTag
 
 
 @pytest.fixture(scope='session')
 def artist_factory(cover, counts, ratings, link, description):
     class ArtistFactory:
         def get(self, popular_tracks):
-            return Artist(TestArtist.id, TestArtist.error, TestArtist.name, cover, TestArtist.various,
-                          TestArtist.composer, TestArtist.genres, TestArtist.op_image,
+            return Artist(TestArtist.id, TestArtist.reason, TestArtist.name, cover, TestArtist.various,
+                          TestArtist.composer, TestArtist.genres, TestArtist.og_image, TestArtist.op_image,
                           TestArtist.no_pictures_from_search, counts, TestArtist.available, ratings, [link],
                           TestArtist.tickets_available, TestArtist.likes_count,  popular_tracks, TestArtist.regions,
                           TestArtist.decomposed, TestArtist.full_names, description, TestArtist.countries,
@@ -48,12 +50,12 @@ def track_factory(major, normalization):
     class TrackFactory:
         def get(self, artists, albums):
             return Track(TestTrack.id, TestTrack.title, TestTrack.available, artists, albums,
-                         TestTrack.available_for_premium_users, TestTrack.lyrics_available, TestTrack.real_id,
-                         TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major, TestTrack.duration_ms,
-                         TestTrack.storage_dir, TestTrack.file_size, normalization, TestTrack.error, TestTrack.regions,
-                         TestTrack.available_as_rbt, TestTrack.content_warning, TestTrack.explicit,
-                         TestTrack.preview_duration_ms, TestTrack.available_full_without_permission, TestTrack.version,
-                         TestTrack.remember_position)
+                         TestTrack.available_for_premium_users, TestTrack.lyrics_available, TestTrack.best,
+                         TestTrack.real_id, TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major,
+                         TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size, normalization,
+                         TestTrack.error, TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
+                         TestTrack.explicit, TestTrack.preview_duration_ms, TestTrack.available_full_without_permission,
+                         TestTrack.version, TestTrack.remember_position)
 
     return TrackFactory()
 
@@ -85,10 +87,10 @@ def album_factory(label, track_position):
             return Album(TestAlbum.id, TestAlbum.error, TestAlbum.title, TestAlbum.track_count, artists, [label],
                          TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.version,
                          TestAlbum.cover_uri, TestAlbum.content_warning, TestAlbum.original_release_year,
-                         TestAlbum.genre, TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
-                         TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests,
-                         TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
-                         track_position, TestAlbum.regions)
+                         TestAlbum.genre, TestAlbum.meta_type, TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent,
+                         TestAlbum.very_important, TestAlbum.available_for_mobile, TestAlbum.available_partially,
+                         TestAlbum.bests, TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date,
+                         TestAlbum.type, track_position, TestAlbum.regions)
 
     return AlbumFactory()
 
@@ -136,6 +138,11 @@ def client():
 
 
 @pytest.fixture(scope='session')
+def tag():
+    return Tag(TestTag.id_, TestTag.value, TestTag.name, TestTag.og_description)
+
+
+@pytest.fixture(scope='session')
 def track_with_ads(track):
     return TrackWithAds(TestTrackWithAds.type, track)
 
@@ -164,7 +171,8 @@ def video():
 
 @pytest.fixture(scope='session')
 def vinyl():
-    return Vinyl(TestVinyl.url, TestVinyl.title, TestVinyl.year, TestVinyl.price, TestVinyl.media, TestVinyl.picture)
+    return Vinyl(TestVinyl.url, TestVinyl.title, TestVinyl.year, TestVinyl.price, TestVinyl.media, TestVinyl.offer_id,
+                 TestVinyl.artist_ids, TestVinyl.picture)
 
 
 @pytest.fixture(scope='session')
@@ -190,8 +198,8 @@ def icon():
 
 @pytest.fixture(scope='session')
 def cover():
-    return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir,
-                 TestCover.version, TestCover.custom, TestCover.prefix, TestCover.error)
+    return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir, TestCover.version,
+                 TestCover.custom, TestCover.is_custom, TestCover.prefix, TestCover.error)
 
 
 @pytest.fixture(scope='session')
@@ -339,6 +347,11 @@ def passport_phone():
 
 
 @pytest.fixture(scope='session')
+def renewable_remainder():
+    return RenewableRemainder(TestRenewableRemainder.days)
+
+
+@pytest.fixture(scope='session')
 def user():
     return User(TestUser.uid, TestUser.login, TestUser.name, TestUser.sex, TestUser.verified)
 
@@ -362,9 +375,9 @@ def price():
 
 
 @pytest.fixture(scope='session')
-def subscription(auto_renewable):
-    return Subscription([auto_renewable], TestSubscription.can_start_trial, TestSubscription.mcdonalds,
-                        TestSubscription.end)
+def subscription(renewable_remainder, auto_renewable):
+    return Subscription(renewable_remainder, [auto_renewable], TestSubscription.can_start_trial,
+                        TestSubscription.mcdonalds, TestSubscription.end)
 
 
 @pytest.fixture(scope='session')
@@ -376,8 +389,8 @@ def rotor_settings():
 @pytest.fixture(scope='session')
 def product(price):
     return Product(TestProduct.product_id, TestProduct.type, TestProduct.common_period_duration, TestProduct.duration,
-                   TestProduct.trial_duration, price, TestProduct.feature, TestProduct.debug, TestProduct.features,
-                   TestProduct.description, TestProduct.available, TestProduct.trial_available,
+                   TestProduct.trial_duration, price, TestProduct.feature, TestProduct.debug, TestProduct.plus,
+                   TestProduct.features, TestProduct.description, TestProduct.available, TestProduct.trial_available,
                    TestProduct.vendor_trial_available, TestProduct.button_text, TestProduct.button_additional_text,
                    TestProduct.payment_method_types)
 
@@ -399,9 +412,9 @@ def track_position():
 
 @pytest.fixture(scope='session')
 def status(account, permissions, subscription, plus):
-    return Status(account, permissions, subscription, TestStatus.cache_limit, TestStatus.subeditor,
-                  TestStatus.subeditor_level, plus, TestStatus.default_email, TestStatus.skips_per_hour,
-                  TestStatus.station_exists, TestStatus.premium_region)
+    return Status(account, permissions, TestStatus.advertisement, subscription, TestStatus.cache_limit,
+                  TestStatus.subeditor, TestStatus.subeditor_level, plus, TestStatus.default_email,
+                  TestStatus.skips_per_hour, TestStatus.station_exists, TestStatus.premium_region)
 
 
 @pytest.fixture(scope='session')
@@ -413,6 +426,22 @@ def chart(track_id):
 def event(track, artist_event, album_event):
     return Event(TestEvent.id, TestEvent.type, TestEvent.type_for_from, TestEvent.title, [track], [artist_event],
                  [album_event], TestEvent.message, TestEvent.device, TestEvent.tracks_count)
+
+
+@pytest.fixture(scope='session')
+def chart_info_menu_item():
+    return ChartInfoMenuItem(TestChartInfoMenuItem.title, TestChartInfoMenuItem.url, TestChartInfoMenuItem.selected)
+
+
+@pytest.fixture(scope='session')
+def chart_info_menu(chart_info_menu_item):
+    return ChartInfoMenu([chart_info_menu_item])
+
+
+@pytest.fixture(scope='session')
+def chart_info(playlist, chart_info_menu):
+    return ChartInfo(TestChartInfo.id, TestChartInfo.type, TestChartInfo.type_for_from, TestChartInfo.title,
+                     chart_info_menu, playlist, TestChartInfo.chart_description)
 
 
 @pytest.fixture(scope='session')

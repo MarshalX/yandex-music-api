@@ -8,6 +8,7 @@ class TestCover:
     dir = '/get-music-user-playlist/34120/pvg900XixWaHcr/'
     version = '1572609906461'
     custom = True
+    is_custom = True
     prefix = None
     error = None
 
@@ -18,6 +19,7 @@ class TestCover:
         assert cover.dir == self.dir
         assert cover.version == self.version
         assert cover.custom == self.custom
+        assert cover.is_custom == self.is_custom
         assert cover.prefix == self.prefix
         assert cover.error == self.error
 
@@ -33,7 +35,8 @@ class TestCover:
 
     def test_de_json_all(self, client):
         json_dict = {'type_': self.type, 'uri': self.uri, 'items_uri': self.items_uri, 'dir_': self.dir,
-                     'version': self.version, 'custom': self.custom, 'prefix': self.prefix, 'error': self.error}
+                     'version': self.version, 'custom': self.custom, 'is_custom': self.is_custom, 'prefix': self.prefix,
+                     'error': self.error}
         cover = Cover.de_json(json_dict, client)
 
         assert cover.type == self.type
@@ -42,6 +45,7 @@ class TestCover:
         assert cover.dir == self.dir
         assert cover.version == self.version
         assert cover.custom == self.custom
+        assert cover.is_custom == self.is_custom
         assert cover.prefix == self.prefix
         assert cover.error == self.error
 

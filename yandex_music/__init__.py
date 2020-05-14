@@ -12,6 +12,7 @@ from .account.subscription import Subscription
 from .account.price import Price
 from .account.product import Product
 from .account.auto_renewable import AutoRenewable
+from .account.renewable_remainder import RenewableRemainder
 from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
@@ -33,8 +34,11 @@ from .playlist.made_for import MadeFor
 from .playlist.user import User
 from .playlist.play_counter import PlayCounter
 from .playlist.playlist_id import PlaylistId
+from .playlist.tag import Tag
+from .playlist.tag_result import TagResult
 from .playlist.playlist_absence import PlaylistAbsence
 from .playlist.playlist import Playlist
+from .playlist.playlist_recommendation import PlaylistRecommendations
 
 from .shot.shot_type import ShotType
 from .shot.shot_data import ShotData
@@ -72,6 +76,9 @@ from .landing.promotion import Promotion
 from .landing.block_entity import BlockEntity
 from .landing.landing import Landing
 from .landing.block import Block
+from .landing.chart_info_menu_item import ChartInfoMenuItem
+from .landing.chart_info_menu import ChartInfoMenu
+from .landing.chart_info import ChartInfo
 from .landing.track_id import TrackId
 from .landing.chart import Chart
 from .landing.play_contexts_data import PlayContextsData
@@ -118,4 +125,5 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult',
            'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
            'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
-           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings']
+           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
+           'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations']

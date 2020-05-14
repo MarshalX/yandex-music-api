@@ -3,11 +3,12 @@ from yandex_music import Artist
 
 class TestArtist:
     id = 10987
-    error = 'not-found'
+    reason = 'not-found'
     name = 'Elvis Presley'
     various = False
     composer = None
     genres = None
+    og_image = ''
     op_image = None
     no_pictures_from_search = None
     available = None
@@ -25,12 +26,13 @@ class TestArtist:
 
     def test_expected_values(self, artist, cover, counts, ratings, link, track_without_artists_and_albums, description):
         assert artist.id == self.id
-        assert artist.error == self.error
+        assert artist.reason == self.reason
         assert artist.name == self.name
         assert artist.various == self.various
         assert artist.composer == self.composer
         assert artist.cover == cover
         assert artist.genres == self.genres
+        assert artist.og_image == self.og_image
         assert artist.op_image == self.op_image
         assert artist.no_pictures_from_search == self.no_pictures_from_search
         assert artist.counts == counts
@@ -64,10 +66,11 @@ class TestArtist:
         assert artist.id == self.id
 
     def test_de_json_all(self, client, cover, counts, ratings, link, track_without_artists, description):
-        json_dict = {'id_': self.id, 'error': self.error, 'name': self.name, 'various': self.various,
-                     'composer': self.composer, 'cover': cover.to_dict(), 'genres': self.genres,
-                     'op_image': self.op_image, 'no_pictures_from_search': self.no_pictures_from_search,
-                     'counts': counts.to_dict(), 'available': self.available, 'ratings': ratings.to_dict(),
+        json_dict = {'id_': self.id, 'reason': self.reason, 'name': self.name,
+                     'various': self.various, 'composer': self.composer, 'cover': cover.to_dict(),
+                     'genres': self.genres, 'op_image': self.op_image, 'og_image': self.og_image,
+                     'no_pictures_from_search': self.no_pictures_from_search, 'counts': counts.to_dict(),
+                     'available': self.available, 'ratings': ratings.to_dict(),
                      'links': [link.to_dict()], 'tickets_available': self.tickets_available,
                      'likes_count': self.likes_count, 'popular_tracks': [track_without_artists.to_dict()],
                      'regions': self.regions, 'decomposed': self.decomposed, 'full_names': self.full_names,
@@ -77,12 +80,13 @@ class TestArtist:
         artist = Artist.de_json(json_dict, client)
 
         assert artist.id == self.id
-        assert artist.error == self.error
+        assert artist.reason == self.reason
         assert artist.name == self.name
         assert artist.various == self.various
         assert artist.composer == self.composer
         assert artist.cover == cover
         assert artist.genres == self.genres
+        assert artist.og_image == self.og_image
         assert artist.op_image == self.op_image
         assert artist.no_pictures_from_search == self.no_pictures_from_search
         assert artist.counts == counts
