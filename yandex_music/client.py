@@ -444,8 +444,8 @@ class Client(YandexMusicObject):
         """Получение чарта.
 
         Note:
-            `chart_option` это постфикс к запросу из поля `menu` чарта.
-            Например на сайте можно выбрать глобальный (world) чарт или российский (russia).
+            `chart_option` - это постфикс к запросу из поля `menu` чарта.
+            Например, на сайте можно выбрать глобальный (world) чарт или российский (russia).
 
         Args:
             chart_option (:obj:`str` optional): Параметры чарта.

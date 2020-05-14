@@ -10,11 +10,11 @@ class ChartInfoMenu(YandexMusicObject):
     """Класс, представляющий меню чарта.
 
     Attributes:
-        items (:obj:`list` из :obj:`yandex_music.ChartInfoMenuItem): Список элементов меню.
+        items (:obj:`list` из :obj:`yandex_music.ChartInfoMenuItem`): Список элементов меню.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        items (:obj:`list` из :obj:`yandex_music.ChartInfoMenuItem): Список элементов меню.
+        items (:obj:`list` из :obj:`yandex_music.ChartInfoMenuItem`): Список элементов меню.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
