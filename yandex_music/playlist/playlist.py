@@ -218,9 +218,10 @@ class Playlist(YandexMusicObject):
 
     def fetch_tracks(self, *args, **kwargs) -> List['TrackShort']:
         """Сокращение для::
-                client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs)[0].tracks
+
+            client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
         """
-        return self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs)[0].tracks
+        return self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs).tracks
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Playlist']:
