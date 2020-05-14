@@ -43,7 +43,7 @@ class TagResult(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Tag`: Тег и его плейлисты.
+            :obj:`yandex_music.TagResult`: Тег и его плейлисты.
         """
         if not data:
             return None

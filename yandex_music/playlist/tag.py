@@ -10,14 +10,14 @@ class Tag(YandexMusicObject):
     """Класс, представляющий тег (подборку).
 
     Attributes:
-        id (:obj:`str`): Идентификатор тега.
+        id (:obj:`str`): Уникальный идентификатор тега.
         value (:obj:`str`): Значение тега (название в lower case).
         name (:obj:`str`): Название тега (отображаемое).
         og_description (:obj:`str`): Описание тега для OpenGraph.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        id (:obj:`str`): Идентификатор тега.
+        id (:obj:`str`): Уникальный идентификатор тега.
         value (:obj:`str`): Значение тега (название в lower case).
         name (:obj:`str`): Название тега (отображаемое).
         og_description (:obj:`str`): Описание тега для OpenGraph.
