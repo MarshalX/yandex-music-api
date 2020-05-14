@@ -1,5 +1,5 @@
 yandex_music.PlaylistRecommendations
-=================
+====================================
 
 .. autoclass:: yandex_music.PlaylistRecommendations
     :members:

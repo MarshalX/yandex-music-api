@@ -777,7 +777,7 @@ class Client(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.PlaylistsRecommendations` | :obj:`None`: Рекомендации для плейлиста или :obj:`None`.
+            :obj:`yandex_music.PlaylistRecommendations` | :obj:`None`: Рекомендации для плейлиста или :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -2102,6 +2102,10 @@ class Client(YandexMusicObject):
     generateTokenByUsernameAndPassword = generate_token_by_username_and_password
     #: Псевдоним для :attr:`account_status`
     accountStatus = account_status
+    #: Псевдоним для :attr:`account_settings`
+    accountSettings = account_settings
+    #: Псевдоним для :attr:`account_settings_set`
+    accountSettingsSet = account_settings_set
     #: Псевдоним для :attr:`permission_alerts`
     permissionAlerts = permission_alerts
     #: Псевдоним для :attr:`account_experiments`
@@ -2122,6 +2126,8 @@ class Client(YandexMusicObject):
     albumsWithTracks = albums_with_tracks
     #: Псевдоним для :attr:`search_suggest`
     searchSuggest = search_suggest
+    #: Псевдоним для :attr:`users_settings`
+    usersSettings = users_settings
     #: Псевдоним для :attr:`users_playlists`
     usersPlaylists = users_playlists
     #: Псевдоним для :attr:`users_playlists_recommendations`

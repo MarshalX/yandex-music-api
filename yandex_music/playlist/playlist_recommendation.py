@@ -11,12 +11,12 @@ class PlaylistRecommendations(YandexMusicObject):
 
     Attributes:
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Список рекомендованных треков.
-        batch_id (:obj:`str`): TODO.
+        batch_id (:obj:`str`): Уникальный идентификатор партии треков.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Список рекомендованных треков.
-        batch_id (:obj:`str`, optional): TODO.
+        batch_id (:obj:`str`, optional): Уникальный идентификатор партии треков.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -43,7 +43,7 @@ class PlaylistRecommendations(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PlaylistsRecommendations`: Рекомендации для плейлиста.
+            :obj:`yandex_music.PlaylistRecommendations`: Рекомендации для плейлиста.
         """
         if not data:
             return None
