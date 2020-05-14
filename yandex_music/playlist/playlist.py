@@ -216,6 +216,13 @@ class Playlist(YandexMusicObject):
         """
         return self.client.users_likes_playlists_remove(self.uid, self.client.me.account.uid, *args, **kwargs)
 
+    def fetch_tracks(self, *args, **kwargs) -> List['TrackShort']:
+        """Сокращение для::
+
+            client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
+        """
+        return self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs).tracks
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Playlist']:
         """Десериализация объекта.
@@ -277,3 +284,5 @@ class Playlist(YandexMusicObject):
     downloadAnimatedCover = download_animated_cover
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
+    #: Псевдином для :attr:`fetch_tracks`
+    fetchTracks = fetch_tracks
