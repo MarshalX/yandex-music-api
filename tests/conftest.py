@@ -134,7 +134,7 @@ def generated_playlist(playlist):
 
 @pytest.fixture(scope='session')
 def client():
-    return Client()
+    return Client(fetch_account_status=False)
 
 
 @pytest.fixture(scope='session')
@@ -419,7 +419,8 @@ def status(account, permissions, subscription, plus):
 
 @pytest.fixture(scope='session')
 def chart(track_id):
-    return Chart(TestChart.position, TestChart.progress, TestChart.listeners, TestChart.shift, track_id)
+    return Chart(TestChart.position, TestChart.progress, TestChart.listeners,
+                 TestChart.shift, TestChart.bg_color, track_id)
 
 
 @pytest.fixture(scope='session')

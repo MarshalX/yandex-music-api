@@ -6,6 +6,7 @@ class TestChart:
     progress = 'same'
     listeners = 1433
     shift = 0
+    bg_color = '#666A61'
 
     def test_expected_values(self, chart, track_id):
         assert chart.position == self.position
@@ -13,6 +14,7 @@ class TestChart:
         assert chart.listeners == self.listeners
         assert chart.shift == self.shift
         assert chart.track_id == track_id
+        assert chart.bg_color == self.bg_color
 
     def test_de_json_none(self, client):
         assert Chart.de_json({}, client) is None
@@ -32,7 +34,7 @@ class TestChart:
 
     def test_de_json_all(self, client, track_id):
         json_dict = {'position': self.position, 'progress': self.progress, 'listeners': self.listeners,
-                     'shift': self.shift, 'track_id': track_id.to_dict()}
+                     'shift': self.shift, 'bg_color': self.bg_color, 'track_id': track_id.to_dict()}
         chart = Chart.de_json(json_dict, client)
 
         assert chart.position == self.position
@@ -40,6 +42,7 @@ class TestChart:
         assert chart.listeners == self.listeners
         assert chart.shift == self.shift
         assert chart.track_id == track_id
+        assert chart.bg_color == self.bg_color
 
     def test_equality(self):
         a = Chart(self.position, self.progress, self.listeners, self.shift)
