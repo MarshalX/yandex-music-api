@@ -35,7 +35,7 @@ class YandexMusicObject:
 
     @staticmethod
     def handle_unknown_kwargs(obj, **kwargs):
-        if kwargs:
+        if kwargs and obj.client.report_new_fields:
             logger.warning(f'Found unknown fields received from API! Please copy warn message '
                            f'and send to {new_issue_by_template_url} (github issue), thank you!')
             logger.warning(f'Type: {type(obj)}; kwargs: {kwargs}')

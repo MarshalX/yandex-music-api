@@ -38,7 +38,8 @@ class ChartInfo(YandexMusicObject):
                  menu: Optional['ChartInfoMenu'],
                  chart: Optional['Playlist'],
                  chart_description: Optional[str] = None,
-                 client: Optional['Client'] = None):
+                 client: Optional['Client'] = None,
+                 **kwargs):
         self.id = id_
         self.type = type_
         self.type_for_from = type_for_from
@@ -50,6 +51,8 @@ class ChartInfo(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (id_,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfo']:

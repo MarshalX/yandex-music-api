@@ -51,6 +51,8 @@ class DownloadInfo(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @staticmethod
     def _get_text_node_data(elements: 'NodeList') -> str:
         """:obj:`str`: Получение текстовой информации из узлов XML элемента."""

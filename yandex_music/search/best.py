@@ -40,8 +40,6 @@ class Best(YandexMusicObject):
                  text: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.type = type_
         self.result = result
 
@@ -49,6 +47,8 @@ class Best(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.type, self.result)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Best']:

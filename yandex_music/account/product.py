@@ -71,8 +71,6 @@ class Product(YandexMusicObject):
                  payment_method_types: List[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.product_id = product_id
         self.type = type_
         self.common_period_duration = common_period_duration
@@ -95,6 +93,8 @@ class Product(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.product_id, self.type, self.common_period_duration, self.duration,
                           self.trial_duration, self.product_id, self.feature, self.debug)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Product']:

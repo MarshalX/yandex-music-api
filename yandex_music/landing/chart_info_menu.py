@@ -18,11 +18,13 @@ class ChartInfoMenu(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self, items: List['ChartInfoMenuItem'], client: Optional['Client'] = None):
+    def __init__(self, items: List['ChartInfoMenuItem'], client: Optional['Client'] = None, **kwargs):
         self.items = items
 
         self.client = client
         self._id_attrs = (self.items, )
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfoMenu']:

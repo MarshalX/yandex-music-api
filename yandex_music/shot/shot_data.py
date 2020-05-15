@@ -40,6 +40,8 @@ class ShotData(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.cover_uri, self.mds_url, self.shot_text, self.shot_type)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 

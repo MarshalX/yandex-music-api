@@ -46,8 +46,6 @@ class Block(YandexMusicObject):
                  data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.type = type_
         self.type_for_from = type_for_from
@@ -59,6 +57,8 @@ class Block(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item: int) -> 'BlockEntity':
         return self.entities[item]

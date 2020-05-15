@@ -46,8 +46,6 @@ class MixLink(YandexMusicObject):
                  cover_white: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.title = title
         self.url = url
         self.url_scheme = url_scheme
@@ -59,6 +57,8 @@ class MixLink(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.url, self.title, self.url_scheme, self.text_color,
                           self.background_color, self.background_image_uri, self.cover_white)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_background_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка заднего фона.

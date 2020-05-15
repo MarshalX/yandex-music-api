@@ -101,8 +101,6 @@ class Artist(YandexMusicObject):
                  end_date: Optional[str] = None,
                  client: 'Client' = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
 
         self.reason = reason
@@ -136,6 +134,8 @@ class Artist(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.name, self.cover)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка изображения для Open Graph.

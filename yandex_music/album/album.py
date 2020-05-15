@@ -106,8 +106,6 @@ class Album(YandexMusicObject):
                  regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
 
         self.error = error
@@ -140,6 +138,8 @@ class Album(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def with_tracks(self, *args, **kwargs) -> Optional['Album']:
         """Сокращение для::

@@ -44,8 +44,6 @@ class Vinyl(YandexMusicObject):
                  picture: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.url = url
         self.picture = picture
         self.title = title
@@ -58,6 +56,8 @@ class Vinyl(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.title, self.price, self.year, self.url, self.price,
                           self.media, self.offer_id, self.artist_ids)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Vinyl']:

@@ -34,8 +34,6 @@ class Link(YandexMusicObject):
                  social_network: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.title = title
         self.href = href
         self.type = type_
@@ -44,6 +42,8 @@ class Link(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.title, self.href, self.type)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Link']:

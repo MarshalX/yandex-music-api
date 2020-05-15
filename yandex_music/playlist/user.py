@@ -35,8 +35,6 @@ class User(YandexMusicObject):
                  verified: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.uid = uid
         self.login = login
         self.name = name
@@ -45,6 +43,8 @@ class User(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.uid, self.login)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_avatar(self, filename: str, format_: str = 'normal') -> None:
         """Загрузка изображения пользователя.

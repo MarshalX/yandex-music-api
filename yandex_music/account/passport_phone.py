@@ -23,12 +23,12 @@ class PassportPhone(YandexMusicObject):
                  phone: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.phone = phone
 
         self.client = client
         self._id_attrs = (self.phone,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:

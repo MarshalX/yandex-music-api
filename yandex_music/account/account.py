@@ -62,8 +62,6 @@ class Account(YandexMusicObject):
                  has_info_for_app_metrica: bool = False,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.now = now
         self.service_available = service_available
 
@@ -84,6 +82,8 @@ class Account(YandexMusicObject):
 
         if self.uid:
             self._id_attrs = (self.uid,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_avatar(self, filename: str, format_: str = 'normal') -> None:
         """Загрузка изображения пользователя.

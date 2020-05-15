@@ -40,8 +40,6 @@ class Restrictions(YandexMusicObject):
                  mood_energy: Optional['Enum'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.language = language
         self.diversity = diversity
         self.mood = mood
@@ -50,6 +48,8 @@ class Restrictions(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.language, self.diversity)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Restrictions']:

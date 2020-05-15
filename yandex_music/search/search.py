@@ -50,8 +50,6 @@ class Search(YandexMusicObject):
                  nocorrect: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.search_request_id = search_request_id
         self.text = text
         self.best = best
@@ -67,6 +65,8 @@ class Search(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.search_request_id, self.text, self.best, self.albums,
                           self.artists, self.playlists, self.tracks, self.videos)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:

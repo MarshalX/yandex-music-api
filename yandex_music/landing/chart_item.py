@@ -26,13 +26,13 @@ class ChartItem(YandexMusicObject):
                  chart: Optional['Chart'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.track = track
         self.chart = chart
 
         self.client = client
         self._id_attrs = (self.track, self.chart)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ChartItem']:

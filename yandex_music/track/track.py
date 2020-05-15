@@ -105,8 +105,6 @@ class Track(YandexMusicObject):
                  remember_position: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
 
         self.title = title
@@ -139,6 +137,8 @@ class Track(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
         """Сокращение для::

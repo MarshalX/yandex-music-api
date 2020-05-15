@@ -26,13 +26,13 @@ class PlaylistAbsence(YandexMusicObject):
                  reason: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.kind = kind
         self.reason = reason
 
         self.client = client
         self._id_attrs = (self.kind, self.reason)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistAbsence']:

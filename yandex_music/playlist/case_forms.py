@@ -38,8 +38,6 @@ class CaseForms(YandexMusicObject):
                  prepositional: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.nominative = nominative
         self.genitive = genitive
         self.dative = dative
@@ -50,6 +48,8 @@ class CaseForms(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.nominative, self.genitive, self.dative,
                           self.accusative, self.instrumental, self.prepositional)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['CaseForms']:

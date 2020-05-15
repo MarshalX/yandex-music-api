@@ -35,8 +35,6 @@ class Subscription(YandexMusicObject):
                  end: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.non_auto_renewable_remainder = non_auto_renewable_remainder
         self.auto_renewable = auto_renewable
         self.can_start_trial = can_start_trial
@@ -45,6 +43,8 @@ class Subscription(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.non_auto_renewable_remainder, self.auto_renewable)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Subscription']:

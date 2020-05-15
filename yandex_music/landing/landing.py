@@ -29,14 +29,14 @@ class Landing(YandexMusicObject):
                  blocks: List['Block'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.pumpkin = pumpkin
         self.content_id = content_id
         self.blocks = blocks
 
         self.client = client
         self._id_attrs = (self.content_id, self.blocks)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item):
         return self.blocks[item]

@@ -27,6 +27,8 @@ class PermissionAlerts(YandexMusicObject):
 
         self.client = client
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PermissionAlerts']:
         """Десериализация объекта.

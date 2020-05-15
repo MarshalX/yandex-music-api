@@ -47,8 +47,6 @@ class Cover(YandexMusicObject):
                  error: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.type = type_
         self.uri = uri
         self.items_uri = items_uri
@@ -61,6 +59,8 @@ class Cover(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.

@@ -51,8 +51,6 @@ class Station(YandexMusicObject):
                  parent_id: Optional['Id'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.name = name
         self.icon = icon
@@ -67,6 +65,8 @@ class Station(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.name, self.icon, self.mts_icon, self.geocell_icon,
                           self.id_for_from, self.restrictions, self.restrictions2)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Station']:

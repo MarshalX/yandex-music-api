@@ -62,8 +62,6 @@ class BriefInfo(YandexMusicObject):
                  tracks_in_chart: List['Chart'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.artist = artist
         self.albums = albums
         self.playlists = playlists
@@ -84,6 +82,8 @@ class BriefInfo(YandexMusicObject):
         self._id_attrs = (self.artist, self.albums, self.playlists, self.also_albums, self.last_release_ids,
                           self.popular_tracks, self.similar_artists, self.all_covers, self.concerts, self.videos,
                           self.vinyls, self.has_promotions, self.playlist_ids)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['BriefInfo']:

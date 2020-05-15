@@ -26,13 +26,13 @@ class ArtistTracks(YandexMusicObject):
                  pager: Optional['Pager'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.tracks = tracks
         self.pager = pager
 
         self.client = client
         self._id_attrs = (self.pager, self.tracks)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ArtistTracks']:

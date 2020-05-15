@@ -31,14 +31,14 @@ class Dashboard(YandexMusicObject):
                  pumpkin: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.dashboard_id = dashboard_id
         self.stations = stations
         self.pumpkin = pumpkin
 
         self.client = client
         self._id_attrs = (self.dashboard_id, self.stations, self.pumpkin)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Dashboard']:

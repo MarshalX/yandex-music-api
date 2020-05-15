@@ -56,8 +56,6 @@ class Status(YandexMusicObject):
                  premium_region: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.account = account
         self.permissions = permissions
         self.advertisement = advertisement
@@ -74,6 +72,8 @@ class Status(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.account, self.permissions, self.advertisement)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Status']:

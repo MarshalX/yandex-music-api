@@ -39,6 +39,8 @@ class TrackShort(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.album_id)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @property
     def track(self) -> 'Track':
         """:obj:`yandex_music.Track`: Полная версия трека."""

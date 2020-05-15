@@ -23,12 +23,12 @@ class RenewableRemainder(YandexMusicObject):
                  days: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.days = days
 
         self.client = client
         self._id_attrs = (self.days,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['RenewableRemainder']:

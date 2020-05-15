@@ -49,8 +49,6 @@ class SearchResult(YandexMusicObject):
                  results: List[Union[Track, Artist, Album, Playlist, Video]],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.type = type_
         self.total = total
         self.per_page = per_page
@@ -59,6 +57,8 @@ class SearchResult(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['SearchResult']:

@@ -38,8 +38,6 @@ class StationResult(YandexMusicObject):
                  prerolls: Optional[list] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.station = station
         self.settings = settings
         self.settings2 = settings2
@@ -49,6 +47,8 @@ class StationResult(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['StationResult']:

@@ -36,8 +36,6 @@ class GeneratedPlaylist(YandexMusicObject):
                  data: Optional['Playlist'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.type = type_
         self.ready = ready
         self.notify = notify
@@ -45,6 +43,8 @@ class GeneratedPlaylist(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.type, self.ready, self.notify, self.data)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['GeneratedPlaylist']:

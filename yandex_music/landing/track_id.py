@@ -26,13 +26,13 @@ class TrackId(YandexMusicObject):
                  album_id: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
 
         self.album_id = album_id
         self.client = client
         self._id_attrs = (self.id, self.album_id)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:

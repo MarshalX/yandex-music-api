@@ -29,14 +29,14 @@ class ArtistEvent(YandexMusicObject):
                  similar_to_artists_from_history: List['Artist'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.artist = artist
         self.tracks = tracks
         self.similar_to_artists_from_history = similar_to_artists_from_history
 
         self.client = client
         self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ArtistEvent']:

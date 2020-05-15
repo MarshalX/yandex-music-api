@@ -31,13 +31,13 @@ class TrackPosition(YandexMusicObject):
                  index: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.volume = volume
         self.index = index
 
         self.client = client
         self._id_attrs = (self.volume, self.index)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackPosition']:

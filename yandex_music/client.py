@@ -54,6 +54,7 @@ class Client(YandexMusicObject):
         base_url (:obj:`str`): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
         me (:obj:`yandex_music.Status`): Информация об аккаунте.
+        report_new_fields (:obj:`bool`): Включены ли сообщения о новых полях от API, которых нет в библиотеке.
 
     Args:
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
@@ -62,10 +63,11 @@ class Client(YandexMusicObject):
         oauth_url (:obj:`str`, optional): Ссылка на OAuth Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
+        report_new_fields (:obj:`bool`, optional): Включить сообщения о новых полях от API, которых нет в библиотеке.
     """
 
     def __init__(self, token: str = None, fetch_account_status: bool = True, base_url: str = None,
-                 oauth_url: str = None, request: Request = None) -> None:
+                 oauth_url: str = None, request: Request = None, report_new_fields=False) -> None:
         self.logger = logging.getLogger(__name__)
         self.token = token
 
@@ -86,6 +88,8 @@ class Client(YandexMusicObject):
         self.me = None
         if fetch_account_status:
             self.me = self.account_status()
+
+        self.report_new_fields = report_new_fields
 
     @classmethod
     def from_credentials(cls, username: str, password: str, x_captcha_answer: str = None, x_captcha_key: str = None,
@@ -435,7 +439,7 @@ class Client(YandexMusicObject):
 
         url = f'{self.base_url}/landing3'
 
-        result = self._request.get(url, {'blocks': blocks}, timeout=timeout, *args, **kwargs)
+        result = self._request.get(url, {'blocks': blocks, 'eitherUserId': '10254713668400548221'}, timeout=timeout, *args, **kwargs)
 
         return Landing.de_json(result, self)
 

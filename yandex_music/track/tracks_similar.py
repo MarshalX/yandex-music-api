@@ -26,13 +26,13 @@ class SimilarTracks(YandexMusicObject):
                  similar_tracks: List['Track'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.track = track
         self.similar_tracks = similar_tracks
 
         self.client = client
         self._id_attrs = (self.track, self.similar_tracks)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['SimilarTracks']:

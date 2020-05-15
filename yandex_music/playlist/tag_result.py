@@ -26,13 +26,13 @@ class TagResult(YandexMusicObject):
                  ids: List['PlaylistId'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.tag = tag
         self.ids = ids
 
         self.client = client
         self._id_attrs = (self.tag, self.ids)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TagResult']:

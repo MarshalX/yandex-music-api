@@ -32,8 +32,6 @@ class Tag(YandexMusicObject):
                  og_description: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.value = value
         self.name = name
@@ -41,6 +39,8 @@ class Tag(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, )
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Tag']:

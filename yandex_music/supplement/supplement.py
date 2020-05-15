@@ -32,8 +32,6 @@ class Supplement(YandexMusicObject):
                  radio_is_available: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.lyrics = lyrics
         self.videos = videos
@@ -41,6 +39,8 @@ class Supplement(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.lyrics, self.videos, self.radio_is_available)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Supplement']:

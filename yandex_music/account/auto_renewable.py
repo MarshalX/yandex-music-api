@@ -41,8 +41,6 @@ class AutoRenewable(YandexMusicObject):
                  order_id: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.expires = expires
         self.vendor = vendor
         self.vendor_help_url = vendor_help_url
@@ -54,6 +52,8 @@ class AutoRenewable(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product, self.finished)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['AutoRenewable']:

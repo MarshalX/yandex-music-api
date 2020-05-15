@@ -41,8 +41,6 @@ class Response(YandexMusicObject):
                  error_description: str = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.data = data
         self.invocation_info = invocation_info
         self._result = result
@@ -50,6 +48,8 @@ class Response(YandexMusicObject):
         self.error_description = error_description
 
         self.client = client
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @property
     def error(self) -> str:

@@ -47,8 +47,6 @@ class AdParams(YandexMusicObject):
                  genre_name: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.partner_id = partner_id
         self.category_id = category_id
         self.page_ref = page_ref
@@ -62,6 +60,8 @@ class AdParams(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.partner_id, self.category_id, self.page_ref,
                           self.target_ref, self.other_params, self.ad_volume)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['AdParams']:

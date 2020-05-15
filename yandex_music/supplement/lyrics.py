@@ -38,8 +38,6 @@ class Lyrics(YandexMusicObject):
                  show_translation: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.lyrics = lyrics
         self.full_lyrics = full_lyrics
@@ -50,6 +48,8 @@ class Lyrics(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.id, self.lyrics, self.full_lyrics, self.has_rights,
                           self.text_language, self.show_translation)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Lyrics']:

@@ -123,8 +123,6 @@ class Playlist(YandexMusicObject):
                  regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.owner = owner
         self.cover = cover
         self.made_for = made_for
@@ -160,6 +158,8 @@ class Playlist(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.uid, self.kind, self.title, self.playlist_absence)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @property
     def is_mine(self) -> bool:

@@ -60,8 +60,6 @@ class Event(YandexMusicObject):
                  tracks_count: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.type = type_
 
@@ -76,6 +74,8 @@ class Event(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.type)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Event']:

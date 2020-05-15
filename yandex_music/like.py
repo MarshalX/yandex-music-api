@@ -47,8 +47,6 @@ class Like(YandexMusicObject):
                  playlist: Optional['Playlist'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.type = type_
 
@@ -59,6 +57,8 @@ class Like(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['Like']:

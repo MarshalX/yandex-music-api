@@ -32,8 +32,6 @@ class Day(YandexMusicObject):
                  tracks_to_play: List['Track'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.day = day
         self.events = events
         self.tracks_to_play_with_ads = tracks_to_play_with_ads
@@ -41,6 +39,8 @@ class Day(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.day, self.events, self.tracks_to_play_with_ads, self.tracks_to_play)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Day']:

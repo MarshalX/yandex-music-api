@@ -31,13 +31,13 @@ class TrackShortOld(YandexMusicObject):
                  timestamp: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.track_id = track_id
         self.timestamp = timestamp
 
         self.client = client
         self._id_attrs = (self.track_id,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackShortOld']:

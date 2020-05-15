@@ -59,8 +59,6 @@ class Genre(YandexMusicObject):
                  hide_in_regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.weight = weight
         self.composer_top = composer_top
@@ -78,6 +76,8 @@ class Genre(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Genre']:

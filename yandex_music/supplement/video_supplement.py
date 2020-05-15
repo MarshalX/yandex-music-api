@@ -41,8 +41,6 @@ class VideoSupplement(YandexMusicObject):
                  embed: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.cover = cover
         self.title = title
         self.provider = provider
@@ -54,6 +52,8 @@ class VideoSupplement(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.cover, self.title, self.provider_video_id)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['VideoSupplement']:
