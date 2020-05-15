@@ -18,3 +18,4 @@
     yandex_music.landing.chart_info
     yandex_music.landing.chart_info_menu
     yandex_music.landing.chart_info_menu_item
+    yandex_music.landing.landing_list

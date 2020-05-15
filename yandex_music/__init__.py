@@ -76,6 +76,7 @@ from .landing.promotion import Promotion
 from .landing.block_entity import BlockEntity
 from .landing.landing import Landing
 from .landing.block import Block
+from .landing.landing_list import LandingList
 from .landing.chart_info_menu_item import ChartInfoMenuItem
 from .landing.chart_info_menu import ChartInfoMenu
 from .landing.chart_info import ChartInfo
@@ -126,4 +127,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
            'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
            'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
-           'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations']
+           'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList']

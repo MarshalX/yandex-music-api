@@ -6,7 +6,7 @@ from typing import Callable, Dict, List, Optional, Union
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
     Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
     StationResult, StationTracksResult, Status, Suggestions, SimilarTracks, Track, TracksList, UserSettings, \
-    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations
+    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations, LandingList
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -472,6 +472,72 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return ChartInfo.de_json(result, self)
+
+    @log
+    def new_releases(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[LandingList]:
+        """Получение полного списка всех новых релизов (альбомов).
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.LandingList`: Список новых альбомов.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/landing3/new-releases'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return LandingList.de_json(result, self)
+
+    @log
+    def new_playlists(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[LandingList]:
+        """Получение полного списка всех новых плейлистов.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.LandingList`: Список новых плейлистов.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/landing3/new-playlists'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return LandingList.de_json(result, self)
+
+    @log
+    def podcasts(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[LandingList]:
+        """Получение подкастов с лендинга.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.LandingList`: Список подскастов.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/landing3/podcasts'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return LandingList.de_json(result, self)
 
     @log
     def genres(self, timeout: Union[int, float] = None, *args, **kwargs) -> List[Genre]:
@@ -2212,6 +2278,10 @@ class Client(YandexMusicObject):
     consumePromoCode = consume_promo_code
     #: Псевдоним для :attr:`feed_wizard_is_passed`
     feedWizardIsPassed = feed_wizard_is_passed
+    #: Псевдоним для :attr:`new_releases`
+    newReleases = new_releases
+    #: Псевдоним для :attr:`new_playlists`
+    newPlaylists = new_playlists
     #: Псевдоним для :attr:`tracks_download_info`
     tracksDownloadInfo = tracks_download_info
     #: Псевдоним для :attr:`track_supplement`
