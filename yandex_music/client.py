@@ -79,6 +79,8 @@ class Client(YandexMusicObject):
         self.base_url = base_url
         self.oauth_url = oauth_url
 
+        self.report_new_fields = report_new_fields
+
         if request:
             self._request = request
             self._request.set_and_return_client(self)
@@ -88,8 +90,6 @@ class Client(YandexMusicObject):
         self.me = None
         if fetch_account_status:
             self.me = self.account_status()
-
-        self.report_new_fields = report_new_fields
 
     @classmethod
     def from_credentials(cls, username: str, password: str, x_captcha_answer: str = None, x_captcha_key: str = None,
