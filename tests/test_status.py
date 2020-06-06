@@ -29,13 +29,11 @@ class TestStatus:
         assert Status.de_json({}, client) is None
 
     def test_de_json_required(self, client, account, permissions):
-        json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict(),
-                     'advertisement': self.advertisement}
+        json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict()}
         status = Status.de_json(json_dict, client)
 
         assert status.account == account
         assert status.permissions == permissions
-        assert status.advertisement == self.advertisement
 
     def test_de_json_all(self, client, account, permissions, subscription, plus):
         json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict(),
@@ -60,9 +58,9 @@ class TestStatus:
         assert status.premium_region == self.premium_region
 
     def test_equality(self, account, permissions, subscription):
-        a = Status(account, permissions, self.advertisement)
-        b = Status(None, permissions, '')
-        c = Status(account, permissions, self.advertisement)
+        a = Status(account, permissions)
+        b = Status(None, permissions)
+        c = Status(account, permissions)
 
         assert a != b
         assert hash(a) != hash(b)
