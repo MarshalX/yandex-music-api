@@ -9,10 +9,19 @@ if TYPE_CHECKING:
 class User(YandexMusicObject):
     """Класс, представляющий пользователя.
 
+    Note:
+        Когда данный класс используется в `MadeFor` и `Playlist, то доступны все поля кроме `display_name` и
+        `full_name`.
+
+        При наличии экземпляра класса в `user_info` у `Track` (у самозагруженных треков) доступны только `uid`,
+        '`login`, 'display_name` и `full_name`.
+
     Attributes:
         uid (:obj:`int`): Идентификатор пользователя.
         login (:obj:`str`): Логин пользователя.
         name (:obj:`str`): Имя пользователя.
+        display_name (:obj:`str`, optional): Отображаемое пользователя.
+        full_name (:obj:`str`, optional): Полное имя пользователя.
         sex (:obj:`str`): Пол пользователя.
         verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
@@ -20,9 +29,11 @@ class User(YandexMusicObject):
     Args:
         uid (:obj:`int`): Идентификатор пользователя.
         login (:obj:`str`): Логин пользователя.
-        name (:obj:`str`): Имя пользователя.
-        sex (:obj:`str`): Пол пользователя.
-        verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
+        name (:obj:`str`, optional): Имя пользователя.
+        display_name (:obj:`str`, optional): Отображаемое пользователя.
+        full_name (:obj:`str`, optional): Полное имя пользователя.
+        sex (:obj:`str`, optional): Пол пользователя.
+        verified (:obj:`bool`, optional): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -30,14 +41,19 @@ class User(YandexMusicObject):
     def __init__(self,
                  uid: int,
                  login: str,
-                 name: str,
-                 sex: str,
-                 verified: bool,
+                 name: Optional[str] = None,
+                 display_name: Optional[str] = None,
+                 full_name: Optional[str] = None,
+                 sex: Optional[str] = None,
+                 verified: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.uid = uid
         self.login = login
+
         self.name = name
+        self.display_name = display_name
+        self.full_name = full_name
         self.sex = sex
         self.verified = verified
 

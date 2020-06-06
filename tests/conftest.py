@@ -7,7 +7,7 @@ from yandex_music import Counts, TrackId, CaseForms, Ratings, Icon, Album, Lyric
     PersonalPlaylistsData, RotorSettings, TrackShortOld, PlayContextsData, Status, Settings, StationResult, Enum, \
     TrackWithAds, VideoSupplement, ArtistEvent, ChartItem, Event, AlbumEvent, Day, PlayContext, Plus, Title, Label, \
     GeneratedPlaylist, Video, Vinyl, SearchResult, BlockEntity, Block, PlaylistAbsence, ShotType, ShotData, Shot, \
-    RenewableRemainder, ChartInfoMenuItem,  ChartInfoMenu,  ChartInfo, Tag
+    RenewableRemainder, ChartInfoMenuItem,  ChartInfoMenu,  ChartInfo, Tag, MetaData
 from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, TestAlbum, TestLyrics, \
     TestTrack, TestInvocationInfo, TestPlaylist, TestAutoRenewable, TestStation, TestNormalization, TestMajor, \
     TestTrackPosition, TestBest, TestChart, TestPermissions, TestPlus, TestProduct, TestCover, TestPlayCounter, \
@@ -17,20 +17,20 @@ from . import TestCounts, TestTrackId, TestCaseForms, TestRatings, TestIcon, Tes
     TestTrackShortOld, TestPager, TestStatus, TestSettings, TestStationResult, TestLabel, TestTrackWithAds, \
     TestVideoSupplement, TestEvent, TestDay, TestPlayContext, TestGeneratedPlaylist, TestVideo, TestVinyl, \
     TestSearchResult, TestBlockEntity, TestBlock, TestPlaylistAbsence, TestShot, TestShotData, TestShotType, \
-    TestRenewableRemainder, TestChartInfoMenuItem, TestChartInfo, TestTag
+    TestRenewableRemainder, TestChartInfoMenuItem, TestChartInfo, TestTag, TestMetaData
 
 
 @pytest.fixture(scope='session')
 def artist_factory(cover, counts, ratings, link, description):
     class ArtistFactory:
         def get(self, popular_tracks):
-            return Artist(TestArtist.id, TestArtist.reason, TestArtist.name, cover, TestArtist.various,
-                          TestArtist.composer, TestArtist.genres, TestArtist.og_image, TestArtist.op_image,
-                          TestArtist.no_pictures_from_search, counts, TestArtist.available, ratings, [link],
-                          TestArtist.tickets_available, TestArtist.likes_count,  popular_tracks, TestArtist.regions,
-                          TestArtist.decomposed, TestArtist.full_names, description, TestArtist.countries,
-                          TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases, TestArtist.init_date,
-                          TestArtist.end_date)
+            return Artist(TestArtist.id, TestArtist.error, TestArtist.reason, TestArtist.name, cover,
+                          TestArtist.various, TestArtist.composer, TestArtist.genres, TestArtist.og_image,
+                          TestArtist.op_image, TestArtist.no_pictures_from_search, counts, TestArtist.available,
+                          ratings, [link], TestArtist.tickets_available, TestArtist.likes_count,  popular_tracks,
+                          TestArtist.regions, TestArtist.decomposed, TestArtist.full_names, description,
+                          TestArtist.countries, TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases,
+                          TestArtist.init_date, TestArtist.end_date)
 
     return ArtistFactory()
 
@@ -46,14 +46,16 @@ def artist_without_tracks(artist_factory):
 
 
 @pytest.fixture(scope='session')
-def track_factory(major, normalization):
+def track_factory(major, normalization, user, meta_data):
     class TrackFactory:
-        def get(self, artists, albums):
+        def get(self, artists, albums, track_without_nested_tracks=None):
             return Track(TestTrack.id, TestTrack.title, TestTrack.available, artists, albums,
                          TestTrack.available_for_premium_users, TestTrack.lyrics_available, TestTrack.best,
                          TestTrack.real_id, TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major,
-                         TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size, normalization,
-                         TestTrack.error, TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
+                         TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size, track_without_nested_tracks,
+                         track_without_nested_tracks, normalization, TestTrack.error, TestTrack.can_publish,
+                         TestTrack.state, TestTrack.desired_visibility, TestTrack.filename, user, meta_data,
+                         TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
                          TestTrack.explicit, TestTrack.preview_duration_ms, TestTrack.available_full_without_permission,
                          TestTrack.version, TestTrack.remember_position)
 
@@ -61,8 +63,8 @@ def track_factory(major, normalization):
 
 
 @pytest.fixture(scope='session')
-def track(track_factory, artist, album):
-    return track_factory.get([artist], [album])
+def track(track_factory, artist, album, track_without_nested_tracks):
+    return track_factory.get([artist], [album], track_without_nested_tracks)
 
 
 @pytest.fixture(scope='session')
@@ -78,6 +80,11 @@ def track_without_albums(track_factory, artist):
 @pytest.fixture(scope='session')
 def track_without_artists_and_albums(track_factory):
     return track_factory.get([], [])
+
+
+@pytest.fixture(scope='session')
+def track_without_nested_tracks(artist, album, track_factory):
+    return track_factory.get([artist], [album])
 
 
 @pytest.fixture(scope='session')
@@ -207,7 +214,13 @@ def icon():
 @pytest.fixture(scope='session')
 def cover():
     return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir, TestCover.version,
-                 TestCover.custom, TestCover.is_custom, TestCover.prefix, TestCover.error)
+                 TestCover.custom, TestCover.is_custom, TestCover.copyright_name, TestCover.copyright_cline,
+                 TestCover.prefix, TestCover.error)
+
+
+@pytest.fixture(scope='session')
+def meta_data():
+    return MetaData(TestMetaData.album, TestMetaData.volume, TestMetaData.year)
 
 
 @pytest.fixture(scope='session')
@@ -361,7 +374,8 @@ def renewable_remainder():
 
 @pytest.fixture(scope='session')
 def user():
-    return User(TestUser.uid, TestUser.login, TestUser.name, TestUser.sex, TestUser.verified)
+    return User(TestUser.uid, TestUser.login, TestUser.name, TestUser.display_name,
+                TestUser.full_name, TestUser.sex, TestUser.verified)
 
 
 @pytest.fixture(scope='session')

@@ -19,6 +19,7 @@ class DownloadInfo(YandexMusicObject):
         gain (:obj:`bool`): Усиление TODO.
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
+        direct (:obj:`bool`): Прямая ли ссылка.
         direct_link (:obj:`str`): Прямая ссылка на загрузку. Доступна после получения ссылки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -28,6 +29,7 @@ class DownloadInfo(YandexMusicObject):
         gain (:obj:`bool`): Усиление TODO.
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
+        direct (:obj:`bool`): Прямая ли ссылка.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -38,6 +40,7 @@ class DownloadInfo(YandexMusicObject):
                  gain: bool,
                  preview: bool,
                  download_info_url: str,
+                 direct: bool,
                  client: Optional['Client'] = None,
                  **kwargs):
         self.codec = codec
@@ -45,6 +48,7 @@ class DownloadInfo(YandexMusicObject):
         self.gain = gain
         self.preview = preview
         self.download_info_url = download_info_url
+        self.direct = direct
 
         self.direct_link = None
 

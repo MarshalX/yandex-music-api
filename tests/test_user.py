@@ -5,6 +5,8 @@ class TestUser:
     uid = 503646255
     login = 'yamusic-daily'
     name = 'yamusic-daily'
+    display_name = 'Ilya (Marshal)'
+    full_name = 'Илья'
     sex = 'unknown'
     verified = False
 
@@ -12,6 +14,8 @@ class TestUser:
         assert user.uid == self.uid
         assert user.login == self.login
         assert user.name == self.name
+        assert user.display_name == self.display_name
+        assert user.full_name == self.full_name
         assert user.sex == self.sex
         assert user.verified == self.verified
 
@@ -19,31 +23,29 @@ class TestUser:
         assert User.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'uid': self.uid, 'login': self.login, 'name': self.name, 'sex': self.sex,
-                     'verified': self.verified}
+        json_dict = {'uid': self.uid, 'login': self.login}
         user = User.de_json(json_dict, client)
 
         assert user.uid == self.uid
         assert user.login == self.login
-        assert user.name == self.name
-        assert user.sex == self.sex
-        assert user.verified == self.verified
 
     def test_de_json_all(self, client):
         json_dict = {'uid': self.uid, 'login': self.login, 'name': self.name, 'sex': self.sex,
-                     'verified': self.verified}
+                     'verified': self.verified, 'display_name': self.display_name, 'full_name': self.full_name}
         user = User.de_json(json_dict, client)
 
         assert user.uid == self.uid
         assert user.login == self.login
         assert user.name == self.name
+        assert user.display_name == self.display_name
+        assert user.full_name == self.full_name
         assert user.sex == self.sex
         assert user.verified == self.verified
 
     def test_equality(self):
-        a = User(self.uid, self.login, self.name, self.sex, self.verified)
-        b = User(1, self.login, self.name, self.sex, self.verified)
-        c = User(self.uid, self.login, '', self.sex, self.verified)
+        a = User(self.uid, self.login)
+        b = User(1, self.login)
+        c = User(self.uid, self.login)
 
         assert a != b
         assert hash(a) != hash(b)

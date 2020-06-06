@@ -18,6 +18,8 @@ class Cover(YandexMusicObject):
         is_custom (:obj:`bool`): Является ли обложка пользовательской.
         custom (:obj:`bool`): Является ли обложка пользовательской.
         prefix (:obj:`str`): Уникальный идентификатор.
+        copyright_name (:obj:`str`): Название владельца авторским правом.
+        copyright_cline (:obj:`str`): Владелец прав на музыку (автор текста и т.д.), а не её записи.
         error (:obj:`str`): Сообщение об ошибке.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -30,6 +32,8 @@ class Cover(YandexMusicObject):
         is_custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         prefix (:obj:`str`, optional): Уникальный идентификатор.
+        copyright_name (:obj:`str`, optional): Название владельца авторским правом.
+        copyright_cline (:obj:`str`, optional): Владелец прав на музыку (автор текста и т.д.), а не её записи.
         error (:obj:`str`, optional): Сообщение об ошибке.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -43,6 +47,8 @@ class Cover(YandexMusicObject):
                  version: Optional[str] = None,
                  custom: Optional[bool] = None,
                  is_custom: Optional[bool] = None,
+                 copyright_name: Optional[str] = None,
+                 copyright_cline: Optional[str] = None,
                  prefix: Optional[str] = None,
                  error: Optional[str] = None,
                  client: Optional['Client'] = None,
@@ -55,6 +61,8 @@ class Cover(YandexMusicObject):
         self.version = version
         self.custom = custom
         self.is_custom = is_custom
+        self.copyright_name = copyright_name
+        self.copyright_cline = copyright_cline
         self.error = error
 
         self.client = client

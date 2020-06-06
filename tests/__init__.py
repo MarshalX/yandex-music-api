@@ -78,3 +78,4 @@ from .test_shot_data import TestShotData
 from .test_shot import TestShot
 from .test_renewable_remainder import TestRenewableRemainder
 from .test_tag import TestTag
+from .test_meta_data import TestMetaData

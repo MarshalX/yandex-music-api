@@ -10,6 +10,8 @@ class TestCover:
     custom = True
     is_custom = True
     prefix = None
+    copyright_name = 'ТАСС'
+    copyright_cline = 'imago stock&people'
     error = None
 
     def test_expected_values(self, cover):
@@ -20,6 +22,8 @@ class TestCover:
         assert cover.version == self.version
         assert cover.custom == self.custom
         assert cover.is_custom == self.is_custom
+        assert cover.copyright_name == self.copyright_name
+        assert cover.copyright_cline == self.copyright_cline
         assert cover.prefix == self.prefix
         assert cover.error == self.error
 
@@ -36,7 +40,8 @@ class TestCover:
     def test_de_json_all(self, client):
         json_dict = {'type_': self.type, 'uri': self.uri, 'items_uri': self.items_uri, 'dir_': self.dir,
                      'version': self.version, 'custom': self.custom, 'is_custom': self.is_custom, 'prefix': self.prefix,
-                     'error': self.error}
+                     'error': self.error, 'copyright_name': self.copyright_name,
+                     'copyright_cline': self.copyright_cline}
         cover = Cover.de_json(json_dict, client)
 
         assert cover.type == self.type
@@ -46,6 +51,8 @@ class TestCover:
         assert cover.version == self.version
         assert cover.custom == self.custom
         assert cover.is_custom == self.is_custom
+        assert cover.copyright_name == self.copyright_name
+        assert cover.copyright_cline == self.copyright_cline
         assert cover.prefix == self.prefix
         assert cover.error == self.error
 

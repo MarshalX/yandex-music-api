@@ -49,7 +49,7 @@ class Client(YandexMusicObject):
         uid аккаунта для отправки запроса. Так же в большинстве методов придётся передавать `uid` явно.
 
     Attributes:
-        logger (:obj:`logging.Logger`): Объект логера.
+        logger (:obj:`logging.Logger`): Объект логгера.
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
@@ -67,7 +67,7 @@ class Client(YandexMusicObject):
     """
 
     def __init__(self, token: str = None, fetch_account_status: bool = True, base_url: str = None,
-                 oauth_url: str = None, request: Request = None, report_new_fields=False) -> None:
+                 oauth_url: str = None, request: Request = None, report_new_fields=True) -> None:
         self.logger = logging.getLogger(__name__)
         self.token = token
 
@@ -133,7 +133,7 @@ class Client(YandexMusicObject):
 
     @classmethod
     def from_token(cls, token: str, *args, **kwargs) -> 'Client':
-        """Инициализция клиента по токену.
+        """Инициализация клиента по токену.
 
         Note:
             Ничем не отличается от `Client(token)`. Так исторически сложилось.

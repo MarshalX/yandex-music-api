@@ -47,6 +47,7 @@ from .shot.shot_event import ShotEvent
 
 from .tracks_list import TracksList
 from .track.major import Major
+from .track.meta_data import MetaData
 from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
@@ -127,4 +128,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
            'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
            'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
-           'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList']
+           'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList', 'MetaData']

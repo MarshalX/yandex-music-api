@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 from yandex_music.exceptions import InvalidBitrate
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement, DownloadInfo
+    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement, DownloadInfo, User, MetaData
 
 
 class Track(YandexMusicObject):
@@ -14,6 +14,9 @@ class Track(YandexMusicObject):
         Известные значения поля `content_warning`: `explicit`.
 
         Известные значения поля `type`: `music`.
+
+        Поля `can_publish`, `state`, `desired_visibility`, `filename`, `user_info` доступны только у треков что были
+        загружены пользователем.
 
     Attributes:
         id (:obj:`int` | :obj:`str`): Уникальный идентификатор.
@@ -32,8 +35,16 @@ class Track(YandexMusicObject):
         duration_ms (:obj:`int`): Длительность трека в миллисекундах.
         storage_dir (:obj:`str`): В какой папке на сервере хранится файл TODO.
         file_size (:obj:`int`):  Размер файла. TODO добавить единицу измерения.
+        substituted (:obj:`yandex_music.Track`): Замещённый трек.
+        matched_track (:obj:`yandex_music.Track`): Соответствующий трек TODO.
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`): Значения для нормализации трека.
         error (:obj:`str`): Сообщение об ошибке.
+        can_publish (:obj:`bool`): Может ли быть опубликован.
+        state (:obj:`str`): Состояние, например, playable.
+        desired_visibility (:obj:`str`): Видимость трека.
+        filename (:obj:`str`): Название файла.
+        user_info (:obj:`yandex_music.User`): Информация о пользователе, который загрузил трек.
+        meta_data (:obj:`yandex_music.MetaData`): Информация о метаданных трека.
         regions (:obj:`list` из :obj:`str`): Регион TODO.
         available_as_rbt (:obj:`bool`): TODO.
         content_warning (:obj:`str`): Тип откровенного контента.
@@ -62,8 +73,16 @@ class Track(YandexMusicObject):
         duration_ms (:obj:`int`, optional): Длительность трека в миллисекундах.
         storage_dir (:obj:`str`, optional): В какой папке на сервере хранится файл TODO.
         file_size (:obj:`int`, optional): Размер файла. TODO добавить единицу измерения.
+        substituted (:obj:`yandex_music.Track`, optional): Замещённый трек.
+        matched_track (:obj:`yandex_music.Track`, optional): Соответствующий трек TODO.
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`, optional): Значения для нормализации трека.
         error (:obj:`str`, optional): Сообщение об ошибке.
+        can_publish (:obj:`bool`, optional): Может ли быть опубликован.
+        state (:obj:`str`, optional): Состояние, например, playable.
+        desired_visibility (:obj:`str`, optional): Видимость трека.
+        filename (:obj:`str`, optional): Название файла.
+        user_info (:obj:`yandex_music.User`, optional): Информация о пользователе, который загрузил трек.
+        meta_data (:obj:`yandex_music.MetaData`, optional): Информация о метаданных трека.
         regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
         available_as_rbt (:obj:`bool`, optional): TODO.
         content_warning (:obj:`str`, optional): Тип откровенного контента.
@@ -93,8 +112,16 @@ class Track(YandexMusicObject):
                  duration_ms: Optional[int] = None,
                  storage_dir: Optional[str] = None,
                  file_size: Optional[int] = None,
+                 substituted: Optional['Track'] = None,
+                 matched_track: Optional['Track'] = None,
                  normalization: Optional['Normalization'] = None,
                  error: Optional[str] = None,
+                 can_publish: Optional[bool] = None,
+                 state: Optional[str] = None,
+                 desired_visibility: Optional[str] = None,
+                 filename: Optional[str] = None,
+                 user_info: Optional['User'] = None,
+                 meta_data: Optional['MetaData'] = None,
                  regions: Optional[List[str]] = None,
                  available_as_rbt: Optional[bool] = None,
                  content_warning: Optional[str] = None,
@@ -122,8 +149,16 @@ class Track(YandexMusicObject):
         self.duration_ms = duration_ms
         self.storage_dir = storage_dir
         self.file_size = file_size
+        self.substituted = substituted
+        self.matched_track = matched_track
         self.normalization = normalization
         self.error = error
+        self.can_publish = can_publish
+        self.state = state
+        self.desired_visibility = desired_visibility
+        self.filename = filename
+        self.user_info = user_info
+        self.meta_data = meta_data
         self.regions = regions
         self.available_as_rbt = available_as_rbt
         self.content_warning = content_warning
@@ -238,11 +273,15 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist
+        from yandex_music import Normalization, Major, Album, Artist, User, MetaData
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['normalization'] = Normalization.de_json(data.get('normalization'), client)
         data['major'] = Major.de_json(data.get('major'), client)
+        data['substituted'] = Track.de_json(data.get('substituted'), client)
+        data['matched_track'] = Track.de_json(data.get('matched_track'), client)
+        data['user_info'] = User.de_json(data.get('user_info'), client)
+        data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
 
         return cls(client=client, **data)
 
@@ -260,11 +299,7 @@ class Track(YandexMusicObject):
         if not data:
             return []
 
-        tracks = list()
-        for track in data:
-            tracks.append(cls.de_json(track, client))
-
-        return tracks
+        return [cls.de_json(track, client) for track in data]
 
     # camelCase псевдонимы
 
