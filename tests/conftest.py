@@ -108,13 +108,16 @@ def album_without_tracks(album_factory, artist_without_tracks):
 @pytest.fixture(scope='session')
 def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_absence):
     class PlaylistFactory:
-        def get(self):
+        def get(self, similar_playlists, last_owner_playlists):
             return Playlist(user, cover, made_for, play_counter, playlist_absence, TestPlaylist.uid, TestPlaylist.kind,
                             TestPlaylist.title, TestPlaylist.track_count, TestPlaylist.tags, TestPlaylist.revision,
                             TestPlaylist.snapshot, TestPlaylist.visibility, TestPlaylist.collective,
-                            TestPlaylist.created, TestPlaylist.modified, TestPlaylist.available, TestPlaylist.is_banner,
-                            TestPlaylist.is_premiere, TestPlaylist.duration_ms, TestPlaylist.og_image, [track_short],
-                            TestPlaylist.prerolls, TestPlaylist.likes_count, TestPlaylist.generated_playlist_type,
+                            TestPlaylist.url_part, TestPlaylist.created, TestPlaylist.modified,
+                            TestPlaylist.available, TestPlaylist.is_banner, TestPlaylist.is_premiere,
+                            TestPlaylist.duration_ms, TestPlaylist.og_image, TestPlaylist.og_title,
+                            TestPlaylist.image, cover, TestPlaylist.background_color, TestPlaylist.text_color,
+                            TestPlaylist.id_for_from, [track_short], TestPlaylist.prerolls, TestPlaylist.likes_count,
+                            similar_playlists, last_owner_playlists, TestPlaylist.generated_playlist_type,
                             TestPlaylist.animated_cover_uri, TestPlaylist.ever_played, TestPlaylist.description,
                             TestPlaylist.description_formatted, TestPlaylist.is_for_from, TestPlaylist.regions)
 
@@ -122,8 +125,13 @@ def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_
 
 
 @pytest.fixture(scope='session')
-def playlist(playlist_factory):
-    return playlist_factory.get()
+def playlist(playlist_factory, playlist_without_nested_playlists):
+    return playlist_factory.get([playlist_without_nested_playlists], [playlist_without_nested_playlists])
+
+
+@pytest.fixture(scope='session')
+def playlist_without_nested_playlists(playlist_factory):
+    return playlist_factory.get([], [])
 
 
 @pytest.fixture(scope='session')

@@ -21,7 +21,7 @@ class Playlist(YandexMusicObject):
         cover (:obj:`yandex_music.Cover`): Обложка альбома.
         made_for (:obj:`yandex_music.MadeFor`): Пользователь для которого был создан плейлист. Присутствует только у
             персональных плейлистов.
-        play_counter (:obj:`yandex_music.PlayCounter`): Счетчик дней. Присутствует только у плейлиста дня.
+        play_counter (:obj:`yandex_music.PlayCounter`): Счётчик дней. Присутствует только у плейлиста дня.
         playlist_absence (:obj:`yandex_music.PlaylistAbsence`): Причина отсутствия плейлиста.
         uid (:obj:`int`): Идентификатор владельца плейлиста.
         kind (:obj:`int`): Идентификатор плейлиста.
@@ -32,6 +32,7 @@ class Playlist(YandexMusicObject):
         snapshot (:obj:`int`): Версия плейлиста. Увеличивается на 1 при каждом изменении.
         visibility (:obj:`str`): Видимость плейлиста.
         collective (:obj:`bool`): Есть ли у плейлиста соавторы.
+        url_part (:obj:`str`): Часть ссылки на плейлист ('daily`).
         created (:obj:`str`): Дата создания в формате ISO 8601.
         modified (:obj:`str`): Дата последнего изменения в формате ISO 8601.
         available (:obj:`bool`): Доступен TODO.
@@ -39,9 +40,17 @@ class Playlist(YandexMusicObject):
         is_premiere (:obj:`bool`): Является ли премьерой TODO.
         duration_ms (:obj:`int`): Длительность в миллисекундах.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
+        og_title (:obj:`str`): Заголовок Open Graph.
+        image (:obj:`str`): Изображение TODO.
+        cover_without_text (:obj:`yandex_music.Cover`): Обложка без текста.
+        background_color (:obj:`str`): Цвет заднего фона TODO.
+        text_color (:obj:`str`): Цвет текста TODO.
+        id_for_from (:obj:`str`): Откуда пришло событие (уникальный идентификатор объекта) TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
         prerolls (:obj:`list`): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных плейлистов.
         likes_count (:obj:`int`): Количество лайков.
+        similar_playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Похожие плейлисты.
+        last_owner_playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Последние плейлисты владельца.
         generated_playlist_type (:obj:`str`): Тип генерируемого плейлиста.
         animated_cover_uri (:obj:`str`): Ссылка на анимированную обложку.
         ever_played (:obj:`str`): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
@@ -54,9 +63,9 @@ class Playlist(YandexMusicObject):
     Args:
         owner (:obj:`yandex_music.User`, optional): Владелец плейлиста.
         cover (:obj:`yandex_music.Cover`, optional): Обложка альбома.
-        made_for (:obj:`yandex_music.MadeFor`, optional): Пользователь для которого был создан плейлист. Присутствует только у
-            персональных плейлистов.
-        play_counter (:obj:`yandex_music.PlayCounter`, optional): Счетчик дней. Присутствует только у плейлиста дня.
+        made_for (:obj:`yandex_music.MadeFor`, optional): Пользователь для которого был создан плейлист. Присутствует
+            только у персональных плейлистов.
+        play_counter (:obj:`yandex_music.PlayCounter`, optional): Счётчик дней. Присутствует только у плейлиста дня.
         playlist_absence (:obj:`yandex_music.PlaylistAbsence`, optional): Причина отсутствия плейлиста.
         uid (:obj:`int`, optional): Идентификатор владельца плейлиста.
         kind (:obj:`int`, optional): Идентификатор плейлиста.
@@ -67,6 +76,7 @@ class Playlist(YandexMusicObject):
         snapshot (:obj:`int`, optional): Версия плейлиста. Увеличивается на 1 при каждом изменении.
         visibility (:obj:`str`, optional): Видимость плейлиста.
         collective (:obj:`bool`, optional): Есть ли у плейлиста соавторы.
+        url_part (:obj:`str`, optional): Часть ссылки на плейлист ('daily`).
         created (:obj:`str`, optional): Дата создания в формате ISO 8601.
         modified (:obj:`str`, optional): Дата последнего изменения в формате ISO 8601.
         available (:obj:`bool`, optional): Доступен TODO.
@@ -74,10 +84,18 @@ class Playlist(YandexMusicObject):
         is_premiere (:obj:`bool`, optional): Является ли премьерой TODO.
         duration_ms (:obj:`int`, optional): Длительность в миллисекундах.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
+        og_title (:obj:`str`, optional): Заголовок Open Graph.
+        image (:obj:`str`, optional): Изображение TODO.
+        cover_without_text (:obj:`yandex_music.Cover`, optional): Обложка без текста.
+        background_color (:obj:`str`, optional): Цвет заднего фона TODO.
+        text_color (:obj:`str`, optional): Цвет текста TODO.
+        id_for_from (:obj:`str`, optional): Откуда пришло событие (уникальный идентификатор объекта) TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`, optional): Список треков.
         prerolls (:obj:`list`, optional): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных
             плейлистов.
         likes_count (:obj:`int`, optional): Количество лайков.
+        similar_playlists (:obj:`list` из :obj:`yandex_music.Playlist`, optional): Похожие плейлисты.
+        last_owner_playlists (:obj:`list` из :obj:`yandex_music.Playlist`, optional): Последние плейлисты владельца.
         generated_playlist_type (:obj:`str`, optional): Тип генерируемого плейлиста.
         animated_cover_uri (:obj:`str`, optional): Ссылка на анимированную обложку.
         ever_played (:obj:`str`, optional): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
@@ -121,8 +139,8 @@ class Playlist(YandexMusicObject):
                  tracks: List['TrackShort'] = None,
                  prerolls: Optional[list] = None,
                  likes_count: Optional[int] = None,
-                 similar_playlists: Optional[dict] = None,
-                 last_owner_playlists: Optional[dict] = None,
+                 similar_playlists: List['Playlist'] = None,
+                 last_owner_playlists: List['Playlist'] = None,
                  generated_playlist_type: Optional[str] = None,
                  animated_cover_uri: Optional[str] = None,
                  ever_played: Optional[bool] = None,

@@ -11,6 +11,7 @@ class TestPlaylist:
     snapshot = 1
     visibility = 'public'
     collective = False
+    url_part = 'daily'
     created = '2018-04-29T21:00:00+00:00'
     modified = '2019-11-09T03:00:00+00:00'
     available = True
@@ -18,6 +19,11 @@ class TestPlaylist:
     is_premiere = False
     duration_ms = 12402690
     og_image = 'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461'
+    og_title = 'Плейлист дня'
+    image = ''
+    background_color = ''
+    text_color = ''
+    id_for_from = 'playlist_of_the_day'
     prerolls = []
     likes_count = 1
     generated_playlist_type = 'playlistOfTheDay'
@@ -28,7 +34,8 @@ class TestPlaylist:
     is_for_from = None
     regions = None
 
-    def test_expected_values(self, playlist, user, cover, made_for, track_short, play_counter, playlist_absence):
+    def test_expected_values(self, playlist, user, cover, made_for, track_short, play_counter, playlist_absence,
+                             playlist_without_nested_playlists):
         assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
@@ -43,6 +50,7 @@ class TestPlaylist:
         assert playlist.snapshot == self.snapshot
         assert playlist.visibility == self.visibility
         assert playlist.collective == self.collective
+        assert playlist.url_part == self.url_part
         assert playlist.created == self.created
         assert playlist.modified == self.modified
         assert playlist.available == self.available
@@ -50,9 +58,17 @@ class TestPlaylist:
         assert playlist.is_premiere == self.is_premiere
         assert playlist.duration_ms == self.duration_ms
         assert playlist.og_image == self.og_image
+        assert playlist.og_title == self.og_title
+        assert playlist.image == self.image
+        assert playlist.cover_without_text == cover
+        assert playlist.background_color == self.background_color
+        assert playlist.text_color == self.text_color
+        assert playlist.id_for_from == self.id_for_from
         assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count
+        assert playlist.similar_playlists == [playlist_without_nested_playlists]
+        assert playlist.last_owner_playlists == [playlist_without_nested_playlists]
         assert playlist.generated_playlist_type == self.generated_playlist_type
         assert playlist.animated_cover_uri == self.animated_cover_uri
         assert playlist.ever_played == self.ever_played
@@ -68,21 +84,18 @@ class TestPlaylist:
         assert Playlist.de_list({}, client) == []
 
     def test_de_json_required(self, client, user, cover, made_for, play_counter, playlist_absence):
-        json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
-                     'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
+        json_dict = {'owner': user.to_dict(), 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
                      'play_counter': play_counter.to_dict(), 'playlist_absence': playlist_absence.to_dict()}
         playlist = Playlist.de_json(json_dict, client)
 
         assert playlist.owner == user
-        assert playlist.uid == self.uid
-        assert playlist.kind == self.kind
-        assert playlist.title == self.title
-        assert playlist.track_count == self.track_count
         assert playlist.cover == cover
         assert playlist.made_for == made_for
         assert playlist.play_counter == play_counter
+        assert playlist.playlist_absence == playlist_absence
 
-    def test_de_json_all(self, client, user, cover, made_for, track_short, play_counter, playlist_absence):
+    def test_de_json_all(self, client, user, cover, made_for, track_short, play_counter, playlist_absence,
+                         playlist_without_nested_playlists):
         json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
                      'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
                      'play_counter': play_counter.to_dict(), 'playlist_absence': playlist_absence.to_dict(),
@@ -91,10 +104,14 @@ class TestPlaylist:
                      'modified': self.modified, 'available': self.available, 'is_banner': self.is_banner,
                      'is_premiere': self.is_premiere, 'duration_ms': self.duration_ms, 'og_image': self.og_image,
                      'tracks': [track_short.to_dict()], 'prerolls': self.prerolls, 'likes_count': self.likes_count,
-                     'generated_playlist_type': self.generated_playlist_type,
+                     'generated_playlist_type': self.generated_playlist_type, 'url_part': self.url_part,
                      'animated_cover_uri': self.animated_cover_uri, 'ever_played': self.ever_played,
                      'description': self.description, 'description_formatted': self.description_formatted,
-                     'is_for_from': self.is_for_from, 'regions': self.regions}
+                     'is_for_from': self.is_for_from, 'regions': self.regions, 'og_title': self.og_title,
+                     'image': self.image, 'id_for_from': self.id_for_from, 'background_color': self.background_color,
+                     'text_color': self.text_color, 'cover_without_text': cover.to_dict(),
+                     'similar_playlists': [playlist_without_nested_playlists.to_dict()],
+                     'last_owner_playlists': [playlist_without_nested_playlists.to_dict()]}
         playlist = Playlist.de_json(json_dict, client)
 
         assert playlist.owner == user
@@ -111,6 +128,7 @@ class TestPlaylist:
         assert playlist.snapshot == self.snapshot
         assert playlist.visibility == self.visibility
         assert playlist.collective == self.collective
+        assert playlist.url_part == self.url_part
         assert playlist.created == self.created
         assert playlist.modified == self.modified
         assert playlist.available == self.available
@@ -118,9 +136,17 @@ class TestPlaylist:
         assert playlist.is_premiere == self.is_premiere
         assert playlist.duration_ms == self.duration_ms
         assert playlist.og_image == self.og_image
+        assert playlist.og_title == self.og_title
+        assert playlist.image == self.image
+        assert playlist.cover_without_text == cover
+        assert playlist.background_color == self.background_color
+        assert playlist.text_color == self.text_color
+        assert playlist.id_for_from == self.id_for_from
         assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count
+        assert playlist.similar_playlists == [playlist_without_nested_playlists]
+        assert playlist.last_owner_playlists == [playlist_without_nested_playlists]
         assert playlist.generated_playlist_type == self.generated_playlist_type
         assert playlist.animated_cover_uri == self.animated_cover_uri
         assert playlist.ever_played == self.ever_played
