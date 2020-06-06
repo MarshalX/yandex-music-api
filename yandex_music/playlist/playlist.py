@@ -21,7 +21,7 @@ class Playlist(YandexMusicObject):
         cover (:obj:`yandex_music.Cover`): Обложка альбома.
         made_for (:obj:`yandex_music.MadeFor`): Пользователь для которого был создан плейлист. Присутствует только у
             персональных плейлистов.
-        play_counter (:obj:`yandex_music.PlayCounter`): Счетчик дней. Присутствует только у плейлиста дня.
+        play_counter (:obj:`yandex_music.PlayCounter`): Счётчик дней. Присутствует только у плейлиста дня.
         playlist_absence (:obj:`yandex_music.PlaylistAbsence`): Причина отсутствия плейлиста.
         uid (:obj:`int`): Идентификатор владельца плейлиста.
         kind (:obj:`int`): Идентификатор плейлиста.
@@ -32,6 +32,7 @@ class Playlist(YandexMusicObject):
         snapshot (:obj:`int`): Версия плейлиста. Увеличивается на 1 при каждом изменении.
         visibility (:obj:`str`): Видимость плейлиста.
         collective (:obj:`bool`): Есть ли у плейлиста соавторы.
+        url_part (:obj:`str`): Часть ссылки на плейлист ('daily`).
         created (:obj:`str`): Дата создания в формате ISO 8601.
         modified (:obj:`str`): Дата последнего изменения в формате ISO 8601.
         available (:obj:`bool`): Доступен TODO.
@@ -39,9 +40,17 @@ class Playlist(YandexMusicObject):
         is_premiere (:obj:`bool`): Является ли премьерой TODO.
         duration_ms (:obj:`int`): Длительность в миллисекундах.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
+        og_title (:obj:`str`): Заголовок Open Graph.
+        image (:obj:`str`): Изображение TODO.
+        cover_without_text (:obj:`yandex_music.Cover`): Обложка без текста.
+        background_color (:obj:`str`): Цвет заднего фона TODO.
+        text_color (:obj:`str`): Цвет текста TODO.
+        id_for_from (:obj:`str`): Откуда пришло событие (уникальный идентификатор объекта) TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
         prerolls (:obj:`list`): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных плейлистов.
         likes_count (:obj:`int`): Количество лайков.
+        similar_playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Похожие плейлисты.
+        last_owner_playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Последние плейлисты владельца.
         generated_playlist_type (:obj:`str`): Тип генерируемого плейлиста.
         animated_cover_uri (:obj:`str`): Ссылка на анимированную обложку.
         ever_played (:obj:`str`): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
@@ -54,9 +63,9 @@ class Playlist(YandexMusicObject):
     Args:
         owner (:obj:`yandex_music.User`, optional): Владелец плейлиста.
         cover (:obj:`yandex_music.Cover`, optional): Обложка альбома.
-        made_for (:obj:`yandex_music.MadeFor`, optional): Пользователь для которого был создан плейлист. Присутствует только у
-            персональных плейлистов.
-        play_counter (:obj:`yandex_music.PlayCounter`, optional): Счетчик дней. Присутствует только у плейлиста дня.
+        made_for (:obj:`yandex_music.MadeFor`, optional): Пользователь для которого был создан плейлист. Присутствует
+            только у персональных плейлистов.
+        play_counter (:obj:`yandex_music.PlayCounter`, optional): Счётчик дней. Присутствует только у плейлиста дня.
         playlist_absence (:obj:`yandex_music.PlaylistAbsence`, optional): Причина отсутствия плейлиста.
         uid (:obj:`int`, optional): Идентификатор владельца плейлиста.
         kind (:obj:`int`, optional): Идентификатор плейлиста.
@@ -67,6 +76,7 @@ class Playlist(YandexMusicObject):
         snapshot (:obj:`int`, optional): Версия плейлиста. Увеличивается на 1 при каждом изменении.
         visibility (:obj:`str`, optional): Видимость плейлиста.
         collective (:obj:`bool`, optional): Есть ли у плейлиста соавторы.
+        url_part (:obj:`str`, optional): Часть ссылки на плейлист ('daily`).
         created (:obj:`str`, optional): Дата создания в формате ISO 8601.
         modified (:obj:`str`, optional): Дата последнего изменения в формате ISO 8601.
         available (:obj:`bool`, optional): Доступен TODO.
@@ -74,10 +84,18 @@ class Playlist(YandexMusicObject):
         is_premiere (:obj:`bool`, optional): Является ли премьерой TODO.
         duration_ms (:obj:`int`, optional): Длительность в миллисекундах.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
+        og_title (:obj:`str`, optional): Заголовок Open Graph.
+        image (:obj:`str`, optional): Изображение TODO.
+        cover_without_text (:obj:`yandex_music.Cover`, optional): Обложка без текста.
+        background_color (:obj:`str`, optional): Цвет заднего фона TODO.
+        text_color (:obj:`str`, optional): Цвет текста TODO.
+        id_for_from (:obj:`str`, optional): Откуда пришло событие (уникальный идентификатор объекта) TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`, optional): Список треков.
         prerolls (:obj:`list`, optional): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных
             плейлистов.
         likes_count (:obj:`int`, optional): Количество лайков.
+        similar_playlists (:obj:`list` из :obj:`yandex_music.Playlist`, optional): Похожие плейлисты.
+        last_owner_playlists (:obj:`list` из :obj:`yandex_music.Playlist`, optional): Последние плейлисты владельца.
         generated_playlist_type (:obj:`str`, optional): Тип генерируемого плейлиста.
         animated_cover_uri (:obj:`str`, optional): Ссылка на анимированную обложку.
         ever_played (:obj:`str`, optional): Играл ли этот плейлист. Присутствует только у персональных плейлистов. TODO
@@ -104,6 +122,7 @@ class Playlist(YandexMusicObject):
                  snapshot: Optional[int] = None,
                  visibility: Optional[str] = None,
                  collective: Optional[bool] = None,
+                 url_part: Optional[str] = None,
                  created: Optional[str] = None,
                  modified: Optional[str] = None,
                  available: Optional[bool] = None,
@@ -111,9 +130,17 @@ class Playlist(YandexMusicObject):
                  is_premiere: Optional[bool] = None,
                  duration_ms: Optional[int] = None,
                  og_image: Optional[str] = None,
+                 og_title: Optional[str] = None,
+                 image: Optional[str] = None,
+                 cover_without_text: Optional['Cover'] = None,
+                 background_color: Optional[str] = None,
+                 text_color: Optional[str] = None,
+                 id_for_from: Optional[str] = None,
                  tracks: List['TrackShort'] = None,
                  prerolls: Optional[list] = None,
                  likes_count: Optional[int] = None,
+                 similar_playlists: List['Playlist'] = None,
+                 last_owner_playlists: List['Playlist'] = None,
                  generated_playlist_type: Optional[str] = None,
                  animated_cover_uri: Optional[str] = None,
                  ever_played: Optional[bool] = None,
@@ -137,6 +164,7 @@ class Playlist(YandexMusicObject):
         self.snapshot = snapshot
         self.visibility = visibility
         self.collective = collective
+        self.url_part = url_part
         self.created = created
         self.modified = modified
         self.available = available
@@ -144,6 +172,12 @@ class Playlist(YandexMusicObject):
         self.is_premiere = is_premiere
         self.duration_ms = duration_ms
         self.og_image = og_image
+        self.og_title = og_title
+        self.image = image
+        self.cover_without_text = cover_without_text
+        self.background_color = background_color
+        self.text_color = text_color
+        self.id_for_from = id_for_from
         self.tracks = tracks
         self.prerolls = prerolls
         self.likes_count = likes_count
@@ -151,6 +185,8 @@ class Playlist(YandexMusicObject):
         self.description = description
         self.description_formatted = description_formatted
         self.ever_played = ever_played
+        self.similar_playlists = similar_playlists
+        self.last_owner_playlists = last_owner_playlists
         self.generated_playlist_type = generated_playlist_type
         self.is_for_from = is_for_from
         self.regions = regions
@@ -241,9 +277,13 @@ class Playlist(YandexMusicObject):
         from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
+        data['cover_without_text'] = Cover.de_json(data.get('cover_without_text'), client)
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
+
+        data['similar_playlists'] = Playlist.de_list(data.get('similar_playlists'), client)
+        data['last_owner_playlists'] = Playlist.de_list(data.get('last_owner_playlists'), client)
 
         data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absence'), client)    # на случай фикса
         if data.get('playlist_absense'):    # очепятка яндуха
@@ -266,11 +306,7 @@ class Playlist(YandexMusicObject):
         if not data:
             return []
 
-        playlists = list()
-        for playlist in data:
-            playlists.append(cls.de_json(playlist, client))
-
-        return playlists
+        return [cls.de_json(playlist, client) for playlist in data]
 
     # camelCase псевдонимы
 
@@ -284,5 +320,5 @@ class Playlist(YandexMusicObject):
     downloadAnimatedCover = download_animated_cover
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
-    #: Псевдином для :attr:`fetch_tracks`
+    #: Псевдоним для :attr:`fetch_tracks`
     fetchTracks = fetch_tracks
