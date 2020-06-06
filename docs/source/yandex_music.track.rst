@@ -7,3 +7,4 @@
     yandex_music.track.major
     yandex_music.track.track
     yandex_music.track.meta_data
+    yandex_music.track.licence_text_part

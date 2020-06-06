@@ -6,8 +6,8 @@ from yandex_music import Genre
 @pytest.fixture(scope='class')
 def genre(title, images, icon, genre_without_sub_genre):
     return Genre(TestGenre.id, TestGenre.weight, TestGenre.composer_top, TestGenre.title, {'uz': title}, images,
-                 TestGenre.show_in_menu, TestGenre.full_title, TestGenre.url_part, TestGenre.color, icon,
-                 [genre_without_sub_genre], TestGenre.hide_in_regions)
+                 TestGenre.show_in_menu, TestGenre.show_in_regions, TestGenre.full_title, TestGenre.url_part,
+                 TestGenre.color, icon, [genre_without_sub_genre], TestGenre.hide_in_regions)
 
 
 @pytest.fixture(scope='class')
@@ -22,6 +22,7 @@ class TestGenre:
     composer_top = False
     title = None
     show_in_menu = True
+    show_in_regions = [181]
     full_title = 'Музыка всех жанров'
     url_part = None
     color = None
@@ -35,6 +36,7 @@ class TestGenre:
         assert genre.titles == {"uz": title}
         assert genre.images == images
         assert genre.show_in_menu == self.show_in_menu
+        assert genre.show_in_regions == self.show_in_regions
         assert genre.full_title == self.full_title
         assert genre.url_part == self.url_part
         assert genre.color == self.color
@@ -66,7 +68,7 @@ class TestGenre:
                      'titles': {'uz': title.to_dict()}, 'images': images.to_dict(), 'show_in_menu': self.show_in_menu,
                      'full_title': self.full_title, 'url_part': self.url_part, 'color': self.color,
                      'radio_icon': icon.to_dict(), 'sub_genres': [genre_without_sub_genre.to_dict()],
-                     'hide_in_regions': self.hide_in_regions}
+                     'hide_in_regions': self.hide_in_regions, 'show_in_regions': self.show_in_regions}
         genre = Genre.de_json(json_dict, client)
 
         assert genre.id == self.id
@@ -76,6 +78,7 @@ class TestGenre:
         assert genre.titles == {'uz': title}
         assert genre.images == images
         assert genre.show_in_menu == self.show_in_menu
+        assert genre.show_in_regions == self.show_in_regions
         assert genre.full_title == self.full_title
         assert genre.url_part == self.url_part
         assert genre.color == self.color

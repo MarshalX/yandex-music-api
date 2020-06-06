@@ -20,6 +20,7 @@ class TestPlaylist:
     duration_ms = 12402690
     og_image = 'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461'
     og_title = 'Плейлист дня'
+    og_description = 'Слушайте с пользой: подкасты, которые могут вам понравиться'
     image = ''
     background_color = ''
     text_color = ''
@@ -35,7 +36,7 @@ class TestPlaylist:
     regions = None
 
     def test_expected_values(self, playlist, user, cover, made_for, track_short, play_counter, playlist_absence,
-                             playlist_without_nested_playlists):
+                             playlist_without_nested_playlists, artist):
         assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
@@ -59,11 +60,13 @@ class TestPlaylist:
         assert playlist.duration_ms == self.duration_ms
         assert playlist.og_image == self.og_image
         assert playlist.og_title == self.og_title
+        assert playlist.og_description == self.og_description
         assert playlist.image == self.image
         assert playlist.cover_without_text == cover
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.top_artist == [artist]
         assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count
@@ -95,7 +98,7 @@ class TestPlaylist:
         assert playlist.playlist_absence == playlist_absence
 
     def test_de_json_all(self, client, user, cover, made_for, track_short, play_counter, playlist_absence,
-                         playlist_without_nested_playlists):
+                         playlist_without_nested_playlists, artist):
         json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
                      'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
                      'play_counter': play_counter.to_dict(), 'playlist_absence': playlist_absence.to_dict(),
@@ -111,7 +114,8 @@ class TestPlaylist:
                      'image': self.image, 'id_for_from': self.id_for_from, 'background_color': self.background_color,
                      'text_color': self.text_color, 'cover_without_text': cover.to_dict(),
                      'similar_playlists': [playlist_without_nested_playlists.to_dict()],
-                     'last_owner_playlists': [playlist_without_nested_playlists.to_dict()]}
+                     'last_owner_playlists': [playlist_without_nested_playlists.to_dict()],
+                     'og_description': self.og_description, 'top_artist': [artist.to_dict()]}
         playlist = Playlist.de_json(json_dict, client)
 
         assert playlist.owner == user
@@ -137,11 +141,13 @@ class TestPlaylist:
         assert playlist.duration_ms == self.duration_ms
         assert playlist.og_image == self.og_image
         assert playlist.og_title == self.og_title
+        assert playlist.og_description == self.og_description
         assert playlist.image == self.image
         assert playlist.cover_without_text == cover
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.top_artist == [artist]
         assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count

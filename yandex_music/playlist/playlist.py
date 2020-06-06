@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
     from yandex_music import Client, User, Cover, MadeFor, TrackShort, PlaylistAbsence, PlayCounter,\
-        PlaylistRecommendations
+        PlaylistRecommendations, Artist
 
 
 class Playlist(YandexMusicObject):
@@ -41,11 +41,13 @@ class Playlist(YandexMusicObject):
         duration_ms (:obj:`int`): Длительность в миллисекундах.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         og_title (:obj:`str`): Заголовок Open Graph.
+        og_description (:obj:`str`, optional): Описание Open Graph.
         image (:obj:`str`): Изображение TODO.
         cover_without_text (:obj:`yandex_music.Cover`): Обложка без текста.
         background_color (:obj:`str`): Цвет заднего фона TODO.
         text_color (:obj:`str`): Цвет текста TODO.
         id_for_from (:obj:`str`): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        top_artist (:obj:`list` из :obj:`yandex_music.Artist`): Топ артистов TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
         prerolls (:obj:`list`): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных плейлистов.
         likes_count (:obj:`int`): Количество лайков.
@@ -85,11 +87,13 @@ class Playlist(YandexMusicObject):
         duration_ms (:obj:`int`, optional): Длительность в миллисекундах.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         og_title (:obj:`str`, optional): Заголовок Open Graph.
+        og_description (:obj:`str`, optional): Описание Open Graph.
         image (:obj:`str`, optional): Изображение TODO.
         cover_without_text (:obj:`yandex_music.Cover`, optional): Обложка без текста.
         background_color (:obj:`str`, optional): Цвет заднего фона TODO.
         text_color (:obj:`str`, optional): Цвет текста TODO.
         id_for_from (:obj:`str`, optional): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        top_artist (:obj:`list` из :obj:`yandex_music.Artist`, optional): Топ артистов TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`, optional): Список треков.
         prerolls (:obj:`list`, optional): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных
             плейлистов.
@@ -131,11 +135,13 @@ class Playlist(YandexMusicObject):
                  duration_ms: Optional[int] = None,
                  og_image: Optional[str] = None,
                  og_title: Optional[str] = None,
+                 og_description: Optional[str] = None,
                  image: Optional[str] = None,
                  cover_without_text: Optional['Cover'] = None,
                  background_color: Optional[str] = None,
                  text_color: Optional[str] = None,
                  id_for_from: Optional[str] = None,
+                 top_artist: List['Artist'] = None,
                  tracks: List['TrackShort'] = None,
                  prerolls: Optional[list] = None,
                  likes_count: Optional[int] = None,
@@ -173,11 +179,13 @@ class Playlist(YandexMusicObject):
         self.duration_ms = duration_ms
         self.og_image = og_image
         self.og_title = og_title
+        self.og_description = og_description
         self.image = image
         self.cover_without_text = cover_without_text
         self.background_color = background_color
         self.text_color = text_color
         self.id_for_from = id_for_from
+        self.top_artist = top_artist
         self.tracks = tracks
         self.prerolls = prerolls
         self.likes_count = likes_count
@@ -274,13 +282,14 @@ class Playlist(YandexMusicObject):
             return None
 
         data = super(Playlist, cls).de_json(data, client)
-        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence
+        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence, Artist
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['cover_without_text'] = Cover.de_json(data.get('cover_without_text'), client)
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
+        data['top_artist'] = Artist.de_list(data.get('top_artist'), client)
 
         data['similar_playlists'] = Playlist.de_list(data.get('similar_playlists'), client)
         data['last_owner_playlists'] = Playlist.de_list(data.get('last_owner_playlists'), client)

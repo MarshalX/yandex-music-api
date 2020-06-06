@@ -14,6 +14,7 @@ class TestAlbum:
     original_release_year = None
     genre = 'alternative'
     meta_type = 'music'
+    storage_dir = '4beeac1e.a.1155208'
     og_image = 'avatars.yandex.net/get-music-content/95061/89c14a7d.a.5239478-1/%%'
     buy = []
     recent = False
@@ -27,7 +28,8 @@ class TestAlbum:
     type = 'single'
     regions = None
 
-    def test_expected_values(self, album, artist_without_tracks, label, track_position, track_without_albums):
+    def test_expected_values(self, album, artist_without_tracks, label, track_position,
+                             track_without_albums, album_without_nested_albums):
         assert album.id == self.id
         assert album.error == self.error
         assert album.title == self.title
@@ -42,6 +44,7 @@ class TestAlbum:
         assert album.original_release_year == self.original_release_year
         assert album.genre == self.genre
         assert album.meta_type == self.meta_type
+        assert album.storage_dir == self.storage_dir
         assert album.og_image == self.og_image
         assert album.buy == self.buy
         assert album.recent == self.recent
@@ -49,6 +52,7 @@ class TestAlbum:
         assert album.available_for_mobile == self.available_for_mobile
         assert album.available_partially == self.available_partially
         assert album.bests == self.bests
+        assert album.duplicates == [album_without_nested_albums]
         assert album.prerolls == self.prerolls
         assert album.volumes == [[track_without_albums]]
         assert album.year == self.year
@@ -69,7 +73,7 @@ class TestAlbum:
 
         assert album.id == self.id
 
-    def test_de_json_all(self, client, artist, label, track_position, track):
+    def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums):
         json_dict = {'id_': self.id, 'error': self.error, 'title': self.title, 'cover_uri': self.cover_uri,
                      'track_count': self.track_count, 'artists': [artist.to_dict()], 'labels': [label.to_dict()],
                      'available': self.available, 'available_for_premium_users': self.available_for_premium_users,
@@ -79,7 +83,8 @@ class TestAlbum:
                      'available_for_mobile': self.available_for_mobile, 'available_partially': self.available_partially,
                      'bests': self.bests, 'prerolls': self.prerolls, 'volumes': [[track.to_dict()]], 'year': self.year,
                      'release_date': self.release_date, 'type_': self.type, 'track_position': track_position.to_dict(),
-                     'meta_type': self.meta_type}
+                     'meta_type': self.meta_type, 'storage_dir': self.storage_dir,
+                     'duplicates': [album_without_nested_albums.to_dict()]}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
@@ -96,6 +101,7 @@ class TestAlbum:
         assert album.original_release_year == self.original_release_year
         assert album.genre == self.genre
         assert album.meta_type == self.meta_type
+        assert album.storage_dir == self.storage_dir
         assert album.og_image == self.og_image
         assert album.buy == self.buy
         assert album.recent == self.recent
@@ -103,6 +109,7 @@ class TestAlbum:
         assert album.available_for_mobile == self.available_for_mobile
         assert album.available_partially == self.available_partially
         assert album.bests == self.bests
+        assert album.duplicates == [album_without_nested_albums]
         assert album.prerolls == self.prerolls
         assert album.volumes == [[track]]
         assert album.year == self.year

@@ -9,6 +9,7 @@ class TestEvent:
     message = None
     device = None
     tracks_count = None
+    genre = 'electronics'
 
     def test_expected_values(self, event, track, artist_event, album_event):
         assert event.id == self.id
@@ -21,6 +22,7 @@ class TestEvent:
         assert event.message == self.message
         assert event.device == self.device
         assert event.tracks_count == self.tracks_count
+        assert event.genre == self.genre
 
     def test_de_json_none(self, client):
         assert Event.de_json({}, client) is None
@@ -39,7 +41,7 @@ class TestEvent:
         json_dict = {'id_': self.id, 'type_': self.type, 'type_for_from': self.type_for_from, 'title': self.title,
                      'tracks': [track.to_dict()], 'artists': [artist_event.to_dict()],
                      'albums': [album_event.to_dict()], 'message': self.message, 'device': self.device,
-                     'tracks_count': self.tracks_count}
+                     'tracks_count': self.tracks_count, 'genre': self.genre}
         event = Event.de_json(json_dict, client)
 
         assert event.id == self.id
@@ -52,6 +54,7 @@ class TestEvent:
         assert event.message == self.message
         assert event.device == self.device
         assert event.tracks_count == self.tracks_count
+        assert event.genre == self.genre
 
     def test_equality(self):
         a = Event(self.id, self.type)

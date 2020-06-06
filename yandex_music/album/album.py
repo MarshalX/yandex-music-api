@@ -31,12 +31,15 @@ class Album(YandexMusicObject):
         cover_uri (:obj:`str`): Ссылка на обложку.
         content_warning (:obj:`str`): Предупреждение о содержимом альбома.
         genre (:obj:`str`): Жанр музыки.
+        storage_dir (:obj:`str`): В какой папке на сервере хранится файл TODO.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         recent (:obj:`bool`): Является ли альбом новым.
         very_important (:obj:`bool`): Популярен ли альбом у слушателей.
         available_for_mobile (:obj:`bool`): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`): Доступен ли альбом частично для пользователей без подписки.
         bests (:obj:`list` из :obj:`int`): ID лучших треков альбома.
+        duplicates (:obj:`list` из :obj:`yandex_music.Album`): Альбомы-дубликаты.
+        prerolls (:obj:`list`): Прероллы TODO.
         volumes (:obj:`list` из :obj:`list` из :obj:`Track`): Треки альбома, разделенные по дискам.
         year (:obj:`int`): Год релиза.
         release_date (:obj:`str`): Дата релиза в формате ISO 8601.
@@ -59,12 +62,15 @@ class Album(YandexMusicObject):
         content_warning (:obj:`str`, optional): Предупреждение о содержимом альбома.
         genre (:obj:`str`, optional): Жанр музыки.
         meta_type (:obj:`str`, optional): Мета тип TODO.
+        storage_dir (:obj:`str`, optional): В какой папке на сервере хранится файл TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         recent (:obj:`bool`, optional): Является ли альбом новым.
         very_important (:obj:`bool`, optional): Популярен ли альбом у слушателей.
         available_for_mobile (:obj:`bool`, optional): Доступен ли альбом из приложения для телефона.
         available_partially (:obj:`bool`, optional): Доступен ли альбом частично для пользователей без подписки.
         bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
+        duplicates (:obj:`list` из :obj:`yandex_music.Album`, optional): Альбомы-дубликаты.
+        prerolls (:obj:`list`, optional): Прероллы TODO.
         volumes (:obj:`list` из :obj:`list` из :obj:`Track`, optional): Треки альбома, разделенные по дискам.
         year (:obj:`int`, optional): Год релиза.
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
@@ -90,6 +96,7 @@ class Album(YandexMusicObject):
                  original_release_year=None,
                  genre: Optional[str] = None,
                  meta_type: Optional[str] = None,
+                 storage_dir: Optional[str] = None,
                  og_image: Optional[str] = None,
                  buy: Optional[list] = None,
                  recent: Optional[bool] = None,
@@ -97,6 +104,7 @@ class Album(YandexMusicObject):
                  available_for_mobile: Optional[bool] = None,
                  available_partially: Optional[bool] = None,
                  bests: Optional[List[int]] = None,
+                 duplicates: List['Album'] = None,
                  prerolls: Optional[list] = None,
                  volumes: Optional[List[List['Track']]] = None,
                  year: Optional[int] = None,
@@ -122,8 +130,10 @@ class Album(YandexMusicObject):
         self.year = year
         self.release_date = release_date
         self.bests = bests
+        self.duplicates = duplicates
         self.prerolls = prerolls
         self.volumes = volumes
+        self.storage_dir = storage_dir
         self.og_image = og_image
         self.buy = buy
         self.recent = recent
@@ -201,6 +211,7 @@ class Album(YandexMusicObject):
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['labels'] = Label.de_list(data.get('labels'), client)
         data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
+        data['duplicates'] = Album.de_list(data.get('duplicates'), client)
         if data.get('volumes'):
             data['volumes'] = [Track.de_list(i, client) for i in data['volumes']]
 
@@ -220,11 +231,7 @@ class Album(YandexMusicObject):
         if not data:
             return []
 
-        albums = list()
-        for album in data:
-            albums.append(cls.de_json(album, client))
-
-        return albums
+        return [cls.de_json(album, client) for album in data]
 
     # camelCase псевдонимы
 

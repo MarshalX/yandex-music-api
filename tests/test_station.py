@@ -4,6 +4,8 @@ from yandex_music import Station
 class TestStation:
     name = 'На вашей волне'
     id_for_from = 'user-561231028'
+    full_image_url = 'avatars.yandex.net/get-music-misc/30221/rotor-activity-sex-full-image-3sv6j/%%'
+    mts_full_image_url = 'avatars.yandex.net/get-music-misc/2413828/rotor-activity-sex-mts-full-image-sYtDD/%%'
 
     def test_expected_values(self, station, id_, icon, restrictions):
         assert station.id == id_
@@ -14,6 +16,8 @@ class TestStation:
         assert station.id_for_from == self.id_for_from
         assert station.restrictions == restrictions
         assert station.restrictions2 == restrictions
+        assert station.full_image_url == self.full_image_url
+        assert station.mts_full_image_url == self.mts_full_image_url
         assert station.parent_id == id_
 
     def test_de_json_none(self, client):
@@ -38,7 +42,8 @@ class TestStation:
         json_dict = {'id_': id_.to_dict(), 'name': self.name, 'icon': icon.to_dict(), 'mts_icon': icon.to_dict(),
                      'geocell_icon': icon.to_dict(), 'id_for_from': self.id_for_from,
                      'restrictions': restrictions.to_dict(), 'restrictions2': restrictions.to_dict(),
-                     'parent_id': id_.to_dict()}
+                     'parent_id': id_.to_dict(), 'full_image_url': self.full_image_url,
+                     'mts_full_image_url': self.mts_full_image_url}
         station = Station.de_json(json_dict, client)
 
         assert station.id == id_
@@ -49,6 +54,8 @@ class TestStation:
         assert station.id_for_from == self.id_for_from
         assert station.restrictions == restrictions
         assert station.restrictions2 == restrictions
+        assert station.full_image_url == self.full_image_url
+        assert station.mts_full_image_url == self.mts_full_image_url
         assert station.parent_id == id_
 
     def test_equality(self, id_, icon, restrictions):

@@ -22,6 +22,7 @@ class MixLink(YandexMusicObject):
         background_color (:obj:`str`): Цвет заднего фона.
         background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
         cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
+        cover_uri (:obj:`str`): Ссылка на изображение с обложкой.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -32,6 +33,7 @@ class MixLink(YandexMusicObject):
         background_color (:obj:`str`): Цвет заднего фона.
         background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
         cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
+        cover_uri (:obj:`str`, optional): Ссылка на изображение с обложкой.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -44,6 +46,7 @@ class MixLink(YandexMusicObject):
                  background_color: str,
                  background_image_uri: str,
                  cover_white: str,
+                 cover_uri: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.title = title
@@ -53,6 +56,8 @@ class MixLink(YandexMusicObject):
         self.background_color = background_color
         self.background_image_uri = background_image_uri
         self.cover_white = cover_white
+
+        self.cover_uri = cover_uri
 
         self.client = client
         self._id_attrs = (self.url, self.title, self.url_scheme, self.text_color,
