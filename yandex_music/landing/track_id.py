@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
 
@@ -51,3 +51,19 @@ class TrackId(YandexMusicObject):
         data = super(TrackId, cls).de_json(data, client)
 
         return cls(client=client, **data)
+
+    @classmethod
+    def de_list(cls, data: dict, client: 'Client') -> List['TrackId']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.TrackId`: Уникальные идентификаторы треков.
+        """
+        if not data:
+            return []
+
+        return [cls.de_json(track_id, client) for track_id in data]

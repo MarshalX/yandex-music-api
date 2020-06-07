@@ -18,6 +18,12 @@ class Search(YandexMusicObject):
         playlists (:obj:`yandex_music.SearchResult`): Найденные плейлисты.
         tracks (:obj:`yandex_music.SearchResult`): Найденные треки.
         videos (:obj:`yandex_music.SearchResult`): Найденные видео.
+        users (:obj:`yandex_music.SearchResult`): Найденные пользователи.
+        podcasts (:obj:`yandex_music.SearchResult`): Найденные подскасты.
+        podcast_episodes (:obj:`yandex_music.SearchResult`): Найденные выпуски подкастов.
+        type_ (:obj:`str`): Тип результата по которому искали (аргумент в Client.search).
+        page (:obj:`int`): Текущая страница.
+        per_page (:obj:`int`): Результатов на странице.
         misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
         nocorrect (:obj:`bool`): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
@@ -31,6 +37,12 @@ class Search(YandexMusicObject):
         playlists (:obj:`yandex_music.SearchResult`): Найденные плейлисты.
         tracks (:obj:`yandex_music.SearchResult`): Найденные треки.
         videos (:obj:`yandex_music.SearchResult`): Найденные видео.
+        users (:obj:`yandex_music.SearchResult`): Найденные пользователи.
+        podcasts (:obj:`yandex_music.SearchResult`): Найденные подскасты.
+        podcast_episodes (:obj:`yandex_music.SearchResult`): Найденные выпуски подкастов.
+        type_ (:obj:`str`), optional: Тип результата по которому искали (аргумент в Client.search).
+        page (:obj:`int`, optional): Текущая страница.
+        per_page (:obj:`int`, optional): Результатов на странице.
         misspell_corrected (:obj:`bool`, optional): Был ли исправлен запрос.
         nocorrect (:obj:`bool`, optional): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -46,6 +58,12 @@ class Search(YandexMusicObject):
                  playlists: Optional['SearchResult'],
                  tracks: Optional['SearchResult'],
                  videos: Optional['SearchResult'],
+                 users: Optional['SearchResult'],
+                 podcasts: Optional['SearchResult'],
+                 podcast_episodes: Optional['SearchResult'],
+                 type_: Optional[str] = None,
+                 page: Optional[int] = None,
+                 per_page: Optional[int] = None,
                  misspell_corrected: Optional[bool] = None,
                  nocorrect: Optional[bool] = None,
                  client: Optional['Client'] = None,
@@ -58,13 +76,19 @@ class Search(YandexMusicObject):
         self.playlists = playlists
         self.tracks = tracks
         self.videos = videos
+        self.users = users
 
+        self.podcasts = podcasts
+        self.podcast_episodes = podcast_episodes
+        self.type_ = type_
+        self.page = page
+        self.per_page = per_page
         self.misspell_corrected = misspell_corrected
         self.nocorrect = nocorrect
 
         self.client = client
-        self._id_attrs = (self.search_request_id, self.text, self.best, self.albums,
-                          self.artists, self.playlists, self.tracks, self.videos)
+        self._id_attrs = (self.search_request_id, self.text, self.best, self.albums, self.artists, self.playlists,
+                          self.tracks, self.videos, self.users, self.podcasts, self.podcast_episodes)
 
         super().handle_unknown_kwargs(self, **kwargs)
 
@@ -90,5 +114,8 @@ class Search(YandexMusicObject):
         data['playlists'] = SearchResult.de_json(data.get('playlists'), client, 'playlist')
         data['tracks'] = SearchResult.de_json(data.get('tracks'), client, 'track')
         data['videos'] = SearchResult.de_json(data.get('videos'), client, 'video')
+        data['users'] = SearchResult.de_json(data.get('users'), client, 'user')
+        data['podcasts'] = SearchResult.de_json(data.get('podcasts'), client, 'podcast')
+        data['podcast_episodes'] = SearchResult.de_json(data.get('podcast_episodes'), client, 'podcast_episode')
 
         return cls(client=client, **data)

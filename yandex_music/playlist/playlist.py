@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
     from yandex_music import Client, User, Cover, MadeFor, TrackShort, PlaylistAbsence, PlayCounter,\
-        PlaylistRecommendations, Artist
+        PlaylistRecommendations, Artist, TrackId
 
 
 class Playlist(YandexMusicObject):
@@ -47,7 +47,9 @@ class Playlist(YandexMusicObject):
         background_color (:obj:`str`): Цвет заднего фона TODO.
         text_color (:obj:`str`): Цвет текста TODO.
         id_for_from (:obj:`str`): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        coauthors (:obj:`list` из :obj:`int`): Перечень ID аккаунтов соавторов плейлиста.
         top_artist (:obj:`list` из :obj:`yandex_music.Artist`): Топ артистов TODO.
+        recent_tracks (:obj:`list` из :obj:`yandex_music.TrackId`): Список ID недавних треков.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков.
         prerolls (:obj:`list`): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных плейлистов.
         likes_count (:obj:`int`): Количество лайков.
@@ -93,7 +95,9 @@ class Playlist(YandexMusicObject):
         background_color (:obj:`str`, optional): Цвет заднего фона TODO.
         text_color (:obj:`str`, optional): Цвет текста TODO.
         id_for_from (:obj:`str`, optional): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        coauthors (:obj:`list` из :obj:`int`, optional): Перечень ID аккаунтов соавторов плейлиста.
         top_artist (:obj:`list` из :obj:`yandex_music.Artist`, optional): Топ артистов TODO.
+        recent_tracks (:obj:`list` из :obj:`yandex_music.TrackId`, optional): Список ID недавних треков.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`, optional): Список треков.
         prerolls (:obj:`list`, optional): Прерол, проигрываемый перед плейлистом. Присутствует только у персональных
             плейлистов.
@@ -141,7 +145,9 @@ class Playlist(YandexMusicObject):
                  background_color: Optional[str] = None,
                  text_color: Optional[str] = None,
                  id_for_from: Optional[str] = None,
+                 coauthors: List[int] = None,
                  top_artist: List['Artist'] = None,
+                 recent_tracks: List['TrackId'] = None,
                  tracks: List['TrackShort'] = None,
                  prerolls: Optional[list] = None,
                  likes_count: Optional[int] = None,
@@ -185,7 +191,9 @@ class Playlist(YandexMusicObject):
         self.background_color = background_color
         self.text_color = text_color
         self.id_for_from = id_for_from
+        self.coauthors = coauthors
         self.top_artist = top_artist
+        self.recent_tracks = recent_tracks
         self.tracks = tracks
         self.prerolls = prerolls
         self.likes_count = likes_count
@@ -282,12 +290,13 @@ class Playlist(YandexMusicObject):
             return None
 
         data = super(Playlist, cls).de_json(data, client)
-        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence, Artist
+        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence, Artist, TrackId
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['cover_without_text'] = Cover.de_json(data.get('cover_without_text'), client)
         data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
+        data['recent_tracks'] = TrackId.de_list(data.get('recent_tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
         data['top_artist'] = Artist.de_list(data.get('top_artist'), client)
 

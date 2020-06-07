@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
 
@@ -16,6 +16,8 @@ class User(YandexMusicObject):
         При наличии экземпляра класса в `user_info` у `Track` (у самозагруженных треков) доступны только `uid`,
         '`login`, 'display_name` и `full_name`.
 
+        Поле `regions` есть только при возвращении пользователей в результатах поисках.
+
     Attributes:
         uid (:obj:`int`): Идентификатор пользователя.
         login (:obj:`str`): Логин пользователя.
@@ -24,6 +26,7 @@ class User(YandexMusicObject):
         full_name (:obj:`str`, optional): Полное имя пользователя.
         sex (:obj:`str`): Пол пользователя.
         verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
+        regions (:obj:`list` из :obj:`int`): Список регионов TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -34,6 +37,7 @@ class User(YandexMusicObject):
         full_name (:obj:`str`, optional): Полное имя пользователя.
         sex (:obj:`str`, optional): Пол пользователя.
         verified (:obj:`bool`, optional): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
+        regions (:obj:`list` из :obj:`int`, optional): Список регионов TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -46,6 +50,7 @@ class User(YandexMusicObject):
                  full_name: Optional[str] = None,
                  sex: Optional[str] = None,
                  verified: Optional[bool] = None,
+                 regions: List[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.uid = uid
@@ -56,6 +61,7 @@ class User(YandexMusicObject):
         self.full_name = full_name
         self.sex = sex
         self.verified = verified
+        self.regions = regions
 
         self.client = client
         self._id_attrs = (self.uid, self.login)
@@ -88,6 +94,22 @@ class User(YandexMusicObject):
         data = super(User, cls).de_json(data, client)
 
         return cls(client=client, **data)
+
+    @classmethod
+    def de_list(cls, data: dict, client: 'Client') -> List['User']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.User`: Пользователи.
+        """
+        if not data:
+            return []
+
+        return [cls.de_json(user, client) for user in data]
 
     # camelCase псевдонимы
 

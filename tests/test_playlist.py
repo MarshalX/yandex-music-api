@@ -25,6 +25,7 @@ class TestPlaylist:
     background_color = ''
     text_color = ''
     id_for_from = 'playlist_of_the_day'
+    coauthors = [1130000003905541]
     prerolls = []
     likes_count = 1
     generated_playlist_type = 'playlistOfTheDay'
@@ -36,7 +37,7 @@ class TestPlaylist:
     regions = None
 
     def test_expected_values(self, playlist, user, cover, made_for, track_short, play_counter, playlist_absence,
-                             playlist_without_nested_playlists, artist):
+                             playlist_without_nested_playlists, artist, track_id):
         assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
@@ -66,7 +67,9 @@ class TestPlaylist:
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.coauthors == self.coauthors
         assert playlist.top_artist == [artist]
+        assert playlist.recent_tracks == [track_id]
         assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count
@@ -98,7 +101,7 @@ class TestPlaylist:
         assert playlist.playlist_absence == playlist_absence
 
     def test_de_json_all(self, client, user, cover, made_for, track_short, play_counter, playlist_absence,
-                         playlist_without_nested_playlists, artist):
+                         playlist_without_nested_playlists, artist, track_id):
         json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
                      'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
                      'play_counter': play_counter.to_dict(), 'playlist_absence': playlist_absence.to_dict(),
@@ -112,10 +115,11 @@ class TestPlaylist:
                      'description': self.description, 'description_formatted': self.description_formatted,
                      'is_for_from': self.is_for_from, 'regions': self.regions, 'og_title': self.og_title,
                      'image': self.image, 'id_for_from': self.id_for_from, 'background_color': self.background_color,
-                     'text_color': self.text_color, 'cover_without_text': cover.to_dict(),
+                     'text_color': self.text_color, 'cover_without_text': cover.to_dict(), 'coauthors': self.coauthors,
                      'similar_playlists': [playlist_without_nested_playlists.to_dict()],
                      'last_owner_playlists': [playlist_without_nested_playlists.to_dict()],
-                     'og_description': self.og_description, 'top_artist': [artist.to_dict()]}
+                     'og_description': self.og_description, 'top_artist': [artist.to_dict()],
+                     'recent_tracks': [track_id.to_dict()]}
         playlist = Playlist.de_json(json_dict, client)
 
         assert playlist.owner == user
@@ -147,7 +151,9 @@ class TestPlaylist:
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.coauthors == self.coauthors
         assert playlist.top_artist == [artist]
+        assert playlist.recent_tracks == [track_id]
         assert playlist.tracks == [track_short]
         assert playlist.prerolls == self.prerolls
         assert playlist.likes_count == self.likes_count

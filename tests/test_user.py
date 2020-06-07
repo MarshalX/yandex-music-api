@@ -9,6 +9,7 @@ class TestUser:
     full_name = 'Илья'
     sex = 'unknown'
     verified = False
+    regions = ['RUSSIA_PREMIUM', 'RUSSIA']
 
     def test_expected_values(self, user):
         assert user.uid == self.uid
@@ -18,9 +19,13 @@ class TestUser:
         assert user.full_name == self.full_name
         assert user.sex == self.sex
         assert user.verified == self.verified
+        assert user.regions == self.regions
 
     def test_de_json_none(self, client):
         assert User.de_json({}, client) is None
+
+    def test_de_list_none(self, client):
+        assert User.de_list({}, client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'uid': self.uid, 'login': self.login}
@@ -31,7 +36,8 @@ class TestUser:
 
     def test_de_json_all(self, client):
         json_dict = {'uid': self.uid, 'login': self.login, 'name': self.name, 'sex': self.sex,
-                     'verified': self.verified, 'display_name': self.display_name, 'full_name': self.full_name}
+                     'verified': self.verified, 'display_name': self.display_name, 'full_name': self.full_name,
+                     'regions': self.regions}
         user = User.de_json(json_dict, client)
 
         assert user.uid == self.uid
@@ -41,6 +47,7 @@ class TestUser:
         assert user.full_name == self.full_name
         assert user.sex == self.sex
         assert user.verified == self.verified
+        assert user.regions == self.regions
 
     def test_equality(self):
         a = User(self.uid, self.login)
