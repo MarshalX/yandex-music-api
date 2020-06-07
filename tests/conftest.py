@@ -25,12 +25,12 @@ from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewabl
 @pytest.fixture(scope='session')
 def artist_factory(cover, counts, ratings, link, description):
     class ArtistFactory:
-        def get(self, popular_tracks):
+        def get(self, popular_tracks, decomposed=None):
             return Artist(TestArtist.id, TestArtist.error, TestArtist.reason, TestArtist.name, cover,
                           TestArtist.various, TestArtist.composer, TestArtist.genres, TestArtist.og_image,
                           TestArtist.op_image, TestArtist.no_pictures_from_search, counts, TestArtist.available,
                           ratings, [link], TestArtist.tickets_available, TestArtist.likes_count, popular_tracks,
-                          TestArtist.regions, TestArtist.decomposed, TestArtist.full_names, description,
+                          TestArtist.regions, decomposed, TestArtist.full_names, description,
                           TestArtist.countries, TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases,
                           TestArtist.init_date, TestArtist.end_date)
 
@@ -38,13 +38,23 @@ def artist_factory(cover, counts, ratings, link, description):
 
 
 @pytest.fixture(scope='session')
-def artist(artist_factory, track_without_artists_and_albums):
+def artist(artist_factory, track_without_artists_and_albums, artist_decomposed):
+    return artist_factory.get([track_without_artists_and_albums], artist_decomposed)
+
+
+@pytest.fixture(scope='session')
+def artist_without_nested_artist(artist_factory, track_without_artists_and_albums):
     return artist_factory.get([track_without_artists_and_albums])
 
 
 @pytest.fixture(scope='session')
 def artist_without_tracks(artist_factory):
     return artist_factory.get([])
+
+
+@pytest.fixture(scope='session')
+def artist_decomposed(artist_without_nested_artist):
+    return [' & ', artist_without_nested_artist]
 
 
 @pytest.fixture(scope='session')

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 
@@ -27,7 +27,8 @@ class Artist(YandexMusicObject):
         links (:obj:`list` из :obj:`yandex_music.Link`): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`): Имеются ли в продаже билеты на концерт.
         regions (:obj:`list` из :obj:`str`): Регион TODO.
-        decomposed: TODO.
+        decomposed (:obj:`list` из :obj:`str` и :obj:`yandex_music.Artist`): Декомпозиция всех исполнителей. Лист, где
+            чередуется разделитель и артист. Фиты и прочее.
         popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
         likes_count (:obj:`int`): Количество лайков.
         full_names: TODO.
@@ -60,7 +61,8 @@ class Artist(YandexMusicObject):
         likes_count (:obj:`int`, optional): Количество лайков.
         popular_tracks (:obj:`list` :obj:`yandex_music.Track`, optional): Популярные треки.
         regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
-        decomposed: TODO.
+        decomposed (:obj:`list` из :obj:`str` и :obj:`yandex_music.Artist`, optional): Декомпозиция всех исполнителей.
+            Лист, где чередуется разделитель и артист. Фиты и прочее.
         full_names: TODO.
         description (:obj:`yandex_music.Description`, optional): Описание.
         countries (:obj:`list` из :obj:`str`, optional): Страны.
@@ -93,7 +95,7 @@ class Artist(YandexMusicObject):
                  likes_count: Optional[int] = None,
                  popular_tracks: Optional[List['Track']] = None,
                  regions: Optional[List[str]] = None,
-                 decomposed=None,
+                 decomposed: Optional[List[Union[str, 'Artist']]] = None,
                  full_names=None,
                  description: Optional['Description'] = None,
                  countries: Optional[List[str]] = None,
@@ -212,7 +214,11 @@ class Artist(YandexMusicObject):
         data['links'] = Link.de_list(data.get('links'), client)
         data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
         data['description'] = Description.de_json(data.get('description'), client)
-        # TODO add "decomposed" deserialization
+
+        # Мне очень интересно увидеть как в яндухе на клиентах солвят свой бэковский костыль, пригласите на экскурсию
+        if data.get('decomposed'):
+            data['decomposed'] = [Artist.de_json(part, client)
+                                  if isinstance(part, dict) else part for part in data['decomposed']]
 
         return cls(client=client, **data)
 

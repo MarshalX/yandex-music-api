@@ -16,7 +16,6 @@ class TestArtist:
     tickets_available = False
     likes_count = 657469
     regions = None
-    decomposed = None
     full_names = None
     countries = None
     en_wikipedia_link = None
@@ -25,7 +24,8 @@ class TestArtist:
     init_date = '1935-01-08'
     end_date = None
 
-    def test_expected_values(self, artist, cover, counts, ratings, link, track_without_artists_and_albums, description):
+    def test_expected_values(self, artist, cover, counts, ratings, link, track_without_artists_and_albums,
+                             description, artist_decomposed):
         assert artist.id == self.id
         assert artist.error == self.error
         assert artist.reason == self.reason
@@ -45,7 +45,7 @@ class TestArtist:
         assert artist.likes_count == self.likes_count
         assert artist.popular_tracks == [track_without_artists_and_albums]
         assert artist.regions == self.regions
-        assert artist.decomposed == self.decomposed
+        assert artist.decomposed == artist_decomposed
         assert artist.full_names == self.full_names
         assert artist.description == description
         assert artist.countries == self.countries
@@ -67,7 +67,9 @@ class TestArtist:
 
         assert artist.id == self.id
 
-    def test_de_json_all(self, client, cover, counts, ratings, link, track_without_artists, description):
+    def test_de_json_all(self, client, cover, counts, ratings, link, track_without_artists,
+                         description, artist_decomposed):
+        artist_decomposed_dict = [item if isinstance(item, str) else item.to_dict() for item in artist_decomposed]
         json_dict = {'id_': self.id, 'reason': self.reason, 'error': self.error, 'name': self.name,
                      'various': self.various, 'composer': self.composer, 'cover': cover.to_dict(),
                      'genres': self.genres, 'op_image': self.op_image, 'og_image': self.og_image,
@@ -75,7 +77,7 @@ class TestArtist:
                      'available': self.available, 'ratings': ratings.to_dict(),
                      'links': [link.to_dict()], 'tickets_available': self.tickets_available,
                      'likes_count': self.likes_count, 'popular_tracks': [track_without_artists.to_dict()],
-                     'regions': self.regions, 'decomposed': self.decomposed, 'full_names': self.full_names,
+                     'regions': self.regions, 'decomposed': artist_decomposed_dict, 'full_names': self.full_names,
                      'description': description.to_dict(), 'countries': self.countries,
                      'en_wikipedia_link': self.en_wikipedia_link, 'db_aliases': self.db_aliases,
                      'aliases': self.aliases, 'init_date': self.init_date, 'end_date': self.end_date}
@@ -100,7 +102,7 @@ class TestArtist:
         assert artist.likes_count == self.likes_count
         assert artist.popular_tracks == [track_without_artists]
         assert artist.regions == self.regions
-        assert artist.decomposed == self.decomposed
+        assert artist.decomposed == artist_decomposed
         assert artist.full_names == self.full_names
         assert artist.description == description
         assert artist.countries == self.countries
