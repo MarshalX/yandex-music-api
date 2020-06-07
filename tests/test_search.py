@@ -18,7 +18,8 @@ def search(best, search_result):
     return Search(TestSearch.search_request_id, TestSearch.text, best,
                   search_result(3), search_result(2), search_result(4), search_result(1), search_result(5),
                   search_result(13), search_result(14), search_result(15), TestSearch.type_, TestSearch.page,
-                  TestSearch.per_page, TestSearch.misspell_corrected, TestSearch.nocorrect)
+                  TestSearch.per_page, TestSearch.misspell_result, TestSearch.misspell_original,
+                  TestSearch.misspell_corrected, TestSearch.nocorrect)
 
 
 class TestSearch:
@@ -28,6 +29,8 @@ class TestSearch:
     type_ = 'artist'
     page = 0
     per_page = 10
+    misspell_result = 'era ameno'
+    misspell_original = 'ero amen'
     misspell_corrected = False
     nocorrect = False
 
@@ -46,6 +49,8 @@ class TestSearch:
         assert search.type_ == self.type_
         assert search.page == self.page
         assert search.per_page == self.per_page
+        assert search.misspell_result == self.misspell_result
+        assert search.misspell_original == self.misspell_original
         assert search.misspell_corrected == self.misspell_corrected
         assert search.nocorrect == self.nocorrect
 
@@ -79,7 +84,8 @@ class TestSearch:
                      'videos': search_result(5).to_dict(), 'users': search_result(13).to_dict(),
                      'podcasts': search_result(14).to_dict(), 'podcast_episodes': search_result(15).to_dict(),
                      'misspell_corrected': self.misspell_corrected, 'nocorrect': self.nocorrect,
-                     'type_': self.type_, 'page': self.page, 'per_page': self.per_page}
+                     'type_': self.type_, 'page': self.page, 'per_page': self.per_page,
+                     'misspell_result': self.misspell_result, 'misspell_original': self.misspell_original}
         search = Search.de_json(json_dict, client)
 
         assert search.search_request_id == self.search_request_id
@@ -96,6 +102,8 @@ class TestSearch:
         assert search.type_ == self.type_
         assert search.page == self.page
         assert search.per_page == self.per_page
+        assert search.misspell_result == self.misspell_result
+        assert search.misspell_original == self.misspell_original
         assert search.misspell_corrected == self.misspell_corrected
         assert search.nocorrect == self.nocorrect
 

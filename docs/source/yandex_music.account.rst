@@ -13,3 +13,5 @@
     yandex_music.account.product
     yandex_music.account.price
     yandex_music.account.user_settings
+    yandex_music.account.alert
+    yandex_music.account.alert_button

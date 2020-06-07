@@ -24,6 +24,8 @@ class Search(YandexMusicObject):
         type_ (:obj:`str`): Тип результата по которому искали (аргумент в Client.search).
         page (:obj:`int`): Текущая страница.
         per_page (:obj:`int`): Результатов на странице.
+        misspell_result (:obj:`str`): Запрос с автоматическим исправлением.
+        misspell_original (:obj:`str`): Оригинальный запрос.
         misspell_corrected (:obj:`bool`): Был ли исправлен запрос.
         nocorrect (:obj:`bool`): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
@@ -43,6 +45,8 @@ class Search(YandexMusicObject):
         type_ (:obj:`str`), optional: Тип результата по которому искали (аргумент в Client.search).
         page (:obj:`int`, optional): Текущая страница.
         per_page (:obj:`int`, optional): Результатов на странице.
+        misspell_result (:obj:`str`, optional): Запрос с автоматическим исправлением.
+        misspell_original (:obj:`str`, optional): Оригинальный запрос.
         misspell_corrected (:obj:`bool`, optional): Был ли исправлен запрос.
         nocorrect (:obj:`bool`, optional): Было ли отключено исправление результата.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -64,6 +68,8 @@ class Search(YandexMusicObject):
                  type_: Optional[str] = None,
                  page: Optional[int] = None,
                  per_page: Optional[int] = None,
+                 misspell_result: Optional[str] = None,
+                 misspell_original: Optional[str] = None,
                  misspell_corrected: Optional[bool] = None,
                  nocorrect: Optional[bool] = None,
                  client: Optional['Client'] = None,
@@ -83,6 +89,8 @@ class Search(YandexMusicObject):
         self.type_ = type_
         self.page = page
         self.per_page = per_page
+        self.misspell_result = misspell_result
+        self.misspell_original = misspell_original
         self.misspell_corrected = misspell_corrected
         self.nocorrect = nocorrect
 

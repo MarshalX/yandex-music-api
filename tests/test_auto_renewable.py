@@ -9,13 +9,14 @@ class TestAutoRenewable:
     finished = False
     order_id = 39385401
 
-    def test_expected_values(self, auto_renewable, product):
+    def test_expected_values(self, auto_renewable, product, user):
         assert auto_renewable.expires == self.expires
         assert auto_renewable.vendor == self.vendor
         assert auto_renewable.vendor_help_url == self.vendor_help_url
         assert auto_renewable.product_id == self.product_id
         assert auto_renewable.product == product
         assert auto_renewable.finished == self.finished
+        assert auto_renewable.master_info == user
         assert auto_renewable.order_id == self.order_id
 
     def test_de_json_none(self, client):
@@ -35,10 +36,10 @@ class TestAutoRenewable:
         assert auto_renewable.product == product
         assert auto_renewable.finished == self.finished
 
-    def test_de_json_all(self, client, product):
+    def test_de_json_all(self, client, product, user):
         json_dict = {'expires': self.expires, 'vendor': self.vendor, 'vendor_help_url': self.vendor_help_url,
                      'product_id': self.product_id, 'product': product.to_dict(), 'finished': self.finished,
-                     'order_id': self.order_id}
+                     'order_id': self.order_id, 'master_info': user.to_dict()}
         auto_renewable = AutoRenewable.de_json(json_dict, client)
 
         assert auto_renewable.expires == self.expires
@@ -47,6 +48,7 @@ class TestAutoRenewable:
         assert auto_renewable.product_id == self.product_id
         assert auto_renewable.product == product
         assert auto_renewable.finished == self.finished
+        assert auto_renewable.master_info == user
         assert auto_renewable.order_id == self.order_id
 
     def test_equality(self, product):

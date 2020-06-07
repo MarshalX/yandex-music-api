@@ -8,7 +8,7 @@ from yandex_music import Account, AdParams, Album, AlbumEvent, Artist, ArtistEve
     PlaylistId, Plus, Price, Product, Promotion, Ratings, RenewableRemainder, Restrictions, RotorSettings, \
     SearchResult, Sequence, Settings, Shot, ShotData, ShotType, Station, StationResult, Status, Subscription, Tag, \
     Title, Track, TrackId, TrackPosition, TrackShort, TrackShortOld, TrackWithAds, User, Value, Video, \
-    VideoSupplement, Vinyl
+    VideoSupplement, Vinyl, StationData, AlertButton, Alert
 from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewable, TestBest, TestBlock, \
     TestBlockEntity, TestCaseForms, TestChart, TestChartInfo, TestChartInfoMenuItem, TestCounts, TestCover, TestDay, \
     TestDescription, TestDiscreteScale, TestEnum, TestEvent, TestGeneratedPlaylist, TestIcon, TestId, TestImages, \
@@ -18,7 +18,8 @@ from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewabl
     TestPromotion, TestRatings, TestRenewableRemainder, TestRotorSettings, TestSearchResult, TestSequence, \
     TestSettings, TestShot, TestShotData, TestShotType, TestStation, TestStationResult, TestStatus, TestSubscription, \
     TestTag, TestTitle, TestTrack, TestTrackId, TestTrackPosition, TestTrackShort, TestTrackShortOld, \
-    TestTrackWithAds, TestUser, TestValue, TestVideo, TestVideoSupplement, TestVinyl, TestArtistEvent
+    TestTrackWithAds, TestUser, TestValue, TestVideo, TestVideoSupplement, TestVinyl, TestArtistEvent, \
+    TestStationData, TestAlertButton, TestAlert
 
 
 @pytest.fixture(scope='session')
@@ -370,9 +371,10 @@ def permissions():
 
 
 @pytest.fixture(scope='session')
-def auto_renewable(product):
+def auto_renewable(product, user):
     return AutoRenewable(TestAutoRenewable.expires, TestAutoRenewable.vendor, TestAutoRenewable.vendor_help_url,
-                         product, TestAutoRenewable.finished, TestAutoRenewable.product_id, TestAutoRenewable.order_id)
+                         product, TestAutoRenewable.finished, user, TestAutoRenewable.product_id,
+                         TestAutoRenewable.order_id)
 
 
 @pytest.fixture(scope='session')
@@ -411,7 +413,7 @@ def price():
 
 @pytest.fixture(scope='session')
 def subscription(renewable_remainder, auto_renewable):
-    return Subscription(renewable_remainder, [auto_renewable], TestSubscription.can_start_trial,
+    return Subscription(renewable_remainder, [auto_renewable], [auto_renewable], TestSubscription.can_start_trial,
                         TestSubscription.mcdonalds, TestSubscription.end)
 
 
@@ -449,10 +451,26 @@ def track_position():
 
 
 @pytest.fixture(scope='session')
-def status(account, permissions, subscription, plus):
+def status(account, permissions, subscription, plus, station_data, alert):
     return Status(account, permissions, TestStatus.advertisement, subscription, TestStatus.cache_limit,
                   TestStatus.subeditor, TestStatus.subeditor_level, plus, TestStatus.default_email,
-                  TestStatus.skips_per_hour, TestStatus.station_exists, TestStatus.premium_region)
+                  TestStatus.skips_per_hour, TestStatus.station_exists, station_data, alert, TestStatus.premium_region)
+
+
+@pytest.fixture(scope='session')
+def station_data():
+    return StationData(TestStationData.name)
+
+
+@pytest.fixture(scope='session')
+def alert_button():
+    return AlertButton(TestAlertButton.text, TestAlertButton.bg_color, TestAlertButton.text_color, TestAlertButton.uri)
+
+
+@pytest.fixture(scope='session')
+def alert(alert_button):
+    return Alert(TestAlert.alert_id, TestAlert.text, TestAlert.bg_color, TestAlert.text_color, TestAlert.alert_type,
+                 alert_button, TestAlert.close_button)
 
 
 @pytest.fixture(scope='session')

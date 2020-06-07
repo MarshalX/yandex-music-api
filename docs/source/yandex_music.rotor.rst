@@ -15,3 +15,4 @@
     yandex_music.rotor.restrictions
     yandex_music.rotor.station_result
     yandex_music.rotor.station_tracks_result
+    yandex_music.rotor.station_data

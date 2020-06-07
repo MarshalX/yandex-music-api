@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, List
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Product
+    from yandex_music import Client, Product, User
 
 
 class AutoRenewable(YandexMusicObject):
@@ -14,6 +14,7 @@ class AutoRenewable(YandexMusicObject):
         vendor (:obj:`str`): Продавец.
         vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
         product_id (:obj:`str`): Уникальный идентификатор продукта.
+        master_info (:obj:`yandex_music.User`): Главный в семейной подписке.
         product (:obj:`yandex_music.Product`): Продукт.
         order_id (:obj:`int`): Уникальный идентификатор заказа.
         finished (:obj:`bool`): Завершенность автопродления.
@@ -25,6 +26,7 @@ class AutoRenewable(YandexMusicObject):
         vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
         product_id (:obj:`str`): Уникальный идентификатор продукта.
         finished (:obj:`bool`): Завершенность автопродления.
+        master_info (:obj:`yandex_music.User`, optional): Главный в семейной подписке.
         product (:obj:`yandex_music.Product`, optional): Продукт.
         order_id (:obj:`int`): Уникальный идентификатор заказа.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -37,6 +39,7 @@ class AutoRenewable(YandexMusicObject):
                  vendor_help_url: str,
                  product: Optional['Product'],
                  finished: bool,
+                 master_info: Optional['User'] = None,
                  product_id: Optional[str] = None,
                  order_id: Optional[int] = None,
                  client: Optional['Client'] = None,
@@ -47,6 +50,7 @@ class AutoRenewable(YandexMusicObject):
         self.product = product
         self.finished = finished
 
+        self.master_info = master_info
         self.product_id = product_id
         self.order_id = order_id
 
@@ -70,8 +74,9 @@ class AutoRenewable(YandexMusicObject):
             return None
 
         data = super(AutoRenewable, cls).de_json(data, client)
-        from yandex_music import Product
+        from yandex_music import Product, User
         data['product'] = Product.de_json(data.get('product'), client)
+        data['master_info'] = User.de_json(data.get('master_info'), client)
 
         return cls(client=client, **data)
 
@@ -89,8 +94,4 @@ class AutoRenewable(YandexMusicObject):
         if not data:
             return []
 
-        auto_renewables = list()
-        for auto_renewable in data:
-            auto_renewables.append(cls.de_json(auto_renewable, client))
-
-        return auto_renewables
+        return [cls.de_json(auto_renewable, client) for auto_renewable in data]

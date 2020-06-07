@@ -80,3 +80,6 @@ from .test_renewable_remainder import TestRenewableRemainder
 from .test_tag import TestTag
 from .test_meta_data import TestMetaData
 from .test_licence_text_part import TestLicenceTextPart
+from .test_station_data import TestStationData
+from .test_alert_button import TestAlertButton
+from .test_alert import TestAlert
