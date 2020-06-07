@@ -48,6 +48,8 @@ class Client(YandexMusicObject):
         При `fetch_account_status = False` многие сокращения перестанут работать в связи с тем, что неоткуда будет взять
         uid аккаунта для отправки запроса. Так же в большинстве методов придётся передавать `uid` явно.
 
+        Для отключения предупреждений о новых полях установите `report_new_fields` в `False`.
+
     Attributes:
         logger (:obj:`logging.Logger`): Объект логгера.
         token (:obj:`str`): Уникальный ключ для аутентификации.
@@ -55,6 +57,8 @@ class Client(YandexMusicObject):
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
         me (:obj:`yandex_music.Status`): Информация об аккаунте.
         report_new_fields (:obj:`bool`): Включены ли сообщения о новых полях от API, которых нет в библиотеке.
+        report_new_fields_callback (:obj:`function`): Функция обратного вызова для обработки новых полей.
+            Принимает объект, в котором нет поля и kwargs с неизвестными полями.
 
     Args:
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
@@ -64,10 +68,13 @@ class Client(YandexMusicObject):
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
         report_new_fields (:obj:`bool`, optional): Включить сообщения о новых полях от API, которых нет в библиотеке.
+        report_new_fields_callback (:obj:`function`, optional): Функция обратного вызова для обработки новых полей.
+            Принимает объект, в котором нет поля и kwargs с неизвестными полями.
     """
 
     def __init__(self, token: str = None, fetch_account_status: bool = True, base_url: str = None,
-                 oauth_url: str = None, request: Request = None, report_new_fields=True) -> None:
+                 oauth_url: str = None, request: Request = None,
+                 report_new_fields=True, report_new_fields_callback: Callable[[object, dict], None] = None) -> None:
         self.logger = logging.getLogger(__name__)
         self.token = token
 
@@ -80,6 +87,9 @@ class Client(YandexMusicObject):
         self.oauth_url = oauth_url
 
         self.report_new_fields = report_new_fields
+
+        if report_new_fields_callback is not None:
+            self.report_new_fields_callback = report_new_fields_callback
 
         if request:
             self._request = request

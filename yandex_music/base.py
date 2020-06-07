@@ -34,11 +34,15 @@ class YandexMusicObject:
         return self.__dict__[item]
 
     @staticmethod
+    def report_new_fields_callback(obj, new_fields):
+        logger.warning(f'Found unknown fields received from API! Please copy warn message '
+                       f'and send to {new_issue_by_template_url} (github issue), thank you!')
+        logger.warning(f'Type: {type(obj)}; kwargs: {new_fields}')
+
+    @staticmethod
     def handle_unknown_kwargs(obj, **kwargs):
         if kwargs and obj.client.report_new_fields:
-            logger.warning(f'Found unknown fields received from API! Please copy warn message '
-                           f'and send to {new_issue_by_template_url} (github issue), thank you!')
-            logger.warning(f'Type: {type(obj)}; kwargs: {kwargs}')
+            obj.client.report_new_fields_callback(obj, kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:
