@@ -24,6 +24,7 @@ class Status(YandexMusicObject):
         station_data (:obj:`yandex_music.StationData`): Информация о личной станции.
         bar_below (:obj:`yandex_music.Alert`): Блок с предупреждениями о конце подписке и подарках.
         premium_region (:obj:`int`): Регион TODO.
+        experiment (:obj:`int`): Включенная новая фича на аккаунте (её ID) TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -41,6 +42,7 @@ class Status(YandexMusicObject):
         station_data (:obj:`yandex_music.StationData`, optional): Информация о личной станции.
         bar_below (:obj:`yandex_music.Alert`, optional): Блок с предупреждениями о конце подписке и подарках.
         premium_region (:obj:`int`, optional): Регион TODO.
+        experiment (:obj:`int`, optional): Включенная новая фича на аккаунте (её ID) TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -60,6 +62,7 @@ class Status(YandexMusicObject):
                  station_data: Optional['StationData'] = None,
                  bar_below: Optional['Alert'] = None,
                  premium_region: Optional[int] = None,
+                 experiment: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.account = account
@@ -77,6 +80,7 @@ class Status(YandexMusicObject):
         self.station_data = station_data
         self.bar_below = bar_below
         self.premium_region = premium_region
+        self.experiment = experiment
 
         self.client = client
         self._id_attrs = (self.account, self.permissions)
