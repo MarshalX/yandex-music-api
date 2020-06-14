@@ -23,6 +23,7 @@ class TestLyrics:
     has_rights = True
     text_language = 'de'
     show_translation = True
+    url = 'https://genius.com/Babyface-dont-take-it-so-personal-lyrics'
 
     def test_expected_values(self, lyrics):
         assert lyrics.id == self.id
@@ -31,6 +32,7 @@ class TestLyrics:
         assert lyrics.has_rights == self.has_rights
         assert lyrics.text_language == self.text_language
         assert lyrics.show_translation == self.show_translation
+        assert lyrics.url == self.url
 
     def test_de_json_none(self, client):
         assert Lyrics.de_json({}, client) is None
@@ -51,7 +53,7 @@ class TestLyrics:
     def test_de_json_all(self, client):
         json_dict = {'id_': self.id, 'lyrics': self.lyrics, 'full_lyrics': self.full_lyrics,
                      'has_rights': self.has_rights, 'text_language': self.text_language,
-                     'show_translation': self.show_translation}
+                     'show_translation': self.show_translation, 'url': self.url}
         lyrics = Lyrics.de_json(json_dict, client)
 
         assert lyrics.id == self.id
@@ -60,6 +62,7 @@ class TestLyrics:
         assert lyrics.has_rights == self.has_rights
         assert lyrics.text_language == self.text_language
         assert lyrics.show_translation == self.show_translation
+        assert lyrics.url == self.url
 
     def test_equality(self):
         a = Lyrics(self.id, self.lyrics, self.full_lyrics, self.has_rights, self.text_language, self.show_translation)

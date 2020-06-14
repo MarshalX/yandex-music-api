@@ -47,6 +47,7 @@ class Playlist(YandexMusicObject):
         background_color (:obj:`str`): Цвет заднего фона TODO.
         text_color (:obj:`str`): Цвет текста TODO.
         id_for_from (:obj:`str`): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        metrika_id (:obj:`int`): Уникальный идентификатор счётчика на Яндекс.Метрика.
         coauthors (:obj:`list` из :obj:`int`): Перечень ID аккаунтов соавторов плейлиста.
         top_artist (:obj:`list` из :obj:`yandex_music.Artist`): Топ артистов TODO.
         recent_tracks (:obj:`list` из :obj:`yandex_music.TrackId`): Список ID недавних треков.
@@ -95,6 +96,7 @@ class Playlist(YandexMusicObject):
         background_color (:obj:`str`, optional): Цвет заднего фона TODO.
         text_color (:obj:`str`, optional): Цвет текста TODO.
         id_for_from (:obj:`str`, optional): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        metrika_id (:obj:`int`, optional): Уникальный идентификатор счётчика на Яндекс.Метрика.
         coauthors (:obj:`list` из :obj:`int`, optional): Перечень ID аккаунтов соавторов плейлиста.
         top_artist (:obj:`list` из :obj:`yandex_music.Artist`, optional): Топ артистов TODO.
         recent_tracks (:obj:`list` из :obj:`yandex_music.TrackId`, optional): Список ID недавних треков.
@@ -145,6 +147,7 @@ class Playlist(YandexMusicObject):
                  background_color: Optional[str] = None,
                  text_color: Optional[str] = None,
                  id_for_from: Optional[str] = None,
+                 metrika_id: Optional[int] = None,
                  coauthors: List[int] = None,
                  top_artist: List['Artist'] = None,
                  recent_tracks: List['TrackId'] = None,
@@ -191,6 +194,7 @@ class Playlist(YandexMusicObject):
         self.background_color = background_color
         self.text_color = text_color
         self.id_for_from = id_for_from
+        self.metrika_id = metrika_id
         self.coauthors = coauthors
         self.top_artist = top_artist
         self.recent_tracks = recent_tracks

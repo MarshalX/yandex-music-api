@@ -8,7 +8,7 @@ from yandex_music import Account, AdParams, Album, AlbumEvent, Artist, ArtistEve
     PlaylistId, Plus, Price, Product, Promotion, Ratings, RenewableRemainder, Restrictions, RotorSettings, \
     SearchResult, Sequence, Settings, Shot, ShotData, ShotType, Station, StationResult, Status, Subscription, Tag, \
     Title, Track, TrackId, TrackPosition, TrackShort, TrackShortOld, TrackWithAds, User, Value, Video, \
-    VideoSupplement, Vinyl, StationData, AlertButton, Alert
+    VideoSupplement, Vinyl, StationData, AlertButton, Alert, NonAutoRenewable, PoetryLoverMatch, Deactivation, Operator
 from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewable, TestBest, TestBlock, \
     TestBlockEntity, TestCaseForms, TestChart, TestChartInfo, TestChartInfoMenuItem, TestCounts, TestCover, TestDay, \
     TestDescription, TestDiscreteScale, TestEnum, TestEvent, TestGeneratedPlaylist, TestIcon, TestId, TestImages, \
@@ -19,7 +19,8 @@ from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewabl
     TestSettings, TestShot, TestShotData, TestShotType, TestStation, TestStationResult, TestStatus, TestSubscription, \
     TestTag, TestTitle, TestTrack, TestTrackId, TestTrackPosition, TestTrackShort, TestTrackShortOld, \
     TestTrackWithAds, TestUser, TestValue, TestVideo, TestVideoSupplement, TestVinyl, TestArtistEvent, \
-    TestStationData, TestAlertButton, TestAlert
+    TestStationData, TestAlertButton, TestAlert, TestNonAutoRenewable, TestPoetryLoverMatch, TestDeactivation, \
+    TestOperator
 
 
 @pytest.fixture(scope='session')
@@ -30,9 +31,9 @@ def artist_factory(cover, counts, ratings, link, description):
                           TestArtist.various, TestArtist.composer, TestArtist.genres, TestArtist.og_image,
                           TestArtist.op_image, TestArtist.no_pictures_from_search, counts, TestArtist.available,
                           ratings, [link], TestArtist.tickets_available, TestArtist.likes_count, popular_tracks,
-                          TestArtist.regions, decomposed, TestArtist.full_names, description,
-                          TestArtist.countries, TestArtist.en_wikipedia_link, TestArtist.db_aliases, TestArtist.aliases,
-                          TestArtist.init_date, TestArtist.end_date)
+                          TestArtist.regions, decomposed, TestArtist.full_names, TestArtist.hand_made_description,
+                          description, TestArtist.countries, TestArtist.en_wikipedia_link, TestArtist.db_aliases,
+                          TestArtist.aliases, TestArtist.init_date, TestArtist.end_date)
 
     return ArtistFactory()
 
@@ -58,16 +59,16 @@ def artist_decomposed(artist_without_nested_artist):
 
 
 @pytest.fixture(scope='session')
-def track_factory(major, normalization, user, meta_data):
+def track_factory(major, normalization, user, meta_data, poetry_lover_match):
     class TrackFactory:
         def get(self, artists, albums, track_without_nested_tracks=None):
             return Track(TestTrack.id, TestTrack.title, TestTrack.available, artists, albums,
-                         TestTrack.available_for_premium_users, TestTrack.lyrics_available, TestTrack.best,
-                         TestTrack.real_id, TestTrack.og_image, TestTrack.type, TestTrack.cover_uri, major,
-                         TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size, track_without_nested_tracks,
-                         track_without_nested_tracks, normalization, TestTrack.error, TestTrack.can_publish,
-                         TestTrack.state, TestTrack.desired_visibility, TestTrack.filename, user, meta_data,
-                         TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
+                         TestTrack.available_for_premium_users, TestTrack.lyrics_available, [poetry_lover_match],
+                         TestTrack.best, TestTrack.real_id, TestTrack.og_image, TestTrack.type, TestTrack.cover_uri,
+                         major, TestTrack.duration_ms, TestTrack.storage_dir, TestTrack.file_size,
+                         track_without_nested_tracks, track_without_nested_tracks, normalization, TestTrack.error,
+                         TestTrack.can_publish, TestTrack.state, TestTrack.desired_visibility, TestTrack.filename,
+                         user, meta_data, TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
                          TestTrack.explicit, TestTrack.preview_duration_ms, TestTrack.available_full_without_permission,
                          TestTrack.version, TestTrack.remember_position)
 
@@ -106,10 +107,12 @@ def album_factory(label, track_position):
             return Album(TestAlbum.id, TestAlbum.error, TestAlbum.title, TestAlbum.track_count, artists, [label],
                          TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.version,
                          TestAlbum.cover_uri, TestAlbum.content_warning, TestAlbum.original_release_year,
-                         TestAlbum.genre, TestAlbum.meta_type, TestAlbum.storage_dir, TestAlbum.og_image, TestAlbum.buy,
-                         TestAlbum.recent, TestAlbum.very_important, TestAlbum.available_for_mobile,
-                         TestAlbum.available_partially, TestAlbum.bests, duplicates, TestAlbum.prerolls, volumes,
-                         TestAlbum.year, TestAlbum.release_date, TestAlbum.type, track_position, TestAlbum.regions)
+                         TestAlbum.genre, TestAlbum.text_color, TestAlbum.short_description, TestAlbum.description,
+                         TestAlbum.is_premiere, TestAlbum.is_banner, TestAlbum.meta_type, TestAlbum.storage_dir,
+                         TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
+                         TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests, duplicates,
+                         TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
+                         track_position, TestAlbum.regions)
 
     return AlbumFactory()
 
@@ -140,11 +143,12 @@ def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_
                             TestPlaylist.available, TestPlaylist.is_banner, TestPlaylist.is_premiere,
                             TestPlaylist.duration_ms, TestPlaylist.og_image, TestPlaylist.og_title,
                             TestPlaylist.og_description, TestPlaylist.image, cover, TestPlaylist.background_color,
-                            TestPlaylist.text_color, TestPlaylist.id_for_from, TestPlaylist.coauthors, [artist],
-                            [track_id], [track_short], TestPlaylist.prerolls, TestPlaylist.likes_count,
-                            similar_playlists, last_owner_playlists, TestPlaylist.generated_playlist_type,
-                            TestPlaylist.animated_cover_uri, TestPlaylist.ever_played, TestPlaylist.description,
-                            TestPlaylist.description_formatted, TestPlaylist.is_for_from, TestPlaylist.regions)
+                            TestPlaylist.text_color, TestPlaylist.id_for_from, TestPlaylist.metrika_id,
+                            TestPlaylist.coauthors, [artist], [track_id], [track_short], TestPlaylist.prerolls,
+                            TestPlaylist.likes_count, similar_playlists, last_owner_playlists,
+                            TestPlaylist.generated_playlist_type, TestPlaylist.animated_cover_uri,
+                            TestPlaylist.ever_played, TestPlaylist.description, TestPlaylist.description_formatted,
+                            TestPlaylist.is_for_from, TestPlaylist.regions)
 
     return PlaylistFactory()
 
@@ -172,7 +176,7 @@ def client():
 
 @pytest.fixture(scope='session')
 def tag():
-    return Tag(TestTag.id_, TestTag.value, TestTag.name, TestTag.og_description)
+    return Tag(TestTag.id_, TestTag.value, TestTag.name, TestTag.og_description, TestTag.og_image)
 
 
 @pytest.fixture(scope='session')
@@ -238,7 +242,7 @@ def cover():
 
 @pytest.fixture(scope='session')
 def meta_data():
-    return MetaData(TestMetaData.album, TestMetaData.volume, TestMetaData.year)
+    return MetaData(TestMetaData.album, TestMetaData.volume, TestMetaData.year, TestMetaData.number, TestMetaData.genre)
 
 
 @pytest.fixture(scope='session')
@@ -328,7 +332,12 @@ def case_forms():
 @pytest.fixture(scope='session')
 def lyrics():
     return Lyrics(TestLyrics.id, TestLyrics.lyrics, TestLyrics.full_lyrics, TestLyrics.has_rights,
-                  TestLyrics.text_language, TestLyrics.show_translation)
+                  TestLyrics.text_language, TestLyrics.show_translation, TestLyrics.url)
+
+
+@pytest.fixture(scope='session')
+def poetry_lover_match():
+    return PoetryLoverMatch(TestPoetryLoverMatch.begin, TestPoetryLoverMatch.end, TestPoetryLoverMatch.line)
 
 
 @pytest.fixture(scope='session')
@@ -422,9 +431,25 @@ def price():
 
 
 @pytest.fixture(scope='session')
-def subscription(renewable_remainder, auto_renewable):
-    return Subscription(renewable_remainder, [auto_renewable], [auto_renewable], TestSubscription.can_start_trial,
-                        TestSubscription.mcdonalds, TestSubscription.end)
+def subscription(renewable_remainder, auto_renewable, operator, non_auto_renewable):
+    return Subscription(renewable_remainder, [auto_renewable], [auto_renewable], [operator], non_auto_renewable,
+                        TestSubscription.can_start_trial, TestSubscription.mcdonalds, TestSubscription.end)
+
+
+@pytest.fixture(scope='session')
+def non_auto_renewable():
+    return NonAutoRenewable(TestNonAutoRenewable.start, TestNonAutoRenewable.end)
+
+
+@pytest.fixture(scope='session')
+def deactivation():
+    return Deactivation(TestDeactivation.method, TestDeactivation.instructions)
+
+
+@pytest.fixture(scope='session')
+def operator(deactivation):
+    return Operator(TestOperator.product_id, TestOperator.phone, TestOperator.payment_regularity,
+                    [deactivation], TestOperator.title, TestOperator.suspended)
 
 
 @pytest.fixture(scope='session')

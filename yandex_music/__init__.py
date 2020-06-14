@@ -10,6 +10,9 @@ from .account.plus import Plus
 from .account.alert_button import AlertButton
 from .account.alert import Alert
 from .account.user_settings import UserSettings
+from .account.non_auto_renewable import NonAutoRenewable
+from .account.deactivation import Deactivation
+from .account.operator import Operator
 from .account.subscription import Subscription
 from .account.price import Price
 from .account.product import Product
@@ -50,6 +53,7 @@ from .shot.shot_event import ShotEvent
 from .tracks_list import TracksList
 from .track.major import Major
 from .track.licence_text_part import LicenceTextPart
+from .track.poetry_lover_match import PoetryLoverMatch
 from .track.meta_data import MetaData
 from .track.normalization import Normalization
 from .track.track import Track
@@ -133,4 +137,5 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
            'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
            'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList', 'MetaData',
-           'LicenceTextPart', 'StationData', 'AlertButton', 'Alert']
+           'LicenceTextPart', 'StationData', 'AlertButton', 'Alert', 'NonAutoRenewable', 'PoetryLoverMatch',
+           'Operator', 'Deactivation']

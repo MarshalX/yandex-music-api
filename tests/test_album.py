@@ -13,6 +13,15 @@ class TestAlbum:
     content_warning = None
     original_release_year = None
     genre = 'alternative'
+    text_color = '#000000'
+    short_description = ''
+    description = 'В начале 2015 года вокалист Asking Alexandria Дэнни Уорсноп объявил об уходе из группы — музыкант' \
+                  ' стал строить сольную карьеру и заниматься другими проектами. Однако через неполных два года ' \
+                  'Уорсноп вернулся в группу, и в конце 2017-го музыканты представили пятую пластинку в прежнем ' \
+                  'составе. «Было здорово вернуться к ребятам. Думаю, нам всем нужно было время, чтобы отпустить ' \
+                  'то, что произошло между нами. Хорошо быть снова вместе», — говорит Денни Уорсноп.'
+    is_premiere = False
+    is_banner = False
     meta_type = 'music'
     storage_dir = '4beeac1e.a.1155208'
     og_image = 'avatars.yandex.net/get-music-content/95061/89c14a7d.a.5239478-1/%%'
@@ -43,6 +52,11 @@ class TestAlbum:
         assert album.content_warning == self.content_warning
         assert album.original_release_year == self.original_release_year
         assert album.genre == self.genre
+        assert album.text_color == self.text_color
+        assert album.short_description == self.short_description
+        assert album.description == self.description
+        assert album.is_premiere == self.is_premiere
+        assert album.is_banner == self.is_banner
         assert album.meta_type == self.meta_type
         assert album.storage_dir == self.storage_dir
         assert album.og_image == self.og_image
@@ -83,8 +97,10 @@ class TestAlbum:
                      'available_for_mobile': self.available_for_mobile, 'available_partially': self.available_partially,
                      'bests': self.bests, 'prerolls': self.prerolls, 'volumes': [[track.to_dict()]], 'year': self.year,
                      'release_date': self.release_date, 'type_': self.type, 'track_position': track_position.to_dict(),
-                     'meta_type': self.meta_type, 'storage_dir': self.storage_dir,
-                     'duplicates': [album_without_nested_albums.to_dict()]}
+                     'meta_type': self.meta_type, 'storage_dir': self.storage_dir, 'is_banner': self.is_banner,
+                     'duplicates': [album_without_nested_albums.to_dict()], 'is_premiere': self.is_premiere,
+                     'short_description': self.short_description, 'description': self.description,
+                     'text_color': self.text_color}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
@@ -100,6 +116,11 @@ class TestAlbum:
         assert album.content_warning == self.content_warning
         assert album.original_release_year == self.original_release_year
         assert album.genre == self.genre
+        assert album.text_color == self.text_color
+        assert album.short_description == self.short_description
+        assert album.description == self.description
+        assert album.is_premiere == self.is_premiere
+        assert album.is_banner == self.is_banner
         assert album.meta_type == self.meta_type
         assert album.storage_dir == self.storage_dir
         assert album.og_image == self.og_image

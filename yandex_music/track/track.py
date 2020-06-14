@@ -4,7 +4,8 @@ from yandex_music import YandexMusicObject
 from yandex_music.exceptions import InvalidBitrate
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement, DownloadInfo, User, MetaData
+    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement,\
+        DownloadInfo, User, MetaData, PoetryLoverMatch
 
 
 class Track(YandexMusicObject):
@@ -26,6 +27,7 @@ class Track(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
         available_for_premium_users (:obj:`bool`): Доступен ли для пользователей с подпиской.
         lyrics_available (:obj:`bool`): Доступен ли текст песни.
+        poetry_lover_matches (:obj:`list` из :obj:`yandex_music.PoetryLoverMatch`): Список слов TODO.
         best (:obj:`bool`): Лучшей ли трек TODO.
         real_id (:obj:`int` | :obj:`str`): TODO.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
@@ -64,6 +66,7 @@ class Track(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`, optional): Альбомы.
         available_for_premium_users (:obj:`bool`, optional): Доступен ли для пользователей с подпиской.
         lyrics_available (:obj:`bool`, optional): Доступен ли текст песни.
+        poetry_lover_matches (:obj:`list` из :obj:`yandex_music.PoetryLoverMatch`, optional): Список слов TODO.
         best (:obj:`bool`, optional): Лучшей ли трек TODO.
         real_id (:obj:`int` | :obj:`str`, optional): TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
@@ -103,6 +106,7 @@ class Track(YandexMusicObject):
                  albums: List['Album'] = None,
                  available_for_premium_users: Optional[bool] = None,
                  lyrics_available: Optional[bool] = None,
+                 poetry_lover_matches: List['PoetryLoverMatch'] = None,
                  best: Optional[bool] = None,
                  real_id: Optional[Union[str, int]] = None,
                  og_image: Optional[str] = None,
@@ -140,6 +144,7 @@ class Track(YandexMusicObject):
         self.albums = albums
         self.available_for_premium_users = available_for_premium_users
         self.lyrics_available = lyrics_available
+        self.poetry_lover_matches = poetry_lover_matches
         self.best = best
         self.real_id = real_id
         self.og_image = og_image
@@ -273,7 +278,7 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist, User, MetaData
+        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['normalization'] = Normalization.de_json(data.get('normalization'), client)
@@ -282,6 +287,7 @@ class Track(YandexMusicObject):
         data['matched_track'] = Track.de_json(data.get('matched_track'), client)
         data['user_info'] = User.de_json(data.get('user_info'), client)
         data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
+        data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
 
         return cls(client=client, **data)
 

@@ -25,6 +25,7 @@ class TestPlaylist:
     background_color = ''
     text_color = ''
     id_for_from = 'playlist_of_the_day'
+    metrika_id = 666666
     coauthors = [1130000003905541]
     prerolls = []
     likes_count = 1
@@ -67,6 +68,7 @@ class TestPlaylist:
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.metrika_id == self.metrika_id
         assert playlist.coauthors == self.coauthors
         assert playlist.top_artist == [artist]
         assert playlist.recent_tracks == [track_id]
@@ -119,7 +121,7 @@ class TestPlaylist:
                      'similar_playlists': [playlist_without_nested_playlists.to_dict()],
                      'last_owner_playlists': [playlist_without_nested_playlists.to_dict()],
                      'og_description': self.og_description, 'top_artist': [artist.to_dict()],
-                     'recent_tracks': [track_id.to_dict()]}
+                     'recent_tracks': [track_id.to_dict()], 'metrika_id': self.metrika_id}
         playlist = Playlist.de_json(json_dict, client)
 
         assert playlist.owner == user
@@ -151,6 +153,7 @@ class TestPlaylist:
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.metrika_id == self.metrika_id
         assert playlist.coauthors == self.coauthors
         assert playlist.top_artist == [artist]
         assert playlist.recent_tracks == [track_id]

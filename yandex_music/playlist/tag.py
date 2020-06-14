@@ -14,6 +14,7 @@ class Tag(YandexMusicObject):
         value (:obj:`str`): Значение тега (название в lower case).
         name (:obj:`str`): Название тега (отображаемое).
         og_description (:obj:`str`): Описание тега для OpenGraph.
+        og_image (:obj:`str`): Ссылка на изображение для OpenGraph.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -21,6 +22,7 @@ class Tag(YandexMusicObject):
         value (:obj:`str`): Значение тега (название в lower case).
         name (:obj:`str`): Название тега (отображаемое).
         og_description (:obj:`str`): Описание тега для OpenGraph.
+        og_image (:obj:`str`, optional): Ссылка на изображение для OpenGraph.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -30,12 +32,15 @@ class Tag(YandexMusicObject):
                  value: str,
                  name: str,
                  og_description: str,
+                 og_image: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
         self.value = value
         self.name = name
         self.og_description = og_description
+
+        self.og_image = og_image
 
         self.client = client
         self._id_attrs = (self.id, )

@@ -6,32 +6,43 @@ if TYPE_CHECKING:
     from yandex_music import Client
 
 
-class PassportPhone(YandexMusicObject):
-    """Класс, представляющий номер телефона пользователя.
+class PoetryLoverMatch(YandexMusicObject):
+    """Класс, представляющий слова в тексте TODO.
+
+    Note:
+        Некая разметка для обучения чего-нибудь для написания романтических стихотворений.
 
     Attributes:
-        phone (:obj:`str`): Номер телефона.
+        begin (:obj:`int`): Индекс начала.
+        end (:obj:`int`): Индекс конца.
+        line (:obj:`int`): Индекс строки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        phone (:obj:`str`): Номер телефона.
+        begin (:obj:`int`): Индекс начала.
+        end (:obj:`int`): Индекс конца.
+        line (:obj:`int`): Индекс строки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
-                 phone: str,
+                 begin: int,
+                 end: int,
+                 line: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        self.phone = phone
+        self.begin = begin
+        self.end = end
+        self.line = line
 
         self.client = client
-        self._id_attrs = (self.phone,)
+        self._id_attrs = (self.begin, self.end, self.line)
 
         super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['PoetryLoverMatch']:
         """Десериализация объекта.
 
         Args:
@@ -39,17 +50,17 @@ class PassportPhone(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PassportPhone`: Номер телефона пользователя.
+            :obj:`yandex_music.PoetryLoverMatch`: Позиция слова.
         """
         if not data:
             return None
 
-        data = super(PassportPhone, cls).de_json(data, client)
+        data = super(PoetryLoverMatch, cls).de_json(data, client)
 
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['PassportPhone']:
+    def de_list(cls, data: dict, client: 'Client') -> List['PoetryLoverMatch']:
         """Десериализация списка объектов.
 
         Args:
@@ -57,9 +68,9 @@ class PassportPhone(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.PassportPhone`: Номера телефонов пользователя.
+            :obj:`list` из :obj:`yandex_music.PoetryLoverMatch`: Список с позициями слов.
         """
         if not data:
             return []
 
-        return [cls.de_json(phone, client) for phone in data]
+        return [cls.de_json(match, client) for match in data]

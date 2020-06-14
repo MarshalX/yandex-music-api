@@ -83,3 +83,7 @@ from .test_licence_text_part import TestLicenceTextPart
 from .test_station_data import TestStationData
 from .test_alert_button import TestAlertButton
 from .test_alert import TestAlert
+from .test_non_auto_renewable import TestNonAutoRenewable
+from .test_poetry_lover_match import TestPoetryLoverMatch
+from .test_deactivation import TestDeactivation
+from .test_operator import TestOperator

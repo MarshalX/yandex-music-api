@@ -31,6 +31,12 @@ class Album(YandexMusicObject):
         cover_uri (:obj:`str`): Ссылка на обложку.
         content_warning (:obj:`str`): Предупреждение о содержимом альбома.
         genre (:obj:`str`): Жанр музыки.
+        text_color (:obj:`str`): Цвет текста описания.
+        short_description (:obj:`str`): Короткое описание.
+        description (:obj:`str`): Описание.
+        is_premiere (:obj:`bool`): Премьера ли.
+        is_banner (:obj:`bool`): Является ли баннером.
+        meta_type (:obj:`str`): Мета тип TODO.
         storage_dir (:obj:`str`): В какой папке на сервере хранится файл TODO.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         recent (:obj:`bool`): Является ли альбом новым.
@@ -40,7 +46,7 @@ class Album(YandexMusicObject):
         bests (:obj:`list` из :obj:`int`): ID лучших треков альбома.
         duplicates (:obj:`list` из :obj:`yandex_music.Album`): Альбомы-дубликаты.
         prerolls (:obj:`list`): Прероллы TODO.
-        volumes (:obj:`list` из :obj:`list` из :obj:`Track`): Треки альбома, разделенные по дискам.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`): Треки альбома, разделённые по дискам.
         year (:obj:`int`): Год релиза.
         release_date (:obj:`str`): Дата релиза в формате ISO 8601.
         type (:obj:`str`): Тип альбома.
@@ -61,6 +67,11 @@ class Album(YandexMusicObject):
         cover_uri (:obj:`str`, optional): Ссылка на обложку.
         content_warning (:obj:`str`, optional): Предупреждение о содержимом альбома.
         genre (:obj:`str`, optional): Жанр музыки.
+        text_color (:obj:`str`, optional): Цвет текста описания.
+        short_description (:obj:`str`, optional): Короткое описание.
+        description (:obj:`str`, optional): Описание.
+        is_premiere (:obj:`bool`, optional): Премьера ли.
+        is_banner (:obj:`bool`, optional): Является ли баннером.
         meta_type (:obj:`str`, optional): Мета тип TODO.
         storage_dir (:obj:`str`, optional): В какой папке на сервере хранится файл TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
@@ -71,7 +82,7 @@ class Album(YandexMusicObject):
         bests (:obj:`list` из :obj:`int`, optional): ID лучших треков альбома.
         duplicates (:obj:`list` из :obj:`yandex_music.Album`, optional): Альбомы-дубликаты.
         prerolls (:obj:`list`, optional): Прероллы TODO.
-        volumes (:obj:`list` из :obj:`list` из :obj:`Track`, optional): Треки альбома, разделенные по дискам.
+        volumes (:obj:`list` из :obj:`list` из :obj:`Track`, optional): Треки альбома, разделённые по дискам.
         year (:obj:`int`, optional): Год релиза.
         release_date (:obj:`str`, optional): Дата релиза в формате ISO 8601.
         type_ (:obj:`str`, optional): Тип альбома.
@@ -95,6 +106,11 @@ class Album(YandexMusicObject):
                  content_warning: Optional[str] = None,
                  original_release_year=None,
                  genre: Optional[str] = None,
+                 text_color: Optional[str] = None,
+                 short_description: Optional[str] = None,
+                 description: Optional[str] = None,
+                 is_premiere: Optional[bool] = None,
+                 is_banner: Optional[bool] = None,
                  meta_type: Optional[str] = None,
                  storage_dir: Optional[str] = None,
                  og_image: Optional[str] = None,
@@ -126,6 +142,11 @@ class Album(YandexMusicObject):
         self.version = version
         self.cover_uri = cover_uri
         self.genre = genre
+        self.text_color = text_color
+        self.short_description = short_description
+        self.description = description
+        self.is_premiere = is_premiere
+        self.is_banner = is_banner
         self.meta_type = meta_type
         self.year = year
         self.release_date = release_date
@@ -201,7 +222,7 @@ class Album(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Album`: Алюбом.
+            :obj:`yandex_music.Album`: Альбом.
         """
         if not data:
             return None

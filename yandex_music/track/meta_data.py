@@ -13,12 +13,16 @@ class MetaData(YandexMusicObject):
         album (:obj:`str`): Название альбома.
         volume (:obj:`int`): Диск (раздел).
         year (:obj:`int`): Год выхода.
+        number (:obj:`int`): Позиция в альбоме.
+        genre (:obj:`str`): Жанр.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         album (:obj:`str`): Название альбома.
         volume (:obj:`int`): Диск (раздел).
         year (:obj:`int`): Год выхода.
+        number (:obj:`int`, optional): Позиция в альбоме.
+        genre (:obj:`str`, optional): Жанр.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -27,11 +31,16 @@ class MetaData(YandexMusicObject):
                  album: str,
                  volume: int,
                  year: int,
+                 number: int = None,
+                 genre: str = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.album = album
         self.volume = volume
         self.year = year
+
+        self.number = number
+        self.genre = genre
 
         self.client = client
         self._id_attrs = (self.album, self.volume, self.year)

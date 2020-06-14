@@ -29,8 +29,8 @@ class TestTrack:
     version = 'Radio Edit'
     remember_position = False
 
-    def test_expected_values(self, track, artist, album, major, normalization,
-                             track_without_nested_tracks, user, meta_data):
+    def test_expected_values(self, track, artist, album, major, normalization, track_without_nested_tracks,
+                             user, meta_data, poetry_lover_match):
         assert track.id == self.id
         assert track.title == self.title
         assert track.available == self.available
@@ -38,6 +38,7 @@ class TestTrack:
         assert track.artists == [artist]
         assert track.albums == [album]
         assert track.lyrics_available == self.lyrics_available
+        assert track.poetry_lover_matches == [poetry_lover_match]
         assert track.best == self.best
         assert track.real_id == self.real_id
         assert track.og_image == self.og_image
@@ -78,8 +79,8 @@ class TestTrack:
 
         assert track.id == self.id
 
-    def test_de_json_all(self, client, artist, album, major, normalization,
-                         track_without_nested_tracks, user, meta_data):
+    def test_de_json_all(self, client, artist, album, major, normalization, track_without_nested_tracks,
+                         user, meta_data, poetry_lover_match):
         json_dict = {'id_': self.id, 'title': self.title, 'available': self.available,
                      'available_for_premium_users': self.available_for_premium_users,
                      'artists': [artist.to_dict()], 'albums': [album.to_dict()],
@@ -94,7 +95,8 @@ class TestTrack:
                      'remember_position': self.remember_position, 'substituted': track_without_nested_tracks.to_dict(),
                      'matched_track': track_without_nested_tracks.to_dict(), 'can_publish': self.can_publish,
                      'state': self.state, 'desired_visibility': self.desired_visibility, 'filename': self.filename,
-                     'user_info': user.to_dict(), 'meta_data': meta_data.to_dict()}
+                     'user_info': user.to_dict(), 'meta_data': meta_data.to_dict(),
+                     'poetry_lover_matches': [poetry_lover_match.to_dict()]}
         track = Track.de_json(json_dict, client)
 
         assert track.id == self.id
@@ -104,6 +106,7 @@ class TestTrack:
         assert track.artists == [artist]
         assert track.albums == [album]
         assert track.lyrics_available == self.lyrics_available
+        assert track.poetry_lover_matches == [poetry_lover_match]
         assert track.best == self.best
         assert track.real_id == self.real_id
         assert track.og_image == self.og_image

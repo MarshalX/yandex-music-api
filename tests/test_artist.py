@@ -17,6 +17,8 @@ class TestArtist:
     likes_count = 657469
     regions = None
     full_names = None
+    hand_made_description = 'Одна из самых популярных советских рок-групп 1980-х годов. Лидером, ' \
+                            'автором практически всех текстов и музыки неизменно оставался Виктор Цой.'
     countries = None
     en_wikipedia_link = None
     db_aliases = None
@@ -47,6 +49,7 @@ class TestArtist:
         assert artist.regions == self.regions
         assert artist.decomposed == artist_decomposed
         assert artist.full_names == self.full_names
+        assert artist.hand_made_description == self.hand_made_description
         assert artist.description == description
         assert artist.countries == self.countries
         assert artist.en_wikipedia_link == self.en_wikipedia_link
@@ -80,7 +83,8 @@ class TestArtist:
                      'regions': self.regions, 'decomposed': artist_decomposed_dict, 'full_names': self.full_names,
                      'description': description.to_dict(), 'countries': self.countries,
                      'en_wikipedia_link': self.en_wikipedia_link, 'db_aliases': self.db_aliases,
-                     'aliases': self.aliases, 'init_date': self.init_date, 'end_date': self.end_date}
+                     'aliases': self.aliases, 'init_date': self.init_date, 'end_date': self.end_date,
+                     'hand_made_description': self.hand_made_description}
         artist = Artist.de_json(json_dict, client)
 
         assert artist.id == self.id
@@ -104,6 +108,7 @@ class TestArtist:
         assert artist.regions == self.regions
         assert artist.decomposed == artist_decomposed
         assert artist.full_names == self.full_names
+        assert artist.hand_made_description == self.hand_made_description
         assert artist.description == description
         assert artist.countries == self.countries
         assert artist.en_wikipedia_link == self.en_wikipedia_link

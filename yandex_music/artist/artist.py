@@ -32,6 +32,7 @@ class Artist(YandexMusicObject):
         popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
         likes_count (:obj:`int`): Количество лайков.
         full_names: TODO.
+        hand_made_description (:obj:`str`): Описание от Яндекс TODO.
         description (:obj:`yandex_music.Description` | :obj:`None`): Описание.
         countries (:obj:`list` из :obj:`str`): Страны.
         en_wikipedia_link (:obj:`str`): Адрес страницы на wikipedia.org.
@@ -64,6 +65,7 @@ class Artist(YandexMusicObject):
         decomposed (:obj:`list` из :obj:`str` и :obj:`yandex_music.Artist`, optional): Декомпозиция всех исполнителей.
             Лист, где чередуется разделитель и артист. Фиты и прочее.
         full_names: TODO.
+        hand_made_description (:obj:`str`, optional): Описание от Яндекс TODO.
         description (:obj:`yandex_music.Description`, optional): Описание.
         countries (:obj:`list` из :obj:`str`, optional): Страны.
         en_wikipedia_link (:obj:`str`, optional): Адрес страницы на wikipedia.org.
@@ -97,6 +99,7 @@ class Artist(YandexMusicObject):
                  regions: Optional[List[str]] = None,
                  decomposed: Optional[List[Union[str, 'Artist']]] = None,
                  full_names=None,
+                 hand_made_description: Optional[str] = None,
                  description: Optional['Description'] = None,
                  countries: Optional[List[str]] = None,
                  en_wikipedia_link: Optional[str] = None,
@@ -128,6 +131,7 @@ class Artist(YandexMusicObject):
         self.popular_tracks = popular_tracks
         self.likes_count = likes_count
         self.full_names = full_names
+        self.hand_made_description = hand_made_description
         self.description = description
         self.countries = countries
         self.en_wikipedia_link = en_wikipedia_link

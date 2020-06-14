@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import List, TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
 
@@ -6,32 +6,39 @@ if TYPE_CHECKING:
     from yandex_music import Client
 
 
-class PassportPhone(YandexMusicObject):
-    """Класс, представляющий номер телефона пользователя.
+class Deactivation(YandexMusicObject):
+    """Класс, представляющий способы деактивации мобильной услуги.
+
+    Note:
+        Известные значения поля `method`: `ussd`.
 
     Attributes:
-        phone (:obj:`str`): Номер телефона.
+        method (:obj:`str`): Метод отключения.
+        instructions (:obj:`str`): Инструкция.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        phone (:obj:`str`): Номер телефона.
+        method (:obj:`str`): Метод отключения.
+        instructions (:obj:`str`): Инструкция.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
-                 phone: str,
+                 method: str,
+                 instructions: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        self.phone = phone
+        self.method = method
+        self.instructions = instructions
 
         self.client = client
-        self._id_attrs = (self.phone,)
+        self._id_attrs = (self.method, self.instructions)
 
         super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Deactivation']:
         """Десериализация объекта.
 
         Args:
@@ -39,17 +46,17 @@ class PassportPhone(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.PassportPhone`: Номер телефона пользователя.
+            :obj:`yandex_music.Deactivation`: Способ отключения услуги.
         """
         if not data:
             return None
 
-        data = super(PassportPhone, cls).de_json(data, client)
+        data = super(Deactivation, cls).de_json(data, client)
 
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['PassportPhone']:
+    def de_list(cls, data: dict, client: 'Client') -> List['Deactivation']:
         """Десериализация списка объектов.
 
         Args:
@@ -57,9 +64,9 @@ class PassportPhone(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.PassportPhone`: Номера телефонов пользователя.
+            :obj:`list` из :obj:`yandex_music.Deactivation`: Способы отключения услуги.
         """
         if not data:
             return []
 
-        return [cls.de_json(phone, client) for phone in data]
+        return [cls.de_json(deactivation, client) for deactivation in data]
