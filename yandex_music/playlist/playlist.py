@@ -4,13 +4,16 @@ from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
     from yandex_music import Client, User, Cover, MadeFor, TrackShort, PlaylistAbsence, PlayCounter,\
-        PlaylistRecommendations, Artist, TrackId
+        PlaylistRecommendations, Artist, TrackId, Contest, OpenGraphData, Brand
 
 
 class Playlist(YandexMusicObject):
     """Класс, представляющий плейлист.
 
     Note:
+        Под полями с заглушками понимаются поля, которые доступны у умных плейлистов тогда, когда у сервиса мало
+        данных для генерации плейлиста.
+
         Известные значения `visibility`: `public` - публичный плейлист, `private` - приватный плейлист.
 
         Известные значения `generated_playlist_type`: `playlistOfTheDay` - Плейлист дня, `recentTracks` - Премьера,
@@ -44,9 +47,16 @@ class Playlist(YandexMusicObject):
         og_description (:obj:`str`, optional): Описание Open Graph.
         image (:obj:`str`): Изображение TODO.
         cover_without_text (:obj:`yandex_music.Cover`): Обложка без текста.
+        contest (:obj:`yandex_music.Contest`): Контест TODO.
         background_color (:obj:`str`): Цвет заднего фона TODO.
         text_color (:obj:`str`): Цвет текста TODO.
         id_for_from (:obj:`str`): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        dummy_description (:obj:`str`): Описание-заглушка плейлиста.
+        dummy_page_description (:obj:`str`): Описание-заглушка страницы.
+        dummy_cover (:obj:`str`): Обложка-заглушка.
+        dummy_rollover_cover (:obj:`str`): Обложка-заглушка TODO.
+        og_data (:obj:`yandex_music.OpenGraphData`): Данные для OpenGraph.
+        branding (:obj:`yandex_music.Brand`): Бренд.
         metrika_id (:obj:`int`): Уникальный идентификатор счётчика на Яндекс.Метрика.
         coauthors (:obj:`list` из :obj:`int`): Перечень ID аккаунтов соавторов плейлиста.
         top_artist (:obj:`list` из :obj:`yandex_music.Artist`): Топ артистов TODO.
@@ -93,9 +103,16 @@ class Playlist(YandexMusicObject):
         og_description (:obj:`str`, optional): Описание Open Graph.
         image (:obj:`str`, optional): Изображение TODO.
         cover_without_text (:obj:`yandex_music.Cover`, optional): Обложка без текста.
+        contest (:obj:`yandex_music.Contest`, optional): Контест TODO.
         background_color (:obj:`str`, optional): Цвет заднего фона TODO.
         text_color (:obj:`str`, optional): Цвет текста TODO.
         id_for_from (:obj:`str`, optional): Откуда пришло событие (уникальный идентификатор объекта) TODO.
+        dummy_description (:obj:`str`, optional): Описание-заглушка плейлиста.
+        dummy_page_description (:obj:`str`, optional): Описание-заглушка страницы.
+        dummy_cover (:obj:`str`, optional): Обложка-заглушка.
+        dummy_rollover_cover (:obj:`str`, optional): Обложка-заглушка TODO.
+        og_data (:obj:`yandex_music.OpenGraphData`, optional): Данные для OpenGraph.
+        branding (:obj:`yandex_music.Brand`): Бренд.
         metrika_id (:obj:`int`, optional): Уникальный идентификатор счётчика на Яндекс.Метрика.
         coauthors (:obj:`list` из :obj:`int`, optional): Перечень ID аккаунтов соавторов плейлиста.
         top_artist (:obj:`list` из :obj:`yandex_music.Artist`, optional): Топ артистов TODO.
@@ -144,9 +161,16 @@ class Playlist(YandexMusicObject):
                  og_description: Optional[str] = None,
                  image: Optional[str] = None,
                  cover_without_text: Optional['Cover'] = None,
+                 contest: Optional['Contest'] = None,
                  background_color: Optional[str] = None,
                  text_color: Optional[str] = None,
                  id_for_from: Optional[str] = None,
+                 dummy_description: Optional[str] = None,
+                 dummy_page_description: Optional[str] = None,
+                 dummy_cover: Optional['Cover'] = None,
+                 dummy_rollover_cover: Optional['Cover'] = None,
+                 og_data: Optional['OpenGraphData'] = None,
+                 branding: Optional['Brand'] = None,
                  metrika_id: Optional[int] = None,
                  coauthors: List[int] = None,
                  top_artist: List['Artist'] = None,
@@ -191,9 +215,16 @@ class Playlist(YandexMusicObject):
         self.og_description = og_description
         self.image = image
         self.cover_without_text = cover_without_text
+        self.contest = contest
         self.background_color = background_color
         self.text_color = text_color
         self.id_for_from = id_for_from
+        self.dummy_description = dummy_description
+        self.dummy_page_description = dummy_page_description
+        self.dummy_cover = dummy_cover
+        self.dummy_rollover_cover = dummy_rollover_cover
+        self.og_data = og_data
+        self.branding = branding
         self.metrika_id = metrika_id
         self.coauthors = coauthors
         self.top_artist = top_artist
@@ -294,7 +325,8 @@ class Playlist(YandexMusicObject):
             return None
 
         data = super(Playlist, cls).de_json(data, client)
-        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, PlaylistAbsence, Artist, TrackId
+        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, \
+            PlaylistAbsence, Artist, TrackId, Contest, OpenGraphData, Brand
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['cover_without_text'] = Cover.de_json(data.get('cover_without_text'), client)
@@ -303,6 +335,11 @@ class Playlist(YandexMusicObject):
         data['recent_tracks'] = TrackId.de_list(data.get('recent_tracks'), client)
         data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
         data['top_artist'] = Artist.de_list(data.get('top_artist'), client)
+        data['contest'] = Contest.de_json(data.get('contest'), client)
+        data['og_data'] = OpenGraphData.de_json(data.get('og_data'), client)
+        data['dummy_cover'] = Cover.de_json(data.get('dummy_cover'), client)
+        data['dummy_rollover_cover'] = Cover.de_json(data.get('dummy_rollover_cover'), client)
+        data['branding'] = Brand.de_json(data.get('branding'), client)
 
         data['similar_playlists'] = Playlist.de_list(data.get('similar_playlists'), client)
         data['last_owner_playlists'] = Playlist.de_list(data.get('last_owner_playlists'), client)

@@ -25,6 +25,9 @@ class TestPlaylist:
     background_color = ''
     text_color = ''
     id_for_from = 'playlist_of_the_day'
+    dummy_description = 'Слушайте интересные подкасты, чтобы мы могли узнать вас получше и\\xa0собрать этот плейлист'
+    dummy_page_description = 'Чтобы собрать для вас этот плейлист, мы должны узнать ' \
+                             'вас чуточку поближе. Слушайте больше!'
     metrika_id = 666666
     coauthors = [1130000003905541]
     prerolls = []
@@ -38,7 +41,7 @@ class TestPlaylist:
     regions = None
 
     def test_expected_values(self, playlist, user, cover, made_for, track_short, play_counter, playlist_absence,
-                             playlist_without_nested_playlists, artist, track_id):
+                             playlist_without_nested_playlists, artist, track_id, contest, open_graph_data, brand):
         assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
@@ -65,9 +68,16 @@ class TestPlaylist:
         assert playlist.og_description == self.og_description
         assert playlist.image == self.image
         assert playlist.cover_without_text == cover
+        assert playlist.contest == contest
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.dummy_description == self.dummy_description
+        assert playlist.dummy_page_description == self.dummy_page_description
+        assert playlist.dummy_cover == cover
+        assert playlist.dummy_rollover_cover == cover
+        assert playlist.og_data == open_graph_data
+        assert playlist.branding == brand
         assert playlist.metrika_id == self.metrika_id
         assert playlist.coauthors == self.coauthors
         assert playlist.top_artist == [artist]
@@ -103,7 +113,7 @@ class TestPlaylist:
         assert playlist.playlist_absence == playlist_absence
 
     def test_de_json_all(self, client, user, cover, made_for, track_short, play_counter, playlist_absence,
-                         playlist_without_nested_playlists, artist, track_id):
+                         playlist_without_nested_playlists, artist, track_id, contest, open_graph_data, brand):
         json_dict = {'owner': user.to_dict(), 'uid': self.uid, 'kind': self.kind, 'title': self.title,
                      'track_count': self.track_count, 'cover': cover.to_dict(), 'made_for': made_for.to_dict(),
                      'play_counter': play_counter.to_dict(), 'playlist_absence': playlist_absence.to_dict(),
@@ -121,7 +131,11 @@ class TestPlaylist:
                      'similar_playlists': [playlist_without_nested_playlists.to_dict()],
                      'last_owner_playlists': [playlist_without_nested_playlists.to_dict()],
                      'og_description': self.og_description, 'top_artist': [artist.to_dict()],
-                     'recent_tracks': [track_id.to_dict()], 'metrika_id': self.metrika_id}
+                     'recent_tracks': [track_id.to_dict()], 'metrika_id': self.metrika_id,
+                     'contest': contest.to_dict(), 'dummy_description': self.dummy_description,
+                     'dummy_page_description': self.dummy_page_description, 'dummy_cover': cover.to_dict(),
+                     'dummy_rollover_cover': cover.to_dict(), 'og_data': open_graph_data.to_dict(),
+                     'branding': brand.to_dict()}
         playlist = Playlist.de_json(json_dict, client)
 
         assert playlist.owner == user
@@ -150,9 +164,16 @@ class TestPlaylist:
         assert playlist.og_description == self.og_description
         assert playlist.image == self.image
         assert playlist.cover_without_text == cover
+        assert playlist.contest == contest
         assert playlist.background_color == self.background_color
         assert playlist.text_color == self.text_color
         assert playlist.id_for_from == self.id_for_from
+        assert playlist.dummy_description == self.dummy_description
+        assert playlist.dummy_page_description == self.dummy_page_description
+        assert playlist.dummy_cover == cover
+        assert playlist.dummy_rollover_cover == cover
+        assert playlist.og_data == open_graph_data
+        assert playlist.branding == brand
         assert playlist.metrika_id == self.metrika_id
         assert playlist.coauthors == self.coauthors
         assert playlist.top_artist == [artist]

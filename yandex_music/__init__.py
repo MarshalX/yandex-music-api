@@ -37,6 +37,9 @@ from .artist.vinyl import Vinyl
 from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
 from .playlist.user import User
+from .playlist.contest import Contest
+from .playlist.open_graph_data import OpenGraphData
+from .playlist.brand import Brand
 from .playlist.play_counter import PlayCounter
 from .playlist.playlist_id import PlaylistId
 from .playlist.tag import Tag
@@ -138,4 +141,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
            'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList', 'MetaData',
            'LicenceTextPart', 'StationData', 'AlertButton', 'Alert', 'NonAutoRenewable', 'PoetryLoverMatch',
-           'Operator', 'Deactivation']
+           'Operator', 'Deactivation', 'Contest', 'OpenGraphData', 'Brand']

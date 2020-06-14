@@ -8,7 +8,8 @@ from yandex_music import Account, AdParams, Album, AlbumEvent, Artist, ArtistEve
     PlaylistId, Plus, Price, Product, Promotion, Ratings, RenewableRemainder, Restrictions, RotorSettings, \
     SearchResult, Sequence, Settings, Shot, ShotData, ShotType, Station, StationResult, Status, Subscription, Tag, \
     Title, Track, TrackId, TrackPosition, TrackShort, TrackShortOld, TrackWithAds, User, Value, Video, \
-    VideoSupplement, Vinyl, StationData, AlertButton, Alert, NonAutoRenewable, PoetryLoverMatch, Deactivation, Operator
+    VideoSupplement, Vinyl, StationData, AlertButton, Alert, NonAutoRenewable, PoetryLoverMatch, Deactivation, \
+    Operator, Contest, OpenGraphData, Brand
 from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewable, TestBest, TestBlock, \
     TestBlockEntity, TestCaseForms, TestChart, TestChartInfo, TestChartInfoMenuItem, TestCounts, TestCover, TestDay, \
     TestDescription, TestDiscreteScale, TestEnum, TestEvent, TestGeneratedPlaylist, TestIcon, TestId, TestImages, \
@@ -20,7 +21,7 @@ from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewabl
     TestTag, TestTitle, TestTrack, TestTrackId, TestTrackPosition, TestTrackShort, TestTrackShortOld, \
     TestTrackWithAds, TestUser, TestValue, TestVideo, TestVideoSupplement, TestVinyl, TestArtistEvent, \
     TestStationData, TestAlertButton, TestAlert, TestNonAutoRenewable, TestPoetryLoverMatch, TestDeactivation, \
-    TestOperator
+    TestOperator, TestContest, TestOpenGraphData, TestBrand
 
 
 @pytest.fixture(scope='session')
@@ -133,7 +134,8 @@ def album_without_nested_albums(album_factory, artist_without_tracks, track_with
 
 
 @pytest.fixture(scope='session')
-def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_absence, artist, track_id):
+def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_absence,
+                     artist, track_id, contest, open_graph_data, brand):
     class PlaylistFactory:
         def get(self, similar_playlists, last_owner_playlists):
             return Playlist(user, cover, made_for, play_counter, playlist_absence, TestPlaylist.uid, TestPlaylist.kind,
@@ -142,13 +144,14 @@ def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_
                             TestPlaylist.url_part, TestPlaylist.created, TestPlaylist.modified,
                             TestPlaylist.available, TestPlaylist.is_banner, TestPlaylist.is_premiere,
                             TestPlaylist.duration_ms, TestPlaylist.og_image, TestPlaylist.og_title,
-                            TestPlaylist.og_description, TestPlaylist.image, cover, TestPlaylist.background_color,
-                            TestPlaylist.text_color, TestPlaylist.id_for_from, TestPlaylist.metrika_id,
-                            TestPlaylist.coauthors, [artist], [track_id], [track_short], TestPlaylist.prerolls,
-                            TestPlaylist.likes_count, similar_playlists, last_owner_playlists,
-                            TestPlaylist.generated_playlist_type, TestPlaylist.animated_cover_uri,
-                            TestPlaylist.ever_played, TestPlaylist.description, TestPlaylist.description_formatted,
-                            TestPlaylist.is_for_from, TestPlaylist.regions)
+                            TestPlaylist.og_description, TestPlaylist.image, cover, contest,
+                            TestPlaylist.background_color, TestPlaylist.text_color, TestPlaylist.id_for_from,
+                            TestPlaylist.dummy_description, TestPlaylist.dummy_page_description, cover, cover,
+                            open_graph_data, brand, TestPlaylist.metrika_id, TestPlaylist.coauthors, [artist],
+                            [track_id],  [track_short], TestPlaylist.prerolls, TestPlaylist.likes_count,
+                            similar_playlists, last_owner_playlists, TestPlaylist.generated_playlist_type,
+                            TestPlaylist.animated_cover_uri, TestPlaylist.ever_played, TestPlaylist.description,
+                            TestPlaylist.description_formatted, TestPlaylist.is_for_from, TestPlaylist.regions)
 
     return PlaylistFactory()
 
@@ -177,6 +180,12 @@ def client():
 @pytest.fixture(scope='session')
 def tag():
     return Tag(TestTag.id_, TestTag.value, TestTag.name, TestTag.og_description, TestTag.og_image)
+
+
+@pytest.fixture(scope='session')
+def brand():
+    return Brand(TestBrand.image, TestBrand.background, TestBrand.reference, TestBrand.pixels,
+                 TestBrand.theme, TestBrand.playlist_theme, TestBrand.button)
 
 
 @pytest.fixture(scope='session')
@@ -238,6 +247,11 @@ def cover():
     return Cover(TestCover.type, TestCover.uri, TestCover.items_uri, TestCover.dir, TestCover.version,
                  TestCover.custom, TestCover.is_custom, TestCover.copyright_name, TestCover.copyright_cline,
                  TestCover.prefix, TestCover.error)
+
+
+@pytest.fixture(scope='session')
+def open_graph_data(cover):
+    return OpenGraphData(TestOpenGraphData.title, TestOpenGraphData.description, cover)
 
 
 @pytest.fixture(scope='session')
@@ -473,6 +487,12 @@ def product(price, licence_text_part):
 @pytest.fixture(scope='session')
 def playlist_id():
     return PlaylistId(TestPlaylistId.uid, TestPlaylistId.kind)
+
+
+@pytest.fixture(scope='session')
+def contest():
+    return Contest(TestContest.contest_id, TestContest.status, TestContest.can_edit,
+                   TestContest.sent, TestContest.withdrawn)
 
 
 @pytest.fixture(scope='session')

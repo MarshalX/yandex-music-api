@@ -13,3 +13,6 @@
     yandex_music.playlist.playlist_recommendations
     yandex_music.playlist.tag_result
     yandex_music.playlist.tag
+    yandex_music.playlist.contest
+    yandex_music.playlist.open_graph_data
+    yandex_music.playlist.brand

@@ -87,3 +87,6 @@ from .test_non_auto_renewable import TestNonAutoRenewable
 from .test_poetry_lover_match import TestPoetryLoverMatch
 from .test_deactivation import TestDeactivation
 from .test_operator import TestOperator
+from .test_contest import TestContest
+from .test_open_graph_data import TestOpenGraphData
+from .test_brand import TestBrand
