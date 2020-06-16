@@ -28,14 +28,12 @@ class TestVideoSupplement:
         assert VideoSupplement.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'cover': self.cover, 'title': self.title, 'provider': self.provider,
-                     'provider_video_id': self.provider_video_id}
+        json_dict = {'cover': self.cover, 'title': self.title, 'provider': self.provider}
         video_supplement = VideoSupplement.de_json(json_dict, client)
 
         assert video_supplement.cover == self.cover
         assert video_supplement.title == self.title
         assert video_supplement.provider == self.provider
-        assert video_supplement.provider_video_id == self.provider_video_id
 
     def test_de_json_all(self, client):
         json_dict = {'cover': self.cover, 'title': self.title, 'provider': self.provider,

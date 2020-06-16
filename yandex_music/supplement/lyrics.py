@@ -24,8 +24,8 @@ class Lyrics(YandexMusicObject):
         lyrics (:obj:`str`): Первые строки текст песни.
         has_rights (:obj:`bool`): Есть ли права.
         full_lyrics (:obj:`str`): Текст песни.
-        text_language (:obj:`str`): Язык песни.
         show_translation (:obj:`bool`): Доступен ли перевод.
+        text_language (:obj:`str`, optional): Язык песни.
         url (:obj:`str`, optional): Ссылка на источник перевода. Обычно genius.com.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -36,8 +36,8 @@ class Lyrics(YandexMusicObject):
                  lyrics: str,
                  full_lyrics: str,
                  has_rights: bool,
-                 text_language: str,
                  show_translation: bool,
+                 text_language: Optional[str] = None,
                  url: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
@@ -45,9 +45,9 @@ class Lyrics(YandexMusicObject):
         self.lyrics = lyrics
         self.full_lyrics = full_lyrics
         self.has_rights = has_rights
-        self.text_language = text_language
         self.show_translation = show_translation
 
+        self.text_language = text_language
         self.url = url
 
         self.client = client

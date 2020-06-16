@@ -39,15 +39,13 @@ class TestLyrics:
 
     def test_de_json_required(self, client):
         json_dict = {'id_': self.id, 'lyrics': self.lyrics, 'full_lyrics': self.full_lyrics,
-                     'has_rights': self.has_rights, 'text_language': self.text_language,
-                     'show_translation': self.show_translation}
+                     'has_rights': self.has_rights, 'show_translation': self.show_translation}
         lyrics = Lyrics.de_json(json_dict, client)
 
         assert lyrics.id == self.id
         assert lyrics.lyrics == self.lyrics
         assert lyrics.full_lyrics == self.full_lyrics
         assert lyrics.has_rights == self.has_rights
-        assert lyrics.text_language == self.text_language
         assert lyrics.show_translation == self.show_translation
 
     def test_de_json_all(self, client):

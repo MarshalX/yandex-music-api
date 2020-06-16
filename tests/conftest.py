@@ -346,7 +346,7 @@ def case_forms():
 @pytest.fixture(scope='session')
 def lyrics():
     return Lyrics(TestLyrics.id, TestLyrics.lyrics, TestLyrics.full_lyrics, TestLyrics.has_rights,
-                  TestLyrics.text_language, TestLyrics.show_translation, TestLyrics.url)
+                  TestLyrics.show_translation, TestLyrics.text_language, TestLyrics.url)
 
 
 @pytest.fixture(scope='session')
