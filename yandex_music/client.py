@@ -6,7 +6,7 @@ from typing import Callable, Dict, List, Optional, Union
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
     Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
     StationResult, StationTracksResult, Status, Suggestions, SimilarTracks, Track, TracksList, UserSettings, \
-    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations, LandingList
+    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations, LandingList, QueueItem, Queue
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -50,12 +50,17 @@ class Client(YandexMusicObject):
 
         Для отключения предупреждений о новых полях установите `report_new_fields` в `False`.
 
+        Доступные языки: en, uz, uk, us, ru, kk, hy.
+
+        Поле `device` используется только при работе с очередью прослушивания.
+
     Attributes:
         logger (:obj:`logging.Logger`): Объект логгера.
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
         oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
         me (:obj:`yandex_music.Status`): Информация об аккаунте.
+        device (:obj:`str`): Строка, содержащая сведения об устройстве, с которого выполняются запросы.
         report_new_fields (:obj:`bool`): Включены ли сообщения о новых полях от API, которых нет в библиотеке.
         report_new_fields_callback (:obj:`function`): Функция обратного вызова для обработки новых полей.
             Принимает объект, в котором нет поля и kwargs с неизвестными полями.
@@ -67,14 +72,20 @@ class Client(YandexMusicObject):
         oauth_url (:obj:`str`, optional): Ссылка на OAuth Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
+        language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API.
         report_new_fields (:obj:`bool`, optional): Включить сообщения о новых полях от API, которых нет в библиотеке.
         report_new_fields_callback (:obj:`function`, optional): Функция обратного вызова для обработки новых полей.
             Принимает объект, в котором нет поля и kwargs с неизвестными полями.
     """
 
-    def __init__(self, token: str = None, fetch_account_status: bool = True, base_url: str = None,
-                 oauth_url: str = None, request: Request = None,
-                 report_new_fields=True, report_new_fields_callback: Callable[[object, dict], None] = None) -> None:
+    def __init__(self, token: str = None,
+                 fetch_account_status: bool = True,
+                 base_url: str = None,
+                 oauth_url: str = None,
+                 request: Request = None,
+                 language: str = 'ru',
+                 report_new_fields=True,
+                 report_new_fields_callback: Callable[[object, dict], None] = None) -> None:
         self.logger = logging.getLogger(__name__)
         self.token = token
 
@@ -96,6 +107,11 @@ class Client(YandexMusicObject):
             self._request.set_and_return_client(self)
         else:
             self._request = Request(self)
+
+        self._request.set_language(language)
+
+        self.device = 'os=Python; os_version=; manufacturer=Marshal; ' \
+                      'model=Yandex Music API; clid=; device_id=random; uuid=random'
 
         self.me = None
         if fetch_account_status:
@@ -2275,6 +2291,124 @@ class Client(YandexMusicObject):
         # TODO судя по всему эндпоинт ещё возвращает рекламу после треков для пользователей без подписки.
         return ShotEvent.de_json(result.get('shot_event'), self)
 
+    @log
+    def queues_list(self, device: str = None, timeout: Union[int, float] = None, *args, **kwargs) -> List[QueueItem]:
+        """Получение всех очередей треков с разных устройств для синхронизации между ними.
+
+        Note:
+            Именно к `device` привязывается очередь. На одном устройстве может быть создана одна очередь.
+
+            Аргумент `device` имеет следующий формат: `ключ=значение; ключ2=значение2`. Обязательные паля указы в
+            значении по умолчанию.
+
+        Args:
+            device (:obj:`str`, optional): Содержит информацию об устройстве с которого выполняется запрос.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.QueueItem`: Элементы очереди всех устройств.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if not device:
+            device = self.device
+
+        url = f'{self.base_url}/queues'
+
+        self._request.headers['X-Yandex-Music-Device'] = device
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return QueueItem.de_list(result.get('queues'), self)
+
+    @log
+    def queue(self, queue_id: str, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Queue]:
+        """Получение информации об очереди треков и самих треков в ней.
+
+        Args:
+            queue_id (:obj:`str`): Уникальный идентификатор очереди.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Queue`: Очередь или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/queues/{queue_id}'
+
+        result = self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return Queue.de_json(result, self)
+
+    @log
+    def queue_update_position(self, queue_id: str, current_index: int, device: str = None,
+                              timeout: Union[int, float] = None, *args, **kwargs) -> bool:
+        """Установка текущего индекса проигрываемого трека в очереди треков.
+
+        Note:
+            Изменить можно только у той очереди, которая была создана с переданного `device`!
+
+        Args:
+            queue_id (:obj:`str`): Уникальный идентификатор очереди.
+            current_index (:obj:`int`): Текущий индекс.
+            device (:obj:`str`, optional): Содержит информацию об устройстве с которого выполняется запрос.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if not device:
+            device = self.device
+
+        url = f'{self.base_url}/queues/{queue_id}/update-position'
+
+        self._request.headers['X-Yandex-Music-Device'] = device
+        result = self._request.post(url, {'isInteractive': False}, params={'currentIndex': current_index},
+                                    timeout=timeout, *args, **kwargs)
+
+        return result.get('status') == 'ok'
+
+    @log
+    def queue_create(self, queue: Union[Queue, str], device: str = None,
+                     timeout: Union[int, float] = None, *args, **kwargs) -> Optional[str]:
+        """Создание новой очереди треков.
+
+        Args:
+            queue (:obj:`yandex_music.Queue` | :obj:`str`): Объект очереди или JSON строка с этим объектом.
+            device (:obj:`str`, optional): Содержит информацию об устройстве с которого выполняется запрос.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`str`: Вернёт уникальный идентификатор созданной очереди, иначе :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if not device:
+            device = self.device
+
+        if isinstance(queue, Queue):
+            queue = queue.to_json(True)
+
+        url = f'{self.base_url}/queues'
+
+        self._request.headers['X-Yandex-Music-Device'] = device
+        result = self._request.post(url, queue, timeout=timeout, *args, **kwargs)
+
+        return result.get('id_')
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`from_credentials`
@@ -2399,3 +2533,9 @@ class Client(YandexMusicObject):
     usersDislikesTracksRemove = users_dislikes_tracks_remove
     #: Псевдоним для :attr:`after_track`
     afterTrack = after_track
+    #: Псевдоним для :attr:`queues_list`
+    queuesList = queues_list
+    #: Псевдоним для :attr:`queue_update_position`
+    queueUpdatePosition = queue_update_position
+    #: Псевдоним для :attr:`queue_create`
+    queueCreate = queue_create

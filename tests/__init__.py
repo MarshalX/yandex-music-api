@@ -90,3 +90,5 @@ from .test_operator import TestOperator
 from .test_contest import TestContest
 from .test_open_graph_data import TestOpenGraphData
 from .test_brand import TestBrand
+from .test_context import TestContext
+from .test_queue_item import TestQueueItem

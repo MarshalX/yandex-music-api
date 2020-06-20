@@ -118,6 +118,10 @@ from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
 from .supplement.video_supplement import VideoSupplement
 
+from .queue.context import Context
+from .queue.queue import Queue
+from .queue.queue_item import QueueItem
+
 from .like import Like
 from .pager import Pager
 from .cover import Cover
@@ -141,4 +145,4 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
            'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList', 'MetaData',
            'LicenceTextPart', 'StationData', 'AlertButton', 'Alert', 'NonAutoRenewable', 'PoetryLoverMatch',
-           'Operator', 'Deactivation', 'Contest', 'OpenGraphData', 'Brand']
+           'Operator', 'Deactivation', 'Contest', 'OpenGraphData', 'Brand', 'Context', 'Queue', 'QueueItem']

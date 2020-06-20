@@ -1,5 +1,6 @@
 import re
 import logging
+import keyword
 import builtins
 
 from typing import TYPE_CHECKING, Optional, Union
@@ -22,10 +23,10 @@ if TYPE_CHECKING:
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
-    'X-Yandex-Music-Client': 'YandexMusicAndroid/23020055',
+    'X-Yandex-Music-Client': 'YandexMusicAndroid/23020251',
 }
 
-reserved_names = [name.lower() for name in dir(builtins)] + ['client']
+reserved_names = keyword.kwlist + [name.lower() for name in dir(builtins)] + ['client']
 
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
@@ -49,6 +50,17 @@ class Request:
         self.client = self.set_and_return_client(client)
 
         self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
+
+    def set_language(self, lang: str) -> None:
+        """Добавляет заголовок языка для каждого запроса.
+
+        Note:
+            Возможные значения `lang`: en/uz/uk/us/ru/kk/hy.
+
+        Args:
+            lang (:obj:`str`): Язык.
+        """
+        self.headers.update({'Accept-Language': lang})
 
     def set_authorization(self, token: str) -> None:
         """Добавляет заголовок авторизации для каждого запроса.
@@ -108,7 +120,9 @@ class Request:
         cleaned_object = {}
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
-            if key.lower() in reserved_names:
+            key = key.lower()
+
+            if key in reserved_names:
                 key += '_'
 
             if len(key) and key[0].isdigit():

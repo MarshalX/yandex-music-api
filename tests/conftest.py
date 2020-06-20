@@ -9,7 +9,7 @@ from yandex_music import Account, AdParams, Album, AlbumEvent, Artist, ArtistEve
     SearchResult, Sequence, Settings, Shot, ShotData, ShotType, Station, StationResult, Status, Subscription, Tag, \
     Title, Track, TrackId, TrackPosition, TrackShort, TrackShortOld, TrackWithAds, User, Value, Video, \
     VideoSupplement, Vinyl, StationData, AlertButton, Alert, NonAutoRenewable, PoetryLoverMatch, Deactivation, \
-    Operator, Contest, OpenGraphData, Brand
+    Operator, Contest, OpenGraphData, Brand, Context
 from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewable, TestBest, TestBlock, \
     TestBlockEntity, TestCaseForms, TestChart, TestChartInfo, TestChartInfoMenuItem, TestCounts, TestCover, TestDay, \
     TestDescription, TestDiscreteScale, TestEnum, TestEvent, TestGeneratedPlaylist, TestIcon, TestId, TestImages, \
@@ -21,7 +21,7 @@ from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewabl
     TestTag, TestTitle, TestTrack, TestTrackId, TestTrackPosition, TestTrackShort, TestTrackShortOld, \
     TestTrackWithAds, TestUser, TestValue, TestVideo, TestVideoSupplement, TestVinyl, TestArtistEvent, \
     TestStationData, TestAlertButton, TestAlert, TestNonAutoRenewable, TestPoetryLoverMatch, TestDeactivation, \
-    TestOperator, TestContest, TestOpenGraphData, TestBrand
+    TestOperator, TestContest, TestOpenGraphData, TestBrand, TestContext
 
 
 @pytest.fixture(scope='session')
@@ -338,6 +338,11 @@ def results(playlist):
 
 
 @pytest.fixture(scope='session')
+def context():
+    return Context(TestContext.type_, TestContext.id_, TestContext.description)
+
+
+@pytest.fixture(scope='session')
 def case_forms():
     return CaseForms(TestCaseForms.nominative, TestCaseForms.genitive, TestCaseForms.dative,
                      TestCaseForms.accusative, TestCaseForms.instrumental, TestCaseForms.prepositional)
@@ -559,7 +564,7 @@ def chart_info(playlist, chart_info_menu):
 
 @pytest.fixture(scope='session')
 def track_id():
-    return TrackId(TestTrackId.id, TestTrackId.album_id)
+    return TrackId(TestTrackId.id, TestTrackId.track_id, TestTrackId.album_id, TestTrackId.from_)
 
 
 @pytest.fixture(scope='session')
