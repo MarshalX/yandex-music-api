@@ -19,12 +19,7 @@ class TestMetaData:
         assert MetaData.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'album': self.album, 'volume': self.volume, 'year': self.year}
-        meta_data = MetaData.de_json(json_dict, client)
-
-        assert meta_data.album == self.album
-        assert meta_data.volume == self.volume
-        assert meta_data.year == self.year
+        MetaData.de_json({}, client)
 
     def test_de_json_all(self, client):
         json_dict = {'album': self.album, 'volume': self.volume, 'year': self.year,

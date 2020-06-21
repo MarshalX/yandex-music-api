@@ -18,9 +18,9 @@ class MetaData(YandexMusicObject):
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        album (:obj:`str`): Название альбома.
-        volume (:obj:`int`): Диск (раздел).
-        year (:obj:`int`): Год выхода.
+        album (:obj:`str`, optional): Название альбома.
+        volume (:obj:`int`, optional): Диск (раздел).
+        year (:obj:`int`, optional): Год выхода.
         number (:obj:`int`, optional): Позиция в альбоме.
         genre (:obj:`str`, optional): Жанр.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -28,17 +28,16 @@ class MetaData(YandexMusicObject):
     """
 
     def __init__(self,
-                 album: str,
-                 volume: int,
-                 year: int,
-                 number: int = None,
-                 genre: str = None,
+                 album: Optional[str] = None,
+                 volume: Optional[int] = None,
+                 year: Optional[int] = None,
+                 number: Optional[int] = None,
+                 genre: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.album = album
         self.volume = volume
         self.year = year
-
         self.number = number
         self.genre = genre
 
