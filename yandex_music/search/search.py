@@ -100,6 +100,13 @@ class Search(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
+    def next_page(self, *args, **kwargs):
+        """Сокращение для::
+
+            client.search(text, nocorrect, type_, page + 1, *args, **kwargs)
+        """
+        return self.client.search(self.text, self.nocorrect, self.type_, self.page + 1, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
         """Десериализация объекта.
@@ -127,3 +134,8 @@ class Search(YandexMusicObject):
         data['podcast_episodes'] = SearchResult.de_json(data.get('podcast_episodes'), client, 'podcast_episode')
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`next_page`
+    nextPage = next_page
