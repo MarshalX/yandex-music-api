@@ -67,7 +67,7 @@ if args.playlist == 'user':
     if not args.playlist_name:
         print('specify --playlist-name', list(p.title for p in user_playlists))
         sys.exit(1)
-    playlist = next(p for p in user_playlists if p.title == args.playlist_name)
+    playlist = next((p for p in user_playlists if p.title == args.playlist_name), None)
     if playlist == None:
         print(f'playlist "{args.playlist_name}" not found')
         sys.exit(1)
