@@ -32,7 +32,8 @@ parser.add_argument('--audio-player', default='cvlc',
                     help='player to use')
 parser.add_argument('--audio-player-args', action='append', default=[],
                     help='args for --audio-player (can be specified multiple times)')
-parser.add_argument('--print-args', action='store_true')
+parser.add_argument('--print-args', action='store_true',
+                    help='print arguments (including default values) and exit')
 args = parser.parse_args()
 
 if args.audio_player is parser.get_default('audio_player')\
