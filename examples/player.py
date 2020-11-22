@@ -7,7 +7,6 @@ from subprocess import call
 from pathlib import Path
 from typing import List
 
-# sys.path.append('../yandex-music-api/')
 from yandex_music import Client
 
 DEFAULT_CACHE_FOLDER = Path(__file__).resolve().parent / '.YMcache'
@@ -16,11 +15,7 @@ MAX_ERRORS = 3
 
 parser = argparse.ArgumentParser()
 parser.add_argument('playlist', choices=('likes', 'user'), help='playlist type')
-# sub_parser = parser.add_subparsers(title='playlist type',
-#                                    dest='playlist', required=True)
-# sub_parser.add_parser('likes')
-# user_parser = sub_parser.add_parser('user')
-parser.add_argument('--playlist-name', # required=True,
+parser.add_argument('--playlist-name',
                          help='name of user playlist')
 
 parser.add_argument('--skip', metavar='N', type=int,
@@ -54,7 +49,6 @@ if args.print_args:
 if type(args.token) is str and re.match(r'^[A-z0-9]{39}$', args.token):
     if not args.no_save_token:
         parser.get_default('token').write_text(args.token)
-    pass
 else:
     try:
         args.token = Path(args.token).read_text()
@@ -74,6 +68,9 @@ if args.playlist == 'user':
         print('specify --playlist-name', list(p.title for p in user_playlists))
         sys.exit(1)
     playlist = next(p for p in user_playlists if p.title == args.playlist_name)
+    if playlist == None:
+        print(f'playlist "{args.playlist_name}" not found')
+        sys.exit(1)
     total_tracks = playlist.track_count
     print(f'Playing {playlist.title} ({playlist.playlist_id}). {total_tracks} track(s).')
     tracks = playlist.tracks if playlist.tracks else playlist.fetch_tracks()
@@ -95,9 +92,9 @@ for (i, short_track) in enumerate(tracks):
         try:
             track = short_track.track if short_track.track else short_track.fetchTrack()
 
-            print(f'Now playing {i + 1}/{total_tracks}:',
-                '|'.join(a.name for a in track.artists),
-                f"[{'|'.join(a.title for a in track.albums)}]", '~', track.title)
+            print(f'Now playing {i + 1}/{total_tracks}: ', end='')
+            print('|'.join(a.name for a in track.artists), end='')
+            print(f" [{'|'.join(a.title for a in track.albums)}]", '~', track.title)
 
             artist_dir = Path(f'{track.artists[0].name}_{track.artists[0].id}')
             album_dir = Path(f'{track.albums[0].title}_{track.albums[0].id}')
@@ -116,7 +113,6 @@ for (i, short_track) in enumerate(tracks):
                         error_count += 1
                         sleep(1)
 
-
             player_cmd[-1] = file_path
             if call(player_cmd) == 0:
                 error_count = 0
@@ -125,6 +121,5 @@ for (i, short_track) in enumerate(tracks):
             break
         except Exception as e:
             print('Error:', e)
-            # sys.exc_info()
             error_count += 1
             sleep(1)
