@@ -16,7 +16,7 @@ MAX_ERRORS = 3
 parser = argparse.ArgumentParser()
 parser.add_argument('playlist', choices=('likes', 'user'), help='playlist type')
 parser.add_argument('--playlist-name',
-                         help='name of user playlist')
+                    help='name of user playlist')
 
 parser.add_argument('--skip', metavar='N', type=int,
                     help='skip first %(metavar)s tracks')
