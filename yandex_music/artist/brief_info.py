@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, List
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl
+    from yandex_music import Client, Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl, Playlist
 
 
 class BriefInfo(YandexMusicObject):
@@ -12,6 +12,7 @@ class BriefInfo(YandexMusicObject):
     Attributes:
         artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
+        playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Плейлисты.
         also_albums (:obj:`list` из :obj:`yandex_music.Album`): Сборники.
         last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных треков.
         popular_tracks (:obj:`list` из :obj:`yandex_music.Track`): Популярные треки.
@@ -28,6 +29,7 @@ class BriefInfo(YandexMusicObject):
     Args:
         artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
+        playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Плейлисты.
         also_albums (:obj:`list` из :obj:`yandex_music.Album`): Сборники.
         last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных треков.
         popular_tracks (:obj:`list` из :obj:`yandex_music.Track`): Популярные треки.
@@ -46,6 +48,7 @@ class BriefInfo(YandexMusicObject):
     def __init__(self,
                  artist: Optional['Artist'],
                  albums: List['Album'],
+                 playlists: List['Playlist'],
                  also_albums: List['Album'],
                  last_release_ids: List[int],
                  popular_tracks: List['Track'],
@@ -59,10 +62,9 @@ class BriefInfo(YandexMusicObject):
                  tracks_in_chart: List['Chart'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.artist = artist
         self.albums = albums
+        self.playlists = playlists
         self.also_albums = also_albums
         self.last_release_ids = last_release_ids
         self.popular_tracks = popular_tracks
@@ -77,9 +79,11 @@ class BriefInfo(YandexMusicObject):
         self.tracks_in_chart = tracks_in_chart
 
         self.client = client
-        self._id_attrs = (self.artist, self.albums, self.also_albums, self.last_release_ids, self.popular_tracks,
-                          self.similar_artists, self.all_covers, self.concerts, self.videos, self.vinyls,
-                          self.has_promotions, self.playlist_ids)
+        self._id_attrs = (self.artist, self.albums, self.playlists, self.also_albums, self.last_release_ids,
+                          self.popular_tracks, self.similar_artists, self.all_covers, self.concerts, self.videos,
+                          self.vinyls, self.has_promotions, self.playlist_ids)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['BriefInfo']:
@@ -96,7 +100,8 @@ class BriefInfo(YandexMusicObject):
             return None
 
         data = super(BriefInfo, cls).de_json(data, client)
-        from yandex_music import Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl
+        from yandex_music import Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl, Playlist
+        data['playlists'] = Playlist.de_list(data.get('playlists'), client)
         data['artist'] = Artist.de_json(data.get('artist'), client)
         data['similar_artists'] = Artist.de_list(data.get('similar_artists'), client)
         data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)

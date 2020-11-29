@@ -29,8 +29,6 @@ class Ratings(YandexMusicObject):
                  day: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.week = week
         self.month = month
 
@@ -38,6 +36,8 @@ class Ratings(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.week, self.month)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Ratings']:

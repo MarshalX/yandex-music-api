@@ -26,13 +26,13 @@ class Plus(YandexMusicObject):
                  is_tutorial_completed: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.has_plus = has_plus
         self.is_tutorial_completed = is_tutorial_completed
 
         self.client = client
         self._id_attrs = (self.has_plus, self.is_tutorial_completed)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Plus']:

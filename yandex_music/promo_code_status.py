@@ -36,6 +36,8 @@ class PromoCodeStatus(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.status, self.status_desc, self.account_status)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PromoCodeStatus']:
         """Десериализация объекта.

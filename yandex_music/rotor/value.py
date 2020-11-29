@@ -26,13 +26,13 @@ class Value(YandexMusicObject):
                  name: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.value = value
         self.name = name
 
         self.client = client
         self._id_attrs = (self.value, self.name)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Value']:

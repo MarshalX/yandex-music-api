@@ -4,7 +4,8 @@ from yandex_music import YandexMusicObject
 from yandex_music.exceptions import InvalidBitrate
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement, DownloadInfo
+    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement,\
+        DownloadInfo, User, MetaData, PoetryLoverMatch
 
 
 class Track(YandexMusicObject):
@@ -15,6 +16,9 @@ class Track(YandexMusicObject):
 
         Известные значения поля `type`: `music`.
 
+        Поля `can_publish`, `state`, `desired_visibility`, `filename`, `user_info` доступны только у треков что были
+        загружены пользователем.
+
     Attributes:
         id (:obj:`int` | :obj:`str`): Уникальный идентификатор.
         title (:obj:`str`): Название.
@@ -23,6 +27,8 @@ class Track(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
         available_for_premium_users (:obj:`bool`): Доступен ли для пользователей с подпиской.
         lyrics_available (:obj:`bool`): Доступен ли текст песни.
+        poetry_lover_matches (:obj:`list` из :obj:`yandex_music.PoetryLoverMatch`): Список слов TODO.
+        best (:obj:`bool`): Лучшей ли трек TODO.
         real_id (:obj:`int` | :obj:`str`): TODO.
         og_image (:obj:`str`): Ссылка на превью Open Graph.
         type (:obj:`str`): Тип.
@@ -31,8 +37,16 @@ class Track(YandexMusicObject):
         duration_ms (:obj:`int`): Длительность трека в миллисекундах.
         storage_dir (:obj:`str`): В какой папке на сервере хранится файл TODO.
         file_size (:obj:`int`):  Размер файла. TODO добавить единицу измерения.
+        substituted (:obj:`yandex_music.Track`): Замещённый трек.
+        matched_track (:obj:`yandex_music.Track`): Соответствующий трек TODO.
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`): Значения для нормализации трека.
         error (:obj:`str`): Сообщение об ошибке.
+        can_publish (:obj:`bool`): Может ли быть опубликован.
+        state (:obj:`str`): Состояние, например, playable.
+        desired_visibility (:obj:`str`): Видимость трека.
+        filename (:obj:`str`): Название файла.
+        user_info (:obj:`yandex_music.User`): Информация о пользователе, который загрузил трек.
+        meta_data (:obj:`yandex_music.MetaData`): Информация о метаданных трека.
         regions (:obj:`list` из :obj:`str`): Регион TODO.
         available_as_rbt (:obj:`bool`): TODO.
         content_warning (:obj:`str`): Тип откровенного контента.
@@ -52,6 +66,8 @@ class Track(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`, optional): Альбомы.
         available_for_premium_users (:obj:`bool`, optional): Доступен ли для пользователей с подпиской.
         lyrics_available (:obj:`bool`, optional): Доступен ли текст песни.
+        poetry_lover_matches (:obj:`list` из :obj:`yandex_music.PoetryLoverMatch`, optional): Список слов TODO.
+        best (:obj:`bool`, optional): Лучшей ли трек TODO.
         real_id (:obj:`int` | :obj:`str`, optional): TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
         type_ (:obj:`str`, optional): Тип.
@@ -60,8 +76,16 @@ class Track(YandexMusicObject):
         duration_ms (:obj:`int`, optional): Длительность трека в миллисекундах.
         storage_dir (:obj:`str`, optional): В какой папке на сервере хранится файл TODO.
         file_size (:obj:`int`, optional): Размер файла. TODO добавить единицу измерения.
+        substituted (:obj:`yandex_music.Track`, optional): Замещённый трек.
+        matched_track (:obj:`yandex_music.Track`, optional): Соответствующий трек TODO.
         normalization (:obj:`list` из :obj:`yandex_music.Normalization`, optional): Значения для нормализации трека.
         error (:obj:`str`, optional): Сообщение об ошибке.
+        can_publish (:obj:`bool`, optional): Может ли быть опубликован.
+        state (:obj:`str`, optional): Состояние, например, playable.
+        desired_visibility (:obj:`str`, optional): Видимость трека.
+        filename (:obj:`str`, optional): Название файла.
+        user_info (:obj:`yandex_music.User`, optional): Информация о пользователе, который загрузил трек.
+        meta_data (:obj:`yandex_music.MetaData`, optional): Информация о метаданных трека.
         regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
         available_as_rbt (:obj:`bool`, optional): TODO.
         content_warning (:obj:`str`, optional): Тип откровенного контента.
@@ -82,6 +106,8 @@ class Track(YandexMusicObject):
                  albums: List['Album'] = None,
                  available_for_premium_users: Optional[bool] = None,
                  lyrics_available: Optional[bool] = None,
+                 poetry_lover_matches: List['PoetryLoverMatch'] = None,
+                 best: Optional[bool] = None,
                  real_id: Optional[Union[str, int]] = None,
                  og_image: Optional[str] = None,
                  type_: Optional[str] = None,
@@ -90,8 +116,16 @@ class Track(YandexMusicObject):
                  duration_ms: Optional[int] = None,
                  storage_dir: Optional[str] = None,
                  file_size: Optional[int] = None,
+                 substituted: Optional['Track'] = None,
+                 matched_track: Optional['Track'] = None,
                  normalization: Optional['Normalization'] = None,
                  error: Optional[str] = None,
+                 can_publish: Optional[bool] = None,
+                 state: Optional[str] = None,
+                 desired_visibility: Optional[str] = None,
+                 filename: Optional[str] = None,
+                 user_info: Optional['User'] = None,
+                 meta_data: Optional['MetaData'] = None,
                  regions: Optional[List[str]] = None,
                  available_as_rbt: Optional[bool] = None,
                  content_warning: Optional[str] = None,
@@ -102,16 +136,16 @@ class Track(YandexMusicObject):
                  remember_position: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
+
         self.title = title
         self.available = available
         self.artists = artists
         self.albums = albums
-
         self.available_for_premium_users = available_for_premium_users
         self.lyrics_available = lyrics_available
+        self.poetry_lover_matches = poetry_lover_matches
+        self.best = best
         self.real_id = real_id
         self.og_image = og_image
         self.type = type_
@@ -120,8 +154,16 @@ class Track(YandexMusicObject):
         self.duration_ms = duration_ms
         self.storage_dir = storage_dir
         self.file_size = file_size
+        self.substituted = substituted
+        self.matched_track = matched_track
         self.normalization = normalization
         self.error = error
+        self.can_publish = can_publish
+        self.state = state
+        self.desired_visibility = desired_visibility
+        self.filename = filename
+        self.user_info = user_info
+        self.meta_data = meta_data
         self.regions = regions
         self.available_as_rbt = available_as_rbt
         self.content_warning = content_warning
@@ -134,34 +176,36 @@ class Track(YandexMusicObject):
         self.download_info = None
 
         self.client = client
-        self._id_attrs = (self.id, self.title, self.available, self.artists, self.albums)
+        self._id_attrs = (self.id,)
 
-    def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
+        super().handle_unknown_kwargs(self, **kwargs)
+
+    async def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
         """Сокращение для::
 
             client.tracks_download_info(self.track_id, get_direct_links)
         """
-        self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
+        self.download_info = await self.client.tracks_download_info(self.track_id, get_direct_links)
 
         return self.download_info
 
-    def get_supplement(self, *args, **kwargs) -> Optional['Supplement']:
+    async def get_supplement(self, *args, **kwargs) -> Optional['Supplement']:
         """Сокращение для::
 
             client.track_supplement(track.id, *args, **kwargs)
         """
-        return self.client.track_supplement(self.id, *args, **kwargs)
+        return await self.client.track_supplement(self.id, *args, **kwargs)
 
-    def download_cover(self, filename: str, size: str = '200x200') -> None:
+    async def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
-    def download_og_image(self, filename: str, size: str = '200x200') -> None:
+    async def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Предпочтительнее использовать `self.download_cover()`.
@@ -170,9 +214,9 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
-    def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
+    async def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
 
         Note:
@@ -189,7 +233,7 @@ class Track(YandexMusicObject):
             :class:`yandex_music.exceptions.InvalidBitrate`: Если в `self.download_info` не найден подходящий трек.
         """
         if self.download_info is None:
-            self.get_download_info()
+            await self.get_download_info()
 
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
@@ -198,19 +242,19 @@ class Track(YandexMusicObject):
         else:
             raise InvalidBitrate('Unavailable bitrate')
 
-    def like(self, *args, **kwargs) -> bool:
+    async def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
-        return self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
+        return await self.client.users_likes_tracks_add(self.track_id, await self.client.me.account.uid, *args, **kwargs)
 
-    def dislike(self, *args, **kwargs) -> bool:
+    async def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
             client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
-        return self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
+        return await self.client.users_likes_tracks_remove(self.track_id, await self.client.me.account.uid, *args, **kwargs)
 
     @property
     def track_id(self) -> str:
@@ -234,11 +278,16 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist
+        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['normalization'] = Normalization.de_json(data.get('normalization'), client)
         data['major'] = Major.de_json(data.get('major'), client)
+        data['substituted'] = Track.de_json(data.get('substituted'), client)
+        data['matched_track'] = Track.de_json(data.get('matched_track'), client)
+        data['user_info'] = User.de_json(data.get('user_info'), client)
+        data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
+        data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
 
         return cls(client=client, **data)
 
@@ -256,11 +305,7 @@ class Track(YandexMusicObject):
         if not data:
             return []
 
-        tracks = list()
-        for track in data:
-            tracks.append(cls.de_json(track, client))
-
-        return tracks
+        return [cls.de_json(track, client) for track in data]
 
     # camelCase псевдонимы
 

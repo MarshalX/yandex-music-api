@@ -32,8 +32,6 @@ class CaptchaResponse(YandexMusicObject):
                  error,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.x_captcha_url = x_captcha_url
         self.x_captcha_key = x_captcha_key
         self.error_description = error_description
@@ -42,7 +40,9 @@ class CaptchaResponse(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.x_captcha_key, self.x_captcha_url)
 
-    def download(self, filename=None):
+        super().handle_unknown_kwargs(self, **kwargs)
+
+    async def download(self, filename=None):
         """Загрузка изображения с капчей.
 
         Args:
@@ -52,7 +52,7 @@ class CaptchaResponse(YandexMusicObject):
         if not filename:
             filename = f'{self.x_captcha_key}.gif'
 
-        self.client.request.download(self.x_captcha_url, filename)
+        await self.client.request.download(self.x_captcha_url, filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client'):

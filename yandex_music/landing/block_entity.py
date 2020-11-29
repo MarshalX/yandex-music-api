@@ -46,14 +46,14 @@ class BlockEntity(YandexMusicObject):
                                       'Playlist', 'ChartItem', 'PlayContext', 'MixLink']],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.type = type_
         self.data = data
 
         self.client = client
         self._id_attrs = (self.id, self.type, self.data)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['BlockEntity']:

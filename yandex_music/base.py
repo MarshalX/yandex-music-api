@@ -1,4 +1,5 @@
 import logging
+import keyword
 import builtins
 from abc import ABCMeta
 from typing import TYPE_CHECKING, Optional
@@ -14,7 +15,7 @@ try:
 except ImportError:
     import json
 
-reserved_names = [name.lower() for name in dir(builtins)]
+reserved_names = keyword.kwlist + [name.lower() for name in dir(builtins)]
 
 logger = logging.getLogger(__name__)
 new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
@@ -34,11 +35,15 @@ class YandexMusicObject:
         return self.__dict__[item]
 
     @staticmethod
+    def report_new_fields_callback(obj, new_fields):
+        logger.warning(f'Found unknown fields received from API! Please copy warn message '
+                       f'and send to {new_issue_by_template_url} (github issue), thank you!')
+        logger.warning(f'Type: {type(obj)}; kwargs: {new_fields}')
+
+    @staticmethod
     def handle_unknown_kwargs(obj, **kwargs):
-        if kwargs:
-            logger.warning(f'Found unknown fields received from API! Please copy warn message '
-                           f'and send to {new_issue_by_template_url} (github issue), thank you!')
-            logger.warning(f'Type: {type(obj)}; kwargs: {kwargs}')
+        if kwargs and obj.client.report_new_fields:
+            obj.client.report_new_fields_callback(obj, kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:
@@ -58,16 +63,22 @@ class YandexMusicObject:
 
         return data
 
-    def to_json(self) -> str:
+    def to_json(self, for_request=False) -> str:
         """Сериализация объекта.
+
+        Args:
+            for_request (:obj:`bool`): Подготовить ли объект для отправки в теле запроса.
 
         Returns:
             :obj:`str`: Сериализованный в JSON объект.
         """
-        return json.dumps(self.to_dict(), ensure_ascii=not ujson)
+        return json.dumps(self.to_dict(for_request), ensure_ascii=not ujson)
 
-    def to_dict(self) -> dict:
+    def to_dict(self, for_request=False) -> dict:
         """Рекурсивная сериализация объекта.
+
+        Args:
+            for_request (:obj:`bool`): Перевести ли обратно все поля в camelCase и игнорировать зарезервированные слова.
 
         Note:
             Исключает из сериализации `client` и `_id_attrs` необходимые в `__eq__`.
@@ -79,7 +90,7 @@ class YandexMusicObject:
         """
         def parse(val):
             if hasattr(val, 'to_dict'):
-                return val.to_dict()
+                return val.to_dict(for_request)
             elif isinstance(val, list):
                 return [parse(it) for it in val]
             elif isinstance(val, dict):
@@ -91,10 +102,18 @@ class YandexMusicObject:
         data.pop('client', None)
         data.pop('_id_attrs', None)
 
-        for k, v in data.copy().items():
-            if k.lower() in reserved_names:
+        if for_request:
+            for k, v in data.copy().items():
+                camel_case = ''.join(word.title() for word in k.split('_'))
+                camel_case = camel_case[0].lower() + camel_case[1:]
+
                 data.pop(k)
-                data.update({f'{k}_': v})
+                data.update({camel_case: v})
+        else:
+            for k, v in data.copy().items():
+                if k.lower() in reserved_names:
+                    data.pop(k)
+                    data.update({f'{k}_': v})
 
         return parse(data)
 

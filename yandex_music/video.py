@@ -72,6 +72,8 @@ class Video(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.provider_video_id, self.youtube_url, self.title)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Video']:
         """Десериализация объекта.

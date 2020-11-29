@@ -32,8 +32,6 @@ class StationTracksResult(YandexMusicObject):
                  pumpkin: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.sequence = sequence
         self.batch_id = batch_id
@@ -41,6 +39,8 @@ class StationTracksResult(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.sequence, self.batch_id, self.pumpkin)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data, client) -> Optional['StationTracksResult']:

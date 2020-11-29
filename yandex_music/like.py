@@ -25,6 +25,10 @@ class Like(YandexMusicObject):
         album (:obj:`yandex_music.Album`): Понравившейся альбом.
         artist (:obj:`yandex_music.Artist`): Понравившейся артист.
         playlist (:obj:`yandex_music.Playlist`): Понравившейся плейлист.
+        short_description (:obj:`str`): Короткое описание.
+        description (:obj:`str`): Описание.
+        is_premiere (:obj:`bool`): Премьера ли.
+        is_banner (:obj:`bool`): Является ли баннером.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -34,6 +38,10 @@ class Like(YandexMusicObject):
         album (:obj:`yandex_music.Album`, optional): Понравившейся альбом.
         artist (:obj:`yandex_music.Artist`, optional): Понравившейся артист.
         playlist (:obj:`yandex_music.Playlist`, optional): Понравившейся плейлист.
+        short_description (:obj:`str`, optional): Короткое описание.
+        description (:obj:`str`, optional): Описание.
+        is_premiere (:obj:`bool`, optional): Премьера ли.
+        is_banner (:obj:`bool`, optional): Является ли баннером.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -45,10 +53,12 @@ class Like(YandexMusicObject):
                  album: Optional['Album'] = None,
                  artist: Optional['Artist'] = None,
                  playlist: Optional['Playlist'] = None,
+                 short_description: Optional[str] = None,
+                 description: Optional[str] = None,
+                 is_premiere: Optional[bool] = None,
+                 is_banner: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.type = type_
 
@@ -56,9 +66,15 @@ class Like(YandexMusicObject):
         self.artist = artist
         self.playlist = playlist
         self.timestamp = timestamp
+        self.short_description = short_description
+        self.description = description
+        self.is_premiere = is_premiere
+        self.is_banner = is_banner
 
         self.client = client
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['Like']:

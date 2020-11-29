@@ -23,12 +23,12 @@ class PersonalPlaylistsData(YandexMusicObject):
                  is_wizard_passed: bool,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.is_wizard_passed = is_wizard_passed
 
         self.client = client
         self._id_attrs = (self.is_wizard_passed,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PersonalPlaylistsData']:

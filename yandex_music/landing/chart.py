@@ -17,6 +17,7 @@ class Chart(YandexMusicObject):
         progress (:obj:`str`): TODO.
         listeners (:obj:`int`): Количество слушателей.
         shift (:obj:`int`): Смещение.
+        bg_color (:obj:`str`): Цвет заднего фона.
         track_id (:obj:`yandex_music.TrackId` | :obj:`None`): Уникальный идентификатор трека.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -25,6 +26,7 @@ class Chart(YandexMusicObject):
         progress (:obj:`str`): TODO.
         listeners (:obj:`int`): Количество слушателей.
         shift (:obj:`int`): Смещение.
+        bg_color (:obj:`str`, optional): Цвет заднего фона.
         track_id (:obj:`yandex_music.TrackId`, optional): Уникальный идентификатор трека.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -35,20 +37,22 @@ class Chart(YandexMusicObject):
                  progress: str,
                  listeners: int,
                  shift: int,
+                 bg_color: Optional[str] = None,
                  track_id: Optional['TrackId'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.position = position
         self.progress = progress
         self.listeners = listeners
         self.shift = shift
 
+        self.bg_color = bg_color
         self.track_id = track_id
 
         self.client = client
         self._id_attrs = (self.position, self.progress, self.listeners, self.shift, self.track_id)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Chart']:
@@ -84,8 +88,4 @@ class Chart(YandexMusicObject):
         if not data:
             return []
 
-        charts = list()
-        for chart in data:
-            charts.append(cls.de_json(chart, client))
-
-        return charts
+        return [cls.de_json(chart, client) for chart in data]

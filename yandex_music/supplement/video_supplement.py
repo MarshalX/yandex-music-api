@@ -23,10 +23,10 @@ class VideoSupplement(YandexMusicObject):
         cover (:obj:`str`): URL на обложку видео.
         title (:obj:`str`): Название видео.
         provider (:obj:`str`): Сервис поставляющий видео.
-        provider_video_id (:obj:`str`): Уникальный идентификатор видео на сервисе.
-        url (:obj:`str`): URL на видео.
-        embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
-        embed (:obj:`str`): HTML тег для встраивания видео.
+        provider_video_id (:obj:`str`, optional): Уникальный идентификатор видео на сервисе.
+        url (:obj:`str`, optional): URL на видео.
+        embed_url (:obj:`str`, optional): URL на видео, находящегося на серверах Яндекса.
+        embed (:obj:`str`, optional): HTML тег для встраивания видео.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -35,25 +35,25 @@ class VideoSupplement(YandexMusicObject):
                  cover: str,
                  title: str,
                  provider: str,
-                 provider_video_id: str,
+                 provider_video_id: Optional[str] = None,
                  url: Optional[str] = None,
                  embed_url: Optional[str] = None,
                  embed: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.cover = cover
         self.title = title
         self.provider = provider
-        self.provider_video_id = provider_video_id
 
+        self.provider_video_id = provider_video_id
         self.url = url
         self.embed_url = embed_url
         self.embed = embed
 
         self.client = client
         self._id_attrs = (self.cover, self.title, self.provider_video_id)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['VideoSupplement']:

@@ -52,8 +52,6 @@ class Promotion(YandexMusicObject):
                  image: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.promo_id = promo_id
         self.title = title
         self.subtitle = subtitle
@@ -67,6 +65,8 @@ class Promotion(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.promo_id, self.title, self.subtitle, self.heading,
                           self.url, self.url_scheme, self.text_color, self.gradient, self.image)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:

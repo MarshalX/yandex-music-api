@@ -22,6 +22,8 @@ class Station(YandexMusicObject):
         id_for_from (:obj:`str`): Категория (тип) станции.
         restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
         restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
+        full_image_url (:obj:`str`): Ссылка на полное изображение.
+        mts_full_image_url (:obj:`str`): Ссылка на полную иконку.
         parent_id (:obj:`yandex_music.Id`): Уникальный идентификатор станции, являющейся предком текущей.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -34,6 +36,8 @@ class Station(YandexMusicObject):
         id_for_from (:obj:`str`): Категория (тип) станции.
         restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
         restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
+        full_image_url (:obj:`str`, optional): Ссылка на полное изображение.
+        mts_full_image_url (:obj:`str`, optional): Ссылка на полную иконку.
         parent_id (:obj:`yandex_music.Id`, optional): Уникальный идентификатор станции, являющейся предком текущей.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
@@ -42,17 +46,17 @@ class Station(YandexMusicObject):
     def __init__(self,
                  id_: Optional['Id'],
                  name: str,
-                 icon: Optional['Icon'],
-                 mts_icon: Optional['Icon'],
-                 geocell_icon: Optional['Icon'],
+                 icon: 'Icon',
+                 mts_icon: 'Icon',
+                 geocell_icon: 'Icon',
                  id_for_from: str,
-                 restrictions: Optional['Restrictions'],
-                 restrictions2: Optional['Restrictions'],
+                 restrictions: 'Restrictions',
+                 restrictions2: 'Restrictions',
+                 full_image_url: Optional[str] = None,
+                 mts_full_image_url: Optional[str] = None,
                  parent_id: Optional['Id'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.name = name
         self.icon = icon
@@ -62,11 +66,15 @@ class Station(YandexMusicObject):
         self.restrictions = restrictions
         self.restrictions2 = restrictions2
 
+        self.full_image_url = full_image_url
+        self.mts_full_image_url = mts_full_image_url
         self.parent_id = parent_id
 
         self.client = client
         self._id_attrs = (self.id, self.name, self.icon, self.mts_icon, self.geocell_icon,
                           self.id_for_from, self.restrictions, self.restrictions2)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Station']:

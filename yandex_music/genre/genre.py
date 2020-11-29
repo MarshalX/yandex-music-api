@@ -17,6 +17,7 @@ class Genre(YandexMusicObject):
         titles (:obj:`dict`): Словарь заголовков на разных языках, где ключ - язык.
         images (:obj:`yandex_music.Images`): Изображение жанра.
         show_in_menu (:obj:`bool`): Показывать в меню.
+        show_in_regions (:obj:`list` из :obj:`int`): Список регионов в которых отображается жанр в списках.
         full_title (:obj:`str`): Полный заголовок.
         url_part (:obj:`str`): Часть ссылки на жанр для открытия в браузере.
         color (:obj:`str`): Цвет фона изображения.
@@ -33,6 +34,7 @@ class Genre(YandexMusicObject):
         titles (:obj:`dict`): Словарь заголовков на разных языках, где ключ - язык.
         images (:obj:`yandex_music.Images`): Изображение жанра.
         show_in_menu (:obj:`bool`): Показывать в меню.
+        show_in_regions (:obj:`list` из :obj:`int`, optional): Список регионов в которых отображается жанр в списках.
         full_title (:obj:`str`, optional): Полный заголовок.
         url_part (:obj:`str`, optional): Часть ссылки на жанр для открытия в браузере.
         color (:obj:`str`, optional): Цвет фона изображения.
@@ -51,6 +53,7 @@ class Genre(YandexMusicObject):
                  titles: Dict[str, Optional['Title']],
                  images: Optional['Images'],
                  show_in_menu: bool,
+                 show_in_regions: Optional[list] = None,
                  full_title: Optional[str] = None,
                  url_part: Optional[str] = None,
                  color: Optional[str] = None,
@@ -59,8 +62,6 @@ class Genre(YandexMusicObject):
                  hide_in_regions=None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.id = id_
         self.weight = weight
         self.composer_top = composer_top
@@ -69,6 +70,7 @@ class Genre(YandexMusicObject):
         self.images = images
         self.show_in_menu = show_in_menu
 
+        self.show_in_regions = show_in_regions
         self.full_title = full_title
         self.url_part = url_part
         self.color = color
@@ -78,6 +80,8 @@ class Genre(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Genre']:
@@ -116,8 +120,4 @@ class Genre(YandexMusicObject):
         if not data:
             return []
 
-        genres = list()
-        for genre in data:
-            genres.append(cls.de_json(genre, client))
-
-        return genres
+        return [cls.de_json(genre, client) for genre in data]

@@ -26,13 +26,13 @@ class Suggestions(YandexMusicObject):
                  suggestions: List[str],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.best = best
         self.suggestions = suggestions
 
         self.client = client
         self._id_attrs = (self.best, self.suggestions)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item):
         return self.suggestions[item]

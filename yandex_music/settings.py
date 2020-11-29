@@ -44,6 +44,8 @@ class Settings(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.in_app_products, self.native_products, self.web_payment_url, self.promo_codes_enabled)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Settings']:
         """Десериализация объекта.

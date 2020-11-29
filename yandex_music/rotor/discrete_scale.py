@@ -35,8 +35,6 @@ class DiscreteScale(YandexMusicObject):
                  max_: Optional['Value'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.type = type_
         self.name = name
         self.min = min_
@@ -44,6 +42,8 @@ class DiscreteScale(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.type, self.name, self.min, self.max)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['DiscreteScale']:

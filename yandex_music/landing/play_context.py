@@ -39,8 +39,6 @@ class PlayContext(YandexMusicObject):
                  tracks: List['TrackShortOld'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.client_ = client_
         self.context = context
         self.context_item = context_item
@@ -48,6 +46,8 @@ class PlayContext(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.client_, self.context_item, self.context_item, self.tracks)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlayContext']:

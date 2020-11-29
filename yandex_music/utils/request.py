@@ -1,5 +1,6 @@
 import re
 import logging
+import keyword
 import builtins
 
 from typing import TYPE_CHECKING, Optional, Union
@@ -9,7 +10,7 @@ from typing import TYPE_CHECKING, Optional, Union
 # https://github.com/psf/requests/blob/master/requests/models.py#L508
 import json
 
-import requests
+import aiohttp
 
 from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
@@ -22,12 +23,12 @@ if TYPE_CHECKING:
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
-    'X-Yandex-Music-Client': 'YandexMusicAndroid/23020055',
+    'X-Yandex-Music-Client': 'YandexMusicAndroid/23020251',
 }
 
-reserved_names = [name.lower() for name in dir(builtins)] + ['client']
+reserved_names = keyword.kwlist + [name.lower() for name in dir(builtins)] + ['client']
 
-logging.getLogger('urllib3').setLevel(logging.WARNING)
+logging.getLogger('aiohttp').setLevel(logging.WARNING)
 
 
 class Request:
@@ -42,13 +43,21 @@ class Request:
 
     def __init__(self,
                  client=None,
-                 headers=None,
-                 proxy_url=None):
+                 headers=None):
         self.headers = headers or HEADERS.copy()
 
         self.client = self.set_and_return_client(client)
 
-        self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
+    def set_language(self, lang: str) -> None:
+        """Добавляет заголовок языка для каждого запроса.
+
+        Note:
+            Возможные значения `lang`: en/uz/uk/us/ru/kk/hy.
+
+        Args:
+            lang (:obj:`str`): Язык.
+        """
+        self.headers.update({'Accept-Language': lang})
 
     def set_authorization(self, token: str) -> None:
         """Добавляет заголовок авторизации для каждого запроса.
@@ -108,7 +117,9 @@ class Request:
         cleaned_object = {}
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
-            if key.lower() in reserved_names:
+            key = key.lower()
+
+            if key in reserved_names:
                 key += '_'
 
             if len(key) and key[0].isdigit():
@@ -149,8 +160,8 @@ class Request:
 
         return Response.de_json(data, self.client)
 
-    def _request_wrapper(self, *args, **kwargs):
-        """Обёртка над запросом библиотеки `requests`.
+    async  def _request_wrapper(self, *args, **kwargs):
+        """Обёртка над запросом библиотеки `aiohttp`.
 
         Note:
             Добавляет необходимые заголовки для запроса, обрабатывает статус коды, следит за таймаутом, кидает
@@ -176,12 +187,10 @@ class Request:
 
         kwargs['headers']['User-Agent'] = USER_AGENT
 
-        try:
-            resp = requests.request(*args, **kwargs)
-        except requests.Timeout:
-            raise TimedOut()
-        except requests.RequestException as e:
-            raise NetworkError(e)
+        async with aiohttp.ClientSession() as client:        
+            resp = await client.request(*args, **kwargs)
+            resp.content = await resp.read()
+            resp.status_code = resp.status
 
         if 200 <= resp.status_code <= 299:
             return resp
@@ -204,7 +213,7 @@ class Request:
         else:
             raise NetworkError(f'{message} ({resp.status_code})')
 
-    def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs):
+    async def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs):
         """Отправка GET запроса.
 
         Args:
@@ -221,12 +230,12 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper('GET', url, params=params, headers=self.headers, proxies=self.proxies,
+        result = await self._request_wrapper('GET', url, params=params, headers=self.headers, 
                                        timeout=timeout, *args, **kwargs)
 
         return self._parse(result.content).result
 
-    def post(self, url, data=None, timeout=5, *args, **kwargs):
+    async def post(self, url, data=None, timeout=5, *args, **kwargs):
         """Отправка POST запроса.
 
         Args:
@@ -243,12 +252,12 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper('POST', url, headers=self.headers, proxies=self.proxies, data=data,
+        result = await self._request_wrapper('POST', url, headers=self.headers,   data=data,
                                        timeout=timeout, *args, **kwargs)
 
         return self._parse(result.content).result
 
-    def retrieve(self, url, timeout=5, *args, **kwargs):
+    async  def retrieve(self, url, timeout=5, *args, **kwargs):
         """Отправка GET запроса и получение содержимого без обработки (парсинга).
 
         Args:
@@ -264,9 +273,9 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._request_wrapper('GET', url, proxies=self.proxies, timeout=timeout, *args, **kwargs)
+        return await self._request_wrapper('GET', url,   timeout=timeout, *args, **kwargs)
 
-    def download(self, url, filename, timeout=5, *args, **kwargs):
+    async def download(self, url, filename, timeout=5, *args, **kwargs):
         """Отправка запроса на получение содержимого и его запись в файл.
 
         Args:
@@ -280,6 +289,6 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self.retrieve(url, timeout=timeout, *args, *kwargs)
+        result = await self.retrieve(url, timeout=timeout, *args, *kwargs)
         with open(filename, 'wb') as f:
             f.write(result.content)

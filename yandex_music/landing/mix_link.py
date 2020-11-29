@@ -22,6 +22,7 @@ class MixLink(YandexMusicObject):
         background_color (:obj:`str`): Цвет заднего фона.
         background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
         cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
+        cover_uri (:obj:`str`): Ссылка на изображение с обложкой.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -32,6 +33,7 @@ class MixLink(YandexMusicObject):
         background_color (:obj:`str`): Цвет заднего фона.
         background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
         cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
+        cover_uri (:obj:`str`, optional): Ссылка на изображение с обложкой.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -44,10 +46,9 @@ class MixLink(YandexMusicObject):
                  background_color: str,
                  background_image_uri: str,
                  cover_white: str,
+                 cover_uri: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.title = title
         self.url = url
         self.url_scheme = url_scheme
@@ -56,18 +57,22 @@ class MixLink(YandexMusicObject):
         self.background_image_uri = background_image_uri
         self.cover_white = cover_white
 
+        self.cover_uri = cover_uri
+
         self.client = client
         self._id_attrs = (self.url, self.title, self.url_scheme, self.text_color,
                           self.background_color, self.background_image_uri, self.cover_white)
 
-    def download_background_image(self, filename: str, size: str = '200x200') -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
+    async def download_background_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка заднего фона.
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер заднего фона.
         """
-        self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:

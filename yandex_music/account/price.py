@@ -26,13 +26,13 @@ class Price(YandexMusicObject):
                  currency: str,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.amount = amount
         self.currency = currency
 
         self.client = client
         self._id_attrs = (self.amount, self.currency)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Price']:

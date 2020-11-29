@@ -32,6 +32,8 @@ class ShotEvent(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.event_id, self.shots)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotEvent']:
         """Десериализация объекта.

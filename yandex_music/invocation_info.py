@@ -37,6 +37,8 @@ class InvocationInfo(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.hostname, self.req_id)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['InvocationInfo']:
         """Десериализация объекта.

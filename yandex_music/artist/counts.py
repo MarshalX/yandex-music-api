@@ -36,8 +36,6 @@ class Counts(YandexMusicObject):
                  also_tracks: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.tracks = tracks
         self.direct_albums = direct_albums
         self.also_albums = also_albums
@@ -45,6 +43,8 @@ class Counts(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.tracks, self.direct_albums, self.also_albums, self.also_tracks)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Counts']:

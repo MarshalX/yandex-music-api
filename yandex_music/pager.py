@@ -36,6 +36,8 @@ class Pager(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.total, self.page, self.per_page)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Pager']:
         """Десериализация объекта.

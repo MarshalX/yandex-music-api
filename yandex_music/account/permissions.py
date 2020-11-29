@@ -29,14 +29,14 @@ class Permissions(YandexMusicObject):
                  default: List[str],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.until = until
         self.values = values
         self.default = default
 
         self.client = client
         self._id_attrs = (self.until, self.values, self.default)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Permissions']:

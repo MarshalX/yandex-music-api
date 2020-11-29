@@ -36,6 +36,8 @@ class TracksList(YandexMusicObject):
         self.client = client
         self._id_attrs = (self.uid, self.tracks)
 
+        super().handle_unknown_kwargs(self, **kwargs)
+
     def __getitem__(self, item) -> 'TrackShort':
         return self.tracks[item]
 

@@ -7,11 +7,17 @@ from .experiments import Experiments
 from .account.status import Status
 from .account.account import Account
 from .account.plus import Plus
+from .account.alert_button import AlertButton
+from .account.alert import Alert
 from .account.user_settings import UserSettings
+from .account.non_auto_renewable import NonAutoRenewable
+from .account.deactivation import Deactivation
+from .account.operator import Operator
 from .account.subscription import Subscription
 from .account.price import Price
 from .account.product import Product
 from .account.auto_renewable import AutoRenewable
+from .account.renewable_remainder import RenewableRemainder
 from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
@@ -31,10 +37,16 @@ from .artist.vinyl import Vinyl
 from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
 from .playlist.user import User
+from .playlist.contest import Contest
+from .playlist.open_graph_data import OpenGraphData
+from .playlist.brand import Brand
 from .playlist.play_counter import PlayCounter
 from .playlist.playlist_id import PlaylistId
+from .playlist.tag import Tag
+from .playlist.tag_result import TagResult
 from .playlist.playlist_absence import PlaylistAbsence
 from .playlist.playlist import Playlist
+from .playlist.playlist_recommendation import PlaylistRecommendations
 
 from .shot.shot_type import ShotType
 from .shot.shot_data import ShotData
@@ -43,6 +55,9 @@ from .shot.shot_event import ShotEvent
 
 from .tracks_list import TracksList
 from .track.major import Major
+from .track.licence_text_part import LicenceTextPart
+from .track.poetry_lover_match import PoetryLoverMatch
+from .track.meta_data import MetaData
 from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
@@ -72,6 +87,10 @@ from .landing.promotion import Promotion
 from .landing.block_entity import BlockEntity
 from .landing.landing import Landing
 from .landing.block import Block
+from .landing.landing_list import LandingList
+from .landing.chart_info_menu_item import ChartInfoMenuItem
+from .landing.chart_info_menu import ChartInfoMenu
+from .landing.chart_info import ChartInfo
 from .landing.track_id import TrackId
 from .landing.chart import Chart
 from .landing.play_contexts_data import PlayContextsData
@@ -85,6 +104,7 @@ from .rotor.id import Id
 from .rotor.value import Value
 from .rotor.enum import Enum
 from .rotor.sequence import Sequence
+from .rotor.station_data import StationData
 from .rotor.discrete_scale import DiscreteScale
 from .rotor.ad_params import AdParams
 from .rotor.restrictions import Restrictions
@@ -97,6 +117,10 @@ from .rotor.dashboard import Dashboard
 from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
 from .supplement.video_supplement import VideoSupplement
+
+from .queue.context import Context
+from .queue.queue import Queue
+from .queue.queue_item import QueueItem
 
 from .like import Like
 from .pager import Pager
@@ -118,4 +142,7 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'Dashboard', 'RotorSettings', 'AdParams', 'Restrictions', 'Value', 'Enum', 'DiscreteScale', 'StationResult',
            'Sequence', 'StationTracksResult', 'BriefInfo', 'Description', 'PlaylistId', 'Vinyl', 'Supplement', 'Lyrics',
            'VideoSupplement', 'ArtistTracks', 'Pager', 'ArtistAlbums', 'PlaylistAbsence', 'Shot', 'ShotEvent',
-           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings']
+           'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
+           'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList', 'MetaData',
+           'LicenceTextPart', 'StationData', 'AlertButton', 'Alert', 'NonAutoRenewable', 'PoetryLoverMatch',
+           'Operator', 'Deactivation', 'Contest', 'OpenGraphData', 'Brand', 'Context', 'Queue', 'QueueItem']

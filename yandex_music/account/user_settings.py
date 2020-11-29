@@ -78,8 +78,6 @@ class UserSettings(YandexMusicObject):
                  show_disk_tracks_in_library: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.uid = uid
         self.last_fm_scrobbling_enabled = last_fm_scrobbling_enabled
         self.shuffle_enabled = shuffle_enabled
@@ -104,6 +102,8 @@ class UserSettings(YandexMusicObject):
                           self.user_music_visibility, self.user_social_visibility, self.rbt_disabled, self.theme,
                           self.promos_disabled, self.auto_play_radio, self.ads_disabled, self.disk_enabled,
                           self.show_disk_tracks_in_library)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['UserSettings']:

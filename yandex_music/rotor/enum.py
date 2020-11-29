@@ -29,14 +29,14 @@ class Enum(YandexMusicObject):
                  possible_values: List['Value'],
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.type = type_
         self.name = name
         self.possible_values = possible_values
 
         self.client = client
         self._id_attrs = (self.type, self.name, self.possible_values)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Enum']:

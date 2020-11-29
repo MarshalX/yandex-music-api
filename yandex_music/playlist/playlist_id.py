@@ -26,13 +26,13 @@ class PlaylistId(YandexMusicObject):
                  kind: int,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.uid = uid
         self.kind = kind
 
         self.client = client
         self._id_attrs = (self.uid, self.kind)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistId']:

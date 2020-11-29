@@ -62,8 +62,6 @@ class Account(YandexMusicObject):
                  has_info_for_app_metrica: bool = False,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
         self.now = now
         self.service_available = service_available
 
@@ -85,14 +83,16 @@ class Account(YandexMusicObject):
         if self.uid:
             self._id_attrs = (self.uid,)
 
-    def download_avatar(self, filename: str, format_: str = 'normal') -> None:
+        super().handle_unknown_kwargs(self, **kwargs)
+
+    async def download_avatar(self, filename: str, format_: str = 'normal') -> None:
         """Загрузка изображения пользователя.
 
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             format_ (:obj:`str`): Формат желаемого изображения (`normal`, `orig`, `small`, `big`).
         """
-        self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
+        await self.client.request.download(f'https://upics.yandex.net/{self.uid}/{format_}', filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Account']:
