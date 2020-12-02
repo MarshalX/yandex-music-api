@@ -500,9 +500,12 @@ def contest():
                    TestContest.sent, TestContest.withdrawn)
 
 
-@pytest.fixture(scope='session')
-def label():
-    return Label(TestLabel.id, TestLabel.name)
+@pytest.fixture(scope='session', params=[True, False])
+def label(request):
+    if request.param:
+        return Label(TestLabel.id, TestLabel.name)
+
+    return TestLabel.another_representation_of_label
 
 
 @pytest.fixture(scope='session')

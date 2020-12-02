@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 
@@ -51,21 +51,27 @@ class Label(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Label']:
+    def de_list(cls, data: dict, client: 'Client') -> List[Union['Label', str]]:
         """Десериализация списка объектов.
 
         Args:
             data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
+        Note:
+            Лейблы строками возвращаются, как минимум, в результатах поиска. В остальных местах это объекты.
+
         Returns:
-            :obj:`list` из :obj:`yandex_music.Label`: Лейблы.
+            :obj:`list` из :obj:`yandex_music.Label` или :obj:`str`: Лейблы.
         """
         if not data:
             return []
 
         labels = list()
         for label in data:
-            labels.append(cls.de_json(label, client))
+            if type(label) == dict:
+                labels.append(cls.de_json(label, client))
+            else:
+                labels.append(label)
 
         return labels

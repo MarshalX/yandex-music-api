@@ -88,8 +88,9 @@ class TestAlbum:
         assert album.id == self.id
 
     def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums):
+        labels = [label] if type(label) == str else [label.to_dict()]
         json_dict = {'id_': self.id, 'error': self.error, 'title': self.title, 'cover_uri': self.cover_uri,
-                     'track_count': self.track_count, 'artists': [artist.to_dict()], 'labels': [label.to_dict()],
+                     'track_count': self.track_count, 'artists': [artist.to_dict()], 'labels': labels,
                      'available': self.available, 'available_for_premium_users': self.available_for_premium_users,
                      'version': self.version, 'content_warning': self.content_warning, 'regions': self.regions,
                      'original_release_year': self.original_release_year, 'genre': self.genre, 'buy': self.buy,

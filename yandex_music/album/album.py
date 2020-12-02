@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 
@@ -24,7 +24,7 @@ class Album(YandexMusicObject):
         title (:obj:`str`): Название альбома.
         track_count (:obj:`int`): Количество треков.
         artists (:obj:`list` из :obj:`yandex_music.Artist`): Артисты.
-        labels (:obj:`list` из :obj:`yandex_music.Label`): Лейблы.
+        labels (:obj:`list` из :obj:`yandex_music.Label` или :obj:`str`): Лейблы.
         available (:obj:`bool`): Доступен ли альбом.
         available_for_premium_users (:obj:`bool`): Доступен ли альбом для пользователей с подпиской.
         version (:obj:`str`): Дополнительная информация об альбоме.
@@ -60,7 +60,7 @@ class Album(YandexMusicObject):
         title (:obj:`str`, optional): Название альбома.
         track_count (:obj:`int`, optional): Количество треков.
         artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Артисты.
-        labels (:obj:`list` из :obj:`yandex_music.Label`, optional): Лейблы.
+        labels (:obj:`list` из :obj:`yandex_music.Label` или :obj:`str`, optional): Лейблы.
         available (:obj:`bool`, optional): Доступен ли альбом.
         available_for_premium_users (:obj:`bool`, optional): Доступен ли альбом для пользователей с подпиской.
         version (:obj:`str`, optional): Дополнительная информация об альбоме.
@@ -98,7 +98,7 @@ class Album(YandexMusicObject):
                  title: Optional[str] = None,
                  track_count: Optional[int] = None,
                  artists: List['Artist'] = None,
-                 labels: List['Label'] = None,
+                 labels: List[Union['Label', str]] = None,
                  available: Optional[bool] = None,
                  available_for_premium_users: Optional[bool] = None,
                  version: Optional[str] = None,
