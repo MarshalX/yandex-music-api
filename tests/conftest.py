@@ -2,7 +2,7 @@ import pytest
 
 from yandex_music import Account, AdParams, Album, AlbumEvent, Artist, ArtistEvent, AutoRenewable, Best, Block, \
     BlockEntity, CaseForms, Chart, ChartInfo, ChartInfoMenu, ChartInfoMenuItem, ChartItem, Client, Counts, Cover, Day, \
-    Description, DiscreteScale, Enum, Event, GeneratedPlaylist, Icon, Id, Images, InvocationInfo, \
+    Description, DiscreteScale, Enum, Event, GeneratedPlaylist, Icon, Id, Images, InvocationInfo, Label, \
     LicenceTextPart, Link, Lyrics, MadeFor, Major, MetaData, MixLink, Normalization, Pager, PassportPhone, \
     Permissions, PersonalPlaylistsData, PlayContext, PlayContextsData, PlayCounter, Playlist, PlaylistAbsence, \
     PlaylistId, Plus, Price, Product, Promotion, Ratings, RenewableRemainder, Restrictions, RotorSettings, \
@@ -13,7 +13,7 @@ from yandex_music import Account, AdParams, Album, AlbumEvent, Artist, ArtistEve
 from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewable, TestBest, TestBlock, \
     TestBlockEntity, TestCaseForms, TestChart, TestChartInfo, TestChartInfoMenuItem, TestCounts, TestCover, TestDay, \
     TestDescription, TestDiscreteScale, TestEnum, TestEvent, TestGeneratedPlaylist, TestIcon, TestId, TestImages, \
-    TestInvocationInfo, TestLicenceTextPart, TestLink, TestLyrics, TestMajor, TestMetaData, TestMixLink, \
+    TestInvocationInfo, TestLabel, TestLicenceTextPart, TestLink, TestLyrics, TestMajor, TestMetaData, TestMixLink, \
     TestNormalization, TestPager, TestPassportPhone, TestPermissions, TestPersonalPlaylistsData, TestPlayContext, \
     TestPlayCounter, TestPlaylist, TestPlaylistAbsence, TestPlaylistId, TestPlus, TestPrice, TestProduct,\
     TestPromotion, TestRatings, TestRenewableRemainder, TestRotorSettings, TestSearchResult, TestSequence, \
@@ -102,18 +102,18 @@ def track_without_nested_tracks(artist, album, track_factory):
 
 
 @pytest.fixture(scope='session')
-def album_factory(track_position):
+def album_factory(label, track_position):
     class AlbumFactory:
         def get(self, artists, volumes, duplicates=None):
-            return Album(TestAlbum.id, TestAlbum.error, TestAlbum.title, TestAlbum.track_count, artists,
-                         TestAlbum.labels, TestAlbum.available, TestAlbum.available_for_premium_users,
-                         TestAlbum.version, TestAlbum.cover_uri, TestAlbum.content_warning,
-                         TestAlbum.original_release_year, TestAlbum.genre, TestAlbum.text_color, TestAlbum.short_description,
-                         TestAlbum.description, TestAlbum.is_premiere, TestAlbum.is_banner, TestAlbum.meta_type,
-                         TestAlbum.storage_dir, TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent,
-                         TestAlbum.very_important, TestAlbum.available_for_mobile, TestAlbum.available_partially,
-                         TestAlbum.bests, duplicates, TestAlbum.prerolls, volumes, TestAlbum.year,
-                         TestAlbum.release_date, TestAlbum.type, track_position, TestAlbum.regions)
+            return Album(TestAlbum.id, TestAlbum.error, TestAlbum.title, TestAlbum.track_count, artists, [label],
+                         TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.version,
+                         TestAlbum.cover_uri, TestAlbum.content_warning, TestAlbum.original_release_year,
+                         TestAlbum.genre, TestAlbum.text_color, TestAlbum.short_description, TestAlbum.description,
+                         TestAlbum.is_premiere, TestAlbum.is_banner, TestAlbum.meta_type, TestAlbum.storage_dir,
+                         TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
+                         TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests, duplicates,
+                         TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
+                         track_position, TestAlbum.regions)
 
     return AlbumFactory()
 
@@ -498,6 +498,11 @@ def playlist_id():
 def contest():
     return Contest(TestContest.contest_id, TestContest.status, TestContest.can_edit,
                    TestContest.sent, TestContest.withdrawn)
+
+
+@pytest.fixture(scope='session')
+def label():
+    return Label(TestLabel.id, TestLabel.name)
 
 
 @pytest.fixture(scope='session')

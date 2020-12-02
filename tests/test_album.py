@@ -36,9 +36,8 @@ class TestAlbum:
     release_date = '2019-03-22T00:00:00+03:00'
     type = 'single'
     regions = None
-    labels = ['NoCopyrightSounds']
 
-    def test_expected_values(self, album, artist_without_tracks, track_position,
+    def test_expected_values(self, album, artist_without_tracks, label, track_position,
                              track_without_albums, album_without_nested_albums):
         assert album.id == self.id
         assert album.error == self.error
@@ -47,7 +46,7 @@ class TestAlbum:
         assert album.cover_uri == self.cover_uri
         assert album.track_count == self.track_count
         assert album.artists == [artist_without_tracks]
-        assert album.labels == self.labels
+        assert album.labels == [label]
         assert album.available == self.available
         assert album.available_for_premium_users == self.available_for_premium_users
         assert album.content_warning == self.content_warning
@@ -88,9 +87,9 @@ class TestAlbum:
 
         assert album.id == self.id
 
-    def test_de_json_all(self, client, artist, track_position, track, album_without_nested_albums):
+    def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums):
         json_dict = {'id_': self.id, 'error': self.error, 'title': self.title, 'cover_uri': self.cover_uri,
-                     'track_count': self.track_count, 'artists': [artist.to_dict()], 'labels': self.labels,
+                     'track_count': self.track_count, 'artists': [artist.to_dict()], 'labels': [label.to_dict()],
                      'available': self.available, 'available_for_premium_users': self.available_for_premium_users,
                      'version': self.version, 'content_warning': self.content_warning, 'regions': self.regions,
                      'original_release_year': self.original_release_year, 'genre': self.genre, 'buy': self.buy,
@@ -111,7 +110,7 @@ class TestAlbum:
         assert album.cover_uri == self.cover_uri
         assert album.track_count == self.track_count
         assert album.artists == [artist]
-        assert album.labels == self.labels
+        assert album.labels == [label]
         assert album.available == self.available
         assert album.available_for_premium_users == self.available_for_premium_users
         assert album.content_warning == self.content_warning
@@ -140,7 +139,7 @@ class TestAlbum:
         assert album.track_position == track_position
         assert album.regions == self.regions
 
-    def test_equality(self):
+    def test_equality(self, artist, label):
         a = Album(self.id)
         b = Album(10)
         c = Album(self.id)

@@ -22,6 +22,7 @@ from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
 from .album.album import Album
+from .album.label import Label
 from .album.track_position import TrackPosition
 from .artist.artist import Artist
 from .artist.artist_tracks import ArtistTracks
@@ -132,7 +133,7 @@ from .client import Client
 
 __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'InvocationInfo', 'Permissions', 'Plus',
            'Subscription', 'Status', 'Price', 'Product', 'AutoRenewable', 'Settings', 'PermissionAlerts', 'Experiments',
-           'Cover', 'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Album',
+           'Cover', 'Ratings', 'Counts', 'Link', 'Artist', 'User', 'CaseForms', 'MadeFor', 'Label', 'Album',
            'PlayCounter', 'Playlist', 'TrackShort', 'TracksList', 'Major', 'Normalization', 'TrackPosition', 'Track',
            'Like', 'GeneratedPlaylist', 'TrackWithAds', 'Day', 'ArtistEvent', 'AlbumEvent', 'Feed', 'Event',
            'PromoCodeStatus', 'DownloadInfo', 'Video', 'SearchResult', 'Best', 'Search', 'Suggestions', 'MixLink',

@@ -26,6 +26,7 @@ from .test_icon import TestIcon
 from .test_id import TestId
 from .test_images import TestImages
 from .test_invocation_info import TestInvocationInfo
+from .test_label import TestLabel
 from .test_link import TestLink
 from .test_link import TestLink
 from .test_lyrics import TestLyrics
