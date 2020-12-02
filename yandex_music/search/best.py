@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
+from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video, User
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -12,6 +12,9 @@ de_json_result = {
     'album': Album.de_json,
     'playlist': Playlist.de_json,
     'video': Video.de_json,
+    'user': User.de_json,
+    'podcast': Album.de_json,
+    'podcast_episode': Track.de_json,
 }
 
 

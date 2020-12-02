@@ -676,12 +676,12 @@ def result_with_type(request, results, types):
     return results[request.param], types[request.param]
 
 
-@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
+@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5, 13, 14, 15])
 def best(request, results, types):
     return Best(types[request.param], results[request.param], TestBest.text)
 
 
-@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5])
+@pytest.fixture(scope='session', params=[1, 2, 3, 4, 5, 13, 14, 15])
 def best_with_result(request, results, types):
     return Best(types[request.param], results[request.param], TestBest.text), results[request.param]
 
