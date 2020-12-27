@@ -20,7 +20,7 @@ class Supplement(YandexMusicObject):
         id_ (:obj:`int`): Уникальный идентификатор дополнительной информации.
         lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
         videos (:obj:`yandex_music.VideoSupplement`): Видео.
-        radio_is_available (:obj:`bool`): Доступно ли радио.
+        radio_is_available (:obj:`bool`, optional): Доступно ли радио.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -29,16 +29,17 @@ class Supplement(YandexMusicObject):
                  id_: int,
                  lyrics: Optional['Lyrics'],
                  videos: List['VideoSupplement'],
-                 radio_is_available: bool,
+                 radio_is_available: bool = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
         self.lyrics = lyrics
         self.videos = videos
+
         self.radio_is_available = radio_is_available
 
         self.client = client
-        self._id_attrs = (self.id, self.lyrics, self.videos, self.radio_is_available)
+        self._id_attrs = (self.id, self.lyrics, self.videos)
 
         super().handle_unknown_kwargs(self, **kwargs)
 
