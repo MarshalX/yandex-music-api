@@ -1452,11 +1452,12 @@ class Client(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
 
-        url = f'{self.base_url}/rotor/station/{station}/settings2'
+        url = f'{self.base_url}/rotor/station/{station}/settings3'
 
         data = {
             'moodEnergy': mood_energy,
-            'diversity': diversity
+            'diversity': diversity,
+            'type': 'rotor'
         }
 
         if language:
