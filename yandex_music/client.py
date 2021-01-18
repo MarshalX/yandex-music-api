@@ -1423,7 +1423,7 @@ class Client(YandexMusicObject):
         return StationResult.de_list(result, self)
 
     @log
-    def rotor_station_settings2(self, station: str, mood_energy: str, diversity: str, language: str = 'not-russian', _type: str = 'rotor',
+    def rotor_station_settings2(self, station: str, mood_energy: str, diversity: str, language: str = 'not-russian', type_: str = 'rotor',
                                 timeout: Union[int, float] = None, *args, **kwargs) -> bool:
         """Изменение настроек определённой станции.
 
@@ -1434,7 +1434,7 @@ class Client(YandexMusicObject):
 
             Доступные значения для `language`: `not-russian`, `russian`, `any`.
             
-            Доступные значения для `_type`: `rotor`, `generative`
+            Доступные значения для `type_`: `rotor`, `generative`.
 
             У станций в `restrictions` есть Enum'ы, а в них `possible_values` - доступные значения для поля.
 
@@ -1443,7 +1443,7 @@ class Client(YandexMusicObject):
             mood_energy (:obj:`str`): Настроение.
             diversity (:obj:`str`): Треки.
             language (:obj:`str`): Язык.
-            _type (:obj:`str`): Тип.
+            type_ (:obj:`str`): Тип.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -1460,7 +1460,7 @@ class Client(YandexMusicObject):
         data = {
             'moodEnergy': mood_energy,
             'diversity': diversity,
-            'type': _type
+            'type': type_
         }
 
         if language:
