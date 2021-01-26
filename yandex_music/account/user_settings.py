@@ -33,7 +33,7 @@ class UserSettings(YandexMusicObject):
         theme (:obj:`str`): Тема оформления.
         promos_disabled (:obj:`bool`): Не показывать рекламируемый контент).
         auto_play_radio (:obj:`bool`): Бесконечный поток музыки.
-        sync_queue_enabled (:obj:`bool`): Включена ли сихронизация очередей между устройствами.
+        sync_queue_enabled (:obj:`bool`): Синхронизация очередей между устройствами.
         ads_disabled (:obj:`bool`): Не показывать рекламу.
         disk_enabled (:obj:`bool`): TODO.
         show_disk_tracks_in_library (:obj:`bool`): Показывать локальные треки в библиотеке.
@@ -53,7 +53,7 @@ class UserSettings(YandexMusicObject):
         theme (:obj:`str`): Тема оформления.
         promos_disabled (:obj:`bool`): Не показывать рекламируемый контент).
         auto_play_radio (:obj:`bool`): Бесконечный поток музыки.
-        sync_queue_enabled (:obj:`bool`): Включена ли сихронизация очередей между устройствами.
+        sync_queue_enabled (:obj:`bool`): Синхронизация очередей между устройствами.
         ads_disabled (:obj:`bool`, optional): Не показывать рекламу.
         disk_enabled (:obj:`bool`, optional): TODO.
         show_disk_tracks_in_library (:obj:`bool`, optional): Показывать локальные треки в библиотеке.
