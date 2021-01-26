@@ -104,16 +104,18 @@ def track_without_nested_tracks(artist, album, track_factory):
 @pytest.fixture(scope='session')
 def album_factory(label, track_position):
     class AlbumFactory:
-        def get(self, artists, volumes, duplicates=None):
+        def get(self, artists, volumes, albums=None):
             return Album(TestAlbum.id, TestAlbum.error, TestAlbum.title, TestAlbum.track_count, artists, [label],
                          TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.version,
                          TestAlbum.cover_uri, TestAlbum.content_warning, TestAlbum.original_release_year,
                          TestAlbum.genre, TestAlbum.text_color, TestAlbum.short_description, TestAlbum.description,
                          TestAlbum.is_premiere, TestAlbum.is_banner, TestAlbum.meta_type, TestAlbum.storage_dir,
                          TestAlbum.og_image, TestAlbum.buy, TestAlbum.recent, TestAlbum.very_important,
-                         TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests, duplicates,
+                         TestAlbum.available_for_mobile, TestAlbum.available_partially, TestAlbum.bests, albums,
                          TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
-                         track_position, TestAlbum.regions)
+                         track_position, TestAlbum.regions, TestAlbum.available_as_rbt, TestAlbum.lyrics_available,
+                         TestAlbum.remember_position, albums, TestAlbum.duration_ms, TestAlbum.explicit,
+                         TestAlbum.start_date)
 
     return AlbumFactory()
 
@@ -256,7 +258,8 @@ def open_graph_data(cover):
 
 @pytest.fixture(scope='session')
 def meta_data():
-    return MetaData(TestMetaData.album, TestMetaData.volume, TestMetaData.year, TestMetaData.number, TestMetaData.genre)
+    return MetaData(TestMetaData.album, TestMetaData.volume, TestMetaData.year, TestMetaData.number, TestMetaData.genre,
+                    TestMetaData.lyricist, TestMetaData.version, TestMetaData.composer)
 
 
 @pytest.fixture(scope='session')
