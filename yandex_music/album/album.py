@@ -52,6 +52,13 @@ class Album(YandexMusicObject):
         type (:obj:`str`): Тип альбома.
         track_position (:obj:`yandex_music.TrackPosition`): Позиция трека в альбоме. Возвращается при получении
             альбома в составе трека.
+        available_as_rbt (:obj:`bool`): TODO.
+        lyrics_available (:obj:`bool`): Доступны ли слова TODO.
+        remember_position (:obj:`bool`): Запоминание позиции TODO.
+        albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы TODO.
+        duration_ms (:obj:`int`): Длительность в миллисекундах.
+        explicit (:obj:`bool`): Есть ли в треке ненормативная лексика.
+        start_date (:obj:`str`): Дата начала в формате ISO 8601 TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -88,6 +95,13 @@ class Album(YandexMusicObject):
         type_ (:obj:`str`, optional): Тип альбома.
         track_position (:obj:`yandex_music.TrackPosition`, optional): Позиция трека в альбоме. Возвращается при
             получении альбома в составе трека.
+        available_as_rbt (:obj:`bool`, optional): TODO.
+        lyrics_available (:obj:`bool`, optional): Доступны ли слова TODO.
+        remember_position (:obj:`bool`, optional): Запоминание позиции TODO.
+        albums (:obj:`list` из :obj:`yandex_music.Album`, optional): Альбомы TODO.
+        duration_ms (:obj:`int`, optional): Длительность в миллисекундах.
+        explicit (:obj:`bool`, optional): Есть ли в треке ненормативная лексика.
+        start_date (:obj:`str`, optional): Дата начала в формате ISO 8601 TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -128,6 +142,13 @@ class Album(YandexMusicObject):
                  type_: Optional[str] = None,
                  track_position: Optional['TrackPosition'] = None,
                  regions=None,
+                 available_as_rbt: Optional[bool] = None,
+                 lyrics_available: Optional[bool] = None,
+                 remember_position: Optional[bool] = None,
+                 albums: Optional[List['Album']] = None,
+                 duration_ms: Optional[int] = None,
+                 explicit: Optional[bool] = None,
+                 start_date: Optional['str'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -166,6 +187,13 @@ class Album(YandexMusicObject):
         self.regions = regions
         self.original_release_year = original_release_year
         self.content_warning = content_warning
+        self.available_as_rbt = available_as_rbt
+        self.lyrics_available = lyrics_available
+        self.remember_position = remember_position
+        self.albums = albums
+        self.duration_ms = duration_ms
+        self.explicit = explicit
+        self.start_date = start_date
 
         self.client = client
         self._id_attrs = (self.id,)
@@ -233,6 +261,7 @@ class Album(YandexMusicObject):
         data['labels'] = Label.de_list(data.get('labels'), client)
         data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
         data['duplicates'] = Album.de_list(data.get('duplicates'), client)
+        data['albums'] = Album.de_list(data.get('albums'), client)
         if data.get('volumes'):
             data['volumes'] = [Track.de_list(i, client) for i in data['volumes']]
 
