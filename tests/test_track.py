@@ -28,6 +28,11 @@ class TestTrack:
     available_full_without_permission = False
     version = 'Radio Edit'
     remember_position = False
+    background_video_uri = 'https://music-background-videos.s3.yandex.net/converted/60018e4cdcaa9a42948cda8d'
+    short_description = 'По каким признакам во внешности, в поведении, в одежде можно понять, что девушка несвободна?' \
+                        ' Чтобы не ошибиться со своими чувствами и устремлениями…» — такой замечательный вопрос' \
+                        ' пришел мне от подписчика. Причин, которые могут остановить мужчин в момент появления' \
+                        ' желания познакомиться с девушкой, достаточно много. Обычно они сводятся к опасениям,'
 
     def test_expected_values(self, track, artist, album, major, normalization, track_without_nested_tracks,
                              user, meta_data, poetry_lover_match):
@@ -66,6 +71,8 @@ class TestTrack:
         assert track.desired_visibility == self.desired_visibility
         assert track.filename == self.filename
         assert track.user_info == user
+        assert track.background_video_uri == self.background_video_uri
+        assert track.short_description == self.short_description
 
     def test_de_json_none(self, client):
         assert Track.de_json({}, client) is None
@@ -96,7 +103,8 @@ class TestTrack:
                      'matched_track': track_without_nested_tracks.to_dict(), 'can_publish': self.can_publish,
                      'state': self.state, 'desired_visibility': self.desired_visibility, 'filename': self.filename,
                      'user_info': user.to_dict(), 'meta_data': meta_data.to_dict(),
-                     'poetry_lover_matches': [poetry_lover_match.to_dict()]}
+                     'poetry_lover_matches': [poetry_lover_match.to_dict()],
+                     'background_video_uri': self.background_video_uri, 'short_description': self.short_description}
         track = Track.de_json(json_dict, client)
 
         assert track.id == self.id
@@ -134,6 +142,8 @@ class TestTrack:
         assert track.desired_visibility == self.desired_visibility
         assert track.filename == self.filename
         assert track.user_info == user
+        assert track.background_video_uri == self.background_video_uri
+        assert track.short_description == self.short_description
 
     def test_equality(self):
         a = Track(self.id)

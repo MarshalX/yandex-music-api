@@ -19,6 +19,8 @@ class Track(YandexMusicObject):
         Поля `can_publish`, `state`, `desired_visibility`, `filename`, `user_info` доступны только у треков что были
         загружены пользователем.
 
+        Обычно у подкастов поле `remember_position == True`, а у треков `remember_position == False`.
+
     Attributes:
         id (:obj:`int` | :obj:`str`): Уникальный идентификатор.
         title (:obj:`str`): Название.
@@ -54,8 +56,11 @@ class Track(YandexMusicObject):
         preview_duration_ms (:obj:`int`): TODO.
         available_full_without_permission (:obj:`bool`): Доступен ли без подписки.
         version (:obj:`str`): Версия.
-        remember_position (:obj:`bool`): TODO.
-        download_info (:obj:`list` из :obj:`yandex_music.DownloadInfo`): Информация о вариантах загрузки трека
+        remember_position (:obj:`bool`): Если :obj:`True`, то запоминатся последняя позиция прослушивания,
+            иначе позиция не запоминается.
+        download_info (:obj:`list` из :obj:`yandex_music.DownloadInfo`): Информация о вариантах загрузки трека.
+        background_video_uri (:obj:`str`): Ссылка на видеошот.
+        short_description (:obj:`str`): Краткое опсание эпизода подкаста.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -93,7 +98,10 @@ class Track(YandexMusicObject):
         preview_duration_ms (:obj:`int`, optional): TODO.
         available_full_without_permission (:obj:`bool`, optional): Доступен ли без подписки.
         version (:obj:`str`, optional): Версия.
-        remember_position (:obj:`bool`, optional): TODO.
+        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминатся последняя позиция прослушивания,
+            иначе позиция не запоминается.
+        background_video_uri (:obj:`str`, optional): Ссылка на видеошот.
+        short_description (:obj:`str`, optional): Краткое опсание эпизода подкаста.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -134,6 +142,8 @@ class Track(YandexMusicObject):
                  available_full_without_permission: Optional[bool] = None,
                  version: Optional[str] = None,
                  remember_position: Optional[bool] = None,
+                 background_video_uri: Optional[str] = None,
+                 short_description: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -172,6 +182,8 @@ class Track(YandexMusicObject):
         self.available_full_without_permission = available_full_without_permission
         self.version = version
         self.remember_position = remember_position
+        self.background_video_uri = background_video_uri
+        self.short_description = short_description
 
         self.download_info = None
 
