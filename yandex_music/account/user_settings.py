@@ -33,6 +33,7 @@ class UserSettings(YandexMusicObject):
         theme (:obj:`str`): Тема оформления.
         promos_disabled (:obj:`bool`): Не показывать рекламируемый контент).
         auto_play_radio (:obj:`bool`): Бесконечный поток музыки.
+        sync_queue_enabled (:obj:`bool`): Включена ли сихронизация очередей между устройствами.
         ads_disabled (:obj:`bool`): Не показывать рекламу.
         disk_enabled (:obj:`bool`): TODO.
         show_disk_tracks_in_library (:obj:`bool`): Показывать локальные треки в библиотеке.
@@ -52,6 +53,7 @@ class UserSettings(YandexMusicObject):
         theme (:obj:`str`): Тема оформления.
         promos_disabled (:obj:`bool`): Не показывать рекламируемый контент).
         auto_play_radio (:obj:`bool`): Бесконечный поток музыки.
+        sync_queue_enabled (:obj:`bool`): Включена ли сихронизация очередей между устройствами.
         ads_disabled (:obj:`bool`, optional): Не показывать рекламу.
         disk_enabled (:obj:`bool`, optional): TODO.
         show_disk_tracks_in_library (:obj:`bool`, optional): Показывать локальные треки в библиотеке.
@@ -73,6 +75,7 @@ class UserSettings(YandexMusicObject):
                  theme: str,
                  promos_disabled: bool,
                  auto_play_radio: bool,
+                 sync_queue_enabled: bool,
                  ads_disabled: Optional[bool] = None,
                  disk_enabled: Optional[bool] = None,
                  show_disk_tracks_in_library: Optional[bool] = None,
@@ -91,6 +94,7 @@ class UserSettings(YandexMusicObject):
         self.theme = theme
         self.promos_disabled = promos_disabled
         self.auto_play_radio = auto_play_radio
+        self.sync_queue_enabled = sync_queue_enabled
 
         self.ads_disabled = ads_disabled
         self.disk_enabled = disk_enabled
@@ -100,8 +104,8 @@ class UserSettings(YandexMusicObject):
         self._id_attrs = (self.uid, self.last_fm_scrobbling_enabled, self.shuffle_enabled, self.volume_percents,
                           self.modified, self.facebook_scrobbling_enabled, self.add_new_track_on_playlist_top,
                           self.user_music_visibility, self.user_social_visibility, self.rbt_disabled, self.theme,
-                          self.promos_disabled, self.auto_play_radio, self.ads_disabled, self.disk_enabled,
-                          self.show_disk_tracks_in_library)
+                          self.promos_disabled, self.auto_play_radio, self.sync_queue_enabled,self.ads_disabled,
+                          self.disk_enabled, self.show_disk_tracks_in_library)
 
         super().handle_unknown_kwargs(self, **kwargs)
 
