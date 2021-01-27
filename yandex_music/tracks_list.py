@@ -44,6 +44,9 @@ class TracksList(YandexMusicObject):
     def __iter__(self) -> Iterator['TrackShort']:
         return iter(self.tracks)
 
+    def __len__(self) -> int:
+        return len(self.tracks)
+
     @property
     def tracks_ids(self) -> List[str]:
         """:obj:`list` из :obj:`str`: Список уникальных идентификаторов треков."""
