@@ -72,7 +72,7 @@ def track_factory(major, normalization, user, meta_data, poetry_lover_match):
                          user, meta_data, TestTrack.regions, TestTrack.available_as_rbt, TestTrack.content_warning,
                          TestTrack.explicit, TestTrack.preview_duration_ms, TestTrack.available_full_without_permission,
                          TestTrack.version, TestTrack.remember_position, TestTrack.background_video_uri,
-                         TestTrack.short_description)
+                         TestTrack.short_description, TestTrack.is_suitable_for_children)
 
     return TrackFactory()
 

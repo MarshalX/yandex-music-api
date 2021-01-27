@@ -33,6 +33,7 @@ class TestTrack:
                         ' Чтобы не ошибиться со своими чувствами и устремлениями…» — такой замечательный вопрос' \
                         ' пришел мне от подписчика. Причин, которые могут остановить мужчин в момент появления' \
                         ' желания познакомиться с девушкой, достаточно много. Обычно они сводятся к опасениям,'
+    is_suitable_for_children = True
 
     def test_expected_values(self, track, artist, album, major, normalization, track_without_nested_tracks,
                              user, meta_data, poetry_lover_match):
@@ -73,6 +74,7 @@ class TestTrack:
         assert track.user_info == user
         assert track.background_video_uri == self.background_video_uri
         assert track.short_description == self.short_description
+        assert track.is_suitable_for_children == self.is_suitable_for_children
 
     def test_de_json_none(self, client):
         assert Track.de_json({}, client) is None
@@ -104,7 +106,8 @@ class TestTrack:
                      'state': self.state, 'desired_visibility': self.desired_visibility, 'filename': self.filename,
                      'user_info': user.to_dict(), 'meta_data': meta_data.to_dict(),
                      'poetry_lover_matches': [poetry_lover_match.to_dict()],
-                     'background_video_uri': self.background_video_uri, 'short_description': self.short_description}
+                     'background_video_uri': self.background_video_uri, 'short_description': self.short_description,
+                     'is_suitable_for_children': self.is_suitable_for_children}
         track = Track.de_json(json_dict, client)
 
         assert track.id == self.id
@@ -144,6 +147,7 @@ class TestTrack:
         assert track.user_info == user
         assert track.background_video_uri == self.background_video_uri
         assert track.short_description == self.short_description
+        assert track.is_suitable_for_children == self.is_suitable_for_children
 
     def test_equality(self):
         a = Track(self.id)

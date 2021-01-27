@@ -61,6 +61,7 @@ class Track(YandexMusicObject):
         download_info (:obj:`list` из :obj:`yandex_music.DownloadInfo`): Информация о вариантах загрузки трека.
         background_video_uri (:obj:`str`): Ссылка на видеошот.
         short_description (:obj:`str`): Краткое опсание эпизода подкаста.
+        is_suitable_for_children (:obj:`bool`): Подходит ли для детей TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -102,6 +103,7 @@ class Track(YandexMusicObject):
             иначе позиция не запоминается.
         background_video_uri (:obj:`str`, optional): Ссылка на видеошот.
         short_description (:obj:`str`, optional): Краткое опсание эпизода подкаста.
+        is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -144,6 +146,7 @@ class Track(YandexMusicObject):
                  remember_position: Optional[bool] = None,
                  background_video_uri: Optional[str] = None,
                  short_description: Optional[str] = None,
+                 is_suitable_for_children: Optional[bool] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -184,6 +187,7 @@ class Track(YandexMusicObject):
         self.remember_position = remember_position
         self.background_video_uri = background_video_uri
         self.short_description = short_description
+        self.is_suitable_for_children = is_suitable_for_children
 
         self.download_info = None
 
