@@ -17,7 +17,7 @@ class BriefInfo(YandexMusicObject):
         last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных альбомов.
         last_releases (:obj:`list` из :obj:`yandex_music.Album`): Последние выпущенные альбомы.
         popular_tracks (:obj:`list` из :obj:`yandex_music.Track`): Популярные треки.
-        similar_artists (:obj:`list` из :obj:`yandex_music.Artist)`: Похожие артисты.
+        similar_artists (:obj:`list` из :obj:`yandex_music.Artist`): Похожие артисты.
         all_covers (:obj:`list` из :obj:`yandex_music.Cover`): Все обложки.
         concerts (:obj:`str`): Концерты (тест-кейс с ними потерялся, мало у кого есть).
         videos (:obj:`list` из :obj:`yandex_music.Video`): Видео.

@@ -12,7 +12,7 @@ class Landing(YandexMusicObject):
     Attributes:
         pumpkin (:obj:`bool`): Хэллоуин.
         content_id (:obj:`str` | :obj:`int`): Уникальный идентификатор контента.
-        blocks (:obj:`list` из :obj:`yandex_music.Block): Блоки лендинга.
+        blocks (:obj:`list` из :obj:`yandex_music.Block`): Блоки лендинга.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
