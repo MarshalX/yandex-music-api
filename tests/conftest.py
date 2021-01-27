@@ -34,7 +34,7 @@ def artist_factory(cover, counts, ratings, link, description):
                           ratings, [link], TestArtist.tickets_available, TestArtist.likes_count, popular_tracks,
                           TestArtist.regions, decomposed, TestArtist.full_names, TestArtist.hand_made_description,
                           description, TestArtist.countries, TestArtist.en_wikipedia_link, TestArtist.db_aliases,
-                          TestArtist.aliases, TestArtist.init_date, TestArtist.end_date)
+                          TestArtist.aliases, TestArtist.init_date, TestArtist.end_date, TestArtist.ya_money_id)
 
     return ArtistFactory()
 

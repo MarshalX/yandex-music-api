@@ -40,6 +40,7 @@ class Artist(YandexMusicObject):
         aliases: TODO.
         init_date (:obj:`str`): Дата начала в формате YYYY-MM-DD или YYYY.
         end_date (:obj:`str`): Дата окончания в формате YYYY-MM-DD или YYYY.
+        ya_money_id (:obj:`str`): Номер кошеляка Яндекс.Деньги TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -73,6 +74,7 @@ class Artist(YandexMusicObject):
         aliases: TODO.
         init_date (:obj:`str`, optional): Дата начала в формате YYYY-MM-DD или YYYY.
         end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или YYYY.
+        ya_money_id (:obj:`str`): Номер кошеляка Яндекс.Деньги TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -107,6 +109,7 @@ class Artist(YandexMusicObject):
                  aliases=None,
                  init_date: Optional[str] = None,
                  end_date: Optional[str] = None,
+                 ya_money_id: Optional[str] = None,
                  client: 'Client' = None,
                  **kwargs) -> None:
         self.id = id_
@@ -137,6 +140,7 @@ class Artist(YandexMusicObject):
         self.en_wikipedia_link = en_wikipedia_link
         self.db_aliases = db_aliases
         self.aliases = aliases
+        self.ya_money_id = ya_money_id
 
         # Может прийти конкретная дата или просто год
         self.init_date = init_date
