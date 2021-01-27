@@ -42,6 +42,7 @@ class TestAlbum:
     duration_ms = 200440
     explicit = False
     start_date = '2020-06-30'
+    likes_count = 2
 
     def test_expected_values(self, album, artist_without_tracks, label, track_position,
                              track_without_albums, album_without_nested_albums):
@@ -86,6 +87,7 @@ class TestAlbum:
         assert album.duration_ms == self.duration_ms
         assert album.explicit == self.explicit
         assert album.start_date == self.start_date
+        assert album.likes_count == self.likes_count
 
     def test_de_json_none(self, client):
         assert Album.de_json({}, client) is None
@@ -116,7 +118,7 @@ class TestAlbum:
                      'text_color': self.text_color, 'available_as_rbt': self.available_as_rbt,
                      'lyrics_available': self.lyrics_available, 'remember_position': self.remember_position,
                      'albums': [album_without_nested_albums.to_dict()], 'duration_ms': self.duration_ms,
-                     'explicit': self.explicit, 'start_date': self.start_date}
+                     'explicit': self.explicit, 'start_date': self.start_date, 'likes_count': self.likes_count}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
@@ -160,6 +162,7 @@ class TestAlbum:
         assert album.duration_ms == self.duration_ms
         assert album.explicit == self.explicit
         assert album.start_date == self.start_date
+        assert album.likes_count == self.likes_count
 
     def test_equality(self, artist, label):
         a = Album(self.id)

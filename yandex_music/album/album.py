@@ -59,6 +59,7 @@ class Album(YandexMusicObject):
         duration_ms (:obj:`int`): Длительность в миллисекундах.
         explicit (:obj:`bool`): Есть ли в треке ненормативная лексика.
         start_date (:obj:`str`): Дата начала в формате ISO 8601 TODO.
+        likes_count (:obj:`int`): Количество лайков TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -102,6 +103,7 @@ class Album(YandexMusicObject):
         duration_ms (:obj:`int`, optional): Длительность в миллисекундах.
         explicit (:obj:`bool`, optional): Есть ли в треке ненормативная лексика.
         start_date (:obj:`str`, optional): Дата начала в формате ISO 8601 TODO.
+        likes_count (:obj:`int`, optional): Количество лайков TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -148,7 +150,8 @@ class Album(YandexMusicObject):
                  albums: Optional[List['Album']] = None,
                  duration_ms: Optional[int] = None,
                  explicit: Optional[bool] = None,
-                 start_date: Optional['str'] = None,
+                 start_date: Optional[str] = None,
+                 likes_count: Optional[int] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -194,6 +197,7 @@ class Album(YandexMusicObject):
         self.duration_ms = duration_ms
         self.explicit = explicit
         self.start_date = start_date
+        self.likes_count = likes_count
 
         self.client = client
         self._id_attrs = (self.id,)

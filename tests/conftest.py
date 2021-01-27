@@ -116,7 +116,7 @@ def album_factory(label, track_position):
                          TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
                          track_position, TestAlbum.regions, TestAlbum.available_as_rbt, TestAlbum.lyrics_available,
                          TestAlbum.remember_position, albums, TestAlbum.duration_ms, TestAlbum.explicit,
-                         TestAlbum.start_date)
+                         TestAlbum.start_date, TestAlbum.likes_count)
 
     return AlbumFactory()
 
