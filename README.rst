@@ -168,7 +168,7 @@ Microsoft Store. Так как API является закрытым и испо
     from yandex_music.client import Client
 
     client = Client.from_credentials('example@yandex.com', 'password')
-    client.users_likes_tracks()[0].fetchTrack().download('example.mp3')
+    client.users_likes_tracks()[0].fetch_track().download('example.mp3')
 
 В примере выше клиент получает список треков которые были отмечены как
 понравившиеся. API возвращает объект
@@ -177,7 +177,7 @@ Microsoft Store. Так как API является закрытым и испо
 `TrackShort <https://yandex-music.readthedocs.io/ru/latest/yandex_music.track_short.html>`_.
 Данные класс содержит наиважнейшую информацию о треке и никаких подробностей,
 поэтому для получения полной версии трека со всей информацией необходимо
-обратиться к методу fetchTrack(). Затем можно скачать трек методом download().
+обратиться к методу fetch_track(). Затем можно скачать трек методом download().
 
 Пример получения треков по ID:
 
