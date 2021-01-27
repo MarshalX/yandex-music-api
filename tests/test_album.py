@@ -36,9 +36,16 @@ class TestAlbum:
     release_date = '2019-03-22T00:00:00+03:00'
     type = 'single'
     regions = None
+    available_as_rbt = False
+    lyrics_available = True
+    remember_position = False
+    duration_ms = 200440
+    explicit = False
+    start_date = '2020-06-30'
+    likes_count = 2
 
     def test_expected_values(self, album, artist_without_tracks, label, track_position,
-                             track_without_albums, album_without_nested_albums):
+                             track_without_albums, album_without_nested_albums, deprecation):
         assert album.id == self.id
         assert album.error == self.error
         assert album.title == self.title
@@ -74,6 +81,14 @@ class TestAlbum:
         assert album.type == self.type
         assert album.track_position == track_position
         assert album.regions == self.regions
+        assert album.available_as_rbt == self.available_as_rbt
+        assert album.lyrics_available == self.lyrics_available
+        assert album.remember_position == self.remember_position
+        assert album.duration_ms == self.duration_ms
+        assert album.explicit == self.explicit
+        assert album.start_date == self.start_date
+        assert album.likes_count == self.likes_count
+        assert album.deprecation == deprecation
 
     def test_de_json_none(self, client):
         assert Album.de_json({}, client) is None
@@ -87,7 +102,7 @@ class TestAlbum:
 
         assert album.id == self.id
 
-    def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums):
+    def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums, deprecation):
         labels = [label] if type(label) == str else [label.to_dict()]
         json_dict = {'id_': self.id, 'error': self.error, 'title': self.title, 'cover_uri': self.cover_uri,
                      'track_count': self.track_count, 'artists': [artist.to_dict()], 'labels': labels,
@@ -101,7 +116,11 @@ class TestAlbum:
                      'meta_type': self.meta_type, 'storage_dir': self.storage_dir, 'is_banner': self.is_banner,
                      'duplicates': [album_without_nested_albums.to_dict()], 'is_premiere': self.is_premiere,
                      'short_description': self.short_description, 'description': self.description,
-                     'text_color': self.text_color}
+                     'text_color': self.text_color, 'available_as_rbt': self.available_as_rbt,
+                     'lyrics_available': self.lyrics_available, 'remember_position': self.remember_position,
+                     'albums': [album_without_nested_albums.to_dict()], 'duration_ms': self.duration_ms,
+                     'explicit': self.explicit, 'start_date': self.start_date, 'likes_count': self.likes_count,
+                     'deprecation': deprecation.to_dict()}
         album = Album.de_json(json_dict, client)
 
         assert album.id == self.id
@@ -139,6 +158,14 @@ class TestAlbum:
         assert album.type == self.type
         assert album.track_position == track_position
         assert album.regions == self.regions
+        assert album.available_as_rbt == self.available_as_rbt
+        assert album.lyrics_available == self.lyrics_available
+        assert album.remember_position == self.remember_position
+        assert album.duration_ms == self.duration_ms
+        assert album.explicit == self.explicit
+        assert album.start_date == self.start_date
+        assert album.likes_count == self.likes_count
+        assert album.deprecation == deprecation
 
     def test_equality(self, artist, label):
         a = Album(self.id)

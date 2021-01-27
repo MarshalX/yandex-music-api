@@ -92,3 +92,4 @@ from .test_open_graph_data import TestOpenGraphData
 from .test_brand import TestBrand
 from .test_context import TestContext
 from .test_queue_item import TestQueueItem
+from .test_deprecation import TestDeprecation

@@ -25,6 +25,7 @@ class TestArtist:
     aliases = None
     init_date = '1935-01-08'
     end_date = None
+    ya_money_id = '4100170623944'
 
     def test_expected_values(self, artist, cover, counts, ratings, link, track_without_artists_and_albums,
                              description, artist_decomposed):
@@ -57,6 +58,7 @@ class TestArtist:
         assert artist.aliases == self.aliases
         assert artist.init_date == self.init_date
         assert artist.end_date == self.end_date
+        assert artist.ya_money_id == self.ya_money_id
 
     def test_de_json_none(self, client):
         assert Artist.de_json({}, client) is None
@@ -84,7 +86,7 @@ class TestArtist:
                      'description': description.to_dict(), 'countries': self.countries,
                      'en_wikipedia_link': self.en_wikipedia_link, 'db_aliases': self.db_aliases,
                      'aliases': self.aliases, 'init_date': self.init_date, 'end_date': self.end_date,
-                     'hand_made_description': self.hand_made_description}
+                     'hand_made_description': self.hand_made_description, 'ya_money_id': self.ya_money_id}
         artist = Artist.de_json(json_dict, client)
 
         assert artist.id == self.id
@@ -116,6 +118,7 @@ class TestArtist:
         assert artist.aliases == self.aliases
         assert artist.init_date == self.init_date
         assert artist.end_date == self.end_date
+        assert artist.ya_money_id == self.ya_money_id
 
     def test_equality(self, cover):
         a = Artist(self.id)

@@ -14,7 +14,8 @@ class BriefInfo(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
         playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Плейлисты.
         also_albums (:obj:`list` из :obj:`yandex_music.Album`): Сборники.
-        last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных треков.
+        last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных альбомов.
+        last_releases (:obj:`list` из :obj:`yandex_music.Album`): Последние выпущенные альбомы.
         popular_tracks (:obj:`list` из :obj:`yandex_music.Track`): Популярные треки.
         similar_artists (:obj:`list` из :obj:`yandex_music.Artist)`: Похожие артисты.
         all_covers (:obj:`list` из :obj:`yandex_music.Cover`): Все обложки.
@@ -31,7 +32,8 @@ class BriefInfo(YandexMusicObject):
         albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
         playlists (:obj:`list` из :obj:`yandex_music.Playlist`): Плейлисты.
         also_albums (:obj:`list` из :obj:`yandex_music.Album`): Сборники.
-        last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных треков.
+        last_release_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы последних выпущенных альбомов.
+        last_releases (:obj:`list` из :obj:`yandex_music.Album`, optional): Последние выпущенные альбомы.
         popular_tracks (:obj:`list` из :obj:`yandex_music.Track`): Популярные треки.
         similar_artists (:obj:`list` из :obj:`yandex_music.Artist`): Похожие артисты.
         all_covers (:obj:`list` из :obj:`yandex_music.Cover`): Все обложки.
@@ -51,6 +53,7 @@ class BriefInfo(YandexMusicObject):
                  playlists: List['Playlist'],
                  also_albums: List['Album'],
                  last_release_ids: List[int],
+                 last_releases: List['Album'],
                  popular_tracks: List['Track'],
                  similar_artists: List['Artist'],
                  all_covers: List['Cover'],
@@ -67,6 +70,7 @@ class BriefInfo(YandexMusicObject):
         self.playlists = playlists
         self.also_albums = also_albums
         self.last_release_ids = last_release_ids
+        self.last_releases = last_releases
         self.popular_tracks = popular_tracks
         self.similar_artists = similar_artists
         self.all_covers = all_covers
@@ -107,6 +111,7 @@ class BriefInfo(YandexMusicObject):
         data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['also_albums'] = Album.de_list(data.get('also_albums'), client)
+        data['last_releases'] = Album.de_list(data.get('last_releases'), client)
         data['all_covers'] = Cover.de_list(data.get('all_covers'), client)
         data['playlist_ids'] = PlaylistId.de_list(data.get('playlist_ids'), client)
         data['videos'] = Video.de_list(data.get('videos'), client)

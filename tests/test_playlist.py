@@ -37,6 +37,7 @@ class TestPlaylist:
     ever_played = True
     description = 'Каждый день — новый. Каждый день — ваш!'
     description_formatted = 'Каждый день — новый. Каждый день — ваш!'
+    playlist_uuid = '5d06568a-9430-1df3-e066-6a32cf34d639'
     is_for_from = None
     regions = None
 
@@ -92,6 +93,7 @@ class TestPlaylist:
         assert playlist.ever_played == self.ever_played
         assert playlist.description == self.description
         assert playlist.description_formatted == self.description_formatted
+        assert playlist.playlist_uuid == self.playlist_uuid
         assert playlist.is_for_from == self.is_for_from
         assert playlist.regions == self.regions
 
@@ -135,7 +137,7 @@ class TestPlaylist:
                      'contest': contest.to_dict(), 'dummy_description': self.dummy_description,
                      'dummy_page_description': self.dummy_page_description, 'dummy_cover': cover.to_dict(),
                      'dummy_rollover_cover': cover.to_dict(), 'og_data': open_graph_data.to_dict(),
-                     'branding': brand.to_dict()}
+                     'branding': brand.to_dict(), 'playlist_uuid': self.playlist_uuid}
         playlist = Playlist.de_json(json_dict, client)
 
         assert playlist.owner == user
@@ -188,6 +190,7 @@ class TestPlaylist:
         assert playlist.ever_played == self.ever_played
         assert playlist.description == self.description
         assert playlist.description_formatted == self.description_formatted
+        assert playlist.playlist_uuid == self.playlist_uuid
         assert playlist.is_for_from == self.is_for_from
         assert playlist.regions == self.regions
 
