@@ -1,7 +1,7 @@
 import functools
 import logging
 from datetime import datetime
-from typing import Callable, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Union
 
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
     Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
@@ -10,6 +10,9 @@ from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, D
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
+
+if TYPE_CHECKING:
+    from yandex_music.utils.captcha_response import CaptchaResponse
 
 CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
 CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
@@ -119,7 +122,7 @@ class Client(YandexMusicObject):
 
     @classmethod
     def from_credentials(cls, username: str, password: str, x_captcha_answer: str = None, x_captcha_key: str = None,
-                         captcha_callback: Callable[[Captcha], str] = None, *args, **kwargs) -> 'Client':
+                         captcha_callback: Callable[['CaptchaResponse'], str] = None, *args, **kwargs) -> 'Client':
         """Инициализция клиента по логину и паролю.
 
         Note:
