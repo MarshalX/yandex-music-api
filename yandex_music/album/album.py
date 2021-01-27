@@ -61,7 +61,7 @@ class Album(YandexMusicObject):
         start_date (:obj:`str`): Дата начала в формате ISO 8601 TODO.
         likes_count (:obj:`int`): Количество лайков TODO.
         deprecation (:obj:`yandex_music.Deprecation`): TODO.
-        available_regions (:obj:`yandex_music.Deprecation`): Регионы, где доступн альбом.
+        available_regions (:obj:`list` из :obj:`str`): Регионы, где доступн альбом.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -107,7 +107,7 @@ class Album(YandexMusicObject):
         start_date (:obj:`str`, optional): Дата начала в формате ISO 8601 TODO.
         likes_count (:obj:`int`, optional): Количество лайков TODO.
         deprecation (:obj:`yandex_music.Deprecation`, optional): TODO.
-        available_regions (:obj:`yandex_music.Deprecation`, optional): Регионы, где доступн альбом.
+        available_regions (:obj:`list` из :obj:`str`, optional): Регионы, где доступн альбом.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
