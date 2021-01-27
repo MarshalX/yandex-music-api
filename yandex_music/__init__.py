@@ -24,6 +24,8 @@ from .account.permissions import Permissions
 from .album.album import Album
 from .album.label import Label
 from .album.track_position import TrackPosition
+from .album.deprecation import Deprecation
+
 from .artist.artist import Artist
 from .artist.artist_tracks import ArtistTracks
 from .artist.artist_albums import ArtistAlbums
@@ -145,4 +147,5 @@ __all__ = ['YandexMusicObject', 'Client', 'Account', 'PassportPhone', 'Invocatio
            'ShotType', 'ShotData', 'SimilarTracks', 'UserSettings', 'RenewableRemainder', 'ChartInfo', 'ChartInfoMenu',
            'ChartInfoMenuItem', 'Tag', 'TagResult', 'PlaylistRecommendations', 'LandingList', 'MetaData',
            'LicenceTextPart', 'StationData', 'AlertButton', 'Alert', 'NonAutoRenewable', 'PoetryLoverMatch',
-           'Operator', 'Deactivation', 'Contest', 'OpenGraphData', 'Brand', 'Context', 'Queue', 'QueueItem']
+           'Operator', 'Deactivation', 'Contest', 'OpenGraphData', 'Brand', 'Context', 'Queue', 'QueueItem',
+           'Deprecation']

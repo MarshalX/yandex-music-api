@@ -9,7 +9,7 @@ from yandex_music import Account, AdParams, Album, AlbumEvent, Artist, ArtistEve
     SearchResult, Sequence, Settings, Shot, ShotData, ShotType, Station, StationResult, Status, Subscription, Tag, \
     Title, Track, TrackId, TrackPosition, TrackShort, TrackShortOld, TrackWithAds, User, Value, Video, \
     VideoSupplement, Vinyl, StationData, AlertButton, Alert, NonAutoRenewable, PoetryLoverMatch, Deactivation, \
-    Operator, Contest, OpenGraphData, Brand, Context
+    Operator, Contest, OpenGraphData, Brand, Context, Deprecation
 from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewable, TestBest, TestBlock, \
     TestBlockEntity, TestCaseForms, TestChart, TestChartInfo, TestChartInfoMenuItem, TestCounts, TestCover, TestDay, \
     TestDescription, TestDiscreteScale, TestEnum, TestEvent, TestGeneratedPlaylist, TestIcon, TestId, TestImages, \
@@ -21,7 +21,7 @@ from . import TestAccount, TestAdParams, TestAlbum, TestArtist, TestAutoRenewabl
     TestTag, TestTitle, TestTrack, TestTrackId, TestTrackPosition, TestTrackShort, TestTrackShortOld, \
     TestTrackWithAds, TestUser, TestValue, TestVideo, TestVideoSupplement, TestVinyl, TestArtistEvent, \
     TestStationData, TestAlertButton, TestAlert, TestNonAutoRenewable, TestPoetryLoverMatch, TestDeactivation, \
-    TestOperator, TestContest, TestOpenGraphData, TestBrand, TestContext
+    TestOperator, TestContest, TestOpenGraphData, TestBrand, TestContext, TestDeprecation
 
 
 @pytest.fixture(scope='session')
@@ -105,7 +105,7 @@ def track_without_nested_tracks(artist, album, track_factory):
 @pytest.fixture(scope='session')
 def album_factory(label, track_position):
     class AlbumFactory:
-        def get(self, artists, volumes, albums=None):
+        def get(self, artists, volumes, albums=None, deprecation=None):
             return Album(TestAlbum.id, TestAlbum.error, TestAlbum.title, TestAlbum.track_count, artists, [label],
                          TestAlbum.available, TestAlbum.available_for_premium_users, TestAlbum.version,
                          TestAlbum.cover_uri, TestAlbum.content_warning, TestAlbum.original_release_year,
@@ -116,14 +116,15 @@ def album_factory(label, track_position):
                          TestAlbum.prerolls, volumes, TestAlbum.year, TestAlbum.release_date, TestAlbum.type,
                          track_position, TestAlbum.regions, TestAlbum.available_as_rbt, TestAlbum.lyrics_available,
                          TestAlbum.remember_position, albums, TestAlbum.duration_ms, TestAlbum.explicit,
-                         TestAlbum.start_date, TestAlbum.likes_count)
+                         TestAlbum.start_date, TestAlbum.likes_count, deprecation)
 
     return AlbumFactory()
 
 
 @pytest.fixture(scope='session')
-def album(album_factory, artist_without_tracks, track_without_albums, album_without_nested_albums):
-    return album_factory.get([artist_without_tracks], [[track_without_albums]], [album_without_nested_albums])
+def album(album_factory, artist_without_tracks, track_without_albums, album_without_nested_albums, deprecation):
+    return album_factory.get([artist_without_tracks], [[track_without_albums]], [album_without_nested_albums],
+                             deprecation)
 
 
 @pytest.fixture(scope='session')
@@ -293,6 +294,11 @@ def counts():
 @pytest.fixture(scope='session')
 def description():
     return Description(TestDescription.text, TestDescription.uri)
+
+
+@pytest.fixture(scope='session')
+def deprecation():
+    return Deprecation(TestDeprecation.target_album_id, TestDeprecation.status, TestDeprecation.done)
 
 
 @pytest.fixture(scope='session')

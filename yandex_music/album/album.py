@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, List, Union
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Artist, Label, TrackPosition, Track
+    from yandex_music import Client, Artist, Label, TrackPosition, Track, Deprecation
 
 
 class Album(YandexMusicObject):
@@ -60,6 +60,7 @@ class Album(YandexMusicObject):
         explicit (:obj:`bool`): Есть ли в треке ненормативная лексика.
         start_date (:obj:`str`): Дата начала в формате ISO 8601 TODO.
         likes_count (:obj:`int`): Количество лайков TODO.
+        deprecation (:obj:`yandex_music.Deprecation`): TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -104,6 +105,7 @@ class Album(YandexMusicObject):
         explicit (:obj:`bool`, optional): Есть ли в треке ненормативная лексика.
         start_date (:obj:`str`, optional): Дата начала в формате ISO 8601 TODO.
         likes_count (:obj:`int`, optional): Количество лайков TODO.
+        deprecation (:obj:`yandex_music.Deprecation`, optional): TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -152,6 +154,7 @@ class Album(YandexMusicObject):
                  explicit: Optional[bool] = None,
                  start_date: Optional[str] = None,
                  likes_count: Optional[int] = None,
+                 deprecation: Optional['Deprecation'] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -198,6 +201,7 @@ class Album(YandexMusicObject):
         self.explicit = explicit
         self.start_date = start_date
         self.likes_count = likes_count
+        self.deprecation = deprecation
 
         self.client = client
         self._id_attrs = (self.id,)
@@ -260,12 +264,13 @@ class Album(YandexMusicObject):
             return None
 
         data = super(Album, cls).de_json(data, client)
-        from yandex_music import Artist, Label, TrackPosition, Track
+        from yandex_music import Artist, Label, TrackPosition, Track, Deprecation
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['labels'] = Label.de_list(data.get('labels'), client)
         data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
         data['duplicates'] = Album.de_list(data.get('duplicates'), client)
         data['albums'] = Album.de_list(data.get('albums'), client)
+        data['deprecation'] = Deprecation.de_json(data.get('deprecation'), client)
         if data.get('volumes'):
             data['volumes'] = [Track.de_list(i, client) for i in data['volumes']]
 
