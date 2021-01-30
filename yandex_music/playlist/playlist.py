@@ -72,6 +72,7 @@ class Playlist(YandexMusicObject):
         description (:obj:`str`): Описание плейлиста с разметкой Markdown.
         description_formatted (:obj:`str`): Описание плейлиста. Только текст, без разметки.
         playlist_uuid (:obj:`str`): TODO.
+        type_ (:obj:`str`): TODO.
         is_for_from: TODO.
         regions: Регион TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
@@ -130,6 +131,7 @@ class Playlist(YandexMusicObject):
         description (:obj:`str`, optional): Описание плейлиста с разметкой Markdown.
         description_formatted (:obj:`str`, optional): Описание плейлиста. Только текст, без разметки.
         playlist_uuid (:obj:`str`, optional): TODO.
+        type_ (:obj:`str`, optional): TODO.
         is_for_from: TODO.
         regions: Регион TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
@@ -188,6 +190,7 @@ class Playlist(YandexMusicObject):
                  description: Optional[str] = None,
                  description_formatted: Optional[str] = None,
                  playlist_uuid: Optional[str] = None,
+                 type_: Optional[str] = None,
                  is_for_from=None,
                  regions=None,
                  client: Optional['Client'] = None,
@@ -243,6 +246,7 @@ class Playlist(YandexMusicObject):
         self.last_owner_playlists = last_owner_playlists
         self.generated_playlist_type = generated_playlist_type
         self.playlist_uuid = playlist_uuid
+        self.type = type_
         self.is_for_from = is_for_from
         self.regions = regions
         self.tags = tags
