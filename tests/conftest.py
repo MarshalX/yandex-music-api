@@ -156,7 +156,7 @@ def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_
                             similar_playlists, last_owner_playlists, TestPlaylist.generated_playlist_type,
                             TestPlaylist.animated_cover_uri, TestPlaylist.ever_played, TestPlaylist.description,
                             TestPlaylist.description_formatted, TestPlaylist.playlist_uuid, TestPlaylist.type,
-                            TestPlaylist.is_for_from, TestPlaylist.regions)
+                            TestPlaylist.ready, TestPlaylist.is_for_from, TestPlaylist.regions)
 
     return PlaylistFactory()
 
