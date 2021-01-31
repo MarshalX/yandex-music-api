@@ -19,6 +19,8 @@ class Playlist(YandexMusicObject):
         Известные значения `generated_playlist_type`: `playlistOfTheDay` - Плейлист дня, `recentTracks` - Премьера,
         `neverHeard` - Дежавю, `podcasts` - Подкасты недели, `missedLikes` - Тайник, `origin` - Плейлист с Алисой.
 
+        Известные значения `type`: `missedLikes`, `recentTracks`
+
     Attributes:
         owner (:obj:`yandex_music.User`): Владелец плейлиста.
         cover (:obj:`yandex_music.Cover`): Обложка альбома.
