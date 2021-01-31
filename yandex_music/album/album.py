@@ -65,7 +65,7 @@ class Album(YandexMusicObject):
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
-        id_ (:obj:`int`): Идентификатор альбома.
+        id_ (:obj:`int`, optional): Идентификатор альбома.
         error (:obj:`str`, optional): Ошибка получения альбома.
         title (:obj:`str`, optional): Название альбома.
         track_count (:obj:`int`, optional): Количество треков.
@@ -113,7 +113,7 @@ class Album(YandexMusicObject):
     """
 
     def __init__(self,
-                 id_: int,
+                 id_: Optional[int] = None,
                  error: Optional[str] = None,
                  title: Optional[str] = None,
                  track_count: Optional[int] = None,
@@ -161,7 +161,6 @@ class Album(YandexMusicObject):
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
-
         self.error = error
         self.title = title
         self.track_count = track_count
