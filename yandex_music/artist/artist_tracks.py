@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Iterator
 
 from yandex_music import YandexMusicObject
 
@@ -33,6 +33,12 @@ class ArtistTracks(YandexMusicObject):
         self._id_attrs = (self.pager, self.tracks)
 
         super().handle_unknown_kwargs(self, **kwargs)
+
+    def __iter__(self) -> Iterator['Track']:
+        return iter(self.tracks)
+
+    def __len__(self) -> int:
+        return len(self.tracks)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ArtistTracks']:
