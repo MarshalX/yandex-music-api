@@ -28,11 +28,10 @@ class TestVideoSupplement:
         assert VideoSupplement.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'cover': self.cover, 'title': self.title, 'provider': self.provider}
+        json_dict = {'cover': self.cover, 'provider': self.provider}
         video_supplement = VideoSupplement.de_json(json_dict, client)
 
         assert video_supplement.cover == self.cover
-        assert video_supplement.title == self.title
         assert video_supplement.provider == self.provider
 
     def test_de_json_all(self, client):
@@ -50,9 +49,9 @@ class TestVideoSupplement:
         assert video_supplement.embed == self.embed
 
     def test_equality(self):
-        a = VideoSupplement(self.cover, self.title, self.provider, self.provider_video_id)
-        b = VideoSupplement(self.cover, '', self.provider, self.provider_video_id)
-        c = VideoSupplement(self.cover, self.title, self.provider, self.provider_video_id)
+        a = VideoSupplement(self.cover, self.provider, self.title, self.provider_video_id)
+        b = VideoSupplement(self.cover, self.provider, None, self.provider_video_id)
+        c = VideoSupplement(self.cover, self.provider, self.title, self.provider_video_id)
 
         assert a != b
         assert hash(a) != hash(b)

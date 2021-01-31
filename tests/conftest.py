@@ -318,7 +318,7 @@ def album_event(album, track):
 
 @pytest.fixture(scope='session')
 def video_supplement():
-    return VideoSupplement(TestVideoSupplement.cover, TestVideoSupplement.title, TestVideoSupplement.provider,
+    return VideoSupplement(TestVideoSupplement.cover, TestVideoSupplement.provider, TestVideoSupplement.title,
                            TestVideoSupplement.provider_video_id, TestVideoSupplement.url,
                            TestVideoSupplement.embed_url, TestVideoSupplement.embed)
 
