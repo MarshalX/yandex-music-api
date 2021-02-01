@@ -46,3 +46,12 @@ class TestTracksList:
         assert a is not b
 
         assert a == c
+
+    def test_len(self, tracks_list):
+        assert len(tracks_list) == len(tracks_list.tracks)
+
+    def test_getitem(self, tracks_list):
+        assert tracks_list[0] == tracks_list.tracks[0]
+
+    def test_iter(self, tracks_list):
+        assert list(tracks_list) == tracks_list.tracks

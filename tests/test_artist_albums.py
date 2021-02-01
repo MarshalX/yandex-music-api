@@ -40,3 +40,12 @@ class TestArtistAlbums:
         assert a is not b
 
         assert a == c
+
+    def test_len(self, artist_albums):
+        assert len(artist_albums) == len(artist_albums.albums)
+
+    def test_getitem(self, artist_albums):
+        assert artist_albums[0] == artist_albums.albums[0]
+
+    def test_iter(self, artist_albums):
+        assert list(artist_albums) == artist_albums.albums

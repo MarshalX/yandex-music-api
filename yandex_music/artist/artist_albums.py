@@ -34,6 +34,9 @@ class ArtistAlbums(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
+    def __getitem__(self, item) -> 'Album':
+        return self.albums[item]
+
     def __iter__(self) -> Iterator['Album']:
         return iter(self.albums)
 

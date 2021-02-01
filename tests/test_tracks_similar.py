@@ -40,3 +40,12 @@ class TestSimilarTracks:
         assert a is not b
 
         assert a == c
+
+    def test_len(self, similar_tracks):
+        assert len(similar_tracks) == len(similar_tracks.similar_tracks)
+
+    def test_getitem(self, similar_tracks):
+        assert similar_tracks[0] == similar_tracks.similar_tracks[0]
+
+    def test_iter(self, similar_tracks):
+        assert list(similar_tracks) == similar_tracks.similar_tracks

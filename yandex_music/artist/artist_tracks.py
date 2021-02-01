@@ -34,6 +34,9 @@ class ArtistTracks(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
+    def __getitem__(self, item) -> 'Track':
+        return self.tracks[item]
+
     def __iter__(self) -> Iterator['Track']:
         return iter(self.tracks)
 
