@@ -34,7 +34,7 @@ class SimilarTracks(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item) -> 'Track':
         return self.similar_tracks[item]
 
     def __iter__(self) -> Iterator['Track']:

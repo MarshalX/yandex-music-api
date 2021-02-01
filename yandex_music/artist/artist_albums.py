@@ -40,7 +40,7 @@ class ArtistAlbums(YandexMusicObject):
     def __iter__(self) -> Iterator['Album']:
         return iter(self.albums)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.albums)
 
     @classmethod
