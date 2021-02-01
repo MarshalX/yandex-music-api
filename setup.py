@@ -30,7 +30,7 @@ with open('CHANGES.rst', 'r', encoding='utf-8') as f:
 
 
 setup(name='yandex-music',
-      version='0.1.2',
+      version='1.0.0',
       author='Il`ya Semyonov',
       author_email='Ilya@marshal.by',
       license='LGPLv3',
@@ -42,7 +42,7 @@ setup(name='yandex-music',
       install_requires=requirements('default'),
       include_package_data=True,
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 5 - Production/Stable',
           'Natural Language :: Russian',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
@@ -61,7 +61,7 @@ setup(name='yandex-music',
       project_urls={
           'Code': 'https://github.com/MarshalX/yandex-music-api',
           'Documentation': 'https://yandex-music.readthedocs.io',
-          'Chat': 'https://ttttt.me/yandex_music_api',
+          'Chat': 'https://t.me/yandex_music_api',
           'Codecov': 'https://codecov.io/gh/MarshalX/yandex-music-api',
           'Codacy': 'https://www.codacy.com/manual/MarshalX/yandex-music-api',
       })

@@ -4,7 +4,7 @@ API Yandex Music - неофициальная Python библиотека
 Делаю то, что по определённым причинам не сделала компания Yandex.
 
 Маленькое сообщество разработчиков общаются и помогают друг другу
-в `Telegram чатике <https://tx.me/yandex_music_api>`_, присоединяйтесь!
+в `Telegram чатике <https://t.me/yandex_music_api>`_, присоединяйтесь!
 
 .. image:: https://img.shields.io/pypi/v/yandex-music.svg
    :target: https://pypi.org/project/yandex-music/
@@ -35,7 +35,7 @@ API Yandex Music - неофициальная Python библиотека
    :alt: Лицензия LGPLv3
 
 .. image:: https://img.shields.io/badge/telegram-чат-blue.svg
-   :target: https://tx.me/yandex_music_api
+   :target: https://t.me/yandex_music_api
    :alt: Telegram чат
 
 
@@ -296,7 +296,7 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
 Получить помощь можно несколькими путями:
 
-- Задать вопрос в `Telegram чатике <https://tx.me/yandex_music_api>`_, где мы помогаем друг другу, присоединяйтесь!
+- Задать вопрос в `Telegram чатике <https://t.me/yandex_music_api>`_, где мы помогаем друг другу, присоединяйтесь!
 - Сообщить о баге, предложить новую фичу или задать вопрос можно `создав issue <https://github.com/MarshalX/yandex-music-api/issues/new/choose>`_.
 - Найти ответ на вопрос в `документации библиотеки <https://yandex-music.readthedocs.io/ru/latest/>`_.
 
@@ -362,7 +362,7 @@ Telegram бот-клиент
 
 Сайт проекта: `music-yandex-bot.ru <https://music-yandex-bot.ru/>`_
 
-Username в Telegram: `@music_yandex_bot <https://tx.me/music_yandex_bot>`_
+Username в Telegram: `@music_yandex_bot <https://t.me/music_yandex_bot>`_
 
 Статья на habr.com с описанием реализации: `Под капотом бота-клиента Яндекс.Музыки <https://habr.com/ru/post/487428/>`_
 
