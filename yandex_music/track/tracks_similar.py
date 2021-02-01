@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Iterator
 
 from yandex_music import YandexMusicObject
 
@@ -33,6 +33,15 @@ class SimilarTracks(YandexMusicObject):
         self._id_attrs = (self.track, self.similar_tracks)
 
         super().handle_unknown_kwargs(self, **kwargs)
+
+    def __getitem__(self, item) -> 'Track':
+        return self.similar_tracks[item]
+
+    def __iter__(self) -> Iterator['Track']:
+        return iter(self.similar_tracks)
+
+    def __len__(self) -> int:
+        return len(self.similar_tracks)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['SimilarTracks']:
