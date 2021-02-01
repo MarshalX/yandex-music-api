@@ -3,18 +3,18 @@
 В этой папке есть небольшие примеры, чтобы показать, как выглядят скрипты,
 написанные с помощью `yandex-music-api`.
 
-- [radio_example] (examples/radio_example) – пример @Angel777d без внесения 
+- [radio_example](examples/radio_example) – пример @Angel777d без внесения 
   правок. Обёртка для более легкого взаимодействия с радио и потоками по разным
   сущностям ЯМ с примерами её использования.
-- [daily_playlist_updater] (examples/daily_playlist_updater.py) – пример
+- [daily_playlist_updater](examples/daily_playlist_updater.py) – пример
   @catinapoke без внесения правок. Отмечает плейлист дня как 
   прослушанный сегодня (добавляет +1 к счетчику).
-- [player] (examples/player.py) – пример @OwnageIsMagic. Консольный плеер. 
+- [player](examples/player.py) – пример @OwnageIsMagic. Консольный плеер. 
   Авторизация, получение плейлиста пользователя, список понравившихся 
   треков и их загрузка. Воспроизведение через установленный плеер.
 
 Все примеры лицензированы в соответствии с 
-[Лицензией CC0] (https://github.com/MarshalX/yandex-music-api/blob/master/examples/LICENSE.txt) 
+[Лицензией CC0](https://github.com/MarshalX/yandex-music-api/blob/master/examples/LICENSE.txt) 
 и поэтому полностью предназначены для общественного достояния.
 Вы можете использовать их в качестве базы для своих собственных скриптов,
 не беспокоясь об авторских правах.
