@@ -1,5 +1,5 @@
-[Alpha] Неофициальная Python библиотека для API Yandex Music
-============================================================
+Неофициальная Python библиотека для API Yandex Music
+====================================================
 
 Делаю то, что по определённым причинам не сделала компания Yandex.
 
@@ -10,7 +10,7 @@
    :target: https://pypi.org/project/yandex-music/
    :alt: Версия пакета PyPi
 
-.. image:: https://img.shields.io/badge/python-3.6%20|%203.7%20|%203.8%20|%203.9-blue.svg
+.. image:: https://img.shields.io/badge/python-3.6+-blue.svg
    :target: https://pypi.org/project/yandex-music/
    :alt: Поддерживаемые Python версии
 
@@ -330,6 +330,8 @@ JavaScript
 
 API wrapper на Node.JS. Не обновлялся больше двух лет:
 `itsmepetrov/yandex-music-api <https://github.com/itsmepetrov/yandex-music-api>`_.
+
+Продолжение разработки заброшенной библиотеки: `kontsevoye/ym-api <https://github.com/kontsevoye/ym-api>`_.
 
 =====================
 Разработанные проекты
