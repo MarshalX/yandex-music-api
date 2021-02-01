@@ -16,11 +16,10 @@ class TestDeactivation:
         assert Deactivation.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'method': self.method, 'instructions': self.instructions}
+        json_dict = {'method': self.method}
         deactivation = Deactivation.de_json(json_dict, client)
 
         assert deactivation.method == self.method
-        assert deactivation.instructions == self.instructions
 
     def test_de_json_all(self, client):
         json_dict = {'method': self.method, 'instructions': self.instructions}

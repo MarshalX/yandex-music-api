@@ -155,8 +155,8 @@ def playlist_factory(user, cover, made_for, track_short, play_counter, playlist_
                             [track_id],  [track_short], TestPlaylist.prerolls, TestPlaylist.likes_count,
                             similar_playlists, last_owner_playlists, TestPlaylist.generated_playlist_type,
                             TestPlaylist.animated_cover_uri, TestPlaylist.ever_played, TestPlaylist.description,
-                            TestPlaylist.description_formatted, TestPlaylist.playlist_uuid, TestPlaylist.is_for_from,
-                            TestPlaylist.regions)
+                            TestPlaylist.description_formatted, TestPlaylist.playlist_uuid, TestPlaylist.type,
+                            TestPlaylist.ready, TestPlaylist.is_for_from, TestPlaylist.regions)
 
     return PlaylistFactory()
 
@@ -318,7 +318,7 @@ def album_event(album, track):
 
 @pytest.fixture(scope='session')
 def video_supplement():
-    return VideoSupplement(TestVideoSupplement.cover, TestVideoSupplement.title, TestVideoSupplement.provider,
+    return VideoSupplement(TestVideoSupplement.cover, TestVideoSupplement.provider, TestVideoSupplement.title,
                            TestVideoSupplement.provider_video_id, TestVideoSupplement.url,
                            TestVideoSupplement.embed_url, TestVideoSupplement.embed)
 

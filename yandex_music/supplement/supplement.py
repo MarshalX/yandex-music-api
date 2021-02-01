@@ -14,6 +14,7 @@ class Supplement(YandexMusicObject):
         lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
         videos (:obj:`yandex_music.VideoSupplement`): Видео.
         radio_is_available (:obj:`bool`): Доступно ли радио.
+        description (:obj:`str`): Полное описание эпизода подкаста.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -21,6 +22,7 @@ class Supplement(YandexMusicObject):
         lyrics (:obj:`yandex_music.Lyrics`): Текст песни.
         videos (:obj:`yandex_music.VideoSupplement`): Видео.
         radio_is_available (:obj:`bool`, optional): Доступно ли радио.
+        description (:obj:`str`, optional): Полное описание эпизода подкаста.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -30,6 +32,7 @@ class Supplement(YandexMusicObject):
                  lyrics: Optional['Lyrics'],
                  videos: List['VideoSupplement'],
                  radio_is_available: bool = None,
+                 description: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.id = id_
@@ -37,6 +40,7 @@ class Supplement(YandexMusicObject):
         self.videos = videos
 
         self.radio_is_available = radio_is_available
+        self.description = description
 
         self.client = client
         self._id_attrs = (self.id, self.lyrics, self.videos)

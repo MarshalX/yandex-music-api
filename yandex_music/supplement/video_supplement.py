@@ -11,8 +11,8 @@ class VideoSupplement(YandexMusicObject):
 
     Attributes:
         cover (:obj:`str`): URL на обложку видео.
-        title (:obj:`str`): Название видео.
         provider (:obj:`str`): Сервис поставляющий видео.
+        title (:obj:`str`): Название видео.
         provider_video_id (:obj:`str`): Уникальный идентификатор видео на сервисе.
         url (:obj:`str`): URL на видео.
         embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
@@ -21,8 +21,8 @@ class VideoSupplement(YandexMusicObject):
 
     Args:
         cover (:obj:`str`): URL на обложку видео.
-        title (:obj:`str`): Название видео.
         provider (:obj:`str`): Сервис поставляющий видео.
+        title (:obj:`str`, optional): Название видео.
         provider_video_id (:obj:`str`, optional): Уникальный идентификатор видео на сервисе.
         url (:obj:`str`, optional): URL на видео.
         embed_url (:obj:`str`, optional): URL на видео, находящегося на серверах Яндекса.
@@ -33,8 +33,8 @@ class VideoSupplement(YandexMusicObject):
 
     def __init__(self,
                  cover: str,
-                 title: str,
                  provider: str,
+                 title: Optional[str] = None,
                  provider_video_id: Optional[str] = None,
                  url: Optional[str] = None,
                  embed_url: Optional[str] = None,
@@ -42,9 +42,9 @@ class VideoSupplement(YandexMusicObject):
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.cover = cover
-        self.title = title
         self.provider = provider
 
+        self.title = title
         self.provider_video_id = provider_video_id
         self.url = url
         self.embed_url = embed_url

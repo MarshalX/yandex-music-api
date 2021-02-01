@@ -102,8 +102,6 @@ class TestAlbum:
         json_dict = {'id_': self.id}
         album = Album.de_json(json_dict, client)
 
-        assert album.id == self.id
-
     def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums, deprecation):
         labels = [label] if type(label) == str else [label.to_dict()]
         json_dict = {'id_': self.id, 'error': self.error, 'title': self.title, 'cover_uri': self.cover_uri,

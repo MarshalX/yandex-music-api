@@ -19,14 +19,14 @@ class Deactivation(YandexMusicObject):
 
     Args:
         method (:obj:`str`): Метод отключения.
-        instructions (:obj:`str`): Инструкция.
+        instructions (:obj:`str`, optional): Инструкция.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
     def __init__(self,
                  method: str,
-                 instructions: str,
+                 instructions: Optional[str] = None,
                  client: Optional['Client'] = None,
                  **kwargs) -> None:
         self.method = method

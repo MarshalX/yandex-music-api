@@ -21,6 +21,8 @@ class Track(YandexMusicObject):
 
         Обычно у подкастов поле `remember_position == True`, а у треков `remember_position == False`.
 
+        Полное описание можно получить используя :func:`Track.get_supplement`.
+
     Attributes:
         id (:obj:`int` | :obj:`str`): Уникальный идентификатор.
         title (:obj:`str`): Название.
