@@ -27,7 +27,7 @@ jobs:
         shell: bash
       - name: Test with pytest and generate coverage
         run: |
-          pytest -v --cov=./
+          pytest -v --cov=yandex_music
         shell: bash
       - name: Submit coverage
         run: |
