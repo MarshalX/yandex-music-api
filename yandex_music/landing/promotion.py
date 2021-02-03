@@ -40,18 +40,20 @@ class Promotion(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 promo_id: str,
-                 title: str,
-                 subtitle: str,
-                 heading: str,
-                 url: str,
-                 url_scheme: str,
-                 text_color: str,
-                 gradient: str,
-                 image: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        promo_id: str,
+        title: str,
+        subtitle: str,
+        heading: str,
+        url: str,
+        url_scheme: str,
+        text_color: str,
+        gradient: str,
+        image: str,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.promo_id = promo_id
         self.title = title
         self.subtitle = subtitle
@@ -63,8 +65,17 @@ class Promotion(YandexMusicObject):
         self.image = image
 
         self.client = client
-        self._id_attrs = (self.promo_id, self.title, self.subtitle, self.heading,
-                          self.url, self.url_scheme, self.text_color, self.gradient, self.image)
+        self._id_attrs = (
+            self.promo_id,
+            self.title,
+            self.subtitle,
+            self.heading,
+            self.url,
+            self.url_scheme,
+            self.text_color,
+            self.gradient,
+            self.image,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 

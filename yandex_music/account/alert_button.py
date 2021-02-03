@@ -25,13 +25,9 @@ class AlertButton(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 text: str,
-                 bg_color: str,
-                 text_color: str,
-                 uri: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, text: str, bg_color: str, text_color: str, uri: str, client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.text = text
         self.bg_color = bg_color
         self.text_color = text_color

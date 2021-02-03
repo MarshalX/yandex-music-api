@@ -32,15 +32,17 @@ class Chart(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 position: int,
-                 progress: str,
-                 listeners: int,
-                 shift: int,
-                 bg_color: Optional[str] = None,
-                 track_id: Optional['TrackId'] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        position: int,
+        progress: str,
+        listeners: int,
+        shift: int,
+        bg_color: Optional[str] = None,
+        track_id: Optional['TrackId'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.position = position
         self.progress = progress
         self.listeners = listeners
@@ -70,6 +72,7 @@ class Chart(YandexMusicObject):
 
         data = super(Chart, cls).de_json(data, client)
         from yandex_music import TrackId
+
         data['track_id'] = TrackId.de_json(data.get('track_id'), client)
 
         return cls(client=client, **data)

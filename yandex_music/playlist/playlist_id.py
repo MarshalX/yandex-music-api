@@ -21,11 +21,7 @@ class PlaylistId(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 uid: int,
-                 kind: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, uid: int, kind: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.uid = uid
         self.kind = kind
 

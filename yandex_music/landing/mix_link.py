@@ -38,17 +38,19 @@ class MixLink(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 title: str,
-                 url: str,
-                 url_scheme: str,
-                 text_color: str,
-                 background_color: str,
-                 background_image_uri: str,
-                 cover_white: str,
-                 cover_uri: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        title: str,
+        url: str,
+        url_scheme: str,
+        text_color: str,
+        background_color: str,
+        background_image_uri: str,
+        cover_white: str,
+        cover_uri: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.title = title
         self.url = url
         self.url_scheme = url_scheme
@@ -60,8 +62,15 @@ class MixLink(YandexMusicObject):
         self.cover_uri = cover_uri
 
         self.client = client
-        self._id_attrs = (self.url, self.title, self.url_scheme, self.text_color,
-                          self.background_color, self.background_image_uri, self.cover_white)
+        self._id_attrs = (
+            self.url,
+            self.title,
+            self.url_scheme,
+            self.text_color,
+            self.background_color,
+            self.background_image_uri,
+            self.cover_white,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 

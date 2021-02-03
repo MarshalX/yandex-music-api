@@ -7,7 +7,7 @@ class TestBrand:
     reference = 'yandexmusic://post/5c94a7bf433f8221feac3fa6'
     pixels = [
         'http://ads6.adfox.ru/256152/event?hash=84862c423eb&rand=eo=hdxqd&pr=deyq&p1=bwzel',
-        'http://banners.adfox.ru/transparent.gif'
+        'http://banners.adfox.ru/transparent.gif',
     ]
     theme = 'dark'
     playlist_theme = ''
@@ -26,9 +26,15 @@ class TestBrand:
         assert Brand.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'image': self.image, 'background': self.background, 'reference': self.reference,
-                     'pixels': self.pixels, 'theme': self.theme, 'playlist_theme': self.playlist_theme,
-                     'button': self.button}
+        json_dict = {
+            'image': self.image,
+            'background': self.background,
+            'reference': self.reference,
+            'pixels': self.pixels,
+            'theme': self.theme,
+            'playlist_theme': self.playlist_theme,
+            'button': self.button,
+        }
         brand = Brand.de_json(json_dict, client)
 
         assert brand.image == self.image
@@ -40,9 +46,15 @@ class TestBrand:
         assert brand.button == self.button
 
     def test_de_json_all(self, client):
-        json_dict = {'image': self.image, 'background': self.background, 'reference': self.reference,
-                     'pixels': self.pixels, 'theme': self.theme, 'playlist_theme': self.playlist_theme,
-                     'button': self.button}
+        json_dict = {
+            'image': self.image,
+            'background': self.background,
+            'reference': self.reference,
+            'pixels': self.pixels,
+            'theme': self.theme,
+            'playlist_theme': self.playlist_theme,
+            'button': self.button,
+        }
         brand = Brand.de_json(json_dict, client)
 
         assert brand.image == self.image
@@ -54,11 +66,13 @@ class TestBrand:
         assert brand.button == self.button
 
     def test_equality(self):
-        a = Brand(self.image, self.background, self.reference, self.pixels,
-                  self.theme, self.playlist_theme, self.button)
+        a = Brand(
+            self.image, self.background, self.reference, self.pixels, self.theme, self.playlist_theme, self.button
+        )
         b = Brand('', self.background, self.reference, ['link'], self.theme, self.playlist_theme, self.button)
-        c = Brand(self.image, self.background, self.reference, self.pixels,
-                  self.theme, self.playlist_theme, self.button)
+        c = Brand(
+            self.image, self.background, self.reference, self.pixels, self.theme, self.playlist_theme, self.button
+        )
 
         assert a != b
         assert hash(a) != hash(b)

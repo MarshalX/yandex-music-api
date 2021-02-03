@@ -21,11 +21,9 @@ class Title(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 title: str,
-                 full_title: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, title: str, full_title: Optional[str] = None, client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.title = title
         self.full_title = full_title
 

@@ -27,7 +27,7 @@ class TestChartInfo:
             'title': self.title,
             'chart_description': self.chart_description,
             'menu': chart_info_menu.to_dict(),
-            'chart': playlist.to_dict()
+            'chart': playlist.to_dict(),
         }
 
         chart_info = ChartInfo.de_json(json_dict, client)
@@ -46,7 +46,7 @@ class TestChartInfo:
             'title': self.title,
             'chart_description': self.chart_description,
             'menu': chart_info_menu.to_dict(),
-            'chart': playlist.to_dict()
+            'chart': playlist.to_dict(),
         }
 
         chart_info = ChartInfo.de_json(json_dict, client)
@@ -60,12 +60,15 @@ class TestChartInfo:
         assert chart_info.chart == playlist
 
     def test_equality(self, playlist, chart_info_menu):
-        a = ChartInfo(self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu,
-                      playlist)
-        b = ChartInfo("no_id", self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu,
-                      playlist)
-        c = ChartInfo(self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu,
-                      playlist)
+        a = ChartInfo(
+            self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist
+        )
+        b = ChartInfo(
+            "no_id", self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist
+        )
+        c = ChartInfo(
+            self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist
+        )
 
         assert a != b
         assert hash(a) != hash(b)

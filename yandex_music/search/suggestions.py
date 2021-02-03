@@ -21,11 +21,9 @@ class Suggestions(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 best: Optional['Best'],
-                 suggestions: List[str],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, best: Optional['Best'], suggestions: List[str], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.best = best
         self.suggestions = suggestions
 
@@ -56,7 +54,7 @@ class Suggestions(YandexMusicObject):
 
         data = super(Suggestions, cls).de_json(data, client)
         from yandex_music import Best
+
         data['best'] = Best.de_json(data.get('best'), client)
 
         return cls(client=client, **data)
-

@@ -20,8 +20,13 @@ class TestRestrictions:
         assert restrictions.diversity == enum
 
     def test_de_json_all(self, client, enum, discrete_scale):
-        json_dict = {'language': enum.to_dict(), 'diversity': enum.to_dict(), 'mood': discrete_scale.to_dict(),
-                     'energy': discrete_scale.to_dict(), 'mood_energy': enum.to_dict()}
+        json_dict = {
+            'language': enum.to_dict(),
+            'diversity': enum.to_dict(),
+            'mood': discrete_scale.to_dict(),
+            'energy': discrete_scale.to_dict(),
+            'mood_energy': enum.to_dict(),
+        }
         restrictions = Restrictions.de_json(json_dict, client)
 
         assert restrictions.language == enum

@@ -19,10 +19,7 @@ class PlayContextsData(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 other_tracks: List['TrackShortOld'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, other_tracks: List['TrackShortOld'], client: Optional['Client'] = None, **kwargs) -> None:
         self.other_tracks = other_tracks
 
         self.client = client
@@ -46,6 +43,7 @@ class PlayContextsData(YandexMusicObject):
 
         data = super(PlayContextsData, cls).de_json(data, client)
         from yandex_music import TrackShortOld
+
         data['other_tracks'] = TrackShortOld.de_list(data.get('other_tracks'), client)
 
         return cls(client=client, **data)

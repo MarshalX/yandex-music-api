@@ -36,16 +36,18 @@ class Block(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: str,
-                 type_: str,
-                 type_for_from: str,
-                 title: str,
-                 entities: List['BlockEntity'],
-                 description: Optional[str] = None,
-                 data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: str,
+        type_: str,
+        type_for_from: str,
+        title: str,
+        entities: List['BlockEntity'],
+        description: Optional[str] = None,
+        data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.type = type_
         self.type_for_from = type_for_from
@@ -79,6 +81,7 @@ class Block(YandexMusicObject):
 
         data = super(Block, cls).de_json(data, client)
         from yandex_music import BlockEntity, PlayContextsData, PersonalPlaylistsData
+
         data['entities'] = BlockEntity.de_list(data.get('entities'), client)
 
         block_type = data.get('type_')

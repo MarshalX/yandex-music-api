@@ -27,14 +27,16 @@ class Supplement(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: int,
-                 lyrics: Optional['Lyrics'],
-                 videos: List['VideoSupplement'],
-                 radio_is_available: bool = None,
-                 description: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: int,
+        lyrics: Optional['Lyrics'],
+        videos: List['VideoSupplement'],
+        radio_is_available: bool = None,
+        description: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.lyrics = lyrics
         self.videos = videos
@@ -63,6 +65,7 @@ class Supplement(YandexMusicObject):
 
         data = super(Supplement, cls).de_json(data, client)
         from yandex_music import Lyrics, VideoSupplement
+
         data['lyrics'] = Lyrics.de_json(data.get('lyrics'), client)
         data['videos'] = VideoSupplement.de_list(data.get('videos'), client)
 

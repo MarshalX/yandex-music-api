@@ -46,19 +46,21 @@ class Like(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 id_=None,
-                 timestamp: Optional[str] = None,
-                 album: Optional['Album'] = None,
-                 artist: Optional['Artist'] = None,
-                 playlist: Optional['Playlist'] = None,
-                 short_description: Optional[str] = None,
-                 description: Optional[str] = None,
-                 is_premiere: Optional[bool] = None,
-                 is_banner: Optional[bool] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        type_: str,
+        id_=None,
+        timestamp: Optional[str] = None,
+        album: Optional['Album'] = None,
+        artist: Optional['Artist'] = None,
+        playlist: Optional['Playlist'] = None,
+        short_description: Optional[str] = None,
+        description: Optional[str] = None,
+        is_premiere: Optional[bool] = None,
+        is_banner: Optional[bool] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.type = type_
 

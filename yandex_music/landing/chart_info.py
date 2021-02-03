@@ -30,16 +30,18 @@ class ChartInfo(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self,
-                 id_: str,
-                 type_: str,
-                 type_for_from: str,
-                 title: str,
-                 menu: Optional['ChartInfoMenu'],
-                 chart: Optional['Playlist'],
-                 chart_description: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        id_: str,
+        type_: str,
+        type_for_from: str,
+        title: str,
+        menu: Optional['ChartInfoMenu'],
+        chart: Optional['Playlist'],
+        chart_description: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.id = id_
         self.type = type_
         self.type_for_from = type_for_from

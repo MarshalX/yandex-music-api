@@ -33,17 +33,19 @@ class MetaData(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 album: Optional[str] = None,
-                 volume: Optional[int] = None,
-                 year: Optional[int] = None,
-                 number: Optional[int] = None,
-                 genre: Optional[str] = None,
-                 lyricist: Optional[str] = None,
-                 version: Optional[str] = None,
-                 composer: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        album: Optional[str] = None,
+        volume: Optional[int] = None,
+        year: Optional[int] = None,
+        number: Optional[int] = None,
+        genre: Optional[str] = None,
+        lyricist: Optional[str] = None,
+        version: Optional[str] = None,
+        composer: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.album = album
         self.volume = volume
         self.year = year

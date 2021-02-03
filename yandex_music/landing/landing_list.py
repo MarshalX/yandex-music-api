@@ -36,16 +36,18 @@ class LandingList(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 type_for_from: str,
-                 title: str,
-                 id_: Optional[str] = None,
-                 new_releases: List[int] = None,
-                 new_playlists: List[int] = None,
-                 podcasts: List[int] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        type_: str,
+        type_for_from: str,
+        title: str,
+        id_: Optional[str] = None,
+        new_releases: List[int] = None,
+        new_playlists: List[int] = None,
+        podcasts: List[int] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.type_for_from = type_for_from
         self.title = title
@@ -76,6 +78,7 @@ class LandingList(YandexMusicObject):
 
         data = super(LandingList, cls).de_json(data, client)
         from yandex_music import PlaylistId
+
         data['new_playlists'] = PlaylistId.de_list(data.get('new_playlists'), client)
 
         return cls(client=client, **data)

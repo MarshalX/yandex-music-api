@@ -47,24 +47,26 @@ class Status(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 account: Optional['Account'],
-                 permissions: Optional['Permissions'],
-                 advertisement: Optional[str] = None,
-                 subscription: Optional['Subscription'] = None,
-                 cache_limit: Optional[int] = None,
-                 subeditor: Optional[bool] = None,
-                 subeditor_level: Optional[int] = None,
-                 plus: Optional['Plus'] = None,
-                 default_email: Optional[str] = None,
-                 skips_per_hour: Optional[int] = None,
-                 station_exists: Optional[bool] = None,
-                 station_data: Optional['StationData'] = None,
-                 bar_below: Optional['Alert'] = None,
-                 premium_region: Optional[int] = None,
-                 experiment: Optional[int] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        account: Optional['Account'],
+        permissions: Optional['Permissions'],
+        advertisement: Optional[str] = None,
+        subscription: Optional['Subscription'] = None,
+        cache_limit: Optional[int] = None,
+        subeditor: Optional[bool] = None,
+        subeditor_level: Optional[int] = None,
+        plus: Optional['Plus'] = None,
+        default_email: Optional[str] = None,
+        skips_per_hour: Optional[int] = None,
+        station_exists: Optional[bool] = None,
+        station_data: Optional['StationData'] = None,
+        bar_below: Optional['Alert'] = None,
+        premium_region: Optional[int] = None,
+        experiment: Optional[int] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.account = account
         self.permissions = permissions
 
@@ -103,6 +105,7 @@ class Status(YandexMusicObject):
 
         data = super(Status, cls).de_json(data, client)
         from yandex_music import Account, Permissions, Plus, Subscription, StationData, Alert
+
         data['account'] = Account.de_json(data.get('account'), client)
         data['permissions'] = Permissions.de_json(data.get('permissions'), client)
         data['subscription'] = Subscription.de_json(data.get('subscription'), client)

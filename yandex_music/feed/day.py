@@ -25,13 +25,15 @@ class Day(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 day: str,
-                 events: List['Event'],
-                 tracks_to_play_with_ads: List['TrackWithAds'],
-                 tracks_to_play: List['Track'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        day: str,
+        events: List['Event'],
+        tracks_to_play_with_ads: List['TrackWithAds'],
+        tracks_to_play: List['Track'],
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.day = day
         self.events = events
         self.tracks_to_play_with_ads = tracks_to_play_with_ads
@@ -58,6 +60,7 @@ class Day(YandexMusicObject):
 
         data = super(Day, cls).de_json(data, client)
         from yandex_music import Event, Track, TrackWithAds
+
         data['events'] = Event.de_list(data.get('events'), client)
         data['tracks_to_play_with_ads'] = TrackWithAds.de_list(data.get('tracks_to_play_with_ads'), client)
         data['tracks_to_play'] = Track.de_list(data.get('tracks_to_play'), client)

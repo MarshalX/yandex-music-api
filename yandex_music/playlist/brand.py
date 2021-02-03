@@ -34,16 +34,18 @@ class Brand(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 image: str,
-                 background: str,
-                 reference: str,
-                 pixels: List[str],
-                 theme: str,
-                 playlist_theme: str,
-                 button: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        image: str,
+        background: str,
+        reference: str,
+        pixels: List[str],
+        theme: str,
+        playlist_theme: str,
+        button: str,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.image = image
         self.background = background
         self.reference = reference

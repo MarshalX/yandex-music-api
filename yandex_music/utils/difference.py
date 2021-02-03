@@ -4,6 +4,7 @@ from typing import List, Union
 ujson = False
 try:
     import ujson as json
+
     ujson = True
 except ImportError:
     import json
@@ -56,11 +57,7 @@ class Difference:
         Returns:
             :obj:`yandex_music.utils.difference.Difference`: Набор операций над плейлистом.
         """
-        operation = {
-            'op': Operation.DELETE.value,
-            'from': from_,
-            'to': to
-        }
+        operation = {'op': Operation.DELETE.value, 'from': from_, 'to': to}
 
         self.operations.append(operation)
         return self
@@ -82,21 +79,12 @@ class Difference:
         if not isinstance(tracks, list):
             tracks = [tracks]
 
-        operation = {
-            'op': Operation.INSERT.value,
-            'at': at,
-            'tracks': []
-        }
+        operation = {'op': Operation.INSERT.value, 'at': at, 'tracks': []}
 
         for track in tracks:
             track = type('TrackId', (), track)  # TODO replace to normal TrackId object
 
-            operation['tracks'].append(
-                {
-                    'id': track.id,
-                    'albumId': track.album_id
-                }
-            )
+            operation['tracks'].append({'id': track.id, 'albumId': track.album_id})
 
         self.operations.append(operation)
         return self

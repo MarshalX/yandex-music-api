@@ -43,11 +43,22 @@ class TestAccount:
         assert account.service_available == self.service_available
 
     def test_de_json_all(self, client, passport_phone):
-        json_dict = {'now': self.now, 'region': self.region, 'service_available': self.service_available,
-                     'uid': self.uid, 'login': self.login, 'full_name': self.full_name, 'second_name': self.second_name,
-                     'first_name': self.first_name, 'display_name': self.display_name, 'hosted_user': self.hosted_user,
-                     'birthday': self.birthday, 'passport_phones': [passport_phone.to_dict()],
-                     'registered_at': self.registered_at, 'has_info_for_app_metrica': self.has_info_for_app_metrica}
+        json_dict = {
+            'now': self.now,
+            'region': self.region,
+            'service_available': self.service_available,
+            'uid': self.uid,
+            'login': self.login,
+            'full_name': self.full_name,
+            'second_name': self.second_name,
+            'first_name': self.first_name,
+            'display_name': self.display_name,
+            'hosted_user': self.hosted_user,
+            'birthday': self.birthday,
+            'passport_phones': [passport_phone.to_dict()],
+            'registered_at': self.registered_at,
+            'has_info_for_app_metrica': self.has_info_for_app_metrica,
+        }
         account = Account.de_json(json_dict, client)
 
         assert account.now == self.now

@@ -33,17 +33,19 @@ class Subscription(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 non_auto_renewable_remainder: 'RenewableRemainder',
-                 auto_renewable: List['AutoRenewable'],
-                 family_auto_renewable: List['AutoRenewable'],
-                 operator: List['Operator'] = None,
-                 non_auto_renewable: Optional['NonAutoRenewable'] = None,
-                 can_start_trial: Optional[bool] = None,
-                 mcdonalds: Optional[bool] = None,
-                 end: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        non_auto_renewable_remainder: 'RenewableRemainder',
+        auto_renewable: List['AutoRenewable'],
+        family_auto_renewable: List['AutoRenewable'],
+        operator: List['Operator'] = None,
+        non_auto_renewable: Optional['NonAutoRenewable'] = None,
+        can_start_trial: Optional[bool] = None,
+        mcdonalds: Optional[bool] = None,
+        end: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.non_auto_renewable_remainder = non_auto_renewable_remainder
         self.auto_renewable = auto_renewable
         self.family_auto_renewable = family_auto_renewable
@@ -75,10 +77,12 @@ class Subscription(YandexMusicObject):
 
         data = super(Subscription, cls).de_json(data, client)
         from yandex_music import AutoRenewable, RenewableRemainder, NonAutoRenewable, Operator
+
         data['auto_renewable'] = AutoRenewable.de_list(data.get('auto_renewable'), client)
         data['family_auto_renewable'] = AutoRenewable.de_list(data.get('family_auto_renewable'), client)
         data['non_auto_renewable_remainder'] = RenewableRemainder.de_json(
-            data.get('non_auto_renewable_remainder'), client)
+            data.get('non_auto_renewable_remainder'), client
+        )
         data['non_auto_renewable'] = NonAutoRenewable.de_json(data.get('non_auto_renewable'), client)
         data['operator'] = Operator.de_list(data.get('operator'), client)
 

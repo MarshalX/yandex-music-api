@@ -24,11 +24,7 @@ class Id(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 tag: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, type_: str, tag: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.type = type_
         self.tag = tag
 

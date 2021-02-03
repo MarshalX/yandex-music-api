@@ -27,14 +27,16 @@ class Settings(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 in_app_products: List['Product'],
-                 native_products: List['Product'],
-                 web_payment_url: str,
-                 promo_codes_enabled: bool,
-                 web_payment_month_product_price: Optional['Price'] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        in_app_products: List['Product'],
+        native_products: List['Product'],
+        web_payment_url: str,
+        promo_codes_enabled: bool,
+        web_payment_month_product_price: Optional['Price'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.in_app_products = in_app_products
         self.native_products = native_products
         self.web_payment_url = web_payment_url
@@ -62,9 +64,9 @@ class Settings(YandexMusicObject):
 
         data = super(Settings, cls).de_json(data, client)
         from yandex_music import Product, Price
+
         data['in_app_products'] = Product.de_list(data.get('in_app_products'), client)
         data['native_products'] = Product.de_list(data.get('native_products'), client)
-        data['web_payment_month_product_price'] = \
-            Price.de_json(data.get('web_payment_month_product_price'), client)
+        data['web_payment_month_product_price'] = Price.de_json(data.get('web_payment_month_product_price'), client)
 
         return cls(client=client, **data)

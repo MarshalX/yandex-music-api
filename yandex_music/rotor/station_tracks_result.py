@@ -25,13 +25,15 @@ class StationTracksResult(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: Optional['Id'],
-                 sequence: List['Sequence'],
-                 batch_id: str,
-                 pumpkin: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: Optional['Id'],
+        sequence: List['Sequence'],
+        batch_id: str,
+        pumpkin: bool,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.sequence = sequence
         self.batch_id = batch_id
@@ -58,6 +60,7 @@ class StationTracksResult(YandexMusicObject):
 
         data = super(StationTracksResult, cls).de_json(data, client)
         from yandex_music import Id, Sequence
+
         data['id_'] = Id.de_json(data.get('id_'), client)
         data['sequence'] = Sequence.de_list(data.get('sequence'), client)
 

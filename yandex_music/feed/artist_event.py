@@ -25,13 +25,15 @@ class ArtistEvent(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 artist: Optional['Artist'],
-                 tracks: List['Track'],
-                 similar_to_artists_from_history: List['Artist'],
-                 subscribed: Optional['bool'] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        artist: Optional['Artist'],
+        tracks: List['Track'],
+        similar_to_artists_from_history: List['Artist'],
+        subscribed: Optional['bool'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.artist = artist
         self.tracks = tracks
         self.similar_to_artists_from_history = similar_to_artists_from_history
@@ -59,6 +61,7 @@ class ArtistEvent(YandexMusicObject):
 
         data = super(ArtistEvent, cls).de_json(data, client)
         from yandex_music import Artist, Track
+
         data['artist'] = Artist.de_json(data.get('artist'), client)
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['similar_to_artists_from_history'] = Artist.de_list(data.get('similar_to_artists_from_history'), client)

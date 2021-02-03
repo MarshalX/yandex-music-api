@@ -23,12 +23,9 @@ class Permissions(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 until: str,
-                 values: List[str],
-                 default: List[str],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, until: str, values: List[str], default: List[str], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.until = until
         self.values = values
         self.default = default

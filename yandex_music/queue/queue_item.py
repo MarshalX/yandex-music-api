@@ -22,12 +22,9 @@ class QueueItem(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self,
-                 id_: str,
-                 context: Optional['Context'],
-                 modified: str,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self, id_: str, context: Optional['Context'], modified: str, client: Optional['Client'] = None, **kwargs
+    ):
         self.id = id_
         self.context = context
         self.modified = modified
@@ -52,6 +49,7 @@ class QueueItem(YandexMusicObject):
             return None
 
         from yandex_music import Context
+
         data = super(QueueItem, cls).de_json(data, client)
         data['context'] = Context.de_json(data.get('context'), client)
 

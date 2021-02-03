@@ -27,8 +27,13 @@ class TestContest:
         assert contest.can_edit == self.can_edit
 
     def test_de_json_all(self, client):
-        json_dict = {'contest_id': self.contest_id, 'status': self.status, 'can_edit': self.can_edit,
-                     'sent': self.sent, 'withdrawn': self.withdrawn}
+        json_dict = {
+            'contest_id': self.contest_id,
+            'status': self.status,
+            'can_edit': self.can_edit,
+            'sent': self.sent,
+            'withdrawn': self.withdrawn,
+        }
         contest = Contest.de_json(json_dict, client)
 
         assert contest.contest_id == self.contest_id

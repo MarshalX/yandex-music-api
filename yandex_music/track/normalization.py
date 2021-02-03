@@ -21,11 +21,7 @@ class Normalization(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 gain: float,
-                 peak: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, gain: float, peak: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.gain = gain
         self.peak = peak
 

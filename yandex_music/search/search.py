@@ -53,27 +53,29 @@ class Search(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 search_request_id: str,
-                 text: str,
-                 best: Optional['Best'],
-                 albums: Optional['SearchResult'],
-                 artists: Optional['SearchResult'],
-                 playlists: Optional['SearchResult'],
-                 tracks: Optional['SearchResult'],
-                 videos: Optional['SearchResult'],
-                 users: Optional['SearchResult'],
-                 podcasts: Optional['SearchResult'],
-                 podcast_episodes: Optional['SearchResult'],
-                 type_: Optional[str] = None,
-                 page: Optional[int] = None,
-                 per_page: Optional[int] = None,
-                 misspell_result: Optional[str] = None,
-                 misspell_original: Optional[str] = None,
-                 misspell_corrected: Optional[bool] = None,
-                 nocorrect: Optional[bool] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        search_request_id: str,
+        text: str,
+        best: Optional['Best'],
+        albums: Optional['SearchResult'],
+        artists: Optional['SearchResult'],
+        playlists: Optional['SearchResult'],
+        tracks: Optional['SearchResult'],
+        videos: Optional['SearchResult'],
+        users: Optional['SearchResult'],
+        podcasts: Optional['SearchResult'],
+        podcast_episodes: Optional['SearchResult'],
+        type_: Optional[str] = None,
+        page: Optional[int] = None,
+        per_page: Optional[int] = None,
+        misspell_result: Optional[str] = None,
+        misspell_original: Optional[str] = None,
+        misspell_corrected: Optional[bool] = None,
+        nocorrect: Optional[bool] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.search_request_id = search_request_id
         self.text = text
         self.best = best
@@ -95,8 +97,19 @@ class Search(YandexMusicObject):
         self.nocorrect = nocorrect
 
         self.client = client
-        self._id_attrs = (self.search_request_id, self.text, self.best, self.albums, self.artists, self.playlists,
-                          self.tracks, self.videos, self.users, self.podcasts, self.podcast_episodes)
+        self._id_attrs = (
+            self.search_request_id,
+            self.text,
+            self.best,
+            self.albums,
+            self.artists,
+            self.playlists,
+            self.tracks,
+            self.videos,
+            self.users,
+            self.podcasts,
+            self.podcast_episodes,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 
@@ -116,6 +129,7 @@ class Search(YandexMusicObject):
 
         data = super(Search, cls).de_json(data, client)
         from yandex_music import SearchResult, Best
+
         data['best'] = Best.de_json(data.get('best'), client)
         data['albums'] = SearchResult.de_json(data.get('albums'), client, 'album')
         data['artists'] = SearchResult.de_json(data.get('artists'), client, 'artist')

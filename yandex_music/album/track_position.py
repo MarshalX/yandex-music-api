@@ -26,11 +26,7 @@ class TrackPosition(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 volume: int,
-                 index: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, volume: int, index: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.volume = volume
         self.index = index
 

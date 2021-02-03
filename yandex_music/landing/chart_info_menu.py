@@ -22,7 +22,7 @@ class ChartInfoMenu(YandexMusicObject):
         self.items = items
 
         self.client = client
-        self._id_attrs = (self.items, )
+        self._id_attrs = (self.items,)
 
         super().handle_unknown_kwargs(self, **kwargs)
 

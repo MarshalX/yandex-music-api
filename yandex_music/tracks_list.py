@@ -23,12 +23,9 @@ class TracksList(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 uid: int,
-                 revision: int,
-                 tracks: List['TrackShort'],
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self, uid: int, revision: int, tracks: List['TrackShort'], client: Optional['Client'] = None, **kwargs
+    ):
         self.uid = uid
         self.revision = revision
         self.tracks = tracks
@@ -68,6 +65,7 @@ class TracksList(YandexMusicObject):
 
         data = super(TracksList, cls).de_json(data, client)
         from yandex_music import TrackShort
+
         data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
 
         return cls(client=client, **data)

@@ -24,11 +24,9 @@ class Deactivation(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 method: str,
-                 instructions: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, method: str, instructions: Optional[str] = None, client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.method = method
         self.instructions = instructions
 

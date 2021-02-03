@@ -23,8 +23,14 @@ class TestOperator:
         assert Operator.de_list({}, client) == []
 
     def test_de_json_required(self, client, deactivation):
-        json_dict = {'product_id': self.product_id, 'phone': self.phone, 'payment_regularity': self.payment_regularity,
-                     'deactivation': [deactivation.to_dict()], 'title': self.title, 'suspended': self.suspended}
+        json_dict = {
+            'product_id': self.product_id,
+            'phone': self.phone,
+            'payment_regularity': self.payment_regularity,
+            'deactivation': [deactivation.to_dict()],
+            'title': self.title,
+            'suspended': self.suspended,
+        }
         operator = Operator.de_json(json_dict, client)
 
         assert operator.product_id == self.product_id
@@ -35,8 +41,14 @@ class TestOperator:
         assert operator.suspended == self.suspended
 
     def test_de_json_all(self, client, deactivation):
-        json_dict = {'product_id': self.product_id, 'phone': self.phone, 'payment_regularity': self.payment_regularity,
-                     'deactivation': [deactivation.to_dict()], 'title': self.title, 'suspended': self.suspended}
+        json_dict = {
+            'product_id': self.product_id,
+            'phone': self.phone,
+            'payment_regularity': self.payment_regularity,
+            'deactivation': [deactivation.to_dict()],
+            'title': self.title,
+            'suspended': self.suspended,
+        }
         operator = Operator.de_json(json_dict, client)
 
         assert operator.product_id == self.product_id

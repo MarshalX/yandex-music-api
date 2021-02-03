@@ -21,11 +21,7 @@ class Value(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 value: str,
-                 name: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, value: str, name: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.value = value
         self.name = name
 

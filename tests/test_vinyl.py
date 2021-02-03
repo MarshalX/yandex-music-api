@@ -28,8 +28,15 @@ class TestVinyl:
         assert Vinyl.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'url': self.url, 'title': self.title, 'year': self.year, 'price': self.price, 'media': self.media,
-                     'offer_id': self.offer_id, 'artist_ids': self.artist_ids}
+        json_dict = {
+            'url': self.url,
+            'title': self.title,
+            'year': self.year,
+            'price': self.price,
+            'media': self.media,
+            'offer_id': self.offer_id,
+            'artist_ids': self.artist_ids,
+        }
         vinyl = Vinyl.de_json(json_dict, client)
 
         assert vinyl.url == self.url
@@ -41,8 +48,16 @@ class TestVinyl:
         assert vinyl.artist_ids == self.artist_ids
 
     def test_de_json_all(self, client):
-        json_dict = {'url': self.url, 'picture': self.picture, 'title': self.title, 'year': self.year,
-                     'price': self.price, 'media': self.media, 'offer_id': self.offer_id, 'artist_ids': self.artist_ids}
+        json_dict = {
+            'url': self.url,
+            'picture': self.picture,
+            'title': self.title,
+            'year': self.year,
+            'price': self.price,
+            'media': self.media,
+            'offer_id': self.offer_id,
+            'artist_ids': self.artist_ids,
+        }
         vinyl = Vinyl.de_json(json_dict, client)
 
         assert vinyl.url == self.url

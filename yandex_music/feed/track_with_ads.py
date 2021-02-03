@@ -24,11 +24,7 @@ class TrackWithAds(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 track: Optional['Track'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, type_: str, track: Optional['Track'], client: Optional['Client'] = None, **kwargs) -> None:
         self.type = type_
         self.track = track
 
@@ -53,6 +49,7 @@ class TrackWithAds(YandexMusicObject):
 
         data = super(TrackWithAds, cls).de_json(data, client)
         from yandex_music import Track
+
         data['track'] = Track.de_json(data.get('track'), client)
 
         return cls(client=client, **data)

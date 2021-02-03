@@ -10,8 +10,11 @@ def block_entity_data_with_type(request, results, types):
 
 @pytest.fixture(scope='class', params=[3, 4, 6, 7, 8, 9, 10])
 def block_entity_with_data_and_type(request, results, types):
-    return BlockEntity(TestBlockEntity.id, types[request.param], results[request.param]), \
-           results[request.param], types[request.param]
+    return (
+        BlockEntity(TestBlockEntity.id, types[request.param], results[request.param]),
+        results[request.param],
+        types[request.param],
+    )
 
 
 class TestBlockEntity:

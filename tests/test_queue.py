@@ -26,8 +26,12 @@ class TestQueue:
         assert Queue.de_json({}, client) is None
 
     def test_de_json_required(self, client, context, track_id):
-        json_dict = {'context': context.to_dict(), 'modified': self.modified, 'current_index': self.current_index,
-                     'tracks': [track_id.to_dict()]}
+        json_dict = {
+            'context': context.to_dict(),
+            'modified': self.modified,
+            'current_index': self.current_index,
+            'tracks': [track_id.to_dict()],
+        }
         queue = Queue.de_json(json_dict, client)
 
         assert queue.context == context
@@ -36,8 +40,14 @@ class TestQueue:
         assert queue.modified == self.modified
 
     def test_de_json_all(self, client, context, track_id):
-        json_dict = {'context': context.to_dict(), 'modified': self.modified, 'id_': self.id_,
-                     'from_': self.from_, 'current_index': self.current_index, 'tracks': [track_id.to_dict()]}
+        json_dict = {
+            'context': context.to_dict(),
+            'modified': self.modified,
+            'id_': self.id_,
+            'from_': self.from_,
+            'current_index': self.current_index,
+            'tracks': [track_id.to_dict()],
+        }
         queue = Queue.de_json(json_dict, client)
 
         assert queue.context == context

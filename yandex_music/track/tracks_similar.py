@@ -21,11 +21,9 @@ class SimilarTracks(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 track: Optional['Track'],
-                 similar_tracks: List['Track'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, track: Optional['Track'], similar_tracks: List['Track'], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.track = track
         self.similar_tracks = similar_tracks
 
@@ -59,6 +57,7 @@ class SimilarTracks(YandexMusicObject):
 
         data = super(SimilarTracks, cls).de_json(data, client)
         from yandex_music import Track
+
         data['track'] = Track.de_json(data.get('track'), client)
         data['similar_tracks'] = Track.de_list(data.get('similar_tracks'), client)
 

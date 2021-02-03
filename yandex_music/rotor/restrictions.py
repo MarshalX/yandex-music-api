@@ -5,10 +5,7 @@ from yandex_music import YandexMusicObject, Enum, DiscreteScale
 if TYPE_CHECKING:
     from yandex_music import Client
 
-de_json = {
-    'enum': Enum.de_json,
-    'discrete-scale': DiscreteScale.de_json
-}
+de_json = {'enum': Enum.de_json, 'discrete-scale': DiscreteScale.de_json}
 
 
 class Restrictions(YandexMusicObject):
@@ -32,14 +29,16 @@ class Restrictions(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 language: Optional['Enum'],
-                 diversity: Optional['Enum'],
-                 mood: Optional['DiscreteScale'] = None,
-                 energy: Optional['DiscreteScale'] = None,
-                 mood_energy: Optional['Enum'] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        language: Optional['Enum'],
+        diversity: Optional['Enum'],
+        mood: Optional['DiscreteScale'] = None,
+        energy: Optional['DiscreteScale'] = None,
+        mood_energy: Optional['Enum'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.language = language
         self.diversity = diversity
         self.mood = mood

@@ -36,17 +36,19 @@ class AdParams(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 partner_id: Union[str, int],
-                 category_id: Union[str, int],
-                 page_ref: str,
-                 target_ref: str,
-                 other_params: str,
-                 ad_volume: int,
-                 genre_id: Optional[str] = None,
-                 genre_name: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        partner_id: Union[str, int],
+        category_id: Union[str, int],
+        page_ref: str,
+        target_ref: str,
+        other_params: str,
+        ad_volume: int,
+        genre_id: Optional[str] = None,
+        genre_name: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.partner_id = partner_id
         self.category_id = category_id
         self.page_ref = page_ref
@@ -58,8 +60,14 @@ class AdParams(YandexMusicObject):
         self.genre_name = genre_name
 
         self.client = client
-        self._id_attrs = (self.partner_id, self.category_id, self.page_ref,
-                          self.target_ref, self.other_params, self.ad_volume)
+        self._id_attrs = (
+            self.partner_id,
+            self.category_id,
+            self.page_ref,
+            self.target_ref,
+            self.other_params,
+            self.ad_volume,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 

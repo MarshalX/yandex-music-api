@@ -77,38 +77,40 @@ class Product(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 product_id: str,
-                 type_: str,
-                 common_period_duration: str,
-                 duration: int,
-                 trial_duration: int,
-                 price: Optional['Price'],
-                 feature: str,
-                 debug: bool,
-                 plus: bool,
-                 cheapest: Optional[bool] = None,
-                 title: Optional[str] = None,
-                 family_sub: Optional[bool] = None,
-                 fb_image: Optional[str] = None,
-                 fb_name: Optional[str] = None,
-                 family: Optional[bool] = None,
-                 features: List[str] = None,
-                 description: Optional[str] = None,
-                 available: Optional[bool] = None,
-                 trial_available: Optional[bool] = None,
-                 trial_period_duration: Optional[str] = None,
-                 intro_period_duration: Optional[str] = None,
-                 intro_price: Optional['Price'] = None,
-                 start_period_duration: Optional[str] = None,
-                 start_price: Optional['Price'] = None,
-                 licence_text_parts: List['Price'] = None,
-                 vendor_trial_available: Optional[bool] = None,
-                 button_text: Optional[str] = None,
-                 button_additional_text: Optional[str] = None,
-                 payment_method_types: List[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        product_id: str,
+        type_: str,
+        common_period_duration: str,
+        duration: int,
+        trial_duration: int,
+        price: Optional['Price'],
+        feature: str,
+        debug: bool,
+        plus: bool,
+        cheapest: Optional[bool] = None,
+        title: Optional[str] = None,
+        family_sub: Optional[bool] = None,
+        fb_image: Optional[str] = None,
+        fb_name: Optional[str] = None,
+        family: Optional[bool] = None,
+        features: List[str] = None,
+        description: Optional[str] = None,
+        available: Optional[bool] = None,
+        trial_available: Optional[bool] = None,
+        trial_period_duration: Optional[str] = None,
+        intro_period_duration: Optional[str] = None,
+        intro_price: Optional['Price'] = None,
+        start_period_duration: Optional[str] = None,
+        start_price: Optional['Price'] = None,
+        licence_text_parts: List['Price'] = None,
+        vendor_trial_available: Optional[bool] = None,
+        button_text: Optional[str] = None,
+        button_additional_text: Optional[str] = None,
+        payment_method_types: List[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.product_id = product_id
         self.type = type_
         self.common_period_duration = common_period_duration
@@ -141,8 +143,16 @@ class Product(YandexMusicObject):
         self.payment_method_types = payment_method_types
 
         self.client = client
-        self._id_attrs = (self.product_id, self.type, self.common_period_duration, self.duration,
-                          self.trial_duration, self.product_id, self.feature, self.debug)
+        self._id_attrs = (
+            self.product_id,
+            self.type,
+            self.common_period_duration,
+            self.duration,
+            self.trial_duration,
+            self.product_id,
+            self.feature,
+            self.debug,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 
@@ -162,6 +172,7 @@ class Product(YandexMusicObject):
 
         data = super(Product, cls).de_json(data, client)
         from yandex_music import Price, LicenceTextPart
+
         data['price'] = Price.de_json(data.get('price'), client)
         data['intro_price'] = Price.de_json(data.get('intro_price'), client)
         data['start_price'] = Price.de_json(data.get('start_price'), client)

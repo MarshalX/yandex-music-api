@@ -37,12 +37,14 @@ class Best(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 result: Optional[Union[Track, Artist, Album, Playlist, Video]],
-                 text: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        type_: str,
+        result: Optional[Union[Track, Artist, Album, Playlist, Video]],
+        text: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.result = result
 

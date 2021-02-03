@@ -34,15 +34,17 @@ class DownloadInfo(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 codec: str,
-                 bitrate_in_kbps: int,
-                 gain: bool,
-                 preview: bool,
-                 download_info_url: str,
-                 direct: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        codec: str,
+        bitrate_in_kbps: int,
+        gain: bool,
+        preview: bool,
+        download_info_url: str,
+        direct: bool,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.codec = codec
         self.bitrate_in_kbps = bitrate_in_kbps
         self.gain = gain

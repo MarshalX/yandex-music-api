@@ -45,23 +45,25 @@ class Account(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 now: str,
-                 service_available: bool,
-                 region: Optional[int] = None,
-                 uid: Optional[int] = None,
-                 login: Optional[str] = None,
-                 full_name: Optional[str] = None,
-                 second_name: Optional[str] = None,
-                 first_name: Optional[str] = None,
-                 display_name: Optional[str] = None,
-                 hosted_user: Optional[bool] = None,
-                 birthday: Optional[str] = None,
-                 passport_phones: List['PassportPhone'] = None,
-                 registered_at: Optional[str] = None,
-                 has_info_for_app_metrica: bool = False,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        now: str,
+        service_available: bool,
+        region: Optional[int] = None,
+        uid: Optional[int] = None,
+        login: Optional[str] = None,
+        full_name: Optional[str] = None,
+        second_name: Optional[str] = None,
+        first_name: Optional[str] = None,
+        display_name: Optional[str] = None,
+        hosted_user: Optional[bool] = None,
+        birthday: Optional[str] = None,
+        passport_phones: List['PassportPhone'] = None,
+        registered_at: Optional[str] = None,
+        has_info_for_app_metrica: bool = False,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.now = now
         self.service_available = service_available
 
@@ -110,6 +112,7 @@ class Account(YandexMusicObject):
 
         data = super(Account, cls).de_json(data, client)
         from yandex_music import PassportPhone
+
         data['passport_phones'] = PassportPhone.de_list(data.get('passport_phones'), client)
 
         return cls(client=client, **data)

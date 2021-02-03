@@ -27,14 +27,16 @@ class Tag(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: str,
-                 value: str,
-                 name: str,
-                 og_description: str,
-                 og_image: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: str,
+        value: str,
+        name: str,
+        og_description: str,
+        og_image: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.value = value
         self.name = name
@@ -43,7 +45,7 @@ class Tag(YandexMusicObject):
         self.og_image = og_image
 
         self.client = client
-        self._id_attrs = (self.id, )
+        self._id_attrs = (self.id,)
 
         super().handle_unknown_kwargs(self, **kwargs)
 

@@ -3,8 +3,10 @@ from yandex_music import OpenGraphData
 
 class TestOpenGraphData:
     title = 'Подкасты недели'
-    description = 'Чтобы собрать для вас этот плейлист, мы должны узнать вас ' \
-                  'чуточку поближе. Заходите на Музыку и слушайте больше!'
+    description = (
+        'Чтобы собрать для вас этот плейлист, мы должны узнать вас '
+        'чуточку поближе. Заходите на Музыку и слушайте больше!'
+    )
 
     def test_expected_values(self, open_graph_data, cover):
         assert open_graph_data.title == self.title

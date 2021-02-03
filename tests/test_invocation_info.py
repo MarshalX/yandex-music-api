@@ -22,8 +22,11 @@ class TestInvocationInfo:
         assert invocation_info.req_id == self.req_id
 
     def test_de_json_all(self, client):
-        json_dict = {'hostname': self.hostname, 'req_id': self.req_id,
-                     'exec_duration_millis': self.exec_duration_millis}
+        json_dict = {
+            'hostname': self.hostname,
+            'req_id': self.req_id,
+            'exec_duration_millis': self.exec_duration_millis,
+        }
         invocation_info = InvocationInfo.de_json(json_dict, client)
 
         assert invocation_info.hostname == self.hostname

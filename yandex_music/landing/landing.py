@@ -23,12 +23,14 @@ class Landing(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 pumpkin: bool,
-                 content_id: Union[str, int],
-                 blocks: List['Block'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        pumpkin: bool,
+        content_id: Union[str, int],
+        blocks: List['Block'],
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.pumpkin = pumpkin
         self.content_id = content_id
         self.blocks = blocks
@@ -57,6 +59,7 @@ class Landing(YandexMusicObject):
 
         data = super(Landing, cls).de_json(data, client)
         from yandex_music import Block
+
         data['blocks'] = Block.de_list(data.get('blocks'), client)
 
         return cls(client=client, **data)

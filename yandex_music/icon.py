@@ -21,11 +21,7 @@ class Icon(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 background_color: str,
-                 image_url: str,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(self, background_color: str, image_url: str, client: Optional['Client'] = None, **kwargs):
         self.background_color = background_color
         self.image_url = image_url
 

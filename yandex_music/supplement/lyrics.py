@@ -31,16 +31,18 @@ class Lyrics(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: int,
-                 lyrics: str,
-                 full_lyrics: str,
-                 has_rights: bool,
-                 show_translation: bool,
-                 text_language: Optional[str] = None,
-                 url: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: int,
+        lyrics: str,
+        full_lyrics: str,
+        has_rights: bool,
+        show_translation: bool,
+        text_language: Optional[str] = None,
+        url: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.lyrics = lyrics
         self.full_lyrics = full_lyrics
@@ -51,8 +53,14 @@ class Lyrics(YandexMusicObject):
         self.url = url
 
         self.client = client
-        self._id_attrs = (self.id, self.lyrics, self.full_lyrics, self.has_rights,
-                          self.text_language, self.show_translation)
+        self._id_attrs = (
+            self.id,
+            self.lyrics,
+            self.full_lyrics,
+            self.has_rights,
+            self.text_language,
+            self.show_translation,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 

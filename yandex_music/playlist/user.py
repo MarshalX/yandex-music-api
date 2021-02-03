@@ -42,17 +42,19 @@ class User(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 uid: int,
-                 login: str,
-                 name: Optional[str] = None,
-                 display_name: Optional[str] = None,
-                 full_name: Optional[str] = None,
-                 sex: Optional[str] = None,
-                 verified: Optional[bool] = None,
-                 regions: List[int] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        uid: int,
+        login: str,
+        name: Optional[str] = None,
+        display_name: Optional[str] = None,
+        full_name: Optional[str] = None,
+        sex: Optional[str] = None,
+        verified: Optional[bool] = None,
+        regions: List[int] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.uid = uid
         self.login = login
 

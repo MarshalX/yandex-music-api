@@ -21,8 +21,13 @@ class TestShot:
         assert Shot.de_list({}, client) == []
 
     def test_de_json_required(self, client, shot_data):
-        json_dict = {'order': self.order, 'played': self.played, 'shot_id': self.shot_id,
-                     'status': self.status, 'shot_data': shot_data.to_dict()}
+        json_dict = {
+            'order': self.order,
+            'played': self.played,
+            'shot_id': self.shot_id,
+            'status': self.status,
+            'shot_data': shot_data.to_dict(),
+        }
         shot = Shot.de_json(json_dict, client)
 
         assert shot.order == self.order
@@ -32,8 +37,13 @@ class TestShot:
         assert shot.shot_data == shot_data
 
     def test_de_json_all(self, client, shot_data):
-        json_dict = {'order': self.order, 'played': self.played, 'shot_id': self.shot_id,
-                     'status': self.status, 'shot_data': shot_data.to_dict()}
+        json_dict = {
+            'order': self.order,
+            'played': self.played,
+            'shot_id': self.shot_id,
+            'status': self.status,
+            'shot_data': shot_data.to_dict(),
+        }
         shot = Shot.de_json(json_dict, client)
 
         assert shot.order == self.order

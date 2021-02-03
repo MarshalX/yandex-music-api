@@ -27,13 +27,15 @@ class Link(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self,
-                 title: str,
-                 href: str,
-                 type_: str,
-                 social_network: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        title: str,
+        href: str,
+        type_: str,
+        social_network: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.title = title
         self.href = href
         self.type = type_

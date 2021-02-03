@@ -47,24 +47,26 @@ class BriefInfo(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 artist: Optional['Artist'],
-                 albums: List['Album'],
-                 playlists: List['Playlist'],
-                 also_albums: List['Album'],
-                 last_release_ids: List[int],
-                 last_releases: List['Album'],
-                 popular_tracks: List['Track'],
-                 similar_artists: List['Artist'],
-                 all_covers: List['Cover'],
-                 concerts,
-                 videos: List['Video'],
-                 vinyls: List['Vinyl'],
-                 has_promotions: bool,
-                 playlist_ids: List['PlaylistId'],
-                 tracks_in_chart: List['Chart'] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        artist: Optional['Artist'],
+        albums: List['Album'],
+        playlists: List['Playlist'],
+        also_albums: List['Album'],
+        last_release_ids: List[int],
+        last_releases: List['Album'],
+        popular_tracks: List['Track'],
+        similar_artists: List['Artist'],
+        all_covers: List['Cover'],
+        concerts,
+        videos: List['Video'],
+        vinyls: List['Vinyl'],
+        has_promotions: bool,
+        playlist_ids: List['PlaylistId'],
+        tracks_in_chart: List['Chart'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.artist = artist
         self.albums = albums
         self.playlists = playlists
@@ -83,9 +85,21 @@ class BriefInfo(YandexMusicObject):
         self.tracks_in_chart = tracks_in_chart
 
         self.client = client
-        self._id_attrs = (self.artist, self.albums, self.playlists, self.also_albums, self.last_release_ids,
-                          self.popular_tracks, self.similar_artists, self.all_covers, self.concerts, self.videos,
-                          self.vinyls, self.has_promotions, self.playlist_ids)
+        self._id_attrs = (
+            self.artist,
+            self.albums,
+            self.playlists,
+            self.also_albums,
+            self.last_release_ids,
+            self.popular_tracks,
+            self.similar_artists,
+            self.all_covers,
+            self.concerts,
+            self.videos,
+            self.vinyls,
+            self.has_promotions,
+            self.playlist_ids,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 
@@ -105,6 +119,7 @@ class BriefInfo(YandexMusicObject):
 
         data = super(BriefInfo, cls).de_json(data, client)
         from yandex_music import Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl, Playlist
+
         data['playlists'] = Playlist.de_list(data.get('playlists'), client)
         data['artist'] = Artist.de_json(data.get('artist'), client)
         data['similar_artists'] = Artist.de_list(data.get('similar_artists'), client)

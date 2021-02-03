@@ -5,19 +5,31 @@ from yandex_music import Like
 
 @pytest.fixture(scope='class', params=[2, 3, 4])
 def like_with_param(request, results, types):
-    return Like(types[request.param], TestLike.id, TestLike.timestamp, short_description=TestLike.short_description,
-                description=TestLike.description, is_premiere=TestLike.is_premiere, is_banner=TestLike.is_banner,
-                **{types[request.param]: results[request.param]}), request.param
+    return (
+        Like(
+            types[request.param],
+            TestLike.id,
+            TestLike.timestamp,
+            short_description=TestLike.short_description,
+            description=TestLike.description,
+            is_premiere=TestLike.is_premiere,
+            is_banner=TestLike.is_banner,
+            **{types[request.param]: results[request.param]},
+        ),
+        request.param,
+    )
 
 
 class TestLike:
     id = 5246018
     timestamp = '2019-09-03T19:59:56+00:00'
     short_description = 'Учим английский нескучно'
-    description = 'Английский по песням – это аудио- и видеоподкаст радио Unistar о том, как учить английский язык ' \
-                  'по песням – хитам 90-х и 2000-х, которые звучат на Unistar. Никакого занудства, грамматических ' \
-                  'правил и зубрежки. Только нескучный английский! Вы узнаете, о чем поют в любимых песнях, и как ' \
-                  'это может помочь вам в общении во время путешествий.'
+    description = (
+        'Английский по песням – это аудио- и видеоподкаст радио Unistar о том, как учить английский язык '
+        'по песням – хитам 90-х и 2000-х, которые звучат на Unistar. Никакого занудства, грамматических '
+        'правил и зубрежки. Только нескучный английский! Вы узнаете, о чем поют в любимых песнях, и как '
+        'это может помочь вам в общении во время путешествий.'
+    )
     is_premiere = False
     is_banner = True
 
@@ -43,9 +55,15 @@ class TestLike:
     def test_de_json_all(self, results, types, client, param):
         result, type_ = results[param], types[param]
 
-        json_dict = {'timestamp': self.timestamp, 'id_': self.id, type_: result.to_dict(),
-                     'short_description': self.short_description, 'description': self.description,
-                     'is_premiere': self.is_premiere, 'is_banner': self.is_banner}
+        json_dict = {
+            'timestamp': self.timestamp,
+            'id_': self.id,
+            type_: result.to_dict(),
+            'short_description': self.short_description,
+            'description': self.description,
+            'is_premiere': self.is_premiere,
+            'is_banner': self.is_banner,
+        }
         like = Like.de_json(json_dict, client, type_)
 
         assert like.type == type_

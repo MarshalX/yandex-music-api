@@ -45,23 +45,25 @@ class Genre(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: str,
-                 weight: int,
-                 composer_top: bool,
-                 title: str,
-                 titles: Dict[str, Optional['Title']],
-                 images: Optional['Images'],
-                 show_in_menu: bool,
-                 show_in_regions: Optional[list] = None,
-                 full_title: Optional[str] = None,
-                 url_part: Optional[str] = None,
-                 color: Optional[str] = None,
-                 radio_icon: Optional['Icon'] = None,
-                 sub_genres: List['Genre'] = None,
-                 hide_in_regions=None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: str,
+        weight: int,
+        composer_top: bool,
+        title: str,
+        titles: Dict[str, Optional['Title']],
+        images: Optional['Images'],
+        show_in_menu: bool,
+        show_in_regions: Optional[list] = None,
+        full_title: Optional[str] = None,
+        url_part: Optional[str] = None,
+        color: Optional[str] = None,
+        radio_icon: Optional['Icon'] = None,
+        sub_genres: List['Genre'] = None,
+        hide_in_regions=None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.weight = weight
         self.composer_top = composer_top
@@ -99,6 +101,7 @@ class Genre(YandexMusicObject):
 
         data = super(Genre, cls).de_json(data, client)
         from yandex_music import Title, Icon, Images
+
         data['titles'] = Title.de_dict(data.get('titles'), client)
         data['images'] = Images.de_json(data.get('images'), client)
         data['radio_icon'] = Icon.de_json(data.get('radio_icon'), client)

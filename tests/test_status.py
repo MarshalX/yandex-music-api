@@ -39,12 +39,22 @@ class TestStatus:
         assert status.permissions == permissions
 
     def test_de_json_all(self, client, account, permissions, subscription, plus, alert):
-        json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict(),
-                     'subscription': subscription.to_dict(), 'cache_limit': self.cache_limit,
-                     'subeditor': self.subeditor, 'subeditor_level': self.subeditor_level, 'plus': plus.to_dict(),
-                     'default_email': self.default_email, 'skips_per_hour': self.skips_per_hour,
-                     'station_exists': self.station_exists, 'premium_region': self.premium_region,
-                     'advertisement': self.advertisement, 'bar_below': alert.to_dict(), 'experiment': self.experiment}
+        json_dict = {
+            'account': account.to_dict(),
+            'permissions': permissions.to_dict(),
+            'subscription': subscription.to_dict(),
+            'cache_limit': self.cache_limit,
+            'subeditor': self.subeditor,
+            'subeditor_level': self.subeditor_level,
+            'plus': plus.to_dict(),
+            'default_email': self.default_email,
+            'skips_per_hour': self.skips_per_hour,
+            'station_exists': self.station_exists,
+            'premium_region': self.premium_region,
+            'advertisement': self.advertisement,
+            'bar_below': alert.to_dict(),
+            'experiment': self.experiment,
+        }
         status = Status.de_json(json_dict, client)
 
         assert status.account == account

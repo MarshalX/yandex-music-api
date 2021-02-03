@@ -49,20 +49,22 @@ class Event(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: str,
-                 type_: str,
-                 type_for_from: Optional[str] = None,
-                 title: Optional[str] = None,
-                 tracks: List['Track'] = None,
-                 artists: List['ArtistEvent'] = None,
-                 albums: List['AlbumEvent'] = None,
-                 message=None,
-                 device=None,
-                 tracks_count: Optional[int] = None,
-                 genre: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: str,
+        type_: str,
+        type_for_from: Optional[str] = None,
+        title: Optional[str] = None,
+        tracks: List['Track'] = None,
+        artists: List['ArtistEvent'] = None,
+        albums: List['AlbumEvent'] = None,
+        message=None,
+        device=None,
+        tracks_count: Optional[int] = None,
+        genre: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.type = type_
 
@@ -97,6 +99,7 @@ class Event(YandexMusicObject):
 
         data = super(Event, cls).de_json(data, client)
         from yandex_music import Track, AlbumEvent, ArtistEvent
+
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['albums'] = AlbumEvent.de_list(data.get('albums'), client)
         data['artists'] = ArtistEvent.de_list(data.get('artists'), client)

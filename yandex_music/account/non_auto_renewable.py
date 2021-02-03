@@ -21,11 +21,7 @@ class NonAutoRenewable(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 start: str,
-                 end: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, start: str, end: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.start = start
         self.end = end
 

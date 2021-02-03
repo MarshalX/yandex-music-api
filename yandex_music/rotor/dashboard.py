@@ -25,12 +25,14 @@ class Dashboard(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 dashboard_id: str,
-                 stations: List['StationResult'],
-                 pumpkin: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        dashboard_id: str,
+        stations: List['StationResult'],
+        pumpkin: bool,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.dashboard_id = dashboard_id
         self.stations = stations
         self.pumpkin = pumpkin
@@ -56,6 +58,7 @@ class Dashboard(YandexMusicObject):
 
         data = super(Dashboard, cls).de_json(data, client)
         from yandex_music import StationResult
+
         data['stations'] = StationResult.de_list(data.get('stations'), client)
 
         return cls(client=client, **data)

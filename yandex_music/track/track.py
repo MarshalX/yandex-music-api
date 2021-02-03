@@ -4,8 +4,18 @@ from yandex_music import YandexMusicObject
 from yandex_music.exceptions import InvalidBitrate
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Normalization, Major, Album, Artist, Supplement,\
-        DownloadInfo, User, MetaData, PoetryLoverMatch
+    from yandex_music import (
+        Client,
+        Normalization,
+        Major,
+        Album,
+        Artist,
+        Supplement,
+        DownloadInfo,
+        User,
+        MetaData,
+        PoetryLoverMatch,
+    )
 
 
 class Track(YandexMusicObject):
@@ -110,47 +120,49 @@ class Track(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: Union[str, int],
-                 title: Optional[str] = None,
-                 available: Optional[bool] = None,
-                 artists: List['Artist'] = None,
-                 albums: List['Album'] = None,
-                 available_for_premium_users: Optional[bool] = None,
-                 lyrics_available: Optional[bool] = None,
-                 poetry_lover_matches: List['PoetryLoverMatch'] = None,
-                 best: Optional[bool] = None,
-                 real_id: Optional[Union[str, int]] = None,
-                 og_image: Optional[str] = None,
-                 type_: Optional[str] = None,
-                 cover_uri: Optional[str] = None,
-                 major: Optional['Major'] = None,
-                 duration_ms: Optional[int] = None,
-                 storage_dir: Optional[str] = None,
-                 file_size: Optional[int] = None,
-                 substituted: Optional['Track'] = None,
-                 matched_track: Optional['Track'] = None,
-                 normalization: Optional['Normalization'] = None,
-                 error: Optional[str] = None,
-                 can_publish: Optional[bool] = None,
-                 state: Optional[str] = None,
-                 desired_visibility: Optional[str] = None,
-                 filename: Optional[str] = None,
-                 user_info: Optional['User'] = None,
-                 meta_data: Optional['MetaData'] = None,
-                 regions: Optional[List[str]] = None,
-                 available_as_rbt: Optional[bool] = None,
-                 content_warning: Optional[str] = None,
-                 explicit: Optional[bool] = None,
-                 preview_duration_ms: Optional[int] = None,
-                 available_full_without_permission: Optional[bool] = None,
-                 version: Optional[str] = None,
-                 remember_position: Optional[bool] = None,
-                 background_video_uri: Optional[str] = None,
-                 short_description: Optional[str] = None,
-                 is_suitable_for_children: Optional[bool] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: Union[str, int],
+        title: Optional[str] = None,
+        available: Optional[bool] = None,
+        artists: List['Artist'] = None,
+        albums: List['Album'] = None,
+        available_for_premium_users: Optional[bool] = None,
+        lyrics_available: Optional[bool] = None,
+        poetry_lover_matches: List['PoetryLoverMatch'] = None,
+        best: Optional[bool] = None,
+        real_id: Optional[Union[str, int]] = None,
+        og_image: Optional[str] = None,
+        type_: Optional[str] = None,
+        cover_uri: Optional[str] = None,
+        major: Optional['Major'] = None,
+        duration_ms: Optional[int] = None,
+        storage_dir: Optional[str] = None,
+        file_size: Optional[int] = None,
+        substituted: Optional['Track'] = None,
+        matched_track: Optional['Track'] = None,
+        normalization: Optional['Normalization'] = None,
+        error: Optional[str] = None,
+        can_publish: Optional[bool] = None,
+        state: Optional[str] = None,
+        desired_visibility: Optional[str] = None,
+        filename: Optional[str] = None,
+        user_info: Optional['User'] = None,
+        meta_data: Optional['MetaData'] = None,
+        regions: Optional[List[str]] = None,
+        available_as_rbt: Optional[bool] = None,
+        content_warning: Optional[str] = None,
+        explicit: Optional[bool] = None,
+        preview_duration_ms: Optional[int] = None,
+        available_full_without_permission: Optional[bool] = None,
+        version: Optional[str] = None,
+        remember_position: Optional[bool] = None,
+        background_video_uri: Optional[str] = None,
+        short_description: Optional[str] = None,
+        is_suitable_for_children: Optional[bool] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
 
         self.title = title
@@ -201,7 +213,7 @@ class Track(YandexMusicObject):
     def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
         """Сокращение для::
 
-            client.tracks_download_info(self.track_id, get_direct_links)
+        client.tracks_download_info(self.track_id, get_direct_links)
         """
         self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
 
@@ -210,7 +222,7 @@ class Track(YandexMusicObject):
     def get_supplement(self, *args, **kwargs) -> Optional['Supplement']:
         """Сокращение для::
 
-            client.track_supplement(track.id, *args, **kwargs)
+        client.track_supplement(track.id, *args, **kwargs)
         """
         return self.client.track_supplement(self.id, *args, **kwargs)
 
@@ -263,14 +275,14 @@ class Track(YandexMusicObject):
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
+        client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
         return self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
+        client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
@@ -297,6 +309,7 @@ class Track(YandexMusicObject):
 
         data = super(Track, cls).de_json(data, client)
         from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch
+
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['normalization'] = Normalization.de_json(data.get('normalization'), client)

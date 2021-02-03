@@ -23,12 +23,9 @@ class OpenGraphData(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 title: str,
-                 description: str,
-                 image: 'Cover',
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, title: str, description: str, image: 'Cover', client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.title = title
         self.description = description
         self.image = image
@@ -54,6 +51,7 @@ class OpenGraphData(YandexMusicObject):
 
         data = super(OpenGraphData, cls).de_json(data, client)
         from yandex_music import Cover
+
         data['image'] = Cover.de_json(data.get('image'), client)
 
         return cls(client=client, **data)

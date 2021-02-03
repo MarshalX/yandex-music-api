@@ -34,16 +34,18 @@ class TrackShort(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: Union[str, int],
-                 timestamp: str,
-                 album_id: Optional[str] = None,
-                 play_count: Optional[int] = None,
-                 recent: Optional[bool] = None,
-                 chart: Optional['Chart'] = None,
-                 track: Optional['Track'] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        id_: Union[str, int],
+        timestamp: str,
+        album_id: Optional[str] = None,
+        play_count: Optional[int] = None,
+        recent: Optional[bool] = None,
+        chart: Optional['Chart'] = None,
+        track: Optional['Track'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.id = id_
         self.timestamp = timestamp
 
@@ -97,6 +99,7 @@ class TrackShort(YandexMusicObject):
 
         data = super(TrackShort, cls).de_json(data, client)
         from yandex_music import Track, Chart
+
         data['track'] = Track.de_json(data.get('track'), client)
         data['chart'] = Chart.de_json(data.get('chart'), client)
 

@@ -23,8 +23,12 @@ class TestChart:
         assert Chart.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'position': self.position, 'progress': self.progress, 'listeners': self.listeners,
-                     'shift': self.shift}
+        json_dict = {
+            'position': self.position,
+            'progress': self.progress,
+            'listeners': self.listeners,
+            'shift': self.shift,
+        }
         chart = Chart.de_json(json_dict, client)
 
         assert chart.position == self.position
@@ -33,8 +37,14 @@ class TestChart:
         assert chart.shift == self.shift
 
     def test_de_json_all(self, client, track_id):
-        json_dict = {'position': self.position, 'progress': self.progress, 'listeners': self.listeners,
-                     'shift': self.shift, 'bg_color': self.bg_color, 'track_id': track_id.to_dict()}
+        json_dict = {
+            'position': self.position,
+            'progress': self.progress,
+            'listeners': self.listeners,
+            'shift': self.shift,
+            'bg_color': self.bg_color,
+            'track_id': track_id.to_dict(),
+        }
         chart = Chart.de_json(json_dict, client)
 
         assert chart.position == self.position

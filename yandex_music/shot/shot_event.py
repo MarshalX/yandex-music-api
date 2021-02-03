@@ -21,11 +21,7 @@ class ShotEvent(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 event_id: str,
-                 shots: List['Shot'],
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(self, event_id: str, shots: List['Shot'], client: Optional['Client'] = None, **kwargs):
         self.event_id = event_id
         self.shots = shots
 
@@ -50,6 +46,7 @@ class ShotEvent(YandexMusicObject):
 
         data = super(ShotEvent, cls).de_json(data, client)
         from yandex_music import Shot
+
         data['shots'] = Shot.de_list(data.get('shots'), client)
 
         return cls(client=client, **data)

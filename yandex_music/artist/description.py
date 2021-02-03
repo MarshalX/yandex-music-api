@@ -25,11 +25,7 @@ class Description(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 text: str,
-                 uri: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, text: str, uri: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.text = text
 
         self.uri = uri

@@ -79,39 +79,41 @@ class Artist(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: int,
-                 error: Optional[str] = None,
-                 reason: Optional[str] = None,
-                 name: Optional[str] = None,
-                 cover: Optional['Cover'] = None,
-                 various: Optional[bool] = None,
-                 composer: Optional[bool] = None,
-                 genres: Optional[List[str]] = None,
-                 og_image: Optional[str] = None,
-                 op_image: Optional[str] = None,
-                 no_pictures_from_search=None,
-                 counts: Optional['Counts'] = None,
-                 available: Optional[bool] = None,
-                 ratings: Optional['Ratings'] = None,
-                 links: Optional[List['Link']] = None,
-                 tickets_available: Optional[bool] = None,
-                 likes_count: Optional[int] = None,
-                 popular_tracks: Optional[List['Track']] = None,
-                 regions: Optional[List[str]] = None,
-                 decomposed: Optional[List[Union[str, 'Artist']]] = None,
-                 full_names=None,
-                 hand_made_description: Optional[str] = None,
-                 description: Optional['Description'] = None,
-                 countries: Optional[List[str]] = None,
-                 en_wikipedia_link: Optional[str] = None,
-                 db_aliases: Optional[List[str]] = None,
-                 aliases=None,
-                 init_date: Optional[str] = None,
-                 end_date: Optional[str] = None,
-                 ya_money_id: Optional[str] = None,
-                 client: 'Client' = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: int,
+        error: Optional[str] = None,
+        reason: Optional[str] = None,
+        name: Optional[str] = None,
+        cover: Optional['Cover'] = None,
+        various: Optional[bool] = None,
+        composer: Optional[bool] = None,
+        genres: Optional[List[str]] = None,
+        og_image: Optional[str] = None,
+        op_image: Optional[str] = None,
+        no_pictures_from_search=None,
+        counts: Optional['Counts'] = None,
+        available: Optional[bool] = None,
+        ratings: Optional['Ratings'] = None,
+        links: Optional[List['Link']] = None,
+        tickets_available: Optional[bool] = None,
+        likes_count: Optional[int] = None,
+        popular_tracks: Optional[List['Track']] = None,
+        regions: Optional[List[str]] = None,
+        decomposed: Optional[List[Union[str, 'Artist']]] = None,
+        full_names=None,
+        hand_made_description: Optional[str] = None,
+        description: Optional['Description'] = None,
+        countries: Optional[List[str]] = None,
+        en_wikipedia_link: Optional[str] = None,
+        db_aliases: Optional[List[str]] = None,
+        aliases=None,
+        init_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+        ya_money_id: Optional[str] = None,
+        client: 'Client' = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
 
         self.error = error
@@ -175,28 +177,28 @@ class Artist(YandexMusicObject):
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
+        client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_artists_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_artists_remove(artist.id, user.id *args, **kwargs)
+        client.users_likes_artists_remove(artist.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_artists_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
     def get_tracks(self, page=0, page_size=20, *args, **kwargs) -> Optional['ArtistTracks']:
         """Сокращение для::
 
-            client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
+        client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
         """
         return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
 
     def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs) -> Optional['ArtistAlbums']:
         """Сокращение для::
 
-            client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
+        client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
         """
         return self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
@@ -216,6 +218,7 @@ class Artist(YandexMusicObject):
 
         data = super(Artist, cls).de_json(data, client)
         from yandex_music import Cover, Ratings, Counts, Link, Track, Description
+
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['ratings'] = Ratings.de_json(data.get('ratings'), client)
         data['counts'] = Counts.de_json(data.get('counts'), client)
@@ -225,8 +228,9 @@ class Artist(YandexMusicObject):
 
         # Мне очень интересно увидеть как в яндухе на клиентах солвят свой бэковский костыль, пригласите на экскурсию
         if data.get('decomposed'):
-            data['decomposed'] = [Artist.de_json(part, client)
-                                  if isinstance(part, dict) else part for part in data['decomposed']]
+            data['decomposed'] = [
+                Artist.de_json(part, client) if isinstance(part, dict) else part for part in data['decomposed']
+            ]
 
         return cls(client=client, **data)
 

@@ -25,13 +25,9 @@ class CaptchaResponse(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 x_captcha_url,
-                 x_captcha_key,
-                 error_description,
-                 error,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, x_captcha_url, x_captcha_key, error_description, error, client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.x_captcha_url = x_captcha_url
         self.x_captcha_key = x_captcha_key
         self.error_description = error_description

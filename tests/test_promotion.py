@@ -30,9 +30,17 @@ class TestPromotion:
         assert Promotion.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'promo_id': self.promo_id, 'title': self.title, 'subtitle': self.subtitle, 'heading': self.heading,
-                     'url': self.url, 'url_scheme': self.url_scheme, 'text_color': self.text_color,
-                     'gradient': self.gradient, 'image': self.image}
+        json_dict = {
+            'promo_id': self.promo_id,
+            'title': self.title,
+            'subtitle': self.subtitle,
+            'heading': self.heading,
+            'url': self.url,
+            'url_scheme': self.url_scheme,
+            'text_color': self.text_color,
+            'gradient': self.gradient,
+            'image': self.image,
+        }
         promotion = Promotion.de_json(json_dict, client)
 
         assert promotion.promo_id == self.promo_id
@@ -46,9 +54,17 @@ class TestPromotion:
         assert promotion.image == self.image
 
     def test_de_json_all(self, client):
-        json_dict = {'promo_id': self.promo_id, 'title': self.title, 'subtitle': self.subtitle, 'heading': self.heading,
-                     'url': self.url, 'url_scheme': self.url_scheme, 'text_color': self.text_color,
-                     'gradient': self.gradient, 'image': self.image}
+        json_dict = {
+            'promo_id': self.promo_id,
+            'title': self.title,
+            'subtitle': self.subtitle,
+            'heading': self.heading,
+            'url': self.url,
+            'url_scheme': self.url_scheme,
+            'text_color': self.text_color,
+            'gradient': self.gradient,
+            'image': self.image,
+        }
         promotion = Promotion.de_json(json_dict, client)
 
         assert promotion.promo_id == self.promo_id
@@ -62,14 +78,42 @@ class TestPromotion:
         assert promotion.image == self.image
 
     def test_equality(self):
-        a = Promotion(self.promo_id, self.title, self.subtitle, self.heading, self.url, self.url_scheme,
-                      self.text_color, self.gradient, self.image)
-        b = Promotion('', self.title, self.subtitle, '', self.url, self.url_scheme,
-                      self.text_color, self.gradient, self.image)
-        c = Promotion(self.promo_id, '', self.subtitle, self.heading, self.url, self.url_scheme,
-                      self.text_color, self.gradient, '')
-        d = Promotion(self.promo_id, self.title, self.subtitle, self.heading, self.url, self.url_scheme,
-                      self.text_color, self.gradient, self.image)
+        a = Promotion(
+            self.promo_id,
+            self.title,
+            self.subtitle,
+            self.heading,
+            self.url,
+            self.url_scheme,
+            self.text_color,
+            self.gradient,
+            self.image,
+        )
+        b = Promotion(
+            '', self.title, self.subtitle, '', self.url, self.url_scheme, self.text_color, self.gradient, self.image
+        )
+        c = Promotion(
+            self.promo_id,
+            '',
+            self.subtitle,
+            self.heading,
+            self.url,
+            self.url_scheme,
+            self.text_color,
+            self.gradient,
+            '',
+        )
+        d = Promotion(
+            self.promo_id,
+            self.title,
+            self.subtitle,
+            self.heading,
+            self.url,
+            self.url_scheme,
+            self.text_color,
+            self.gradient,
+            self.image,
+        )
 
         assert a != b != c
         assert hash(a) != hash(b) != hash(c)

@@ -7,24 +7,42 @@ from yandex_music import Search, SearchResult
 @pytest.fixture(scope='class')
 def search_result(results, types):
     def make_search_result(param):
-        return SearchResult(types[param], TestSearchResult.total, TestSearchResult.per_page, TestSearchResult.order,
-                            [results[param]])
+        return SearchResult(
+            types[param], TestSearchResult.total, TestSearchResult.per_page, TestSearchResult.order, [results[param]]
+        )
 
     return make_search_result
 
 
 @pytest.fixture(scope='class')
 def search(best, search_result):
-    return Search(TestSearch.search_request_id, TestSearch.text, best,
-                  search_result(3), search_result(2), search_result(4), search_result(1), search_result(5),
-                  search_result(13), search_result(14), search_result(15), TestSearch.type_, TestSearch.page,
-                  TestSearch.per_page, TestSearch.misspell_result, TestSearch.misspell_original,
-                  TestSearch.misspell_corrected, TestSearch.nocorrect)
+    return Search(
+        TestSearch.search_request_id,
+        TestSearch.text,
+        best,
+        search_result(3),
+        search_result(2),
+        search_result(4),
+        search_result(1),
+        search_result(5),
+        search_result(13),
+        search_result(14),
+        search_result(15),
+        TestSearch.type_,
+        TestSearch.page,
+        TestSearch.per_page,
+        TestSearch.misspell_result,
+        TestSearch.misspell_original,
+        TestSearch.misspell_corrected,
+        TestSearch.nocorrect,
+    )
 
 
 class TestSearch:
-    search_request_id = 'myt1-0261-c2e-msk-myt-music-st-e72-18274.gencfg-c.yandex.net-1573323135801461' \
-                        '-3742331365077765411-1573323135819 '
+    search_request_id = (
+        'myt1-0261-c2e-msk-myt-music-st-e72-18274.gencfg-c.yandex.net-1573323135801461'
+        '-3742331365077765411-1573323135819 '
+    )
     text = 'NCS'
     type_ = 'artist'
     page = 0
@@ -58,11 +76,19 @@ class TestSearch:
         assert Search.de_json({}, client) is None
 
     def test_de_json_required(self, client, best, search_result):
-        json_dict = {'search_request_id': self.search_request_id, 'text': self.text, 'best': best.to_dict(),
-                     'albums': search_result(3).to_dict(), 'artists': search_result(2).to_dict(),
-                     'playlists': search_result(4).to_dict(), 'tracks': search_result(1).to_dict(),
-                     'videos': search_result(5).to_dict(), 'users': search_result(13).to_dict(),
-                     'podcasts': search_result(14).to_dict(), 'podcast_episodes': search_result(15).to_dict()}
+        json_dict = {
+            'search_request_id': self.search_request_id,
+            'text': self.text,
+            'best': best.to_dict(),
+            'albums': search_result(3).to_dict(),
+            'artists': search_result(2).to_dict(),
+            'playlists': search_result(4).to_dict(),
+            'tracks': search_result(1).to_dict(),
+            'videos': search_result(5).to_dict(),
+            'users': search_result(13).to_dict(),
+            'podcasts': search_result(14).to_dict(),
+            'podcast_episodes': search_result(15).to_dict(),
+        }
         search = Search.de_json(json_dict, client)
 
         assert search.search_request_id == self.search_request_id
@@ -78,14 +104,26 @@ class TestSearch:
         assert search.podcast_episodes == search_result(15)
 
     def test_de_json_all(self, client, best, search_result):
-        json_dict = {'search_request_id': self.search_request_id, 'text': self.text, 'best': best.to_dict(),
-                     'albums': search_result(3).to_dict(), 'artists': search_result(2).to_dict(),
-                     'playlists': search_result(4).to_dict(), 'tracks': search_result(1).to_dict(),
-                     'videos': search_result(5).to_dict(), 'users': search_result(13).to_dict(),
-                     'podcasts': search_result(14).to_dict(), 'podcast_episodes': search_result(15).to_dict(),
-                     'misspell_corrected': self.misspell_corrected, 'nocorrect': self.nocorrect,
-                     'type_': self.type_, 'page': self.page, 'per_page': self.per_page,
-                     'misspell_result': self.misspell_result, 'misspell_original': self.misspell_original}
+        json_dict = {
+            'search_request_id': self.search_request_id,
+            'text': self.text,
+            'best': best.to_dict(),
+            'albums': search_result(3).to_dict(),
+            'artists': search_result(2).to_dict(),
+            'playlists': search_result(4).to_dict(),
+            'tracks': search_result(1).to_dict(),
+            'videos': search_result(5).to_dict(),
+            'users': search_result(13).to_dict(),
+            'podcasts': search_result(14).to_dict(),
+            'podcast_episodes': search_result(15).to_dict(),
+            'misspell_corrected': self.misspell_corrected,
+            'nocorrect': self.nocorrect,
+            'type_': self.type_,
+            'page': self.page,
+            'per_page': self.per_page,
+            'misspell_result': self.misspell_result,
+            'misspell_original': self.misspell_original,
+        }
         search = Search.de_json(json_dict, client)
 
         assert search.search_request_id == self.search_request_id
@@ -108,12 +146,45 @@ class TestSearch:
         assert search.nocorrect == self.nocorrect
 
     def test_equality(self, best, search_result):
-        a = Search(self.search_request_id, self.text, best, search_result(3), search_result(2), search_result(4),
-                   search_result(1), search_result(5), search_result(13), search_result(14), search_result(15))
-        b = Search(self.search_request_id, '', best, search_result(3), None, search_result(4), search_result(1),
-                   search_result(5), search_result(13), None, search_result(15))
-        c = Search(self.search_request_id, self.text, best, search_result(3), search_result(2), search_result(4),
-                   search_result(1), search_result(5), search_result(13), search_result(14), search_result(15))
+        a = Search(
+            self.search_request_id,
+            self.text,
+            best,
+            search_result(3),
+            search_result(2),
+            search_result(4),
+            search_result(1),
+            search_result(5),
+            search_result(13),
+            search_result(14),
+            search_result(15),
+        )
+        b = Search(
+            self.search_request_id,
+            '',
+            best,
+            search_result(3),
+            None,
+            search_result(4),
+            search_result(1),
+            search_result(5),
+            search_result(13),
+            None,
+            search_result(15),
+        )
+        c = Search(
+            self.search_request_id,
+            self.text,
+            best,
+            search_result(3),
+            search_result(2),
+            search_result(4),
+            search_result(1),
+            search_result(5),
+            search_result(13),
+            search_result(14),
+            search_result(15),
+        )
 
         assert a != b
         assert hash(a) != hash(b)

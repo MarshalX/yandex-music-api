@@ -21,11 +21,9 @@ class ArtistAlbums(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 albums: List['Album'],
-                 pager: Optional['Pager'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, albums: List['Album'], pager: Optional['Pager'], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.albums = albums
         self.pager = pager
 
@@ -59,6 +57,7 @@ class ArtistAlbums(YandexMusicObject):
 
         data = super(ArtistAlbums, cls).de_json(data, client)
         from yandex_music import Album, Pager
+
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['pager'] = Pager.de_json(data.get('pager'), client)
 

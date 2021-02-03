@@ -43,20 +43,22 @@ class Station(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: Optional['Id'],
-                 name: str,
-                 icon: 'Icon',
-                 mts_icon: 'Icon',
-                 geocell_icon: 'Icon',
-                 id_for_from: str,
-                 restrictions: 'Restrictions',
-                 restrictions2: 'Restrictions',
-                 full_image_url: Optional[str] = None,
-                 mts_full_image_url: Optional[str] = None,
-                 parent_id: Optional['Id'] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: Optional['Id'],
+        name: str,
+        icon: 'Icon',
+        mts_icon: 'Icon',
+        geocell_icon: 'Icon',
+        id_for_from: str,
+        restrictions: 'Restrictions',
+        restrictions2: 'Restrictions',
+        full_image_url: Optional[str] = None,
+        mts_full_image_url: Optional[str] = None,
+        parent_id: Optional['Id'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.name = name
         self.icon = icon
@@ -71,8 +73,16 @@ class Station(YandexMusicObject):
         self.parent_id = parent_id
 
         self.client = client
-        self._id_attrs = (self.id, self.name, self.icon, self.mts_icon, self.geocell_icon,
-                          self.id_for_from, self.restrictions, self.restrictions2)
+        self._id_attrs = (
+            self.id,
+            self.name,
+            self.icon,
+            self.mts_icon,
+            self.geocell_icon,
+            self.id_for_from,
+            self.restrictions,
+            self.restrictions2,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 
@@ -92,6 +102,7 @@ class Station(YandexMusicObject):
 
         data = super(Station, cls).de_json(data, client)
         from yandex_music import Id, Icon, Restrictions
+
         data['id_'] = Id.de_json(data.get('id_'), client)
         data['parent_id'] = Id.de_json(data.get('parent_id'), client)
         data['icon'] = Icon.de_json(data.get('icon'), client)

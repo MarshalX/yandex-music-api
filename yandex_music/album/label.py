@@ -20,11 +20,7 @@ class Label(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: int,
-                 name: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, id_: int, name: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.id = id_
         self.name = name
 
@@ -36,12 +32,12 @@ class Label(YandexMusicObject):
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Label']:
         """Десериализация объекта.
-        
-         Args:
-             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-         Returns:
-             :obj:`yandex_music.Label`: Лейбл.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        Returns:
+            :obj:`yandex_music.Label`: Лейбл.
         """
         if not data:
             return None

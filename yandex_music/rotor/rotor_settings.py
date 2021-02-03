@@ -36,14 +36,16 @@ class RotorSettings(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 language: str,
-                 diversity: str,
-                 mood: Optional[int] = None,
-                 energy: Optional[int] = None,
-                 mood_energy: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        language: str,
+        diversity: str,
+        mood: Optional[int] = None,
+        energy: Optional[int] = None,
+        mood_energy: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.language = language
         self.diversity = diversity
 

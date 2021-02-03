@@ -31,16 +31,18 @@ class VideoSupplement(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 cover: str,
-                 provider: str,
-                 title: Optional[str] = None,
-                 provider_video_id: Optional[str] = None,
-                 url: Optional[str] = None,
-                 embed_url: Optional[str] = None,
-                 embed: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        cover: str,
+        provider: str,
+        title: Optional[str] = None,
+        provider_video_id: Optional[str] = None,
+        url: Optional[str] = None,
+        embed_url: Optional[str] = None,
+        embed: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.cover = cover
         self.provider = provider
 

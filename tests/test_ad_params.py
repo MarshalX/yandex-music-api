@@ -25,8 +25,14 @@ class TestAdParams:
         assert AdParams.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'partner_id': self.partner_id, 'category_id': self.category_id, 'page_ref': self.page_ref,
-                     'target_ref': self.target_ref, 'other_params': self.other_params, 'ad_volume': self.ad_volume}
+        json_dict = {
+            'partner_id': self.partner_id,
+            'category_id': self.category_id,
+            'page_ref': self.page_ref,
+            'target_ref': self.target_ref,
+            'other_params': self.other_params,
+            'ad_volume': self.ad_volume,
+        }
         ad_params = AdParams.de_json(json_dict, client)
 
         assert ad_params.partner_id == self.partner_id
@@ -37,9 +43,16 @@ class TestAdParams:
         assert ad_params.ad_volume == self.ad_volume
 
     def test_de_json_all(self, client):
-        json_dict = {'partner_id': self.partner_id, 'category_id': self.category_id, 'page_ref': self.page_ref,
-                     'target_ref': self.target_ref, 'other_params': self.other_params, 'ad_volume': self.ad_volume,
-                     'genre_id': self.genre_id, 'genre_name': self.genre_name}
+        json_dict = {
+            'partner_id': self.partner_id,
+            'category_id': self.category_id,
+            'page_ref': self.page_ref,
+            'target_ref': self.target_ref,
+            'other_params': self.other_params,
+            'ad_volume': self.ad_volume,
+            'genre_id': self.genre_id,
+            'genre_name': self.genre_name,
+        }
         ad_params = AdParams.de_json(json_dict, client)
 
         assert ad_params.partner_id == self.partner_id
@@ -52,12 +65,14 @@ class TestAdParams:
         assert ad_params.genre_name == self.genre_name
 
     def test_equality(self):
-        a = AdParams(self.partner_id, self.category_id, self.page_ref, self.target_ref, self.other_params,
-                     self.ad_volume)
+        a = AdParams(
+            self.partner_id, self.category_id, self.page_ref, self.target_ref, self.other_params, self.ad_volume
+        )
         b = AdParams(self.partner_id, '10', self.page_ref, self.target_ref, self.other_params, self.ad_volume)
         c = AdParams(self.partner_id, self.category_id, '', self.target_ref, self.other_params, -30)
-        d = AdParams(self.partner_id, self.category_id, self.page_ref, self.target_ref, self.other_params,
-                     self.ad_volume)
+        d = AdParams(
+            self.partner_id, self.category_id, self.page_ref, self.target_ref, self.other_params, self.ad_volume
+        )
 
         assert a != b != c
         assert hash(a) != hash(b) != hash(c)

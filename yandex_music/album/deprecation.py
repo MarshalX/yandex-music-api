@@ -21,12 +21,15 @@ class Deprecation(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
-    def __init__(self,
-                 target_album_id: Optional[int],
-                 status: Optional[str],
-                 done: Optional[bool],
-                 client: Optional['Client'] = None,
-                 **kwargs):
+
+    def __init__(
+        self,
+        target_album_id: Optional[int],
+        status: Optional[str],
+        done: Optional[bool],
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.target_album_id = target_album_id
         self.status = status
         self.done = done
@@ -40,11 +43,11 @@ class Deprecation(YandexMusicObject):
     def de_json(cls, data: dict, client: 'Client') -> Optional['Deprecation']:
         """Десериализация объекта.
 
-         Args:
-             data (:obj:`dict`): Поля и значения десериализуемого объекта.
-             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-         Returns:
-             :obj:`yandex_music.Deprecation`: TODO.
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+        Returns:
+            :obj:`yandex_music.Deprecation`: TODO.
         """
         if not data:
             return None

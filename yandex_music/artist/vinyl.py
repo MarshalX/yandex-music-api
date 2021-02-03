@@ -33,17 +33,19 @@ class Vinyl(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 url: str,
-                 title: str,
-                 year: int,
-                 price: int,
-                 media: str,
-                 offer_id: int,
-                 artist_ids: List[int],
-                 picture: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        url: str,
+        title: str,
+        year: int,
+        price: int,
+        media: str,
+        offer_id: int,
+        artist_ids: List[int],
+        picture: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.url = url
         self.picture = picture
         self.title = title
@@ -54,8 +56,16 @@ class Vinyl(YandexMusicObject):
         self.artist_ids = artist_ids
 
         self.client = client
-        self._id_attrs = (self.title, self.price, self.year, self.url, self.price,
-                          self.media, self.offer_id, self.artist_ids)
+        self._id_attrs = (
+            self.title,
+            self.price,
+            self.year,
+            self.url,
+            self.price,
+            self.media,
+            self.offer_id,
+            self.artist_ids,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 

@@ -21,11 +21,7 @@ class Major(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: int,
-                 name: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, id_: int, name: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.id = id_
         self.name = name
 

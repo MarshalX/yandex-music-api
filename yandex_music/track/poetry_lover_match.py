@@ -26,12 +26,7 @@ class PoetryLoverMatch(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 begin: int,
-                 end: int,
-                 line: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, begin: int, end: int, line: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.begin = begin
         self.end = end
         self.line = line

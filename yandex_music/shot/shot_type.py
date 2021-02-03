@@ -21,11 +21,7 @@ class ShotType(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: str,
-                 title: str,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(self, id_: str, title: str, client: Optional['Client'] = None, **kwargs):
         self.id = id_
         self.title = title
 

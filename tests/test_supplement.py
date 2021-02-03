@@ -5,16 +5,19 @@ from yandex_music import Supplement
 
 @pytest.fixture(scope='class')
 def supplement(lyrics, video_supplement):
-    return Supplement(TestSupplement.id, lyrics, [video_supplement], TestSupplement.radio_is_available,
-                      TestSupplement.description)
+    return Supplement(
+        TestSupplement.id, lyrics, [video_supplement], TestSupplement.radio_is_available, TestSupplement.description
+    )
 
 
 class TestSupplement:
     id = 103844
     radio_is_available = False
-    description = '"ИНТЕРВЬЮ С КОМИКОМ" - это не юмористический проект. Это разговор о жизни, творчестве, интересах, ' \
-                  'целях и приоритетах, о том, кто как живет и почему.\nНовый проект Дмитрия Романова, в котором он ' \
-                  'берет интервью.\n Гость выпуска - комик Нурлан Сабуров'
+    description = (
+        '"ИНТЕРВЬЮ С КОМИКОМ" - это не юмористический проект. Это разговор о жизни, творчестве, интересах, '
+        'целях и приоритетах, о том, кто как живет и почему.\nНовый проект Дмитрия Романова, в котором он '
+        'берет интервью.\n Гость выпуска - комик Нурлан Сабуров'
+    )
 
     def test_expected_values(self, supplement, lyrics, video_supplement):
         assert supplement.id == self.id
@@ -35,8 +38,13 @@ class TestSupplement:
         assert supplement.videos == [video_supplement]
 
     def test_de_json_all(self, client, lyrics, video_supplement):
-        json_dict = {'id_': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()],
-                     'radio_is_available': self.radio_is_available, 'description': self.description}
+        json_dict = {
+            'id_': self.id,
+            'lyrics': lyrics.to_dict(),
+            'videos': [video_supplement.to_dict()],
+            'radio_is_available': self.radio_is_available,
+            'description': self.description,
+        }
         supplement = Supplement.de_json(json_dict, client)
 
         assert supplement.id == self.id

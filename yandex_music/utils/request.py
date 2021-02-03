@@ -14,8 +14,15 @@ import requests
 
 from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
-from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError, CaptchaRequired, \
-    CaptchaWrong, TimedOut
+from yandex_music.exceptions import (
+    Unauthorized,
+    BadRequest,
+    NetworkError,
+    YandexMusicError,
+    CaptchaRequired,
+    CaptchaWrong,
+    TimedOut,
+)
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -41,10 +48,7 @@ class Request:
         proxy_url (:obj:`str`, optional): Прокси.
     """
 
-    def __init__(self,
-                 client=None,
-                 headers=None,
-                 proxy_url=None):
+    def __init__(self, client=None, headers=None, proxy_url=None):
         self.headers = headers or HEADERS.copy()
 
         self.client = self.set_and_return_client(client)
@@ -152,8 +156,7 @@ class Request:
             data = json.loads(decoded_s, object_hook=Request._object_hook)
 
         except UnicodeDecodeError:
-            logging.getLogger(__name__).debug(
-                'Logging raw invalid UTF-8 response:\n%r', json_data)
+            logging.getLogger(__name__).debug('Logging raw invalid UTF-8 response:\n%r', json_data)
             raise YandexMusicError('Server response could not be decoded using UTF-8')
         except (AttributeError, ValueError):
             raise YandexMusicError('Invalid server response')
@@ -235,8 +238,9 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper('GET', url, params=params, headers=self.headers, proxies=self.proxies,
-                                       timeout=timeout, *args, **kwargs)
+        result = self._request_wrapper(
+            'GET', url, params=params, headers=self.headers, proxies=self.proxies, timeout=timeout, *args, **kwargs
+        )
 
         return self._parse(result.content).result
 
@@ -257,8 +261,9 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper('POST', url, headers=self.headers, proxies=self.proxies, data=data,
-                                       timeout=timeout, *args, **kwargs)
+        result = self._request_wrapper(
+            'POST', url, headers=self.headers, proxies=self.proxies, data=data, timeout=timeout, *args, **kwargs
+        )
 
         return self._parse(result.content).result
 

@@ -5,8 +5,15 @@ from yandex_music import TrackShort
 
 @pytest.fixture(scope='class')
 def track_short(track, chart):
-    return TrackShort(TestTrackShort.id, TestTrackShort.timestamp, TestTrackShort.album_id, TestTrackShort.play_count,
-                      TestTrackShort.recent, chart, track)
+    return TrackShort(
+        TestTrackShort.id,
+        TestTrackShort.timestamp,
+        TestTrackShort.album_id,
+        TestTrackShort.play_count,
+        TestTrackShort.recent,
+        chart,
+        track,
+    )
 
 
 class TestTrackShort:
@@ -39,9 +46,15 @@ class TestTrackShort:
         assert track_short.timestamp == self.timestamp
 
     def test_de_json_all(self, client, track, chart):
-        json_dict = {'id_': self.id, 'timestamp': self.timestamp, 'album_id': self.album_id,
-                     'play_count': self.play_count, 'recent': self.recent,
-                     'track': track.to_dict(), 'chart': chart.to_dict()}
+        json_dict = {
+            'id_': self.id,
+            'timestamp': self.timestamp,
+            'album_id': self.album_id,
+            'play_count': self.play_count,
+            'recent': self.recent,
+            'track': track.to_dict(),
+            'chart': chart.to_dict(),
+        }
         track_short = TrackShort.de_json(json_dict, client)
 
         assert track_short.id == self.id

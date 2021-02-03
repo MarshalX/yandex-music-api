@@ -31,14 +31,16 @@ class GeneratedPlaylist(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 ready: bool,
-                 notify: bool,
-                 data: Optional['Playlist'],
-                 description: Optional[list] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        type_: str,
+        ready: bool,
+        notify: bool,
+        data: Optional['Playlist'],
+        description: Optional[list] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.ready = ready
         self.notify = notify
@@ -67,6 +69,7 @@ class GeneratedPlaylist(YandexMusicObject):
 
         data = super(GeneratedPlaylist, cls).de_json(data, client)
         from yandex_music import Playlist
+
         data['data'] = Playlist.de_json(data.get('data'), client)
 
         return cls(client=client, **data)

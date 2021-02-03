@@ -5,8 +5,19 @@ from yandex_music import Block
 
 @pytest.fixture(scope='class')
 def block_with_entity_and_data(block_entity, data):
-    return Block(TestBlock.id, TestBlock.type, TestBlock.type_for_from, TestBlock.title, [block_entity],
-                 TestBlock.description, data), block_entity, data
+    return (
+        Block(
+            TestBlock.id,
+            TestBlock.type,
+            TestBlock.type_for_from,
+            TestBlock.title,
+            [block_entity],
+            TestBlock.description,
+            data,
+        ),
+        block_entity,
+        data,
+    )
 
 
 class TestBlock:
@@ -34,8 +45,13 @@ class TestBlock:
         assert Block.de_list({}, client) == []
 
     def test_de_json_required(self, client, block_entity):
-        json_dict = {'id_': self.id, 'type_': self.type, 'type_for_from': self.type_for_from, 'title': self.title,
-                     'entities': [block_entity.to_dict()]}
+        json_dict = {
+            'id_': self.id,
+            'type_': self.type,
+            'type_for_from': self.type_for_from,
+            'title': self.title,
+            'entities': [block_entity.to_dict()],
+        }
         block = Block.de_json(json_dict, client)
 
         assert block.id == self.id
@@ -47,8 +63,15 @@ class TestBlock:
     def test_de_json_all(self, client, block_entity, data_with_type):
         data, type = data_with_type
 
-        json_dict = {'id_': self.id, 'type_': type, 'type_for_from': self.type_for_from, 'title': self.title,
-                     'entities': [block_entity.to_dict()], 'description': self.description, 'data': data.to_dict()}
+        json_dict = {
+            'id_': self.id,
+            'type_': type,
+            'type_for_from': self.type_for_from,
+            'title': self.title,
+            'entities': [block_entity.to_dict()],
+            'description': self.description,
+            'data': data.to_dict(),
+        }
         block = Block.de_json(json_dict, client)
 
         assert block.id == self.id

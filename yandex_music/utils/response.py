@@ -33,14 +33,16 @@ class Response(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 data: dict,
-                 invocation_info: Optional['InvocationInfo'] = None,
-                 result: dict = None,
-                 error: str = None,
-                 error_description: str = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        data: dict,
+        invocation_info: Optional['InvocationInfo'] = None,
+        result: dict = None,
+        error: str = None,
+        error_description: str = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.data = data
         self.invocation_info = invocation_info
         self._result = result
@@ -78,6 +80,7 @@ class Response(YandexMusicObject):
         data = super(Response, cls).de_json(data, client)
         data['data'] = data.copy()
         from yandex_music import InvocationInfo
+
         data['invocation_info'] = InvocationInfo.de_json(data.get('invocation_info'), client)
 
         return cls(client=client, **data)

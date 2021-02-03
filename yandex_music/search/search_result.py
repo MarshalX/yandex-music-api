@@ -44,14 +44,16 @@ class SearchResult(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 total: int,
-                 per_page: int,
-                 order: int,
-                 results: List[Union[Track, Artist, Album, Playlist, Video]],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        type_: str,
+        total: int,
+        per_page: int,
+        order: int,
+        results: List[Union[Track, Artist, Album, Playlist, Video]],
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.total = total
         self.per_page = per_page

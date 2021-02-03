@@ -5,8 +5,15 @@ from yandex_music import LandingList
 
 @pytest.fixture(scope='class')
 def landing_list(playlist_id):
-    return LandingList(TestLandingList.type, TestLandingList.type_for_from, TestLandingList.title, TestLandingList.id,
-                       TestLandingList.new_releases, [playlist_id], TestLandingList.podcasts)
+    return LandingList(
+        TestLandingList.type,
+        TestLandingList.type_for_from,
+        TestLandingList.title,
+        TestLandingList.id,
+        TestLandingList.new_releases,
+        [playlist_id],
+        TestLandingList.podcasts,
+    )
 
 
 class TestLandingList:
@@ -38,9 +45,15 @@ class TestLandingList:
         assert landing_list.type_for_from == self.type_for_from
 
     def test_de_json_all(self, client, playlist_id):
-        json_dict = {'title': self.title, 'type_': self.type, 'type_for_from': self.type_for_from, 'id_': self.id,
-                     'new_releases': self.new_releases, 'podcasts': self.podcasts,
-                     'new_playlists': [playlist_id.to_dict()]}
+        json_dict = {
+            'title': self.title,
+            'type_': self.type,
+            'type_for_from': self.type_for_from,
+            'id_': self.id,
+            'new_releases': self.new_releases,
+            'podcasts': self.podcasts,
+            'new_playlists': [playlist_id.to_dict()],
+        }
         landing_list = LandingList.de_json(json_dict, client)
 
         assert landing_list.id == self.id

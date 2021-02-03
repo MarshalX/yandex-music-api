@@ -21,11 +21,7 @@ class LicenceTextPart(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 text: str,
-                 url: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, text: str, url: Optional[str] = None, client: Optional['Client'] = None, **kwargs) -> None:
         self.text = text
 
         self.url = url

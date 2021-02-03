@@ -19,10 +19,7 @@ class PassportPhone(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 phone: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, phone: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.phone = phone
 
         self.client = client

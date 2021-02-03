@@ -5,15 +5,35 @@ from yandex_music import Genre
 
 @pytest.fixture(scope='class')
 def genre(title, images, icon, genre_without_sub_genre):
-    return Genre(TestGenre.id, TestGenre.weight, TestGenre.composer_top, TestGenre.title, {'uz': title}, images,
-                 TestGenre.show_in_menu, TestGenre.show_in_regions, TestGenre.full_title, TestGenre.url_part,
-                 TestGenre.color, icon, [genre_without_sub_genre], TestGenre.hide_in_regions)
+    return Genre(
+        TestGenre.id,
+        TestGenre.weight,
+        TestGenre.composer_top,
+        TestGenre.title,
+        {'uz': title},
+        images,
+        TestGenre.show_in_menu,
+        TestGenre.show_in_regions,
+        TestGenre.full_title,
+        TestGenre.url_part,
+        TestGenre.color,
+        icon,
+        [genre_without_sub_genre],
+        TestGenre.hide_in_regions,
+    )
 
 
 @pytest.fixture(scope='class')
 def genre_without_sub_genre(title, images, icon):
-    return Genre(TestGenre.id, TestGenre.weight, TestGenre.composer_top, TestGenre.title, {'uz': title}, images,
-                 TestGenre.show_in_menu)
+    return Genre(
+        TestGenre.id,
+        TestGenre.weight,
+        TestGenre.composer_top,
+        TestGenre.title,
+        {'uz': title},
+        images,
+        TestGenre.show_in_menu,
+    )
 
 
 class TestGenre:
@@ -51,8 +71,15 @@ class TestGenre:
         assert Genre.de_list({}, client) == []
 
     def test_de_json_required(self, client, title, images):
-        json_dict = {'id_': self.id, 'weight': self.weight, 'composer_top': self.composer_top, 'title': self.title,
-                     'titles': {'uz': title.to_dict()}, 'images': images.to_dict(), 'show_in_menu': self.show_in_menu}
+        json_dict = {
+            'id_': self.id,
+            'weight': self.weight,
+            'composer_top': self.composer_top,
+            'title': self.title,
+            'titles': {'uz': title.to_dict()},
+            'images': images.to_dict(),
+            'show_in_menu': self.show_in_menu,
+        }
         genre = Genre.de_json(json_dict, client)
 
         assert genre.id == self.id
@@ -64,11 +91,22 @@ class TestGenre:
         assert genre.show_in_menu == self.show_in_menu
 
     def test_de_json_all(self, client, title, images, icon, genre_without_sub_genre):
-        json_dict = {'id_': self.id, 'weight': self.weight, 'composer_top': self.composer_top, 'title': self.title,
-                     'titles': {'uz': title.to_dict()}, 'images': images.to_dict(), 'show_in_menu': self.show_in_menu,
-                     'full_title': self.full_title, 'url_part': self.url_part, 'color': self.color,
-                     'radio_icon': icon.to_dict(), 'sub_genres': [genre_without_sub_genre.to_dict()],
-                     'hide_in_regions': self.hide_in_regions, 'show_in_regions': self.show_in_regions}
+        json_dict = {
+            'id_': self.id,
+            'weight': self.weight,
+            'composer_top': self.composer_top,
+            'title': self.title,
+            'titles': {'uz': title.to_dict()},
+            'images': images.to_dict(),
+            'show_in_menu': self.show_in_menu,
+            'full_title': self.full_title,
+            'url_part': self.url_part,
+            'color': self.color,
+            'radio_icon': icon.to_dict(),
+            'sub_genres': [genre_without_sub_genre.to_dict()],
+            'hide_in_regions': self.hide_in_regions,
+            'show_in_regions': self.show_in_regions,
+        }
         genre = Genre.de_json(json_dict, client)
 
         assert genre.id == self.id

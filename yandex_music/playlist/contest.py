@@ -30,14 +30,16 @@ class Contest(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 contest_id: str,
-                 status: str,
-                 can_edit: bool,
-                 sent: Optional[str] = None,
-                 withdrawn: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        contest_id: str,
+        status: str,
+        can_edit: bool,
+        sent: Optional[str] = None,
+        withdrawn: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.contest_id = contest_id
         self.status = status
         self.can_edit = can_edit

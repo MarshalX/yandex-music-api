@@ -21,11 +21,7 @@ class PlaylistAbsence(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 kind: int,
-                 reason: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, kind: int, reason: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.kind = kind
         self.reason = reason
 

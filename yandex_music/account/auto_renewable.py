@@ -33,17 +33,19 @@ class AutoRenewable(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 expires: str,
-                 vendor: str,
-                 vendor_help_url: str,
-                 product: Optional['Product'],
-                 finished: bool,
-                 master_info: Optional['User'] = None,
-                 product_id: Optional[str] = None,
-                 order_id: Optional[int] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        expires: str,
+        vendor: str,
+        vendor_help_url: str,
+        product: Optional['Product'],
+        finished: bool,
+        master_info: Optional['User'] = None,
+        product_id: Optional[str] = None,
+        order_id: Optional[int] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.expires = expires
         self.vendor = vendor
         self.vendor_help_url = vendor_help_url
@@ -75,6 +77,7 @@ class AutoRenewable(YandexMusicObject):
 
         data = super(AutoRenewable, cls).de_json(data, client)
         from yandex_music import Product, User
+
         data['product'] = Product.de_json(data.get('product'), client)
         data['master_info'] = User.de_json(data.get('master_info'), client)
 

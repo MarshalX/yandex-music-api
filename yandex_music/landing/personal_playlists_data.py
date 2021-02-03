@@ -19,10 +19,7 @@ class PersonalPlaylistsData(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 is_wizard_passed: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, is_wizard_passed: bool, client: Optional['Client'] = None, **kwargs) -> None:
         self.is_wizard_passed = is_wizard_passed
 
         self.client = client

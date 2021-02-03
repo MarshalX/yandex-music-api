@@ -19,10 +19,7 @@ class StationData(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 name: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, name: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.name = name
 
         self.client = client

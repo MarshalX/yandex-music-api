@@ -61,26 +61,28 @@ class UserSettings(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 uid: int,
-                 last_fm_scrobbling_enabled: bool,
-                 shuffle_enabled: bool,
-                 volume_percents: int,
-                 modified: str,
-                 facebook_scrobbling_enabled: bool,
-                 add_new_track_on_playlist_top: bool,
-                 user_music_visibility: str,
-                 user_social_visibility: str,
-                 rbt_disabled: bool,
-                 theme: str,
-                 promos_disabled: bool,
-                 auto_play_radio: bool,
-                 sync_queue_enabled: bool,
-                 ads_disabled: Optional[bool] = None,
-                 disk_enabled: Optional[bool] = None,
-                 show_disk_tracks_in_library: Optional[bool] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        uid: int,
+        last_fm_scrobbling_enabled: bool,
+        shuffle_enabled: bool,
+        volume_percents: int,
+        modified: str,
+        facebook_scrobbling_enabled: bool,
+        add_new_track_on_playlist_top: bool,
+        user_music_visibility: str,
+        user_social_visibility: str,
+        rbt_disabled: bool,
+        theme: str,
+        promos_disabled: bool,
+        auto_play_radio: bool,
+        sync_queue_enabled: bool,
+        ads_disabled: Optional[bool] = None,
+        disk_enabled: Optional[bool] = None,
+        show_disk_tracks_in_library: Optional[bool] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.uid = uid
         self.last_fm_scrobbling_enabled = last_fm_scrobbling_enabled
         self.shuffle_enabled = shuffle_enabled
@@ -101,11 +103,25 @@ class UserSettings(YandexMusicObject):
         self.show_disk_tracks_in_library = show_disk_tracks_in_library
 
         self.client = client
-        self._id_attrs = (self.uid, self.last_fm_scrobbling_enabled, self.shuffle_enabled, self.volume_percents,
-                          self.modified, self.facebook_scrobbling_enabled, self.add_new_track_on_playlist_top,
-                          self.user_music_visibility, self.user_social_visibility, self.rbt_disabled, self.theme,
-                          self.promos_disabled, self.auto_play_radio, self.sync_queue_enabled,self.ads_disabled,
-                          self.disk_enabled, self.show_disk_tracks_in_library)
+        self._id_attrs = (
+            self.uid,
+            self.last_fm_scrobbling_enabled,
+            self.shuffle_enabled,
+            self.volume_percents,
+            self.modified,
+            self.facebook_scrobbling_enabled,
+            self.add_new_track_on_playlist_top,
+            self.user_music_visibility,
+            self.user_social_visibility,
+            self.rbt_disabled,
+            self.theme,
+            self.promos_disabled,
+            self.auto_play_radio,
+            self.sync_queue_enabled,
+            self.ads_disabled,
+            self.disk_enabled,
+            self.show_disk_tracks_in_library,
+        )
 
         super().handle_unknown_kwargs(self, **kwargs)
 

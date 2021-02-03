@@ -21,11 +21,7 @@ class TagResult(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 tag: str,
-                 ids: List['PlaylistId'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, tag: str, ids: List['PlaylistId'], client: Optional['Client'] = None, **kwargs) -> None:
         self.tag = tag
         self.ids = ids
 
@@ -50,6 +46,7 @@ class TagResult(YandexMusicObject):
 
         data = super(TagResult, cls).de_json(data, client)
         from yandex_music import Tag, PlaylistId
+
         data['tag'] = Tag.de_json(data.get('tag'), client)
         data['ids'] = PlaylistId.de_list(data.get('ids'), client)
 

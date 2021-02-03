@@ -28,8 +28,13 @@ class TestTag:
         assert tag.og_description == self.og_description
 
     def test_de_json_all(self, client):
-        json_dict = {'id_': self.id_, 'value': self.value, 'name': self.name, 'og_description': self.og_description,
-                     'og_image': self.og_image}
+        json_dict = {
+            'id_': self.id_,
+            'value': self.value,
+            'name': self.name,
+            'og_description': self.og_description,
+            'og_image': self.og_image,
+        }
         tag = Tag.de_json(json_dict, client)
 
         assert tag.id == self.id_

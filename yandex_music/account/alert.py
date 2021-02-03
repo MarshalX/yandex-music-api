@@ -37,16 +37,18 @@ class Alert(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 alert_id: str,
-                 text: str,
-                 bg_color: str,
-                 text_color: str,
-                 alert_type: str,
-                 button: 'AlertButton',
-                 close_button: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        alert_id: str,
+        text: str,
+        bg_color: str,
+        text_color: str,
+        alert_type: str,
+        button: 'AlertButton',
+        close_button: bool,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.alert_id = alert_id
         self.text = text
         self.bg_color = bg_color
@@ -75,6 +77,7 @@ class Alert(YandexMusicObject):
             return None
 
         from yandex_music import AlertButton
+
         data = super(Alert, cls).de_json(data, client)
         data['button'] = AlertButton.de_json(data.get('button'), client)
 

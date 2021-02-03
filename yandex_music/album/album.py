@@ -112,54 +112,56 @@ class Album(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: Optional[int] = None,
-                 error: Optional[str] = None,
-                 title: Optional[str] = None,
-                 track_count: Optional[int] = None,
-                 artists: List['Artist'] = None,
-                 labels: List[Union['Label', str]] = None,
-                 available: Optional[bool] = None,
-                 available_for_premium_users: Optional[bool] = None,
-                 version: Optional[str] = None,
-                 cover_uri: Optional[str] = None,
-                 content_warning: Optional[str] = None,
-                 original_release_year=None,
-                 genre: Optional[str] = None,
-                 text_color: Optional[str] = None,
-                 short_description: Optional[str] = None,
-                 description: Optional[str] = None,
-                 is_premiere: Optional[bool] = None,
-                 is_banner: Optional[bool] = None,
-                 meta_type: Optional[str] = None,
-                 storage_dir: Optional[str] = None,
-                 og_image: Optional[str] = None,
-                 buy: Optional[list] = None,
-                 recent: Optional[bool] = None,
-                 very_important: Optional[bool] = None,
-                 available_for_mobile: Optional[bool] = None,
-                 available_partially: Optional[bool] = None,
-                 bests: Optional[List[int]] = None,
-                 duplicates: List['Album'] = None,
-                 prerolls: Optional[list] = None,
-                 volumes: Optional[List[List['Track']]] = None,
-                 year: Optional[int] = None,
-                 release_date: Optional[str] = None,
-                 type_: Optional[str] = None,
-                 track_position: Optional['TrackPosition'] = None,
-                 regions=None,
-                 available_as_rbt: Optional[bool] = None,
-                 lyrics_available: Optional[bool] = None,
-                 remember_position: Optional[bool] = None,
-                 albums: Optional[List['Album']] = None,
-                 duration_ms: Optional[int] = None,
-                 explicit: Optional[bool] = None,
-                 start_date: Optional[str] = None,
-                 likes_count: Optional[int] = None,
-                 deprecation: Optional['Deprecation'] = None,
-                 available_regions: Optional[List[str]] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: Optional[int] = None,
+        error: Optional[str] = None,
+        title: Optional[str] = None,
+        track_count: Optional[int] = None,
+        artists: List['Artist'] = None,
+        labels: List[Union['Label', str]] = None,
+        available: Optional[bool] = None,
+        available_for_premium_users: Optional[bool] = None,
+        version: Optional[str] = None,
+        cover_uri: Optional[str] = None,
+        content_warning: Optional[str] = None,
+        original_release_year=None,
+        genre: Optional[str] = None,
+        text_color: Optional[str] = None,
+        short_description: Optional[str] = None,
+        description: Optional[str] = None,
+        is_premiere: Optional[bool] = None,
+        is_banner: Optional[bool] = None,
+        meta_type: Optional[str] = None,
+        storage_dir: Optional[str] = None,
+        og_image: Optional[str] = None,
+        buy: Optional[list] = None,
+        recent: Optional[bool] = None,
+        very_important: Optional[bool] = None,
+        available_for_mobile: Optional[bool] = None,
+        available_partially: Optional[bool] = None,
+        bests: Optional[List[int]] = None,
+        duplicates: List['Album'] = None,
+        prerolls: Optional[list] = None,
+        volumes: Optional[List[List['Track']]] = None,
+        year: Optional[int] = None,
+        release_date: Optional[str] = None,
+        type_: Optional[str] = None,
+        track_position: Optional['TrackPosition'] = None,
+        regions=None,
+        available_as_rbt: Optional[bool] = None,
+        lyrics_available: Optional[bool] = None,
+        remember_position: Optional[bool] = None,
+        albums: Optional[List['Album']] = None,
+        duration_ms: Optional[int] = None,
+        explicit: Optional[bool] = None,
+        start_date: Optional[str] = None,
+        likes_count: Optional[int] = None,
+        deprecation: Optional['Deprecation'] = None,
+        available_regions: Optional[List[str]] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.error = error
         self.title = title
@@ -214,7 +216,7 @@ class Album(YandexMusicObject):
     def with_tracks(self, *args, **kwargs) -> Optional['Album']:
         """Сокращение для::
 
-            client.albums_with_tracks(album.id, *args, **kwargs)
+        client.albums_with_tracks(album.id, *args, **kwargs)
         """
         return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
@@ -241,14 +243,14 @@ class Album(YandexMusicObject):
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_albums_add(album.id, user.id *args, **kwargs)
+        client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
+        client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
@@ -268,6 +270,7 @@ class Album(YandexMusicObject):
 
         data = super(Album, cls).de_json(data, client)
         from yandex_music import Artist, Label, TrackPosition, Track, Deprecation
+
         data['artists'] = Artist.de_list(data.get('artists'), client)
         data['labels'] = Label.de_list(data.get('labels'), client)
         data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)

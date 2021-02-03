@@ -30,13 +30,15 @@ class TrackId(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: Optional[int] = None,
-                 track_id: Optional[int] = None,
-                 album_id: Optional[int] = None,
-                 from_: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        id_: Optional[int] = None,
+        track_id: Optional[int] = None,
+        album_id: Optional[int] = None,
+        from_: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.track_id = track_id
         self.album_id = album_id

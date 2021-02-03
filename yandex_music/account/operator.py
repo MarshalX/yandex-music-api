@@ -29,15 +29,17 @@ class Operator(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 product_id: str,
-                 phone: str,
-                 payment_regularity: str,
-                 deactivation: List['Deactivation'],
-                 title: str,
-                 suspended: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        product_id: str,
+        phone: str,
+        payment_regularity: str,
+        deactivation: List['Deactivation'],
+        title: str,
+        suspended: bool,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.product_id = product_id
         self.phone = phone
         self.payment_regularity = payment_regularity
@@ -65,6 +67,7 @@ class Operator(YandexMusicObject):
             return None
 
         from yandex_music import Deactivation
+
         data['deactivation'] = Deactivation.de_list(data.get('deactivation'), client)
 
         data = super(Operator, cls).de_json(data, client)

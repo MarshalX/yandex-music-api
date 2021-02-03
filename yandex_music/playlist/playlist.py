@@ -3,8 +3,21 @@ from typing import TYPE_CHECKING, Optional, List
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client, User, Cover, MadeFor, TrackShort, PlaylistAbsence, PlayCounter,\
-        PlaylistRecommendations, Artist, TrackId, Contest, OpenGraphData, Brand
+    from yandex_music import (
+        Client,
+        User,
+        Cover,
+        MadeFor,
+        TrackShort,
+        PlaylistAbsence,
+        PlayCounter,
+        PlaylistRecommendations,
+        Artist,
+        TrackId,
+        Contest,
+        OpenGraphData,
+        Brand,
+    )
 
 
 class Playlist(YandexMusicObject):
@@ -142,64 +155,66 @@ class Playlist(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 owner: Optional['User'],
-                 cover: Optional['Cover'],
-                 made_for: Optional['MadeFor'],
-                 play_counter: Optional['PlayCounter'],
-                 playlist_absence: Optional['PlaylistAbsence'],
-                 uid: Optional[int] = None,
-                 kind: Optional[int] = None,
-                 title: Optional[str] = None,
-                 track_count: Optional[int] = None,
-                 tags: Optional[list] = None,
-                 revision: Optional[int] = None,
-                 snapshot: Optional[int] = None,
-                 visibility: Optional[str] = None,
-                 collective: Optional[bool] = None,
-                 url_part: Optional[str] = None,
-                 created: Optional[str] = None,
-                 modified: Optional[str] = None,
-                 available: Optional[bool] = None,
-                 is_banner: Optional[bool] = None,
-                 is_premiere: Optional[bool] = None,
-                 duration_ms: Optional[int] = None,
-                 og_image: Optional[str] = None,
-                 og_title: Optional[str] = None,
-                 og_description: Optional[str] = None,
-                 image: Optional[str] = None,
-                 cover_without_text: Optional['Cover'] = None,
-                 contest: Optional['Contest'] = None,
-                 background_color: Optional[str] = None,
-                 text_color: Optional[str] = None,
-                 id_for_from: Optional[str] = None,
-                 dummy_description: Optional[str] = None,
-                 dummy_page_description: Optional[str] = None,
-                 dummy_cover: Optional['Cover'] = None,
-                 dummy_rollover_cover: Optional['Cover'] = None,
-                 og_data: Optional['OpenGraphData'] = None,
-                 branding: Optional['Brand'] = None,
-                 metrika_id: Optional[int] = None,
-                 coauthors: List[int] = None,
-                 top_artist: List['Artist'] = None,
-                 recent_tracks: List['TrackId'] = None,
-                 tracks: List['TrackShort'] = None,
-                 prerolls: Optional[list] = None,
-                 likes_count: Optional[int] = None,
-                 similar_playlists: List['Playlist'] = None,
-                 last_owner_playlists: List['Playlist'] = None,
-                 generated_playlist_type: Optional[str] = None,
-                 animated_cover_uri: Optional[str] = None,
-                 ever_played: Optional[bool] = None,
-                 description: Optional[str] = None,
-                 description_formatted: Optional[str] = None,
-                 playlist_uuid: Optional[str] = None,
-                 type_: Optional[str] = None,
-                 ready: Optional[bool] = None,
-                 is_for_from=None,
-                 regions=None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        owner: Optional['User'],
+        cover: Optional['Cover'],
+        made_for: Optional['MadeFor'],
+        play_counter: Optional['PlayCounter'],
+        playlist_absence: Optional['PlaylistAbsence'],
+        uid: Optional[int] = None,
+        kind: Optional[int] = None,
+        title: Optional[str] = None,
+        track_count: Optional[int] = None,
+        tags: Optional[list] = None,
+        revision: Optional[int] = None,
+        snapshot: Optional[int] = None,
+        visibility: Optional[str] = None,
+        collective: Optional[bool] = None,
+        url_part: Optional[str] = None,
+        created: Optional[str] = None,
+        modified: Optional[str] = None,
+        available: Optional[bool] = None,
+        is_banner: Optional[bool] = None,
+        is_premiere: Optional[bool] = None,
+        duration_ms: Optional[int] = None,
+        og_image: Optional[str] = None,
+        og_title: Optional[str] = None,
+        og_description: Optional[str] = None,
+        image: Optional[str] = None,
+        cover_without_text: Optional['Cover'] = None,
+        contest: Optional['Contest'] = None,
+        background_color: Optional[str] = None,
+        text_color: Optional[str] = None,
+        id_for_from: Optional[str] = None,
+        dummy_description: Optional[str] = None,
+        dummy_page_description: Optional[str] = None,
+        dummy_cover: Optional['Cover'] = None,
+        dummy_rollover_cover: Optional['Cover'] = None,
+        og_data: Optional['OpenGraphData'] = None,
+        branding: Optional['Brand'] = None,
+        metrika_id: Optional[int] = None,
+        coauthors: List[int] = None,
+        top_artist: List['Artist'] = None,
+        recent_tracks: List['TrackId'] = None,
+        tracks: List['TrackShort'] = None,
+        prerolls: Optional[list] = None,
+        likes_count: Optional[int] = None,
+        similar_playlists: List['Playlist'] = None,
+        last_owner_playlists: List['Playlist'] = None,
+        generated_playlist_type: Optional[str] = None,
+        animated_cover_uri: Optional[str] = None,
+        ever_played: Optional[bool] = None,
+        description: Optional[str] = None,
+        description_formatted: Optional[str] = None,
+        playlist_uuid: Optional[str] = None,
+        type_: Optional[str] = None,
+        ready: Optional[bool] = None,
+        is_for_from=None,
+        regions=None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.owner = owner
         self.cover = cover
         self.made_for = made_for
@@ -273,7 +288,7 @@ class Playlist(YandexMusicObject):
     def get_recommendations(self, *args, **kwargs) -> Optional['PlaylistRecommendations']:
         """Сокращение для::
 
-            client.users_playlists_recommendations(playlist.kind, playlist.owner.uid, *args, **kwargs)
+        client.users_playlists_recommendations(playlist.kind, playlist.owner.uid, *args, **kwargs)
         """
         return self.client.users_playlists_recommendations(self.kind, self.owner.uid, *args, **kwargs)
 
@@ -306,21 +321,21 @@ class Playlist(YandexMusicObject):
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_playlists_add(playlist.uid, user.id *args, **kwargs)
+        client.users_likes_playlists_add(playlist.uid, user.id *args, **kwargs)
         """
         return self.client.users_likes_playlists_add(self.uid, self.client.me.account.uid, *args, **kwargs)
 
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-            client.users_likes_playlists_remove(playlist.uid, user.id *args, **kwargs)
+        client.users_likes_playlists_remove(playlist.uid, user.id *args, **kwargs)
         """
         return self.client.users_likes_playlists_remove(self.uid, self.client.me.account.uid, *args, **kwargs)
 
     def fetch_tracks(self, *args, **kwargs) -> List['TrackShort']:
         """Сокращение для::
 
-            client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
+        client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
         """
         return self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs).tracks
 
@@ -339,8 +354,20 @@ class Playlist(YandexMusicObject):
             return None
 
         data = super(Playlist, cls).de_json(data, client)
-        from yandex_music import User, MadeFor, Cover, PlayCounter, TrackShort, \
-            PlaylistAbsence, Artist, TrackId, Contest, OpenGraphData, Brand
+        from yandex_music import (
+            User,
+            MadeFor,
+            Cover,
+            PlayCounter,
+            TrackShort,
+            PlaylistAbsence,
+            Artist,
+            TrackId,
+            Contest,
+            OpenGraphData,
+            Brand,
+        )
+
         data['owner'] = User.de_json(data.get('owner'), client)
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['cover_without_text'] = Cover.de_json(data.get('cover_without_text'), client)
@@ -358,8 +385,8 @@ class Playlist(YandexMusicObject):
         data['similar_playlists'] = Playlist.de_list(data.get('similar_playlists'), client)
         data['last_owner_playlists'] = Playlist.de_list(data.get('last_owner_playlists'), client)
 
-        data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absence'), client)    # на случай фикса
-        if data.get('playlist_absense'):    # очепятка яндуха
+        data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absence'), client)  # на случай фикса
+        if data.get('playlist_absense'):  # очепятка яндуха
             data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absense'), client)
             data.pop('playlist_absense')
 

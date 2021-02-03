@@ -28,13 +28,15 @@ class DiscreteScale(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 name: str,
-                 min_: Optional['Value'],
-                 max_: Optional['Value'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        type_: str,
+        name: str,
+        min_: Optional['Value'],
+        max_: Optional['Value'],
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.name = name
         self.min = min_
@@ -61,6 +63,7 @@ class DiscreteScale(YandexMusicObject):
 
         data = super(DiscreteScale, cls).de_json(data, client)
         from yandex_music import Value
+
         data['min_'] = Value.de_json(data.get('min_'), client)
         data['max_'] = Value.de_json(data.get('max_'), client)
 

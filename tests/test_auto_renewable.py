@@ -26,8 +26,13 @@ class TestAutoRenewable:
         assert AutoRenewable.de_list({}, client) == []
 
     def test_de_json_required(self, client, product):
-        json_dict = {'expires': self.expires, 'vendor': self.vendor, 'vendor_help_url': self.vendor_help_url,
-                     'product': product.to_dict(), 'finished': self.finished}
+        json_dict = {
+            'expires': self.expires,
+            'vendor': self.vendor,
+            'vendor_help_url': self.vendor_help_url,
+            'product': product.to_dict(),
+            'finished': self.finished,
+        }
         auto_renewable = AutoRenewable.de_json(json_dict, client)
 
         assert auto_renewable.expires == self.expires
@@ -37,9 +42,16 @@ class TestAutoRenewable:
         assert auto_renewable.finished == self.finished
 
     def test_de_json_all(self, client, product, user):
-        json_dict = {'expires': self.expires, 'vendor': self.vendor, 'vendor_help_url': self.vendor_help_url,
-                     'product_id': self.product_id, 'product': product.to_dict(), 'finished': self.finished,
-                     'order_id': self.order_id, 'master_info': user.to_dict()}
+        json_dict = {
+            'expires': self.expires,
+            'vendor': self.vendor,
+            'vendor_help_url': self.vendor_help_url,
+            'product_id': self.product_id,
+            'product': product.to_dict(),
+            'finished': self.finished,
+            'order_id': self.order_id,
+            'master_info': user.to_dict(),
+        }
         auto_renewable = AutoRenewable.de_json(json_dict, client)
 
         assert auto_renewable.expires == self.expires

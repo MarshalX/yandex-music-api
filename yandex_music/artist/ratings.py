@@ -23,12 +23,14 @@ class Ratings(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 month: int,
-                 week: Optional[int] = None,
-                 day: Optional[int] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        month: int,
+        week: Optional[int] = None,
+        day: Optional[int] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.week = week
         self.month = month
 

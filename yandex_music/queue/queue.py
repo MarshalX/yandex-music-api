@@ -28,15 +28,17 @@ class Queue(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self,
-                 context: Optional['Context'],
-                 tracks: List['TrackId'],
-                 current_index: int,
-                 modified: str,
-                 id_: Optional[str] = None,
-                 from_: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        context: Optional['Context'],
+        tracks: List['TrackId'],
+        current_index: int,
+        modified: str,
+        id_: Optional[str] = None,
+        from_: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.context = context
         self.tracks = tracks
         self.current_index = current_index
@@ -65,6 +67,7 @@ class Queue(YandexMusicObject):
             return None
 
         from yandex_music import TrackId, Context
+
         data = super(Queue, cls).de_json(data, client)
         data['tracks'] = TrackId.de_list(data.get('tracks'), client)
         data['context'] = Context.de_json(data.get('context'), client)

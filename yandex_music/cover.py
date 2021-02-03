@@ -39,20 +39,22 @@ class Cover(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: Optional[str] = None,
-                 uri: Optional[str] = None,
-                 items_uri: Optional[str] = None,
-                 dir_: Optional[str] = None,
-                 version: Optional[str] = None,
-                 custom: Optional[bool] = None,
-                 is_custom: Optional[bool] = None,
-                 copyright_name: Optional[str] = None,
-                 copyright_cline: Optional[str] = None,
-                 prefix: Optional[str] = None,
-                 error: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        type_: Optional[str] = None,
+        uri: Optional[str] = None,
+        items_uri: Optional[str] = None,
+        dir_: Optional[str] = None,
+        version: Optional[str] = None,
+        custom: Optional[bool] = None,
+        is_custom: Optional[bool] = None,
+        copyright_name: Optional[str] = None,
+        copyright_cline: Optional[str] = None,
+        prefix: Optional[str] = None,
+        error: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.uri = uri
         self.items_uri = items_uri

@@ -29,15 +29,17 @@ class StationResult(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 station: Optional['Station'],
-                 settings: Optional['RotorSettings'],
-                 settings2: Optional['RotorSettings'],
-                 ad_params: Optional['AdParams'],
-                 explanation: Optional[str] = None,
-                 prerolls: Optional[list] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        station: Optional['Station'],
+        settings: Optional['RotorSettings'],
+        settings2: Optional['RotorSettings'],
+        ad_params: Optional['AdParams'],
+        explanation: Optional[str] = None,
+        prerolls: Optional[list] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.station = station
         self.settings = settings
         self.settings2 = settings2
@@ -66,6 +68,7 @@ class StationResult(YandexMusicObject):
 
         data = super(StationResult, cls).de_json(data, client)
         from yandex_music import Station, RotorSettings, AdParams
+
         data['station'] = Station.de_json(data.get('station'), client)
         data['settings'] = RotorSettings.de_json(data.get('settings'), client)
         data['settings2'] = RotorSettings.de_json(data.get('settings2'), client)

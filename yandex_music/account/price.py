@@ -21,11 +21,7 @@ class Price(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 amount: int,
-                 currency: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, amount: int, currency: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.amount = amount
         self.currency = currency
 

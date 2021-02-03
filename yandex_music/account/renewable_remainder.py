@@ -22,10 +22,7 @@ class RenewableRemainder(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 days: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(self, days: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.days = days
 
         self.client = client

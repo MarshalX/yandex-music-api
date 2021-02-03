@@ -29,14 +29,26 @@ class TestTrack:
     version = 'Radio Edit'
     remember_position = False
     background_video_uri = 'https://music-background-videos.s3.yandex.net/converted/60018e4cdcaa9a42948cda8d'
-    short_description = 'По каким признакам во внешности, в поведении, в одежде можно понять, что девушка несвободна?' \
-                        ' Чтобы не ошибиться со своими чувствами и устремлениями…» — такой замечательный вопрос' \
-                        ' пришел мне от подписчика. Причин, которые могут остановить мужчин в момент появления' \
-                        ' желания познакомиться с девушкой, достаточно много. Обычно они сводятся к опасениям,'
+    short_description = (
+        'По каким признакам во внешности, в поведении, в одежде можно понять, что девушка несвободна?'
+        ' Чтобы не ошибиться со своими чувствами и устремлениями…» — такой замечательный вопрос'
+        ' пришел мне от подписчика. Причин, которые могут остановить мужчин в момент появления'
+        ' желания познакомиться с девушкой, достаточно много. Обычно они сводятся к опасениям,'
+    )
     is_suitable_for_children = True
 
-    def test_expected_values(self, track, artist, album, major, normalization, track_without_nested_tracks,
-                             user, meta_data, poetry_lover_match):
+    def test_expected_values(
+        self,
+        track,
+        artist,
+        album,
+        major,
+        normalization,
+        track_without_nested_tracks,
+        user,
+        meta_data,
+        poetry_lover_match,
+    ):
         assert track.id == self.id
         assert track.title == self.title
         assert track.available == self.available
@@ -88,26 +100,58 @@ class TestTrack:
 
         assert track.id == self.id
 
-    def test_de_json_all(self, client, artist, album, major, normalization, track_without_nested_tracks,
-                         user, meta_data, poetry_lover_match):
-        json_dict = {'id_': self.id, 'title': self.title, 'available': self.available,
-                     'available_for_premium_users': self.available_for_premium_users,
-                     'artists': [artist.to_dict()], 'albums': [album.to_dict()],
-                     'lyrics_available': self.lyrics_available, 'best': self.best, 'real_id': self.real_id,
-                     'og_image': self.og_image, 'type_': self.type, 'cover_uri': self.cover_uri,
-                     'major': major.to_dict(), 'duration_ms': self.duration_ms, 'storage_dir': self.storage_dir,
-                     'file_size': self.file_size, 'normalization': normalization.to_dict(), 'error': self.error,
-                     'regions': self.regions, 'available_as_rbt': self.available_as_rbt,
-                     'content_warning': self.content_warning, 'explicit': self.explicit,
-                     'preview_duration_ms': self.preview_duration_ms, 'version': self.version,
-                     'available_full_without_permission': self.available_full_without_permission,
-                     'remember_position': self.remember_position, 'substituted': track_without_nested_tracks.to_dict(),
-                     'matched_track': track_without_nested_tracks.to_dict(), 'can_publish': self.can_publish,
-                     'state': self.state, 'desired_visibility': self.desired_visibility, 'filename': self.filename,
-                     'user_info': user.to_dict(), 'meta_data': meta_data.to_dict(),
-                     'poetry_lover_matches': [poetry_lover_match.to_dict()],
-                     'background_video_uri': self.background_video_uri, 'short_description': self.short_description,
-                     'is_suitable_for_children': self.is_suitable_for_children}
+    def test_de_json_all(
+        self,
+        client,
+        artist,
+        album,
+        major,
+        normalization,
+        track_without_nested_tracks,
+        user,
+        meta_data,
+        poetry_lover_match,
+    ):
+        json_dict = {
+            'id_': self.id,
+            'title': self.title,
+            'available': self.available,
+            'available_for_premium_users': self.available_for_premium_users,
+            'artists': [artist.to_dict()],
+            'albums': [album.to_dict()],
+            'lyrics_available': self.lyrics_available,
+            'best': self.best,
+            'real_id': self.real_id,
+            'og_image': self.og_image,
+            'type_': self.type,
+            'cover_uri': self.cover_uri,
+            'major': major.to_dict(),
+            'duration_ms': self.duration_ms,
+            'storage_dir': self.storage_dir,
+            'file_size': self.file_size,
+            'normalization': normalization.to_dict(),
+            'error': self.error,
+            'regions': self.regions,
+            'available_as_rbt': self.available_as_rbt,
+            'content_warning': self.content_warning,
+            'explicit': self.explicit,
+            'preview_duration_ms': self.preview_duration_ms,
+            'version': self.version,
+            'available_full_without_permission': self.available_full_without_permission,
+            'remember_position': self.remember_position,
+            'substituted': track_without_nested_tracks.to_dict(),
+            'matched_track': track_without_nested_tracks.to_dict(),
+            'can_publish': self.can_publish,
+            'state': self.state,
+            'desired_visibility': self.desired_visibility,
+            'filename': self.filename,
+            'user_info': user.to_dict(),
+            'meta_data': meta_data.to_dict(),
+            'poetry_lover_matches': [poetry_lover_match.to_dict()],
+            'background_video_uri': self.background_video_uri,
+            'short_description': self.short_description,
+            'is_suitable_for_children': self.is_suitable_for_children,
+        }
         track = Track.de_json(json_dict, client)
 
         assert track.id == self.id

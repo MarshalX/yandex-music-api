@@ -23,12 +23,14 @@ class InvocationInfo(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 hostname: str,
-                 req_id: str,
-                 exec_duration_millis: Optional[int] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        hostname: str,
+        req_id: str,
+        exec_duration_millis: Optional[int] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.hostname = hostname
         self.req_id = req_id
 

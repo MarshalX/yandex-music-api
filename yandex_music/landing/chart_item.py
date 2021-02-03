@@ -21,11 +21,9 @@ class ChartItem(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 track: Optional['Track'],
-                 chart: Optional['Chart'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
+    def __init__(
+        self, track: Optional['Track'], chart: Optional['Chart'], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.track = track
         self.chart = chart
 
@@ -50,6 +48,7 @@ class ChartItem(YandexMusicObject):
 
         data = super(ChartItem, cls).de_json(data, client)
         from yandex_music import Chart, Track
+
         data['track'] = Track.de_json(data.get('track'), client)
         data['chart'] = Chart.de_json(data.get('chart'), client)
 

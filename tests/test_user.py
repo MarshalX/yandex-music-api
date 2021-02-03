@@ -35,9 +35,16 @@ class TestUser:
         assert user.login == self.login
 
     def test_de_json_all(self, client):
-        json_dict = {'uid': self.uid, 'login': self.login, 'name': self.name, 'sex': self.sex,
-                     'verified': self.verified, 'display_name': self.display_name, 'full_name': self.full_name,
-                     'regions': self.regions}
+        json_dict = {
+            'uid': self.uid,
+            'login': self.login,
+            'name': self.name,
+            'sex': self.sex,
+            'verified': self.verified,
+            'display_name': self.display_name,
+            'full_name': self.full_name,
+            'regions': self.regions,
+        }
         user = User.de_json(json_dict, client)
 
         assert user.uid == self.uid
