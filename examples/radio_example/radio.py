@@ -54,9 +54,7 @@ class Radio:
 
     def __send_start_radio(self, batch_id):
         self.client.rotor_station_feedback_radio_started(
-            station=self.station_id,
-            from_=self.station_from,
-            batch_id=batch_id
+            station=self.station_id, from_=self.station_from, batch_id=batch_id
         )
 
     def __send_play_start_track(self, track, play_id):
@@ -68,15 +66,11 @@ class Radio:
             play_id=play_id,
             track_length_seconds=0,
             total_played_seconds=0,
-            end_position_seconds=total_seconds
+            end_position_seconds=total_seconds,
         )
 
     def __send_play_start_radio(self, track, batch_id):
-        self.client.rotor_station_feedback_track_started(
-            station=self.station_id,
-            track_id=track.id,
-            batch_id=batch_id
-        )
+        self.client.rotor_station_feedback_track_started(station=self.station_id, track_id=track.id, batch_id=batch_id)
 
     def __send_play_end_track(self, track, play_id):
         # played_seconds = 5.0
@@ -89,17 +83,13 @@ class Radio:
             play_id=play_id,
             track_length_seconds=int(total_seconds),
             total_played_seconds=played_seconds,
-            end_position_seconds=total_seconds
+            end_position_seconds=total_seconds,
         )
 
     def __send_play_end_radio(self, track, batch_id):
         played_seconds = track.duration_ms / 1000
         self.client.rotor_station_feedback_track_finished(
-            station=self.station_id,
-            track_id=track.id,
-            total_played_seconds=played_seconds,
-            batch_id=batch_id
-
+            station=self.station_id, track_id=track.id, total_played_seconds=played_seconds, batch_id=batch_id
         )
         pass
 

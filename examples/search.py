@@ -11,7 +11,7 @@ type_to_name = {
     'video': 'видео',
     'user': 'пользователь',
     'podcast': 'подкаст',
-    'podcast_episode': 'эпизод подкаста'
+    'podcast_episode': 'эпизод подкаста',
 }
 
 
@@ -24,9 +24,9 @@ def send_search_request_and_print_result(query):
     if search_result.best:
         type_ = search_result.best.type
         best = search_result.best.result
-    
+
         text.append(f'❗️Лучший результат: {type_to_name.get(type_)}')
-    
+
         if type_ in ['track', 'podcast_episode']:
             artists = ''
             if best.artists:

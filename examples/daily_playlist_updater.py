@@ -3,34 +3,36 @@ import datetime
 from yandex_music.client import Client
 
 # Help text
-if(len(sys.argv) == 1 or len(sys.argv) > 3):
+if len(sys.argv) == 1 or len(sys.argv) > 3:
     print('Usage: DailyPlaylistUpdater.py token')
-    print('token - Authentication token');
+    print('token - Authentication token')
     print('\nUsage: DailyPlaylistUpdater.py username password')
-    print('username - username in format \'example@yandex.ru\'');
-    print('password - your password');
+    print('username - username in format \'example@yandex.ru\'')
+    print('password - your password')
     quit()
 # Authorization
-elif(len(sys.argv) == 2):
-    client = Client.fromToken(sys.argv[1]);
-elif(len(sys.argv) == 3):
-    client = Client .fromCredentials(sys.argv[1], sys.argv[2])
+elif len(sys.argv) == 2:
+    client = Client.fromToken(sys.argv[1])
+elif len(sys.argv) == 3:
+    client = Client.fromCredentials(sys.argv[1], sys.argv[2])
 
 # Current daily playlist
-PersonalPlaylistBlocks =  client.landing(blocks=['personalplaylists']).blocks[0];
-DailyPlaylist = next(x.data.data for x in PersonalPlaylistBlocks.entities if x.data.data.generated_playlist_type == 'playlistOfTheDay')
+PersonalPlaylistBlocks = client.landing(blocks=['personalplaylists']).blocks[0]
+DailyPlaylist = next(
+    x.data.data for x in PersonalPlaylistBlocks.entities if x.data.data.generated_playlist_type == 'playlistOfTheDay'
+)
 
 # Check if we don't need to update it
-if(DailyPlaylist.play_counter.updated):
+if DailyPlaylist.play_counter.updated:
     modifiedDate = datetime.datetime.strptime(DailyPlaylist.modified, "%Y-%m-%dT%H:%M:%S%z").date()
-    if (datetime.datetime.now().date() == modifiedDate):
+    if datetime.datetime.now().date() == modifiedDate:
         print('\x1b[6;30;43m' + 'Looks like it has been already updated today' + '\x1b[0m')
         quit()
 
 # Updated playlist
 updatedPlaylist = client.users_playlists(user_id=DailyPlaylist.uid, kind=DailyPlaylist.kind)[0]
 
-if(updatedPlaylist.play_counter.updated and not DailyPlaylist.play_counter.updated):
+if updatedPlaylist.play_counter.updated and not DailyPlaylist.play_counter.updated:
     print('\x1b[6;30;42m' + 'Success!' + '\x1b[0m')
 else:
     print('\x1b[6;30;41m' + 'Something has gone wrong and nothing updated' + '\x1b[0m')

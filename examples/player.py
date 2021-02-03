@@ -15,29 +15,25 @@ MAX_ERRORS = 3
 
 parser = argparse.ArgumentParser()
 parser.add_argument('playlist', choices=('likes', 'user'), help='playlist type')
-parser.add_argument('--playlist-name',
-                    help='name of user playlist')
+parser.add_argument('--playlist-name', help='name of user playlist')
 
-parser.add_argument('--skip', metavar='N', type=int,
-                    help='skip first %(metavar)s tracks')
-parser.add_argument('--shuffle', action='store_true',
-                    help='randomize tracks order')
-parser.add_argument('--token', default=DEFAULT_CACHE_FOLDER / CONFIG_NAME,
-                    help='YM API token as string or path to file')
-parser.add_argument('--no-save-token', action='store_true',
-                    help='do\'nt save token in cache folder')
-parser.add_argument('--cache-folder', type=Path, default=DEFAULT_CACHE_FOLDER,
-                    help='cached tracks folder')
-parser.add_argument('--audio-player', default='cvlc',
-                    help='player to use')
-parser.add_argument('--audio-player-args', action='append', default=[],
-                    help='args for --audio-player (can be specified multiple times)')
-parser.add_argument('--print-args', action='store_true',
-                    help='print arguments (including default values) and exit')
+parser.add_argument('--skip', metavar='N', type=int, help='skip first %(metavar)s tracks')
+parser.add_argument('--shuffle', action='store_true', help='randomize tracks order')
+parser.add_argument(
+    '--token', default=DEFAULT_CACHE_FOLDER / CONFIG_NAME, help='YM API token as string or path to file'
+)
+parser.add_argument('--no-save-token', action='store_true', help='do\'nt save token in cache folder')
+parser.add_argument('--cache-folder', type=Path, default=DEFAULT_CACHE_FOLDER, help='cached tracks folder')
+parser.add_argument('--audio-player', default='cvlc', help='player to use')
+parser.add_argument(
+    '--audio-player-args', action='append', default=[], help='args for --audio-player (can be specified multiple times)'
+)
+parser.add_argument('--print-args', action='store_true', help='print arguments (including default values) and exit')
 args = parser.parse_args()
 
-if args.audio_player is parser.get_default('audio_player')\
-        and args.audio_player_args is parser.get_default('audio_player_args'):
+if args.audio_player is parser.get_default('audio_player') and args.audio_player_args is parser.get_default(
+    'audio_player_args'
+):
     args.audio_player_args = ['--play-and-exit', '--quiet']
 player_cmd: List[int] = args.audio_player_args
 player_cmd.insert(0, args.audio_player)
@@ -82,6 +78,7 @@ elif args.playlist == 'likes':
 
 if args.shuffle:
     from random import shuffle
+
     shuffle(tracks.tracks)
 
 error_count = 0
