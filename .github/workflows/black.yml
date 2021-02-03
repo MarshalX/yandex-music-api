@@ -9,7 +9,7 @@ on:
       - '**'
 
 jobs:
-  pytest:
+  black:
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
