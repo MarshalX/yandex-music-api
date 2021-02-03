@@ -6,7 +6,8 @@ from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Union
 from yandex_music import Album, Artist, ArtistAlbums, ArtistTracks, BriefInfo, Dashboard, DownloadInfo, Experiments, \
     Feed, Genre, Landing, Like, PermissionAlerts, Playlist, PromoCodeStatus, Search, Settings, ShotEvent, Supplement, \
     StationResult, StationTracksResult, Status, Suggestions, SimilarTracks, Track, TracksList, UserSettings, \
-    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations, LandingList, QueueItem, Queue
+    YandexMusicObject, ChartInfo, TagResult, PlaylistRecommendations, LandingList, QueueItem, Queue, __copyright__, \
+    __license__, __version__
 from yandex_music.exceptions import Captcha, InvalidToken
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
@@ -81,6 +82,8 @@ class Client(YandexMusicObject):
             Принимает объект, в котором нет поля и kwargs с неизвестными полями.
     """
 
+    notice_displayed = False
+
     def __init__(self, token: str = None,
                  fetch_account_status: bool = True,
                  base_url: str = None,
@@ -89,6 +92,11 @@ class Client(YandexMusicObject):
                  language: str = 'ru',
                  report_new_fields=True,
                  report_new_fields_callback: Callable[[object, dict], None] = None) -> None:
+        if not Client.notice_displayed:
+            print(f'Yandex Music API v{__version__}, {__copyright__}')
+            print(f'Licensed under the terms of the {__license__}', end='\n\n')
+            Client.notice_displayed = True
+
         self.logger = logging.getLogger(__name__)
         self.token = token
 
