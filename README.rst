@@ -75,6 +75,8 @@ API Yandex Music - неофициальная Python библиотека
 
 - `Благодарность`_
 
+- `Внесение своего вклада в проект`_
+
 - `Лицензия`_
 
 ========
@@ -371,6 +373,16 @@ Telegram бот-клиент
 =============
 
 Спасибо разработчикам ``python-telegram-bot``. Выбрал Вас в качестве примера.
+
+===============================
+Внесение своего вклада в проект
+===============================
+
+Внесение своего вклада максимально приветствуется! Есть перечень пунктов,
+который стоит соблюдать. Каждый пункт перечня расписан в `CONTRIBUTING <CONTRIBUTING.md>`_.
+
+Вы можете помочь и сообщив о `баге <https://github.com/MarshalX/yandex-music-api/issues/new?assignees=MarshalX&labels=bug&template=bug-report.md&title=>`_
+или о `новом поле пришедшем от API <https://github.com/MarshalX/yandex-music-api/issues/new?assignees=&labels=feature&template=found-unknown-fields.md&title=%D0%9D%D0%BE%D0%B2%D0%BE%D0%B5+%D0%BD%D0%B5%D0%B8%D0%B7%D0%B2%D0%B5%D1%81%D1%82%D0%BD%D0%BE%D0%B5+%D0%BF%D0%BE%D0%BB%D0%B5+%D0%BE%D1%82+API>`_.
 
 ========
 Лицензия
