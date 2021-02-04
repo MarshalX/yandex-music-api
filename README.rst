@@ -106,8 +106,6 @@ Microsoft Store. Так как API является закрытым и испо
 Установка
 =========
 
-**Библиотека находится в стадии разработки**
-
 Вы можете установить или обновить yandex-music-api при помощи:
 
 .. code:: shell
@@ -132,7 +130,7 @@ Microsoft Store. Так как API является закрытым и испо
 
 .. code:: python
 
-    from yandex_music.client import Client
+    from yandex_music import Client
 
     client = Client()
 
@@ -143,7 +141,7 @@ Microsoft Store. Так как API является закрытым и испо
 
 .. code:: python
 
-    from yandex_music.client import Client
+    from yandex_music import Client
 
     client = Client.from_credentials('example@yandex.com', 'password')
 
@@ -151,11 +149,11 @@ Microsoft Store. Так как API является закрытым и испо
 
 .. code:: python
 
-    from yandex_music.client import Client
+    from yandex_music import Client
 
-    client = Client.from_token('token')
-    # или
     client = Client('token')
+    # или
+    client = Client.from_token('token')
 
 После успешного создания клиента Вы вольны в выборе необходимого метода
 из API. Все они доступны у объекта класса Client. Подробнее в методах клиента
@@ -165,7 +163,7 @@ Microsoft Store. Так как API является закрытым и испо
 
 .. code:: python
 
-    from yandex_music.client import Client
+    from yandex_music import Client
 
     client = Client.from_credentials('example@yandex.com', 'password')
     client.users_likes_tracks()[0].fetch_track().download('example.mp3')
@@ -183,7 +181,7 @@ Microsoft Store. Так как API является закрытым и испо
 
 .. code:: python
 
-    from yandex_music.client import Client
+    from yandex_music import Client
 
     client = Client()
     client.tracks(['10994777:1193829', '40133452:5206873', '48966383:6693286', '51385674:7163467'])
@@ -197,7 +195,7 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 .. code:: python
 
     from yandex_music.utils.request import Request
-    from yandex_music.client import Client
+    from yandex_music import Client
 
     request = Request(proxy_url='socks5://user:password@host:port')
     client = Client(request=request)
@@ -286,7 +284,8 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
 Документация ``yandex-music-api`` расположена на
 `readthedocs.io <https://yandex-music.readthedocs.io/>`_.
-Вашей отправной точкой должен быть класс ``Client``, а точнее его методы. Именно они выполняют все
+Вашей отправной точкой должен быть класс ``Client``, а точнее его методы.
+Именно они выполняют все
 запросы на API и возвращают Вам готовые объекты.
 `Класс Client на readthedocs.io <https://yandex-music.readthedocs.io/ru/latest/yandex_music.client.html>`_.
 
@@ -312,10 +311,9 @@ C#
 а не мобильных и десктопных приложений:
 `Winster332/Yandex.Music.Api <https://github.com/Winster332/Yandex.Music.Api>`_.
 
-Автор не сильно проявляет активность, но появился форк, который продолжил начатое. Более того,
-`@K1llMan <https://github.com/K1llMan>`_ (автор форка) планирует изменить эндпоинты с фронтовых на
-те, что используются в данной библиотеке.
-`K1llMan/Yandex.Music.Api <https://github.com/K1llMan/Yandex.Music.Api>`_
+`@Winster332 <https://github.com/Winster332>`_ не сильно проявляет активность,
+но существует форк, который продолжил начатое. Эндпоинты изменены с фронтовых на
+мобильные: `K1llMan/Yandex.Music.Api <https://github.com/K1llMan/Yandex.Music.Api>`_.
 
 ---
 PHP
@@ -330,7 +328,6 @@ JavaScript
 
 API wrapper на Node.JS. Не обновлялся больше двух лет:
 `itsmepetrov/yandex-music-api <https://github.com/itsmepetrov/yandex-music-api>`_.
-
 Продолжение разработки заброшенной библиотеки: `kontsevoye/ym-api <https://github.com/kontsevoye/ym-api>`_.
 
 =====================
@@ -341,13 +338,12 @@ API wrapper на Node.JS. Не обновлялся больше двух лет
 Плагин для Kodi
 ---------------
 
-Плагин может проигрывать пользовательские плейлисты и плейлисты Яндекса, поиск по Яндекс Музыке, радио.
+Плагин может проигрывать пользовательские плейлисты и плейлисты Яндекса, поиск
+по Яндекс Музыке, радио.
 
 Сайт проекта: `ymkodi.ml <https://ymkodi.ml/>`_.
-
-Исходный код: `kodi.plugin.yandex-music  <https://github.com/Angel777d/kodi.plugin.yandex-music>`_
-
-Автор: `@Angel777d <https://github.com/Angel777d>`_
+Исходный код: `kodi.plugin.yandex-music  <https://github.com/Angel777d/kodi.plugin.yandex-music>`_.
+Автор: `@Angel777d <https://github.com/Angel777d>`_.
 
 .. image:: https://raw.githubusercontent.com/Angel777d/kodi.plugin.yandex-music/master/assets/img/kody_yandex_music_plugin.png
    :target: https://ymkodi.ml/
@@ -360,13 +356,11 @@ Telegram бот-клиент
 Неофициальный бот. Умные и ваши плейлисты, понравившиеся треки. Лайки, дизлайки, текста песен,
 поиск, распознавание песен, похожие треки! Полноценный клиент на базе мессенджера.
 
-Сайт проекта: `music-yandex-bot.ru <https://music-yandex-bot.ru/>`_
+Сайт проекта: `music-yandex-bot.ru <https://music-yandex-bot.ru/>`_.
+Бот в Telegram: `@music_yandex_bot <https://t.me/music_yandex_bot>`_.
+Автор: `@MarshalX <https://marshal.by/>`_.
 
-Username в Telegram: `@music_yandex_bot <https://t.me/music_yandex_bot>`_
-
-Статья на habr.com с описанием реализации: `Под капотом бота-клиента Яндекс.Музыки <https://habr.com/ru/post/487428/>`_
-
-Автор: `@MarshalX <https://marshal.by/>`_
+Статья на habr.com с описанием реализации: `Под капотом бота-клиента Яндекс.Музыки <https://habr.com/ru/post/487428/>`_.
 
 .. image:: https://hsto.org/webt/uv/4s/a3/uv4sa3pslohuzlmuzrjzteju2dk.png
    :target: https://music-yandex-bot.ru/
