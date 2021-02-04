@@ -18,17 +18,6 @@
 **Крупные изменения**
 
 - Добавлены примеры в папку ``examples``.
-- Новые поля и классы по первым отчётам `#306`_:
-    - Добавлен класс ``RenewableRemainder`` напоминал о продлении подписки.
-    - Добавлено поле ``plus`` класса ``Product``.
-    - Добавлено поле ``non_auto_renewable_remainder`` в класс ``Subscription`` с новым классом.
-    - Добавлено поле ``og_image`` классу ``Artist``.
-    - Добавлено поле ``meta_type`` классу ``Album``.
-    - Добавлено поле ``advertisement`` классу ``Status``.
-    - Добавлено поле ``best`` классу ``Track``.
-    - Добавлены поля ``offer_id`` и ``artist_ids`` классу ``Vinyl``.
-    - Добавлено поле ``playlists`` классу ``BriefInfo``.
-    - Добавлено поле ``is_custom`` классу ``Cover``.
 - Добавлена поддержка рекомендаций для плейлистов (`#324`_):
     - Добавлен класс ``PlaylistRecommendations``.
     - Добавлен метод клиента для получения рекомендаций (``users_playlists_recommendations``).
@@ -37,88 +26,115 @@
     - Добавлены новые классы: ``ChartInfo``, ``ChartInfoMenu``, ``ChartInfoMenuItem``.
     - Добавлен метод клиента для получения чарта (``chart``).
 - Добавлена поддержка тегов/подборок (`#192`_):
-    - Добавлены новые классы: ``TagResult``, ``Tag``
+    - Добавлены новые классы: ``TagResult``, ``Tag``.
     - Добавлен новый метод клиента для получения тегов (``tags``).
 - Добавлено присоединение к коллективному плейлисту (`#317`_):
     - Добавлен новый метод клиента для присоединения (``playlists_collective_join``).
-- Добавлено сокращение ``fetch_tracks`` классу ``Playlist`` для получения треков плейлиста.
-- Добавлены поля ``play_count``, ``recent``, ``chart``, ``track`` классу ``TrackShort``.
-- Добавлены поля ``url_part``, ``og_title``, ``image``, ``cover_without_text``, ``background_color``, ``text_color``, ``id_for_from``, ``similar_playlists``, ``last_owner_playlists`` классу ``Playlist``.
-- Добавлено поле ``bg_color`` классу ``Chart``.
-- Добавлен новый класс ``LandingList``.
-- Добавлен новый метод клиента для получения полного списка всех новых релизов (``new_releases``).
-- Добавлен новый метод клиента для получения полного списка всех новый плейлистов (``new_playlists``).
-- Добавлен новый метод клиента для получения подкаста с лендинга (``podcasts``).
-- Добавлено поле ``error`` классу ``Artist``.
-- Класс ``User`` расширен для поддержки поля ``user_info`` из ``Track`` (поля ``full_name``, ``display_name``).
-- Добавлены новые поля классу ``Track``: ``substituted``, ``matched_track``, ``can_publish``, ``state``, ``desired_visibility``, ``filename``, ``user_info``, ``meta_data``.
-- Добавлены новые поля класса ``Cover``: ``copyright_name``, ``copyright_cline``.
-- Добавлено поле ``direct`` классу ``DownloadInfo``.
-- Добавлены поля ``cheapest``, ``title``, ``family_sub``, ``fb_image``, ``fb_name``, ``family``, ``intro_period_duration``, ``intro_price``, ``start_period_duration``, ``start_price``, ``licence_text_parts`` для ``Product``.
-- Добавлены поля ``storage_dir``, ``duplicates`` для ``Album``.
-- Добавлено поле ``subscribed`` для ``ArtistEvent``.
-- Добавлено поле ``description`` для ``GeneratedPlaylist``.
-- Добавлено поле ``genre`` для ``Event``.
-- Добавлено поле ``show_in_regions`` для ``Genre``.
-- Добавлено поле ``cover_uri`` для ``MixLink``.
-- Добавлены поля ``og_description``, ``top_artist`` для ``Playlist``.
-- Добавлены поля ``full_image_url``, ``mts_full_image_url`` для ``Station``.
-- Добавлены поля ``coauthors`` и ``recent_tracks`` в ``Playlist``.
-- Добавлено поле ``regions`` в ``User``.
-- Добавлены поля ``users``, ``podcasts``, ``podcast_episodes``, ``type_``, ``page``, ``per_page`` в ``Search``.
-- Добавлена поддержка новых типов поиска: подкасты, выпуски, пользователи.
-- Добавлены поля ``short_description``, ``description``, ``is_premiere``, ``is_banner`` в ``Like``.
-- Добавлены новые классы: ``Alert``, ``AlertButton``, ``StationData``.
-- Добавлено поле ``master_info`` в ``AutoRenewable``.
-- Добавлены поля ``station_data`` и ``bar_below`` в ``Status``.
-- Добавлено поле ``family_auto_renewable`` в ``Subscription``.
-- Добавлены поля ``misspell_result`` и ``misspell_original`` в ``Search``.
-- Добавлена десериализация ``decomposed`` у ``Artist`` (`#10`_).
-- Добавлено новое поле ``experiment`` в класс ``Status``.
-- Добавлен коллбек для обработки новых полей.
-- Добавлены новые классы: ``NonAutoRenewable``, ``Operator``, ``Deactivation``, ``PoetryLoverMatch``.
-- Добавлены поля ``operator`` и ``non_auto_renewable`` в ``Subscription``.
-- Добавлены поля ``text_color``, ``short_description``, ``description``, ``is_premiere`` и ``is_banner`` в ``Album``.
-- Добавлено поле ``hand_made_description`` в ``Artist``.
-- Добавлено поле ``metrika_id`` в ``Playlist``.
-- Добавлено поле ``og_image`` в ``Tag``.
-- Добавлено поле url в ``Lyrics``.
-- Добавлены поля ``number``, ``genre`` в ``MetaData``.
-- Добавлено поле ``poetry_lover_matches`` в ``Track``.
-- Добавлены новые классы: ``Brand``, ``Contest``, ``OpenGraphData``.
-- Добавлены поля ``contest``, ``dummy_description``, ``dummy_page_description``, ``dummy_cover``, ``dummy_rollover_cover``, ``og_data``, ``branding`` классу ``Playlist``.
-- Добавлена информацию по поводу запуска потока по треку, плейлисту и др.
 - Добавлена поддержка очередей прослушивания (`#246`_):
     - Добавлены новые классы: ``Context``, ``Queue``, ``QueueItem``.
     - Добавлены новые методы в ``Client``: ``queues_list``, ``queue``, ``queue_update_position``, ``queue_create``.
     - Добавлены поля ``track_id`` и ``from_`` в класс ``TrackId``.
     - Добавлена возможность смены языка у клиента для ответов от API.
     - Добавлена десериализация любого объекта в ``JSON`` пригодного для отправки в запросе на Яндекс API.
-- Добавлен метод ``get_url`` классу ``Icon`` для получения прямой ссылки на изображение.
+- Добавлены следующие методы для ``Client``:
+    - ``new_releases`` – получение полного списка всех новых релизов.
+    - ``new_playlists`` – получение полного списка всех новый плейлистов.
+    - ``podcasts`` – получение подкаста с лендинга.
+- Добавлена поддержка новых типов поиска: подкасты, выпуски, пользователи.
+- Добавлен коллбек для обработки новых полей.
+- Добавлена информацию по поводу запуска потока по треку, плейлисту и др.
+- Добавлена десериализация ``decomposed`` у ``Artist`` (`#10`_).
 - Добавлен ``__len__`` для ``TracksList`` (`#380`_).
-- Добавлены новые поля класса ``Album`` (``available_as_rbt``, ``lyrics_available``, ``remember_position``, ``albums``, ``duration_ms``, ``explicit``, ``start_date``, ``likes_count``, ``deprecation``).
-- Добавлены новые поля класса ``MetaData`` (``lyricist``, ``version``, ``composer``).
-- Добавлены поле ``last_releases`` классу ``BriefInfo``.
-- Добавлено поле ``ya_money_id`` классу ``Artist`` (`#351`_, `#370`_).
-- Добавлено поле ``playlist_uuid`` классу ``Playlist``.
-- Добавлены поля и обновлены тесты для класса ``UserSettings``.
-- Добавлены поля ``background_video_uri``, ``short_description``, ``is_suitable_for_children`` классу ``Track`` (`#376`_).
-- Добавлены новые поля ``meta_type``, ``likes_count`` классу ``Album`` (`#386`_).
-- Добавлен новый класс ``Deprecation``.
-- Добавлено поле ``deprecation`` для класса ``Album``.
-- Добавлено новое поле ``available_regions`` для ``Album``.
 - Добавлены ``__iter__``, ``__len__`` и ``__getitem__`` для классов представляющих список каких-либо объектов.
+- Добавлено сокращение ``fetch_tracks`` классу ``Playlist`` для получения треков плейлиста.
+- Добавлен метод ``get_url`` классу ``Icon`` для получения прямой ссылки на изображение.
+- Класс ``User`` расширен для поддержки поля ``user_info`` из ``Track`` (поля ``full_name``, ``display_name``).
+- Добавлены новые классы по отчётам с Telegram бота (`#306`_, `#398`_):
+    - ``LandingList``.
+    - ``RenewableRemainder``.
+    - ``Alert``.
+    - ``AlertButton``.
+    - ``StationData``.
+    - ``Brand``.
+    - ``Contest``.
+    - ``OpenGraphData``.
+    - ``NonAutoRenewable``.
+    - ``Operator``.
+    - ``Deactivation``.
+    - ``PoetryLoverMatch``.
+    - ``Deprecation``.
+- Добавлены новые поля классам по отчётам с Telegram бота (`#306`_, `#398`_):
+    - ``plus`` в ``Product``.
+    - ``non_auto_renewable_remainder`` в ``Subscription``.
+    - ``og_image`` в ``Artist``.
+    - ``meta_type`` в ``Album``.
+    - ``advertisement`` в ``Status``.
+    - ``best`` в ``Track``.
+    - ``offer_id`` и ``artist_ids`` в ``Vinyl``.
+    - ``playlists`` в ``BriefInfo``.
+    - ``is_custom`` в ``Cover``.
+    - ``play_count``, ``recent``, ``chart``, ``track`` в ``TrackShort``.
+    - ``url_part``, ``og_title``, ``image``, ``cover_without_text``, ``background_color``, ``text_color``, ``id_for_from``, ``similar_playlists``, ``last_owner_playlists`` в ``Playlist``.
+    - ``bg_color`` в ``Chart``.
+    - ``error`` в ``Artist``.
+    - ``substituted``, ``matched_track``, ``can_publish``, ``state``, ``desired_visibility``, ``filename``, ``user_info``, ``meta_data`` в ``Track``.
+    - ``copyright_name``, ``copyright_cline`` в ``Cover``.
+    - ``direct`` в ``DownloadInfo``.
+    - ``cheapest``, ``title``, ``family_sub``, ``fb_image``, ``fb_name``, ``family``, ``intro_period_duration``, ``intro_price``, ``start_period_duration``, ``start_price``, ``licence_text_parts`` в ``Product``.
+    - ``storage_dir``, ``duplicates`` в ``Album``.
+    - ``subscribed`` в ``ArtistEvent``.
+    - ``description`` в ``GeneratedPlaylist``.
+    - ``genre`` в ``Event``.
+    - ``show_in_regions`` в ``Genre``.
+    - ``cover_uri`` в ``MixLink``.
+    - ``og_description``, ``top_artist`` в ``Playlist``.
+    - ``full_image_url``, ``mts_full_image_url`` в ``Station``.
+    - ``coauthors`` и ``recent_tracks`` в ``Playlist``.
+    - ``regions`` в ``User``.
+    - ``users``, ``podcasts``, ``podcast_episodes``, ``type_``, ``page``, ``per_page`` в ``Search``.
+    - ``short_description``, ``description``, ``is_premiere``, ``is_banner`` в ``Like``.
+    - ``master_info`` в ``AutoRenewable``.
+    - ``station_data`` и ``bar_below`` в ``Status``.
+    - ``family_auto_renewable`` в ``Subscription``.
+    - ``misspell_result`` и ``misspell_original`` в ``Search``.
+    - ``experiment`` в класс ``Status``.
+    - ``operator`` и ``non_auto_renewable`` в ``Subscription``.
+    - ``text_color``, ``short_description``, ``description``, ``is_premiere`` и ``is_banner`` в ``Album``.
+    - ``hand_made_description`` в ``Artist``.
+    - ``metrika_id`` в ``Playlist``.
+    - ``og_image`` в ``Tag``.
+    - ``url`` в ``Lyrics``.
+    - ``number``, ``genre`` в ``MetaData``.
+    - ``poetry_lover_matches`` в ``Track``.
+    - ``contest``, ``dummy_description``, ``dummy_page_description``, ``dummy_cover``, ``dummy_rollover_cover``, ``og_data``, ``branding`` в ``Playlist``.
+    - ``available_as_rbt``, ``lyrics_available``, ``remember_position``, ``albums``, ``duration_ms``, ``explicit``, ``start_date``, ``likes_count``, ``deprecation`` в ``Album``.
+    - ``lyricist``, ``version``, ``composer`` в ``MetaData``.
+    - ``last_releases`` в ``BriefInfo``.
+    - ``ya_money_id`` в ``Artist`` (`#351`_, `#370`_).
+    - ``playlist_uuid`` в ``Playlist``.
+    - ``sync_queue_enabled`` в ``UserSettings``.
+    - ``background_video_uri``, ``short_description``, ``is_suitable_for_children`` в ``Track`` (`#376`_).
+    - ``meta_type``, ``likes_count`` в ``Album`` (`#386`_).
+    - ``deprecation`` в ``Album``.
+    - ``available_regions`` в ``Album``.
+    - ``type``, ``ready`` в ``Playlist``.
+    - ``description`` в ``Supplement``.
 
 **Незначительные изменения и/или исправления**
 
+- Добавлена опциональность следующим полям:
+    - все поля в ``MetaData``.
+    - ``advertisement`` в ``Status``.
+    - ``text_language`` в ``Lyrics``.
+    - ``provider_video_id`` в ``VideoSupplement``.
+    - ``title`` в ``VideoSupplement`` (`#403`_).
+    - ``instructions`` в ``Deactivation`` (`#402`_).
+    - ``id`` в ``Album`` (`#401`_).
 - Исправлена десериализация подкастов, эпизодов подкастов и пользователей в лучшем результате поиска.
-- Исправлена десериализация альбомов. В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
-- Все поля класса ``MetaData`` теперь опциональные.
+- Исправлена десериализация альбомов. В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк (в поиске).
 - Исправлен выбор настроек радио.
-- Протестирована работа на Python 3.9.
-- Поле ``advertisement`` класса ``Status`` теперь опциональное.
-- Поле ``text_language`` класса ``Lyrics`` и ``provider_video_id`` класса ``VideoSupplement`` теперь опциональные.
 - Исправлены ошибки в документации.
+- Протестирована работа на Python 3.9.
 
 .. _`#318`: https://github.com/MarshalX/yandex-music-api/issues/318
 .. _`#306`: https://github.com/MarshalX/yandex-music-api/issues/306
@@ -133,6 +149,10 @@
 .. _`#351`: https://github.com/MarshalX/yandex-music-api/issues/351
 .. _`#370`: https://github.com/MarshalX/yandex-music-api/issues/370
 .. _`#380`: https://github.com/MarshalX/yandex-music-api/issues/380
+.. _`#398`: https://github.com/MarshalX/yandex-music-api/issues/398
+.. _`#401`: https://github.com/MarshalX/yandex-music-api/issues/401
+.. _`#402`: https://github.com/MarshalX/yandex-music-api/issues/402
+.. _`#403`: https://github.com/MarshalX/yandex-music-api/issues/403
 
 Версия 0.1.1
 ============
