@@ -44,8 +44,6 @@ class TrackId(YandexMusicObject):
         self.album_id = album_id
         self.from_ = from_
 
-        self._track = None
-
         self.client = client
         self._id_attrs = (self.track_id, self.id, self.album_id)
 
@@ -54,27 +52,19 @@ class TrackId(YandexMusicObject):
     @property
     def track_full_id(self) -> str:
         """:obj:`str`: ID трека состоящий из его номера и номера альбома."""
+        track_id = self.id
         if self.track_id:
             track_id = self.track_id
-        else:
-            track_id = self.id
 
         return f'{track_id}:{self.album_id}'
 
-    def fetch_track(self, force: bool = True, *args, **kwargs) -> 'Track':
+    def fetch_track(self, *args, **kwargs) -> 'Track':
         """Получение полной версии трека.
-
-        Args:
-            force (bool, optional): Если `False`, то кэш предыдущего запроса будет проигнорирован.
 
         Returns:
             :obj:`yandex_music.Track`: Полная версия.
         """
-
-        if not self._track and force:
-            self._track = self.client.tracks(self.track_full_id, *args, **kwargs)[0]
-
-        return self._track
+        return self.client.tracks(self.track_full_id, *args, **kwargs)[0]
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:

@@ -55,8 +55,6 @@ class TrackShort(YandexMusicObject):
         self.chart = chart
         self.track = track
 
-        self._track = None
-
         self.client = client
         self._id_attrs = (self.id, self.album_id)
 
@@ -68,12 +66,7 @@ class TrackShort(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Track`: Полная версия трека.
         """
-        if self._track:
-            return self._track
-
-        self._track = self.client.tracks(self.track_id)[0]
-
-        return self._track
+        return self.client.tracks(self.track_id)[0]
 
     @property
     def track_id(self) -> str:

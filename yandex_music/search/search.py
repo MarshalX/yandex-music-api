@@ -113,7 +113,7 @@ class Search(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
-    def other_page(self, page: int, *args, **kwargs) -> Optional['Search']:
+    def get_page(self, page: int, *args, **kwargs) -> Optional['Search']:
         """Получение определеной страницы поиска.
 
         Args:
@@ -130,7 +130,7 @@ class Search(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Следующая страница результата поиска или :obj:`None`.
         """
-        return self.other_page(self.page + 1, *args, **kwargs)
+        return self.get_page(self.page + 1, *args, **kwargs)
 
     def prev_page(self, *args, **kwargs) -> Optional['Search']:
         """Получение предыдущей страницы поиска.
@@ -138,7 +138,7 @@ class Search(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
         """
-        return self.other_page(self.page - 1, *args, **kwargs)
+        return self.get_page(self.page - 1, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
@@ -176,4 +176,4 @@ class Search(YandexMusicObject):
     #: Псевдоним для :attr:`prev_page`
     prevPage = prev_page
     #: Псевдоним для :attr:`other_page`
-    otherPage = other_page
+    otherPage = get_page
