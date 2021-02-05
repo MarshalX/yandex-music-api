@@ -254,7 +254,7 @@ class Album(YandexMusicObject):
         """
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    def artists_name(self) -> list[str]:
+    def artists_name(self) -> List[str]:
         """Получает имена всех исполнителей.
 
         Returns:
