@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, List
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Track
 
 
 class TrackId(YandexMusicObject):
@@ -44,10 +44,31 @@ class TrackId(YandexMusicObject):
         self.album_id = album_id
         self.from_ = from_
 
+        self._track = None
+
         self.client = client
         self._id_attrs = (self.track_id, self.id, self.album_id)
 
         super().handle_unknown_kwargs(self, **kwargs)
+
+    def fetch_track(self, *args, **kwargs) -> 'Track':
+        """Получение полной версии трека.
+
+        Returns:
+            :obj:`yandex_music.Track`: Полная версия.
+        """
+        def get_track_id():
+            if self.track_id:
+                track_id = self.track_id
+            else:
+                track_id = self.id
+
+            return f'{track_id}:{self.album_id}'
+
+        if self._track:
+            return self._track
+
+        return self.client.tracks(get_track_id(), *args, **kwargs)[0]
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:
@@ -82,3 +103,8 @@ class TrackId(YandexMusicObject):
             return []
 
         return [cls.de_json(track_id, client) for track_id in data]
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`fetch_track`
+    fetchTrack = fetch_track

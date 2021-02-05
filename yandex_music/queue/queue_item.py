@@ -3,7 +3,7 @@ from typing import List, TYPE_CHECKING, Optional
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Context
+    from yandex_music import Client, Context, Queue
 
 
 class QueueItem(YandexMusicObject):
@@ -33,6 +33,13 @@ class QueueItem(YandexMusicObject):
         self._id_attrs = (self.id,)
 
         super().handle_unknown_kwargs(self, **kwargs)
+
+    def fetch_queue(self, *args, **kwargs) -> Optional['Queue']:
+        """Сокращение для::
+
+            client.queue(id, *args, **kwargs)
+        """
+        return self.client.queue(self.id, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['QueueItem']:
@@ -70,3 +77,8 @@ class QueueItem(YandexMusicObject):
             return []
 
         return [cls.de_json(queue, client) for queue in data]
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`fetch_queue`
+    fetchQueue = fetch_queue
