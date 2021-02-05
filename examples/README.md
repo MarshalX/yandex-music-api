@@ -27,6 +27,8 @@
 - [daily_playlist_updater](daily_playlist_updater.py) – пример
   [@catinapoke](https://github.com/catinapoke) без внесения правок. Отмечает
   плейлист дня как прослушанный сегодня (добавляет +1 к счетчику).
+- [lyrics_playing_track](lyrics_playing_track.py) - пример
+  [@glebliutsko](https://github.com/glebliutsko). Выводит текущий играемый трек и его текст.
 
 Все примеры лицензированы в соответствии с 
 [Лицензией CC0](https://github.com/MarshalX/yandex-music-api/blob/master/examples/LICENSE.txt) 
