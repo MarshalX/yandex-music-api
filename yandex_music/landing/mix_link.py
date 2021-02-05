@@ -143,3 +143,7 @@ class MixLink(YandexMusicObject):
 
     #: Псевдоним для :attr:`download_background_image`
     downloadBackgroundImage = download_background_image
+    #: Псевдоним для :attr:`download_cover_white`
+    downloadCoverWhite = download_cover_white
+    #: Псевдоним для :attr:`download_cover_uri`
+    downloadCoverUri = download_cover_uri

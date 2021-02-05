@@ -125,3 +125,6 @@ class Promotion(YandexMusicObject):
             promotions.append(cls.de_json(promotion, client))
 
         return promotions
+
+    #: Псевдоним для :attr:`download_image`
+    downloadImage = download_image

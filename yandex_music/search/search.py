@@ -176,4 +176,4 @@ class Search(YandexMusicObject):
     #: Псевдоним для :attr:`prev_page`
     prevPage = prev_page
     #: Псевдоним для :attr:`other_page`
-    otherPage = get_page
+    getPage = get_page

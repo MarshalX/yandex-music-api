@@ -82,3 +82,5 @@ class TracksList(YandexMusicObject):
 
     #: Псевдоним для :attr:`tracks_ids`
     tracksIds = tracks_ids
+    #: Псевдоним для :attr:`fetch_tracks`
+    fetchTracks = fetch_tracks

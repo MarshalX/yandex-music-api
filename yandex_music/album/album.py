@@ -315,3 +315,5 @@ class Album(YandexMusicObject):
     downloadCover = download_cover
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
+    #: Псевдоним для :attr:`artists_name`
+    artistsName = artists_name

@@ -448,3 +448,7 @@ class Playlist(YandexMusicObject):
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`fetch_tracks`
     fetchTracks = fetch_tracks
+    #: Псевдоним для :attr:`insert_track`
+    insertTrack = insert_track
+    #: Псевдоним для :attr:`delete_tracks`
+    deleteTracks = delete_tracks
