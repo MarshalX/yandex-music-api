@@ -53,8 +53,7 @@ class Queue(YandexMusicObject):
         super().handle_unknown_kwargs(self, **kwargs)
 
     def get_current_track(self):
-        """Получение текущего трека очереди.
-        """
+        """Получение текущего трека очереди."""
         return self.tracks[self.current_index]
 
     @classmethod

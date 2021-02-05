@@ -345,16 +345,18 @@ class Playlist(YandexMusicObject):
         client.users_playlists_insert_track(self.kind, track_id, album_id, user_id=self.owner.uid,
         revision=self.revision, *args, **kwargs)
         """
-        return self.client.users_playlists_insert_track(self.kind, track_id, album_id, user_id=self.owner.uid,
-                                                        revision=self.revision, *args, **kwargs)
+        return self.client.users_playlists_insert_track(
+            self.kind, track_id, album_id, user_id=self.owner.uid, revision=self.revision, *args, **kwargs
+        )
 
     def delete_tracks(self, from_: int, to: int, *args, **kwargs) -> Optional['Playlist']:
         """Сокращение для::
 
         client.users_playlists_delete_track(self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs)
         """
-        return self.client.users_playlists_delete_track(self.kind, from_, to, self.revision, self.owner.uid,
-                                                        *args, **kwargs)
+        return self.client.users_playlists_delete_track(
+            self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs
+        )
 
     def delete(self, *args, **kwargs):
         """Сокращение для::

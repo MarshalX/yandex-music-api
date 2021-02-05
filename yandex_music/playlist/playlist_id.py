@@ -37,7 +37,7 @@ class PlaylistId(YandexMusicObject):
     def fetch_playlist(self, *args, **kwargs):
         """Сокращение для::
 
-            client.users_playlists(kind, uid, *args, **kwargs)
+        client.users_playlists(kind, uid, *args, **kwargs)
         """
         return self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
 

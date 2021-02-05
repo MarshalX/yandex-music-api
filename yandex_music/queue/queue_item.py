@@ -37,7 +37,7 @@ class QueueItem(YandexMusicObject):
     def fetch_queue(self, *args, **kwargs) -> Optional['Queue']:
         """Сокращение для::
 
-            client.queue(id, *args, **kwargs)
+        client.queue(id, *args, **kwargs)
         """
         return self.client.queue(self.id, *args, **kwargs)
 
