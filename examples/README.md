@@ -21,14 +21,15 @@
   использование клиента без авторизации.
 - [like_and_dislike](like_and_dislike.py) – пример установки отметок "Мне нравится" 
   и "Мне не нравится" на альбомы, треки, плейлисты и исполнителей.
+- [lyrics_playing_track](lyrics_playing_track.py) - пример работы с очередями и получением текста
+  трека от [@glebliutsko](https://github.com/glebliutsko). Выводит текущий проигрываемый трек
+  и его текст.
 - [player](player.py) – пример [@OwnageIsMagic](https://github.com/OwnageIsMagic). 
   Консольный плеер. Авторизация, получение плейлиста пользователя, список
   понравившихся треков и их загрузка. Воспроизведение через установленный плеер.
 - [daily_playlist_updater](daily_playlist_updater.py) – пример
   [@catinapoke](https://github.com/catinapoke) без внесения правок. Отмечает
   плейлист дня как прослушанный сегодня (добавляет +1 к счетчику).
-- [lyrics_playing_track](lyrics_playing_track.py) - пример
-  [@glebliutsko](https://github.com/glebliutsko). Выводит текущий играемый трек и его текст.
 
 Все примеры лицензированы в соответствии с 
 [Лицензией CC0](https://github.com/MarshalX/yandex-music-api/blob/master/examples/LICENSE.txt) 

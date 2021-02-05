@@ -11,10 +11,10 @@ queues = client.queues_list()
 # Последняя проигрываемая очередь всегда в начале списка
 last_queue = client.queue(queues[0].id)
 
-last_track_id = last_queue.tracks[last_queue.current_index]
-last_track = client.tracks(f'{last_track_id.track_id}:{last_track_id.album_id}')[0]
+last_track_id = last_queue.get_current_track()
+last_track = last_track_id.fetch_track()
 
-artists = ', '.join([i.name for i in last_track.artists])
+artists = ', '.join(last_track.artists_name())
 title = last_track.title
 print(f'Сейчас играет: {artists} - {title}')
 
