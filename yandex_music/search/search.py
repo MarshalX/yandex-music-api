@@ -113,12 +113,32 @@ class Search(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
-    def next_page(self, *args, **kwargs):
-        """Сокращение для::
+    def other_page(self, page: int, *args, **kwargs) -> Optional['Search']:
+        """Получение определеной страницы поиска.
 
-            client.search(text, nocorrect, type_, page + 1, *args, **kwargs)
+        Args:
+            page (:obj:`int`): Номер страницы.
+
+        Returns:
+            :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
         """
-        return self.client.search(self.text, self.nocorrect, self.type_, self.page + 1, *args, **kwargs)
+        return self.client.search(self.text, self.nocorrect, self.type_, page, *args, **kwargs)
+
+    def next_page(self, *args, **kwargs) -> Optional['Search']:
+        """Получение следующей страницы поиска.
+
+        Returns:
+            :obj:`yandex_music.Search` | :obj:`None`: Следующая страница результата поиска или :obj:`None`.
+        """
+        return self.other_page(self.page + 1, *args, **kwargs)
+
+    def prev_page(self, *args, **kwargs) -> Optional['Search']:
+        """Получение предыдущей страницы поиска.
+
+        Returns:
+            :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
+        """
+        return self.other_page(self.page - 1, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
@@ -153,3 +173,7 @@ class Search(YandexMusicObject):
 
     #: Псевдоним для :attr:`next_page`
     nextPage = next_page
+    #: Псевдоним для :attr:`prev_page`
+    prevPage = prev_page
+    #: Псевдоним для :attr:`other_page`
+    otherPage = other_page

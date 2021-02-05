@@ -254,6 +254,15 @@ class Album(YandexMusicObject):
         """
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
+    def artists_name(self) -> list[str]:
+        """Получает имена всех исполнителей.
+
+        Returns:
+              :obj:`list` из :obj:`str`: Имена исполнителей.
+        """
+
+        return [i.name for i in self.artists]
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Album']:
         """Десериализация объекта.

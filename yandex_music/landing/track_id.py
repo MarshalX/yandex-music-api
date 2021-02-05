@@ -51,24 +51,30 @@ class TrackId(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
-    def fetch_track(self, *args, **kwargs) -> 'Track':
+    @property
+    def track_full_id(self) -> str:
+        """:obj:`str`: ID трека состоящий из его номера и номера альбома."""
+        if self.track_id:
+            track_id = self.track_id
+        else:
+            track_id = self.id
+
+        return f'{track_id}:{self.album_id}'
+
+    def fetch_track(self, force: bool = True, *args, **kwargs) -> 'Track':
         """Получение полной версии трека.
+
+        Args:
+            force (bool, optional): Если `False`, то кэш предыдущего запроса будет проигнорирован.
 
         Returns:
             :obj:`yandex_music.Track`: Полная версия.
         """
-        def get_track_id():
-            if self.track_id:
-                track_id = self.track_id
-            else:
-                track_id = self.id
 
-            return f'{track_id}:{self.album_id}'
+        if not self._track and force:
+            self._track = self.client.tracks(self.track_full_id, *args, **kwargs)[0]
 
-        if self._track:
-            return self._track
-
-        return self.client.tracks(get_track_id(), *args, **kwargs)[0]
+        return self._track
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:
@@ -108,3 +114,5 @@ class TrackId(YandexMusicObject):
 
     #: Псевдоним для :attr:`fetch_track`
     fetchTrack = fetch_track
+    #: Псевдоним для :attr:`track_full_id`
+    trackFullId = track_full_id

@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional, List, Iterator
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
-    from yandex_music import Client, TrackShort
+    from yandex_music import Client, TrackShort, Track
 
 
 class TracksList(YandexMusicObject):
@@ -48,6 +48,14 @@ class TracksList(YandexMusicObject):
     def tracks_ids(self) -> List[str]:
         """:obj:`list` из :obj:`str`: Список уникальных идентификаторов треков."""
         return [track.track_id for track in self.tracks]
+
+    def fetch_tracks(self) -> List['Track']:
+        """Получение полных версии треков.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Track`: Полная версия трека.
+        """
+        return self.client.tracks(self.tracks_ids)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TracksList']:

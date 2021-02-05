@@ -79,6 +79,15 @@ class Promotion(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
+    def download_image(self, filename: str, size: str = '300x300') -> None:
+        """Загрузка рекламного изображения.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер изображения.
+        """
+        self.client.request.download(f'https://{self.image.replace("%%", size)}', filename)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:
         """Десериализация объекта.
