@@ -52,6 +52,10 @@ class Queue(YandexMusicObject):
 
         super().handle_unknown_kwargs(self, **kwargs)
 
+    def get_current_track(self) -> 'TrackId':
+        """Получение текущего трека очереди."""
+        return self.tracks[self.current_index]
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Queue']:
         """Десериализация объекта.
@@ -73,3 +77,8 @@ class Queue(YandexMusicObject):
         data['context'] = Context.de_json(data.get('context'), client)
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`get_current_track`
+    getCurrentTrack = get_current_track

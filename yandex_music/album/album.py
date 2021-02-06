@@ -254,6 +254,15 @@ class Album(YandexMusicObject):
         """
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
+    def artists_name(self) -> List[str]:
+        """Получает имена всех исполнителей.
+
+        Returns:
+              :obj:`list` из :obj:`str`: Имена исполнителей.
+        """
+
+        return [i.name for i in self.artists]
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Album']:
         """Десериализация объекта.
@@ -306,3 +315,5 @@ class Album(YandexMusicObject):
     downloadCover = download_cover
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
+    #: Псевдоним для :attr:`artists_name`
+    artistsName = artists_name

@@ -339,6 +339,32 @@ class Playlist(YandexMusicObject):
         """
         return self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs).tracks
 
+    def insert_track(self, track_id: int, album_id: int, *args, **kwargs) -> Optional['Playlist']:
+        """Сокращение для::
+
+        client.users_playlists_insert_track(self.kind, track_id, album_id, user_id=self.owner.uid,
+        revision=self.revision, *args, **kwargs)
+        """
+        return self.client.users_playlists_insert_track(
+            self.kind, track_id, album_id, user_id=self.owner.uid, revision=self.revision, *args, **kwargs
+        )
+
+    def delete_tracks(self, from_: int, to: int, *args, **kwargs) -> Optional['Playlist']:
+        """Сокращение для::
+
+        client.users_playlists_delete_track(self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs)
+        """
+        return self.client.users_playlists_delete_track(
+            self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs
+        )
+
+    def delete(self, *args, **kwargs):
+        """Сокращение для::
+
+        client.users_playlists_delete(self.kind, self.owner.uid)
+        """
+        return self.client.users_playlists_delete(self.kind, self.owner.uid, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Playlist']:
         """Десериализация объекта.
@@ -422,3 +448,7 @@ class Playlist(YandexMusicObject):
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`fetch_tracks`
     fetchTracks = fetch_tracks
+    #: Псевдоним для :attr:`insert_track`
+    insertTrack = insert_track
+    #: Псевдоним для :attr:`delete_tracks`
+    deleteTracks = delete_tracks

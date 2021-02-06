@@ -286,6 +286,15 @@ class Track(YandexMusicObject):
         """
         return self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
+    def artists_name(self) -> List[str]:
+        """Получает имена всех исполнителей.
+
+        Returns:
+              :obj:`list` из :obj:`str`: Имена исполнителей.
+        """
+
+        return [i.name for i in self.artists]
+
     @property
     def track_id(self) -> str:
         """:obj:`str`: Уникальный идентификатор трека состоящий из его номера и номера альбома или просто из номера."""
