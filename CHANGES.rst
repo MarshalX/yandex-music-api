@@ -5,7 +5,7 @@
 Версия 1.0.0
 ============
 
-**XX.02.2021**
+**06.02.2021**
 
 **Стабильная версия библиотеки**
 
@@ -40,6 +40,18 @@
     - ``new_releases`` – получение полного списка всех новых релизов.
     - ``new_playlists`` – получение полного списка всех новый плейлистов.
     - ``podcasts`` – получение подкаста с лендинга.
+- Добавлены новые сокращения в модели:
+    - ``download_cover_white``, ``download_cover_uri`` в ``MixLink``.
+    - ``download_image`` в ``Promotion``.
+    - ``artists_name`` в ``Album`` и ``Track``.
+    - ``fetch_track``, ``track_full_id`` в ``TrackId``.
+    - ``fetch_tracks`` в ``TracksList``.
+    - ``insert_track``, ``delete_tracks``, ``delete`` в ``Playlist``.
+    - ``playlist_id``, ``fetch_playlist`` в ``PlaylistId``.
+    - ``get_current_track`` в ``Queue``.
+    - ``fetch_queue`` в ``QueueItem``.
+    - ``next_page``, ``get_page``, ``prev_page`` в ``Search``.
+    - и другие...
 - Добавлена поддержка новых типов поиска: подкасты, выпуски, пользователи.
 - Добавлен коллбек для обработки новых полей.
 - Добавлена информацию по поводу запуска потока по треку, плейлисту и др.
