@@ -26,18 +26,16 @@ class TrackShortOld(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 track_id: Optional['TrackId'],
-                 timestamp: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self, track_id: Optional['TrackId'], timestamp: str, client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.track_id = track_id
         self.timestamp = timestamp
 
         self.client = client
         self._id_attrs = (self.track_id,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackShortOld']:
@@ -55,6 +53,7 @@ class TrackShortOld(YandexMusicObject):
 
         data = super(TrackShortOld, cls).de_json(data, client)
         from yandex_music import TrackId
+
         data['track_id'] = TrackId.de_json(data.get('track_id'), client)
 
         return cls(client=client, **data)

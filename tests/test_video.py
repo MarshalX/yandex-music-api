@@ -40,10 +40,19 @@ class TestVideo:
         assert video.title == self.title
 
     def test_de_json_all(self, client):
-        json_dict = {'title': self.title, 'cover': self.cover, 'embed_url': self.embed_url, 'provider': self.provider,
-                     'provider_video_id': self.provider_video_id, 'youtube_url': self.youtube_url,
-                     'thumbnail_url': self.thumbnail_url, 'duration': self.duration, 'text': self.text,
-                     'html_auto_play_video_player': self.html_auto_play_video_player, 'regions': self.regions}
+        json_dict = {
+            'title': self.title,
+            'cover': self.cover,
+            'embed_url': self.embed_url,
+            'provider': self.provider,
+            'provider_video_id': self.provider_video_id,
+            'youtube_url': self.youtube_url,
+            'thumbnail_url': self.thumbnail_url,
+            'duration': self.duration,
+            'text': self.text,
+            'html_auto_play_video_player': self.html_auto_play_video_player,
+            'regions': self.regions,
+        }
         video = Video.de_json(json_dict, client)
 
         assert video.title == self.title

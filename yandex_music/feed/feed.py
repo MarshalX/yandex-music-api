@@ -36,19 +36,19 @@ class Feed(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 can_get_more_events: bool,
-                 pumpkin: bool,
-                 is_wizard_passed: bool,
-                 generated_playlists: List['GeneratedPlaylist'],
-                 headlines: list,
-                 today: str,
-                 days: List['Day'],
-                 next_revision: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        can_get_more_events: bool,
+        pumpkin: bool,
+        is_wizard_passed: bool,
+        generated_playlists: List['GeneratedPlaylist'],
+        headlines: list,
+        today: str,
+        days: List['Day'],
+        next_revision: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.can_get_more_events = can_get_more_events
         self.pumpkin = pumpkin
         self.is_wizard_passed = is_wizard_passed
@@ -61,6 +61,8 @@ class Feed(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.can_get_more_events, self.generated_playlists, self.headlines, self.today, self.days)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Feed']:
@@ -78,6 +80,7 @@ class Feed(YandexMusicObject):
 
         data = super(Feed, cls).de_json(data, client)
         from yandex_music import GeneratedPlaylist, Day
+
         data['generated_playlists'] = GeneratedPlaylist.de_list(data.get('generated_playlists'), client)
         data['days'] = Day.de_list(data.get('days'), client)
 

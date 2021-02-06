@@ -21,18 +21,16 @@ class AlbumEvent(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 album: Optional['Album'],
-                 tracks: List['Track'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self, album: Optional['Album'], tracks: List['Track'], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.album = album
         self.tracks = tracks
 
         self.client = client
         self._id_attrs = (self.album, self.tracks)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['AlbumEvent']:
@@ -50,6 +48,7 @@ class AlbumEvent(YandexMusicObject):
 
         data = super(AlbumEvent, cls).de_json(data, client)
         from yandex_music import Album, Track
+
         data['album'] = Album.de_json(data.get('album'), client)
         data['tracks'] = Track.de_list(data.get('tracks'), client)
 

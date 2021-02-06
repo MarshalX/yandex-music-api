@@ -1,5 +1,6 @@
 import re
 import logging
+import keyword
 import builtins
 
 from typing import TYPE_CHECKING, Optional, Union
@@ -13,8 +14,15 @@ import requests
 
 from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
-from yandex_music.exceptions import Unauthorized, BadRequest, NetworkError, YandexMusicError, CaptchaRequired, \
-    CaptchaWrong, TimedOut
+from yandex_music.exceptions import (
+    Unauthorized,
+    BadRequest,
+    NetworkError,
+    YandexMusicError,
+    CaptchaRequired,
+    CaptchaWrong,
+    TimedOut,
+)
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -22,10 +30,10 @@ if TYPE_CHECKING:
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
-    'X-Yandex-Music-Client': 'YandexMusicAndroid/23020055',
+    'X-Yandex-Music-Client': 'YandexMusicAndroid/23020251',
 }
 
-reserved_names = [name.lower() for name in dir(builtins)] + ['client']
+reserved_names = keyword.kwlist + [name.lower() for name in dir(builtins)] + ['client']
 
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
@@ -40,15 +48,23 @@ class Request:
         proxy_url (:obj:`str`, optional): Прокси.
     """
 
-    def __init__(self,
-                 client=None,
-                 headers=None,
-                 proxy_url=None):
+    def __init__(self, client=None, headers=None, proxy_url=None):
         self.headers = headers or HEADERS.copy()
 
         self.client = self.set_and_return_client(client)
 
         self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
+
+    def set_language(self, lang: str) -> None:
+        """Добавляет заголовок языка для каждого запроса.
+
+        Note:
+            Возможные значения `lang`: en/uz/uk/us/ru/kk/hy.
+
+        Args:
+            lang (:obj:`str`): Язык.
+        """
+        self.headers.update({'Accept-Language': lang})
 
     def set_authorization(self, token: str) -> None:
         """Добавляет заголовок авторизации для каждого запроса.
@@ -108,7 +124,9 @@ class Request:
         cleaned_object = {}
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
-            if key.lower() in reserved_names:
+            key = key.lower()
+
+            if key in reserved_names:
                 key += '_'
 
             if len(key) and key[0].isdigit():
@@ -138,8 +156,7 @@ class Request:
             data = json.loads(decoded_s, object_hook=Request._object_hook)
 
         except UnicodeDecodeError:
-            logging.getLogger(__name__).debug(
-                'Logging raw invalid UTF-8 response:\n%r', json_data)
+            logging.getLogger(__name__).debug('Logging raw invalid UTF-8 response:\n%r', json_data)
             raise YandexMusicError('Server response could not be decoded using UTF-8')
         except (AttributeError, ValueError):
             raise YandexMusicError('Invalid server response')
@@ -221,8 +238,9 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper('GET', url, params=params, headers=self.headers, proxies=self.proxies,
-                                       timeout=timeout, *args, **kwargs)
+        result = self._request_wrapper(
+            'GET', url, params=params, headers=self.headers, proxies=self.proxies, timeout=timeout, *args, **kwargs
+        )
 
         return self._parse(result.content).result
 
@@ -243,8 +261,9 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper('POST', url, headers=self.headers, proxies=self.proxies, data=data,
-                                       timeout=timeout, *args, **kwargs)
+        result = self._request_wrapper(
+            'POST', url, headers=self.headers, proxies=self.proxies, data=data, timeout=timeout, *args, **kwargs
+        )
 
         return self._parse(result.content).result
 

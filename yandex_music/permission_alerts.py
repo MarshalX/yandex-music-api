@@ -19,13 +19,12 @@ class PermissionAlerts(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 alerts: List[str],
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(self, alerts: List[str], client: Optional['Client'] = None, **kwargs):
         self.alerts = alerts
 
         self.client = client
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PermissionAlerts']:

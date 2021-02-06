@@ -23,20 +23,17 @@ class Enum(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 name: str,
-                 possible_values: List['Value'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self, type_: str, name: str, possible_values: List['Value'], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.type = type_
         self.name = name
         self.possible_values = possible_values
 
         self.client = client
         self._id_attrs = (self.type, self.name, self.possible_values)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Enum']:
@@ -54,6 +51,7 @@ class Enum(YandexMusicObject):
 
         data = super(Enum, cls).de_json(data, client)
         from yandex_music import Value
+
         data['possible_values'] = Value.de_list(data.get('possible_values'), client)
 
         return cls(client=client, **data)

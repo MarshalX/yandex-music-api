@@ -29,17 +29,17 @@ class CaseForms(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 nominative: str,
-                 genitive: str,
-                 dative: str,
-                 accusative: str,
-                 instrumental: str,
-                 prepositional: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        nominative: str,
+        genitive: str,
+        dative: str,
+        accusative: str,
+        instrumental: str,
+        prepositional: str,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.nominative = nominative
         self.genitive = genitive
         self.dative = dative
@@ -48,8 +48,16 @@ class CaseForms(YandexMusicObject):
         self.prepositional = prepositional
 
         self.client = client
-        self._id_attrs = (self.nominative, self.genitive, self.dative,
-                          self.accusative, self.instrumental, self.prepositional)
+        self._id_attrs = (
+            self.nominative,
+            self.genitive,
+            self.dative,
+            self.accusative,
+            self.instrumental,
+            self.prepositional,
+        )
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['CaseForms']:

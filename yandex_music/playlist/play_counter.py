@@ -27,20 +27,17 @@ class PlayCounter(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 value: int,
-                 description: str,
-                 updated: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self, value: int, description: str, updated: bool, client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.value = value
         self.description = description
         self.updated = updated
 
         self.client = client
         self._id_attrs = (self.value, self.description, self.updated)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlayCounter']:

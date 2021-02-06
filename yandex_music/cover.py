@@ -15,8 +15,11 @@ class Cover(YandexMusicObject):
         items_uri (:obj:`str`): Список ссылок на изображения.
         dir (:obj:`str`): Директория хранения изображения на сервере.
         version (:obj:`str`): Версия.
+        is_custom (:obj:`bool`): Является ли обложка пользовательской.
         custom (:obj:`bool`): Является ли обложка пользовательской.
         prefix (:obj:`str`): Уникальный идентификатор.
+        copyright_name (:obj:`str`): Название владельца авторским правом.
+        copyright_cline (:obj:`str`): Владелец прав на музыку (автор текста и т.д.), а не её записи.
         error (:obj:`str`): Сообщение об ошибке.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
@@ -26,26 +29,32 @@ class Cover(YandexMusicObject):
         items_uri (:obj:`str`, optional): Список ссылок на изображения.
         dir_ (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
+        is_custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         prefix (:obj:`str`, optional): Уникальный идентификатор.
+        copyright_name (:obj:`str`, optional): Название владельца авторским правом.
+        copyright_cline (:obj:`str`, optional): Владелец прав на музыку (автор текста и т.д.), а не её записи.
         error (:obj:`str`, optional): Сообщение об ошибке.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: Optional[str] = None,
-                 uri: Optional[str] = None,
-                 items_uri: Optional[str] = None,
-                 dir_: Optional[str] = None,
-                 version: Optional[str] = None,
-                 custom: Optional[bool] = None,
-                 prefix: Optional[str] = None,
-                 error: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        type_: Optional[str] = None,
+        uri: Optional[str] = None,
+        items_uri: Optional[str] = None,
+        dir_: Optional[str] = None,
+        version: Optional[str] = None,
+        custom: Optional[bool] = None,
+        is_custom: Optional[bool] = None,
+        copyright_name: Optional[str] = None,
+        copyright_cline: Optional[str] = None,
+        prefix: Optional[str] = None,
+        error: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.uri = uri
         self.items_uri = items_uri
@@ -53,10 +62,15 @@ class Cover(YandexMusicObject):
         self.dir = dir_
         self.version = version
         self.custom = custom
+        self.is_custom = is_custom
+        self.copyright_name = copyright_name
+        self.copyright_cline = copyright_cline
         self.error = error
 
         self.client = client
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.

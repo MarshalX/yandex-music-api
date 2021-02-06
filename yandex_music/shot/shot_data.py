@@ -25,13 +25,15 @@ class ShotData(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 cover_uri: str,
-                 mds_url: str,
-                 shot_text: str,
-                 shot_type: 'ShotType',
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        cover_uri: str,
+        mds_url: str,
+        shot_text: str,
+        shot_type: 'ShotType',
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.cover_uri = cover_uri
         self.mds_url = mds_url
         self.shot_text = shot_text
@@ -39,6 +41,8 @@ class ShotData(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.cover_uri, self.mds_url, self.shot_text, self.shot_type)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -73,6 +77,7 @@ class ShotData(YandexMusicObject):
 
         data = super(ShotData, cls).de_json(data, client)
         from yandex_music import ShotType
+
         data['shot_type'] = ShotType.de_json(data.get('shot_type'), client)
 
         return cls(client=client, **data)

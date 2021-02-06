@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
+from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video, User
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -12,6 +12,9 @@ de_json_result = {
     'album': Album.de_list,
     'playlist': Playlist.de_list,
     'video': Video.de_list,
+    'user': User.de_list,
+    'podcast': Album.de_list,
+    'podcast_episode': Track.de_list,
 }
 
 
@@ -41,16 +44,16 @@ class SearchResult(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 total: int,
-                 per_page: int,
-                 order: int,
-                 results: List[Union[Track, Artist, Album, Playlist, Video]],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        type_: str,
+        total: int,
+        per_page: int,
+        order: int,
+        results: List[Union[Track, Artist, Album, Playlist, Video]],
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.total = total
         self.per_page = per_page
@@ -59,6 +62,8 @@ class SearchResult(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['SearchResult']:

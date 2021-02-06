@@ -21,16 +21,14 @@ class ShotType(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: str,
-                 title: str,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(self, id_: str, title: str, client: Optional['Client'] = None, **kwargs):
         self.id = id_
         self.title = title
 
         self.client = client
         self._id_attrs = (self.id, self.title)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotType']:

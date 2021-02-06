@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional, List, Iterator
 
 from yandex_music import YandexMusicObject
 
@@ -21,18 +21,25 @@ class ArtistTracks(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 tracks: List['Track'],
-                 pager: Optional['Pager'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self, tracks: List['Track'], pager: Optional['Pager'], client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.tracks = tracks
         self.pager = pager
 
         self.client = client
         self._id_attrs = (self.pager, self.tracks)
+
+        super().handle_unknown_kwargs(self, **kwargs)
+
+    def __getitem__(self, item) -> 'Track':
+        return self.tracks[item]
+
+    def __iter__(self) -> Iterator['Track']:
+        return iter(self.tracks)
+
+    def __len__(self) -> int:
+        return len(self.tracks)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ArtistTracks']:
@@ -50,6 +57,7 @@ class ArtistTracks(YandexMusicObject):
 
         data = super(ArtistTracks, cls).de_json(data, client)
         from yandex_music import Track, Pager
+
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['pager'] = Pager.de_json(data.get('pager'), client)
 

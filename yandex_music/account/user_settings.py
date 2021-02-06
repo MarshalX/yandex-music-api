@@ -33,6 +33,7 @@ class UserSettings(YandexMusicObject):
         theme (:obj:`str`): Тема оформления.
         promos_disabled (:obj:`bool`): Не показывать рекламируемый контент).
         auto_play_radio (:obj:`bool`): Бесконечный поток музыки.
+        sync_queue_enabled (:obj:`bool`): Синхронизация очередей между устройствами.
         ads_disabled (:obj:`bool`): Не показывать рекламу.
         disk_enabled (:obj:`bool`): TODO.
         show_disk_tracks_in_library (:obj:`bool`): Показывать локальные треки в библиотеке.
@@ -52,6 +53,7 @@ class UserSettings(YandexMusicObject):
         theme (:obj:`str`): Тема оформления.
         promos_disabled (:obj:`bool`): Не показывать рекламируемый контент).
         auto_play_radio (:obj:`bool`): Бесконечный поток музыки.
+        sync_queue_enabled (:obj:`bool`): Синхронизация очередей между устройствами.
         ads_disabled (:obj:`bool`, optional): Не показывать рекламу.
         disk_enabled (:obj:`bool`, optional): TODO.
         show_disk_tracks_in_library (:obj:`bool`, optional): Показывать локальные треки в библиотеке.
@@ -59,27 +61,28 @@ class UserSettings(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 uid: int,
-                 last_fm_scrobbling_enabled: bool,
-                 shuffle_enabled: bool,
-                 volume_percents: int,
-                 modified: str,
-                 facebook_scrobbling_enabled: bool,
-                 add_new_track_on_playlist_top: bool,
-                 user_music_visibility: str,
-                 user_social_visibility: str,
-                 rbt_disabled: bool,
-                 theme: str,
-                 promos_disabled: bool,
-                 auto_play_radio: bool,
-                 ads_disabled: Optional[bool] = None,
-                 disk_enabled: Optional[bool] = None,
-                 show_disk_tracks_in_library: Optional[bool] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        uid: int,
+        last_fm_scrobbling_enabled: bool,
+        shuffle_enabled: bool,
+        volume_percents: int,
+        modified: str,
+        facebook_scrobbling_enabled: bool,
+        add_new_track_on_playlist_top: bool,
+        user_music_visibility: str,
+        user_social_visibility: str,
+        rbt_disabled: bool,
+        theme: str,
+        promos_disabled: bool,
+        auto_play_radio: bool,
+        sync_queue_enabled: bool,
+        ads_disabled: Optional[bool] = None,
+        disk_enabled: Optional[bool] = None,
+        show_disk_tracks_in_library: Optional[bool] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.uid = uid
         self.last_fm_scrobbling_enabled = last_fm_scrobbling_enabled
         self.shuffle_enabled = shuffle_enabled
@@ -93,17 +96,34 @@ class UserSettings(YandexMusicObject):
         self.theme = theme
         self.promos_disabled = promos_disabled
         self.auto_play_radio = auto_play_radio
+        self.sync_queue_enabled = sync_queue_enabled
 
         self.ads_disabled = ads_disabled
         self.disk_enabled = disk_enabled
         self.show_disk_tracks_in_library = show_disk_tracks_in_library
 
         self.client = client
-        self._id_attrs = (self.uid, self.last_fm_scrobbling_enabled, self.shuffle_enabled, self.volume_percents,
-                          self.modified, self.facebook_scrobbling_enabled, self.add_new_track_on_playlist_top,
-                          self.user_music_visibility, self.user_social_visibility, self.rbt_disabled, self.theme,
-                          self.promos_disabled, self.auto_play_radio, self.ads_disabled, self.disk_enabled,
-                          self.show_disk_tracks_in_library)
+        self._id_attrs = (
+            self.uid,
+            self.last_fm_scrobbling_enabled,
+            self.shuffle_enabled,
+            self.volume_percents,
+            self.modified,
+            self.facebook_scrobbling_enabled,
+            self.add_new_track_on_playlist_top,
+            self.user_music_visibility,
+            self.user_social_visibility,
+            self.rbt_disabled,
+            self.theme,
+            self.promos_disabled,
+            self.auto_play_radio,
+            self.sync_queue_enabled,
+            self.ads_disabled,
+            self.disk_enabled,
+            self.show_disk_tracks_in_library,
+        )
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['UserSettings']:

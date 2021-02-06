@@ -27,15 +27,15 @@ class Link(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(self,
-                 title: str,
-                 href: str,
-                 type_: str,
-                 social_network: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        title: str,
+        href: str,
+        type_: str,
+        social_network: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.title = title
         self.href = href
         self.type = type_
@@ -44,6 +44,8 @@ class Link(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.title, self.href, self.type)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Link']:

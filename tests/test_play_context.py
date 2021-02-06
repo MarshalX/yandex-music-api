@@ -16,8 +16,12 @@ class TestPlayContext:
         assert PlayContext.de_json({}, client) is None
 
     def test_de_json_required(self, client, track_short_old):
-        json_dict = {'client_': self.client_, 'context': self.context, 'context_item': self.context_item,
-                     'tracks': [track_short_old.to_dict()]}
+        json_dict = {
+            'client_': self.client_,
+            'context': self.context,
+            'context_item': self.context_item,
+            'tracks': [track_short_old.to_dict()],
+        }
         play_context = PlayContext.de_json(json_dict, client)
 
         assert play_context.client_ == self.client_
@@ -26,8 +30,12 @@ class TestPlayContext:
         assert play_context.tracks == [track_short_old]
 
     def test_de_json_all(self, client, track_short_old):
-        json_dict = {'client_': self.client_, 'context': self.context, 'context_item': self.context_item,
-                     'tracks': [track_short_old.to_dict()]}
+        json_dict = {
+            'client_': self.client_,
+            'context': self.context,
+            'context_item': self.context_item,
+            'tracks': [track_short_old.to_dict()],
+        }
         play_context = PlayContext.de_json(json_dict, client)
 
         assert play_context.client_ == self.client_

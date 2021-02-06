@@ -1,3 +1,4 @@
+import re
 import sys
 import json
 
@@ -22,6 +23,9 @@ def requirements(section):
 
 packages = find_packages()
 
+with open('yandex_music/__init__.py', encoding='utf-8') as f:
+    version = re.findall(r"__version__ = '(.+)'", f.read())[0]
+
 with open('README.rst', 'r', encoding='utf-8') as f:
     readme = f.read()
 
@@ -30,37 +34,45 @@ with open('CHANGES.rst', 'r', encoding='utf-8') as f:
 
 
 setup(name='yandex-music',
-      version='0.1.2',
+      version=version,
       author='Il`ya Semyonov',
-      author_email='Ilya@marshal.by',
+      author_email='ilya@marshal.dev',
       license='LGPLv3',
       url='https://github.com/MarshalX/yandex-music-api/',
-      keywords='python yandex music api wrapper library питон пайтон яндекс музыка апи обёртка библиотека',
+      keywords='python yandex music api wrapper library client питон пайтон '
+               'яндекс музыка апи обёртка библиотека клиент',
       description='Делаю то, что по определённым причинам не сделала компания Yandex.',
       long_description=f'{readme}\n{changes}',
       packages=packages,
       install_requires=requirements('default'),
       include_package_data=True,
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 5 - Production/Stable',
           'Natural Language :: Russian',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
           'Operating System :: OS Independent',
-          'Topic :: Software Development :: Libraries :: Python Modules',
-          'Topic :: Multimedia :: Sound/Audio',
           'Topic :: Internet',
+          'Topic :: Multimedia :: Sound/Audio',
+          "Topic :: Software Development :: Libraries",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+          "Topic :: Software Development :: Libraries :: Application Frameworks",
           'Programming Language :: Python',
           'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
-          'Programming Language :: Python :: 3.8'
+          'Programming Language :: Python :: 3.8',
+          'Programming Language :: Python :: 3.9',
+          "Programming Language :: Python :: Implementation",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy"
       ],
+      python_requires="~=3.6",
       cmdclass={'test': PyTest},
       tests_require=requirements('develop'),
       project_urls={
           'Code': 'https://github.com/MarshalX/yandex-music-api',
           'Documentation': 'https://yandex-music.readthedocs.io',
-          'Chat': 'https://ttttt.me/yandex_music_api',
+          'Chat': 'https://t.me/yandex_music_api',
           'Codecov': 'https://codecov.io/gh/MarshalX/yandex-music-api',
           'Codacy': 'https://www.codacy.com/manual/MarshalX/yandex-music-api',
       })

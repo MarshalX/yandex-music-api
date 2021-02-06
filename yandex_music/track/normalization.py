@@ -21,18 +21,14 @@ class Normalization(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 gain: float,
-                 peak: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(self, gain: float, peak: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.gain = gain
         self.peak = peak
 
         self.client = client
         self._id_attrs = (self.gain, self.peak)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Normalization']:

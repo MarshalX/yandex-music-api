@@ -23,18 +23,22 @@ class PromoCodeStatus(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 status: str,
-                 status_desc: str,
-                 account_status: Optional['Status'],
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        status: str,
+        status_desc: str,
+        account_status: Optional['Status'],
+        client: Optional['Client'] = None,
+        **kwargs,
+    ):
         self.status = status
         self.status_desc = status_desc
         self.account_status = account_status
 
         self.client = client
         self._id_attrs = (self.status, self.status_desc, self.account_status)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PromoCodeStatus']:
@@ -52,6 +56,7 @@ class PromoCodeStatus(YandexMusicObject):
 
         data = super(PromoCodeStatus, cls).de_json(data, client)
         from yandex_music import Status
+
         data['account_status'] = Status.de_json(data.get('account_status'), client)
 
         return cls(client=client, **data)

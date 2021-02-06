@@ -19,16 +19,13 @@ class PersonalPlaylistsData(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 is_wizard_passed: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(self, is_wizard_passed: bool, client: Optional['Client'] = None, **kwargs) -> None:
         self.is_wizard_passed = is_wizard_passed
 
         self.client = client
         self._id_attrs = (self.is_wizard_passed,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PersonalPlaylistsData']:

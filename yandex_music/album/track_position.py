@@ -26,18 +26,14 @@ class TrackPosition(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 volume: int,
-                 index: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(self, volume: int, index: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.volume = volume
         self.index = index
 
         self.client = client
         self._id_attrs = (self.volume, self.index)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackPosition']:

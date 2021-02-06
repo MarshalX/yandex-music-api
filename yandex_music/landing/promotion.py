@@ -40,20 +40,20 @@ class Promotion(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 promo_id: str,
-                 title: str,
-                 subtitle: str,
-                 heading: str,
-                 url: str,
-                 url_scheme: str,
-                 text_color: str,
-                 gradient: str,
-                 image: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        promo_id: str,
+        title: str,
+        subtitle: str,
+        heading: str,
+        url: str,
+        url_scheme: str,
+        text_color: str,
+        gradient: str,
+        image: str,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.promo_id = promo_id
         self.title = title
         self.subtitle = subtitle
@@ -65,8 +65,28 @@ class Promotion(YandexMusicObject):
         self.image = image
 
         self.client = client
-        self._id_attrs = (self.promo_id, self.title, self.subtitle, self.heading,
-                          self.url, self.url_scheme, self.text_color, self.gradient, self.image)
+        self._id_attrs = (
+            self.promo_id,
+            self.title,
+            self.subtitle,
+            self.heading,
+            self.url,
+            self.url_scheme,
+            self.text_color,
+            self.gradient,
+            self.image,
+        )
+
+        super().handle_unknown_kwargs(self, **kwargs)
+
+    def download_image(self, filename: str, size: str = '300x300') -> None:
+        """Загрузка рекламного изображения.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер изображения.
+        """
+        self.client.request.download(f'https://{self.image.replace("%%", size)}', filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:
@@ -105,3 +125,6 @@ class Promotion(YandexMusicObject):
             promotions.append(cls.de_json(promotion, client))
 
         return promotions
+
+    #: Псевдоним для :attr:`download_image`
+    downloadImage = download_image

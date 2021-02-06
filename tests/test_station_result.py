@@ -20,8 +20,12 @@ class TestStationResult:
         assert StationResult.de_list({}, client) == []
 
     def test_de_json_required(self, client, station, rotor_settings, ad_params):
-        json_dict = {'station': station.to_dict(), 'settings': rotor_settings.to_dict(),
-                     'settings2': rotor_settings.to_dict(), 'ad_params': ad_params.to_dict()}
+        json_dict = {
+            'station': station.to_dict(),
+            'settings': rotor_settings.to_dict(),
+            'settings2': rotor_settings.to_dict(),
+            'ad_params': ad_params.to_dict(),
+        }
         station_result = StationResult.de_json(json_dict, client)
 
         assert station_result.station == station
@@ -30,9 +34,14 @@ class TestStationResult:
         assert station_result.ad_params == ad_params
 
     def test_de_json_all(self, client, station, rotor_settings, ad_params):
-        json_dict = {'station': station.to_dict(), 'settings': rotor_settings.to_dict(),
-                     'settings2': rotor_settings.to_dict(), 'ad_params': ad_params.to_dict(),
-                     'explanation': self.explanation, 'prerolls': self.prerolls}
+        json_dict = {
+            'station': station.to_dict(),
+            'settings': rotor_settings.to_dict(),
+            'settings2': rotor_settings.to_dict(),
+            'ad_params': ad_params.to_dict(),
+            'explanation': self.explanation,
+            'prerolls': self.prerolls,
+        }
         station_result = StationResult.de_json(json_dict, client)
 
         assert station_result.station == station

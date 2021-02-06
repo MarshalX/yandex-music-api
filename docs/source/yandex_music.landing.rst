@@ -15,3 +15,7 @@
     yandex_music.landing.personal_playlists_data
     yandex_music.landing.promotion
     yandex_music.landing.block
+    yandex_music.landing.chart_info
+    yandex_music.landing.chart_info_menu
+    yandex_music.landing.chart_info_menu_item
+    yandex_music.landing.landing_list

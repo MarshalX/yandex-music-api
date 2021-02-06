@@ -19,16 +19,13 @@ class PassportPhone(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 phone: str,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(self, phone: str, client: Optional['Client'] = None, **kwargs) -> None:
         self.phone = phone
 
         self.client = client
         self._id_attrs = (self.phone,)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:
@@ -62,8 +59,4 @@ class PassportPhone(YandexMusicObject):
         if not data:
             return []
 
-        phones = list()
-        for phone in data:
-            phones.append(cls.de_json(phone, client))
-
-        return phones
+        return [cls.de_json(phone, client) for phone in data]

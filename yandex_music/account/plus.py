@@ -21,18 +21,16 @@ class Plus(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 has_plus: bool,
-                 is_tutorial_completed: bool,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self, has_plus: bool, is_tutorial_completed: bool, client: Optional['Client'] = None, **kwargs
+    ) -> None:
         self.has_plus = has_plus
         self.is_tutorial_completed = is_tutorial_completed
 
         self.client = client
         self._id_attrs = (self.has_plus, self.is_tutorial_completed)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Plus']:

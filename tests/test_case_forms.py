@@ -21,9 +21,14 @@ class TestCaseForms:
         assert CaseForms.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'nominative': self.nominative, 'genitive': self.genitive, 'dative': self.dative,
-                     'accusative': self.accusative, 'instrumental': self.instrumental,
-                     'prepositional': self.prepositional}
+        json_dict = {
+            'nominative': self.nominative,
+            'genitive': self.genitive,
+            'dative': self.dative,
+            'accusative': self.accusative,
+            'instrumental': self.instrumental,
+            'prepositional': self.prepositional,
+        }
         case_forms = CaseForms.de_json(json_dict, client)
 
         assert case_forms.nominative == self.nominative
@@ -34,9 +39,14 @@ class TestCaseForms:
         assert case_forms.prepositional == self.prepositional
 
     def test_de_json_all(self, client):
-        json_dict = {'nominative': self.nominative, 'genitive': self.genitive, 'dative': self.dative,
-                     'accusative': self.accusative, 'instrumental': self.instrumental,
-                     'prepositional': self.prepositional}
+        json_dict = {
+            'nominative': self.nominative,
+            'genitive': self.genitive,
+            'dative': self.dative,
+            'accusative': self.accusative,
+            'instrumental': self.instrumental,
+            'prepositional': self.prepositional,
+        }
         case_forms = CaseForms.de_json(json_dict, client)
 
         assert case_forms.nominative == self.nominative
@@ -47,11 +57,13 @@ class TestCaseForms:
         assert case_forms.prepositional == self.prepositional
 
     def test_equality(self):
-        a = CaseForms(self.nominative, self.genitive, self.dative, self.accusative, self.instrumental,
-                      self.prepositional)
+        a = CaseForms(
+            self.nominative, self.genitive, self.dative, self.accusative, self.instrumental, self.prepositional
+        )
         b = CaseForms(self.nominative, '', self.dative, self.accusative, self.instrumental, self.prepositional)
-        c = CaseForms(self.nominative, self.genitive, self.dative, self.accusative, self.instrumental,
-                      self.prepositional)
+        c = CaseForms(
+            self.nominative, self.genitive, self.dative, self.accusative, self.instrumental, self.prepositional
+        )
 
         assert a != b
         assert hash(a) != hash(b)

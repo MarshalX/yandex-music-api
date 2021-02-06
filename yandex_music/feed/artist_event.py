@@ -13,30 +13,37 @@ class ArtistEvent(YandexMusicObject):
         artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
         tracks (:obj:`list` :obj:`yandex_music.Track`): Треки.
         similar_to_artists_from_history (:obj:`list` :obj:`yandex_music.Artist`): Похожие артисты из истории.
+        subscribed (:obj:`bool`): Подписан ли на событие.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
         artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
         tracks (:obj:`list` :obj:`yandex_music.Track`): Треки.
         similar_to_artists_from_history (:obj:`list` :obj:`yandex_music.Artist`): Похожие артисты из истории.
+        subscribed (:obj:`bool`): Подписан ли на событие.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 artist: Optional['Artist'],
-                 tracks: List['Track'],
-                 similar_to_artists_from_history: List['Artist'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        artist: Optional['Artist'],
+        tracks: List['Track'],
+        similar_to_artists_from_history: List['Artist'],
+        subscribed: Optional['bool'] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.artist = artist
         self.tracks = tracks
         self.similar_to_artists_from_history = similar_to_artists_from_history
 
+        self.subscribed = subscribed
+
         self.client = client
         self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ArtistEvent']:
@@ -54,6 +61,7 @@ class ArtistEvent(YandexMusicObject):
 
         data = super(ArtistEvent, cls).de_json(data, client)
         from yandex_music import Artist, Track
+
         data['artist'] = Artist.de_json(data.get('artist'), client)
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['similar_to_artists_from_history'] = Artist.de_list(data.get('similar_to_artists_from_history'), client)

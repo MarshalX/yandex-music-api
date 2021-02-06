@@ -23,18 +23,15 @@ class Pager(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 total: int,
-                 page: int,
-                 per_page: int,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(self, total: int, page: int, per_page: int, client: Optional['Client'] = None, **kwargs):
         self.total = total
         self.page = page
         self.per_page = per_page
 
         self.client = client
         self._id_attrs = (self.total, self.page, self.per_page)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Pager']:

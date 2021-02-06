@@ -19,9 +19,7 @@ class Experiments(YandexMusicObject):
         **kwargs: Собственно тут и передаются все эти свистелки.
     """
 
-    def __init__(self,
-                 client: Optional['Client'] = None,
-                 **kwargs):
+    def __init__(self, client: Optional['Client'] = None, **kwargs):
         self.__dict__.update(kwargs)
 
         self.client = client

@@ -12,10 +12,20 @@ def suggestions_with_best(request, results, types):
 
 
 class TestSuggestions:
-    suggestions = ['empathy test', 'testament', 'crash test dummies', 'seekae - test & recognise', 'joji - test drive',
-                   'john powell - test drive', 'max richter - testament of youth', 'seekae - test & recognise',
-                   'testament - first strike still deadly', '90-е в стиле r&b и соул',
-                   'crash test dummy: из чего состоит portishead', 'в стиле: alice testrup']
+    suggestions = [
+        'empathy test',
+        'testament',
+        'crash test dummies',
+        'seekae - test & recognise',
+        'joji - test drive',
+        'john powell - test drive',
+        'max richter - testament of youth',
+        'seekae - test & recognise',
+        'testament - first strike still deadly',
+        '90-е в стиле r&b и соул',
+        'crash test dummy: из чего состоит portishead',
+        'в стиле: alice testrup',
+    ]
 
     def test_expected_values(self, suggestions_with_best):
         suggestions, best = suggestions_with_best

@@ -21,18 +21,25 @@ class PlaylistId(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 uid: int,
-                 kind: int,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(self, uid: int, kind: int, client: Optional['Client'] = None, **kwargs) -> None:
         self.uid = uid
         self.kind = kind
 
         self.client = client
         self._id_attrs = (self.uid, self.kind)
+
+        super().handle_unknown_kwargs(self, **kwargs)
+
+    @property
+    def playlist_id(self):
+        return f'{self.uid}:{self.kind}'
+
+    def fetch_playlist(self, *args, **kwargs):
+        """Сокращение для::
+
+        client.users_playlists(kind, uid, *args, **kwargs)
+        """
+        return self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistId']:
@@ -71,3 +78,10 @@ class PlaylistId(YandexMusicObject):
             playlist_ids.append(cls.de_json(playlist_id, client))
 
         return playlist_ids
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`playlist_id`
+    playlistId = playlist_id
+    #: Псевдоним для :attr:`fetch_playlist`
+    fetchPlaylist = fetch_playlist

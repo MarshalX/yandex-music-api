@@ -1,0 +1,38 @@
+name: Black
+
+on:
+  pull_request:
+    branches:
+      - development
+  push:
+    branches:
+      - '**'
+
+jobs:
+  black:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.6]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+          python get-pip.py
+          pip install pipenv
+          pipenv install --dev --deploy --system
+        shell: bash
+      - name: Check code style of tests
+        run: |
+          black --check tests
+        shell: bash
+      - name: Check code style of package
+        run: |
+          black --check yandex_music
+        shell: bash

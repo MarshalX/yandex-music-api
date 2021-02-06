@@ -18,6 +18,7 @@ class GeneratedPlaylist(YandexMusicObject):
         ready (:obj:`bool`): Готовность плейлиста.
         notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
         data (:obj:`yandex_music.Playlist`): Сгенерированный плейлист.
+        description (:obj:`list`): Описание TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -25,26 +26,32 @@ class GeneratedPlaylist(YandexMusicObject):
         ready (:obj:`bool`): Готовность плейлиста.
         notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
         data (:obj:`yandex_music.Playlist`, optional): Сгенерированный плейлист.
+        description (:obj:`list`, optional): Описание TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 ready: bool,
-                 notify: bool,
-                 data: Optional['Playlist'],
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        type_: str,
+        ready: bool,
+        notify: bool,
+        data: Optional['Playlist'],
+        description: Optional[list] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.ready = ready
         self.notify = notify
         self.data = data
 
+        self.description = description
+
         self.client = client
         self._id_attrs = (self.type, self.ready, self.notify, self.data)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['GeneratedPlaylist']:
@@ -62,6 +69,7 @@ class GeneratedPlaylist(YandexMusicObject):
 
         data = super(GeneratedPlaylist, cls).de_json(data, client)
         from yandex_music import Playlist
+
         data['data'] = Playlist.de_json(data.get('data'), client)
 
         return cls(client=client, **data)
@@ -80,8 +88,4 @@ class GeneratedPlaylist(YandexMusicObject):
         if not data:
             return []
 
-        generated_playlists = list()
-        for generated_playlist in data:
-            generated_playlists.append(cls.de_json(generated_playlist, client))
-
-        return generated_playlists
+        return [cls.de_json(generated_playlist, client) for generated_playlist in data]

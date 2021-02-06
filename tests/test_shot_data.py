@@ -16,8 +16,12 @@ class TestShotData:
         assert ShotData.de_json({}, client) is None
 
     def test_de_json_required(self, client, shot_type):
-        json_dict = {'cover_uri': self.cover_uri, 'mds_url': self.mds_url, 'shot_text': self.shot_text,
-                     'shot_type': shot_type.to_dict()}
+        json_dict = {
+            'cover_uri': self.cover_uri,
+            'mds_url': self.mds_url,
+            'shot_text': self.shot_text,
+            'shot_type': shot_type.to_dict(),
+        }
         shot_data = ShotData.de_json(json_dict, client)
 
         assert shot_data.cover_uri == self.cover_uri
@@ -26,8 +30,12 @@ class TestShotData:
         assert shot_data.shot_type == shot_type
 
     def test_de_json_all(self, client, shot_type):
-        json_dict = {'cover_uri': self.cover_uri, 'mds_url': self.mds_url, 'shot_text': self.shot_text,
-                     'shot_type': shot_type.to_dict()}
+        json_dict = {
+            'cover_uri': self.cover_uri,
+            'mds_url': self.mds_url,
+            'shot_text': self.shot_text,
+            'shot_type': shot_type.to_dict(),
+        }
         shot_data = ShotData.de_json(json_dict, client)
 
         assert shot_data.cover_uri == self.cover_uri

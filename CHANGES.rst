@@ -2,6 +2,170 @@
 Список изменений
 ================
 
+Версия 1.0.0
+============
+
+**06.02.2021**
+
+**Стабильная версия библиотеки**
+
+**Переломные изменения**
+
+- Поле ``error`` класса ``Artist`` теперь называется ``reason``.
+- Метод ``users_playlists`` класса ``Client`` теперь возвращает один объект плейлиста, когда был передан один ``kind``. При передаче списка в ``kind`` вернётся список плейлистов (`#318`_).
+- Поле ``labels`` класса ``Album`` теперь может содержать список из строк, а не только список объектов класса ``Label``.
+
+**Крупные изменения**
+
+- Добавлены примеры в папку ``examples``.
+- Добавлена поддержка рекомендаций для плейлистов (`#324`_):
+    - Добавлен класс ``PlaylistRecommendations``.
+    - Добавлен метод клиента для получения рекомендаций (``users_playlists_recommendations``).
+    - Добавлен метод ``get_recommendations`` классу ``Playlist`` для получения рекомендаций.
+- Добавлено получение чартов (`#294`_):
+    - Добавлены новые классы: ``ChartInfo``, ``ChartInfoMenu``, ``ChartInfoMenuItem``.
+    - Добавлен метод клиента для получения чарта (``chart``).
+- Добавлена поддержка тегов/подборок (`#192`_):
+    - Добавлены новые классы: ``TagResult``, ``Tag``.
+    - Добавлен новый метод клиента для получения тегов (``tags``).
+- Добавлено присоединение к коллективному плейлисту (`#317`_):
+    - Добавлен новый метод клиента для присоединения (``playlists_collective_join``).
+- Добавлена поддержка очередей прослушивания (`#246`_):
+    - Добавлены новые классы: ``Context``, ``Queue``, ``QueueItem``.
+    - Добавлены новые методы в ``Client``: ``queues_list``, ``queue``, ``queue_update_position``, ``queue_create``.
+    - Добавлены поля ``track_id`` и ``from_`` в класс ``TrackId``.
+    - Добавлена возможность смены языка у клиента для ответов от API.
+    - Добавлена десериализация любого объекта в ``JSON`` пригодного для отправки в запросе на Яндекс API.
+- Добавлены следующие методы для ``Client``:
+    - ``new_releases`` – получение полного списка всех новых релизов.
+    - ``new_playlists`` – получение полного списка всех новый плейлистов.
+    - ``podcasts`` – получение подкаста с лендинга.
+- Добавлены новые сокращения в модели:
+    - ``download_cover_white``, ``download_cover_uri`` в ``MixLink``.
+    - ``download_image`` в ``Promotion``.
+    - ``artists_name`` в ``Album`` и ``Track``.
+    - ``fetch_track``, ``track_full_id`` в ``TrackId``.
+    - ``fetch_tracks`` в ``TracksList``.
+    - ``insert_track``, ``delete_tracks``, ``delete`` в ``Playlist``.
+    - ``playlist_id``, ``fetch_playlist`` в ``PlaylistId``.
+    - ``get_current_track`` в ``Queue``.
+    - ``fetch_queue`` в ``QueueItem``.
+    - ``next_page``, ``get_page``, ``prev_page`` в ``Search``.
+    - и другие...
+- Добавлена поддержка новых типов поиска: подкасты, выпуски, пользователи.
+- Добавлен коллбек для обработки новых полей.
+- Добавлена информацию по поводу запуска потока по треку, плейлисту и др.
+- Добавлена десериализация ``decomposed`` у ``Artist`` (`#10`_).
+- Добавлен ``__len__`` для ``TracksList`` (`#380`_).
+- Добавлены ``__iter__``, ``__len__`` и ``__getitem__`` для классов представляющих список каких-либо объектов.
+- Добавлено сокращение ``fetch_tracks`` классу ``Playlist`` для получения треков плейлиста.
+- Добавлен метод ``get_url`` классу ``Icon`` для получения прямой ссылки на изображение.
+- Класс ``User`` расширен для поддержки поля ``user_info`` из ``Track`` (поля ``full_name``, ``display_name``).
+- Добавлены новые классы по отчётам с Telegram бота (`#306`_, `#398`_):
+    - ``LandingList``.
+    - ``RenewableRemainder``.
+    - ``Alert``.
+    - ``AlertButton``.
+    - ``StationData``.
+    - ``Brand``.
+    - ``Contest``.
+    - ``OpenGraphData``.
+    - ``NonAutoRenewable``.
+    - ``Operator``.
+    - ``Deactivation``.
+    - ``PoetryLoverMatch``.
+    - ``Deprecation``.
+- Добавлены новые поля классам по отчётам с Telegram бота (`#306`_, `#398`_):
+    - ``plus`` в ``Product``.
+    - ``non_auto_renewable_remainder`` в ``Subscription``.
+    - ``og_image`` в ``Artist``.
+    - ``meta_type`` в ``Album``.
+    - ``advertisement`` в ``Status``.
+    - ``best`` в ``Track``.
+    - ``offer_id`` и ``artist_ids`` в ``Vinyl``.
+    - ``playlists`` в ``BriefInfo``.
+    - ``is_custom`` в ``Cover``.
+    - ``play_count``, ``recent``, ``chart``, ``track`` в ``TrackShort``.
+    - ``url_part``, ``og_title``, ``image``, ``cover_without_text``, ``background_color``, ``text_color``, ``id_for_from``, ``similar_playlists``, ``last_owner_playlists`` в ``Playlist``.
+    - ``bg_color`` в ``Chart``.
+    - ``error`` в ``Artist``.
+    - ``substituted``, ``matched_track``, ``can_publish``, ``state``, ``desired_visibility``, ``filename``, ``user_info``, ``meta_data`` в ``Track``.
+    - ``copyright_name``, ``copyright_cline`` в ``Cover``.
+    - ``direct`` в ``DownloadInfo``.
+    - ``cheapest``, ``title``, ``family_sub``, ``fb_image``, ``fb_name``, ``family``, ``intro_period_duration``, ``intro_price``, ``start_period_duration``, ``start_price``, ``licence_text_parts`` в ``Product``.
+    - ``storage_dir``, ``duplicates`` в ``Album``.
+    - ``subscribed`` в ``ArtistEvent``.
+    - ``description`` в ``GeneratedPlaylist``.
+    - ``genre`` в ``Event``.
+    - ``show_in_regions`` в ``Genre``.
+    - ``cover_uri`` в ``MixLink``.
+    - ``og_description``, ``top_artist`` в ``Playlist``.
+    - ``full_image_url``, ``mts_full_image_url`` в ``Station``.
+    - ``coauthors`` и ``recent_tracks`` в ``Playlist``.
+    - ``regions`` в ``User``.
+    - ``users``, ``podcasts``, ``podcast_episodes``, ``type_``, ``page``, ``per_page`` в ``Search``.
+    - ``short_description``, ``description``, ``is_premiere``, ``is_banner`` в ``Like``.
+    - ``master_info`` в ``AutoRenewable``.
+    - ``station_data`` и ``bar_below`` в ``Status``.
+    - ``family_auto_renewable`` в ``Subscription``.
+    - ``misspell_result`` и ``misspell_original`` в ``Search``.
+    - ``experiment`` в класс ``Status``.
+    - ``operator`` и ``non_auto_renewable`` в ``Subscription``.
+    - ``text_color``, ``short_description``, ``description``, ``is_premiere`` и ``is_banner`` в ``Album``.
+    - ``hand_made_description`` в ``Artist``.
+    - ``metrika_id`` в ``Playlist``.
+    - ``og_image`` в ``Tag``.
+    - ``url`` в ``Lyrics``.
+    - ``number``, ``genre`` в ``MetaData``.
+    - ``poetry_lover_matches`` в ``Track``.
+    - ``contest``, ``dummy_description``, ``dummy_page_description``, ``dummy_cover``, ``dummy_rollover_cover``, ``og_data``, ``branding`` в ``Playlist``.
+    - ``available_as_rbt``, ``lyrics_available``, ``remember_position``, ``albums``, ``duration_ms``, ``explicit``, ``start_date``, ``likes_count``, ``deprecation`` в ``Album``.
+    - ``lyricist``, ``version``, ``composer`` в ``MetaData``.
+    - ``last_releases`` в ``BriefInfo``.
+    - ``ya_money_id`` в ``Artist`` (`#351`_, `#370`_).
+    - ``playlist_uuid`` в ``Playlist``.
+    - ``sync_queue_enabled`` в ``UserSettings``.
+    - ``background_video_uri``, ``short_description``, ``is_suitable_for_children`` в ``Track`` (`#376`_).
+    - ``meta_type``, ``likes_count`` в ``Album`` (`#386`_).
+    - ``deprecation`` в ``Album``.
+    - ``available_regions`` в ``Album``.
+    - ``type``, ``ready`` в ``Playlist``.
+    - ``description`` в ``Supplement``.
+
+**Незначительные изменения и/или исправления**
+
+- Добавлена опциональность следующим полям:
+    - все поля в ``MetaData``.
+    - ``advertisement`` в ``Status``.
+    - ``text_language`` в ``Lyrics``.
+    - ``provider_video_id`` в ``VideoSupplement``.
+    - ``title`` в ``VideoSupplement`` (`#403`_).
+    - ``instructions`` в ``Deactivation`` (`#402`_).
+    - ``id`` в ``Album`` (`#401`_).
+- Исправлена десериализация подкастов, эпизодов подкастов и пользователей в лучшем результате поиска.
+- Исправлена десериализация альбомов. В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк (в поиске).
+- Исправлен выбор настроек радио.
+- Исправлены ошибки в документации.
+- Протестирована работа на Python 3.9.
+
+.. _`#318`: https://github.com/MarshalX/yandex-music-api/issues/318
+.. _`#306`: https://github.com/MarshalX/yandex-music-api/issues/306
+.. _`#324`: https://github.com/MarshalX/yandex-music-api/issues/324
+.. _`#294`: https://github.com/MarshalX/yandex-music-api/issues/294
+.. _`#192`: https://github.com/MarshalX/yandex-music-api/issues/192
+.. _`#317`: https://github.com/MarshalX/yandex-music-api/issues/317
+.. _`#10`: https://github.com/MarshalX/yandex-music-api/issues/10
+.. _`#386`: https://github.com/MarshalX/yandex-music-api/issues/386
+.. _`#246`: https://github.com/MarshalX/yandex-music-api/issues/246
+.. _`#376`: https://github.com/MarshalX/yandex-music-api/issues/376
+.. _`#351`: https://github.com/MarshalX/yandex-music-api/issues/351
+.. _`#370`: https://github.com/MarshalX/yandex-music-api/issues/370
+.. _`#380`: https://github.com/MarshalX/yandex-music-api/issues/380
+.. _`#398`: https://github.com/MarshalX/yandex-music-api/issues/398
+.. _`#401`: https://github.com/MarshalX/yandex-music-api/issues/401
+.. _`#402`: https://github.com/MarshalX/yandex-music-api/issues/402
+.. _`#403`: https://github.com/MarshalX/yandex-music-api/issues/403
+
 Версия 0.1.1
 ============
 
@@ -39,7 +203,7 @@
     - Добавлен класс ``TracksSimilar`` с полями трека и списка похожих треков.
     - Добавлен метод для получения похожих треков (``tracks_similar``).
 - Добавлены шоты от Алисы (`#185`_):
-    - Добавлен метод ``after_track`` в класс ``Client`` для получения контента для воспоризведения после трека (реклама, шот).
+    - Добавлен метод ``after_track`` в класс ``Client`` для получения контента для воспроизведения после трека (реклама, шот).
     - Добавлены методы для загрузки обложки и аудиоверсии шота.
     - Добавлены новые классы:
         - ``Shot``
@@ -50,13 +214,13 @@
 - Добавлена поддержка Яндекс.Радио (`#20`_):
     - Исправлена отправка фидбека.
     - Написана инструкция по использованию (в доке к методу).
-    - Добавлен аругмент для перехода по цепочке треков.
+    - Добавлен аргумент для перехода по цепочке треков.
     - Добавлен метод для изменения настроек станции.
 
 **Незначительные изменения и/или исправления**
 
 - Убрано дублирование информации в документации (`#247`_).
-- Добавленые новые поля в класс ``Track``: ``version``, ``remember_position`` (`#238`_).
+- Добавлены новые поля в класс ``Track``: ``version``, ``remember_position`` (`#238`_).
 - Добавлено исключение ``InvalidBitrate`` при попытке загрузить недопустимый трек по критериям (кодек, битрейт).
 - Исправлено получение прямой ссылки на файл с кодеком AAC (`#237`_, `#25`_).
 - Исправлено получение плейлиста с Алисой в лендинге (`#185`_).
@@ -103,7 +267,7 @@
 - Добавлен в зависимости для разработки ``importlib_metadata`` для поддержки старых версий (в новой версии ``pytest`` его больше не используют, в угоду ``importlib.metadata`` `#pytest-5537`_)) (`#161`_).
 - Добавлен в зависимости для разработки ``atomicwrites``, который используется ``pytest`` теперь только на ``Windows`` - `#pytest-6148`_ (`#161`_).
 - Исправлен баг с передачей ``timeout`` аргумента в аргумент ``params`` в следующих методах: ``artists``, ``albums``, ``playlists_list`` (`#120`_).
-- Исправлена иницилазиация клиента при помощи логина и пароля с использованием прокси (`#159`_).
+- Исправлена инициализация клиента при помощи логина и пароля с использованием прокси (`#159`_).
 - Исправлен баг в загрузке обложки альбома.
 
 .. _`#162`: https://github.com/MarshalX/yandex-music-api/issues/162
@@ -171,8 +335,8 @@
 **Переломные изменения**
 
 - Практически у всех классов был обновлён список полей участвующих при сравнении объектов.
-- Если в атрибутах для стравнения объектов присутствуют списки, то они будут преобразованы к frozenset.
-- Убрано конвертирование даты из строки в объект. Теперь все даты представляны строками в ISO формате.
+- Если в атрибутах для сравнения объектов присутствуют списки, то они будут преобразованы к frozenset.
+- Убрано конвертирование даты из строки в объект. Теперь все даты представлены строками в ISO формате.
 - Классы ``AlbumSearchResult``, ``ArtistSearchResult``, ``PlaylistSearchResult``, ``TrackSearchResult``, ``VideoSearchResult`` были объединены в один - ``SearchResult``.
 
 **Крупные изменения**

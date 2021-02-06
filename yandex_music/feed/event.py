@@ -29,6 +29,7 @@ class Event(YandexMusicObject):
         message (:obj:`str`): Сообщение уведомления.
         device (:obj:`str`): Устройство, с которого пришло уведомление.
         tracks_count (:obj:`int`): Количество треков (возможно, уже не используется).
+        genre (:obj:`str`): Жанр треков.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 
     Args:
@@ -43,25 +44,27 @@ class Event(YandexMusicObject):
         message (:obj:`str`, optional): Сообщение уведомления.
         device (:obj:`str`, optional): Устройство, с которого пришло уведомление.
         tracks_count (:obj:`int`, optional): Количество треков (возможно, уже не используется).
+        genre (:obj:`str`, optional): Жанр треков.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 id_: str,
-                 type_: str,
-                 type_for_from: Optional[str] = None,
-                 title: Optional[str] = None,
-                 tracks: List['Track'] = None,
-                 artists: List['ArtistEvent'] = None,
-                 albums: List['AlbumEvent'] = None,
-                 message=None,
-                 device=None,
-                 tracks_count: Optional[int] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        id_: str,
+        type_: str,
+        type_for_from: Optional[str] = None,
+        title: Optional[str] = None,
+        tracks: List['Track'] = None,
+        artists: List['ArtistEvent'] = None,
+        albums: List['AlbumEvent'] = None,
+        message=None,
+        device=None,
+        tracks_count: Optional[int] = None,
+        genre: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.id = id_
         self.type = type_
 
@@ -73,9 +76,12 @@ class Event(YandexMusicObject):
         self.message = message
         self.device = device
         self.tracks_count = tracks_count
+        self.genre = genre
 
         self.client = client
         self._id_attrs = (self.id, self.type)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Event']:
@@ -93,6 +99,7 @@ class Event(YandexMusicObject):
 
         data = super(Event, cls).de_json(data, client)
         from yandex_music import Track, AlbumEvent, ArtistEvent
+
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['albums'] = AlbumEvent.de_list(data.get('albums'), client)
         data['artists'] = ArtistEvent.de_list(data.get('artists'), client)

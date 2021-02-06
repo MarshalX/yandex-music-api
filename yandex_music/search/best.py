@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video
+from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video, User
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -12,6 +12,9 @@ de_json_result = {
     'album': Album.de_json,
     'playlist': Playlist.de_json,
     'video': Video.de_json,
+    'user': User.de_json,
+    'podcast': Album.de_json,
+    'podcast_episode': Track.de_json,
 }
 
 
@@ -34,14 +37,14 @@ class Best(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self,
-                 type_: str,
-                 result: Optional[Union[Track, Artist, Album, Playlist, Video]],
-                 text: Optional[str] = None,
-                 client: Optional['Client'] = None,
-                 **kwargs) -> None:
-        super().handle_unknown_kwargs(self, **kwargs)
-
+    def __init__(
+        self,
+        type_: str,
+        result: Optional[Union[Track, Artist, Album, Playlist, Video]],
+        text: Optional[str] = None,
+        client: Optional['Client'] = None,
+        **kwargs,
+    ) -> None:
         self.type = type_
         self.result = result
 
@@ -49,6 +52,8 @@ class Best(YandexMusicObject):
 
         self.client = client
         self._id_attrs = (self.type, self.result)
+
+        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Best']:

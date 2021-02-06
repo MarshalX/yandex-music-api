@@ -1,5 +1,5 @@
-yandex_music.YandexMusicObject
-==============================
+Родительский объект yandex_music.YandexMusicObject
+==================================================
 
 .. autoclass:: yandex_music.YandexMusicObject
     :members:
