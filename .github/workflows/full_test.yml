@@ -3,7 +3,7 @@ name: Full test
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   pytest:
