@@ -97,7 +97,7 @@ API Yandex Music - неофициальная Python библиотека
 --------------------------------
 
 Значения констант
-`CLIENT_ID и CLIENT_SECRET <https://github.com/MarshalX/yandex-music-api/blob/master/yandex_music/client.py#L11>`_
+`CLIENT_ID и CLIENT_SECRET <https://github.com/MarshalX/yandex-music-api/blob/main/yandex_music/client.py#L52>`_
 позаимствовано у официального приложения-клиента сервиса Яндекс.Музыка из магазина
 Microsoft Store. Так как API является закрытым и используется только внутри
 компании Яндекс сейчас невозможно зарегистрировать своё собственное приложение на
@@ -248,7 +248,7 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 Код примеров опубликован в открытом доступе, поэтому
 Вы можете взять его и начать писать вокруг своё.
 
-Посетите `эту страницу <https://github.com/MarshalX/yandex-music-api/blob/master/examples/>`_
+Посетите `эту страницу <https://github.com/MarshalX/yandex-music-api/blob/main/examples/>`_
 чтобы изучить официальные примеры.
 
 -----------
