@@ -18,8 +18,8 @@ class Response(YandexMusicObject):
     Attributes:
         data (:obj:`dict`): Ответ на запрос. Используется тогда, когда отсутствует `result`.
         invocation_info (:obj:`yandex_music.InvocationInfo` | :obj:`None`): Информация о запросе.
-        result (:obj:`dict`): Ответ на запрос (секция с результатом).
-        error (:obj:`str`): Код ошибки.
+        _result (:obj:`dict`): Ответ на запрос (секция с результатом).
+        _error (:obj:`str`): Код ошибки.
         error_description (:obj:`str`): Описание ошибки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
 

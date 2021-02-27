@@ -1,17 +1,8 @@
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from yandex_music.utils.captcha_response import CaptchaResponse
-
 
 class YandexMusicError(Exception):
     """Базовый класс, представляющий исключения общего характера. """
-
-
-class InvalidToken(YandexMusicError):
-    """Класс исключения, вызываемого для случаев недействительного
-    или неверного токена аутентификации.
-    """
 
 
 class Unauthorized(YandexMusicError):
@@ -30,24 +21,33 @@ class Captcha(YandexMusicError):
     """Базовый класс, представляющий исключение связанное с капчей.
 
     Attributes:
-        captcha (:obj:`yandex_music.utils.captcha_response.CaptchaResponse`): Капча.
+        track_id (:obj:`str`): Идентификатора сессии аутентификации.
+        captcha_image_url (:obj:`str` | :obj:`None`): Ссылка на изображение с капчей.
 
     Args:
         msg (:obj:`str`): Сообщение с ошибкой.
-        captcha (:obj:`yandex_music.utils.captcha_response.CaptchaResponse`): Капча.
+        track_id (:obj:`str`, optional): Идентификатора сессии аутентификации.
+        captcha_image_url (:obj:`str`, optional): Ссылка на изображение с капчей.
     """
 
-    def __init__(self, msg: str, captcha: 'CaptchaResponse', *args, **kwargs):
-        self.captcha = captcha
-        super().__init__(msg, *args, **kwargs)
+    def __init__(self, msg: str, track_id: str = None, captcha_image_url: str = None, *args):
+        super().__init__(msg, *args)
+        self.track_id = track_id
+        self.captcha_image_url = captcha_image_url
 
 
 class CaptchaRequired(Captcha):
     """Класс исключения, вызываемый в случае необходимости ввода проверочного кода."""
 
 
-class CaptchaWrong(Captcha):
-    """Класс исключения, вызываемый в случае неправильного ввода капчи."""
+class CaptchaNotShown(Captcha):
+    """Класс исключения, вызываемый в случае когда капча была получена, но изображение не было загружено.
+
+    Notes:
+        Будет вызвано если не сделать запрос на `captcha_image_url` полученный в `CaptchaRequired`. Получив данное
+        исключение можно выполнить запрос еще раз для получения новой капчи.
+
+    """
 
 
 class NetworkError(YandexMusicError):
