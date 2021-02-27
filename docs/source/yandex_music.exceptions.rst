@@ -6,11 +6,6 @@
     :undoc-members:
     :show-inheritance:
 
-.. autoclass:: yandex_music.exceptions.InvalidToken
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 .. autoclass:: yandex_music.exceptions.Unauthorized
     :members:
     :undoc-members:
@@ -31,7 +26,7 @@
     :undoc-members:
     :show-inheritance:
 
-.. autoclass:: yandex_music.exceptions.CaptchaWrong
+.. autoclass:: yandex_music.exceptions.CaptchaNotShown
     :members:
     :undoc-members:
     :show-inheritance:

@@ -12,15 +12,12 @@ import json
 
 import requests
 
-from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
 from yandex_music.exceptions import (
     Unauthorized,
     BadRequest,
     NetworkError,
     YandexMusicError,
-    CaptchaRequired,
-    CaptchaWrong,
     TimedOut,
 )
 
@@ -185,8 +182,6 @@ class Request:
             :class:`yandex_music.exceptions.Unauthorized`: При невалидном токене, долгом ожидании прямой ссылки на файл.
             :class:`yandex_music.exceptions.BadRequest`: При неправильном запросе.
             :class:`yandex_music.exceptions.NetworkError`: При проблемах с сетью.
-            :class:`yandex_music.exceptions.CaptchaWrong`: При неправильной капче.
-            :class:`yandex_music.exceptions.CaptchaRequired`: При необходимости пройти капчу.
         """
         if 'headers' not in kwargs:
             kwargs['headers'] = {}
@@ -206,10 +201,7 @@ class Request:
         parse = self._parse(resp.content)
         message = parse.error or 'Unknown HTTPError'
 
-        if 'CAPTCHA' in message:
-            exception = CaptchaWrong if 'Wrong' in message else CaptchaRequired
-            raise exception(message, CaptchaResponse.de_json(parse.result, self.client))
-        elif resp.status_code in (401, 403):
+        if resp.status_code in (401, 403):
             raise Unauthorized(message)
         elif resp.status_code == 400:
             raise BadRequest(message)

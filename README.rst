@@ -14,7 +14,7 @@ API Yandex Music - неофициальная Python библиотека
    :target: https://pypi.org/project/yandex-music/
    :alt: Поддерживаемые Python версии
 
-.. image:: https://codecov.io/gh/MarshalX/yandex-music-api/branch/development/graph/badge.svg
+.. image:: https://codecov.io/gh/MarshalX/yandex-music-api/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/MarshalX/yandex-music-api
    :alt: Покрытие кода тестами
 
@@ -216,15 +216,13 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 .. code:: python
 
     def init_client():
-        client = captcha_key = captcha_answer = None
+        client = captcha_answer = None
         while not client:
             try:
-                client = Client.from_credentials('login', 'pass', captcha_answer, captcha_key)
+                client = Client.from_credentials('login', 'pass', captcha_answer)
             except Captcha as e:
-                e.captcha.download('captcha.png')
-
-                captcha_key = e.captcha.x_captcha_key
-                captcha_answer = input('Число с картинки: ')
+                print(e.captcha_image_url)
+                captcha_answer = input('Код с картинки: ')
 
         return client
 
@@ -232,9 +230,9 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
 .. code:: python
 
-    def proc_captcha(captcha):
-        captcha.download('captcha.png')
-        return input('Число с картинки: ')
+    def proc_captcha(captcha_image_url):
+        print(captcha_image_url)
+        return input('Код с картинки: ')
 
     client = Client.from_credentials('login', 'pass', captcha_callback=proc_captcha)
 
