@@ -21,16 +21,19 @@ class Captcha(YandexMusicError):
     """Базовый класс, представляющий исключение связанное с капчей.
 
     Attributes:
+        track_id (:obj:`str`): Идентификатора сессии аутентификации.
         captcha_image_url (:obj:`str` | :obj:`None`): Ссылка на изображение с капчей.
 
     Args:
         msg (:obj:`str`): Сообщение с ошибкой.
+        track_id (:obj:`str`, optional): Идентификатора сессии аутентификации.
         captcha_image_url (:obj:`str`, optional): Ссылка на изображение с капчей.
     """
 
-    def __init__(self, msg: str, captcha_image_url: str = None, *args):
-        self.captcha_image_url = captcha_image_url
+    def __init__(self, msg: str, track_id: str = None, captcha_image_url: str = None, *args):
         super().__init__(msg, *args)
+        self.track_id = track_id
+        self.captcha_image_url = captcha_image_url
 
 
 class CaptchaRequired(Captcha):

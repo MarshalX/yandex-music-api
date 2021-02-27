@@ -163,6 +163,7 @@ class Client(YandexMusicObject):
             'os=Python; os_version=; manufacturer=Marshal; '
             'model=Yandex Music API; clid=; device_id=random; uuid=random'
         )
+        self._auth_sdk_params = 'app_id=ru.yandex.mobile.music&app_version_name=5.18&app_platform=iPad'
 
         self.me = None
         if fetch_account_status:
@@ -173,6 +174,7 @@ class Client(YandexMusicObject):
         cls,
         login: str,
         password: str,
+        track_id: str = None,
         captcha_answer: str = None,
         captcha_callback: Callable[[str], str] = None,
         timeout: Union[int, float] = None,
@@ -188,6 +190,7 @@ class Client(YandexMusicObject):
         Args:
             login (:obj:`str`): Логин клиента (идентификатор).
             password (:obj:`str`): Пароль клиента (аутентификатор).
+            track_id (:obj:`str`): Идентификатора сессии аутентификации (для ввода капчи на старой сессии).
             captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
             captcha_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
                 принимать строку с ссылкой на капчу и возвращать проверочный код.
@@ -206,7 +209,9 @@ class Client(YandexMusicObject):
         """
 
         client = cls(*args, **kwargs)
-        track_id = client._start_authentication(login, timeout, *args, **kwargs)
+
+        if not track_id:
+            track_id = client._start_authentication(login, timeout, *args, **kwargs)
 
         x_token = None
         while not x_token:
@@ -332,9 +337,9 @@ class Client(YandexMusicObject):
         if 'password.not_matched' in result['errors']:
             raise Unauthorized(result)
         elif 'captcha.required' in result['errors']:
-            raise CaptchaRequired('captcha.required', result['captcha_image_url'])
+            raise CaptchaRequired('captcha.required', track_id, result['captcha_image_url'])
         elif 'captcha.not_shown' in result['errors']:
-            raise CaptchaNotShown('captcha.not_shown')
+            raise CaptchaNotShown('captcha.not_shown', track_id)
         else:
             raise BadRequest(result)
 
@@ -358,7 +363,7 @@ class Client(YandexMusicObject):
             :class:`yandex_music.exceptions.BadRequest`: При неправильном запросе.
         """
 
-        url = f'{self.passport_url}/1/token'
+        url = f'{self.passport_url}/1/token/?{self._auth_sdk_params}'
 
         data = {
             'access_token': x_token,

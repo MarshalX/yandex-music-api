@@ -211,21 +211,6 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
 Больше примеров тут: `proxies - advanced usage - requests <https://2.python-requests.org/en/master/user/advanced/#proxies>`_
 
-Пример инициализации клиента с обработкой капчи:
-
-.. code:: python
-
-    def init_client():
-        client = captcha_answer = None
-        while not client:
-            try:
-                client = Client.from_credentials('login', 'pass', captcha_answer)
-            except Captcha as e:
-                print(e.captcha_image_url)
-                captcha_answer = input('Код с картинки: ')
-
-        return client
-
 Пример инициализации клиента с обработкой капчи при помощи callback-функции:
 
 .. code:: python
@@ -235,6 +220,26 @@ music.yandex.ru/album/**1193829**/track/**10994777**
         return input('Код с картинки: ')
 
     client = Client.from_credentials('login', 'pass', captcha_callback=proc_captcha)
+
+Пример инициализации клиента с обработкой капчи:
+
+.. code:: python
+
+    def init_client():
+        client = track_id = captcha_image_url = captcha_answer = None
+        while not client:
+            try:
+                client = Client.from_credentials('login', 'pass', track_id, captcha_answer)
+            except Captcha as e:
+                track_id = e.track_id
+                if e.captcha_image_url:
+                    captcha_image_url = e.captcha_image_url
+                else:
+                    print('Вы отправили ответ не посмотрев на картинку..')
+
+                captcha_answer = input(f'{captcha_image_url}\nВведите код с картинки: ')
+
+        return client
 
 --------------------
 Изучение по примерам
