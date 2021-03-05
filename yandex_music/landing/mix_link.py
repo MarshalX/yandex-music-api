@@ -46,7 +46,7 @@ class MixLink(YandexMusicObject):
         text_color: str,
         background_color: str,
         background_image_uri: str,
-        cover_white: str,
+        cover_white: Optional[str] = None,
         cover_uri: Optional[str] = None,
         client: Optional['Client'] = None,
         **kwargs,
