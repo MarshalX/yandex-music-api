@@ -175,7 +175,7 @@ Microsoft Store. Так как API является закрытым и испо
 `TracksList <https://yandex-music.readthedocs.io/ru/latest/yandex_music.tracks_list.html>`_
 в котором содержится список с треками класса
 `TrackShort <https://yandex-music.readthedocs.io/ru/latest/yandex_music.track_short.html>`_.
-Данные класс содержит наиважнейшую информацию о треке и никаких подробностей,
+Данный класс содержит наиважнейшую информацию о треке и никаких подробностей,
 поэтому для получения полной версии трека со всей информацией необходимо
 обратиться к методу fetch_track(). Затем можно скачать трек методом download().
 
