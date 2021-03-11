@@ -3,7 +3,7 @@ name: Codecov
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   pytest:
