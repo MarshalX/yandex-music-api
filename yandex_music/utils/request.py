@@ -200,15 +200,17 @@ class Request:
         except requests.RequestException as e:
             raise NetworkError(e)
 
-        if 200 <= resp.status_code <= 299:
-            return resp
-
         parse = self._parse(resp.content)
         message = parse.error or 'Unknown HTTPError'
 
         if 'CAPTCHA' in message:
             exception = CaptchaWrong if 'Wrong' in message else CaptchaRequired
             raise exception(message, CaptchaResponse.de_json(parse.result, self.client))
+        elif not isinstance(parse.result, dict):
+            print(f'{parse.result} ({resp.status_code})')
+            raise NetworkError(f'{parse.result} ({resp.status_code})')
+        elif 200 <= resp.status_code <= 299:
+            return resp
         elif resp.status_code in (401, 403):
             raise Unauthorized(message)
         elif resp.status_code == 400:
@@ -220,6 +222,7 @@ class Request:
             raise NetworkError('Bad Gateway')
         else:
             raise NetworkError(f'{message} ({resp.status_code})')
+
 
     def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs):
         """Отправка GET запроса.
