@@ -18,7 +18,7 @@ class Response(YandexMusicObject):
     Attributes:
         data (:obj:`dict`): Ответ на запрос. Используется тогда, когда отсутствует `result`.
         invocation_info (:obj:`yandex_music.InvocationInfo` | :obj:`None`): Информация о запросе.
-        result (:obj:`dict`): Ответ на запрос (секция с результатом).
+        result (:obj:`dict`, `list`, `str`): Ответ на запрос (секция с результатом).
         error (:obj:`str`): Код ошибки.
         error_description (:obj:`str`): Описание ошибки.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
@@ -37,7 +37,7 @@ class Response(YandexMusicObject):
         self,
         data: dict,
         invocation_info: Optional['InvocationInfo'] = None,
-        result: Union[dict, str] = None,
+        result: Union[dict, list, str] = None,
         error: str = None,
         error_description: str = None,
         client: Optional['Client'] = None,
