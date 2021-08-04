@@ -206,7 +206,7 @@ class Request:
         if 'CAPTCHA' in message:
             exception = CaptchaWrong if 'Wrong' in message else CaptchaRequired
             raise exception(message, CaptchaResponse.de_json(parse.result, self.client))
-        elif not isinstance(parse.result, dict):
+        elif isinstance(parse.result, str):
             raise NetworkError(f'{parse.result} ({resp.status_code})')
         elif 200 <= resp.status_code <= 299:
             return resp
