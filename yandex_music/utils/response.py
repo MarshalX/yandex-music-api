@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 
 from yandex_music import YandexMusicObject
 
@@ -37,7 +37,7 @@ class Response(YandexMusicObject):
         self,
         data: dict,
         invocation_info: Optional['InvocationInfo'] = None,
-        result: dict = None,
+        result: Union[dict, str] = None,
         error: str = None,
         error_description: str = None,
         client: Optional['Client'] = None,
