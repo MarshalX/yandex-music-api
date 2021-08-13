@@ -12,6 +12,7 @@ class Subscription(YandexMusicObject):
     Attributes:
         non_auto_renewable_remainder (:obj:`yandex_music.RenewableRemainder`): Напоминание о продлении.
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление подписки.
+        had_any_subscription (:obj:`bool`, optional): Была подписка.
         family_auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление семейной подписки.
         operator (:obj:`list` из :obj:`yandex_music.Operator`): Услуги сотового оператора.
         non_auto_renewable (:obj:`yandex_music.NonAutoRenewable`): Отключённое автопродление.
@@ -23,6 +24,7 @@ class Subscription(YandexMusicObject):
     Args:
         non_auto_renewable_remainder (:obj:`yandex_music.RenewableRemainder`): Напоминание о продлении.
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`, optional): Автопродление.
+        had_any_subscription (:obj:`bool`, optional): Была подписка.
         family_auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление семейной подписки.
         operator (:obj:`list` из :obj:`yandex_music.Operator`, optional): Услуги сотового оператора.
         non_auto_renewable (:obj:`yandex_music.NonAutoRenewable`, optional): Отключённое автопродление.
@@ -39,6 +41,7 @@ class Subscription(YandexMusicObject):
         auto_renewable: List['AutoRenewable'],
         family_auto_renewable: List['AutoRenewable'],
         operator: List['Operator'] = None,
+        had_any_subscription: Optional[bool] = None,
         non_auto_renewable: Optional['NonAutoRenewable'] = None,
         can_start_trial: Optional[bool] = None,
         mcdonalds: Optional[bool] = None,
@@ -51,6 +54,7 @@ class Subscription(YandexMusicObject):
         self.family_auto_renewable = family_auto_renewable
 
         self.operator = operator
+        self.had_any_subscription = had_any_subscription
         self.non_auto_renewable = non_auto_renewable
         self.can_start_trial = can_start_trial
         self.mcdonalds = mcdonalds

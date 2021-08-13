@@ -12,8 +12,10 @@ class Status(YandexMusicObject):
     Attributes:
         account (:obj:`yandex_music.Account`): Основная информация об аккаунте.
         permissions (:obj:`yandex_music.Permissions`): Информация о правах пользователя.
+        userhash (:obj:`str`, optional): Хэш пользователя.
         advertisement (:obj:`str`): Рекламное объявление.
         subscription (:obj:`yandex_music.Subscription`): Информация о подписках.
+        pretrial_active (:obj:`bool`, optional): Идет ли пробный период подписки.
         cache_limit (:obj:`int`): Максимальное количество загруженных треков.
         subeditor (:obj:`bool`): Наличие статуса модератора проверки корректности информации.
         subeditor_level (:obj:`int`): Уровень статуса модератора.
@@ -30,8 +32,10 @@ class Status(YandexMusicObject):
     Args:
         account (:obj:`yandex_music.Account`): Основная информация об аккаунте
         permissions (:obj:`yandex_music.Permissions`): Информация о правах пользователя.
+        userhash (:obj:`str`, optional): Хэш пользователя.
         advertisement (:obj:`str`, optional): Рекламное объявление.
         subscription (:obj:`yandex_music.Subscription`, optional): Информация о подписках.
+        pretrial_active (:obj:`bool`, optional): Идет ли пробный период подписки.
         cache_limit (:obj:`int`, optional): Максимальное количество загруженных треков.
         subeditor (:obj:`bool`, optional): Наличие статуса модератора проверки корректности информации.
         subeditor_level (:obj:`int`, optional): Уровень статуса модератора.
@@ -51,8 +55,10 @@ class Status(YandexMusicObject):
         self,
         account: Optional['Account'],
         permissions: Optional['Permissions'],
+        userhash: Optional[str] = None,
         advertisement: Optional[str] = None,
         subscription: Optional['Subscription'] = None,
+        pretrial_active: Optional[bool] = None,
         cache_limit: Optional[int] = None,
         subeditor: Optional[bool] = None,
         subeditor_level: Optional[int] = None,
@@ -69,9 +75,11 @@ class Status(YandexMusicObject):
     ) -> None:
         self.account = account
         self.permissions = permissions
+        self.userhash = userhash
 
         self.advertisement = advertisement
         self.subscription = subscription
+        self.pretrial_active = pretrial_active
         self.cache_limit = cache_limit
         self.subeditor = subeditor
         self.subeditor_level = subeditor_level
