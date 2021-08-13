@@ -12,10 +12,10 @@ class Status(YandexMusicObject):
     Attributes:
         account (:obj:`yandex_music.Account`): Основная информация об аккаунте.
         permissions (:obj:`yandex_music.Permissions`): Информация о правах пользователя.
-        userhash (:obj:`str`, optional): Хэш пользователя.
+        userhash (:obj:`str`): Хэш пользователя.
         advertisement (:obj:`str`): Рекламное объявление.
         subscription (:obj:`yandex_music.Subscription`): Информация о подписках.
-        pretrial_active (:obj:`bool`, optional): Идет ли пробный период подписки.
+        pretrial_active (:obj:`bool`): Идет ли пробный период подписки.
         cache_limit (:obj:`int`): Максимальное количество загруженных треков.
         subeditor (:obj:`bool`): Наличие статуса модератора проверки корректности информации.
         subeditor_level (:obj:`int`): Уровень статуса модератора.

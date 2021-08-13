@@ -12,7 +12,7 @@ class Subscription(YandexMusicObject):
     Attributes:
         non_auto_renewable_remainder (:obj:`yandex_music.RenewableRemainder`): Напоминание о продлении.
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление подписки.
-        had_any_subscription (:obj:`bool`, optional): Была подписка.
+        had_any_subscription (:obj:`bool`): Была подписка.
         family_auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление семейной подписки.
         operator (:obj:`list` из :obj:`yandex_music.Operator`): Услуги сотового оператора.
         non_auto_renewable (:obj:`yandex_music.NonAutoRenewable`): Отключённое автопродление.
