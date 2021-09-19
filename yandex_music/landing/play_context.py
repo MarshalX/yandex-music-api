@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, TrackShortOld
 
 
+@model
 class PlayContext(YandexMusicObject):
     """Класс, представляющий проигрываемый контекст.
 
@@ -21,35 +23,17 @@ class PlayContext(YandexMusicObject):
         context (:obj:`str`): Тип контекста.
         context_item (:obj:`str`): Предмет контекста.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Треки.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        client_ (:obj:`str`): Клиент.
-        context (:obj:`str`): Тип контекста.
-        context_item (:obj:`str`): Предмет контекста.
-        tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Треки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        client_: str,
-        context: str,
-        context_item: str,
-        tracks: List['TrackShortOld'],
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.client_ = client_
-        self.context = context
-        self.context_item = context_item
-        self.tracks = tracks
+    client_: str
+    context: str
+    context_item: str
+    tracks: List['TrackShortOld']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.client_, self.context_item, self.context_item, self.tracks)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlayContext']:

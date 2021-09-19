@@ -99,9 +99,8 @@ class Client(YandexMusicObject):
         passport_url (:obj:`str`): Ссылка на Mobileproxy Passport Yandex Music.
         me (:obj:`yandex_music.Status`): Информация об аккаунте.
         device (:obj:`str`): Строка, содержащая сведения об устройстве, с которого выполняются запросы.
-        report_new_fields (:obj:`bool`): Включены ли сообщения о новых полях от API, которых нет в библиотеке.
-        report_new_fields_callback (:obj:`function`): Функция обратного вызова для обработки новых полей.
-            Принимает объект, в котором нет поля и kwargs с неизвестными полями.
+        report_unknown_fields (:obj:`bool`): Включены ли предупреждения о неизвестных полях от API,
+            которых нет в библиотеке.
 
     Args:
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
@@ -111,9 +110,8 @@ class Client(YandexMusicObject):
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
         language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API.
-        report_new_fields (:obj:`bool`, optional): Включить сообщения о новых полях от API, которых нет в библиотеке.
-        report_new_fields_callback (:obj:`function`, optional): Функция обратного вызова для обработки новых полей.
-            Принимает объект, в котором нет поля и kwargs с неизвестными полями.
+        report_unknown_fields (:obj:`bool`, optional): Включены ли предупреждения о неизвестных полях от API,
+            которых нет в библиотеке.
     """
 
     notice_displayed = False
@@ -126,8 +124,7 @@ class Client(YandexMusicObject):
         passport_url: str = None,
         request: Request = None,
         language: str = 'ru',
-        report_new_fields=True,
-        report_new_fields_callback: Callable[[object, dict], None] = None,
+        report_unknown_fields=True,
     ) -> None:
         if not Client.notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
@@ -145,10 +142,7 @@ class Client(YandexMusicObject):
         self.base_url = base_url
         self.passport_url = passport_url
 
-        self.report_new_fields = report_new_fields
-
-        if report_new_fields_callback is not None:
-            self.report_new_fields_callback = report_new_fields_callback
+        self.report_new_fields = report_unknown_fields
 
         if request:
             self._request = request

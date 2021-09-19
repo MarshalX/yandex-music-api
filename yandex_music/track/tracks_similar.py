@@ -1,36 +1,28 @@
 from typing import TYPE_CHECKING, Optional, List, Iterator
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Track
 
 
+@model
 class SimilarTracks(YandexMusicObject):
     """Класс, представляющий список похожих треков на другой трек.
 
     Attributes:
         track (:obj:`yandex_music.Track`): Трек.
         similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Похожие треки на `track`.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        track (:obj:`yandex_music.Track`): Трек.
-        similar_tracks (:obj:`list` из :obj:`yandex_music.Track`): Похожие треки на `track`.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, track: Optional['Track'], similar_tracks: List['Track'], client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.track = track
-        self.similar_tracks = similar_tracks
+    track: Optional['Track']
+    similar_tracks: List['Track']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.track, self.similar_tracks)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item) -> 'Track':
         return self.similar_tracks[item]

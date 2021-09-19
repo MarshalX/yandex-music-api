@@ -1,39 +1,28 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Images(YandexMusicObject):
     """Класс, представляющий изображение жанра.
 
     Attributes:
-        _208x208 (:obj:`str`): Ссылка на изображение размером 208 на 208.
-        _300x300 (:obj:`str`): Ссылка на изображение размером 300 на 300.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         _208x208 (:obj:`str`, optional): Ссылка на изображение размером 208 на 208.
         _300x300 (:obj:`str`, optional): Ссылка на изображение размером 300 на 300.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        _208x208: Optional[str] = None,
-        _300x300: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self._208x208 = _208x208
-        self._300x300 = _300x300
+    _208x208: Optional[str] = None
+    _300x300: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.client = client
-
-        super().handle_unknown_kwargs(self, **kwargs)
+    def __post_init__(self):
+        self._id_attrs = (self._208x208, self._300x300)
 
     def download_208x208(self, filename: str) -> None:
         """Загрузка изображения 208x208.

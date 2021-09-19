@@ -1,11 +1,13 @@
 from typing import List, TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Deactivation(YandexMusicObject):
     """Класс, представляющий способы деактивации мобильной услуги.
 
@@ -14,26 +16,16 @@ class Deactivation(YandexMusicObject):
 
     Attributes:
         method (:obj:`str`): Метод отключения.
-        instructions (:obj:`str`): Инструкция.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        method (:obj:`str`): Метод отключения.
         instructions (:obj:`str`, optional): Инструкция.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, method: str, instructions: Optional[str] = None, client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.method = method
-        self.instructions = instructions
+    method: str
+    instructions: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.method, self.instructions)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Deactivation']:

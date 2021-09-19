@@ -25,7 +25,7 @@ class TestStation:
 
     def test_de_json_required(self, client, id_, icon, restrictions):
         json_dict = {
-            'id_': id_.to_dict(),
+            'id': id_.to_dict(),
             'name': self.name,
             'icon': icon.to_dict(),
             'mts_icon': icon.to_dict(),
@@ -47,7 +47,7 @@ class TestStation:
 
     def test_de_json_all(self, client, id_, icon, restrictions):
         json_dict = {
-            'id_': id_.to_dict(),
+            'id': id_.to_dict(),
             'name': self.name,
             'icon': icon.to_dict(),
             'mts_icon': icon.to_dict(),

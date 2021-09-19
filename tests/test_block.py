@@ -46,8 +46,8 @@ class TestBlock:
 
     def test_de_json_required(self, client, block_entity):
         json_dict = {
-            'id_': self.id,
-            'type_': self.type,
+            'id': self.id,
+            'type': self.type,
             'type_for_from': self.type_for_from,
             'title': self.title,
             'entities': [block_entity.to_dict()],
@@ -61,11 +61,11 @@ class TestBlock:
         assert block.entities == [block_entity]
 
     def test_de_json_all(self, client, block_entity, data_with_type):
-        data, type = data_with_type
+        data, type_ = data_with_type
 
         json_dict = {
-            'id_': self.id,
-            'type_': type,
+            'id': self.id,
+            'type': type_,
             'type_for_from': self.type_for_from,
             'title': self.title,
             'entities': [block_entity.to_dict()],
@@ -75,7 +75,7 @@ class TestBlock:
         block = Block.de_json(json_dict, client)
 
         assert block.id == self.id
-        assert block.type == type
+        assert block.type == type_
         assert block.type_for_from == self.type_for_from
         assert block.title == self.title
         assert block.entities == [block_entity]

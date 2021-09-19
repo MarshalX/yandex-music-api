@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 from yandex_music.exceptions import InvalidBitrate
 
 if TYPE_CHECKING:
@@ -18,6 +19,7 @@ if TYPE_CHECKING:
     )
 
 
+@model
 class Track(YandexMusicObject):
     """Класс, представляющий трек.
 
@@ -35,49 +37,6 @@ class Track(YandexMusicObject):
 
     Attributes:
         id (:obj:`int` | :obj:`str`): Уникальный идентификатор.
-        title (:obj:`str`): Название.
-        available (:obj:`bool`): Доступен ли для прослушивания.
-        artists (:obj:`list` из :obj:`yandex_music.Artist`): Исполнители.
-        albums (:obj:`list` из :obj:`yandex_music.Album`): Альбомы.
-        available_for_premium_users (:obj:`bool`): Доступен ли для пользователей с подпиской.
-        lyrics_available (:obj:`bool`): Доступен ли текст песни.
-        poetry_lover_matches (:obj:`list` из :obj:`yandex_music.PoetryLoverMatch`): Список слов TODO.
-        best (:obj:`bool`): Лучшей ли трек TODO.
-        real_id (:obj:`int` | :obj:`str`): TODO.
-        og_image (:obj:`str`): Ссылка на превью Open Graph.
-        type (:obj:`str`): Тип.
-        cover_uri (:obj:`str`): Ссылка на изображение с обложкой.
-        major (:obj:`yandex_music.Major` | :obj:`None`): Мейджор-лейбл.
-        duration_ms (:obj:`int`): Длительность трека в миллисекундах.
-        storage_dir (:obj:`str`): В какой папке на сервере хранится файл TODO.
-        file_size (:obj:`int`):  Размер файла. TODO добавить единицу измерения.
-        substituted (:obj:`yandex_music.Track`): Замещённый трек.
-        matched_track (:obj:`yandex_music.Track`): Соответствующий трек TODO.
-        normalization (:obj:`list` из :obj:`yandex_music.Normalization`): Значения для нормализации трека.
-        error (:obj:`str`): Сообщение об ошибке.
-        can_publish (:obj:`bool`): Может ли быть опубликован.
-        state (:obj:`str`): Состояние, например, playable.
-        desired_visibility (:obj:`str`): Видимость трека.
-        filename (:obj:`str`): Название файла.
-        user_info (:obj:`yandex_music.User`): Информация о пользователе, который загрузил трек.
-        meta_data (:obj:`yandex_music.MetaData`): Информация о метаданных трека.
-        regions (:obj:`list` из :obj:`str`): Регион TODO.
-        available_as_rbt (:obj:`bool`): TODO.
-        content_warning (:obj:`str`): Тип откровенного контента.
-        explicit (:obj:`bool`): Содержит ли откровенный контент.
-        preview_duration_ms (:obj:`int`): TODO.
-        available_full_without_permission (:obj:`bool`): Доступен ли без подписки.
-        version (:obj:`str`): Версия.
-        remember_position (:obj:`bool`): Если :obj:`True`, то запоминатся последняя позиция прослушивания,
-            иначе позиция не запоминается.
-        download_info (:obj:`list` из :obj:`yandex_music.DownloadInfo`): Информация о вариантах загрузки трека.
-        background_video_uri (:obj:`str`): Ссылка на видеошот.
-        short_description (:obj:`str`): Краткое опсание эпизода подкаста.
-        is_suitable_for_children (:obj:`bool`): Подходит ли для детей TODO.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        id_ (:obj:`int` | :obj:`str`): Уникальный идентификатор.
         title (:obj:`str`, optional): Название.
         available (:obj:`bool`, optional): Доступен ли для прослушивания.
         artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Исполнители.
@@ -88,7 +47,7 @@ class Track(YandexMusicObject):
         best (:obj:`bool`, optional): Лучшей ли трек TODO.
         real_id (:obj:`int` | :obj:`str`, optional): TODO.
         og_image (:obj:`str`, optional): Ссылка на превью Open Graph.
-        type_ (:obj:`str`, optional): Тип.
+        type (:obj:`str`, optional): Тип.
         cover_uri (:obj:`str`, optional): Ссылка на изображение с обложкой.
         major (:obj:`yandex_music.Major`, optional): Мейджор-лейбл.
         duration_ms (:obj:`int`, optional): Длительность трека в миллисекундах.
@@ -117,98 +76,50 @@ class Track(YandexMusicObject):
         short_description (:obj:`str`, optional): Краткое опсание эпизода подкаста.
         is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        id_: Union[str, int],
-        title: Optional[str] = None,
-        available: Optional[bool] = None,
-        artists: List['Artist'] = None,
-        albums: List['Album'] = None,
-        available_for_premium_users: Optional[bool] = None,
-        lyrics_available: Optional[bool] = None,
-        poetry_lover_matches: List['PoetryLoverMatch'] = None,
-        best: Optional[bool] = None,
-        real_id: Optional[Union[str, int]] = None,
-        og_image: Optional[str] = None,
-        type_: Optional[str] = None,
-        cover_uri: Optional[str] = None,
-        major: Optional['Major'] = None,
-        duration_ms: Optional[int] = None,
-        storage_dir: Optional[str] = None,
-        file_size: Optional[int] = None,
-        substituted: Optional['Track'] = None,
-        matched_track: Optional['Track'] = None,
-        normalization: Optional['Normalization'] = None,
-        error: Optional[str] = None,
-        can_publish: Optional[bool] = None,
-        state: Optional[str] = None,
-        desired_visibility: Optional[str] = None,
-        filename: Optional[str] = None,
-        user_info: Optional['User'] = None,
-        meta_data: Optional['MetaData'] = None,
-        regions: Optional[List[str]] = None,
-        available_as_rbt: Optional[bool] = None,
-        content_warning: Optional[str] = None,
-        explicit: Optional[bool] = None,
-        preview_duration_ms: Optional[int] = None,
-        available_full_without_permission: Optional[bool] = None,
-        version: Optional[str] = None,
-        remember_position: Optional[bool] = None,
-        background_video_uri: Optional[str] = None,
-        short_description: Optional[str] = None,
-        is_suitable_for_children: Optional[bool] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.id = id_
+    id: Union[str, int]
+    title: Optional[str] = None
+    available: Optional[bool] = None
+    artists: List['Artist'] = None
+    albums: List['Album'] = None
+    available_for_premium_users: Optional[bool] = None
+    lyrics_available: Optional[bool] = None
+    poetry_lover_matches: List['PoetryLoverMatch'] = None
+    best: Optional[bool] = None
+    real_id: Optional[Union[str, int]] = None
+    og_image: Optional[str] = None
+    type: Optional[str] = None
+    cover_uri: Optional[str] = None
+    major: Optional['Major'] = None
+    duration_ms: Optional[int] = None
+    storage_dir: Optional[str] = None
+    file_size: Optional[int] = None
+    substituted: Optional['Track'] = None
+    matched_track: Optional['Track'] = None
+    normalization: Optional['Normalization'] = None
+    error: Optional[str] = None
+    can_publish: Optional[bool] = None
+    state: Optional[str] = None
+    desired_visibility: Optional[str] = None
+    filename: Optional[str] = None
+    user_info: Optional['User'] = None
+    meta_data: Optional['MetaData'] = None
+    regions: Optional[List[str]] = None
+    available_as_rbt: Optional[bool] = None
+    content_warning: Optional[str] = None
+    explicit: Optional[bool] = None
+    preview_duration_ms: Optional[int] = None
+    available_full_without_permission: Optional[bool] = None
+    version: Optional[str] = None
+    remember_position: Optional[bool] = None
+    background_video_uri: Optional[str] = None
+    short_description: Optional[str] = None
+    is_suitable_for_children: Optional[bool] = None
+    client: Optional['Client'] = None
 
-        self.title = title
-        self.available = available
-        self.artists = artists
-        self.albums = albums
-        self.available_for_premium_users = available_for_premium_users
-        self.lyrics_available = lyrics_available
-        self.poetry_lover_matches = poetry_lover_matches
-        self.best = best
-        self.real_id = real_id
-        self.og_image = og_image
-        self.type = type_
-        self.cover_uri = cover_uri
-        self.major = major
-        self.duration_ms = duration_ms
-        self.storage_dir = storage_dir
-        self.file_size = file_size
-        self.substituted = substituted
-        self.matched_track = matched_track
-        self.normalization = normalization
-        self.error = error
-        self.can_publish = can_publish
-        self.state = state
-        self.desired_visibility = desired_visibility
-        self.filename = filename
-        self.user_info = user_info
-        self.meta_data = meta_data
-        self.regions = regions
-        self.available_as_rbt = available_as_rbt
-        self.content_warning = content_warning
-        self.explicit = explicit
-        self.preview_duration_ms = preview_duration_ms
-        self.available_full_without_permission = available_full_without_permission
-        self.version = version
-        self.remember_position = remember_position
-        self.background_video_uri = background_video_uri
-        self.short_description = short_description
-        self.is_suitable_for_children = is_suitable_for_children
-
-        self.download_info = None
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.id,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
         """Сокращение для::

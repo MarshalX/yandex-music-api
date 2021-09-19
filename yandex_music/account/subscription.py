@@ -1,26 +1,17 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, AutoRenewable, RenewableRemainder, NonAutoRenewable, Operator
 
 
+@model
 class Subscription(YandexMusicObject):
     """Класс, представляющий информацию о подписках пользователя.
 
     Attributes:
-        non_auto_renewable_remainder (:obj:`yandex_music.RenewableRemainder`): Напоминание о продлении.
-        auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление подписки.
-        family_auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление семейной подписки.
-        operator (:obj:`list` из :obj:`yandex_music.Operator`): Услуги сотового оператора.
-        non_auto_renewable (:obj:`yandex_music.NonAutoRenewable`): Отключённое автопродление.
-        can_start_trial (:obj:`bool`): Есть ли возможность начать пробный период.
-        mcdonalds (:obj:`bool`): mcdonalds TODO.
-        end (:obj:`str`): Дата окончания.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         non_auto_renewable_remainder (:obj:`yandex_music.RenewableRemainder`): Напоминание о продлении.
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`, optional): Автопродление.
         family_auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление семейной подписки.
@@ -30,36 +21,20 @@ class Subscription(YandexMusicObject):
         mcdonalds (:obj:`bool`, optional): mcdonalds TODO.
         end (:obj:`str`, optional): Дата окончания.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        non_auto_renewable_remainder: 'RenewableRemainder',
-        auto_renewable: List['AutoRenewable'],
-        family_auto_renewable: List['AutoRenewable'],
-        operator: List['Operator'] = None,
-        non_auto_renewable: Optional['NonAutoRenewable'] = None,
-        can_start_trial: Optional[bool] = None,
-        mcdonalds: Optional[bool] = None,
-        end: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.non_auto_renewable_remainder = non_auto_renewable_remainder
-        self.auto_renewable = auto_renewable
-        self.family_auto_renewable = family_auto_renewable
+    non_auto_renewable_remainder: 'RenewableRemainder'
+    auto_renewable: List['AutoRenewable']
+    family_auto_renewable: List['AutoRenewable']
+    operator: List['Operator'] = None
+    non_auto_renewable: Optional['NonAutoRenewable'] = None
+    can_start_trial: Optional[bool] = None
+    mcdonalds: Optional[bool] = None
+    end: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.operator = operator
-        self.non_auto_renewable = non_auto_renewable
-        self.can_start_trial = can_start_trial
-        self.mcdonalds = mcdonalds
-        self.end = end
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.non_auto_renewable_remainder, self.auto_renewable, self.family_auto_renewable)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Subscription']:

@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class MixLink(YandexMusicObject):
     """Класс, представляющий ссылку (кликабельный блок) на подборку.
 
@@ -22,46 +24,21 @@ class MixLink(YandexMusicObject):
         background_color (:obj:`str`): Цвет заднего фона.
         background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
         cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
-        cover_uri (:obj:`str`): Ссылка на изображение с обложкой.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        title (:obj:`str`): Заголовок ссылки.
-        url (:obj:`str`): Ссылка на подборку.
-        url_scheme (:obj:`str`): Ссылка со схемой на подборку.
-        text_color (:obj:`str`): Цвет текста (HEX).
-        background_color (:obj:`str`): Цвет заднего фона.
-        background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
-        cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
         cover_uri (:obj:`str`, optional): Ссылка на изображение с обложкой.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        title: str,
-        url: str,
-        url_scheme: str,
-        text_color: str,
-        background_color: str,
-        background_image_uri: str,
-        cover_white: str,
-        cover_uri: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.title = title
-        self.url = url
-        self.url_scheme = url_scheme
-        self.text_color = text_color
-        self.background_color = background_color
-        self.background_image_uri = background_image_uri
-        self.cover_white = cover_white
+    title: str
+    url: str
+    url_scheme: str
+    text_color: str
+    background_color: str
+    background_image_uri: str
+    cover_white: str
+    cover_uri: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.cover_uri = cover_uri
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (
             self.url,
             self.title,
@@ -71,8 +48,6 @@ class MixLink(YandexMusicObject):
             self.background_image_uri,
             self.cover_white,
         )
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_background_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка заднего фона.

@@ -1,25 +1,17 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class VideoSupplement(YandexMusicObject):
     """Класс, представляющий видеоклипы.
 
     Attributes:
-        cover (:obj:`str`): URL на обложку видео.
-        provider (:obj:`str`): Сервис поставляющий видео.
-        title (:obj:`str`): Название видео.
-        provider_video_id (:obj:`str`): Уникальный идентификатор видео на сервисе.
-        url (:obj:`str`): URL на видео.
-        embed_url (:obj:`str`): URL на видео, находящегося на серверах Яндекса.
-        embed (:obj:`str`): HTML тег для встраивания видео.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         cover (:obj:`str`): URL на обложку видео.
         provider (:obj:`str`): Сервис поставляющий видео.
         title (:obj:`str`, optional): Название видео.
@@ -28,34 +20,19 @@ class VideoSupplement(YandexMusicObject):
         embed_url (:obj:`str`, optional): URL на видео, находящегося на серверах Яндекса.
         embed (:obj:`str`, optional): HTML тег для встраивания видео.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        cover: str,
-        provider: str,
-        title: Optional[str] = None,
-        provider_video_id: Optional[str] = None,
-        url: Optional[str] = None,
-        embed_url: Optional[str] = None,
-        embed: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.cover = cover
-        self.provider = provider
+    cover: str
+    provider: str
+    title: Optional[str] = None
+    provider_video_id: Optional[str] = None
+    url: Optional[str] = None
+    embed_url: Optional[str] = None
+    embed: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.title = title
-        self.provider_video_id = provider_video_id
-        self.url = url
-        self.embed_url = embed_url
-        self.embed = embed
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.cover, self.title, self.provider_video_id)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['VideoSupplement']:

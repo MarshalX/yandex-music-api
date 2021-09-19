@@ -41,7 +41,7 @@ class TestLyrics:
 
     def test_de_json_required(self, client):
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'lyrics': self.lyrics,
             'full_lyrics': self.full_lyrics,
             'has_rights': self.has_rights,
@@ -57,7 +57,7 @@ class TestLyrics:
 
     def test_de_json_all(self, client):
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'lyrics': self.lyrics,
             'full_lyrics': self.full_lyrics,
             'has_rights': self.has_rights,

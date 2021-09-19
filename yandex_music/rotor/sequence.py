@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Track
 
 
+@model
 class Sequence(YandexMusicObject):
     """Класс, представляющий звено последовательности.
 
@@ -13,30 +15,19 @@ class Sequence(YandexMusicObject):
         Известные значения поля `type_`: `track`. Возможно есть `ad`.
 
     Attributes:
-        type_ (:obj:`str`): Тип звена.
-        track (:obj:`yandex_music.Track` | :obj:`None`): Трек.
-        liked (:obj:`bool`): Связанное ли.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        type_ (:obj:`str`): Тип звена.
+        type (:obj:`str`): Тип звена.
         track (:obj:`yandex_music.Track` | :obj:`None`): Трек.
         liked (:obj:`bool`): Связанное ли.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, type_: str, track: Optional['Track'], liked: bool, client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.type = type_
-        self.track = track
-        self.liked = liked
+    type: str
+    track: Optional['Track']
+    liked: bool
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.type, self.track, self.liked)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Sequence']:

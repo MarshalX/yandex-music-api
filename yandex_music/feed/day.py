@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Event, Track, TrackWithAds
 
 
+@model
 class Day(YandexMusicObject):
     """Класс, представляющий день в фиде.
 
@@ -14,35 +16,17 @@ class Day(YandexMusicObject):
         events (:obj:`list` из :obj:`yandex_music.Event`): События TODO.
         tracks_to_play_with_ads (:obj:`list` из :obj:`yandex_music.TrackWithAds`): Треки для проигрывания с рекламой.
         tracks_to_play (:obj:`list` из :obj:`yandex_music.Track`): Треки для проигрывания.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        day (:obj:`str`): Дата в формате YYYY-MM-DD.
-        events (:obj:`list` из :obj:`yandex_music.Event`): События TODO.
-        tracks_to_play_with_ads (:obj:`list` из :obj:`yandex_music.TrackWithAds`): Треки для проигрывания с рекламой.
-        tracks_to_play (:obj:`list` из :obj:`yandex_music.Track`): Треки для проигрывания.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        day: str,
-        events: List['Event'],
-        tracks_to_play_with_ads: List['TrackWithAds'],
-        tracks_to_play: List['Track'],
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.day = day
-        self.events = events
-        self.tracks_to_play_with_ads = tracks_to_play_with_ads
-        self.tracks_to_play = tracks_to_play
+    day: str
+    events: List['Event']
+    tracks_to_play_with_ads: List['TrackWithAds']
+    tracks_to_play: List['Track']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.day, self.events, self.tracks_to_play_with_ads, self.tracks_to_play)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Day']:

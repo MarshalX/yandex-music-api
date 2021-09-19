@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class RenewableRemainder(YandexMusicObject):
     """Класс, представляющий напоминания о продлении подписки.
 
@@ -14,21 +16,14 @@ class RenewableRemainder(YandexMusicObject):
 
     Attributes:
         days (:obj:`int`): Количество дней (до окончания подписки, по всей видимости).
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        days (:obj:`int`): Количество дней (до окончания подписки, по всей видимости).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, days: int, client: Optional['Client'] = None, **kwargs) -> None:
-        self.days = days
+    days: int
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.days,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['RenewableRemainder']:

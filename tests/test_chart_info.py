@@ -21,8 +21,8 @@ class TestChartInfo:
 
     def test_de_json_required(self, playlist, chart_info_menu, client):
         json_dict = {
-            'id_': self.id,
-            'type_': self.type,
+            'id': self.id,
+            'type': self.type,
             'type_for_from': self.type_for_from,
             'title': self.title,
             'chart_description': self.chart_description,
@@ -40,8 +40,8 @@ class TestChartInfo:
 
     def test_de_json_all(self, client, playlist, chart_info_menu):
         json_dict = {
-            'id_': self.id,
-            'type_': self.type,
+            'id': self.id,
+            'type': self.type,
             'type_for_from': self.type_for_from,
             'title': self.title,
             'chart_description': self.chart_description,

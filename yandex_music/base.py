@@ -1,6 +1,6 @@
+import dataclasses
 import logging
 import keyword
-import builtins
 from abc import ABCMeta
 from typing import TYPE_CHECKING, Optional
 
@@ -15,7 +15,7 @@ try:
 except ImportError:
     import json
 
-reserved_names = keyword.kwlist + [name.lower() for name in dir(builtins)]
+reserved_names = keyword.kwlist
 
 logger = logging.getLogger(__name__)
 new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
@@ -35,17 +35,12 @@ class YandexMusicObject:
         return self.__dict__[item]
 
     @staticmethod
-    def report_new_fields_callback(obj, new_fields):
+    def report_unknown_fields_callback(obj, unknown_fields):
         logger.warning(
             f'Found unknown fields received from API! Please copy warn message '
             f'and send to {new_issue_by_template_url} (github issue), thank you!'
         )
-        logger.warning(f'Type: {type(obj)}; kwargs: {new_fields}')
-
-    @staticmethod
-    def handle_unknown_kwargs(obj, **kwargs):
-        if kwargs and obj.client.report_new_fields:
-            obj.client.report_new_fields_callback(obj, kwargs)
+        logger.warning(f'Type: {type(obj)}; fields: {unknown_fields}')
 
     @classmethod
     def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:
@@ -63,7 +58,21 @@ class YandexMusicObject:
 
         data = data.copy()
 
-        return data
+        fields = {f.name for f in dataclasses.fields(cls)}
+
+        cleaned_data = dict()
+        unknown_data = dict()
+
+        for k, v in data.items():
+            if k in fields:
+                cleaned_data[k] = v
+            else:
+                unknown_data[k] = v
+
+        if unknown_data:
+            YandexMusicObject.report_unknown_fields_callback(cls, unknown_data)
+
+        return cleaned_data
 
     def to_json(self, for_request=False) -> str:
         """Сериализация объекта.
@@ -85,7 +94,7 @@ class YandexMusicObject:
         Note:
             Исключает из сериализации `client` и `_id_attrs` необходимые в `__eq__`.
 
-            К зарезервированным именам добавляет "_" в конец.
+            К зарезервированным словам добавляет "_" в конец.
 
         Returns:
             :obj:`dict`: Сериализованный в dict объект.

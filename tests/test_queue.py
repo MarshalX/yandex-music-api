@@ -43,7 +43,7 @@ class TestQueue:
         json_dict = {
             'context': context.to_dict(),
             'modified': self.modified,
-            'id_': self.id_,
+            'id': self.id_,
             'from_': self.from_,
             'current_index': self.current_index,
             'tracks': [track_id.to_dict()],

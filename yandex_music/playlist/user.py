@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class User(YandexMusicObject):
     """Класс, представляющий пользователя.
 
@@ -21,17 +23,6 @@ class User(YandexMusicObject):
     Attributes:
         uid (:obj:`int`): Идентификатор пользователя.
         login (:obj:`str`): Логин пользователя.
-        name (:obj:`str`): Имя пользователя.
-        display_name (:obj:`str`, optional): Отображаемое пользователя.
-        full_name (:obj:`str`, optional): Полное имя пользователя.
-        sex (:obj:`str`): Пол пользователя.
-        verified (:obj:`bool`): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
-        regions (:obj:`list` из :obj:`int`): Список регионов TODO.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        uid (:obj:`int`): Идентификатор пользователя.
-        login (:obj:`str`): Логин пользователя.
         name (:obj:`str`, optional): Имя пользователя.
         display_name (:obj:`str`, optional): Отображаемое пользователя.
         full_name (:obj:`str`, optional): Полное имя пользователя.
@@ -39,36 +30,20 @@ class User(YandexMusicObject):
         verified (:obj:`bool`, optional): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
         regions (:obj:`list` из :obj:`int`, optional): Список регионов TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        uid: int,
-        login: str,
-        name: Optional[str] = None,
-        display_name: Optional[str] = None,
-        full_name: Optional[str] = None,
-        sex: Optional[str] = None,
-        verified: Optional[bool] = None,
-        regions: List[int] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.uid = uid
-        self.login = login
+    uid: int
+    login: str
+    name: Optional[str] = None
+    display_name: Optional[str] = None
+    full_name: Optional[str] = None
+    sex: Optional[str] = None
+    verified: Optional[bool] = None
+    regions: List[int] = None
+    client: Optional['Client'] = None
 
-        self.name = name
-        self.display_name = display_name
-        self.full_name = full_name
-        self.sex = sex
-        self.verified = verified
-        self.regions = regions
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.uid, self.login)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_avatar(self, filename: str, format_: str = 'normal') -> None:
         """Загрузка изображения пользователя.

@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Block
 
 
+@model
 class Landing(YandexMusicObject):
     """Класс, представляющий лендинг.
 
@@ -13,32 +15,16 @@ class Landing(YandexMusicObject):
         pumpkin (:obj:`bool`): Хэллоуин.
         content_id (:obj:`str` | :obj:`int`): Уникальный идентификатор контента.
         blocks (:obj:`list` из :obj:`yandex_music.Block`): Блоки лендинга.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        pumpkin (:obj:`bool`): Хэллоуин.
-        content_id (:obj:`str` | :obj:`int`): Уникальный идентификатор контента.
-        blocks (:obj:`list` из :obj:`yandex_music.Block`): Блоки лендинга.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        pumpkin: bool,
-        content_id: Union[str, int],
-        blocks: List['Block'],
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.pumpkin = pumpkin
-        self.content_id = content_id
-        self.blocks = blocks
+    pumpkin: bool
+    content_id: Union[str, int]
+    blocks: List['Block']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.content_id, self.blocks)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item):
         return self.blocks[item]

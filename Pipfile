@@ -13,10 +13,10 @@ codecov = "*"
 ujson = "*"
 importlib_metadata = "*"
 atomicwrites = "*"
-black = "==20.8b1"
+black = "==21.9b0"
 
 [packages]
 requests = {extras = ["socks"]}
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"

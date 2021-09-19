@@ -1,35 +1,28 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class LicenceTextPart(YandexMusicObject):
     """Класс, представляющий часть текста с ссылкой на лицензионное соглашение.
 
     Attributes:
         text (:obj:`str`): Часть текста (строка).
-        url (:obj:`str`): Ссылка на лицензионное соглашение.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        text (:obj:`str`): Часть текста (строка).
         url (:obj:`str`, optional): Ссылка на лицензионное соглашение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, text: str, url: Optional[str] = None, client: Optional['Client'] = None, **kwargs) -> None:
-        self.text = text
+    text: str
+    url: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.url = url
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.text,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:

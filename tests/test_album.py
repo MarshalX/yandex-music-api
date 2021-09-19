@@ -109,13 +109,13 @@ class TestAlbum:
         assert Album.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'id_': self.id}
+        json_dict = {'id': self.id}
         album = Album.de_json(json_dict, client)
 
     def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums, deprecation):
         labels = [label] if type(label) == str else [label.to_dict()]
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'error': self.error,
             'title': self.title,
             'cover_uri': self.cover_uri,
@@ -140,7 +140,7 @@ class TestAlbum:
             'volumes': [[track.to_dict()]],
             'year': self.year,
             'release_date': self.release_date,
-            'type_': self.type,
+            'type': self.type,
             'track_position': track_position.to_dict(),
             'meta_type': self.meta_type,
             'storage_dir': self.storage_dir,

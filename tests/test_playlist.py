@@ -208,7 +208,7 @@ class TestPlaylist:
             'og_data': open_graph_data.to_dict(),
             'branding': brand.to_dict(),
             'playlist_uuid': self.playlist_uuid,
-            'type_': self.type,
+            'type': self.type,
             'ready': self.ready,
         }
         playlist = Playlist.de_json(json_dict, client)

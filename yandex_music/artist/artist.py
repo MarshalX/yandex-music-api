@@ -1,50 +1,18 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import Any, TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Cover, Ratings, Counts, Link, Track, Description, ArtistTracks, ArtistAlbums
 
 
+@model
 class Artist(YandexMusicObject):
     """Класс, представляющий исполнителя.
 
     Attributes:
         id (:obj:`int`): Уникальный идентификатор.
-        error (:obj:`str`): Сообщение об ошибке с объяснением почему не вернуло исполнителя.
-        reason (:obj:`str`): Причина отсутствия исполнителя (сообщение об ошибке).
-        name (:obj:`str`): Название.
-        cover (:obj:`yandex_music.Cover` | :obj:`None`): Обложка.
-        various (:obj:`bool`): TODO.
-        composer (:obj:`bool`): TODO.
-        genres (:obj:`list` из :obj:`str`): Жанры.
-        og_image (:obj:`str`, optional): Ссылка на изображение для Open Graph.
-        op_image (:obj:`str`): Ссылка на изображение обложки. Используется когда не указано поле cover.
-        no_pictures_from_search: TODO.
-        counts (:obj:`yandex_music.Counts` | :obj:`None`): Счётчики.
-        available (:obj:`bool`): Доступен ли для прослушивания.
-        ratings (:obj:`yandex_music.Ratings` | :obj:`None`): Рейтинги.
-        links (:obj:`list` из :obj:`yandex_music.Link`): Ссылки на ресурсы исполнителя.
-        tickets_available (:obj:`bool`): Имеются ли в продаже билеты на концерт.
-        regions (:obj:`list` из :obj:`str`): Регион TODO.
-        decomposed (:obj:`list` из :obj:`str` и :obj:`yandex_music.Artist`): Декомпозиция всех исполнителей. Лист, где
-            чередуется разделитель и артист. Фиты и прочее.
-        popular_tracks (:obj:`list` :obj:`yandex_music.Track`): Популярные треки.
-        likes_count (:obj:`int`): Количество лайков.
-        full_names: TODO.
-        hand_made_description (:obj:`str`): Описание от Яндекс TODO.
-        description (:obj:`yandex_music.Description` | :obj:`None`): Описание.
-        countries (:obj:`list` из :obj:`str`): Страны.
-        en_wikipedia_link (:obj:`str`): Адрес страницы на wikipedia.org.
-        db_aliases (:obj:`list` из :obj:`str`): Другие названия. Как правило названия на разных языках.
-        aliases: TODO.
-        init_date (:obj:`str`): Дата начала в формате YYYY-MM-DD или YYYY.
-        end_date (:obj:`str`): Дата окончания в формате YYYY-MM-DD или YYYY.
-        ya_money_id (:obj:`str`): Номер кошеляка Яндекс.Деньги TODO.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        id_ (:obj:`int`): Уникальный идентификатор.
         error (:obj:`str`, optional): Сообщение об ошибке с объяснением почему не вернуло исполнителя.
         reason (:obj:`str`, optional): Причина отсутствия исполнителя (сообщение об ошибке).
         name (:obj:`str`, optional): Название.
@@ -76,82 +44,42 @@ class Artist(YandexMusicObject):
         end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или YYYY.
         ya_money_id (:obj:`str`): Номер кошеляка Яндекс.Деньги TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        id_: int,
-        error: Optional[str] = None,
-        reason: Optional[str] = None,
-        name: Optional[str] = None,
-        cover: Optional['Cover'] = None,
-        various: Optional[bool] = None,
-        composer: Optional[bool] = None,
-        genres: Optional[List[str]] = None,
-        og_image: Optional[str] = None,
-        op_image: Optional[str] = None,
-        no_pictures_from_search=None,
-        counts: Optional['Counts'] = None,
-        available: Optional[bool] = None,
-        ratings: Optional['Ratings'] = None,
-        links: Optional[List['Link']] = None,
-        tickets_available: Optional[bool] = None,
-        likes_count: Optional[int] = None,
-        popular_tracks: Optional[List['Track']] = None,
-        regions: Optional[List[str]] = None,
-        decomposed: Optional[List[Union[str, 'Artist']]] = None,
-        full_names=None,
-        hand_made_description: Optional[str] = None,
-        description: Optional['Description'] = None,
-        countries: Optional[List[str]] = None,
-        en_wikipedia_link: Optional[str] = None,
-        db_aliases: Optional[List[str]] = None,
-        aliases=None,
-        init_date: Optional[str] = None,
-        end_date: Optional[str] = None,
-        ya_money_id: Optional[str] = None,
-        client: 'Client' = None,
-        **kwargs,
-    ) -> None:
-        self.id = id_
+    id: int
+    error: Optional[str] = None
+    reason: Optional[str] = None
+    name: Optional[str] = None
+    cover: Optional['Cover'] = None
+    various: Optional[bool] = None
+    composer: Optional[bool] = None
+    genres: Optional[List[str]] = None
+    og_image: Optional[str] = None
+    op_image: Optional[str] = None
+    no_pictures_from_search: Any = None
+    counts: Optional['Counts'] = None
+    available: Optional[bool] = None
+    ratings: Optional['Ratings'] = None
+    links: Optional[List['Link']] = None
+    tickets_available: Optional[bool] = None
+    likes_count: Optional[int] = None
+    popular_tracks: Optional[List['Track']] = None
+    regions: Optional[List[str]] = None
+    decomposed: Optional[List[Union[str, 'Artist']]] = None
+    full_names: Any = None
+    hand_made_description: Optional[str] = None
+    description: Optional['Description'] = None
+    countries: Optional[List[str]] = None
+    en_wikipedia_link: Optional[str] = None
+    db_aliases: Optional[List[str]] = None
+    aliases: Any = None
+    init_date: Optional[str] = None
+    end_date: Optional[str] = None
+    ya_money_id: Optional[str] = None
+    client: 'Client' = None
 
-        self.error = error
-        self.reason = reason
-        self.name = name
-        self.cover = cover
-        self.various = various
-        self.composer = composer
-        self.genres = genres
-        self.og_image = og_image
-        self.op_image = op_image
-        self.no_pictures_from_search = no_pictures_from_search
-        self.counts = counts
-        self.available = available
-        self.ratings = ratings
-        self.links = links
-        self.tickets_available = tickets_available
-        self.regions = regions
-        self.decomposed = decomposed
-        self.popular_tracks = popular_tracks
-        self.likes_count = likes_count
-        self.full_names = full_names
-        self.hand_made_description = hand_made_description
-        self.description = description
-        self.countries = countries
-        self.en_wikipedia_link = en_wikipedia_link
-        self.db_aliases = db_aliases
-        self.aliases = aliases
-        self.ya_money_id = ya_money_id
-
-        # Может прийти конкретная дата или просто год
-        self.init_date = init_date
-        self.end_date = end_date
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.id, self.name, self.cover)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка изображения для Open Graph.

@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Description(YandexMusicObject):
     """Класс, представляющий описание исполнителя из другого источника.
 
@@ -16,24 +18,15 @@ class Description(YandexMusicObject):
     Attributes:
         text (:obj:`str`): Описание исполнителя.
         uri (:obj:`str`): Ссылка на источник.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        text (:obj:`str`): Описание исполнителя.
-        uri (:obj:`str`): Ссылка на источник.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, text: str, uri: str, client: Optional['Client'] = None, **kwargs) -> None:
-        self.text = text
+    text: str
+    uri: str
+    client: Optional['Client'] = None
 
-        self.uri = uri
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.text, self.uri)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Description']:

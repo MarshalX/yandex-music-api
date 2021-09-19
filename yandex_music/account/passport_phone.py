@@ -1,31 +1,26 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class PassportPhone(YandexMusicObject):
     """Класс, представляющий номер телефона пользователя.
 
     Attributes:
         phone (:obj:`str`): Номер телефона.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        phone (:obj:`str`): Номер телефона.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, phone: str, client: Optional['Client'] = None, **kwargs) -> None:
-        self.phone = phone
+    phone: str
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.phone,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:

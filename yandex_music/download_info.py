@@ -4,12 +4,14 @@ from hashlib import md5
 import xml.dom.minidom as minidom
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
     from xml.dom.minicompat import NodeList
 
 
+@model
 class DownloadInfo(YandexMusicObject):
     """Класс, представляющий информацию о вариантах загрузки трека.
 
@@ -20,44 +22,19 @@ class DownloadInfo(YandexMusicObject):
         preview (:obj:`bool`): Предварительный просмотр TODO.
         download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
         direct (:obj:`bool`): Прямая ли ссылка.
-        direct_link (:obj:`str`): Прямая ссылка на загрузку. Доступна после получения ссылки.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        codec (:obj:`str`): Кодек аудиофайла.
-        bitrate_in_kbps (:obj:`int`): Битрейт аудиофайла в кбит/с.
-        gain (:obj:`bool`): Усиление TODO.
-        preview (:obj:`bool`): Предварительный просмотр TODO.
-        download_info_url (:obj:`str`): Ссылка на XML документ содержащий данные для загрузки трека.
-        direct (:obj:`bool`): Прямая ли ссылка.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        codec: str,
-        bitrate_in_kbps: int,
-        gain: bool,
-        preview: bool,
-        download_info_url: str,
-        direct: bool,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ):
-        self.codec = codec
-        self.bitrate_in_kbps = bitrate_in_kbps
-        self.gain = gain
-        self.preview = preview
-        self.download_info_url = download_info_url
-        self.direct = direct
+    codec: str
+    bitrate_in_kbps: int
+    gain: bool
+    preview: bool
+    download_info_url: str
+    direct: bool
+    client: Optional['Client'] = None
 
-        self.direct_link = None
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @staticmethod
     def _get_text_node_data(elements: 'NodeList') -> str:

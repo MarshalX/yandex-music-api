@@ -1,6 +1,7 @@
 from typing import List, Optional, TYPE_CHECKING
 
 from yandex_music import Album, Artist, Playlist, YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -11,6 +12,7 @@ de_list = {
 }
 
 
+@model
 class Like(YandexMusicObject):
     """Класс, представляющий объект с отметкой "мне нравится".
 
@@ -19,19 +21,6 @@ class Like(YandexMusicObject):
         содержится информация.
 
     Attributes:
-        type (:obj:`str`): Тип объекта с отметкой.
-        id (:obj:`str`): Уникальный идентификатор отметки.
-        timestamp (:obj:`str`): Дата и время добавления отметки.
-        album (:obj:`yandex_music.Album`): Понравившейся альбом.
-        artist (:obj:`yandex_music.Artist`): Понравившейся артист.
-        playlist (:obj:`yandex_music.Playlist`): Понравившейся плейлист.
-        short_description (:obj:`str`): Короткое описание.
-        description (:obj:`str`): Описание.
-        is_premiere (:obj:`bool`): Премьера ли.
-        is_banner (:obj:`bool`): Является ли баннером.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         type (:obj:`str`): Тип объекта с отметкой.
         id (:obj:`str`, optional): Уникальный идентификатор отметки.
         timestamp (:obj:`str`, optional): Дата и время добавления отметки.
@@ -43,40 +32,22 @@ class Like(YandexMusicObject):
         is_premiere (:obj:`bool`, optional): Премьера ли.
         is_banner (:obj:`bool`, optional): Является ли баннером.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        type_: str,
-        id_=None,
-        timestamp: Optional[str] = None,
-        album: Optional['Album'] = None,
-        artist: Optional['Artist'] = None,
-        playlist: Optional['Playlist'] = None,
-        short_description: Optional[str] = None,
-        description: Optional[str] = None,
-        is_premiere: Optional[bool] = None,
-        is_banner: Optional[bool] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.id = id_
-        self.type = type_
+    type: str
+    id: Optional[str] = None
+    timestamp: Optional[str] = None
+    album: Optional['Album'] = None
+    artist: Optional['Artist'] = None
+    playlist: Optional['Playlist'] = None
+    short_description: Optional[str] = None
+    description: Optional[str] = None
+    is_premiere: Optional[bool] = None
+    is_banner: Optional[bool] = None
+    client: Optional['Client'] = None
 
-        self.album = album
-        self.artist = artist
-        self.playlist = playlist
-        self.timestamp = timestamp
-        self.short_description = short_description
-        self.description = description
-        self.is_premiere = is_premiere
-        self.is_banner = is_banner
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['Like']:
@@ -105,7 +76,7 @@ class Like(YandexMusicObject):
         else:
             data[type_] = de_list[type_](data.get(type_), client)
 
-        data['type_'] = type_
+        data['type'] = type_
 
         return cls(client=client, **data)
 

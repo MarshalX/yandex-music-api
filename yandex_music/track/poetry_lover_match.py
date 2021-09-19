@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class PoetryLoverMatch(YandexMusicObject):
     """Класс, представляющий слова в тексте TODO.
 
@@ -16,25 +18,16 @@ class PoetryLoverMatch(YandexMusicObject):
         begin (:obj:`int`): Индекс начала.
         end (:obj:`int`): Индекс конца.
         line (:obj:`int`): Индекс строки.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        begin (:obj:`int`): Индекс начала.
-        end (:obj:`int`): Индекс конца.
-        line (:obj:`int`): Индекс строки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, begin: int, end: int, line: int, client: Optional['Client'] = None, **kwargs) -> None:
-        self.begin = begin
-        self.end = end
-        self.line = line
+    begin: int
+    end: int
+    line: int
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.begin, self.end, self.line)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PoetryLoverMatch']:

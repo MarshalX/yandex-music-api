@@ -1,38 +1,30 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class ChartInfoMenuItem(YandexMusicObject):
     """Класс, представляющий элемент меню чарта.
 
     Attributes:
         title (:obj:`str`): Заголовок.
         url (:obj:`str`): Постфикс для запроса чарта.
-        selected (:obj:`bool` | :obj:`None`): Текущий ли элемент.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        title (:obj:`str`): Заголовок.
-        url (:obj:`str`): Постфикс для запроса чарта.
         selected (:obj:`bool`, optional): Текущий ли элемент.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(
-        self, title: str, url: str, selected: Optional[bool] = None, client: Optional['Client'] = None, **kwargs
-    ):
-        self.title = title
-        self.url = url
-        self.selected = selected
+    title: str
+    url: str
+    selected: Optional[bool] = None
+    client: Optional['Client'] = None
 
-        self.client = client
-        self._id_attrs = (url, selected)
-
-        super().handle_unknown_kwargs(self, **kwargs)
+    def __post_init__(self):
+        self._id_attrs = (self.url, self.selected)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfoMenuItem']:
