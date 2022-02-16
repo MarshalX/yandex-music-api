@@ -1,34 +1,28 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class ShotType(YandexMusicObject):
     """Класс, представляющий тип шота от Алисы.
 
     Attributes:
         id (:obj:`str`): Уникальный идентификатор типа.
         title (:obj:`str`): Заголовок шота.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        id_ (:obj:`str`): Уникальный идентификатор типа.
-        title (:obj:`str`): Заголовок шота.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, id_: str, title: str, client: Optional['Client'] = None, **kwargs):
-        self.id = id_
-        self.title = title
+    id: str
+    title: str
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.id, self.title)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotType']:

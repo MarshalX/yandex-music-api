@@ -2,11 +2,13 @@ from typing import TYPE_CHECKING, Optional
 
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Experiments(YandexMusicObject):
     """Класс, представляющий какие-то свистелки-перделки, флажки, режимы экспериментальных функций.
 

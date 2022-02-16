@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Playlist
 
 
+@model
 class GeneratedPlaylist(YandexMusicObject):
     """Класс, представляющий автоматически сгенерированный плейлист.
 
@@ -17,41 +19,20 @@ class GeneratedPlaylist(YandexMusicObject):
         type (:obj:`str`): Тип сгенерированного плейлиста.
         ready (:obj:`bool`): Готовность плейлиста.
         notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
-        data (:obj:`yandex_music.Playlist`): Сгенерированный плейлист.
-        description (:obj:`list`): Описание TODO.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        type_ (:obj:`str`): Тип сгенерированного плейлиста.
-        ready (:obj:`bool`): Готовность плейлиста.
-        notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
         data (:obj:`yandex_music.Playlist`, optional): Сгенерированный плейлист.
         description (:obj:`list`, optional): Описание TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        type_: str,
-        ready: bool,
-        notify: bool,
-        data: Optional['Playlist'],
-        description: Optional[list] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.type = type_
-        self.ready = ready
-        self.notify = notify
-        self.data = data
+    type: str
+    ready: bool
+    notify: bool
+    data: Optional['Playlist']
+    description: Optional[list] = None
+    client: Optional['Client'] = None
 
-        self.description = description
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.type, self.ready, self.notify, self.data)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['GeneratedPlaylist']:

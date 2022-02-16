@@ -21,14 +21,14 @@ class TestLabel:
         assert Label.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'id_': self.id, 'name': self.name}
+        json_dict = {'id': self.id, 'name': self.name}
         label = Label.de_json(json_dict, client)
 
         assert label.id == self.id
         assert label.name == self.name
 
     def test_de_json_all(self, client):
-        json_dict = {'id_': self.id, 'name': self.name}
+        json_dict = {'id': self.id, 'name': self.name}
         label = Label.de_json(json_dict, client)
 
         assert label.id == self.id

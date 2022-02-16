@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Station, RotorSettings, AdParams
 
 
+@model
 class StationResult(YandexMusicObject):
     """Класс, представляющий радиостанцию с настройками.
 
@@ -14,43 +16,21 @@ class StationResult(YandexMusicObject):
         settings (:obj:`yandex_music.RotorSettings` | :obj:`None`): Первый набор настроек.
         settings2 (:obj:`yandex_music.RotorSettings` | :obj:`None`): Второй набор настроек.
         ad_params (:obj:`yandex_music.AdParams` | :obj:`None`): Настройки рекламы.
-        explanation (:obj:`str`): TODO.
-        prerolls (:obj:`list` из :obj:`str`): Прероллы TODO.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        station (:obj:`yandex_music.Station` | :obj:`None`): Станция.
-        settings (:obj:`yandex_music.RotorSettings` | :obj:`None`): Первый набор настроек.
-        settings2 (:obj:`yandex_music.RotorSettings` | :obj:`None`): Второй набор настроек.
-        ad_params (:obj:`yandex_music.AdParams` | :obj:`None`): Настройки рекламы.
         explanation (:obj:`str`, optional): TODO.
         prerolls (:obj:`list` из :obj:`str`, optional): Прероллы TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        station: Optional['Station'],
-        settings: Optional['RotorSettings'],
-        settings2: Optional['RotorSettings'],
-        ad_params: Optional['AdParams'],
-        explanation: Optional[str] = None,
-        prerolls: Optional[list] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.station = station
-        self.settings = settings
-        self.settings2 = settings2
-        self.ad_params = ad_params
-        self.explanation = explanation
-        self.prerolls = prerolls
+    station: Optional['Station']
+    settings: Optional['RotorSettings']
+    settings2: Optional['RotorSettings']
+    ad_params: Optional['AdParams']
+    explanation: Optional[str] = None
+    prerolls: Optional[list] = None
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['StationResult']:

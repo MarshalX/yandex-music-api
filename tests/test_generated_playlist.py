@@ -21,7 +21,7 @@ class TestGeneratedPlaylist:
         assert GeneratedPlaylist.de_list({}, client) == []
 
     def test_de_json_required(self, client, playlist):
-        json_dict = {'type_': self.type, 'ready': self.ready, 'notify': self.notify, 'data': playlist.to_dict()}
+        json_dict = {'type': self.type, 'ready': self.ready, 'notify': self.notify, 'data': playlist.to_dict()}
         generated_playlist = GeneratedPlaylist.de_json(json_dict, client)
 
         assert generated_playlist.type == self.type
@@ -31,7 +31,7 @@ class TestGeneratedPlaylist:
 
     def test_de_json_all(self, client, playlist):
         json_dict = {
-            'type_': self.type,
+            'type': self.type,
             'ready': self.ready,
             'notify': self.notify,
             'data': playlist.to_dict(),

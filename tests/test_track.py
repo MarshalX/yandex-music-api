@@ -95,7 +95,7 @@ class TestTrack:
         assert Track.de_list({}, client) == []
 
     def test_de_json_required(self, client, artist, album):
-        json_dict = {'id_': self.id}
+        json_dict = {'id': self.id}
         track = Track.de_json(json_dict, client)
 
         assert track.id == self.id
@@ -113,7 +113,7 @@ class TestTrack:
         poetry_lover_match,
     ):
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'title': self.title,
             'available': self.available,
             'available_for_premium_users': self.available_for_premium_users,
@@ -123,7 +123,7 @@ class TestTrack:
             'best': self.best,
             'real_id': self.real_id,
             'og_image': self.og_image,
-            'type_': self.type,
+            'type': self.type,
             'cover_uri': self.cover_uri,
             'major': major.to_dict(),
             'duration_ms': self.duration_ms,

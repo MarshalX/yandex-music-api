@@ -15,13 +15,13 @@ class TestContext:
         assert Context.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'type_': self.type_}
+        json_dict = {'type': self.type_}
         context = Context.de_json(json_dict, client)
 
         assert context.type == self.type_
 
     def test_de_json_all(self, client, track_id):
-        json_dict = {'type_': self.type_, 'id_': self.id_, 'description': self.description}
+        json_dict = {'type': self.type_, 'id': self.id_, 'description': self.description}
         context = Context.de_json(json_dict, client)
 
         assert context.type == self.type_

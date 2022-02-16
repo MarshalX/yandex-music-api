@@ -1,7 +1,6 @@
 import re
 import logging
 import keyword
-import builtins
 
 from typing import TYPE_CHECKING, Optional, Union
 
@@ -30,7 +29,7 @@ HEADERS = {
     'X-Yandex-Music-Client': 'YandexMusicAndroid/23020251',
 }
 
-reserved_names = keyword.kwlist + [name.lower() for name in dir(builtins)] + ['client']
+reserved_names = keyword.kwlist + ['client']
 
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
@@ -100,8 +99,8 @@ class Request:
         Returns:
             :obj:`str`: Название переменной в SnakeCase.
         """
-        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', text)
-        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+        s = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', text)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s).lower()
 
     @staticmethod
     def _object_hook(obj: dict) -> dict:
@@ -109,7 +108,7 @@ class Request:
 
         Note:
             В названии переменной заменяет "-" на "_", конвертирует в SnakeCase, если название является
-            зарезервированным именем или "client" - добавляет "_" в конец. Если название переменной начинается с цифры -
+            зарезервированным словом или "client" - добавляет "_" в конец. Если название переменной начинается с цифры -
             добавляет в начало "_".
 
         Args:
@@ -199,7 +198,7 @@ class Request:
             return resp
 
         parse = self._parse(resp.content)
-        message = parse.error or 'Unknown HTTPError'
+        message = parse.get_error() or 'Unknown HTTPError'
 
         if resp.status_code in (401, 403):
             raise Unauthorized(message)
@@ -234,7 +233,7 @@ class Request:
             'GET', url, params=params, headers=self.headers, proxies=self.proxies, timeout=timeout, *args, **kwargs
         )
 
-        return self._parse(result.content).result
+        return self._parse(result.content).get_result()
 
     def post(self, url, data=None, timeout=5, *args, **kwargs):
         """Отправка POST запроса.
@@ -257,7 +256,7 @@ class Request:
             'POST', url, headers=self.headers, proxies=self.proxies, data=data, timeout=timeout, *args, **kwargs
         )
 
-        return self._parse(result.content).result
+        return self._parse(result.content).get_result()
 
     def retrieve(self, url, timeout=5, *args, **kwargs):
         """Отправка GET запроса и получение содержимого без обработки (парсинга).

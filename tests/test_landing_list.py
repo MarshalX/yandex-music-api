@@ -37,7 +37,7 @@ class TestLandingList:
         assert LandingList.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'title': self.title, 'type_': self.type, 'type_for_from': self.type_for_from}
+        json_dict = {'title': self.title, 'type': self.type, 'type_for_from': self.type_for_from}
         landing_list = LandingList.de_json(json_dict, client)
 
         assert landing_list.title == self.title
@@ -47,9 +47,9 @@ class TestLandingList:
     def test_de_json_all(self, client, playlist_id):
         json_dict = {
             'title': self.title,
-            'type_': self.type,
+            'type': self.type,
             'type_for_from': self.type_for_from,
-            'id_': self.id,
+            'id': self.id,
             'new_releases': self.new_releases,
             'podcasts': self.podcasts,
             'new_playlists': [playlist_id.to_dict()],

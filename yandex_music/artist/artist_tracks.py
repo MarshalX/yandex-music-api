@@ -1,36 +1,28 @@
 from typing import TYPE_CHECKING, Optional, List, Iterator
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Track, Pager
 
 
+@model
 class ArtistTracks(YandexMusicObject):
     """Класс, представляющий страницу списка треков артиста.
 
     Attributes:
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Список треков артиста.
         pager (:obj:`yandex_music.Pager`): Пагинатор.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        tracks (:obj:`list` из :obj:`yandex_music.Track`): Список треков артиста.
-        pager (:obj:`yandex_music.Pager`): Пагинатор.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, tracks: List['Track'], pager: Optional['Pager'], client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.tracks = tracks
-        self.pager = pager
+    tracks: List['Track']
+    pager: Optional['Pager']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.pager, self.tracks)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item) -> 'Track':
         return self.tracks[item]

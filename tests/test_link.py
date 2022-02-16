@@ -20,7 +20,7 @@ class TestLink:
         assert Link.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'title': self.title, 'href': self.href, 'type_': self.type}
+        json_dict = {'title': self.title, 'href': self.href, 'type': self.type}
         link = Link.de_json(json_dict, client)
 
         assert link.title == self.title
@@ -28,7 +28,7 @@ class TestLink:
         assert link.type == self.type
 
     def test_de_json_all(self, client):
-        json_dict = {'title': self.title, 'href': self.href, 'type_': self.type, 'social_network': self.social_network}
+        json_dict = {'title': self.title, 'href': self.href, 'type': self.type, 'social_network': self.social_network}
         link = Link.de_json(json_dict, client)
 
         assert link.title == self.title

@@ -1,36 +1,28 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Plus(YandexMusicObject):
     """Класс, представляющий `Plus` подписку.
 
     Attributes:
         has_plus (:obj:`bool`): Наличие.
         is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        has_plus (:obj:`bool`): Наличие.
-        is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, has_plus: bool, is_tutorial_completed: bool, client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.has_plus = has_plus
-        self.is_tutorial_completed = is_tutorial_completed
+    has_plus: bool
+    is_tutorial_completed: bool
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.has_plus, self.is_tutorial_completed)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Plus']:

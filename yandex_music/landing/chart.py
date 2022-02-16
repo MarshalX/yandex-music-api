@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, TrackId
 
 
+@model
 class Chart(YandexMusicObject):
     """Класс, представляющий элемент чарта.
 
@@ -17,44 +19,21 @@ class Chart(YandexMusicObject):
         progress (:obj:`str`): TODO.
         listeners (:obj:`int`): Количество слушателей.
         shift (:obj:`int`): Смещение.
-        bg_color (:obj:`str`): Цвет заднего фона.
-        track_id (:obj:`yandex_music.TrackId` | :obj:`None`): Уникальный идентификатор трека.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        position (:obj:`int`): Позиция.
-        progress (:obj:`str`): TODO.
-        listeners (:obj:`int`): Количество слушателей.
-        shift (:obj:`int`): Смещение.
         bg_color (:obj:`str`, optional): Цвет заднего фона.
         track_id (:obj:`yandex_music.TrackId`, optional): Уникальный идентификатор трека.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        position: int,
-        progress: str,
-        listeners: int,
-        shift: int,
-        bg_color: Optional[str] = None,
-        track_id: Optional['TrackId'] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.position = position
-        self.progress = progress
-        self.listeners = listeners
-        self.shift = shift
+    position: int
+    progress: str
+    listeners: int
+    shift: int
+    bg_color: Optional[str] = None
+    track_id: Optional['TrackId'] = None
+    client: Optional['Client'] = None
 
-        self.bg_color = bg_color
-        self.track_id = track_id
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.position, self.progress, self.listeners, self.shift, self.track_id)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Chart']:

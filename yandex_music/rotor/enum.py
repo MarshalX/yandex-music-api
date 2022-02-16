@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Value
 
 
+@model
 class Enum(YandexMusicObject):
     """Класс, представляющий перечисления.
 
@@ -13,27 +15,17 @@ class Enum(YandexMusicObject):
         type (:obj:`str`): Тип перечисления.
         name (:obj:`str`): Название перечисления.
         possible_values (:obj:`list` из :obj:`yandex_Music.Value`): Доступные значения.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        type_ (:obj:`str`): Тип перечисления.
-        name (:obj:`str`): Название перечисления.
-        possible_values (:obj:`list` из :obj:`yandex_Music.Value`): Доступные значения.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, type_: str, name: str, possible_values: List['Value'], client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.type = type_
-        self.name = name
-        self.possible_values = possible_values
+    type: str
+    name: str
+    possible_values: List['Value']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.type, self.name, self.possible_values)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Enum']:

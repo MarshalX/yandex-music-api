@@ -1,34 +1,28 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class PlaylistId(YandexMusicObject):
     """Класс, представляющий уникальный идентификатор плейлиста.
 
     Attributes:
         uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
         kind (:obj:`int`): Уникальный идентификатор плейлиста.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
-        kind (:obj:`int`): Уникальный идентификатор плейлиста.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, uid: int, kind: int, client: Optional['Client'] = None, **kwargs) -> None:
-        self.uid = uid
-        self.kind = kind
+    uid: int
+    kind: int
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.uid, self.kind)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @property
     def playlist_id(self):

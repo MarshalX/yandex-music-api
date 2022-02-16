@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class AlertButton(YandexMusicObject):
     """Класс, представляющий кнопку в предупреждении.
 
@@ -14,29 +16,17 @@ class AlertButton(YandexMusicObject):
         bg_color (:obj:`str`): Цвет заднего фона.
         text_color (:obj:`str`): Цвет текста.
         uri (:obj:`str`): Ссылка куда ведёт кнопка.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        text (:obj:`str`): Текст кнопки.
-        bg_color (:obj:`str`): Цвет заднего фона.
-        text_color (:obj:`str`): Цвет текста.
-        uri (:obj:`str`): Ссылка куда ведёт кнопка.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, text: str, bg_color: str, text_color: str, uri: str, client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.text = text
-        self.bg_color = bg_color
-        self.text_color = text_color
-        self.uri = uri
+    text: str
+    bg_color: str
+    text_color: str
+    uri: str
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.text, self.uri)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['AlertButton']:

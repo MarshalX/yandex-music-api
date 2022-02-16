@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Promotion(YandexMusicObject):
     """Класс, представляющий продвижение (рекламу).
 
@@ -24,47 +26,21 @@ class Promotion(YandexMusicObject):
         text_color (:obj:`str`): Цвет текста.
         gradient (:obj:`str`): Градиент TODO.
         image (:obj:`str`): Ссылка на рекламное изображение.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        promo_id (:obj:`str`): Уникальный идентификатор рекламы.
-        title (:obj:`str`): Заголовок.
-        subtitle (:obj:`str`): Подзаголовок.
-        heading (:obj:`str`): Верхний заголовок.
-        url (:obj:`str`): Ссылка.
-        url_scheme (:obj:`str`): Ссылка с схемой.
-        text_color (:obj:`str`): Цвет текста.
-        gradient (:obj:`str`): Градиент TODO.
-        image (:obj:`str`): Ссылка на рекламное изображение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        promo_id: str,
-        title: str,
-        subtitle: str,
-        heading: str,
-        url: str,
-        url_scheme: str,
-        text_color: str,
-        gradient: str,
-        image: str,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.promo_id = promo_id
-        self.title = title
-        self.subtitle = subtitle
-        self.heading = heading
-        self.url = url
-        self.url_scheme = url_scheme
-        self.text_color = text_color
-        self.gradient = gradient
-        self.image = image
+    promo_id: str
+    title: str
+    subtitle: str
+    heading: str
+    url: str
+    url_scheme: str
+    text_color: str
+    gradient: str
+    image: str
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (
             self.promo_id,
             self.title,
@@ -76,8 +52,6 @@ class Promotion(YandexMusicObject):
             self.gradient,
             self.image,
         )
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def download_image(self, filename: str, size: str = '300x300') -> None:
         """Загрузка рекламного изображения.

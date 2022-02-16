@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class CaseForms(YandexMusicObject):
     """Класс, представляющий склонение имени.
 
@@ -16,38 +18,18 @@ class CaseForms(YandexMusicObject):
         accusative (:obj:`str`): Винительный.
         instrumental (:obj:`str`): Творительный.
         prepositional (:obj:`str`): Предложный.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        nominative (:obj:`str`): Именительный.
-        genitive (:obj:`str`): Родительный.
-        dative (:obj:`str`): Дательный.
-        accusative (:obj:`str`): Винительный.
-        instrumental (:obj:`str`): Творительный.
-        prepositional (:obj:`str`): Предложный.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        nominative: str,
-        genitive: str,
-        dative: str,
-        accusative: str,
-        instrumental: str,
-        prepositional: str,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.nominative = nominative
-        self.genitive = genitive
-        self.dative = dative
-        self.accusative = accusative
-        self.instrumental = instrumental
-        self.prepositional = prepositional
+    nominative: str
+    genitive: str
+    dative: str
+    accusative: str
+    instrumental: str
+    prepositional: str
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (
             self.nominative,
             self.genitive,
@@ -56,8 +38,6 @@ class CaseForms(YandexMusicObject):
             self.instrumental,
             self.prepositional,
         )
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['CaseForms']:

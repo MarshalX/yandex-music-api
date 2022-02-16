@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class LandingList(YandexMusicObject):
     """Класс, представляющий список объектов лендинга.
 
@@ -18,49 +20,24 @@ class LandingList(YandexMusicObject):
         type (:obj:`str`): Тип результата.
         type_for_from (:obj:`str`): Откуда пришло событие.
         title (:obj:`str`): Заголовок страницы.
-        id (:obj:`str`): Уникальный идентификатор списка.
-        new_releases (:obj:`list` из :obj:`int`): Новые альбомы.
-        new_playlists (:obj:`list` из :obj:`int`): Новые плейлисты.
-        podcasts (:obj:`list` из :obj:`int`): Подкасты.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        type (:obj:`str`): Тип результата.
-        type_for_from (:obj:`str`): Откуда пришло событие.
-        title (:obj:`str`): Заголовок страницы.
         id (:obj:`str`, optional): Уникальный идентификатор списка.
         new_releases (:obj:`list` из :obj:`int`, optional): Новые альбомы.
         new_playlists (:obj:`list` из :obj:`int`, optional): Новые плейлисты.
         podcasts (:obj:`list` из :obj:`int`, optional): Подкасты.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        type_: str,
-        type_for_from: str,
-        title: str,
-        id_: Optional[str] = None,
-        new_releases: List[int] = None,
-        new_playlists: List[int] = None,
-        podcasts: List[int] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.type = type_
-        self.type_for_from = type_for_from
-        self.title = title
+    type: str
+    type_for_from: str
+    title: str
+    id: Optional[str] = None
+    new_releases: List[int] = None
+    new_playlists: List[int] = None
+    podcasts: List[int] = None
+    client: Optional['Client'] = None
 
-        self.id = id_
-        self.new_releases = new_releases
-        self.new_playlists = new_playlists
-        self.podcasts = podcasts
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.id, self.new_releases, self.new_playlists, self.podcasts)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Chart']:

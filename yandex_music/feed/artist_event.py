@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Artist, Track
 
 
+@model
 class ArtistEvent(YandexMusicObject):
     """Класс, представляющий артиста в событии фида.
 
@@ -14,36 +16,17 @@ class ArtistEvent(YandexMusicObject):
         tracks (:obj:`list` :obj:`yandex_music.Track`): Треки.
         similar_to_artists_from_history (:obj:`list` :obj:`yandex_music.Artist`): Похожие артисты из истории.
         subscribed (:obj:`bool`): Подписан ли на событие.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
-        tracks (:obj:`list` :obj:`yandex_music.Track`): Треки.
-        similar_to_artists_from_history (:obj:`list` :obj:`yandex_music.Artist`): Похожие артисты из истории.
-        subscribed (:obj:`bool`): Подписан ли на событие.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        artist: Optional['Artist'],
-        tracks: List['Track'],
-        similar_to_artists_from_history: List['Artist'],
-        subscribed: Optional['bool'] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.artist = artist
-        self.tracks = tracks
-        self.similar_to_artists_from_history = similar_to_artists_from_history
+    artist: Optional['Artist']
+    tracks: List['Track']
+    similar_to_artists_from_history: List['Artist']
+    subscribed: Optional['bool'] = None
+    client: Optional['Client'] = None
 
-        self.subscribed = subscribed
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ArtistEvent']:

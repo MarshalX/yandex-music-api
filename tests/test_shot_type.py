@@ -13,14 +13,14 @@ class TestShotType:
         assert ShotType.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'id_': self.id, 'title': self.title}
+        json_dict = {'id': self.id, 'title': self.title}
         shot_type = ShotType.de_json(json_dict, client)
 
         assert shot_type.id == self.id
         assert shot_type.title == self.title
 
     def test_de_json_all(self, client):
-        json_dict = {'id_': self.id, 'title': self.title}
+        json_dict = {'id': self.id, 'title': self.title}
         shot_type = ShotType.de_json(json_dict, client)
 
         assert shot_type.id == self.id

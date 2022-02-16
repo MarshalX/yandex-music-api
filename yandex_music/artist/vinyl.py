@@ -1,26 +1,17 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Vinyl(YandexMusicObject):
     """Класс, представляющий виниловую пластинку.
 
     Attributes:
-        url (:obj:`str`): Ссылка на пластинку в магазине.
-        title (:obj:`str`): Заголовок.
-        year (:obj:`int`): Год выпуска.
-        price (:obj:`int`): Цена.
-        media (:obj:`str`): Средство распространения.
-        offer_id (:obj:`int`): Уникальный идентификатор предложения.
-        artist_ids (:obj:`list` из :obj:`int`): Перечень уникальный идентификаторов исполнителей.
-        picture (:obj:`str`): Ссылка на обложку.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         url (:obj:`str`): Ссылка на пластинку в магазине.
         title (:obj:`str`): Заголовок.
         year (:obj:`int`): Год выпуска.
@@ -33,29 +24,17 @@ class Vinyl(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        url: str,
-        title: str,
-        year: int,
-        price: int,
-        media: str,
-        offer_id: int,
-        artist_ids: List[int],
-        picture: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.url = url
-        self.picture = picture
-        self.title = title
-        self.year = year
-        self.price = price
-        self.media = media
-        self.offer_id = offer_id
-        self.artist_ids = artist_ids
+    url: str
+    title: str
+    year: int
+    price: int
+    media: str
+    offer_id: int
+    artist_ids: List[int]
+    picture: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (
             self.title,
             self.price,
@@ -66,8 +45,6 @@ class Vinyl(YandexMusicObject):
             self.offer_id,
             self.artist_ids,
         )
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Vinyl']:

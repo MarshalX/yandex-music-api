@@ -39,10 +39,10 @@ class TestCover:
 
     def test_de_json_all(self, client):
         json_dict = {
-            'type_': self.type,
+            'type': self.type,
             'uri': self.uri,
             'items_uri': self.items_uri,
-            'dir_': self.dir,
+            'dir': self.dir,
             'version': self.version,
             'custom': self.custom,
             'is_custom': self.is_custom,

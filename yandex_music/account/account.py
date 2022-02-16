@@ -1,32 +1,17 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, PassportPhone
 
 
+@model
 class Account(YandexMusicObject):
     """Класс, представляющий основную информацию об аккаунте пользователя.
 
     Attributes:
-        now (:obj:`str`): Текущая дата и время.
-        uid (:obj:`int`): Уникальный идентификатор.
-        login (:obj:`str`): Виртуальное имя (обычно e-mail).
-        full_name (:obj:`str`): Полное имя (имя и фамилия).
-        second_name (:obj:`str`): Фамилия.
-        first_name (:obj:`str`): Имя.
-        display_name (:obj:`str`): Отображаемое имя.
-        birthday (:obj:`str`): Дата рождения.
-        service_available (:obj:`bool`): Доступен ли сервис.
-        hosted_user (:obj:`bool`): Является ли пользователем чьим-то другим.
-        region (:obj:`int`): Регион.
-        passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Мобильные номера.
-        registered_at (:obj:`str`): Дата создания аккаунта.
-        has_info_for_app_metrica (:obj:`bool`): Наличие информации для App Metrica.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         now (:obj:`str`): Текущая дата и время.
         uid (:obj:`int`, optional): Уникальный идентификатор.
         login (:obj:`str`, optional): Виртуальное имя (обычно e-mail).
@@ -45,47 +30,25 @@ class Account(YandexMusicObject):
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        now: str,
-        service_available: bool,
-        region: Optional[int] = None,
-        uid: Optional[int] = None,
-        login: Optional[str] = None,
-        full_name: Optional[str] = None,
-        second_name: Optional[str] = None,
-        first_name: Optional[str] = None,
-        display_name: Optional[str] = None,
-        hosted_user: Optional[bool] = None,
-        birthday: Optional[str] = None,
-        passport_phones: List['PassportPhone'] = None,
-        registered_at: Optional[str] = None,
-        has_info_for_app_metrica: bool = False,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.now = now
-        self.service_available = service_available
+    now: str
+    service_available: bool
+    region: Optional[int] = None
+    uid: Optional[int] = None
+    login: Optional[str] = None
+    full_name: Optional[str] = None
+    second_name: Optional[str] = None
+    first_name: Optional[str] = None
+    display_name: Optional[str] = None
+    hosted_user: Optional[bool] = None
+    birthday: Optional[str] = None
+    passport_phones: List['PassportPhone'] = None
+    registered_at: Optional[str] = None
+    has_info_for_app_metrica: bool = False
+    client: Optional['Client'] = None
 
-        self.region = region
-        self.uid = uid
-        self.login = login
-        self.full_name = full_name
-        self.second_name = second_name
-        self.first_name = first_name
-        self.display_name = display_name
-        self.hosted_user = hosted_user
-        self.passport_phones = passport_phones
-        self.birthday = birthday
-        self.registered_at = registered_at
-        self.has_info_for_app_metrica = has_info_for_app_metrica
-
-        self.client = client
-
+    def __post_init__(self):
         if self.uid:
             self._id_attrs = (self.uid,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Account']:

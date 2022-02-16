@@ -64,7 +64,7 @@ class TestSearch:
         assert search.users == search_result(13)
         assert search.podcasts == search_result(14)
         assert search.podcast_episodes == search_result(15)
-        assert search.type_ == self.type_
+        assert search.type == self.type_
         assert search.page == self.page
         assert search.per_page == self.per_page
         assert search.misspell_result == self.misspell_result
@@ -118,7 +118,7 @@ class TestSearch:
             'podcast_episodes': search_result(15).to_dict(),
             'misspell_corrected': self.misspell_corrected,
             'nocorrect': self.nocorrect,
-            'type_': self.type_,
+            'type': self.type_,
             'page': self.page,
             'per_page': self.per_page,
             'misspell_result': self.misspell_result,
@@ -137,7 +137,7 @@ class TestSearch:
         assert search.users == search_result(13)
         assert search.podcasts == search_result(14)
         assert search.podcast_episodes == search_result(15)
-        assert search.type_ == self.type_
+        assert search.type == self.type_
         assert search.page == self.page
         assert search.per_page == self.per_page
         assert search.misspell_result == self.misspell_result

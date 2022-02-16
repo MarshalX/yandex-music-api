@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, BlockEntity, PersonalPlaylistsData, PlayContextsData
 
 
+@model
 class Block(YandexMusicObject):
     """Класс, представляющий блок лендинга.
 
@@ -13,19 +15,8 @@ class Block(YandexMusicObject):
         Известные значения поля `type_`: `personal-playlists`, `play-contexts`.
 
     Attributes:
-        id_ (:obj:`str`): Уникальный идентификатор блока.
-        type_ (:obj:`str`): Тип блока.
-        type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
-        title (:obj:`str`): Заголовок.
-        entities (:obj:`list` из :obj:`yandex_music.BlockEntity`): Содержимое блока (сущности, объекты).
-        description (:obj:`str` | :obj:`None`): Описание.
-        data (:obj:`yandex_music.PersonalPlaylistsData` | :obj:`yandex_music.PlayContextsData` | :obj:`None`):
-            Дополнительные данные.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        id_ (:obj:`str`): Уникальный идентификатор блока.
-        type_ (:obj:`str`): Тип блока.
+        id (:obj:`str`): Уникальный идентификатор блока.
+        type (:obj:`str`): Тип блока.
         type_for_from (:obj:`str`): Откуда получен блок (как к нему пришли).
         title (:obj:`str`): Заголовок.
         entities (:obj:`list` из :obj:`yandex_music.BlockEntity`): Содержимое блока (сущности, объекты).
@@ -33,34 +24,19 @@ class Block(YandexMusicObject):
         data (:obj:`yandex_music.PersonalPlaylistsData` | :obj:`yandex_music.PlayContextsData`, optional):
             Дополнительные данные.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        id_: str,
-        type_: str,
-        type_for_from: str,
-        title: str,
-        entities: List['BlockEntity'],
-        description: Optional[str] = None,
-        data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.id = id_
-        self.type = type_
-        self.type_for_from = type_for_from
-        self.title = title
-        self.entities = entities
+    id: str
+    type: str
+    type_for_from: str
+    title: str
+    entities: List['BlockEntity']
+    description: Optional[str] = None
+    data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None
+    client: Optional['Client'] = None
 
-        self.description = description
-        self.data = data
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item: int) -> 'BlockEntity':
         return self.entities[item]
@@ -84,7 +60,7 @@ class Block(YandexMusicObject):
 
         data['entities'] = BlockEntity.de_list(data.get('entities'), client)
 
-        block_type = data.get('type_')
+        block_type = data.get('type')
         if block_type == 'personal-playlists':
             data['data'] = PersonalPlaylistsData.de_json(data.get('data'), client)
         elif block_type == 'play-contexts':
