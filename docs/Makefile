@@ -14,7 +14,7 @@ help:
 .PHONY: help Makefile
 
 gen:
-	@$(SPHINXGENERATE) -f -e -M -o "$(SOURCEDIR)" --templatedir "$(TEMPLATEDIR)" "$(MODULEPATH)" $(O)
+	@$(SPHINXGENERATE) -f -e -M -o "$(SOURCEDIR)" -t "$(TEMPLATEDIR)" "$(MODULEPATH)" $(O)
 
 .PHONY: gen Makefile
 

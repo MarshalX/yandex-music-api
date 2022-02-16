@@ -1,4 +1,4 @@
-.sidebar-container, .toc-drawer {
+.sidebar-container {
     box-sizing: border-box;
     width: unset;
 }

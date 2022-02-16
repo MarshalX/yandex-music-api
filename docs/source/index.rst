@@ -11,5 +11,5 @@
 .. toctree::
 
    readme
-   modules
+   yandex_music
    changes
