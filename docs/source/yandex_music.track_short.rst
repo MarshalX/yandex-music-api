@@ -1,6 +1,7 @@
-yandex_music.TrackShort
-=======================
+yandex\_music.track\_short
+==========================
 
-.. autoclass:: yandex_music.TrackShort
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.track_short
+   :members:
+   :undoc-members:
+   :show-inheritance:

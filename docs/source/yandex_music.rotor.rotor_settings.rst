@@ -1,7 +1,7 @@
-yandex_music.RotorSettings
-==========================
+yandex\_music.rotor.rotor\_settings
+===================================
 
-.. autoclass:: yandex_music.RotorSettings
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.rotor_settings
+   :members:
+   :undoc-members:
+   :show-inheritance:

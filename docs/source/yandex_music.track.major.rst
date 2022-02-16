@@ -1,7 +1,7 @@
-yandex_music.Major
-==================
+yandex\_music.track.major
+=========================
 
-.. autoclass:: yandex_music.Major
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.track.major
+   :members:
+   :undoc-members:
+   :show-inheritance:

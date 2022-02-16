@@ -1,7 +1,7 @@
-yandex_music.Lyrics
-===================
+yandex\_music.supplement.lyrics
+===============================
 
-.. autoclass:: yandex_music.Lyrics
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.supplement.lyrics
+   :members:
+   :undoc-members:
+   :show-inheritance:

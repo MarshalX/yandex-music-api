@@ -1,7 +1,7 @@
-yandex_music.Images
-===================
+yandex\_music.genre.images
+==========================
 
-.. autoclass:: yandex_music.Images
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.genre.images
+   :members:
+   :undoc-members:
+   :show-inheritance:

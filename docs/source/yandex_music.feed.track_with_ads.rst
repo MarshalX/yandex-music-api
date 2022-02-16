@@ -1,7 +1,7 @@
-yandex_music.TrackWithAds
-=========================
+yandex\_music.feed.track\_with\_ads
+===================================
 
-.. autoclass:: yandex_music.TrackWithAds
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.feed.track_with_ads
+   :members:
+   :undoc-members:
+   :show-inheritance:

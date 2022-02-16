@@ -1,7 +1,7 @@
-yandex_music.Landing
-====================
+yandex\_music.landing.landing
+=============================
 
-.. autoclass:: yandex_music.Landing
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.landing
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,6 +1,7 @@
-yandex_music.QueueItem
-======================
+yandex\_music.queue.queue\_item
+===============================
 
-.. autoclass:: yandex_music.QueueItem
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.queue.queue_item
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,6 +1,7 @@
-yandex_music.PromoCodeStatus
-============================
+yandex\_music.promo\_code\_status
+=================================
 
-.. autoclass:: yandex_music.PromoCodeStatus
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.promo_code_status
+   :members:
+   :undoc-members:
+   :show-inheritance:

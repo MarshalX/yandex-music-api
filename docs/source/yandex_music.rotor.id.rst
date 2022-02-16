@@ -1,7 +1,7 @@
-yandex_music.Id
-===============
+yandex\_music.rotor.id
+======================
 
-.. autoclass:: yandex_music.Id
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.id
+   :members:
+   :undoc-members:
+   :show-inheritance:

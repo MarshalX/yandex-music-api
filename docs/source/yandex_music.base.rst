@@ -1,9 +1,7 @@
-Родительский объект yandex_music.YandexMusicObject
-==================================================
+yandex\_music.base
+==================
 
-.. autoclass:: yandex_music.YandexMusicObject
-    :members:
-    :undoc-members:
-    :special-members:
-    :private-members:
-    :show-inheritance:
+.. automodule:: yandex_music.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

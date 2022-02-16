@@ -1,6 +1,7 @@
-yandex_music.Cover
-==================
+yandex\_music.cover
+===================
 
-.. autoclass:: yandex_music.Cover
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.cover
+   :members:
+   :undoc-members:
+   :show-inheritance:

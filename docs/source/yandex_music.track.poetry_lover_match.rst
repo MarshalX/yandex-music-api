@@ -1,7 +1,7 @@
-yandex_music.PoetryLoverMatch
-=============================
+yandex\_music.track.poetry\_lover\_match
+========================================
 
-.. autoclass:: yandex_music.PoetryLoverMatch
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.track.poetry_lover_match
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,7 +1,7 @@
-yandex_music.GeneratedPlaylist
-==============================
+yandex\_music.feed.generated\_playlist
+======================================
 
-.. autoclass:: yandex_music.GeneratedPlaylist
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.feed.generated_playlist
+   :members:
+   :undoc-members:
+   :show-inheritance:

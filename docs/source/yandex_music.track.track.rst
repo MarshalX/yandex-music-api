@@ -1,7 +1,7 @@
-yandex_music.Track
-==================
+yandex\_music.track.track
+=========================
 
-.. autoclass:: yandex_music.Track
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.track.track
+   :members:
+   :undoc-members:
+   :show-inheritance:

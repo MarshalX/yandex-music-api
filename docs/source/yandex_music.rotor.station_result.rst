@@ -1,7 +1,7 @@
-yandex_music.StationResult
-==========================
+yandex\_music.rotor.station\_result
+===================================
 
-.. autoclass:: yandex_music.StationResult
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.station_result
+   :members:
+   :undoc-members:
+   :show-inheritance:

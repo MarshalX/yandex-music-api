@@ -1,7 +1,7 @@
-yandex_music.Title
-==================
+yandex\_music.genre.title
+=========================
 
-.. autoclass:: yandex_music.Title
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.genre.title
+   :members:
+   :undoc-members:
+   :show-inheritance:

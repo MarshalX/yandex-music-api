@@ -1,7 +1,7 @@
-yandex_music.MixLink
-====================
+yandex\_music.landing.mix\_link
+===============================
 
-.. autoclass:: yandex_music.MixLink
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.mix_link
+   :members:
+   :undoc-members:
+   :show-inheritance:

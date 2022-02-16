@@ -1,6 +1,7 @@
-yandex_music.AlertButton
-========================
+yandex\_music.account.alert\_button
+===================================
 
-.. autoclass:: yandex_music.AlertButton
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.account.alert_button
+   :members:
+   :undoc-members:
+   :show-inheritance:

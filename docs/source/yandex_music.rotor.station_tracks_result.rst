@@ -1,7 +1,7 @@
-yandex_music.StationTracksResult
-================================
+yandex\_music.rotor.station\_tracks\_result
+===========================================
 
-.. autoclass:: yandex_music.StationTracksResult
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.station_tracks_result
+   :members:
+   :undoc-members:
+   :show-inheritance:

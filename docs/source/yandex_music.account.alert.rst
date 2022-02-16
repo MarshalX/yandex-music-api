@@ -1,6 +1,7 @@
-yandex_music.Alert
-==================
+yandex\_music.account.alert
+===========================
 
-.. autoclass:: yandex_music.Alert
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.account.alert
+   :members:
+   :undoc-members:
+   :show-inheritance:

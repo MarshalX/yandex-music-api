@@ -1,7 +1,7 @@
-yandex_music.PlayCounter
-========================
+yandex\_music.playlist.play\_counter
+====================================
 
-.. autoclass:: yandex_music.PlayCounter
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.playlist.play_counter
+   :members:
+   :undoc-members:
+   :show-inheritance:

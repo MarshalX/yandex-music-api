@@ -1,7 +1,7 @@
-yandex_music.Album
-==================
+yandex\_music.album.album
+=========================
 
-.. autoclass:: yandex_music.Album
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.album.album
+   :members:
+   :undoc-members:
+   :show-inheritance:

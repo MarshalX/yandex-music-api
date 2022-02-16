@@ -1,6 +1,7 @@
-yandex_music.Settings
-=====================
+yandex\_music.settings
+======================
 
-.. autoclass:: yandex_music.Settings
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,7 +1,7 @@
-yandex_music.Vinyl
-==================
+yandex\_music.artist.vinyl
+==========================
 
-.. autoclass:: yandex_music.Vinyl
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.artist.vinyl
+   :members:
+   :undoc-members:
+   :show-inheritance:

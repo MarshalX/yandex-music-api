@@ -1,6 +1,7 @@
-yandex_music.Price
-==================
+yandex\_music.account.price
+===========================
 
-.. autoclass:: yandex_music.Price
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.account.price
+   :members:
+   :undoc-members:
+   :show-inheritance:

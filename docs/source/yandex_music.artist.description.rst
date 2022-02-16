@@ -1,7 +1,7 @@
-yandex_music.Description
-========================
+yandex\_music.artist.description
+================================
 
-.. autoclass:: yandex_music.Description
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.artist.description
+   :members:
+   :undoc-members:
+   :show-inheritance:

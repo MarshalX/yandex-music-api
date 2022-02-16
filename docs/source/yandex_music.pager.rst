@@ -1,6 +1,7 @@
-yandex_music.Pager
-==================
+yandex\_music.pager
+===================
 
-.. autoclass:: yandex_music.Pager
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.pager
+   :members:
+   :undoc-members:
+   :show-inheritance:

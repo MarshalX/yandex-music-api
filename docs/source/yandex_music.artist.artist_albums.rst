@@ -1,7 +1,7 @@
-yandex_music.ArtistAlbums
-=========================
+yandex\_music.artist.artist\_albums
+===================================
 
-.. autoclass:: yandex_music.ArtistAlbums
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.artist.artist_albums
+   :members:
+   :undoc-members:
+   :show-inheritance:

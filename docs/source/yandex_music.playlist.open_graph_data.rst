@@ -1,7 +1,7 @@
-yandex_music.OpenGraphData
-==========================
+yandex\_music.playlist.open\_graph\_data
+========================================
 
-.. autoclass:: yandex_music.OpenGraphData
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.playlist.open_graph_data
+   :members:
+   :undoc-members:
+   :show-inheritance:

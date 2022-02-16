@@ -1,6 +1,7 @@
-yandex_music.Permissions
-=========================
+yandex\_music.account.permissions
+=================================
 
-.. autoclass:: yandex_music.Permissions
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.account.permissions
+   :members:
+   :undoc-members:
+   :show-inheritance:

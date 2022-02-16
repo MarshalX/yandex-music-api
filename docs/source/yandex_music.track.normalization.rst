@@ -1,7 +1,7 @@
-yandex_music.Normalization
-==========================
+yandex\_music.track.normalization
+=================================
 
-.. autoclass:: yandex_music.Normalization
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.track.normalization
+   :members:
+   :undoc-members:
+   :show-inheritance:

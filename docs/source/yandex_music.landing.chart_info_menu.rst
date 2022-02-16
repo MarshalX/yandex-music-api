@@ -1,7 +1,7 @@
-yandex_music.ChartInfoMenu
-==========================
+yandex\_music.landing.chart\_info\_menu
+=======================================
 
-.. autoclass:: yandex_music.ChartInfoMenu
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.chart_info_menu
+   :members:
+   :undoc-members:
+   :show-inheritance:

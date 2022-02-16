@@ -1,7 +1,7 @@
-yandex_music.Feed
-=================
+yandex\_music.feed.feed
+=======================
 
-.. autoclass:: yandex_music.Feed
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.feed.feed
+   :members:
+   :undoc-members:
+   :show-inheritance:

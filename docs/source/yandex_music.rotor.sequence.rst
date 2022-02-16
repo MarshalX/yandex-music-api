@@ -1,7 +1,7 @@
-yandex_music.Sequence
-=====================
+yandex\_music.rotor.sequence
+============================
 
-.. autoclass:: yandex_music.Sequence
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.sequence
+   :members:
+   :undoc-members:
+   :show-inheritance:
