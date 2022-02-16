@@ -4,36 +4,29 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   pytest:
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        python-version: [3.7]
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+      - name: Checkout repository.
+        uses: actions/checkout@v2
+
+      - name: Setup Python.
+        uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-          python get-pip.py
-          pip install pipenv
-          pipenv install --dev --deploy --system
-        shell: bash
-      - name: Test with pytest and generate coverage
-        run: |
-          pytest -v --cov=yandex_music
-        shell: bash
-      - name: Submit coverage
-        run: |
-          if [ "$CODECOV_TOKEN" != "" ]; then
-             codecov -F github -t $CODECOV_TOKEN --name "${{ matrix.os }}-${{ matrix.python-version }}"
-          fi
+          python-version: 3.7
+
+      - name: Install dependencies.
+        run: pip install -r requirements-dev.txt
+
+      - name: Test with pytest and generate coverage.
+        run: pytest -v --cov=yandex_music
+
+      - name: Submit coverage.
+        if: github.ref == 'refs/heads/main' && github.repository == 'MarshalX/yandex-music-api'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        shell: bash
+        run: codecov -F github -t $CODECOV_TOKEN --name "GHA"

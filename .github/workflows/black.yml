@@ -1,10 +1,6 @@
 name: Black
 
-on:
-  pull_request:
-    branches:
-      - development
-  push:
+on: [pull_request, push]
 
 jobs:
   black:
@@ -23,7 +19,7 @@ jobs:
         run: pip install black
 
       - name: Check code style of tests.
-        run: black --check tests
+        run: black --config=black.toml --check tests
 
       - name: Check code style of package.
-        run: black --check yandex_music
+        run: black --config=black.toml --check yandex_music
