@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 
 class YandexMusicError(Exception):
-    """Базовый класс, представляющий исключения общего характера. """
+    """Базовый класс, представляющий исключения общего характера."""
 
 
 class Unauthorized(YandexMusicError):
