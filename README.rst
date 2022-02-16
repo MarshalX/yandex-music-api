@@ -1,14 +1,11 @@
+==================================================
 API Yandex Music — неофициальная Python библиотека
 ==================================================
 
     Делаю то, что по определённым причинам не сделала компания Yandex.
 
-Маленькое сообщество разработчиков общаются и помогают друг другу
+Сообщество разработчиков общаются и помогают друг другу
 в `Telegram чатике <https://t.me/yandex_music_api>`_, присоединяйтесь!
-
-.. image:: https://img.shields.io/pypi/v/yandex-music.svg
-   :target: https://pypi.org/project/yandex-music/
-   :alt: Версия пакета PyPi
 
 .. image:: https://img.shields.io/badge/python-3.7+-blue.svg
    :target: https://pypi.org/project/yandex-music/
@@ -33,10 +30,6 @@ API Yandex Music — неофициальная Python библиотека
 .. image:: https://img.shields.io/badge/license-LGPLv3-lightgrey.svg
    :target: https://www.gnu.org/licenses/lgpl-3.0.html
    :alt: Лицензия LGPLv3
-
-.. image:: https://img.shields.io/badge/telegram-чат-blue.svg
-   :target: https://t.me/yandex_music_api
-   :alt: Telegram чат
 
 
 ==========
