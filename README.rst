@@ -1,7 +1,7 @@
-API Yandex Music - неофициальная Python библиотека
+API Yandex Music — неофициальная Python библиотека
 ==================================================
 
-Делаю то, что по определённым причинам не сделала компания Yandex.
+    Делаю то, что по определённым причинам не сделала компания Yandex.
 
 Маленькое сообщество разработчиков общаются и помогают друг другу
 в `Telegram чатике <https://t.me/yandex_music_api>`_, присоединяйтесь!
@@ -22,8 +22,8 @@ API Yandex Music - неофициальная Python библиотека
    :target: https://www.codacy.com/manual/MarshalX/yandex-music-api
    :alt: Качество кода
 
-.. image:: https://github.com/MarshalX/yandex-music-api/workflows/Full%20test/badge.svg
-   :target: https://github.com/MarshalX/yandex-music-api/actions?query=workflow%3A%22Full+test%22
+.. image:: https://github.com/MarshalX/yandex-music-api/actions/workflows/pytest_full.yml/badge.svg
+   :target: https://github.com/MarshalX/yandex-music-api/actions/workflows/pytest_full.yml
    :alt: Статус тестов
 
 .. image:: https://readthedocs.org/projects/yandex-music/badge/?version=latest
@@ -58,6 +58,8 @@ API Yandex Music - неофициальная Python библиотека
   #. `Документация`_
 
 - `Получение помощи`_
+
+- `Список изменений`_
 
 - `Реализации на других языках`_
 
@@ -108,7 +110,7 @@ Microsoft Store. Так как API является закрытым и испо
 Установка
 =========
 
-Вы можете установить или обновить yandex-music-api при помощи:
+Вы можете установить или обновить Yandex Music API при помощи:
 
 .. code:: shell
 
@@ -118,7 +120,7 @@ Microsoft Store. Так как API является закрытым и испо
 
 .. code:: shell
 
-    $ git clone https://github.com/MarshalX/yandex-music-api --recursive
+    $ git clone https://github.com/MarshalX/yandex-music-api
     $ cd yandex-music-api
     $ python setup.py install
 
@@ -158,7 +160,7 @@ Microsoft Store. Так как API является закрытым и испо
     client = Client.from_token('token')
 
 После успешного создания клиента Вы вольны в выборе необходимого метода
-из API. Все они доступны у объекта класса Client. Подробнее в методах клиента
+из API. Все они доступны у объекта класса ``Client``. Подробнее в методах клиента
 в `документации <https://yandex-music.readthedocs.io/ru/latest/yandex_music.client.html>`_.
 
 Пример получения первого трека из плейлиста "Мне нравится" и его загрузка:
@@ -177,7 +179,7 @@ Microsoft Store. Так как API является закрытым и испо
 `TrackShort <https://yandex-music.readthedocs.io/ru/latest/yandex_music.track_short.html>`_.
 Данный класс содержит наиважнейшую информацию о треке и никаких подробностей,
 поэтому для получения полной версии трека со всей информацией необходимо
-обратиться к методу fetch_track(). Затем можно скачать трек методом download().
+обратиться к методу ``fetch_track()``. Затем можно скачать трек методом ``download()``.
 
 Пример получения треков по ID:
 
@@ -277,7 +279,7 @@ music.yandex.ru/album/**1193829**/track/**10994777**
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
-Если Вы хотите DEBUG логирование:
+Если Вы хотите ``DEBUG`` логирование:
 
 .. code:: python
 
@@ -301,8 +303,16 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 Получить помощь можно несколькими путями:
 
 - Задать вопрос в `Telegram чатике <https://t.me/yandex_music_api>`_, где мы помогаем друг другу, присоединяйтесь!
-- Сообщить о баге, предложить новую фичу или задать вопрос можно `создав issue <https://github.com/MarshalX/yandex-music-api/issues/new/choose>`_.
+- Сообщить о баге можно `создав Bug Report <https://github.com/MarshalX/yandex-music-api/issues/new?assignees=MarshalX&labels=bug&template=bug-report.md&title=>`_.
+- Предложить новую фичу или задать вопрос можно `создав discussion <https://github.com/MarshalX/yandex-music-api/discussions/new>`_.
 - Найти ответ на вопрос в `документации библиотеки <https://yandex-music.readthedocs.io/ru/latest/>`_.
+
+================
+Список изменений
+================
+
+Весь список изменений ведётся в файле `CHANGES.rst <CHANGES.rst>`_.
+
 
 ===========================
 Реализации на других языках
@@ -363,7 +373,7 @@ Telegram бот-клиент
 
 Сайт проекта: `music-yandex-bot.ru <https://music-yandex-bot.ru/>`_.
 Бот в Telegram: `@music_yandex_bot <https://t.me/music_yandex_bot>`_.
-Автор: `@MarshalX <https://marshal.by/>`_.
+Автор: `@MarshalX <https://github.com/MarshalX>`_.
 
 Статья на habr.com с описанием реализации: `Под капотом бота-клиента Яндекс.Музыки <https://habr.com/ru/post/487428/>`_.
 

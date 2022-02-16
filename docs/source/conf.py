@@ -20,7 +20,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 
 project = 'Yandex Music API'
-copyright = '2019-2021 Il`ya (Marshal) <https://github.com/MarshalX>'
+copyright = '2019-2022 Il`ya (Marshal) <https://github.com/MarshalX>'
 author = 'Il`ya Semyonov'
 
 language = 'ru'
