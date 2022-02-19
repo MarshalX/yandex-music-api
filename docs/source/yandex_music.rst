@@ -35,6 +35,7 @@ Submodules
 
    yandex_music.base
    yandex_music.client
+   yandex_music.client_async
    yandex_music.cover
    yandex_music.download_info
    yandex_music.exceptions
