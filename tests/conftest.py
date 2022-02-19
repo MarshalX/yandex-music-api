@@ -486,7 +486,7 @@ def generated_playlist(playlist):
 
 @pytest.fixture(scope='session')
 def client():
-    return Client(fetch_account_status=False)
+    return Client()
 
 
 @pytest.fixture(scope='session')
