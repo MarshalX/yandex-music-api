@@ -76,11 +76,6 @@ class Client(YandexMusicObject):
     """Класс, представляющий клиент Yandex Music.
 
     Note:
-        При `fetch_account_status = False` многие сокращения перестанут работать в связи с тем, что неоткуда будет взять
-        uid аккаунта для отправки запроса. Так же в большинстве методов придётся передавать `uid` явно.
-
-        Для отключения предупреждений о новых полях установите `report_new_fields` в `False`.
-
         Доступные языки: en, uz, uk, us, ru, kk, hy.
 
         Поле `device` используется только при работе с очередью прослушивания.
@@ -100,7 +95,7 @@ class Client(YandexMusicObject):
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
         language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API.
-        report_unknown_fields (:obj:`bool`, optional): Включены ли предупреждения о неизвестных полях от API,
+        report_unknown_fields (:obj:`bool`, optional): Включить предупреждения о неизвестных полях от API,
             которых нет в библиотеке.
     """
 
@@ -112,7 +107,7 @@ class Client(YandexMusicObject):
         base_url: str = None,
         request: Request = None,
         language: str = 'ru',
-        report_unknown_fields=True,
+        report_unknown_fields=False,
     ) -> None:
         if not Client.notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
