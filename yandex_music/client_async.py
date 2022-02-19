@@ -234,7 +234,9 @@ class ClientAsync(YandexMusicObject):
         url = f'{self.base_url}/account/settings'
 
         if not data:
-            data = {param: value}
+            data = {param: str(value)}
+
+        # TODO (MarshalX) значения в data типа bool должны быть приведены к str при работе с async клиентом.
 
         result = await self._request.post(url, data=data, timeout=timeout, *args, **kwargs)
 
