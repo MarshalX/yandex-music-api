@@ -23,7 +23,7 @@ project = 'Yandex Music API'
 copyright = '2019-2022 Il`ya (Marshal) <https://github.com/MarshalX>'
 author = 'Il`ya Semyonov'
 
-language = 'ru'
+language = 'en'
 
 # -- General configuration ---------------------------------------------------
 
