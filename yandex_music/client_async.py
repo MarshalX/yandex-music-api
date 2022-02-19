@@ -572,9 +572,7 @@ class ClientAsync(YandexMusicObject):
 
         result = await self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        # TODO (MarshalX) fix get_direct_links=True in async version
-
-        return DownloadInfo.de_list(result, self, get_direct_links)
+        return await DownloadInfo.de_list_async(result, self, get_direct_links)
 
     @log
     async def track_supplement(

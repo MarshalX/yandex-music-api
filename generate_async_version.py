@@ -77,6 +77,7 @@ def gen_client(output_client_filename):
         'self.rotor_station_feedback(',
         'await self.rotor_station_feedback('
     )
+    code = code.replace('return DownloadInfo.de_list', 'return await DownloadInfo.de_list_async')
 
     code = DISCLAIMER + code
     with open(output_client_filename, 'w') as f:

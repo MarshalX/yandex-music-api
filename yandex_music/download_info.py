@@ -151,6 +151,31 @@ class DownloadInfo(YandexMusicObject):
 
         return downloads_info
 
+    @classmethod
+    async def de_list_async(cls, data: dict, client: 'Client', get_direct_links: bool = False) -> List['DownloadInfo']:
+        """Десериализация списка объектов.
+
+        Args:
+            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            get_direct_links (:obj:`bool`): Получать ли сразу прямые ссылки на загрузку.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
+        """
+        if not data:
+            return []
+
+        downloads_info = list()
+        for download_info in data:
+            downloads_info.append(cls.de_json(download_info, client))
+
+        if get_direct_links:
+            for info in downloads_info:
+                await info.get_direct_link_async()
+
+        return downloads_info
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`get_direct_link`
