@@ -89,17 +89,13 @@ Yandex Music API
 классов-обёрток объектов высокого уровня дабы сделать разработку клиентов
 и скриптов простой и понятной.
 
---------------------------------
-Доступ к вашим данным на Яндексе
---------------------------------
+-----------------------------------
+Доступ к вашим данным Яндекс.Музыка
+-----------------------------------
 
-Значения констант
-`CLIENT_ID и CLIENT_SECRET <https://github.com/MarshalX/yandex-music-api/blob/main/yandex_music/client.py#L52>`_
-позаимствовано у официального приложения-клиента сервиса Яндекс.Музыка из магазина
-Microsoft Store. Так как API является закрытым и используется только внутри
-компании Яндекс сейчас невозможно зарегистрировать своё собственное приложение на
-`oauth.yandex.ru <https://oauth.yandex.ru/>`_, а следовательно, использовать свои
-значения констант.
+Начиная с версии 2.0.0 библиотека больше не предоставляет интерфейсы для работы
+с OAuth Яндекс и Яндекс.Паспорт. Задача по получению токена для доступа к данным
+на плечах разработчиков использующих данную библиотеку.
 
 =========
 Установка
@@ -133,26 +129,20 @@ Microsoft Store. Так как API является закрытым и испо
 
     client = Client()
 
+Работа без авторизации ограничена. Так, например, для загрузки будут доступны
+только первые 30 секунд аудиофайла. Для понимания всех ограничений зайдите на
+сайт Яндекс.Музыка под инкогнито и воспользуйтесь сервисом.
+
 Для доступа к своим личным данным следует авторизоваться.
-Это можно осуществить через OAuth токен или логин с паролем.
+Это осуществляется через токен аккаунта Яндекс.Музыка.
 
-Авторизация по логину и паролю:
-
-.. code:: python
-
-    from yandex_music import Client
-
-    client = Client.from_credentials('example@yandex.com', 'password')
-
-Авторизация по токену:
+Авторизация:
 
 .. code:: python
 
     from yandex_music import Client
 
     client = Client('token')
-    # или
-    client = Client.from_token('token')
 
 После успешного создания клиента Вы вольны в выборе необходимого метода
 из API. Все они доступны у объекта класса ``Client``. Подробнее в методах клиента
@@ -164,7 +154,7 @@ Microsoft Store. Так как API является закрытым и испо
 
     from yandex_music import Client
 
-    client = Client.from_credentials('example@yandex.com', 'password')
+    client = Client('token')
     client.users_likes_tracks()[0].fetch_track().download('example.mp3')
 
 В примере выше клиент получает список треков которые были отмечены как
@@ -207,36 +197,6 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 - http://user:password@host
 
 Больше примеров тут: `proxies - advanced usage - requests <https://2.python-requests.org/en/master/user/advanced/#proxies>`_
-
-Пример инициализации клиента с обработкой капчи при помощи callback-функции:
-
-.. code:: python
-
-    def proc_captcha(captcha_image_url):
-        print(captcha_image_url)
-        return input('Код с картинки: ')
-
-    client = Client.from_credentials('login', 'pass', captcha_callback=proc_captcha)
-
-Пример инициализации клиента с обработкой капчи:
-
-.. code:: python
-
-    def init_client():
-        client = track_id = captcha_image_url = captcha_answer = None
-        while not client:
-            try:
-                client = Client.from_credentials('login', 'pass', track_id, captcha_answer)
-            except Captcha as e:
-                track_id = e.track_id
-                if e.captcha_image_url:
-                    captcha_image_url = e.captcha_image_url
-                else:
-                    print('Вы отправили ответ не посмотрев на картинку..')
-
-                captcha_answer = input(f'{captcha_image_url}\nВведите код с картинки: ')
-
-        return client
 
 --------------------
 Изучение по примерам

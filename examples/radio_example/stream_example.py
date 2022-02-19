@@ -5,7 +5,7 @@ from yandex_music import Client
 from radio import Radio
 
 # API instance
-client = Client(token="YOUR_API_KEY_HERE")
+client = Client(token='YOUR_API_KEY_HERE')
 
 # get some track
 track = client.tracks(['2816574:303266'])[0]
@@ -26,10 +26,10 @@ radio = Radio(client)
 
 # start radio and get first track
 first_track = radio.start_radio(_station_id, _station_from)
-print("[Radio] First track is:", first_track)
+print('[Radio] First track is:', first_track)
 
 # get new track every 5 sec
 while True:
     sleep(5)
     next_track = radio.play_next()
-    print("[Radio] Next track is:", next_track)
+    print('[Radio] Next track is:', next_track)

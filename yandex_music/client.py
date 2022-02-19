@@ -42,15 +42,8 @@ from yandex_music import (
     __license__,
     __version__,
 )
-from yandex_music.exceptions import BadRequest, Captcha, CaptchaNotShown, CaptchaRequired, Unauthorized
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
-
-
-CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
-CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
-X_TOKEN_CLIENT_ID = 'c0ebe342af7d48fbbbfcf2d2eedb8f9e'
-X_TOKEN_CLIENT_SECRET = 'ad0a908f0aa341a182a37ecd75bc319e'
 
 de_list = {
     'artist': Artist.de_list,
@@ -96,7 +89,6 @@ class Client(YandexMusicObject):
         logger (:obj:`logging.Logger`): Объект логгера.
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
-        passport_url (:obj:`str`): Ссылка на Mobileproxy Passport Yandex Music.
         me (:obj:`yandex_music.Status`): Информация об аккаунте.
         device (:obj:`str`): Строка, содержащая сведения об устройстве, с которого выполняются запросы.
         report_unknown_fields (:obj:`bool`): Включены ли предупреждения о неизвестных полях от API,
@@ -106,7 +98,6 @@ class Client(YandexMusicObject):
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
         fetch_account_status (:obj:`bool`, optional): Получить ли информацию об аккаунте при инициализации объекта.
         base_url (:obj:`str`, optional): Ссылка на API Yandex Music.
-        passport_url (:obj:`str`, optional): Ссылка на Mobileproxy Passport Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
         language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API.
@@ -121,7 +112,6 @@ class Client(YandexMusicObject):
         token: str = None,
         fetch_account_status: bool = True,
         base_url: str = None,
-        passport_url: str = None,
         request: Request = None,
         language: str = 'ru',
         report_unknown_fields=True,
@@ -136,11 +126,8 @@ class Client(YandexMusicObject):
 
         if base_url is None:
             base_url = 'https://api.music.yandex.net'
-        if passport_url is None:
-            passport_url = 'https://mobileproxy.passport.yandex.net/'
 
         self.base_url = base_url
-        self.passport_url = passport_url
 
         self.report_new_fields = report_unknown_fields
 
@@ -157,221 +144,10 @@ class Client(YandexMusicObject):
             'os=Python; os_version=; manufacturer=Marshal; '
             'model=Yandex Music API; clid=; device_id=random; uuid=random'
         )
-        self._auth_sdk_params = 'app_id=ru.yandex.mobile.music&app_version_name=5.18&app_platform=iPad'
 
         self.me = None
         if fetch_account_status:
             self.me = self.account_status()
-
-    @classmethod
-    def from_credentials(
-        cls,
-        login: str,
-        password: str,
-        track_id: str = None,
-        captcha_answer: str = None,
-        captcha_callback: Callable[[str], str] = None,
-        timeout: Union[int, float] = None,
-        *args,
-        **kwargs,
-    ) -> 'Client':
-        """Инициализция клиента по логину и паролю.
-
-        Note:
-            Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить
-            и использовать при следующих инициализациях клиента. Не храните логины и пароли!
-
-        Args:
-            login (:obj:`str`): Логин клиента (идентификатор).
-            password (:obj:`str`): Пароль клиента (аутентификатор).
-            track_id (:obj:`str`): Идентификатора сессии аутентификации (для ввода капчи на старой сессии).
-            captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
-            captcha_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
-                принимать строку с ссылкой на капчу и возвращать проверочный код.
-            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
-                ответа от сервера вместо указанного при создании пула.
-            *args: Произвольные аргументы для `requests.request` и `Client`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request` и `Client`.
-
-        Returns:
-            :obj:`yandex_music.Client`.
-
-        Raises:
-            :class:`yandex_music.exceptions.CaptchaRequired`: При необходимости пройти капчу и отсутствию коллбека.
-            :class:`yandex_music.exceptions.CaptchaNotShown`: При попытке отправить ответ на капчу не посмотрев её.
-            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
-        """
-
-        client = cls(*args, **kwargs)
-
-        if not track_id:
-            track_id = client._start_authentication(login, timeout, *args, **kwargs)
-
-        x_token = None
-        while not x_token:
-            try:
-                x_token = client._send_authentication_password(
-                    track_id, password, captcha_answer, timeout, *args, **kwargs
-                )
-            except Captcha as e:
-                if not captcha_callback or not e.captcha_image_url:
-                    raise e
-
-                captcha_answer = captcha_callback(e.captcha_image_url)
-
-        token = client._generate_yandex_music_token_by_x_token(x_token, timeout, *args, **kwargs)
-        return cls(token, *args, **kwargs)
-
-    @classmethod
-    def from_token(cls, token: str, *args, **kwargs) -> 'Client':
-        """Инициализация клиента по токену.
-
-        Note:
-            Ничем не отличается от `Client(token)`. Так исторически сложилось.
-
-        Args:
-            token (:obj:`str`, optional): Уникальный ключ для аутентификации.
-            *args: Произвольные аргументы для `Client`.
-            **kwargs: Произвольные ключевые аргументы для `Client`.
-
-        Returns:
-            :obj:`yandex_music.Client`.
-        """
-
-        return cls(token, *args, **kwargs)
-
-    @log
-    def _start_authentication(self, login: Union[str, int], timeout: Union[int, float] = None, *args, **kwargs) -> str:
-        """Отправка логина и проверка на его существование. Получение идентификатора аутентификации.
-
-        Args:
-            login (:obj:`str`): Логин клиента (идентификатор).
-            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
-                ответа от сервера вместо указанного при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
-
-        Returns:
-            :obj:`str`: `track_id` необходимый для отправки пароля к логину.
-
-        Raises:
-            :class:`yandex_music.exceptions.BadRequest`: При неправильном запросе.
-        """
-
-        url = f'{self.passport_url}/2/bundle/mobile/start'
-
-        data = {
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'display_language': self.language,
-            'login': login,
-            'x_token_client_id': X_TOKEN_CLIENT_ID,
-            'x_token_client_secret': X_TOKEN_CLIENT_SECRET,
-        }
-
-        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
-
-        if result.get('status', 'error') == 'error':
-            raise BadRequest(result)
-
-        return result['track_id']
-
-    @log
-    def _send_authentication_password(
-        self,
-        track_id: str,
-        password: str,
-        captcha_answer: str = None,
-        timeout: Union[int, float] = None,
-        *args,
-        **kwargs,
-    ) -> str:
-        """Отправка пароля к существующему логину.
-
-        Notes:
-            Капча появляется после 5 неудачных попыток ввода пароля.
-
-            При получении капчи обязательно выполнить запрос на `captcha_image_url` (посмотреть капчу) перед
-            отправкой ответа.
-
-        Args:
-            track_id (:obj:`str`): Идентификатор аутентификации (получен на шаге валидации логина).
-            password (:obj:`str`): Пароль клиента (аутентификатор).
-            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
-                ответа от сервера вместо указанного при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
-
-        Returns:
-            :obj:`str`: `X-Token` необходимый для получения токена ЯМ.
-
-        Raises:
-            :class:`yandex_music.exceptions.TimedOut`: При превышении времени ожидания.
-            :class:`yandex_music.exceptions.BadRequest`: При неправильном или неизвестном библиотеке запросе.
-            :class:`yandex_music.exceptions.Unauthorized`: При неправильном пароле.
-            :class:`yandex_music.exceptions.CaptchaRequired`: При необходимости пройти капчу.
-            :class:`yandex_music.exceptions.CaptchaNotShown`: При попытке отправить ответ на капчу не посмотрев её.
-        """
-        url = f'{self.passport_url}/1/bundle/mobile/auth/password'
-
-        data = {
-            'track_id': track_id,
-            'password': password,
-        }
-
-        if captcha_answer:
-            data['captcha_answer'] = captcha_answer
-
-        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
-
-        status = result.get('status', 'error')
-        if status == 'ok':
-            return result['x_token']
-
-        if 'password.not_matched' in result['errors']:
-            raise Unauthorized(result)
-        elif 'captcha.required' in result['errors']:
-            raise CaptchaRequired('captcha.required', track_id, result['captcha_image_url'])
-        elif 'captcha.not_shown' in result['errors']:
-            raise CaptchaNotShown('captcha.not_shown', track_id)
-        else:
-            raise BadRequest(result)
-
-    @log
-    def _generate_yandex_music_token_by_x_token(
-        self, x_token: str, timeout: Union[int, float] = None, *args, **kwargs
-    ) -> str:
-        """Получения токена для Яндекс.Музыка по X-Token.
-
-        Args:
-            x_token (:obj:`str`): X-Token полученный в ответ на отправленный пароль.
-            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
-                ответа от сервера вместо указанного при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
-
-        Returns:
-            :obj:`str`: `access_token` токен Яндекс.Музыка пригодный для использования в клиенте.
-
-        Raises:
-            :class:`yandex_music.exceptions.BadRequest`: При неправильном запросе.
-        """
-
-        url = f'{self.passport_url}/1/token/?{self._auth_sdk_params}'
-
-        data = {
-            'access_token': x_token,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'grant_type': 'x-token',
-        }
-
-        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
-
-        if 'access_token' in result:
-            return result['access_token']
-
-        raise BadRequest(result)
 
     @property
     def request(self) -> Request:
@@ -2816,10 +2592,6 @@ class Client(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    #: Псевдоним для :attr:`from_credentials`
-    fromCredentials = from_credentials
-    #: Псевдоним для :attr:`from_token`
-    fromToken = from_token
     #: Псевдоним для :attr:`account_status`
     accountStatus = account_status
     #: Псевдоним для :attr:`account_settings`
