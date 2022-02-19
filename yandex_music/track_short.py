@@ -45,6 +45,14 @@ class TrackShort(YandexMusicObject):
         """
         return self.client.tracks(self.track_id)[0]
 
+    async def fetch_track_async(self) -> 'Track':
+        """Получение полной версии трека.
+
+        Returns:
+            :obj:`yandex_music.Track`: Полная версия трека.
+        """
+        return (await self.client.tracks(self.track_id))[0]
+
     @property
     def track_id(self) -> str:
         """:obj:`str`: Уникальный идентификатор трека состоящий из его номера и номера альбома или просто из номера."""
@@ -95,5 +103,7 @@ class TrackShort(YandexMusicObject):
 
     #: Псевдоним для :attr:`fetch_track`
     fetchTrack = fetch_track
+    #: Псевдоним для :attr:`fetch_track_async`
+    fetchTrackAsync = fetch_track_async
     #: Псевдоним для :attr:`track_id`
     trackId = track_id

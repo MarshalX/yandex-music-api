@@ -51,6 +51,14 @@ class TrackId(YandexMusicObject):
         """
         return self.client.tracks(self.track_full_id, *args, **kwargs)[0]
 
+    async def fetch_track_async(self, *args, **kwargs) -> 'Track':
+        """Получение полной версии трека.
+
+        Returns:
+            :obj:`yandex_music.Track`: Полная версия.
+        """
+        return (await self.client.tracks(self.track_full_id, *args, **kwargs))[0]
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:
         """Десериализация объекта.
@@ -89,5 +97,7 @@ class TrackId(YandexMusicObject):
 
     #: Псевдоним для :attr:`fetch_track`
     fetchTrack = fetch_track
+    #: Псевдоним для :attr:`fetch_track_async`
+    fetchTrackAsync = fetch_track_async
     #: Псевдоним для :attr:`track_full_id`
     trackFullId = track_full_id

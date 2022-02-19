@@ -135,11 +135,16 @@ from .invocation_info import InvocationInfo
 from .track_short import TrackShort
 from .icon import Icon
 from .client import Client
+from .client_async import ClientAsync
 
 
 __all__ = [
+    '__copyright__',
+    '__license__',
+    '__version__',
     'YandexMusicObject',
     'Client',
+    'ClientAsync',
     'Account',
     'PassportPhone',
     'InvocationInfo',

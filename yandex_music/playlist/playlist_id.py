@@ -35,6 +35,13 @@ class PlaylistId(YandexMusicObject):
         """
         return self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
 
+    async def fetch_playlist_async(self, *args, **kwargs):
+        """Сокращение для::
+
+        await client.users_playlists(kind, uid, *args, **kwargs)
+        """
+        return await self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistId']:
         """Десериализация объекта.
@@ -79,3 +86,5 @@ class PlaylistId(YandexMusicObject):
     playlistId = playlist_id
     #: Псевдоним для :attr:`fetch_playlist`
     fetchPlaylist = fetch_playlist
+    #: Псевдоним для :attr:`fetch_playlist_async`
+    fetchPlaylistAsync = fetch_playlist_async

@@ -47,3 +47,5 @@ class Tag(YandexMusicObject):
         data = super(Tag, cls).de_json(data, client)
 
         return cls(client=client, **data)
+
+    # TODO (MarshalX) add download_og_image shortcut?

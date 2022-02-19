@@ -30,7 +30,7 @@ setup(
     description='Неофициальная Python библиотека для работы с API сервиса Яндекс.Музыка.',
     long_description=readme,
     packages=find_packages(),
-    install_requires=['requests[socks]'],
+    install_requires=['requests[socks]', 'aiohttp', 'aiofiles'],
     include_package_data=True,
     classifiers=[
         'Development Status :: 5 - Production/Stable',

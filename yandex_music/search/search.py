@@ -79,6 +79,17 @@ class Search(YandexMusicObject):
         """
         return self.client.search(self.text, self.nocorrect, self.type_, page, *args, **kwargs)
 
+    async def get_page_async(self, page: int, *args, **kwargs) -> Optional['Search']:
+        """Получение определеной страницы поиска.
+
+        Args:
+            page (:obj:`int`): Номер страницы.
+
+        Returns:
+            :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
+        """
+        return await self.client.search(self.text, self.nocorrect, self.type_, page, *args, **kwargs)
+
     def next_page(self, *args, **kwargs) -> Optional['Search']:
         """Получение следующей страницы поиска.
 
@@ -87,6 +98,14 @@ class Search(YandexMusicObject):
         """
         return self.get_page(self.page + 1, *args, **kwargs)
 
+    async def next_page_async(self, *args, **kwargs) -> Optional['Search']:
+        """Получение следующей страницы поиска.
+
+        Returns:
+            :obj:`yandex_music.Search` | :obj:`None`: Следующая страница результата поиска или :obj:`None`.
+        """
+        return await self.get_page_async(self.page + 1, *args, **kwargs)
+
     def prev_page(self, *args, **kwargs) -> Optional['Search']:
         """Получение предыдущей страницы поиска.
 
@@ -94,6 +113,14 @@ class Search(YandexMusicObject):
             :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
         """
         return self.get_page(self.page - 1, *args, **kwargs)
+
+    async def prev_page_async(self, *args, **kwargs) -> Optional['Search']:
+        """Получение предыдущей страницы поиска.
+
+        Returns:
+            :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
+        """
+        return await self.get_page_async(self.page - 1, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
@@ -126,9 +153,15 @@ class Search(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    #: Псевдоним для :attr:`next_page`
-    nextPage = next_page
-    #: Псевдоним для :attr:`prev_page`
-    prevPage = prev_page
     #: Псевдоним для :attr:`get_page`
     getPage = get_page
+    #: Псевдоним для :attr:`get_page_async`
+    getPageAsync = get_page_async
+    #: Псевдоним для :attr:`next_page`
+    nextPage = next_page
+    #: Псевдоним для :attr:`next_page_async`
+    nextPageASync = next_page_async
+    #: Псевдоним для :attr:`prev_page`
+    prevPage = prev_page
+    #: Псевдоним для :attr:`prev_page_async`
+    prevPageAsync = prev_page_async

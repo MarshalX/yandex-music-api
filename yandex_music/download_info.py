@@ -34,6 +34,7 @@ class DownloadInfo(YandexMusicObject):
     client: Optional['Client'] = None
 
     def __post_init__(self):
+        self.direct_link = None
         self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
 
     @staticmethod
@@ -44,6 +45,16 @@ class DownloadInfo(YandexMusicObject):
             for node in nodes:
                 if node.nodeType == node.TEXT_NODE:
                     return node.data
+
+    def __build_direct_link(self, xml: str) -> str:
+        doc = minidom.parseString(xml)
+        host = self._get_text_node_data(doc.getElementsByTagName('host'))
+        path = self._get_text_node_data(doc.getElementsByTagName('path'))
+        ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
+        s = self._get_text_node_data(doc.getElementsByTagName('s'))
+        sign = md5(('XGRlBW9FXlekgbPrRHuSiA' + path[1::] + s).encode('utf-8')).hexdigest()
+
+        return f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
     def get_direct_link(self) -> str:
         """Получение прямой ссылки на загрузку из XML ответа.
@@ -56,14 +67,22 @@ class DownloadInfo(YandexMusicObject):
         """
         result = self.client.request.retrieve(self.download_info_url)
 
-        doc = minidom.parseString(result.text)
-        host = self._get_text_node_data(doc.getElementsByTagName('host'))
-        path = self._get_text_node_data(doc.getElementsByTagName('path'))
-        ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
-        s = self._get_text_node_data(doc.getElementsByTagName('s'))
-        sign = md5(('XGRlBW9FXlekgbPrRHuSiA' + path[1::] + s).encode('utf-8')).hexdigest()
+        self.direct_link = self.__build_direct_link(result)
 
-        self.direct_link = f'https://{host}/get-mp3/{sign}/{ts}{path}'
+        return self.direct_link
+
+    async def get_direct_link_async(self) -> str:
+        """Получение прямой ссылки на загрузку из XML ответа.
+
+        Метод доступен только одну минуту с момента получения информации о загрузке, иначе 410 ошибка!
+
+        Returns:
+            :obj:`str`: Прямая ссылка на загрузку трека.
+
+        """
+        result = await self.client.request.retrieve(self.download_info_url)
+
+        self.direct_link = self.__build_direct_link(result)
 
         return self.direct_link
 
@@ -77,6 +96,17 @@ class DownloadInfo(YandexMusicObject):
             self.get_direct_link()
 
         self.client.request.download(self.direct_link, filename)
+
+    async def download_async(self, filename: str) -> None:
+        """Загрузка трека.
+
+        Args:
+            filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
+        """
+        if self.direct_link is None:
+            await self.get_direct_link_async()
+
+        await self.client.request.download(self.direct_link, filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['DownloadInfo']:
@@ -125,3 +155,7 @@ class DownloadInfo(YandexMusicObject):
 
     #: Псевдоним для :attr:`get_direct_link`
     getDirectLink = get_direct_link
+    #: Псевдоним для :attr:`get_direct_link_async`
+    getDirectLinkAsync = get_direct_link_async
+    #: Псевдоним для :attr:`download_async`
+    downloadAsync = download_async

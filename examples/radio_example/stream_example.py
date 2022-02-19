@@ -5,7 +5,7 @@ from yandex_music import Client
 from radio import Radio
 
 # API instance
-client = Client(token='YOUR_API_KEY_HERE')
+client = Client(token='YOUR_API_KEY_HERE').init()
 
 # get some track
 track = client.tracks(['2816574:303266'])[0]

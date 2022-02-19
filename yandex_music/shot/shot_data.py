@@ -37,6 +37,15 @@ class ShotData(YandexMusicObject):
         """
         self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
+    async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+
     def download_mds(self, filename: str) -> None:
         """Загрузка аудиоверсии шота.
 
@@ -44,6 +53,14 @@ class ShotData(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
         """
         self.client.request.download(self.mds_url, filename)
+
+    async def download_mds_async(self, filename: str) -> None:
+        """Загрузка аудиоверсии шота.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+        """
+        await self.client.request.download(self.mds_url, filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotData']:
@@ -70,5 +87,9 @@ class ShotData(YandexMusicObject):
 
     #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
+    #: Псевдоним для :attr:`download_cover_async`
+    downloadCoverAsync = download_cover_async
     #: Псевдоним для :attr:`download_mds`
     downloadMds = download_mds
+    #: Псевдоним для :attr:`download_mds_async`
+    downloadMdsAsync = download_mds_async

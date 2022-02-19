@@ -119,6 +119,7 @@ class Track(YandexMusicObject):
     client: Optional['Client'] = None
 
     def __post_init__(self):
+        self.download_info = None
         self._id_attrs = (self.id,)
 
     def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
@@ -130,12 +131,28 @@ class Track(YandexMusicObject):
 
         return self.download_info
 
+    async def get_download_info_async(self, get_direct_links=False) -> List['DownloadInfo']:
+        """Сокращение для::
+
+        await client.tracks_download_info(self.track_id, get_direct_links)
+        """
+        self.download_info = await self.client.tracks_download_info(self.track_id, get_direct_links)
+
+        return self.download_info
+
     def get_supplement(self, *args, **kwargs) -> Optional['Supplement']:
         """Сокращение для::
 
         client.track_supplement(track.id, *args, **kwargs)
         """
         return self.client.track_supplement(self.id, *args, **kwargs)
+
+    async def get_supplement_async(self, *args, **kwargs) -> Optional['Supplement']:
+        """Сокращение для::
+
+        await client.track_supplement(track.id, *args, **kwargs)
+        """
+        return await self.client.track_supplement(self.id, *args, **kwargs)
 
     def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -145,6 +162,15 @@ class Track(YandexMusicObject):
             size (:obj:`str`, optional): Размер обложки.
         """
         self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+
+    async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -156,6 +182,17 @@ class Track(YandexMusicObject):
             size (:obj:`str`, optional): Размер обложки.
         """
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+
+    async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Предпочтительнее использовать `self.download_cover_async()`.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
     def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
@@ -183,6 +220,32 @@ class Track(YandexMusicObject):
         else:
             raise InvalidBitrate('Unavailable bitrate')
 
+    async def download_async(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
+        """Загрузка трека.
+
+        Note:
+            Известные значения `codec`: `mp3`, `aac`.
+
+            Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Raises:
+            :class:`yandex_music.exceptions.InvalidBitrate`: Если в `self.download_info` не найден подходящий трек.
+        """
+        if self.download_info is None:
+            await self.get_download_info_async()
+
+        for info in self.download_info:
+            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
+                await info.download_async(filename)
+                break
+        else:
+            raise InvalidBitrate('Unavailable bitrate')
+
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
@@ -190,12 +253,26 @@ class Track(YandexMusicObject):
         """
         return self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
+    async def like_async(self, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+        await client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
+        """
+        return await self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
+
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
         client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
+
+    async def dislike_async(self, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+        await client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
+        """
+        return await self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
 
     def artists_name(self) -> List[str]:
         """Получает имена всех исполнителей.
@@ -262,11 +339,25 @@ class Track(YandexMusicObject):
 
     #: Псевдоним для :attr:`get_download_info`
     getDownloadInfo = get_download_info
+    #: Псевдоним для :attr:`get_download_info_async`
+    getDownloadInfoAsync = get_download_info_async
     #: Псевдоним для :attr:`get_supplement`
     getSupplement = get_supplement
+    #: Псевдоним для :attr:`get_supplement_async`
+    getSupplementAsync = get_supplement_async
     #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
+    #: Псевдоним для :attr:`download_cover_async`
+    downloadCoverAsync = download_cover_async
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
+    #: Псевдоним для :attr:`download_og_image_async`
+    downloadOgImageAsync = download_og_image_async
     #: Псевдоним для :attr:`track_id`
     trackId = track_id
+    #: Псевдоним для :attr:`like_async`
+    likeAsync = like_async
+    #: Псевдоним для :attr:`dislike_async`
+    dislike_async = dislike_async
+    #: Псевдоним для :attr:`download_async`
+    downloadAsync = download_async

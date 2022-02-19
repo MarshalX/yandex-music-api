@@ -126,6 +126,13 @@ class Album(YandexMusicObject):
         """
         return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
+    async def with_tracks_async(self, *args, **kwargs) -> Optional['Album']:
+        """Сокращение для::
+
+        await client.albums_with_tracks(album.id, *args, **kwargs)
+        """
+        return await self.client.albums_with_tracks(self.id, *args, **kwargs)
+
     def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
@@ -134,6 +141,15 @@ class Album(YandexMusicObject):
             size (:obj:`str`, optional): Размер обложки.
         """
         self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+
+    async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -146,6 +162,17 @@ class Album(YandexMusicObject):
         """
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
+    async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Предпочтительнее использовать `self.download_cover_async()`.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
@@ -153,12 +180,26 @@ class Album(YandexMusicObject):
         """
         return self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
+    async def like_async(self, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+        await client.users_likes_albums_add(album.id, user.id *args, **kwargs)
+        """
+        return await self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
+
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
         client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
+
+    async def dislike_async(self, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+        await client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
+        """
+        return await self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
     def artists_name(self) -> List[str]:
         """Получает имена всех исполнителей.
@@ -217,9 +258,15 @@ class Album(YandexMusicObject):
 
     #: Псевдоним для :attr:`with_tracks`
     withTracks = with_tracks
+    #: Псевдоним для :attr:`with_tracks_async`
+    withTracksAsync = with_tracks_async
     #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
+    #: Псевдоним для :attr:`download_cover_async`
+    downloadCoverAsync = download_cover_async
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
+    #: Псевдоним для :attr:`download_og_image_async`
+    downloadOgImageAsync = download_og_image_async
     #: Псевдоним для :attr:`artists_name`
     artistsName = artists_name

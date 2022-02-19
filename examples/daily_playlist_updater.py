@@ -9,7 +9,7 @@ if len(sys.argv) == 1 or len(sys.argv) > 3:
     quit()
 # Authorization
 elif len(sys.argv) == 2:
-    client = Client(sys.argv[1])
+    client = Client(sys.argv[1]).init()
 
 # Current daily playlist
 PersonalPlaylistBlocks = client.landing(blocks=['personalplaylists']).blocks[0]

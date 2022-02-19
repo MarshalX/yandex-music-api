@@ -45,3 +45,5 @@ class TagResult(YandexMusicObject):
         data['ids'] = PlaylistId.de_list(data.get('ids'), client)
 
         return cls(client=client, **data)
+
+    # TODO (MarshalX) add fetch_playlists shortcut?

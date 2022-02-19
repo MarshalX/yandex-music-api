@@ -33,6 +33,13 @@ class QueueItem(YandexMusicObject):
         """
         return self.client.queue(self.id, *args, **kwargs)
 
+    async def fetch_queue_async(self, *args, **kwargs) -> Optional['Queue']:
+        """Сокращение для::
+
+        await client.queue(id, *args, **kwargs)
+        """
+        return await self.client.queue(self.id, *args, **kwargs)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['QueueItem']:
         """Десериализация объекта.
@@ -74,3 +81,5 @@ class QueueItem(YandexMusicObject):
 
     #: Псевдоним для :attr:`fetch_queue`
     fetchQueue = fetch_queue
+    #: Псевдоним для :attr:`fetch_queue_async`
+    fetchQueueAsync = fetch_queue_async

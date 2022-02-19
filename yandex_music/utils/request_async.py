@@ -1,3 +1,7 @@
+####################################################################
+# THIS IS AUTO GENERATED COPY OF client.py. DON'T EDIT IN BY HANDS #
+####################################################################
+
 import re
 import logging
 import keyword
@@ -9,7 +13,9 @@ from typing import TYPE_CHECKING, Optional, Union
 # https://github.com/psf/requests/blob/master/requests/models.py#L508
 import json
 
-import requests
+import asyncio
+import aiohttp
+import aiofiles
 
 from yandex_music.utils.response import Response
 from yandex_music.exceptions import (
@@ -166,16 +172,16 @@ class Request:
 
         return Response.de_json(data, self.client)
 
-    def _request_wrapper(self, *args, **kwargs):
-        """Обёртка над запросом библиотеки `requests`.
+    async def _request_wrapper(self, *args, **kwargs):
+        """Обёртка над запросом библиотеки `aiohttp`.
 
         Note:
             Добавляет необходимые заголовки для запроса, обрабатывает статус коды, следит за таймаутом, кидает
             необходимые исключения, возвращает ответ. Передаёт пользовательские аргументы в запрос.
 
         Args:
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
+            *args: Произвольные аргументы для `aiohttp.request`.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
             :obj:`bytes`: Тело ответа.
@@ -192,31 +198,33 @@ class Request:
         kwargs['headers']['User-Agent'] = USER_AGENT
 
         try:
-            resp = requests.request(*args, **kwargs)
-        except requests.Timeout:
+            async with aiohttp.request(*args, **kwargs) as _resp:
+                resp = _resp
+                content = await resp.content.read()
+        except asyncio.TimeoutError:
             raise TimedOut()
-        except requests.RequestException as e:
+        except aiohttp.ClientError as e:
             raise NetworkError(e)
 
-        if 200 <= resp.status_code <= 299:
-            return resp.content
+        if 200 <= resp.status <= 299:
+            return content
 
-        parse = self._parse(resp.content)
+        parse = self._parse(content)
         message = parse.get_error() or 'Unknown HTTPError'
 
-        if resp.status_code in (401, 403):
+        if resp.status in (401, 403):
             raise Unauthorized(message)
-        elif resp.status_code == 400:
+        elif resp.status == 400:
             raise BadRequest(message)
-        elif resp.status_code in (404, 409, 413):
+        elif resp.status in (404, 409, 413):
             raise NetworkError(message)
 
-        elif resp.status_code == 502:
+        elif resp.status == 502:
             raise NetworkError('Bad Gateway')
         else:
-            raise NetworkError(f'{message} ({resp.status_code})')
+            raise NetworkError(f'{message} ({resp.status})')
 
-    def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs) -> dict:
+    async def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs) -> dict:
         """Отправка GET запроса.
 
         Args:
@@ -224,8 +232,8 @@ class Request:
             params (:obj:`str`): GET параметры для запроса.
             timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
                 при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
+            *args: Произвольные аргументы для `aiohttp.request`.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
             :obj:`dict`: Обработанное тело ответа.
@@ -233,13 +241,20 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper(
-            'GET', url, params=params, headers=self.headers, proxies=self.proxies, timeout=timeout, *args, **kwargs
+        result = await self._request_wrapper(
+            'GET',
+            url,
+            params=params,
+            headers=self.headers,
+            proxy=self.proxy_url,
+            timeout=aiohttp.ClientTimeout(total=timeout),
+            *args,
+            **kwargs,
         )
 
         return self._parse(result).get_result()
 
-    def post(self, url, data=None, timeout=5, *args, **kwargs) -> dict:
+    async def post(self, url, data=None, timeout=5, *args, **kwargs) -> dict:
         """Отправка POST запроса.
 
         Args:
@@ -247,8 +262,8 @@ class Request:
             data (:obj:`str`): POST тело запроса.
             timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
                 при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
+            *args: Произвольные аргументы для `aiohttp.request`.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
             :obj:`dict`: Обработанное тело ответа.
@@ -256,21 +271,28 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self._request_wrapper(
-            'POST', url, headers=self.headers, proxies=self.proxies, data=data, timeout=timeout, *args, **kwargs
+        result = await self._request_wrapper(
+            'POST',
+            url,
+            headers=self.headers,
+            proxy=self.proxy_url,
+            data=data,
+            timeout=aiohttp.ClientTimeout(total=timeout),
+            *args,
+            **kwargs,
         )
 
         return self._parse(result).get_result()
 
-    def retrieve(self, url, timeout=5, *args, **kwargs) -> bytes:
+    async def retrieve(self, url, timeout=5, *args, **kwargs) -> bytes:
         """Отправка GET запроса и получение содержимого без обработки (парсинга).
 
         Args:
             url (:obj:`str`): Адрес для запроса.
             timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
                 при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
+            *args: Произвольные аргументы для `aiohttp.request`.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
             :obj:`bytes`: Тело ответа.
@@ -278,9 +300,11 @@ class Request:
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._request_wrapper('GET', url, proxies=self.proxies, timeout=timeout, *args, **kwargs)
+        return await self._request_wrapper(
+            'GET', url, proxy=self.proxy_url, timeout=aiohttp.ClientTimeout(total=timeout), *args, **kwargs
+        )
 
-    def download(self, url, filename, timeout=5, *args, **kwargs) -> None:
+    async def download(self, url, filename, timeout=5, *args, **kwargs) -> None:
         """Отправка запроса на получение содержимого и его запись в файл.
 
         Args:
@@ -288,12 +312,12 @@ class Request:
             filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
             timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
                 при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
+            *args: Произвольные аргументы для `aiohttp.request`.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        result = self.retrieve(url, timeout=timeout, *args, *kwargs)
-        with open(filename, 'wb') as f:
-            f.write(result)
+        result = await self.retrieve(url, timeout=timeout, *args, *kwargs)
+        async with aiofiles.open(filename, 'wb') as f:
+            await f.write(result)

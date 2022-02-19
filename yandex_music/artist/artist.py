@@ -90,6 +90,15 @@ class Artist(YandexMusicObject):
         """
         self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
+    async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка изображения для Open Graph.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+
     def download_op_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
@@ -102,12 +111,31 @@ class Artist(YandexMusicObject):
         """
         self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
 
+    async def download_op_image_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Notes:
+            Используйте это только когда нет self.cover!
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
+
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
         client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_artists_add(self.id, self.client.me.account.uid, *args, **kwargs)
+
+    async def like_async(self, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+        await client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
+        """
+        return await self.client.users_likes_artists_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
@@ -116,6 +144,13 @@ class Artist(YandexMusicObject):
         """
         return self.client.users_likes_artists_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
+    async def dislike_async(self, *args, **kwargs) -> bool:
+        """Сокращение для::
+
+        await client.users_likes_artists_remove(artist.id, user.id *args, **kwargs)
+        """
+        return await self.client.users_likes_artists_remove(self.id, self.client.me.account.uid, *args, **kwargs)
+
     def get_tracks(self, page=0, page_size=20, *args, **kwargs) -> Optional['ArtistTracks']:
         """Сокращение для::
 
@@ -123,12 +158,26 @@ class Artist(YandexMusicObject):
         """
         return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
 
+    async def get_tracks_async(self, page=0, page_size=20, *args, **kwargs) -> Optional['ArtistTracks']:
+        """Сокращение для::
+
+        await client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
+        """
+        return await self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
+
     def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs) -> Optional['ArtistAlbums']:
         """Сокращение для::
 
         client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
         """
         return self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
+
+    async def get_albums_async(self, page=0, page_size=20, sort_by='year', *args, **kwargs) -> Optional['ArtistAlbums']:
+        """Сокращение для::
+
+        await client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
+        """
+        return await self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Artist']:
@@ -186,9 +235,21 @@ class Artist(YandexMusicObject):
 
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
+    #: Псевдоним для :attr:`download_og_image_async`
+    downloadOgImageAsync = download_og_image_async
     #: Псевдоним для :attr:`download_op_image`
     downloadOpImage = download_op_image
+    #: Псевдоним для :attr:`download_op_image_async`
+    downloadOpImageAsync = download_op_image_async
     #: Псевдоним для :attr:`get_tracks`
     getTracks = get_tracks
+    #: Псевдоним для :attr:`get_tracks_async`
+    getTracksAsync = get_tracks_async
     #: Псевдоним для :attr:`get_albums`
     getAlbums = get_albums
+    #: Псевдоним для :attr:`get_albums_async`
+    getAlbumsAsync = get_albums_async
+    #: Псевдоним для :attr:`like_async`
+    likeAsync = like_async
+    #: Псевдоним для :attr:`dislike_async`
+    dislikeAsync = dislike_async

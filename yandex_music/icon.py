@@ -33,6 +33,15 @@ class Icon(YandexMusicObject):
         """
         self.client.request.download(self.get_url(size), filename)
 
+    async def download_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка иконки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер иконки.
+        """
+        await self.client.request.download(self.get_url(size), filename)
+
     def get_url(self, size: str = '200x200'):
         """Получение URL иконки.
 
@@ -58,3 +67,8 @@ class Icon(YandexMusicObject):
         data = super(Icon, cls).de_json(data, client)
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`download_async`
+    downloadAsync = download_async

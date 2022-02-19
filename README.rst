@@ -48,6 +48,8 @@ Yandex Music API
 
   #. `Изучение по примерам`_
 
+  #. `Особенности использования асинхронной версии библиотеки`_
+
   #. `Логирование`_
 
   #. `Документация`_
@@ -83,11 +85,13 @@ Yandex Music API
 Эта библиотека предоставляется Python интерфейс для никем
 незадокументированного и сделанного только для себя API Яндекс Музыки.
 
-Она совместима с версиями Python 3.7+.
+Она совместима с версиями Python 3.7+ и поддерживает работу как с синхронном,
+так и асинхронным (asyncio) кодом.
 
 В дополнение к реализации чистого API данная библиотека имеет ряд
 классов-обёрток объектов высокого уровня дабы сделать разработку клиентов
-и скриптов простой и понятной.
+и скриптов простой и понятной. Вся документация была написана с нуля исходя
+из логического анализа в ходе обратной разработки (reverse engineering) API.
 
 -----------------------------------
 Доступ к вашим данным Яндекс.Музыка
@@ -121,13 +125,33 @@ Yandex Music API
 
 Приступив к работе первым делом необходимо создать экземпляр клиента.
 
-Инициализация клиента:
+Инициализация синхронного клиента:
 
 .. code:: python
 
     from yandex_music import Client
 
     client = Client()
+    client.init()
+
+    # или
+
+    client = Client().init()
+
+Инициализация асинхронного клиента:
+
+.. code:: python
+
+    from yandex_music import ClientAsync
+
+    client = ClientAsync()
+    await client.init()
+
+    # или
+
+    client = await Client().init()
+
+Вызов ``init()`` необходим для получение информации для упрощения будущих запросов.
 
 Работа без авторизации ограничена. Так, например, для загрузки будут доступны
 только первые 30 секунд аудиофайла. Для понимания всех ограничений зайдите на
@@ -142,7 +166,7 @@ Yandex Music API
 
     from yandex_music import Client
 
-    client = Client('token')
+    client = Client('token').init()
 
 После успешного создания клиента Вы вольны в выборе необходимого метода
 из API. Все они доступны у объекта класса ``Client``. Подробнее в методах клиента
@@ -154,7 +178,7 @@ Yandex Music API
 
     from yandex_music import Client
 
-    client = Client('token')
+    client = Client('token').init()
     client.users_likes_tracks()[0].fetch_track().download('example.mp3')
 
 В примере выше клиент получает список треков которые были отмечены как
@@ -172,14 +196,14 @@ Yandex Music API
 
     from yandex_music import Client
 
-    client = Client()
+    client = Client().init()
     client.tracks(['10994777:1193829', '40133452:5206873', '48966383:6693286', '51385674:7163467'])
 
 В качестве ID трека выступает его уникальный номер и номер альбома.
 Первым треком из примера является следующий трек:
 music.yandex.ru/album/**1193829**/track/**10994777**
 
-Выполнение запросов с использование прокси:
+Выполнение запросов с использование прокси в синхронной версии:
 
 .. code:: python
 
@@ -187,7 +211,7 @@ music.yandex.ru/album/**1193829**/track/**10994777**
     from yandex_music import Client
 
     request = Request(proxy_url='socks5://user:password@host:port')
-    client = Client(request=request)
+    client = Client(request=request).init()
 
 Примеры proxy url:
 
@@ -197,6 +221,20 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 - http://user:password@host
 
 Больше примеров тут: `proxies - advanced usage - requests <https://2.python-requests.org/en/master/user/advanced/#proxies>`_
+
+Выполнение запросов с использование прокси в асинхронной версии:
+
+.. code:: python
+
+    from yandex_music.utils.request_async import Request
+    from yandex_music import ClientAsync
+
+    request = Request(proxy_url='http://user:pass@some.proxy.com')
+    client = await ClientAsync(request=request).init()
+
+Socks прокси не поддерживаются в асинхронной версии.
+
+Про поддерживаемые прокси тут: `proxy support - advanced usage - aiohttp <https://docs.aiohttp.org/en/stable/client_advanced.html#proxy-support>`_
 
 --------------------
 Изучение по примерам
@@ -210,6 +248,33 @@ music.yandex.ru/album/**1193829**/track/**10994777**
 
 Посетите `эту страницу <https://github.com/MarshalX/yandex-music-api/blob/main/examples/>`_
 чтобы изучить официальные примеры.
+
+----------------------------------------------
+Особенности использования асинхронного клиента
+----------------------------------------------
+
+При работе с асинхронной версией библиотеке стоит всегда помнить
+следующие особенности:
+
+- Клиент следует импортировать с названием ``ClientAsync``, а не просто ``Client``.
+- При использовании методов-сокращений нужно выбирать метод с суффиксом ``_async``.
+
+Пояснение ко второму пункту:
+
+.. code:: python
+
+    from yandex_music import ClientAsync
+
+    client = await ClientAsync('token').init()
+    liked_short_track = (await client.users_likes_tracks())[0]
+
+    # правильно
+    full_track = await liked_short_track.fetch_track_async()
+    await full_track.download_async()
+
+    # НЕПРАВИЛЬНО
+    full_track = await liked_short_track.fetch_track()
+    await full_track.download()
 
 -----------
 Логирование

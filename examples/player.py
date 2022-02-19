@@ -53,7 +53,7 @@ else:
         print('Config file not found. Use --token to create it')
         sys.exit(2)
 
-client = Client(args.token, report_unknown_fields=False)
+client = Client(args.token, report_unknown_fields=False).init()
 
 print('Hello,', client.me.account.first_name)
 if client.me.account.now and client.me.account.now.split('T')[0] == client.me.account.birthday:

@@ -58,6 +58,15 @@ class MixLink(YandexMusicObject):
         """
         self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
 
+    async def download_background_image_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка заднего фона.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер заднего фона.
+        """
+        await self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
+
     def download_cover_white(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки TODO.
 
@@ -67,6 +76,15 @@ class MixLink(YandexMusicObject):
         """
         self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', filename)
 
+    async def download_cover_white_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки TODO.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', filename)
+
     def download_cover_uri(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
@@ -75,6 +93,15 @@ class MixLink(YandexMusicObject):
             size (:obj:`str`, optional): Размер обложки.
         """
         self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+
+    async def download_cover_uri_async(self, filename: str, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            size (:obj:`str`, optional): Размер обложки.
+        """
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:
@@ -118,7 +145,13 @@ class MixLink(YandexMusicObject):
 
     #: Псевдоним для :attr:`download_background_image`
     downloadBackgroundImage = download_background_image
+    #: Псевдоним для :attr:`download_background_image_async`
+    downloadBackgroundImageAsync = download_background_image_async
     #: Псевдоним для :attr:`download_cover_white`
     downloadCoverWhite = download_cover_white
+    #: Псевдоним для :attr:`download_cover_white_async`
+    downloadCoverWhiteAsync = download_cover_white_async
     #: Псевдоним для :attr:`download_cover_uri`
     downloadCoverUri = download_cover_uri
+    #: Псевдоним для :attr:`download_cover_uri_async`
+    downloadCoverUriAsync = download_cover_uri_async

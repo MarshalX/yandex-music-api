@@ -48,6 +48,14 @@ class TracksList(YandexMusicObject):
         """
         return self.client.tracks(self.tracks_ids)
 
+    async def fetch_tracks_async(self) -> List['Track']:
+        """Получение полных версии треков.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Track`: Полная версия трека.
+        """
+        return await self.client.tracks(self.tracks_ids)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TracksList']:
         """Десериализация объекта.
@@ -75,3 +83,5 @@ class TracksList(YandexMusicObject):
     tracksIds = tracks_ids
     #: Псевдоним для :attr:`fetch_tracks`
     fetchTracks = fetch_tracks
+    #: Псевдоним для :attr:`fetch_tracks_async`
+    fetchTracksAsync = fetch_tracks_async

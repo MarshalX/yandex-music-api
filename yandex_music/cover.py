@@ -54,6 +54,18 @@ class Cover(YandexMusicObject):
 
         self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
 
+    async def download_async(self, filename: str, index: int = 0, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
+            size (:obj:`str`, optional): Размер изображения.
+        """
+        uri = self.uri or self.items_uri[index]
+
+        await self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:
         """Десериализация объекта.
@@ -91,3 +103,8 @@ class Cover(YandexMusicObject):
             covers.append(cls.de_json(cover, client))
 
         return covers
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`download_async`
+    downloadAsync = download_async
