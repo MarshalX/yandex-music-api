@@ -572,6 +572,8 @@ class ClientAsync(YandexMusicObject):
 
         result = await self._request.get(url, timeout=timeout, *args, **kwargs)
 
+        # TODO (MarshalX) fix get_direct_links=True in async version
+
         return DownloadInfo.de_list(result, self, get_direct_links)
 
     @log
@@ -676,7 +678,7 @@ class ClientAsync(YandexMusicObject):
 
         data = {
             'track-id': track_id,
-            'from-cache': from_cache,
+            'from-cache': str(from_cache),
             'from': from_,
             'play-id': play_id or '',
             'uid': uid,
@@ -760,10 +762,10 @@ class ClientAsync(YandexMusicObject):
 
         params = {
             'text': text,
-            'nocorrect': nocorrect,
+            'nocorrect': str(nocorrect),
             'type': type_,
             'page': page,
-            'playlist-in-best': playlist_in_best,
+            'playlist-in-best': str(playlist_in_best),
         }
 
         result = await self._request.get(url, params, timeout=timeout, *args, **kwargs)
@@ -1566,7 +1568,7 @@ class ClientAsync(YandexMusicObject):
 
         params = {}
         if settings2:
-            params = {'settings2': True}
+            params = {'settings2': str(True)}
 
         if queue:
             params = {'queue': queue}
@@ -2062,7 +2064,9 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return await self._get_list('track', track_ids, {'with-positions': with_positions}, timeout, *args, **kwargs)
+        return await self._get_list(
+            'track', track_ids, {'with-positions': str(with_positions)}, timeout, *args, **kwargs
+        )
 
     @log
     async def playlists_list(
@@ -2237,7 +2241,7 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return await self._get_likes('album', user_id, {'rich': rich}, timeout, *args, **kwargs)
+        return await self._get_likes('album', user_id, {'rich': str(rich)}, timeout, *args, **kwargs)
 
     @log
     async def users_likes_artists(
@@ -2264,7 +2268,9 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return await self._get_likes('artist', user_id, {'with-timestamps': with_timestamps}, timeout, *args, **kwargs)
+        return await self._get_likes(
+            'artist', user_id, {'with-timestamps': str(with_timestamps)}, timeout, *args, **kwargs
+        )
 
     @log
     async def users_likes_playlists(
