@@ -105,19 +105,26 @@ Yandex Music API
 Установка
 =========
 
+Релиз 2.0.0 ещё не состоялся. Для получения поддержки ``asyncio`` установите
+библиотеку из репозитория:
+
+.. code:: shell
+
+    pip install -U git+https://github.com/MarshalX/yandex-music-api@dev
+
 Вы можете установить или обновить Yandex Music API при помощи:
 
 .. code:: shell
 
-    $ pip install yandex-music --upgrade
+    pip install yandex-music --upgrade
 
 Или Вы можете установить из исходного кода с помощью:
 
 .. code:: shell
 
-    $ git clone https://github.com/MarshalX/yandex-music-api
-    $ cd yandex-music-api
-    $ python setup.py install
+    git clone https://github.com/MarshalX/yandex-music-api
+    cd yandex-music-api
+    python setup.py install
 
 =============
 Начало работы
