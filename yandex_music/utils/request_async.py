@@ -224,7 +224,9 @@ class Request:
         else:
             raise NetworkError(f'{message} ({resp.status})')
 
-    async def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs) -> dict:
+    async def get(
+        self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs
+    ) -> Union[dict, str]:
         """Отправка GET запроса.
 
         Args:
@@ -236,7 +238,7 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
-            :obj:`dict`: Обработанное тело ответа.
+            :obj:`dict` | :obj:`str`: Обработанное тело ответа.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -254,7 +256,7 @@ class Request:
 
         return self._parse(result).get_result()
 
-    async def post(self, url, data=None, timeout=5, *args, **kwargs) -> dict:
+    async def post(self, url, data=None, timeout=5, *args, **kwargs) -> Union[dict, str]:
         """Отправка POST запроса.
 
         Args:
@@ -266,7 +268,7 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
-            :obj:`dict`: Обработанное тело ответа.
+            :obj:`dict` | :obj:`str`: Обработанное тело ответа.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.

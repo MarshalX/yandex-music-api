@@ -42,6 +42,7 @@ from yandex_music import (
     __license__,
     __version__,
 )
+from yandex_music.exceptions import BadRequest
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
 
@@ -760,6 +761,9 @@ class Client(YandexMusicObject):
         }
 
         result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
+
+        if isinstance(result, str):
+            raise BadRequest(result)
 
         return Search.de_json(result, self)
 
