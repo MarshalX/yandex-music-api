@@ -14,15 +14,15 @@ class Search(YandexMusicObject):
     Attributes:
         search_request_id (:obj:`str`): ID запроса.
         text (:obj:`str`): Текст запроса.
-        best (:obj:`yandex_music.Best`): Лучший результат.
-        albums (:obj:`yandex_music.SearchResult`): Найденные альбомы.
-        artists (:obj:`yandex_music.SearchResult`): Найденные исполнители.
-        playlists (:obj:`yandex_music.SearchResult`): Найденные плейлисты.
-        tracks (:obj:`yandex_music.SearchResult`): Найденные треки.
-        videos (:obj:`yandex_music.SearchResult`): Найденные видео.
-        users (:obj:`yandex_music.SearchResult`): Найденные пользователи.
-        podcasts (:obj:`yandex_music.SearchResult`): Найденные подскасты.
-        podcast_episodes (:obj:`yandex_music.SearchResult`): Найденные выпуски подкастов.
+        best (:obj:`yandex_music.Best`, optional): Лучший результат.
+        albums (:obj:`yandex_music.SearchResult`, optional): Найденные альбомы.
+        artists (:obj:`yandex_music.SearchResult`, optional): Найденные исполнители.
+        playlists (:obj:`yandex_music.SearchResult`, optional): Найденные плейлисты.
+        tracks (:obj:`yandex_music.SearchResult`, optional): Найденные треки.
+        videos (:obj:`yandex_music.SearchResult`, optional): Найденные видео.
+        users (:obj:`yandex_music.SearchResult`, optional): Найденные пользователи.
+        podcasts (:obj:`yandex_music.SearchResult`, optional): Найденные подкасты.
+        podcast_episodes (:obj:`yandex_music.SearchResult`, optional): Найденные выпуски подкастов.
         type (:obj:`str`), optional: Тип результата по которому искали (аргумент в Client.search).
         page (:obj:`int`, optional): Текущая страница.
         per_page (:obj:`int`, optional): Результатов на странице.
@@ -69,7 +69,7 @@ class Search(YandexMusicObject):
         )
 
     def get_page(self, page: int, *args, **kwargs) -> Optional['Search']:
-        """Получение определеной страницы поиска.
+        """Получение определённой страницы поиска.
 
         Args:
             page (:obj:`int`): Номер страницы.
@@ -80,7 +80,7 @@ class Search(YandexMusicObject):
         return self.client.search(self.text, self.nocorrect, self.type_, page, *args, **kwargs)
 
     async def get_page_async(self, page: int, *args, **kwargs) -> Optional['Search']:
-        """Получение определеной страницы поиска.
+        """Получение определённой страницы поиска.
 
         Args:
             page (:obj:`int`): Номер страницы.
@@ -138,6 +138,11 @@ class Search(YandexMusicObject):
 
         data = super(Search, cls).de_json(data, client)
         from yandex_music import SearchResult, Best
+
+        # в ОЧЕНЬ редких случаях сервер творит дичь и может вернуть результат плейлистов в поле artists
+        # или вернуть в поле users результаты с плейлистами
+
+        # очень редких это около 10 запросов за 3 месяца работы стороннего клиента
 
         data['best'] = Best.de_json(data.get('best'), client)
         data['albums'] = SearchResult.de_json(data.get('albums'), client, 'album')
