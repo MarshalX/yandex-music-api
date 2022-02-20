@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
-from yandex_music.exceptions import InvalidBitrate
+from yandex_music.exceptions import InvalidBitrateError
 
 if TYPE_CHECKING:
     from yandex_music import (
@@ -208,7 +208,7 @@ class Track(YandexMusicObject):
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
 
         Raises:
-            :class:`yandex_music.exceptions.InvalidBitrate`: Если в `self.download_info` не найден подходящий трек.
+            :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
         if self.download_info is None:
             self.get_download_info()
@@ -218,7 +218,7 @@ class Track(YandexMusicObject):
                 info.download(filename)
                 break
         else:
-            raise InvalidBitrate('Unavailable bitrate')
+            raise InvalidBitrateError('Unavailable bitrate')
 
     async def download_async(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
@@ -234,7 +234,7 @@ class Track(YandexMusicObject):
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
 
         Raises:
-            :class:`yandex_music.exceptions.InvalidBitrate`: Если в `self.download_info` не найден подходящий трек.
+            :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
         if self.download_info is None:
             await self.get_download_info_async()
@@ -244,7 +244,7 @@ class Track(YandexMusicObject):
                 await info.download_async(filename)
                 break
         else:
-            raise InvalidBitrate('Unavailable bitrate')
+            raise InvalidBitrateError('Unavailable bitrate')
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::

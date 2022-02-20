@@ -46,7 +46,7 @@ from yandex_music import (
     __license__,
     __version__,
 )
-from yandex_music.exceptions import BadRequest
+from yandex_music.exceptions import BadRequestError
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request_async import Request
 
@@ -771,7 +771,7 @@ class ClientAsync(YandexMusicObject):
         result = await self._request.get(url, params, timeout=timeout, *args, **kwargs)
 
         if isinstance(result, str):
-            raise BadRequest(result)
+            raise BadRequestError(result)
 
         return Search.de_json(result, self)
 

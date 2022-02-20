@@ -19,11 +19,12 @@ import aiofiles
 
 from yandex_music.utils.response import Response
 from yandex_music.exceptions import (
-    Unauthorized,
-    BadRequest,
+    UnauthorizedError,
+    BadRequestError,
     NetworkError,
     YandexMusicError,
-    TimedOut,
+    TimedOutError,
+    NotFoundError,
 )
 
 if TYPE_CHECKING:
@@ -187,9 +188,9 @@ class Request:
             :obj:`bytes`: Тело ответа.
 
         Raises:
-            :class:`yandex_music.exceptions.TimedOut`: При превышении времени ожидания.
-            :class:`yandex_music.exceptions.Unauthorized`: При невалидном токене, долгом ожидании прямой ссылки на файл.
-            :class:`yandex_music.exceptions.BadRequest`: При неправильном запросе.
+            :class:`yandex_music.exceptions.TimedOutError`: При превышении времени ожидания.
+            :class:`yandex_music.exceptions.UnauthorizedError`: При невалидном токене, долгом ожидании прямой ссылки на файл.
+            :class:`yandex_music.exceptions.BadRequestError`: При неправильном запросе.
             :class:`yandex_music.exceptions.NetworkError`: При проблемах с сетью.
         """
         if 'headers' not in kwargs:
@@ -202,7 +203,7 @@ class Request:
                 resp = _resp
                 content = await resp.content.read()
         except asyncio.TimeoutError:
-            raise TimedOut()
+            raise TimedOutError()
         except aiohttp.ClientError as e:
             raise NetworkError(e)
 
@@ -216,11 +217,12 @@ class Request:
             message = 'Unknown HTTPError'
 
         if resp.status in (401, 403):
-            raise Unauthorized(message)
+            raise UnauthorizedError(message)
         elif resp.status == 400:
-            raise BadRequest(message)
-        elif resp.status in (404, 409, 413):
-            # TODO (MarshalX) было бы удобнее при 404 выбрасывать NotFoundError. Наследник NetworkError
+            raise BadRequestError(message)
+        elif resp.status == 404:
+            raise NotFoundError(message)
+        elif resp.status in (409, 413):
             raise NetworkError(message)
 
         elif resp.status == 502:
