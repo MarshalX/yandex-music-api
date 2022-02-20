@@ -69,7 +69,7 @@ class YandexMusicObject:
             else:
                 unknown_data[k] = v
 
-        if unknown_data:
+        if client.report_unknown_fields and unknown_data:
             YandexMusicObject.report_unknown_fields_callback(cls, unknown_data)
 
         return cleaned_data

@@ -127,7 +127,7 @@ class ClientAsync(YandexMusicObject):
 
         self.base_url = base_url
 
-        self.report_new_fields = report_unknown_fields
+        self.report_unknown_fields = report_unknown_fields
 
         if request:
             self._request = request
