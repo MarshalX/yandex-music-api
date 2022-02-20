@@ -1,7 +1,6 @@
 from typing import Any, TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
-from yandex_music.exceptions import YandexMusicError
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -118,9 +117,6 @@ class Album(YandexMusicObject):
     client: Optional['Client'] = None
 
     def __post_init__(self):
-        if self.error:
-            raise YandexMusicError(self.error)
-
         self._id_attrs = (self.id,)
 
     def with_tracks(self, *args, **kwargs) -> Optional['Album']:

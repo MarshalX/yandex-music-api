@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
-from yandex_music.exceptions import YandexMusicError
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -41,9 +40,6 @@ class Cover(YandexMusicObject):
     client: Optional['Client'] = None
 
     def __post_init__(self):
-        if self.error:
-            raise YandexMusicError(self.error)
-
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
     def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
