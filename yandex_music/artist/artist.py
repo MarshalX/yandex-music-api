@@ -80,7 +80,7 @@ class Artist(YandexMusicObject):
     client: 'Client' = None
 
     def __post_init__(self):
-        if self.error:
+        if self.error or self.reason:
             raise YandexMusicError(self.error)
 
         self._id_attrs = (self.id, self.name, self.cover)
