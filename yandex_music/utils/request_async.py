@@ -209,20 +209,24 @@ class Request:
         if 200 <= resp.status <= 299:
             return content
 
-        parse = self._parse(content)
-        message = parse.get_error() or 'Unknown HTTPError'
+        try:
+            parse = self._parse(content)
+            message = parse.get_error()
+        except YandexMusicError:
+            message = 'Unknown HTTPError'
 
         if resp.status in (401, 403):
             raise Unauthorized(message)
         elif resp.status == 400:
             raise BadRequest(message)
         elif resp.status in (404, 409, 413):
+            # TODO (MarshalX) было бы удобнее при 404 выбрасывать NotFoundError. Наследник NetworkError
             raise NetworkError(message)
 
         elif resp.status == 502:
             raise NetworkError('Bad Gateway')
         else:
-            raise NetworkError(f'{message} ({resp.status})')
+            raise NetworkError(f'{message} ({resp.status}): {content}')
 
     async def get(
         self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs
