@@ -1,7 +1,4 @@
-import pytest
-
 from yandex_music import Cover
-from yandex_music.exceptions import YandexMusicError
 
 
 class TestCover:
@@ -16,10 +13,6 @@ class TestCover:
     copyright_name = 'ТАСС'
     copyright_cline = 'imago stock&people'
     error = None
-
-    def test_raise_on_model_error(self):
-        with pytest.raises(YandexMusicError):
-            Cover(error='not_found')
 
     def test_expected_values(self, cover):
         assert cover.type == self.type

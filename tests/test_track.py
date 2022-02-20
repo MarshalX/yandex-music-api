@@ -1,7 +1,4 @@
-import pytest
-
 from yandex_music import Track
-from yandex_music.exceptions import YandexMusicError
 
 
 class TestTrack:
@@ -39,10 +36,6 @@ class TestTrack:
         ' желания познакомиться с девушкой, достаточно много. Обычно они сводятся к опасениям,'
     )
     is_suitable_for_children = True
-
-    def test_raise_on_model_error(self):
-        with pytest.raises(YandexMusicError):
-            Track(id=self.id, error='not-found')
 
     def test_expected_values(
         self,

@@ -1,13 +1,10 @@
-import pytest
-
 from yandex_music import Artist
-from yandex_music.exceptions import YandexMusicError
 
 
 class TestArtist:
     id = 10987
-    error = None
-    reason = None
+    error = 'not-found'
+    reason = 'not-found'
     name = 'Elvis Presley'
     various = False
     composer = None
@@ -31,13 +28,6 @@ class TestArtist:
     init_date = '1935-01-08'
     end_date = None
     ya_money_id = '4100170623944'
-
-    def test_raise_on_model_error(self):
-        with pytest.raises(YandexMusicError):
-            Artist(id=self.id, error='not_found')
-
-        with pytest.raises(YandexMusicError):
-            Artist(id=self.id, reason='not_found')
 
     def test_expected_values(
         self, artist, cover, counts, ratings, link, track_without_artists_and_albums, description, artist_decomposed

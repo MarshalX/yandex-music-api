@@ -1,12 +1,9 @@
-import pytest
-
 from yandex_music import Album
-from yandex_music.exceptions import YandexMusicError
 
 
 class TestAlbum:
     id = 5239478
-    error = None
+    error = 'not-found'
     title = 'In the End'
     version = 'feat. Mark Van Hoen & Mike Harding'
     cover_uri = 'avatars.yandex.net/get-music-content/95061/89c14a7d.a.5239478-1/%%'
@@ -49,10 +46,6 @@ class TestAlbum:
     start_date = '2020-06-30'
     likes_count = 2
     available_regions = ['kg', 'tm', 'by', 'kz', 'md', 'ru', 'am', 'ge', 'uz', 'tj', 'il', 'az', 'ua']
-
-    def test_raise_on_model_error(self):
-        with pytest.raises(YandexMusicError):
-            Album(error='not-found')
 
     def test_expected_values(
         self,
@@ -116,7 +109,7 @@ class TestAlbum:
         assert Album.de_list({}, client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {}
+        json_dict = {'id': self.id}
         album = Album.de_json(json_dict, client)
 
     def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums, deprecation):
