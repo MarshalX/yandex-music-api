@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
-from yandex_music.exceptions import InvalidBitrateError
+from yandex_music.exceptions import InvalidBitrateError, YandexMusicError
 
 if TYPE_CHECKING:
     from yandex_music import (
@@ -70,10 +70,10 @@ class Track(YandexMusicObject):
         preview_duration_ms (:obj:`int`, optional): TODO.
         available_full_without_permission (:obj:`bool`, optional): Доступен ли без подписки.
         version (:obj:`str`, optional): Версия.
-        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминатся последняя позиция прослушивания,
+        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминается последняя позиция прослушивания,
             иначе позиция не запоминается.
         background_video_uri (:obj:`str`, optional): Ссылка на видеошот.
-        short_description (:obj:`str`, optional): Краткое опсание эпизода подкаста.
+        short_description (:obj:`str`, optional): Краткое описание эпизода подкаста.
         is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
@@ -119,6 +119,9 @@ class Track(YandexMusicObject):
     client: Optional['Client'] = None
 
     def __post_init__(self):
+        if self.error:
+            raise YandexMusicError(self.error)
+
         self.download_info = None
         self._id_attrs = (self.id,)
 

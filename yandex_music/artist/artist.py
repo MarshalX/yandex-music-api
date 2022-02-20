@@ -1,6 +1,7 @@
 from typing import Any, TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
+from yandex_music.exceptions import YandexMusicError
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -79,6 +80,9 @@ class Artist(YandexMusicObject):
     client: 'Client' = None
 
     def __post_init__(self):
+        if self.error:
+            raise YandexMusicError(self.error)
+
         self._id_attrs = (self.id, self.name, self.cover)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
