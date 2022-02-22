@@ -53,7 +53,7 @@ else:
         print('Config file not found. Use --token to create it')
         sys.exit(2)
 
-client = Client.from_token(args.token, report_new_fields=False)
+client = Client(args.token, report_unknown_fields=False).init()
 
 print('Hello,', client.me.account.first_name)
 if client.me.account.now and client.me.account.now.split('T')[0] == client.me.account.birthday:
@@ -65,7 +65,7 @@ if args.playlist == 'user':
         print('specify --playlist-name', list(p.title for p in user_playlists))
         sys.exit(1)
     playlist = next((p for p in user_playlists if p.title == args.playlist_name), None)
-    if playlist == None:
+    if playlist is None:
         print(f'playlist "{args.playlist_name}" not found')
         sys.exit(1)
     total_tracks = playlist.track_count

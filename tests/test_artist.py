@@ -70,7 +70,7 @@ class TestArtist:
         assert Artist.de_list({}, client) == []
 
     def test_de_json_required(self, client, cover):
-        json_dict = {'id_': self.id}
+        json_dict = {'id': self.id}
         artist = Artist.de_json(json_dict, client)
 
         assert artist.id == self.id
@@ -80,7 +80,7 @@ class TestArtist:
     ):
         artist_decomposed_dict = [item if isinstance(item, str) else item.to_dict() for item in artist_decomposed]
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'reason': self.reason,
             'error': self.error,
             'name': self.name,

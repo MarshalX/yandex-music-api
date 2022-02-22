@@ -19,7 +19,7 @@ class TestTag:
         assert Tag.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'id_': self.id_, 'value': self.value, 'name': self.name, 'og_description': self.og_description}
+        json_dict = {'id': self.id_, 'value': self.value, 'name': self.name, 'og_description': self.og_description}
         tag = Tag.de_json(json_dict, client)
 
         assert tag.id == self.id_
@@ -29,7 +29,7 @@ class TestTag:
 
     def test_de_json_all(self, client):
         json_dict = {
-            'id_': self.id_,
+            'id': self.id_,
             'value': self.value,
             'name': self.name,
             'og_description': self.og_description,

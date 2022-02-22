@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Cover
 
 
+@model
 class OpenGraphData(YandexMusicObject):
     """Класс, представляющий данные для Open Graph.
 
@@ -13,27 +15,16 @@ class OpenGraphData(YandexMusicObject):
         title (:obj:`str`): Заголовок.
         description (:obj:`str`): Описание.
         image (:obj:`yandex_music.Cover`): Изображение.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        title (:obj:`str`): Заголовок.
-        description (:obj:`str`): Описание.
-        image (:obj:`yandex_music.Cover`): Изображение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, title: str, description: str, image: 'Cover', client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.title = title
-        self.description = description
-        self.image = image
+    title: str
+    description: str
+    image: 'Cover'
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.title, self.description, self.image)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['OpenGraphData']:

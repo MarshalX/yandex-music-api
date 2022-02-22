@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, TrackId
 
 
+@model
 class TrackShortOld(YandexMusicObject):
     """Класс, представляющий сокращённую версию трека.
 
@@ -15,27 +17,17 @@ class TrackShortOld(YandexMusicObject):
         Другая версия сокращённого трека: :class:`yandex_music.TrackShort`.
 
     Attributes:
-        track_id (:obj:`yandex_music.TrackId` | :obj:`None`): Уникальный идентификатор трека.
-        timestamp (:obj:`str`): Дата TODO.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         track_id (:obj:`yandex_music.TrackId`): Уникальный идентификатор трека.
         timestamp (:obj:`str`): Дата TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, track_id: Optional['TrackId'], timestamp: str, client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.track_id = track_id
-        self.timestamp = timestamp
+    track_id: Optional['TrackId']
+    timestamp: str
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.track_id,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackShortOld']:

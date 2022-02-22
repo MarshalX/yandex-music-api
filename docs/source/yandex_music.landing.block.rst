@@ -1,7 +1,7 @@
-yandex_music.Block
-==================
+yandex\_music.landing.block
+===========================
 
-.. autoclass:: yandex_music.Block
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.block
+   :members:
+   :undoc-members:
+   :show-inheritance:

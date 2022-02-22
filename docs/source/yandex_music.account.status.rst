@@ -1,6 +1,7 @@
-yandex_music.Status
-===================
+yandex\_music.account.status
+============================
 
-.. autoclass:: yandex_music.Status
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.account.status
+   :members:
+   :undoc-members:
+   :show-inheritance:

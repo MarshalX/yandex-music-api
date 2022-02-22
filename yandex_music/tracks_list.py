@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List, Iterator
 
+from yandex_music.utils import model
 from yandex_music import YandexMusicObject
 
 if TYPE_CHECKING:
     from yandex_music import Client, TrackShort, Track
 
 
+@model
 class TracksList(YandexMusicObject):
     """Класс, представляющий список треков.
 
@@ -13,27 +15,16 @@ class TracksList(YandexMusicObject):
         uid (:obj:`int`): Уникальный идентификатор пользователя.
         revision (:obj:`int`): Актуальность данных TODO.
         tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков в укороченной версии.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        uid (:obj:`int`): Уникальный идентификатор пользователя.
-        revision (:obj:`int`): Актуальность данных TODO.
-        tracks (:obj:`list` из :obj:`yandex_music.TrackShort`): Список треков в укороченной версии.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, uid: int, revision: int, tracks: List['TrackShort'], client: Optional['Client'] = None, **kwargs
-    ):
-        self.uid = uid
-        self.revision = revision
-        self.tracks = tracks
+    uid: int
+    revision: int
+    tracks: List['TrackShort']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.uid, self.tracks)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item) -> 'TrackShort':
         return self.tracks[item]
@@ -56,6 +47,14 @@ class TracksList(YandexMusicObject):
             :obj:`list` из :obj:`yandex_music.Track`: Полная версия трека.
         """
         return self.client.tracks(self.tracks_ids)
+
+    async def fetch_tracks_async(self) -> List['Track']:
+        """Получение полных версии треков.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Track`: Полная версия трека.
+        """
+        return await self.client.tracks(self.tracks_ids)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TracksList']:
@@ -84,3 +83,5 @@ class TracksList(YandexMusicObject):
     tracksIds = tracks_ids
     #: Псевдоним для :attr:`fetch_tracks`
     fetchTracks = fetch_tracks
+    #: Псевдоним для :attr:`fetch_tracks_async`
+    fetchTracksAsync = fetch_tracks_async

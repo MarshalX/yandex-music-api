@@ -1,31 +1,26 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, TrackShortOld
 
 
+@model
 class PlayContextsData(YandexMusicObject):
     """Класс, представляющий данные проигрываемого контекста.
 
     Attributes:
         other_tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Другие треки.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        other_tracks (:obj:`list` из :obj:`yandex_music.TrackShortOld`): Другие треки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, other_tracks: List['TrackShortOld'], client: Optional['Client'] = None, **kwargs) -> None:
-        self.other_tracks = other_tracks
+    other_tracks: List['TrackShortOld']
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.other_tracks,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlayContextsData']:

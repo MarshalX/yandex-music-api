@@ -6,7 +6,7 @@ from yandex_music import Client
 CHART_ID = 'world'
 TOKEN = os.environ.get('TOKEN')
 
-client = Client(TOKEN)
+client = Client(TOKEN).init()
 chart = client.chart(CHART_ID).chart
 
 text = [f'🏆 {chart.title}', chart.description, '', 'Треки:']

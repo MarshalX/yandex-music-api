@@ -1,6 +1,6 @@
-__version__ = '1.0.0'
+__version__ = '2.0.0'
 __license__ = 'GNU Lesser General Public License v3 (LGPLv3)'
-__copyright__ = 'Copyright (C) 2019-2021 Il`ya (Marshal) <https://github.com/MarshalX>'
+__copyright__ = 'Copyright (C) 2019-2022 Il`ya (Marshal) <https://github.com/MarshalX>'
 
 from .base import YandexMusicObject
 
@@ -135,11 +135,16 @@ from .invocation_info import InvocationInfo
 from .track_short import TrackShort
 from .icon import Icon
 from .client import Client
+from .client_async import ClientAsync
 
 
 __all__ = [
+    '__copyright__',
+    '__license__',
+    '__version__',
     'YandexMusicObject',
     'Client',
+    'ClientAsync',
     'Account',
     'PassportPhone',
     'InvocationInfo',

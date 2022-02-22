@@ -1,7 +1,7 @@
-yandex_music.Label
-==================
+yandex\_music.album.label
+=========================
 
-.. autoclass:: yandex_music.Label
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.album.label
+   :members:
+   :undoc-members:
+   :show-inheritance:

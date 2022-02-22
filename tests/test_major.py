@@ -13,14 +13,14 @@ class TestMajor:
         assert Major.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'id_': self.id, 'name': self.name}
+        json_dict = {'id': self.id, 'name': self.name}
         major = Major.de_json(json_dict, client)
 
         assert major.id == self.id
         assert major.name == self.name
 
     def test_de_json_all(self, client):
-        json_dict = {'id_': self.id, 'name': self.name}
+        json_dict = {'id': self.id, 'name': self.name}
         major = Major.de_json(json_dict, client)
 
         assert major.id == self.id

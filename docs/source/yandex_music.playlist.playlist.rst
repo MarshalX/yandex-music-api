@@ -1,7 +1,7 @@
-yandex_music.Playlist
-=====================
+yandex\_music.playlist.playlist
+===============================
 
-.. autoclass:: yandex_music.Playlist
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.playlist.playlist
+   :members:
+   :undoc-members:
+   :show-inheritance:

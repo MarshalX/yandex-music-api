@@ -6,7 +6,7 @@ from yandex_music import Client
 TOKEN = os.environ.get('TOKEN')
 ALBUM_ID = 2832563
 
-client = Client(TOKEN)
+client = Client(TOKEN).init()
 
 album = client.albums_with_tracks(ALBUM_ID)
 tracks = []

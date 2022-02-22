@@ -1,53 +1,17 @@
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from yandex_music.utils.captcha_response import CaptchaResponse
-
-
 class YandexMusicError(Exception):
-    """Базовый класс, представляющий исключения общего характера. """
+    """Базовый класс, представляющий исключения общего характера."""
 
 
-class InvalidToken(YandexMusicError):
-    """Класс исключения, вызываемого для случаев недействительного
-    или неверного токена аутентификации.
-    """
-
-
-class Unauthorized(YandexMusicError):
+class UnauthorizedError(YandexMusicError):
     """Класс исключения, вызываемого для случаев ошибок
     аутентификации и авторизации.
     """
 
 
-class InvalidBitrate(YandexMusicError):
+class InvalidBitrateError(YandexMusicError):
     """Класс исключения, вызываемого при попытке загрузки трека
     с недоступным битрейтом.
     """
-
-
-class Captcha(YandexMusicError):
-    """Базовый класс, представляющий исключение связанное с капчей.
-
-    Attributes:
-        captcha (:obj:`yandex_music.utils.captcha_response.CaptchaResponse`): Капча.
-
-    Args:
-        msg (:obj:`str`): Сообщение с ошибкой.
-        captcha (:obj:`yandex_music.utils.captcha_response.CaptchaResponse`): Капча.
-    """
-
-    def __init__(self, msg: str, captcha: 'CaptchaResponse', *args, **kwargs):
-        self.captcha = captcha
-        super().__init__(msg, *args, **kwargs)
-
-
-class CaptchaRequired(Captcha):
-    """Класс исключения, вызываемый в случае необходимости ввода проверочного кода."""
-
-
-class CaptchaWrong(Captcha):
-    """Класс исключения, вызываемый в случае неправильного ввода капчи."""
 
 
 class NetworkError(YandexMusicError):
@@ -56,11 +20,16 @@ class NetworkError(YandexMusicError):
     """
 
 
-class BadRequest(NetworkError):
+class BadRequestError(NetworkError):
     """Класс исключения, вызываемый в случае отправки неправильного запроса."""
 
 
-class TimedOut(NetworkError):
+class NotFoundError(NetworkError):
+    """Класс исключения, вызываемый в случае ответа от сервера со статус кодом 404."""
+
+
+# TimeoutError builtin. И не знаю хотим ли использовать его для синк и asyncio.TimeoutError для асинк
+class TimedOutError(NetworkError):
     """Класс исключения, вызываемого для случаев истечения времени ожидания."""
 
     def __init__(self):

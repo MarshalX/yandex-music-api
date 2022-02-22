@@ -72,7 +72,7 @@ class TestGenre:
 
     def test_de_json_required(self, client, title, images):
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'weight': self.weight,
             'composer_top': self.composer_top,
             'title': self.title,
@@ -92,7 +92,7 @@ class TestGenre:
 
     def test_de_json_all(self, client, title, images, icon, genre_without_sub_genre):
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'weight': self.weight,
             'composer_top': self.composer_top,
             'title': self.title,

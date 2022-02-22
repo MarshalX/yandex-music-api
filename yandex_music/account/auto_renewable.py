@@ -1,26 +1,17 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Product, User
 
 
+@model
 class AutoRenewable(YandexMusicObject):
     """Класс, представляющий информацию об автопродлении подписки.
 
     Attributes:
-        expires (:obj:`str`): Дата истечения подписки.
-        vendor (:obj:`str`): Продавец.
-        vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
-        product_id (:obj:`str`): Уникальный идентификатор продукта.
-        master_info (:obj:`yandex_music.User`): Главный в семейной подписке.
-        product (:obj:`yandex_music.Product`): Продукт.
-        order_id (:obj:`int`): Уникальный идентификатор заказа.
-        finished (:obj:`bool`): Завершенность автопродления.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
         expires (:obj:`str`): Дата истечения подписки.
         vendor (:obj:`str`): Продавец.
         vendor_help_url (:obj:`str`): Ссылка на страницу помощи продавца.
@@ -30,36 +21,20 @@ class AutoRenewable(YandexMusicObject):
         product (:obj:`yandex_music.Product`, optional): Продукт.
         order_id (:obj:`int`): Уникальный идентификатор заказа.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        expires: str,
-        vendor: str,
-        vendor_help_url: str,
-        product: Optional['Product'],
-        finished: bool,
-        master_info: Optional['User'] = None,
-        product_id: Optional[str] = None,
-        order_id: Optional[int] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.expires = expires
-        self.vendor = vendor
-        self.vendor_help_url = vendor_help_url
-        self.product = product
-        self.finished = finished
+    expires: str
+    vendor: str
+    vendor_help_url: str
+    product: Optional['Product']
+    finished: bool
+    master_info: Optional['User'] = None
+    product_id: Optional[str] = None
+    order_id: Optional[int] = None
+    client: Optional['Client'] = None
 
-        self.master_info = master_info
-        self.product_id = product_id
-        self.order_id = order_id
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product, self.finished)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['AutoRenewable']:

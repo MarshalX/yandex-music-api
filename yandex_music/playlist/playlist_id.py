@@ -1,34 +1,28 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class PlaylistId(YandexMusicObject):
     """Класс, представляющий уникальный идентификатор плейлиста.
 
     Attributes:
         uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
         kind (:obj:`int`): Уникальный идентификатор плейлиста.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        uid (:obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
-        kind (:obj:`int`): Уникальный идентификатор плейлиста.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(self, uid: int, kind: int, client: Optional['Client'] = None, **kwargs) -> None:
-        self.uid = uid
-        self.kind = kind
+    uid: int
+    kind: int
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.uid, self.kind)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @property
     def playlist_id(self):
@@ -40,6 +34,13 @@ class PlaylistId(YandexMusicObject):
         client.users_playlists(kind, uid, *args, **kwargs)
         """
         return self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
+
+    async def fetch_playlist_async(self, *args, **kwargs):
+        """Сокращение для::
+
+        await client.users_playlists(kind, uid, *args, **kwargs)
+        """
+        return await self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistId']:
@@ -85,3 +86,5 @@ class PlaylistId(YandexMusicObject):
     playlistId = playlist_id
     #: Псевдоним для :attr:`fetch_playlist`
     fetchPlaylist = fetch_playlist
+    #: Псевдоним для :attr:`fetch_playlist_async`
+    fetchPlaylistAsync = fetch_playlist_async

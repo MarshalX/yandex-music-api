@@ -1,7 +1,7 @@
-yandex_music.PlaylistAbsence
-============================
+yandex\_music.playlist.playlist\_absence
+========================================
 
-.. autoclass:: yandex_music.PlaylistAbsence
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.playlist.playlist_absence
+   :members:
+   :undoc-members:
+   :show-inheritance:

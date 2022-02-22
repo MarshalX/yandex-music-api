@@ -1,7 +1,7 @@
-yandex_music.Tag
-================
+yandex\_music.playlist.tag
+==========================
 
-.. autoclass:: yandex_music.Tag
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.playlist.tag
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,7 +1,7 @@
-yandex_music.ShotData
-=====================
+yandex\_music.shot.shot\_data
+=============================
 
-.. autoclass:: yandex_music.ShotData
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.shot.shot_data
+   :members:
+   :undoc-members:
+   :show-inheritance:

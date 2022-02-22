@@ -1,7 +1,7 @@
-yandex_music.Dashboard
-======================
+yandex\_music.rotor.dashboard
+=============================
 
-.. autoclass:: yandex_music.Dashboard
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.dashboard
+   :members:
+   :undoc-members:
+   :show-inheritance:

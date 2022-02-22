@@ -1,11 +1,14 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
+
 
 if TYPE_CHECKING:
     from yandex_music import Client, Track
 
 
+@model
 class TrackId(YandexMusicObject):
     """Класс, представляющий уникальный идентификатор трека.
 
@@ -15,39 +18,21 @@ class TrackId(YandexMusicObject):
         Поле `from_` есть только у объект, которые используются в очереди треков.
 
     Attributes:
-        id_ (:obj:`int`): Уникальный идентификатор трека.
-        track_id (:obj:`int`): Уникальный идентификатор трека.
-        album_id (:obj:`int`): Уникальный идентификатор альбома.
-        from_ (:obj:`str`): Откуда был получен этот объект.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        id_ (:obj:`int`): Уникальный идентификатор трека.
+        id (:obj:`int`): Уникальный идентификатор трека.
         track_id (:obj:`int`): Уникальный идентификатор трека.
         album_id (:obj:`int`, optional): Уникальный идентификатор альбома.
         from_ (:obj:`str`, optional): Откуда был получен этот объект.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        id_: Optional[int] = None,
-        track_id: Optional[int] = None,
-        album_id: Optional[int] = None,
-        from_: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.id = id_
-        self.track_id = track_id
-        self.album_id = album_id
-        self.from_ = from_
+    id: Optional[int] = None
+    track_id: Optional[int] = None
+    album_id: Optional[int] = None
+    from_: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.track_id, self.id, self.album_id)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @property
     def track_full_id(self) -> str:
@@ -65,6 +50,14 @@ class TrackId(YandexMusicObject):
             :obj:`yandex_music.Track`: Полная версия.
         """
         return self.client.tracks(self.track_full_id, *args, **kwargs)[0]
+
+    async def fetch_track_async(self, *args, **kwargs) -> 'Track':
+        """Получение полной версии трека.
+
+        Returns:
+            :obj:`yandex_music.Track`: Полная версия.
+        """
+        return (await self.client.tracks(self.track_full_id, *args, **kwargs))[0]
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:
@@ -104,5 +97,7 @@ class TrackId(YandexMusicObject):
 
     #: Псевдоним для :attr:`fetch_track`
     fetchTrack = fetch_track
+    #: Псевдоним для :attr:`fetch_track_async`
+    fetchTrackAsync = fetch_track_async
     #: Псевдоним для :attr:`track_full_id`
     trackFullId = track_full_id

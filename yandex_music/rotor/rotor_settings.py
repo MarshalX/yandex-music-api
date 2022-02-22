@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class RotorSettings(YandexMusicObject):
     """Класс, представляющий настройки станции.
 
@@ -21,42 +23,21 @@ class RotorSettings(YandexMusicObject):
     Attributes:
         language (:obj:`str`): Язык.
         diversity (:obj:`str`): Разнообразие (треки).
-        mood (:obj:`int`): Настроение (старое).
-        energy (:obj:`int`): Энергичное.
-        mood_energy (:obj:`str`): Настроение.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        language (:obj:`str`): Язык.
-        diversity (:obj:`str`): Разнообразие (треки).
         mood (:obj:`int`, optional): Настроение (старое).
         energy (:obj:`int`, optional): Энергичное.
         mood_energy (:obj:`str`, optional): Настроение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        language: str,
-        diversity: str,
-        mood: Optional[int] = None,
-        energy: Optional[int] = None,
-        mood_energy: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.language = language
-        self.diversity = diversity
+    language: str
+    diversity: str
+    mood: Optional[int] = None
+    energy: Optional[int] = None
+    mood_energy: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.mood = mood
-        self.energy = energy
-        self.mood_energy = mood_energy
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.language, self.diversity)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['RotorSettings']:

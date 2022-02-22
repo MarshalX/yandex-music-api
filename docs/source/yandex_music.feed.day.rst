@@ -1,7 +1,7 @@
-yandex_music.Day
-================
+yandex\_music.feed.day
+======================
 
-.. autoclass:: yandex_music.Day
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.feed.day
+   :members:
+   :undoc-members:
+   :show-inheritance:

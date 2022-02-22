@@ -1,7 +1,7 @@
-yandex_music.ArtistEvent
-========================
+yandex\_music.feed.artist\_event
+================================
 
-.. autoclass:: yandex_music.ArtistEvent
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.feed.artist_event
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -20,7 +20,7 @@ class TestTrackId:
         assert TrackId.de_list({}, client) == []
 
     def test_de_json_all(self, client):
-        json_dict = {'id_': self.id, 'track_id': self.track_id, 'album_id': self.album_id, 'from_': self.from_}
+        json_dict = {'id': self.id, 'track_id': self.track_id, 'album_id': self.album_id, 'from_': self.from_}
         track_id = TrackId.de_json(json_dict, client)
 
         assert track_id.id == self.id

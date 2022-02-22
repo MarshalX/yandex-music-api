@@ -1,7 +1,7 @@
-Точка входа yandex_music.Client
-===============================
+yandex\_music.client
+====================
 
-.. autoclass:: yandex_music.Client
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.client
+   :members:
+   :undoc-members:
+   :show-inheritance:

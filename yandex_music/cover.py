@@ -1,33 +1,21 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Cover(YandexMusicObject):
     """Класс, представляющий обложку.
 
     Attributes:
-        type (:obj:`str`): Тип обложки.
-        uri (:obj:`str`): Ссылка на изображение.
-        items_uri (:obj:`str`): Список ссылок на изображения.
-        dir (:obj:`str`): Директория хранения изображения на сервере.
-        version (:obj:`str`): Версия.
-        is_custom (:obj:`bool`): Является ли обложка пользовательской.
-        custom (:obj:`bool`): Является ли обложка пользовательской.
-        prefix (:obj:`str`): Уникальный идентификатор.
-        copyright_name (:obj:`str`): Название владельца авторским правом.
-        copyright_cline (:obj:`str`): Владелец прав на музыку (автор текста и т.д.), а не её записи.
-        error (:obj:`str`): Сообщение об ошибке.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        type_ (:obj:`str`, optional): Тип обложки.
+        type (:obj:`str`, optional): Тип обложки.
         uri (:obj:`str`, optional): Ссылка на изображение.
         items_uri (:obj:`str`, optional): Список ссылок на изображения.
-        dir_ (:obj:`str`, optional): Директория хранения изображения на сервере.
+        dir (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
         is_custom (:obj:`bool`, optional): Является ли обложка пользовательской.
         custom (:obj:`bool`, optional): Является ли обложка пользовательской.
@@ -36,41 +24,23 @@ class Cover(YandexMusicObject):
         copyright_cline (:obj:`str`, optional): Владелец прав на музыку (автор текста и т.д.), а не её записи.
         error (:obj:`str`, optional): Сообщение об ошибке.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        type_: Optional[str] = None,
-        uri: Optional[str] = None,
-        items_uri: Optional[str] = None,
-        dir_: Optional[str] = None,
-        version: Optional[str] = None,
-        custom: Optional[bool] = None,
-        is_custom: Optional[bool] = None,
-        copyright_name: Optional[str] = None,
-        copyright_cline: Optional[str] = None,
-        prefix: Optional[str] = None,
-        error: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.type = type_
-        self.uri = uri
-        self.items_uri = items_uri
-        self.prefix = prefix
-        self.dir = dir_
-        self.version = version
-        self.custom = custom
-        self.is_custom = is_custom
-        self.copyright_name = copyright_name
-        self.copyright_cline = copyright_cline
-        self.error = error
+    type: Optional[str] = None
+    uri: Optional[str] = None
+    items_uri: Optional[str] = None
+    dir: Optional[str] = None
+    version: Optional[str] = None
+    custom: Optional[bool] = None
+    is_custom: Optional[bool] = None
+    copyright_name: Optional[str] = None
+    copyright_cline: Optional[str] = None
+    prefix: Optional[str] = None
+    error: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -83,6 +53,18 @@ class Cover(YandexMusicObject):
         uri = self.uri or self.items_uri[index]
 
         self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
+
+    async def download_async(self, filename: str, index: int = 0, size: str = '200x200') -> None:
+        """Загрузка обложки.
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
+            size (:obj:`str`, optional): Размер изображения.
+        """
+        uri = self.uri or self.items_uri[index]
+
+        await self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:
@@ -121,3 +103,8 @@ class Cover(YandexMusicObject):
             covers.append(cls.de_json(cover, client))
 
         return covers
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`download_async`
+    downloadAsync = download_async

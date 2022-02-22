@@ -1,7 +1,7 @@
-yandex_music.DiscreteScale
-==========================
+yandex\_music.rotor.discrete\_scale
+===================================
 
-.. autoclass:: yandex_music.DiscreteScale
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.discrete_scale
+   :members:
+   :undoc-members:
+   :show-inheritance:

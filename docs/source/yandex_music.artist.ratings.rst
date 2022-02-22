@@ -1,7 +1,7 @@
-yandex_music.Ratings
-====================
+yandex\_music.artist.ratings
+============================
 
-.. autoclass:: yandex_music.Ratings
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.artist.ratings
+   :members:
+   :undoc-members:
+   :show-inheritance:

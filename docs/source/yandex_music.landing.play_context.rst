@@ -1,7 +1,7 @@
-yandex_music.PlayContext
-========================
+yandex\_music.landing.play\_context
+===================================
 
-.. autoclass:: yandex_music.PlayContext
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.play_context
+   :members:
+   :undoc-members:
+   :show-inheritance:

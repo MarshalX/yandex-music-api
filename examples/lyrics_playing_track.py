@@ -5,7 +5,7 @@ from yandex_music import Client
 
 TOKEN = os.environ.get('TOKEN')
 
-client = Client(TOKEN)
+client = Client(TOKEN).init()
 
 queues = client.queues_list()
 # Последняя проигрываемая очередь всегда в начале списка

@@ -1,11 +1,13 @@
 from typing import List, TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Context, Queue
 
 
+@model
 class QueueItem(YandexMusicObject):
     """Класс, представляющий очередь треков в списке очередей устройств.
 
@@ -13,26 +15,16 @@ class QueueItem(YandexMusicObject):
         id (:obj:`str`): Уникальный идентификатор очереди.
         context (:obj:`yandex_music.Context` | :obj:`None`): Объект по которому построена очередь.
         modified (:obj:`str`): Дата последнего изменения.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        id_ (:obj:`str`): Уникальный идентификатор очереди.
-        context (:obj:`yandex_music.Context` | :obj:`None`): Объект по которому построена очередь.
-        modified (:obj:`str`): Дата последнего изменения.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(
-        self, id_: str, context: Optional['Context'], modified: str, client: Optional['Client'] = None, **kwargs
-    ):
-        self.id = id_
-        self.context = context
-        self.modified = modified
+    id: str
+    context: Optional['Context']
+    modified: str
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.id,)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def fetch_queue(self, *args, **kwargs) -> Optional['Queue']:
         """Сокращение для::
@@ -40,6 +32,13 @@ class QueueItem(YandexMusicObject):
         client.queue(id, *args, **kwargs)
         """
         return self.client.queue(self.id, *args, **kwargs)
+
+    async def fetch_queue_async(self, *args, **kwargs) -> Optional['Queue']:
+        """Сокращение для::
+
+        await client.queue(id, *args, **kwargs)
+        """
+        return await self.client.queue(self.id, *args, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['QueueItem']:
@@ -82,3 +81,5 @@ class QueueItem(YandexMusicObject):
 
     #: Псевдоним для :attr:`fetch_queue`
     fetchQueue = fetch_queue
+    #: Псевдоним для :attr:`fetch_queue_async`
+    fetchQueueAsync = fetch_queue_async

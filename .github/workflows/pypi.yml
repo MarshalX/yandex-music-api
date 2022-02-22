@@ -1,34 +1,27 @@
-name: Upload to PyPI
+name: Build and upload package to PyPI
 
 on:
   release:
     types: [created]
 
 jobs:
-  deploy:
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        python-version: [3.6]
+  build_and_publish:
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+      - name: Checkout repository.
+        uses: actions/checkout@v2
+
+      - name: Setup Python.
+        uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-          python get-pip.py
-          pip install pipenv twine
-          pipenv install --dev --deploy --system
-        shell: bash
-      - name: Build and publish
+          python-version: 3.7
+
+      - name: Publish a Python distribution to PyPI.
         env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
+          pip install twine
           python setup.py sdist
           twine upload dist/*
-        shell: bash

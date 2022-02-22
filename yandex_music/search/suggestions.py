@@ -1,36 +1,28 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Best
 
 
+@model
 class Suggestions(YandexMusicObject):
     """Класс, представляющий подсказки при поиске.
 
     Attributes:
         best (:obj:`yandex_music.Best`): Лучший результат.
         suggestions (:obj:`list` из :obj:`str`): Список подсказок-дополнений для поискового запроса.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        best (:obj:`yandex_music.Best`): Лучший результат.
-        suggestions (:obj:`list` из :obj:`str`): Список подсказок-дополнений для поискового запроса.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self, best: Optional['Best'], suggestions: List[str], client: Optional['Client'] = None, **kwargs
-    ) -> None:
-        self.best = best
-        self.suggestions = suggestions
+    best: Optional['Best']
+    suggestions: List[str]
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.best, self.suggestions)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     def __getitem__(self, item):
         return self.suggestions[item]

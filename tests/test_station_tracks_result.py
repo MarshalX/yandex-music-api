@@ -23,7 +23,7 @@ class TestStationTracksResult:
 
     def test_de_json_required(self, client, id_, sequence):
         json_dict = {
-            'id_': id_.to_dict(),
+            'id': id_.to_dict(),
             'sequence': [sequence.to_dict()],
             'batch_id': self.batch_id,
             'pumpkin': self.pumpkin,
@@ -37,7 +37,7 @@ class TestStationTracksResult:
 
     def test_de_json_all(self, client, id_, sequence):
         json_dict = {
-            'id_': id_.to_dict(),
+            'id': id_.to_dict(),
             'sequence': [sequence.to_dict()],
             'batch_id': self.batch_id,
             'pumpkin': self.pumpkin,

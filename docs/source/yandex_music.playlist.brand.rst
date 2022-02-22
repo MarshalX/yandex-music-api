@@ -1,7 +1,7 @@
-yandex_music.Brand
-==================
+yandex\_music.playlist.brand
+============================
 
-.. autoclass:: yandex_music.Brand
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.playlist.brand
+   :members:
+   :undoc-members:
+   :show-inheritance:

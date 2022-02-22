@@ -1,7 +1,7 @@
-yandex_music.Best
-=================
+yandex\_music.search.best
+=========================
 
-.. autoclass:: yandex_music.Best
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.search.best
+   :members:
+   :undoc-members:
+   :show-inheritance:

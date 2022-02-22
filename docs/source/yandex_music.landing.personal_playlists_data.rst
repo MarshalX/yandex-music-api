@@ -1,7 +1,7 @@
-yandex_music.PersonalPlaylistsData
-==================================
+yandex\_music.landing.personal\_playlists\_data
+===============================================
 
-.. autoclass:: yandex_music.PersonalPlaylistsData
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.personal_playlists_data
+   :members:
+   :undoc-members:
+   :show-inheritance:

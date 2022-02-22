@@ -1,7 +1,6 @@
 import re
 import logging
 import keyword
-import builtins
 
 from typing import TYPE_CHECKING, Optional, Union
 
@@ -12,16 +11,14 @@ import json
 
 import requests
 
-from yandex_music.utils.captcha_response import CaptchaResponse
 from yandex_music.utils.response import Response
 from yandex_music.exceptions import (
-    Unauthorized,
-    BadRequest,
+    UnauthorizedError,
+    BadRequestError,
     NetworkError,
     YandexMusicError,
-    CaptchaRequired,
-    CaptchaWrong,
-    TimedOut,
+    TimedOutError,
+    NotFoundError,
 )
 
 if TYPE_CHECKING:
@@ -33,7 +30,7 @@ HEADERS = {
     'X-Yandex-Music-Client': 'YandexMusicAndroid/23020251',
 }
 
-reserved_names = keyword.kwlist + [name.lower() for name in dir(builtins)] + ['client']
+reserved_names = keyword.kwlist + ['client']
 
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
@@ -53,6 +50,10 @@ class Request:
 
         self.client = self.set_and_return_client(client)
 
+        # aiohttp
+        self.proxy_url = proxy_url
+
+        # requests
         self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
 
     def set_language(self, lang: str) -> None:
@@ -103,8 +104,8 @@ class Request:
         Returns:
             :obj:`str`: Название переменной в SnakeCase.
         """
-        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', text)
-        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+        s = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', text)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s).lower()
 
     @staticmethod
     def _object_hook(obj: dict) -> dict:
@@ -112,7 +113,7 @@ class Request:
 
         Note:
             В названии переменной заменяет "-" на "_", конвертирует в SnakeCase, если название является
-            зарезервированным именем или "client" - добавляет "_" в конец. Если название переменной начинается с цифры -
+            зарезервированным словом или "client" - добавляет "_" в конец. Если название переменной начинается с цифры -
             добавляет в начало "_".
 
         Args:
@@ -178,15 +179,13 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
         Returns:
-            :obj:`yandex_music.utils.response.Response`: Ответ API.
+            :obj:`bytes`: Тело ответа.
 
         Raises:
-            :class:`yandex_music.exceptions.TimedOut`: При превышении времени ожидания.
-            :class:`yandex_music.exceptions.Unauthorized`: При невалидном токене, долгом ожидании прямой ссылки на файл.
-            :class:`yandex_music.exceptions.BadRequest`: При неправильном запросе.
+            :class:`yandex_music.exceptions.TimedOutError`: При превышении времени ожидания.
+            :class:`yandex_music.exceptions.UnauthorizedError`: При невалидном токене, долгом ожидании прямой ссылки на файл.
+            :class:`yandex_music.exceptions.BadRequestError`: При неправильном запросе.
             :class:`yandex_music.exceptions.NetworkError`: При проблемах с сетью.
-            :class:`yandex_music.exceptions.CaptchaWrong`: При неправильной капче.
-            :class:`yandex_music.exceptions.CaptchaRequired`: При необходимости пройти капчу.
         """
         if 'headers' not in kwargs:
             kwargs['headers'] = {}
@@ -196,32 +195,34 @@ class Request:
         try:
             resp = requests.request(*args, **kwargs)
         except requests.Timeout:
-            raise TimedOut()
+            raise TimedOutError()
         except requests.RequestException as e:
             raise NetworkError(e)
 
         if 200 <= resp.status_code <= 299:
-            return resp
+            return resp.content
 
-        parse = self._parse(resp.content)
-        message = parse.error or 'Unknown HTTPError'
+        try:
+            parse = self._parse(resp.content)
+            message = parse.get_error()
+        except YandexMusicError:
+            message = 'Unknown HTTPError'
 
-        if 'CAPTCHA' in message:
-            exception = CaptchaWrong if 'Wrong' in message else CaptchaRequired
-            raise exception(message, CaptchaResponse.de_json(parse.result, self.client))
-        elif resp.status_code in (401, 403):
-            raise Unauthorized(message)
+        if resp.status_code in (401, 403):
+            raise UnauthorizedError(message)
         elif resp.status_code == 400:
-            raise BadRequest(message)
-        elif resp.status_code in (404, 409, 413):
+            raise BadRequestError(message)
+        elif resp.status_code == 404:
+            raise NotFoundError(message)
+        elif resp.status_code in (409, 413):
             raise NetworkError(message)
 
         elif resp.status_code == 502:
             raise NetworkError('Bad Gateway')
         else:
-            raise NetworkError(f'{message} ({resp.status_code})')
+            raise NetworkError(f'{message} ({resp.status_code}): {resp.content}')
 
-    def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs):
+    def get(self, url: str, params: dict = None, timeout: Union[int, float] = 5, *args, **kwargs) -> Union[dict, str]:
         """Отправка GET запроса.
 
         Args:
@@ -233,7 +234,7 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
         Returns:
-            :obj:`yandex_music.utils.response.Response`: Ответ API.
+            :obj:`dict` | :obj:`str`: Обработанное тело ответа.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -242,9 +243,9 @@ class Request:
             'GET', url, params=params, headers=self.headers, proxies=self.proxies, timeout=timeout, *args, **kwargs
         )
 
-        return self._parse(result.content).result
+        return self._parse(result).get_result()
 
-    def post(self, url, data=None, timeout=5, *args, **kwargs):
+    def post(self, url, data=None, timeout=5, *args, **kwargs) -> Union[dict, str]:
         """Отправка POST запроса.
 
         Args:
@@ -256,7 +257,7 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
         Returns:
-            :obj:`yandex_music.utils.response.Response`: Ответ API.
+            :obj:`dict` | :obj:`str`: Обработанное тело ответа.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -265,9 +266,9 @@ class Request:
             'POST', url, headers=self.headers, proxies=self.proxies, data=data, timeout=timeout, *args, **kwargs
         )
 
-        return self._parse(result.content).result
+        return self._parse(result).get_result()
 
-    def retrieve(self, url, timeout=5, *args, **kwargs):
+    def retrieve(self, url, timeout=5, *args, **kwargs) -> bytes:
         """Отправка GET запроса и получение содержимого без обработки (парсинга).
 
         Args:
@@ -278,14 +279,14 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
         Returns:
-            :obj:`Response`: Экземляр объекта ответа библиотеки `requests`.
+            :obj:`bytes`: Тело ответа.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return self._request_wrapper('GET', url, proxies=self.proxies, timeout=timeout, *args, **kwargs)
 
-    def download(self, url, filename, timeout=5, *args, **kwargs):
+    def download(self, url, filename, timeout=5, *args, **kwargs) -> None:
         """Отправка запроса на получение содержимого и его запись в файл.
 
         Args:
@@ -301,4 +302,4 @@ class Request:
         """
         result = self.retrieve(url, timeout=timeout, *args, *kwargs)
         with open(filename, 'wb') as f:
-            f.write(result.content)
+            f.write(result)

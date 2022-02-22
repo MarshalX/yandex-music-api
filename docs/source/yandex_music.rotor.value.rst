@@ -1,7 +1,7 @@
-yandex_music.Value
-==================
+yandex\_music.rotor.value
+=========================
 
-.. autoclass:: yandex_music.Value
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.value
+   :members:
+   :undoc-members:
+   :show-inheritance:

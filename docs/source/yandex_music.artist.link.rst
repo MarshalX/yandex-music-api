@@ -1,7 +1,7 @@
-yandex_music.Link
-=================
+yandex\_music.artist.link
+=========================
 
-.. autoclass:: yandex_music.Link
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.artist.link
+   :members:
+   :undoc-members:
+   :show-inheritance:

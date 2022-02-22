@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
 
 
+@model
 class Link(YandexMusicObject):
     """Класс, представляющий ссылку на официальную страницу исполнителя.
 
@@ -15,37 +17,19 @@ class Link(YandexMusicObject):
     Attributes:
         title (:obj:`str`): Название страницы.
         href (:obj:`str`): URL страницы.
-        type_ (:obj:`str`): Тип страницы.
-        social_network (:obj:`str`): Название социальной сети.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        title (:obj:`str`): Название страницы.
-        href (:obj:`str`): URL страницы.
-        type_ (:obj:`str`): Тип страницы.
+        type (:obj:`str`): Тип страницы.
         social_network (:obj:`str`, optional): Название социальной сети.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    def __init__(
-        self,
-        title: str,
-        href: str,
-        type_: str,
-        social_network: Optional[str] = None,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.title = title
-        self.href = href
-        self.type = type_
+    title: str
+    href: str
+    type: str
+    social_network: Optional[str] = None
+    client: Optional['Client'] = None
 
-        self.social_network = social_network
-
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.title, self.href, self.type)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Link']:

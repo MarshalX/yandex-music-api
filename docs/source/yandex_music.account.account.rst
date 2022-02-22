@@ -1,6 +1,7 @@
-yandex_music.Account
-====================
+yandex\_music.account.account
+=============================
 
-.. autoclass:: yandex_music.Account
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.account.account
+   :members:
+   :undoc-members:
+   :show-inheritance:

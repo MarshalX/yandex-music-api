@@ -6,15 +6,10 @@ from yandex_music.client import Client
 if len(sys.argv) == 1 or len(sys.argv) > 3:
     print('Usage: DailyPlaylistUpdater.py token')
     print('token - Authentication token')
-    print('\nUsage: DailyPlaylistUpdater.py username password')
-    print('username - username in format \'example@yandex.ru\'')
-    print('password - your password')
     quit()
 # Authorization
 elif len(sys.argv) == 2:
-    client = Client.fromToken(sys.argv[1])
-elif len(sys.argv) == 3:
-    client = Client.fromCredentials(sys.argv[1], sys.argv[2])
+    client = Client(sys.argv[1]).init()
 
 # Current daily playlist
 PersonalPlaylistBlocks = client.landing(blocks=['personalplaylists']).blocks[0]

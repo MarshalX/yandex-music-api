@@ -1,7 +1,7 @@
-yandex_music.TrackId
-====================
+yandex\_music.landing.track\_id
+===============================
 
-.. autoclass:: yandex_music.TrackId
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.track_id
+   :members:
+   :undoc-members:
+   :show-inheritance:

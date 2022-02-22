@@ -1,12 +1,7 @@
-yandex_music.utils.difference.Difference
-========================================
+yandex\_music.utils.difference
+==============================
 
-.. autoclass:: yandex_music.utils.difference.Operation
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. autoclass:: yandex_music.utils.difference.Difference
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.utils.difference
+   :members:
+   :undoc-members:
+   :show-inheritance:

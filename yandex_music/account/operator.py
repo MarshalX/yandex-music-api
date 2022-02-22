@@ -1,11 +1,13 @@
 from typing import List, TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, Deactivation
 
 
+@model
 class Operator(YandexMusicObject):
     """Класс, представляющий услугу сотового оператора.
 
@@ -16,41 +18,19 @@ class Operator(YandexMusicObject):
         deactivation (:obj:`list` из :obj:`yandex_music.Deactivation`): Способы деактивации.
         title (:obj:`str`): Название услуги.
         suspended (:obj:`bool`): Приостановлено.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        product_id (:obj:`str`): Уникальный идентификатор продукта сервиса Яндекс.Музыка.
-        phone (:obj:`str`): Мобильный номер, на который подключена услуга.
-        payment_regularity (:obj:`str`): Регулярность оплаты.
-        deactivation (:obj:`list` из :obj:`yandex_music.Deactivation`): Способы деактивации.
-        title (:obj:`str`): Название услуги.
-        suspended (:obj:`bool`): Приостановлено.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        product_id: str,
-        phone: str,
-        payment_regularity: str,
-        deactivation: List['Deactivation'],
-        title: str,
-        suspended: bool,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.product_id = product_id
-        self.phone = phone
-        self.payment_regularity = payment_regularity
-        self.deactivation = deactivation
-        self.title = title
-        self.suspended = suspended
+    product_id: str
+    phone: str
+    payment_regularity: str
+    deactivation: List['Deactivation']
+    title: str
+    suspended: bool
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.product_id, self.phone)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Operator']:

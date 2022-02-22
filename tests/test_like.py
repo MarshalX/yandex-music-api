@@ -57,7 +57,7 @@ class TestLike:
 
         json_dict = {
             'timestamp': self.timestamp,
-            'id_': self.id,
+            'id': self.id,
             type_: result.to_dict(),
             'short_description': self.short_description,
             'description': self.description,

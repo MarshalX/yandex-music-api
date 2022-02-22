@@ -30,7 +30,7 @@ class TestSupplement:
         assert Supplement.de_json({}, client) is None
 
     def test_de_json_required(self, client, lyrics, video_supplement):
-        json_dict = {'id_': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()]}
+        json_dict = {'id': self.id, 'lyrics': lyrics.to_dict(), 'videos': [video_supplement.to_dict()]}
         supplement = Supplement.de_json(json_dict, client)
 
         assert supplement.id == self.id
@@ -39,7 +39,7 @@ class TestSupplement:
 
     def test_de_json_all(self, client, lyrics, video_supplement):
         json_dict = {
-            'id_': self.id,
+            'id': self.id,
             'lyrics': lyrics.to_dict(),
             'videos': [video_supplement.to_dict()],
             'radio_is_available': self.radio_is_available,

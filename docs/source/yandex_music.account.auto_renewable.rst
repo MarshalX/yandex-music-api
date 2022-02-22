@@ -1,6 +1,7 @@
-yandex_music.AutoRenewable
-==========================
+yandex\_music.account.auto\_renewable
+=====================================
 
-.. autoclass:: yandex_music.AutoRenewable
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.account.auto_renewable
+   :members:
+   :undoc-members:
+   :show-inheritance:

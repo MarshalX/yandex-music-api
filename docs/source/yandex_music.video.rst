@@ -1,7 +1,7 @@
-yandex_music.Video
-==================
+yandex\_music.video
+===================
 
-.. autoclass:: yandex_music.Video
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.video
+   :members:
+   :undoc-members:
+   :show-inheritance:

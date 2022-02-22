@@ -1,7 +1,7 @@
 from yandex_music import Client
 
 
-client = Client()
+client = Client().init()
 
 type_to_name = {
     'track': 'трек',

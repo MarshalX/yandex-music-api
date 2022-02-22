@@ -13,14 +13,14 @@ class TestId:
         assert Id.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'type_': self.type, 'tag': self.tag}
+        json_dict = {'type': self.type, 'tag': self.tag}
         id_ = Id.de_json(json_dict, client)
 
         assert id_.type == self.type
         assert id_.tag == self.tag
 
     def test_de_json_all(self, client):
-        json_dict = {'type_': self.type, 'tag': self.tag}
+        json_dict = {'type': self.type, 'tag': self.tag}
         id_ = Id.de_json(json_dict, client)
 
         assert id_.type == self.type

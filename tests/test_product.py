@@ -68,7 +68,7 @@ class TestProduct:
     def test_de_json_required(self, client, price):
         json_dict = {
             'product_id': self.product_id,
-            'type_': self.type,
+            'type': self.type,
             'common_period_duration': self.common_period_duration,
             'duration': self.duration,
             'trial_duration': self.trial_duration,
@@ -92,7 +92,7 @@ class TestProduct:
     def test_de_json_all(self, client, price, licence_text_part):
         json_dict = {
             'product_id': self.product_id,
-            'type_': self.type,
+            'type': self.type,
             'common_period_duration': self.common_period_duration,
             'duration': self.duration,
             'trial_duration': self.trial_duration,

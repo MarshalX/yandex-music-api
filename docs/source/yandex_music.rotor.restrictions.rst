@@ -1,7 +1,7 @@
-yandex_music.Restrictions
-=========================
+yandex\_music.rotor.restrictions
+================================
 
-.. autoclass:: yandex_music.Restrictions
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.rotor.restrictions
+   :members:
+   :undoc-members:
+   :show-inheritance:

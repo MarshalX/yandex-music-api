@@ -1,6 +1,7 @@
-yandex_music.Context
-====================
+yandex\_music.queue.context
+===========================
 
-.. autoclass:: yandex_music.Context
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.queue.context
+   :members:
+   :undoc-members:
+   :show-inheritance:

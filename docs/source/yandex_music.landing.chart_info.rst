@@ -1,7 +1,7 @@
-yandex_music.ChartInfo
-======================
+yandex\_music.landing.chart\_info
+=================================
 
-.. autoclass:: yandex_music.ChartInfo
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.landing.chart_info
+   :members:
+   :undoc-members:
+   :show-inheritance:

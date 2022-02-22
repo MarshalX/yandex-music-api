@@ -1,7 +1,7 @@
-yandex_music.ShotType
-=====================
+yandex\_music.shot.shot\_type
+=============================
 
-.. autoclass:: yandex_music.ShotType
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.shot.shot_type
+   :members:
+   :undoc-members:
+   :show-inheritance:

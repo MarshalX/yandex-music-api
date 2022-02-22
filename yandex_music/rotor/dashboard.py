@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client, StationResult
 
 
+@model
 class Dashboard(YandexMusicObject):
     """Класс, представляющий рекомендованные станций пользователя.
 
@@ -14,33 +16,16 @@ class Dashboard(YandexMusicObject):
         stations (:obj:`list` из :obj:`yandex_music.StationResult`): Станции со всеми возможными настройками и
             параметрами.
         pumpkin (:obj:`bool`): Хэллоуин.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-    Args:
-        dashboard_id (:obj:`str`): Уникальный идентификатор панели.
-        stations (:obj:`list` из :obj:`yandex_music.StationResult`): Станции со всеми возможными настройками и
-            параметрами.
-        pumpkin (:obj:`bool`): Хэллоуин.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-        **kwargs: Произвольные ключевые аргументы полученные от API.
     """
 
-    def __init__(
-        self,
-        dashboard_id: str,
-        stations: List['StationResult'],
-        pumpkin: bool,
-        client: Optional['Client'] = None,
-        **kwargs,
-    ) -> None:
-        self.dashboard_id = dashboard_id
-        self.stations = stations
-        self.pumpkin = pumpkin
+    dashboard_id: str
+    stations: List['StationResult']
+    pumpkin: bool
+    client: Optional['Client'] = None
 
-        self.client = client
+    def __post_init__(self):
         self._id_attrs = (self.dashboard_id, self.stations, self.pumpkin)
-
-        super().handle_unknown_kwargs(self, **kwargs)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Dashboard']:

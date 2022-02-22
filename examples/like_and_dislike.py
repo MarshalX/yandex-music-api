@@ -6,7 +6,7 @@ from yandex_music import Client
 TOKEN = os.environ.get('TOKEN')
 ALBUM_ID = 2832563
 
-client = Client(TOKEN)
+client = Client(TOKEN).init()
 
 success = client.users_likes_albums_add(ALBUM_ID)
 answer = 'Лайкнут' if success else 'Произошла ошибка'

@@ -1,8 +1,7 @@
-yandex_music.utils.request.Request
-==================================
+yandex\_music.utils.request
+===========================
 
-.. autoclass:: yandex_music.utils.request.Request
-    :members:
-    :undoc-members:
-    :private-members:
-    :show-inheritance:
+.. automodule:: yandex_music.utils.request
+   :members:
+   :undoc-members:
+   :show-inheritance:

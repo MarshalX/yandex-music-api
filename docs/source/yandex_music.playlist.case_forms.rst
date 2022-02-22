@@ -1,7 +1,7 @@
-yandex_music.CaseForms
-======================
+yandex\_music.playlist.case\_forms
+==================================
 
-.. autoclass:: yandex_music.CaseForms
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: yandex_music.playlist.case_forms
+   :members:
+   :undoc-members:
+   :show-inheritance:

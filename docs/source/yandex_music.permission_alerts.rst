@@ -1,6 +1,7 @@
-yandex_music.PermissionAlerts
-=============================
+yandex\_music.permission\_alerts
+================================
 
-.. autoclass:: yandex_music.PermissionAlerts
-    :members:
-    :show-inheritance:
+.. automodule:: yandex_music.permission_alerts
+   :members:
+   :undoc-members:
+   :show-inheritance:

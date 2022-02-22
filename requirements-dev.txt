@@ -1,0 +1,13 @@
+# for GHA
+requests
+aiohttp
+aiofiles
+# rly dev
+black
+coverage
+pytest
+pytest-cov
+codecov
+ujson
+importlib_metadata
+atomicwrites

@@ -1,7 +1,7 @@
 import functools
 import logging
 from datetime import datetime
-from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 from yandex_music import (
     Album,
@@ -42,15 +42,9 @@ from yandex_music import (
     __license__,
     __version__,
 )
-from yandex_music.exceptions import Captcha, InvalidToken
+from yandex_music.exceptions import BadRequestError
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
-
-if TYPE_CHECKING:
-    from yandex_music.utils.captcha_response import CaptchaResponse
-
-CLIENT_ID = '23cabbbdc6cd418abb4b39c32c41195d'
-CLIENT_SECRET = '53bc75238f0c4d08a118e51fe9203300'
 
 de_list = {
     'artist': Artist.de_list,
@@ -83,11 +77,6 @@ class Client(YandexMusicObject):
     """Класс, представляющий клиент Yandex Music.
 
     Note:
-        При `fetch_account_status = False` многие сокращения перестанут работать в связи с тем, что неоткуда будет взять
-        uid аккаунта для отправки запроса. Так же в большинстве методов придётся передавать `uid` явно.
-
-        Для отключения предупреждений о новых полях установите `report_new_fields` в `False`.
-
         Доступные языки: en, uz, uk, us, ru, kk, hy.
 
         Поле `device` используется только при работе с очередью прослушивания.
@@ -96,24 +85,19 @@ class Client(YandexMusicObject):
         logger (:obj:`logging.Logger`): Объект логгера.
         token (:obj:`str`): Уникальный ключ для аутентификации.
         base_url (:obj:`str`): Ссылка на API Yandex Music.
-        oauth_url (:obj:`str`): Ссылка на OAuth Yandex Music.
         me (:obj:`yandex_music.Status`): Информация об аккаунте.
         device (:obj:`str`): Строка, содержащая сведения об устройстве, с которого выполняются запросы.
-        report_new_fields (:obj:`bool`): Включены ли сообщения о новых полях от API, которых нет в библиотеке.
-        report_new_fields_callback (:obj:`function`): Функция обратного вызова для обработки новых полей.
-            Принимает объект, в котором нет поля и kwargs с неизвестными полями.
+        report_unknown_fields (:obj:`bool`): Включены ли предупреждения о неизвестных полях от API,
+            которых нет в библиотеке.
 
     Args:
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
-        fetch_account_status (:obj:`bool`, optional): Получить ли информацию об аккаунте при инициализации объекта.
         base_url (:obj:`str`, optional): Ссылка на API Yandex Music.
-        oauth_url (:obj:`str`, optional): Ссылка на OAuth Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
         language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API.
-        report_new_fields (:obj:`bool`, optional): Включить сообщения о новых полях от API, которых нет в библиотеке.
-        report_new_fields_callback (:obj:`function`, optional): Функция обратного вызова для обработки новых полей.
-            Принимает объект, в котором нет поля и kwargs с неизвестными полями.
+        report_unknown_fields (:obj:`bool`, optional): Включить предупреждения о неизвестных полях от API,
+            которых нет в библиотеке.
     """
 
     notice_displayed = False
@@ -121,13 +105,10 @@ class Client(YandexMusicObject):
     def __init__(
         self,
         token: str = None,
-        fetch_account_status: bool = True,
         base_url: str = None,
-        oauth_url: str = None,
         request: Request = None,
         language: str = 'ru',
-        report_new_fields=True,
-        report_new_fields_callback: Callable[[object, dict], None] = None,
+        report_unknown_fields=False,
     ) -> None:
         if not Client.notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
@@ -139,16 +120,10 @@ class Client(YandexMusicObject):
 
         if base_url is None:
             base_url = 'https://api.music.yandex.net'
-        if oauth_url is None:
-            oauth_url = 'https://oauth.yandex.ru'
 
         self.base_url = base_url
-        self.oauth_url = oauth_url
 
-        self.report_new_fields = report_new_fields
-
-        if report_new_fields_callback is not None:
-            self.report_new_fields_callback = report_new_fields_callback
+        self.report_unknown_fields = report_unknown_fields
 
         if request:
             self._request = request
@@ -156,7 +131,8 @@ class Client(YandexMusicObject):
         else:
             self._request = Request(self)
 
-        self._request.set_language(language)
+        self.language = language
+        self._request.set_language(self.language)
 
         self.device = (
             'os=Python; os_version=; manufacturer=Marshal; '
@@ -164,148 +140,17 @@ class Client(YandexMusicObject):
         )
 
         self.me = None
-        if fetch_account_status:
-            self.me = self.account_status()
-
-    @classmethod
-    def from_credentials(
-        cls,
-        username: str,
-        password: str,
-        x_captcha_answer: str = None,
-        x_captcha_key: str = None,
-        captcha_callback: Callable[['CaptchaResponse'], str] = None,
-        *args,
-        **kwargs,
-    ) -> 'Client':
-        """Инициализция клиента по логину и паролю.
-
-        Note:
-            Данный метод получает токен каждый раз при вызове. Рекомендуется сгенерировать его самостоятельно, сохранить
-            и использовать при следующих инициализациях клиента. Не храните логины и пароли!
-
-        Args:
-            username (:obj:`str`): Логин клиента (идентификатор).
-            password (:obj:`str`): Пароль клиента (аутентификатор).
-            x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
-            x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
-            captcha_callback (:obj:`function`, optional): Функция обратного вызова для обработки капчи, должна
-                принимать объект класса :class:`yandex_music.exceptions.Captcha` и возвращать проверочный код.
-            **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
-
-        Returns:
-            :obj:`yandex_music.Client`.
-
-        Raises:
-            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
-        """
-
-        token = None
-        while not token:
-            try:
-                token = cls(*args, **kwargs).generate_token_by_username_and_password(
-                    username, password, x_captcha_answer=x_captcha_answer, x_captcha_key=x_captcha_key
-                )
-            except Captcha as e:
-                if not captcha_callback:
-                    raise e
-
-                x_captcha_answer = captcha_callback(e.captcha)
-                x_captcha_key = e.captcha.x_captcha_key
-
-        return cls(token, *args, **kwargs)
-
-    @classmethod
-    def from_token(cls, token: str, *args, **kwargs) -> 'Client':
-        """Инициализация клиента по токену.
-
-        Note:
-            Ничем не отличается от `Client(token)`. Так исторически сложилось.
-
-        Args:
-            token (:obj:`str`, optional): Уникальный ключ для аутентификации.
-            **kwargs (:obj:`dict`, optional): Аргументы для конструктора клиента.
-
-        Returns:
-            :obj:`yandex_music.Client`.
-        """
-
-        return cls(token, *args, **kwargs)
-
-    @log
-    def generate_token_by_username_and_password(
-        self,
-        username: str,
-        password: str,
-        grant_type: str = 'password',
-        x_captcha_answer: str = None,
-        x_captcha_key: str = None,
-        timeout: Union[int, float] = None,
-        *args,
-        **kwargs,
-    ) -> str:
-        """Метод получения OAuth токена по логину и паролю.
-
-        Args:
-            username (:obj:`str`): Логин клиента (идентификатор).
-            password (:obj:`str`): Пароль клиента (аутентификатор).
-            grant_type (:obj:`str`, optional): Тип разрешения OAuth.
-            x_captcha_answer (:obj:`str`, optional): Ответ на капчу (цифры с картинки).
-            x_captcha_key (:obj:`str`, optional): Уникальный ключ капчи.
-            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
-                ответа от сервера вместо указанного при создании пула.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
-
-        Returns:
-            :obj:`str`: OAuth токен.
-
-        Raises:
-            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
-        """
-
-        url = f'{self.oauth_url}/token'
-
-        data = {
-            'grant_type': grant_type,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'username': username,
-            'password': password,
-        }
-
-        if x_captcha_answer and x_captcha_key:
-            data.update({'x_captcha_answer': x_captcha_answer, 'x_captcha_key': x_captcha_key})
-
-        result = self._request.post(url, data, timeout=timeout, *args, **kwargs)
-
-        return result.get('access_token')
-
-    @staticmethod
-    def _validate_token(token: str) -> str:
-        """Примитивная валидация токена.
-
-        Args:
-            token (:obj:`str`): токен для проверки
-
-        Returns:
-            :obj:`str`: Токен.
-
-        Raises:
-            :class:`yandex_music.exceptions.InvalidToken`: Если токен недействителен.
-        """
-
-        if any(x.isspace() for x in token):
-            raise InvalidToken()
-
-        if len(token) != 39:
-            raise InvalidToken()
-
-        return token
 
     @property
     def request(self) -> Request:
         """:obj:`yandex_music.utils.request.Request`: Объект вспомогательного класса для отправки запросов."""
         return self._request
+
+    @log
+    def init(self):
+        """Получение информацию об аккаунте использующихся в других запросах."""
+        self.me = self.account_status()
+        return self
 
     @log
     def account_status(self, timeout: Union[int, float] = None, *args, **kwargs) -> Optional[Status]:
@@ -385,7 +230,9 @@ class Client(YandexMusicObject):
         url = f'{self.base_url}/account/settings'
 
         if not data:
-            data = {param: value}
+            data = {param: str(value)}
+
+        # TODO (MarshalX) значения в data типа bool должны быть приведены к str при работе с async клиентом.
 
         result = self._request.post(url, data=data, timeout=timeout, *args, **kwargs)
 
@@ -825,7 +672,7 @@ class Client(YandexMusicObject):
 
         data = {
             'track-id': track_id,
-            'from-cache': from_cache,
+            'from-cache': str(from_cache),
             'from': from_,
             'play-id': play_id or '',
             'uid': uid,
@@ -842,6 +689,7 @@ class Client(YandexMusicObject):
 
         return result == 'ok'
 
+    @log
     def albums_with_tracks(
         self, album_id: Union[str, int], timeout: Union[int, float] = None, *args, **kwargs
     ) -> Optional[Album]:
@@ -908,13 +756,16 @@ class Client(YandexMusicObject):
 
         params = {
             'text': text,
-            'nocorrect': nocorrect,
+            'nocorrect': str(nocorrect),
             'type': type_,
             'page': page,
-            'playlist-in-best': playlist_in_best,
+            'playlist-in-best': str(playlist_in_best),
         }
 
         result = self._request.get(url, params, timeout=timeout, *args, **kwargs)
+
+        if isinstance(result, str):
+            raise BadRequestError(result)
 
         return Search.de_json(result, self)
 
@@ -1709,7 +1560,7 @@ class Client(YandexMusicObject):
 
         params = {}
         if settings2:
-            params = {'settings2': True}
+            params = {'settings2': str(True)}
 
         if queue:
             params = {'queue': queue}
@@ -1952,6 +1803,7 @@ class Client(YandexMusicObject):
         """
         return self._like_action('artist', artist_ids, False, user_id, timeout, *args, **kwargs)
 
+    @log
     def users_likes_artists_remove(
         self,
         artist_ids: Union[List[Union[str, int]], str, int],
@@ -2135,7 +1987,7 @@ class Client(YandexMusicObject):
 
         result = self._request.post(url, params, timeout=timeout, *args, **kwargs)
 
-        return de_list.get(object_type)(result, self)
+        return de_list[object_type](result, self)
 
     @log
     def artists(
@@ -2204,7 +2056,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._get_list('track', track_ids, {'with-positions': with_positions}, timeout, *args, **kwargs)
+        return self._get_list('track', track_ids, {'with-positions': str(with_positions)}, timeout, *args, **kwargs)
 
     @log
     def playlists_list(
@@ -2379,7 +2231,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._get_likes('album', user_id, {'rich': rich}, timeout, *args, **kwargs)
+        return self._get_likes('album', user_id, {'rich': str(rich)}, timeout, *args, **kwargs)
 
     @log
     def users_likes_artists(
@@ -2406,7 +2258,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._get_likes('artist', user_id, {'with-timestamps': with_timestamps}, timeout, *args, **kwargs)
+        return self._get_likes('artist', user_id, {'with-timestamps': str(with_timestamps)}, timeout, *args, **kwargs)
 
     @log
     def users_likes_playlists(
@@ -2745,12 +2597,6 @@ class Client(YandexMusicObject):
 
     # camelCase псевдонимы
 
-    #: Псевдоним для :attr:`from_credentials`
-    fromCredentials = from_credentials
-    #: Псевдоним для :attr:`from_token`
-    fromToken = from_token
-    #: Псевдоним для :attr:`generate_token_by_username_and_password`
-    generateTokenByUsernameAndPassword = generate_token_by_username_and_password
     #: Псевдоним для :attr:`account_status`
     accountStatus = account_status
     #: Псевдоним для :attr:`account_settings`
