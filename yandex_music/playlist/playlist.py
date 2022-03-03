@@ -234,30 +234,34 @@ class Playlist(YandexMusicObject):
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-        client.users_likes_playlists_add(playlist.uid, user.id *args, **kwargs)
+        client.users_likes_playlists_add(playlist.playlist_id, user.id, *args, **kwargs)
         """
-        return self.client.users_likes_playlists_add(self.uid, self.client.me.account.uid, *args, **kwargs)
+        return self.client.users_likes_playlists_add(self.playlist_id, self.client.me.account.uid, *args, **kwargs)
 
     async def like_async(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-        await client.users_likes_playlists_add(playlist.uid, user.id *args, **kwargs)
+        await client.users_likes_playlists_add(playlist.playlist_id, user.id, *args, **kwargs)
         """
-        return await self.client.users_likes_playlists_add(self.uid, self.client.me.account.uid, *args, **kwargs)
+        return await self.client.users_likes_playlists_add(
+            self.playlist_id, self.client.me.account.uid, *args, **kwargs
+        )
 
     def dislike(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-        client.users_likes_playlists_remove(playlist.uid, user.id *args, **kwargs)
+        client.users_likes_playlists_remove(playlist.playlist_id, user.id, *args, **kwargs)
         """
-        return self.client.users_likes_playlists_remove(self.uid, self.client.me.account.uid, *args, **kwargs)
+        return self.client.users_likes_playlists_remove(self.playlist_id, self.client.me.account.uid, *args, **kwargs)
 
     async def dislike_async(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
-        await client.users_likes_playlists_remove(playlist.uid, user.id *args, **kwargs)
+        await client.users_likes_playlists_remove(playlist.playlist_id, user.id, *args, **kwargs)
         """
-        return await self.client.users_likes_playlists_remove(self.uid, self.client.me.account.uid, *args, **kwargs)
+        return await self.client.users_likes_playlists_remove(
+            self.playlist_id, self.client.me.account.uid, *args, **kwargs
+        )
 
     def fetch_tracks(self, *args, **kwargs) -> List['TrackShort']:
         """Сокращение для::
