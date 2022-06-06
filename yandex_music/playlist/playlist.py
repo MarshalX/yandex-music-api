@@ -275,7 +275,7 @@ class Playlist(YandexMusicObject):
 
         await client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
         """
-        return await self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs).tracks
+        return (await self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs)).tracks
 
     def insert_track(self, track_id: int, album_id: int, *args, **kwargs) -> Optional['Playlist']:
         """Сокращение для::
