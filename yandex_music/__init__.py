@@ -124,6 +124,8 @@ from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
 from .supplement.video_supplement import VideoSupplement
 
+from .label.label import LabelFull
+
 from .queue.context import Context
 from .queue.queue import Queue
 from .queue.queue_item import QueueItem
@@ -260,4 +262,6 @@ __all__ = [
     'Queue',
     'QueueItem',
     'Deprecation',
+
+    'Label'
 ]
