@@ -24,9 +24,9 @@ class LabelFull(YandexMusicObject):
     description: Optional[str] = None
     description_formatted: Optional[str] = None
     image: Optional[str] = None
-    links: Optional[List["Link"]] = None
+    links: Optional[List['Link']] = None
     type: Optional[str] = None
-    client: Optional["Client"] = None
+    client: Optional['Client'] = None
 
     def get_artists(self):
         """Сокращение для::
@@ -59,7 +59,7 @@ class LabelFull(YandexMusicObject):
         return await self.client.get_label_albums(self.id)
 
     @classmethod
-    def de_json(cls, data: dict, client: "Client") -> Optional["Label"]:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['Label']:
         """Десериализация объекта.
 
         Args:
@@ -76,12 +76,12 @@ class LabelFull(YandexMusicObject):
         data = super(LabelFull, cls).de_json(data, client)
         from yandex_music import Link
 
-        data["id"] = data.get("id")
-        data["name"] = data.get("name")
-        data["description"] = data.get("description")
-        data["description_formatted"] = data.get("descriptionFormatted")
-        data["image"] = data.get("image")
-        data["links"] = Link.de_list(data.get("links"), client)
-        data["type"] = data.get("type")
+        data['id'] = data.get('id')
+        data['name'] = data.get('name')
+        data['description'] = data.get('description')
+        data['description_formatted'] = data.get('descriptionFormatted')
+        data['image'] = data.get('image')
+        data['links'] = Link.de_list(data.get('links'), client)
+        data['type'] = data.get('type')
 
         return cls(client=client, **data)
