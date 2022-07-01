@@ -4,6 +4,7 @@
 
 import functools
 import logging
+import math
 from datetime import datetime
 from typing import Dict, List, Optional, Union
 
@@ -45,6 +46,9 @@ from yandex_music import (
     __copyright__,
     __license__,
     __version__,
+    LabelFull,
+    LabelAlbums,
+    LabelArtists,
 )
 from yandex_music.exceptions import BadRequestError
 from yandex_music.utils.difference import Difference
@@ -311,7 +315,12 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def consume_promo_code(
-        self, code: str, language: str = 'en', timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        code: str,
+        language: str = 'en',
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[PromoCodeStatus]:
         """Активация промо-кода.
 
@@ -367,7 +376,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def landing(
-        self, blocks: Union[str, List[str]], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        blocks: Union[str, List[str]],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[Landing]:
         """Получение лендинг-страницы содержащий блоки с новыми релизами, чартами, плейлистами с новинками и т.д.
 
@@ -391,14 +404,115 @@ class ClientAsync(YandexMusicObject):
         url = f'{self.base_url}/landing3'
 
         result = await self._request.get(
-            url, {'blocks': blocks, 'eitherUserId': '10254713668400548221'}, timeout=timeout, *args, **kwargs
+            url,
+            {'blocks': blocks, 'eitherUserId': '10254713668400548221'},
+            timeout=timeout,
+            *args,
+            **kwargs,
         )
 
         return Landing.de_json(result, self)
 
     @log
+    async def get_label(
+        self,
+        label_id: Union[int, str],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
+    ) -> Optional[LabelFull]:
+        """Получение информации о лейбле.
+        Args:
+            label_id (:obj:`str` | :obj:`int`): Уникальный идентификатор лейбла.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+        Returns:
+            :obj:`yandex_music.LabelFull` | :obj:`None`: Лейбл :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+
+        """
+
+        url = f'{self.base_url}/labels/{label_id}'
+
+        result = await self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        return LabelFull.de_json(result, self)
+
+    def _list_label_data(
+        self,
+        data_type: Union[str],
+        label_id: Union[int, str],
+        page: Union[int] = 0,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
+    ):
+        url = f'{self.base_url}/labels/{label_id}/{data_type}s?page={page}'
+
+        result = await self._request.get(url, timeout=timeout, *args, **kwargs)
+
+        de_func = {'artist': LabelArtists.de_json, 'album': LabelAlbums.de_json}
+
+        return de_func[data_type](result, self)
+
+    @log
+    async def get_label_artists(
+        self,
+        label_id: Union[int, str],
+        page: Union[int] = 0,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
+    ) -> Optional[LabelArtists]:
+        """
+        Получение артистов лейбла
+        Args:
+            label_id (:obj:`str` | :obj:`int`): Уникальный идентификатор лейбла.
+            page (:obj:`int`): Номер страницы.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.LabelArtists`: Исполнители.
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        return self._list_label_data('artist', label_id, page, timeout, *args, **kwargs)
+
+    @log
+    async def get_label_albums(
+        self,
+        label_id: Union[int, str],
+        page: Union[int] = 0,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
+    ) -> Optional[LabelAlbums]:
+        """
+        Получение альбомов лейбла
+        Args:
+            label_id (:obj:`str` | :obj:`int`): Уникальный идентификатор лейбла.
+            page (:obj:`int`): Номер страницы.
+            timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+                ответа от сервера вместо указанного при создании пула.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.LabelAlbums`: Исполнители.
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        return self._list_label_data('album', label_id, page, timeout, *args, **kwargs)
+
+    @log
     async def chart(
-        self, chart_option: str = '', timeout: Union[int, float] = None, *args, **kwargs
+        self, chart_option: str = "", timeout: Union[int, float] = None, *args, **kwargs
     ) -> Optional[ChartInfo]:
         """Получение чарта.
 
@@ -578,7 +692,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def track_supplement(
-        self, track_id: Union[str, int], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        track_id: Union[str, int],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[Supplement]:
         """Получение дополнительной информации о треке.
 
@@ -603,7 +721,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def tracks_similar(
-        self, track_id: Union[str, int], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        track_id: Union[str, int],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[SimilarTracks]:
         """Получение похожих треков.
 
@@ -697,7 +819,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def albums_with_tracks(
-        self, album_id: Union[str, int], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        album_id: Union[str, int],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[Album]:
         """Получение альбома по его уникальному идентификатору вместе с треками.
 
@@ -802,7 +928,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def users_settings(
-        self, user_id: Union[str, int] = None, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        user_id: Union[str, int] = None,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[UserSettings]:
         """Получение настроек пользователя.
 
@@ -881,7 +1011,12 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def users_playlists_recommendations(
-        self, kind: Union[str, int], user_id: Union[str, int] = None, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        kind: Union[str, int],
+        user_id: Union[str, int] = None,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ):
         """Получение рекомендаций для плейлиста.
 
@@ -947,7 +1082,12 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def users_playlists_delete(
-        self, kind: Union[str, int], user_id: Union[str, int] = None, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        kind: Union[str, int],
+        user_id: Union[str, int] = None,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> bool:
         """Удаление плейлиста.
 
@@ -1346,7 +1486,14 @@ class ClientAsync(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return await self.rotor_station_feedback(
-            station, 'radioStarted', timestamp, from_=from_, batch_id=batch_id, timeout=timeout, *args, **kwargs
+            station,
+            'radioStarted',
+            timestamp,
+            from_=from_,
+            batch_id=batch_id,
+            timeout=timeout,
+            *args,
+            **kwargs,
         )
 
     @log
@@ -1371,7 +1518,14 @@ class ClientAsync(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return await self.rotor_station_feedback(
-            station, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id, timeout=timeout, *args, **kwargs
+            station,
+            'trackStarted',
+            timestamp,
+            track_id=track_id,
+            batch_id=batch_id,
+            timeout=timeout,
+            *args,
+            **kwargs,
         )
 
     @log
@@ -1494,6 +1648,7 @@ class ClientAsync(YandexMusicObject):
 
             У станций в `restrictions` есть Enum'ы, а в них `possible_values` - доступные значения для поля.
 
+
         Args:
             station (:obj:`str`): Станция.
             mood_energy (:obj:`str`): Настроение.
@@ -1579,7 +1734,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def artists_brief_info(
-        self, artist_id: Union[str, int], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        artist_id: Union[str, int],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[BriefInfo]:
         """Получение информации об артисте.
 
@@ -1686,7 +1845,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Действия с отметкой "Мне нравится".
+        """Действия с отметкой 'Мне нравится'.
 
         Note:
             Типы объектов: `track` - трек, `artist` - исполнитель, `playlist` - плейлист, `album` - альбом.
@@ -1764,7 +1923,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Снять отметку "Мне нравится" у трека/треков.
+        """Снять отметку 'Мне нравится' у трека/треков.
 
         Args:
             track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1792,7 +1951,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Поставить отметку "Мне нравится" исполнителю/исполнителям.
+        """Поставить отметку 'Мне нравится' исполнителю/исполнителям.
 
         Args:
             artist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1820,7 +1979,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Снять отметку "Мне нравится" у исполнителя/исполнителей.
+        """Снять отметку 'Мне нравится' у исполнителя/исполнителей.
 
         Args:
             artist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1848,7 +2007,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Поставить отметку "Мне нравится" плейлисту/плейлистам.
+        """Поставить отметку 'Мне нравится' плейлисту/плейлистам.
 
         Note:
             Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
@@ -1880,7 +2039,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Снять отметку "Мне нравится" у плейлиста/плейлистов.
+        """Снять отметку 'Мне нравится' у плейлиста/плейлистов.
 
         Note:
             Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
@@ -1912,7 +2071,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Поставить отметку "Мне нравится" альбому/альбомам.
+        """Поставить отметку 'Мне нравится' альбому/альбомам.
 
         Args:
             album_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1940,7 +2099,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Снять отметку "Мне нравится" у альбома/альбомов.
+        """Снять отметку 'Мне нравится' у альбома/альбомов.
 
         Args:
             album_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -1991,7 +2150,7 @@ class ClientAsync(YandexMusicObject):
             params = {}
         params.update({f'{object_type}-ids': ids})
 
-        url = f'{self.base_url}/{object_type}s' + ('/list' if object_type == 'playlist' else '')
+        url = f'{self.base_url}/{object_type}s' + ('/list' if object_type == 'playlist' else "")
 
         result = await self._request.post(url, params, timeout=timeout, *args, **kwargs)
 
@@ -1999,7 +2158,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def artists(
-        self, artist_ids: Union[List[Union[str, int]], int, str], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        artist_ids: Union[List[Union[str, int]], int, str],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> List[Artist]:
         """Получение исполнителя/исполнителей.
 
@@ -2020,7 +2183,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def albums(
-        self, album_ids: Union[List[Union[str, int]], int, str], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        album_ids: Union[List[Union[str, int]], int, str],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> List[Album]:
         """Получение альбома/альбомов.
 
@@ -2065,12 +2232,21 @@ class ClientAsync(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return await self._get_list(
-            'track', track_ids, {'with-positions': str(with_positions)}, timeout, *args, **kwargs
+            'track',
+            track_ids,
+            {'with-positions': str(with_positions)},
+            timeout,
+            *args,
+            **kwargs,
         )
 
     @log
     async def playlists_list(
-        self, playlist_ids: Union[List[Union[str, int]], int, str], timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        playlist_ids: Union[List[Union[str, int]], int, str],
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> List[Playlist]:
         """Получение плейлиста/плейлистов.
 
@@ -2095,7 +2271,12 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def playlists_collective_join(
-        self, user_id: int, token: str, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        user_id: int,
+        token: str,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> bool:
         """Присоединение к плейлисту как соавтор.
 
@@ -2103,7 +2284,7 @@ class ClientAsync(YandexMusicObject):
             В качестве `user_id` принимается исключительно числовой уникальный идентификатор пользователя, не username.
 
             Токен можно получить в Web-версии. Для этого, на странице плейлиста нужно нажать на
-            "Добавить соавтора". В полученной ссылке GET параметр `token` и будет токеном для присоединения.
+            'Добавить соавтора'. В полученной ссылке GET параметр `token` и будет токеном для присоединения.
 
         Args:
             user_id (:obj:`int`): Владелец плейлиста.
@@ -2128,7 +2309,11 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def users_playlists_list(
-        self, user_id: Union[str, int] = None, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        user_id: Union[str, int] = None,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> List[Playlist]:
         """Получение списка плейлистов пользователя.
 
@@ -2163,7 +2348,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> Union[List[Like], Optional[TracksList]]:
-        """Получение объектов с отметкой "Мне нравится".
+        """Получение объектов с отметкой 'Мне нравится'.
 
         Args:
             object_type (:obj:`str`): Тип объекта.
@@ -2175,7 +2360,7 @@ class ClientAsync(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Like` | :obj:`yandex_music.TracksList`: Объекты с отметкой "Мне нравится".
+            :obj:`list` из :obj:`yandex_music.Like` | :obj:`yandex_music.TracksList`: Объекты с отметкой 'Мне нравится'.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -2201,7 +2386,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> Optional[TracksList]:
-        """Получение треков с отметкой "Мне нравится".
+        """Получение треков с отметкой 'Мне нравится'.
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
@@ -2212,20 +2397,30 @@ class ClientAsync(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.TracksList`: Треки с отметкой "Мне нравится".
+            :obj:`yandex_music.TracksList`: Треки с отметкой 'Мне нравится'.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return await self._get_likes(
-            'track', user_id, {'if-modified-since-revision': if_modified_since_revision}, timeout, *args, **kwargs
+            'track',
+            user_id,
+            {'if-modified-since-revision': if_modified_since_revision},
+            timeout,
+            *args,
+            **kwargs,
         )
 
     @log
     async def users_likes_albums(
-        self, user_id: Union[str, int] = None, rich: bool = True, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        user_id: Union[str, int] = None,
+        rich: bool = True,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> List[Like]:
-        """Получение альбомов с отметкой "Мне нравится".
+        """Получение альбомов с отметкой 'Мне нравится'.
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
@@ -2236,7 +2431,7 @@ class ClientAsync(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Like`: Альбомы с отметкой "Мне нравится".
+            :obj:`list` из :obj:`yandex_music.Like`: Альбомы с отметкой 'Мне нравится'.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -2252,7 +2447,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> List[Like]:
-        """Получение артистов с отметкой "Мне нравится".
+        """Получение артистов с отметкой 'Мне нравится'.
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
@@ -2263,20 +2458,29 @@ class ClientAsync(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Like`: Артисты с отметкой "Мне нравится".
+            :obj:`list` из :obj:`yandex_music.Like`: Артисты с отметкой 'Мне нравится'.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return await self._get_likes(
-            'artist', user_id, {'with-timestamps': str(with_timestamps)}, timeout, *args, **kwargs
+            'artist',
+            user_id,
+            {'with-timestamps': str(with_timestamps)},
+            timeout,
+            *args,
+            **kwargs,
         )
 
     @log
     async def users_likes_playlists(
-        self, user_id: Union[str, int] = None, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        user_id: Union[str, int] = None,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> List[Like]:
-        """Получение плейлистов с отметкой "Мне нравится".
+        """Получение плейлистов с отметкой 'Мне нравится'.
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
@@ -2286,7 +2490,7 @@ class ClientAsync(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Like`: Плейлисты с отметкой "Мне нравится".
+            :obj:`list` из :obj:`yandex_music.Like`: Плейлисты с отметкой 'Мне нравится'.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -2302,7 +2506,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> Optional[TracksList]:
-        """Получение треков с отметкой "Не рекомендовать".
+        """Получение треков с отметкой 'Не рекомендовать'.
 
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
@@ -2313,7 +2517,7 @@ class ClientAsync(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.TracksList`: Треки с отметкой "Не рекомендовать".
+            :obj:`list` из :obj:`yandex_music.TracksList`: Треки с отметкой 'Не рекомендовать'.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -2324,7 +2528,11 @@ class ClientAsync(YandexMusicObject):
         url = f'{self.base_url}/users/{user_id}/dislikes/tracks'
 
         result = await self._request.get(
-            url, {'if_modified_since_revision': if_modified_since_revision}, timeout=timeout, *args, **kwargs
+            url,
+            {'if_modified_since_revision': if_modified_since_revision},
+            timeout=timeout,
+            *args,
+            **kwargs,
         )
 
         return TracksList.de_json(result.get('library'), self)
@@ -2338,7 +2546,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Действия с отметкой "Не рекомендовать".
+        """Действия с отметкой 'Не рекомендовать'.
 
         Args:
             ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -2375,10 +2583,10 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Поставить отметку "Не рекомендовать" треку/трекам.
+        """Поставить отметку 'Не рекомендовать' треку/трекам.
 
         Note:
-            Так же снимает отметку "Мне нравится" если она есть.
+            Так же снимает отметку 'Мне нравится' если она есть.
 
         Args:
             track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -2406,7 +2614,7 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Снять отметку "Не рекомендовать" у трека/треков.
+        """Снять отметку 'Не рекомендовать' у трека/треков.
 
         Args:
             track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
@@ -2544,7 +2752,13 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def queue_update_position(
-        self, queue_id: str, current_index: int, device: str = None, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        queue_id: str,
+        current_index: int,
+        device: str = None,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> bool:
         """Установка текущего индекса проигрываемого трека в очереди треков.
 
@@ -2572,14 +2786,24 @@ class ClientAsync(YandexMusicObject):
 
         self._request.headers['X-Yandex-Music-Device'] = device
         result = await self._request.post(
-            url, {'isInteractive': False}, params={'currentIndex': current_index}, timeout=timeout, *args, **kwargs
+            url,
+            {'isInteractive': False},
+            params={'currentIndex': current_index},
+            timeout=timeout,
+            *args,
+            **kwargs,
         )
 
         return result.get('status') == 'ok'
 
     @log
     async def queue_create(
-        self, queue: Union[Queue, str], device: str = None, timeout: Union[int, float] = None, *args, **kwargs
+        self,
+        queue: Union[Queue, str],
+        device: str = None,
+        timeout: Union[int, float] = None,
+        *args,
+        **kwargs,
     ) -> Optional[str]:
         """Создание новой очереди треков.
 
@@ -2733,3 +2957,9 @@ class ClientAsync(YandexMusicObject):
     queueUpdatePosition = queue_update_position
     #: Псевдоним для :attr:`queue_create`
     queueCreate = queue_create
+    #: Псевдоним для :attr:`get_label`
+    getLabel = get_label
+    #: Псевдоним для :attr:`get_label_albums`
+    getLabelAlbums = get_label_albums
+    #: Псевдоним для :attr:`get_label_artists`
+    getLabelArtists = get_label_artists

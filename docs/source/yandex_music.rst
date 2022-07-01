@@ -17,6 +17,7 @@ Subpackages
    yandex_music.artist
    yandex_music.feed
    yandex_music.genre
+   yandex_music.label
    yandex_music.landing
    yandex_music.playlist
    yandex_music.queue
