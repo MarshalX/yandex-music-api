@@ -8,7 +8,7 @@ REQUEST_METHODS = ('_request_wrapper', 'get', 'post', 'retrieve', 'download')
 
 
 def gen_request(output_request_filename):
-    with open('yandex_music/utils/request.py', 'r') as f:
+    with open('yandex_music/utils/request.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 
     code = code.replace('import requests', 'import asyncio\nimport aiohttp\nimport aiofiles')
@@ -44,12 +44,12 @@ def gen_request(output_request_filename):
     code = code.replace('requests.request', 'aiohttp.request')
 
     code = DISCLAIMER + code
-    with open(output_request_filename, 'w') as f:
+    with open(output_request_filename, 'w', encoding='UTF-8') as f:
         f.write(code)
 
 
 def gen_client(output_client_filename):
-    with open('yandex_music/client.py', 'r') as f:
+    with open('yandex_music/client.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 
     code = code.replace('Client', 'ClientAsync')
@@ -80,7 +80,7 @@ def gen_client(output_client_filename):
     code = code.replace('return DownloadInfo.de_list', 'return await DownloadInfo.de_list_async')
 
     code = DISCLAIMER + code
-    with open(output_client_filename, 'w') as f:
+    with open(output_client_filename, 'w', encoding='UTF-8') as f:
         f.write(code)
 
 
