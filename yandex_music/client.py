@@ -43,10 +43,10 @@ from yandex_music import (
     __license__,
     __version__,
     LabelFull,
+    LabelAlbums,
+    LabelArtists
 )
 from yandex_music.exceptions import BadRequestError
-from yandex_music.label.label_albums import LabelAlbums
-from yandex_music.label.label_artists import LabelArtists
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
 
