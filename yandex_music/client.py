@@ -462,7 +462,7 @@ class Client(YandexMusicObject):
         timeout: Union[int, float] = None,
         *args,
         **kwargs,
-    ) -> List[Artist]:
+    ) -> Optional[LabelArtists]:
         """
         Получение артистов лейбла
         Args:
@@ -488,7 +488,7 @@ class Client(YandexMusicObject):
         timeout: Union[int, float] = None,
         *args,
         **kwargs,
-    ) -> List[Album]:
+    ) -> Optional[LabelAlbums]:
         """
         Получение альбомов лейбла
         Args:
