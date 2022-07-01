@@ -124,7 +124,9 @@ from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
 from .supplement.video_supplement import VideoSupplement
 
-from .label.label import LabelFull
+from .label.labelFull import LabelFull
+from .label.label_artists import LabelArtists
+from .label.label_albums import LabelAlbums
 
 from .queue.context import Context
 from .queue.queue import Queue
@@ -138,8 +140,6 @@ from .track_short import TrackShort
 from .icon import Icon
 from .client import Client
 from .client_async import ClientAsync
-
-from .label.label import LabelFull
 
 
 __all__ = [
@@ -265,4 +265,6 @@ __all__ = [
     'QueueItem',
     'Deprecation',
     'LabelFull',
+    'LabelAlbums',
+    'LabelArtists',
 ]

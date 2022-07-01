@@ -1,12 +1,15 @@
-from typing import Optional, Union, List
+from typing import Optional, Union, List, TYPE_CHECKING
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
+if TYPE_CHECKING:
+    from yandex_music import Client, Link
+
 
 @model
 class LabelFull(YandexMusicObject):
-    """Класс, представляющий лейбл
+    """Класс, представляющий лейбл.
 
     Attributes:
         id (:obj:`int` | :obj:`str`): Уникальный идентификатор.
@@ -28,38 +31,38 @@ class LabelFull(YandexMusicObject):
     type: Optional[str] = None
     client: Optional['Client'] = None
 
-    def get_artists(self):
+    def get_artists(self, page: Union[int] = 0):
         """Сокращение для::
 
-        client.get_label_artists(label_id)
+        client.get_label_artists(self.label_id, page)
         """
 
-        return self.client.get_label_artists(self.id)
+        return self.client.get_label_artists(self.id, page)
 
-    def get_albums(self):
+    def get_albums(self, page: Union[int] = 0):
         """Сокращение для::
 
-        client.get_label_albums(label_id)
+        client.get_label_albums(self.label_id, page)
         """
-        return self.client.get_label_albums(self.id)
+        return self.client.get_label_albums(self.id, page)
 
-    async def get_artists_async(self):
+    async def get_artists_async(self, page: Union[int] = 0):
         """Сокращение для::
 
-        client.get_label_artists(label_id)
+        await client.get_label_artists(self.label_id, page)
         """
 
-        return await self.client.get_label_artists(self.id)
+        return await self.client.get_label_artists(self.id, page)
 
-    async def get_albums_async(self):
+    async def get_albums_async(self, page: Union[int] = 0):
         """Сокращение для::
 
-        client.get_label_albums(label_id)
+        await client.get_label_albums(self.label_id, page)
         """
-        return await self.client.get_label_albums(self.id)
+        return await self.client.get_label_albums(self.id, page)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Label']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['LabelFull']:
         """Десериализация объекта.
 
         Args:
@@ -67,7 +70,7 @@ class LabelFull(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Label`: Label.
+            :obj:`yandex_music.LabelFull`: Label.
         """
 
         if not data:
@@ -76,12 +79,18 @@ class LabelFull(YandexMusicObject):
         data = super(LabelFull, cls).de_json(data, client)
         from yandex_music import Link
 
-        data['id'] = data.get('id')
-        data['name'] = data.get('name')
-        data['description'] = data.get('description')
-        data['description_formatted'] = data.get('descriptionFormatted')
-        data['image'] = data.get('image')
         data['links'] = Link.de_list(data.get('links'), client)
         data['type'] = data.get('type')
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`get_artists`
+    getArtists = get_artists
+    #: Псевдоним для :attr:`get_artists_async`
+    getArtistsAsync = get_artists_async
+    #: Псевдоним для :attr:`get_albums`
+    getAlbums = get_albums
+    #: Псевдоним для :attr:`get_albums_async`
+    getAlbumsAsync = get_albums_async

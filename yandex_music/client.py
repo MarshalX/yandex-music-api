@@ -45,6 +45,8 @@ from yandex_music import (
     LabelFull,
 )
 from yandex_music.exceptions import BadRequestError
+from yandex_music.label.label_albums import LabelAlbums
+from yandex_music.label.label_artists import LabelArtists
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
 
@@ -415,16 +417,14 @@ class Client(YandexMusicObject):
         *args,
         **kwargs,
     ) -> Optional[LabelFull]:
-        """
-        Получение информации о лейбле.
+        """Получение информации о лейбле.
         Args:
-            timeout:
             label_id (:obj:`str` | :obj:`int`): Уникальный идентификатор лейбла.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
         Returns:
-            :obj:`yandex_music.Label` | :obj:`None`: Лейбл :obj:`None`.
+            :obj:`yandex_music.LabelFull` | :obj:`None`: Лейбл :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -441,30 +441,24 @@ class Client(YandexMusicObject):
         self,
         data_type: Union[str],
         label_id: Union[int, str],
+        page: Union[int] = 0,
         timeout: Union[int, float] = None,
         *args,
         **kwargs,
     ):
-        url = f'{self.base_url}/labels/{label_id}/{data_type}s'
+        url = f'{self.base_url}/labels/{label_id}/{data_type}s?page={page}'
 
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
-        raw_data = result[data_type + 's']
+        de_func = {'artist': LabelArtists.de_json, 'album': LabelAlbums.de_json}
 
-        pages = math.ceil(result['pager']['total'] / result['pager']['per_page'])
-
-        for page in range(1, pages):
-            new_url = f'{self.base_url}/labels/{label_id}/{data_type}s?page={page}'
-            res = self._request.get(new_url, timeout=timeout, *args, **kwargs)
-
-            raw_data = raw_data + res[data_type + 's']
-
-        return de_list[data_type](raw_data, self)
+        return de_func[data_type](result, self)
 
     @log
     def get_label_artists(
         self,
         label_id: Union[int, str],
+        page: Union[int] = 0,
         timeout: Union[int, float] = None,
         *args,
         **kwargs,
@@ -473,41 +467,44 @@ class Client(YandexMusicObject):
         Получение артистов лейбла
         Args:
             label_id (:obj:`str` | :obj:`int`): Уникальный идентификатор лейбла.
+            page (:obj:`int`): Номер страницы.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Artist`: Исполнители.
+            :obj:`list` из :obj:`yandex_music.LabelArtists`: Исполнители.
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
 
-        return self._list_label_data('artist', label_id, timeout, *args, **kwargs)
+        return self._list_label_data('artist', label_id, page, timeout, *args, **kwargs)
 
     @log
     def get_label_albums(
         self,
         label_id: Union[int, str],
+        page: Union[int] = 0,
         timeout: Union[int, float] = None,
         *args,
         **kwargs,
     ) -> List[Album]:
         """
-        Получение артистов лейбла
+        Получение альбомов лейбла
         Args:
             label_id (:obj:`str` | :obj:`int`): Уникальный идентификатор лейбла.
+            page (:obj:`int`): Номер страницы.
             timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
                 ответа от сервера вместо указанного при создании пула.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Artist`: Исполнители.
+            :obj:`list` из :obj:`yandex_music.LabelAlbums`: Исполнители.
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
 
-        return self._list_label_data('album', label_id, timeout, *args, **kwargs)
+        return self._list_label_data('album', label_id, page, timeout, *args, **kwargs)
 
     @log
     def chart(self, chart_option: str = "", timeout: Union[int, float] = None, *args, **kwargs) -> Optional[ChartInfo]:
@@ -799,7 +796,7 @@ class Client(YandexMusicObject):
             'track-id': track_id,
             'from-cache': str(from_cache),
             'from': from_,
-            'play-id': play_id or "",
+            'play-id': play_id or '',
             'uid': uid,
             'timestamp': timestamp or f'{datetime.now().isoformat()}Z',
             'track-length-seconds': track_length_seconds,
@@ -866,7 +863,7 @@ class Client(YandexMusicObject):
         Args:
             text (:obj:`str`): Текст запроса.
             nocorrect (:obj:`bool`): Если :obj:`False`, то ошибочный запрос будет исправлен. Например, запрос
-                'Гражданская абарона' будет исправлен на 'Гражданская оборона'.
+                "Гражданская абарона" будет исправлен на "Гражданская оборона".
             type_ (:obj:`str`): Среди какого типа искать (трек, плейлист, альбом, исполнитель, пользователь, подкаст).
             page (:obj:`int`): Номер страницы.
             playlist_in_best (:obj:`bool`): Выдавать ли плейлисты лучшим вариантом поиска.
@@ -1887,10 +1884,10 @@ class Client(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Поставить отметку 'Мне нравится' треку/трекам.
+        """Поставить отметку "Мне нравится" треку/трекам.
 
         Note:
-            Так же снимает отметку 'Не рекомендовать' если она есть.
+            Так же снимает отметку "Не рекомендовать" если она есть.
 
         Args:
             track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
