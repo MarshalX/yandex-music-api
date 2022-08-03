@@ -2625,7 +2625,7 @@ class ClientAsync(YandexMusicObject):
         :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         url = f"{self.base_url}/children-landing/catalogue"
-        objects = await self._request.get(url, timeout, *args, **kwargs)
+        objects = await self._request.get(url, timeout=timeout, *args, **kwargs)
         return [LandingList.de_json(row, self) for row in objects['blocks']]
 
     # camelCase псевдонимы
