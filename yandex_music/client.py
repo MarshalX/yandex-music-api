@@ -2615,7 +2615,6 @@ class Client(YandexMusicObject):
         result = self._request.get(url, timeout=timeout, *args, **kwargs)
 
         return result
-        # return [LandingList.de_json(row, self) for row in objects['blocks']]
 
     # camelCase псевдонимы
 
