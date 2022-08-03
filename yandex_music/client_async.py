@@ -2609,6 +2609,25 @@ class ClientAsync(YandexMusicObject):
 
         return result.get('id_')
 
+    @log
+    async def children_landing_catalogue(self, timeout: Union[int, float] = None, *args, **kwargs):
+        """Получение контента для детей.
+
+        Args:
+        timeout (:obj:`int` | :obj:`float`, optional): Если это значение указано, используется как время ожидания
+        ответа от сервера вместо указанного при создании пула.
+        **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+        :obj:`yandex_music.LandingList`: Список контента.
+
+        Raises:
+        :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f"{self.base_url}/children-landing/catalogue"
+        objects = await self._request.get(url, timeout, *args, **kwargs)
+        return [LandingList.de_json(row, self) for row in objects['blocks']]
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`account_status`
