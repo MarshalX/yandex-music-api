@@ -69,14 +69,8 @@ def gen_client(output_client_filename):
         code = code.replace(f'self.{method}(', f'await self.{method}(')
 
     # specific cases
-    code = code.replace(
-        'self.users_playlists_change(',
-        'await self.users_playlists_change('
-    )
-    code = code.replace(
-        'self.rotor_station_feedback(',
-        'await self.rotor_station_feedback('
-    )
+    code = code.replace('self.users_playlists_change(', 'await self.users_playlists_change(')
+    code = code.replace('self.rotor_station_feedback(', 'await self.rotor_station_feedback(')
     code = code.replace('return DownloadInfo.de_list', 'return await DownloadInfo.de_list_async')
 
     code = DISCLAIMER + code

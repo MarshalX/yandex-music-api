@@ -5,7 +5,7 @@
 import functools
 import logging
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, TypeVar, Callable, Any
 
 from yandex_music import (
     Album,
@@ -59,12 +59,14 @@ de_list = {
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
+F = TypeVar('F', bound=Callable[..., Any])
 
-def log(method):
+
+def log(method: F) -> F:
     logger = logging.getLogger(method.__module__)
 
     @functools.wraps(method)
-    async def wrapper(*args, **kwargs):
+    async def wrapper(*args, **kwargs) -> Any:
         logger.debug(f'Entering: {method.__name__}')
 
         result = await method(*args, **kwargs)
