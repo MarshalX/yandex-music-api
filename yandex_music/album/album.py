@@ -1,3 +1,4 @@
+from io import BytesIO
 from typing import Any, TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
@@ -133,45 +134,45 @@ class Album(YandexMusicObject):
         """
         return await self.client.albums_with_tracks(self.id, *args, **kwargs)
 
-    def download_cover(self, filename: str, size: str = '200x200') -> None:
+    def download_cover(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
-    async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_cover_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
-    def download_og_image(self, filename: str, size: str = '200x200') -> None:
+    def download_og_image(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Предпочтительнее использовать `self.download_cover()`.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', file)
 
-    async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_og_image_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Предпочтительнее использовать `self.download_cover_async()`.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', file)
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::

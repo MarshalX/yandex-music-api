@@ -2,6 +2,7 @@ import re
 import logging
 import keyword
 
+from io import BytesIO
 from typing import TYPE_CHECKING, Optional, Union
 
 # Не используется ujson из-за отсутствия в нём object_hook'a
@@ -286,12 +287,12 @@ class Request:
         """
         return self._request_wrapper('GET', url, proxies=self.proxies, timeout=timeout, *args, **kwargs)
 
-    def download(self, url, filename, timeout=5, *args, **kwargs) -> None:
+    def download(self, url, file: Union[str, BytesIO], timeout=5, *args, **kwargs) -> None:
         """Отправка запроса на получение содержимого и его запись в файл.
 
         Args:
             url (:obj:`str`): Адрес для запроса.
-            filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер, путь или название файла вместе с расширением.
             timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
                 при создании пула.
             *args: Произвольные аргументы для `requests.request`.
@@ -301,5 +302,9 @@ class Request:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         result = self.retrieve(url, timeout=timeout, *args, *kwargs)
-        with open(filename, 'wb') as f:
-            f.write(result)
+        if type(file) == BytesIO:
+            file.write(result)
+            file.seek(0)
+        else:
+            with open(file, 'wb') as f:
+                f.write(result)

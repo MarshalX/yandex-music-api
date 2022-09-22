@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional, List
+from io import BytesIO
+from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -42,29 +43,29 @@ class Cover(YandexMusicObject):
     def __post_init__(self):
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
-    def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
+    def download(self, file: Union[str, BytesIO], index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
         uri = self.uri or self.items_uri[index]
 
-        self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{uri.replace("%%", size)}', file)
 
-    async def download_async(self, filename: str, index: int = 0, size: str = '200x200') -> None:
+    async def download_async(self, file: Union[str, BytesIO], index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
         uri = self.uri or self.items_uri[index]
 
-        await self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{uri.replace("%%", size)}', file)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:
