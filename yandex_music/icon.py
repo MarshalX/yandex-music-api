@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional
+from io import BytesIO
+from typing import TYPE_CHECKING, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -24,23 +25,23 @@ class Icon(YandexMusicObject):
     def __post_init__(self):
         self._id_attrs = (self.background_color, self.image_url)
 
-    def download(self, filename: str, size: str = '200x200') -> None:
+    def download(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка иконки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер иконки.
         """
-        self.client.request.download(self.get_url(size), filename)
+        self.client.request.download(self.get_url(size), file)
 
-    async def download_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка иконки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер иконки.
         """
-        await self.client.request.download(self.get_url(size), filename)
+        await self.client.request.download(self.get_url(size), file)
 
     def get_url(self, size: str = '200x200'):
         """Получение URL иконки.

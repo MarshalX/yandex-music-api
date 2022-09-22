@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional, List
+from io import BytesIO
+from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -53,23 +54,23 @@ class Promotion(YandexMusicObject):
             self.image,
         )
 
-    def download_image(self, filename: str, size: str = '300x300') -> None:
+    def download_image(self, file: Union[str, BytesIO], size: str = '300x300') -> None:
         """Загрузка рекламного изображения.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер изображения.
         """
-        self.client.request.download(f'https://{self.image.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.image.replace("%%", size)}', file)
 
-    async def download_image_async(self, filename: str, size: str = '300x300') -> None:
+    async def download_image_async(self, file: Union[str, BytesIO], size: str = '300x300') -> None:
         """Загрузка рекламного изображения.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер изображения.
         """
-        await self.client.request.download(f'https://{self.image.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.image.replace("%%", size)}', file)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:

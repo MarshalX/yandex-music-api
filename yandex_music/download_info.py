@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional, List
+from io import BytesIO
+from typing import TYPE_CHECKING, Optional, List, Union
 
 from hashlib import md5
 import xml.dom.minidom as minidom
@@ -86,27 +87,27 @@ class DownloadInfo(YandexMusicObject):
 
         return self.direct_link
 
-    def download(self, filename: str) -> None:
+    def download(self, file: Union[str, BytesIO]) -> None:
         """Загрузка трека.
 
         Args:
-            filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
         """
         if self.direct_link is None:
             self.get_direct_link()
 
-        self.client.request.download(self.direct_link, filename)
+        self.client.request.download(self.direct_link, file)
 
-    async def download_async(self, filename: str) -> None:
+    async def download_async(self, file: Union[str, BytesIO]) -> None:
         """Загрузка трека.
 
         Args:
-            filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
         """
         if self.direct_link is None:
             await self.get_direct_link_async()
 
-        await self.client.request.download(self.direct_link, filename)
+        await self.client.request.download(self.direct_link, file)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['DownloadInfo']:

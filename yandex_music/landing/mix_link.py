@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional, List
+from io import BytesIO
+from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -49,59 +50,59 @@ class MixLink(YandexMusicObject):
             self.cover_white,
         )
 
-    def download_background_image(self, filename: str, size: str = '200x200') -> None:
+    def download_background_image(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка заднего фона.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер заднего фона.
         """
-        self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', file)
 
-    async def download_background_image_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_background_image_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка заднего фона.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер заднего фона.
         """
-        await self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', file)
 
-    def download_cover_white(self, filename: str, size: str = '200x200') -> None:
+    def download_cover_white(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки TODO.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', file)
 
-    async def download_cover_white_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_cover_white_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки TODO.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', file)
 
-    def download_cover_uri(self, filename: str, size: str = '200x200') -> None:
+    def download_cover_uri(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
-    async def download_cover_uri_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_cover_uri_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:

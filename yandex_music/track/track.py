@@ -1,3 +1,4 @@
+from io import BytesIO
 from typing import TYPE_CHECKING, Optional, List, Union
 
 from yandex_music import YandexMusicObject
@@ -154,47 +155,47 @@ class Track(YandexMusicObject):
         """
         return await self.client.track_supplement(self.id, *args, **kwargs)
 
-    def download_cover(self, filename: str, size: str = '200x200') -> None:
+    def download_cover(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
-    async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_cover_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
-    def download_og_image(self, filename: str, size: str = '200x200') -> None:
+    def download_og_image(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Предпочтительнее использовать `self.download_cover()`.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', file)
 
-    async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_og_image_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Предпочтительнее использовать `self.download_cover_async()`.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', file)
 
-    def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
+    def download(self, file: Union[str, BytesIO], codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
 
         Note:
@@ -203,7 +204,7 @@ class Track(YandexMusicObject):
             Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
 
@@ -215,12 +216,12 @@ class Track(YandexMusicObject):
 
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
-                info.download(filename)
+                info.download(file)
                 break
         else:
             raise InvalidBitrateError('Unavailable bitrate')
 
-    async def download_async(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
+    async def download_async(self, file: Union[str, BytesIO], codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
 
         Note:
@@ -229,7 +230,7 @@ class Track(YandexMusicObject):
             Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
 
@@ -241,7 +242,7 @@ class Track(YandexMusicObject):
 
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
-                await info.download_async(filename)
+                await info.download_async(file)
                 break
         else:
             raise InvalidBitrateError('Unavailable bitrate')

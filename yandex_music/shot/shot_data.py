@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional
+from io import BytesIO
+from typing import TYPE_CHECKING, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -28,39 +29,39 @@ class ShotData(YandexMusicObject):
     def __post_init__(self):
         self._id_attrs = (self.cover_uri, self.mds_url, self.shot_text, self.shot_type)
 
-    def download_cover(self, filename: str, size: str = '200x200') -> None:
+    def download_cover(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
-    async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
+    async def download_cover_async(self, file: Union[str, BytesIO], size: str = '200x200') -> None:
         """Загрузка обложки.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', file)
 
-    def download_mds(self, filename: str) -> None:
+    def download_mds(self, file: Union[str, BytesIO]) -> None:
         """Загрузка аудиоверсии шота.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
         """
-        self.client.request.download(self.mds_url, filename)
+        self.client.request.download(self.mds_url, file)
 
-    async def download_mds_async(self, filename: str) -> None:
+    async def download_mds_async(self, file: Union[str, BytesIO]) -> None:
         """Загрузка аудиоверсии шота.
 
         Args:
-            filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
+            file (:obj:`str` | :obj:`io.BytesIO`): Буфер или путь для сохранения файла с названием и расширением.
         """
-        await self.client.request.download(self.mds_url, filename)
+        await self.client.request.download(self.mds_url, file)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotData']:
