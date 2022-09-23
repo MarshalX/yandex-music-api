@@ -329,3 +329,22 @@ class Request:
         result = await self.retrieve(url, timeout=timeout, *args, *kwargs)
         async with aiofiles.open(filename, 'wb') as f:
             await f.write(result)
+
+    async def download_bytes(self, url, timeout=5, *args, **kwargs) -> bytes:
+        """Отправка запроса на получение содержимого и его возврат.
+
+        Args:
+            url (:obj:`str`): Адрес для запроса.
+            timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
+                при создании пула.
+            *args: Произвольные аргументы для `aiohttp.request`.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
+
+        Returns:
+            :obj:`bytes`: Содержимое результата запроса.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        result = await self.retrieve(url, timeout=timeout, *args, **kwargs)
+        return result

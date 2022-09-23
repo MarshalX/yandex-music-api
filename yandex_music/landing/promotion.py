@@ -71,6 +71,28 @@ class Promotion(YandexMusicObject):
         """
         await self.client.request.download(f'https://{self.image.replace("%%", size)}', filename)
 
+    def download_image_bytes(self, size: str = '300x300') -> bytes:
+        """Загрузка рекламного изображения и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер изображения.
+
+        Returns:
+            :obj:`bytes`: Рекламное изображение в виде байтов.
+        """
+        return self.client.request.download_bytes(f'https://{self.image.replace("%%", size)}')
+
+    async def download_image_bytes_async(self, size: str = '300x300') -> bytes:
+        """Загрузка рекламного изображения и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер изображения.
+
+        Returns:
+            :obj:`bytes`: Рекламное изображение в виде байтов.
+        """
+        return await self.client.request.download_bytes(f'https://{self.image.replace("%%", size)}')
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:
         """Десериализация объекта.

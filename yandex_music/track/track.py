@@ -194,6 +194,54 @@ class Track(YandexMusicObject):
         """
         await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
 
+    def download_cover_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.download_bytes(f'https://{self.cover_uri.replace("%%", size)}')
+
+    async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.download_bytes(f'https://{self.cover_uri.replace("%%", size)}')
+
+    def download_og_image_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Предпочтительнее использовать `self.download_cover()`.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.download_bytes(f'https://{self.og_image.replace("%%", size)}')
+
+    async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Предпочтительнее использовать `self.download_cover_async()`.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.download_bytes(f'https://{self.og_image.replace("%%", size)}')
+
     def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
 
@@ -243,6 +291,60 @@ class Track(YandexMusicObject):
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
                 await info.download_async(filename)
                 break
+        else:
+            raise InvalidBitrateError('Unavailable bitrate')
+
+    def download_bytes(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Note:
+            Известные значения `codec`: `mp3`, `aac`.
+
+            Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
+
+        Args:
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Raises:
+            :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        if self.download_info is None:
+            self.get_download_info()
+
+        for info in self.download_info:
+            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
+                return info.download_bytes()
+        else:
+            raise InvalidBitrateError('Unavailable bitrate')
+
+    async def download_bytes_async(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Note:
+            Известные значения `codec`: `mp3`, `aac`.
+
+            Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
+
+        Args:
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Raises:
+            :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        if self.download_info is None:
+            await self.get_download_info_async()
+
+        for info in self.download_info:
+            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
+                return await info.download_bytes_async()
         else:
             raise InvalidBitrateError('Unavailable bitrate')
 
