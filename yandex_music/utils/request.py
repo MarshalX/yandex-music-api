@@ -314,11 +314,11 @@ class Request:
             *args: Произвольные аргументы для `requests.request`.
             **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
-        Returns:
-            :obj:`bytes`: Содержимое результата запроса.
-
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+
+        Returns:
+            :obj:`bytes`: Содержимое результата запроса.
         """
         result = self.retrieve(url, timeout=timeout, *args, **kwargs)
         return result

@@ -340,11 +340,11 @@ class Request:
             *args: Произвольные аргументы для `aiohttp.request`.
             **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
-        Returns:
-            :obj:`bytes`: Содержимое результата запроса.
-
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+
+        Returns:
+            :obj:`bytes`: Содержимое результата запроса.
         """
         result = await self.retrieve(url, timeout=timeout, *args, **kwargs)
         return result
