@@ -80,7 +80,7 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`bytes`: Рекламное изображение в виде байтов.
         """
-        return self.client.request.download_bytes(f'https://{self.image.replace("%%", size)}')
+        return self.client.request.retrieve(f'https://{self.image.replace("%%", size)}')
 
     async def download_image_bytes_async(self, size: str = '300x300') -> bytes:
         """Загрузка рекламного изображения и возврат в виде байтов.
@@ -91,7 +91,7 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`bytes`: Рекламное изображение в виде байтов.
         """
-        return await self.client.request.download_bytes(f'https://{self.image.replace("%%", size)}')
+        return await self.client.request.retrieve(f'https://{self.image.replace("%%", size)}')
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:

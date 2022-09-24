@@ -78,7 +78,7 @@ class Cover(YandexMusicObject):
         """
         uri = self.uri or self.items_uri[index]
 
-        return self.client.request.download_bytes(f'https://{uri.replace("%%", size)}')
+        return self.client.request.retrieve(f'https://{uri.replace("%%", size)}')
 
     async def download_bytes_async(self, index: int = 0, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -92,7 +92,7 @@ class Cover(YandexMusicObject):
         """
         uri = self.uri or self.items_uri[index]
 
-        return await self.client.request.download_bytes(f'https://{uri.replace("%%", size)}')
+        return await self.client.request.retrieve(f'https://{uri.replace("%%", size)}')
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:

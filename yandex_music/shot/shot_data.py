@@ -71,7 +71,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов
         """
-        return self.client.request.download_bytes(f'https://{self.cover_uri.replace("%%", size)}')
+        return self.client.request.retrieve(f'https://{self.cover_uri.replace("%%", size)}')
 
     async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -82,7 +82,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов
         """
-        return await self.client.request.download_bytes(f'https://{self.cover_uri.replace("%%", size)}')
+        return await self.client.request.retrieve(f'https://{self.cover_uri.replace("%%", size)}')
 
     def download_mds_bytes(self) -> bytes:
         """Загрузка аудиоверсии шота и возврат в виде байтов.
@@ -90,7 +90,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Аудиоверсия шота в виде байтов
         """
-        return self.client.request.download_bytes(self.mds_url)
+        return self.client.request.retrieve(self.mds_url)
 
     async def download_mds_bytes_async(self) -> bytes:
         """Загрузка аудиоверсии шота и возврат в виде байтов.
@@ -98,7 +98,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Аудиоверсия шота в виде байтов
         """
-        return await self.client.request.download_bytes(self.mds_url)
+        return await self.client.request.retrieve(self.mds_url)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['ShotData']:

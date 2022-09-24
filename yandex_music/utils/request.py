@@ -303,22 +303,3 @@ class Request:
         result = self.retrieve(url, timeout=timeout, *args, *kwargs)
         with open(filename, 'wb') as f:
             f.write(result)
-
-    def download_bytes(self, url, timeout=5, *args, **kwargs) -> bytes:
-        """Отправка запроса на получение содержимого и его возврат.
-
-        Args:
-            url (:obj:`str`): Адрес для запроса.
-            timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
-                при создании пула.
-            *args: Произвольные аргументы для `requests.request`.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
-
-        Raises:
-            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
-
-        Returns:
-            :obj:`bytes`: Содержимое результата запроса.
-        """
-        result = self.retrieve(url, timeout=timeout, *args, **kwargs)
-        return result

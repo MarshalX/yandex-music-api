@@ -51,7 +51,7 @@ class Icon(YandexMusicObject):
         Returns:
             :obj:`bytes`: Иконка в виде байтов.
         """
-        return self.client.request.download_bytes(self.get_url(size))
+        return self.client.request.retrieve(self.get_url(size))
 
     async def download_bytes_async(self, size: str = '200x200') -> bytes:
         """Загрузка иконки и возврат в виде байтов.
@@ -62,7 +62,7 @@ class Icon(YandexMusicObject):
         Returns:
             :obj:`bytes`: Иконка в виде байтов.
         """
-        return await self.client.request.download_bytes(self.get_url(size))
+        return await self.client.request.retrieve(self.get_url(size))
 
     def get_url(self, size: str = '200x200'):
         """Получение URL иконки.

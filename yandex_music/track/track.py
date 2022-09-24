@@ -203,7 +203,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
-        return self.client.request.download_bytes(f'https://{self.cover_uri.replace("%%", size)}')
+        return self.client.request.retrieve(f'https://{self.cover_uri.replace("%%", size)}')
 
     async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -214,7 +214,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
-        return await self.client.request.download_bytes(f'https://{self.cover_uri.replace("%%", size)}')
+        return await self.client.request.retrieve(f'https://{self.cover_uri.replace("%%", size)}')
 
     def download_og_image_bytes(self, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -227,7 +227,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
-        return self.client.request.download_bytes(f'https://{self.og_image.replace("%%", size)}')
+        return self.client.request.retrieve(f'https://{self.og_image.replace("%%", size)}')
 
     async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -240,7 +240,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
-        return await self.client.request.download_bytes(f'https://{self.og_image.replace("%%", size)}')
+        return await self.client.request.retrieve(f'https://{self.og_image.replace("%%", size)}')
 
     def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.

@@ -117,7 +117,7 @@ class DownloadInfo(YandexMusicObject):
         if self.direct_link is None:
             self.get_direct_link()
 
-        return self.client.request.download_bytes(self.direct_link)
+        return self.client.request.retrieve(self.direct_link)
 
     async def download_bytes_async(self) -> bytes:
         """Загрузка трека и возврат в виде байтов.
@@ -128,7 +128,7 @@ class DownloadInfo(YandexMusicObject):
         if self.direct_link is None:
             await self.get_direct_link_async()
 
-        return await self.client.request.download_bytes(self.direct_link)
+        return await self.client.request.retrieve(self.direct_link)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['DownloadInfo']:
