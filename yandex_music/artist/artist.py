@@ -81,6 +81,28 @@ class Artist(YandexMusicObject):
     def __post_init__(self):
         self._id_attrs = (self.id, self.name, self.cover)
 
+    def get_op_image_url(self, size: str = '200x200') -> str:
+        """Возвращает URL OP обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.op_image.replace("%%", size)}'
+
+    def get_og_image_url(self, size: str = '200x200') -> str:
+        """Возвращает URL OG обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.og_image.replace("%%", size)}'
+
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка изображения для Open Graph.
 
@@ -88,7 +110,7 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        self.client.request.download(self.get_og_image_url(size), filename)
 
     async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка изображения для Open Graph.
@@ -97,7 +119,7 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_og_image_url(size), filename)
 
     def download_op_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -109,7 +131,7 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
+        self.client.request.download(self.get_op_image_url(size), filename)
 
     async def download_op_image_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -121,7 +143,7 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_op_image_url(size), filename)
 
     def download_og_image_bytes(self, size: str = '200x200') -> bytes:
         """Загрузка изображения для Open Graph и возврат в виде байтов.
@@ -132,7 +154,7 @@ class Artist(YandexMusicObject):
         Returns:
             :obj:`bytes`: Изображение в виде байтов.
         """
-        return self.client.request.retrieve(f'https://{self.og_image.replace("%%", size)}')
+        return self.client.request.retrieve(self.get_og_image_url(size))
 
     async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
         """Загрузка изображения для Open Graph и возврат в виде байтов.
@@ -143,7 +165,7 @@ class Artist(YandexMusicObject):
         Returns:
             :obj:`bytes`: Изображение в виде байтов.
         """
-        return await self.client.request.retrieve(f'https://{self.og_image.replace("%%", size)}')
+        return await self.client.request.retrieve(self.get_og_image_url(size))
 
     def download_op_image_bytes(self, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -157,7 +179,7 @@ class Artist(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
-        return self.client.request.retrieve(f'https://{self.op_image.replace("%%", size)}')
+        return self.client.request.retrieve(self.get_op_image_url(size))
 
     async def download_op_image_bytes_async(self, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -171,7 +193,7 @@ class Artist(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
-        return await self.client.request.retrieve(f'https://{self.op_image.replace("%%", size)}')
+        return await self.client.request.retrieve(self.get_op_image_url(size))
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::

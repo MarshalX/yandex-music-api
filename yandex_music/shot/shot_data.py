@@ -28,6 +28,17 @@ class ShotData(YandexMusicObject):
     def __post_init__(self):
         self._id_attrs = (self.cover_uri, self.mds_url, self.shot_text, self.shot_type)
 
+    def get_cover_url(self, size: str = '200x200') -> str:
+        """Возвращает URL обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.cover_uri.replace("%%", size)}'
+
     def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
@@ -35,7 +46,7 @@ class ShotData(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -44,7 +55,7 @@ class ShotData(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_cover_url(size), filename)
 
     def download_mds(self, filename: str) -> None:
         """Загрузка аудиоверсии шота.
@@ -71,7 +82,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов
         """
-        return self.client.request.retrieve(f'https://{self.cover_uri.replace("%%", size)}')
+        return self.client.request.retrieve(self.get_cover_url(size))
 
     async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
         """Загрузка обложки и возврат в виде байтов.
@@ -82,7 +93,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов
         """
-        return await self.client.request.retrieve(f'https://{self.cover_uri.replace("%%", size)}')
+        return await self.client.request.retrieve(self.get_cover_url(size))
 
     def download_mds_bytes(self) -> bytes:
         """Загрузка аудиоверсии шота и возврат в виде байтов.
