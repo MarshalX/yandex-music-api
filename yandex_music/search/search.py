@@ -165,7 +165,7 @@ class Search(YandexMusicObject):
     #: Псевдоним для :attr:`next_page`
     nextPage = next_page
     #: Псевдоним для :attr:`next_page_async`
-    nextPageASync = next_page_async
+    nextPageAsync = next_page_async
     #: Псевдоним для :attr:`prev_page`
     prevPage = prev_page
     #: Псевдоним для :attr:`prev_page_async`

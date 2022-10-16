@@ -144,7 +144,13 @@ class Promotion(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`get_image_url`
+    getImageUrl = get_image_url
     #: Псевдоним для :attr:`download_image`
     downloadImage = download_image
     #: Псевдоним для :attr:`download_image_async`
     downloadImageAsync = download_image_async
+    #: Псевдоним для :attr:`download_image_bytes`
+    downloadImageBytes = download_image_bytes
+    #: Псевдоним для :attr:`download_image_bytes_async`
+    downloadImageBytesAsync = download_image_bytes_async

@@ -305,6 +305,10 @@ class Artist(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`get_op_image_url`
+    getOpImageUrl = get_op_image_url
+    #: Псевдоним для :attr:`get_og_image_url`
+    getOgImageUrl = get_og_image_url
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_og_image_async`
@@ -313,6 +317,18 @@ class Artist(YandexMusicObject):
     downloadOpImage = download_op_image
     #: Псевдоним для :attr:`download_op_image_async`
     downloadOpImageAsync = download_op_image_async
+    #: Псевдоним для :attr:`download_og_image_bytes`
+    downloadOgImageBytes = download_og_image_bytes
+    #: Псевдоним для :attr:`download_og_image_bytes_async`
+    downloadOgImageBytesAsync = download_og_image_bytes_async
+    #: Псевдоним для :attr:`download_op_image_bytes`
+    downloadOpImageBytes = download_op_image_bytes
+    #: Псевдоним для :attr:`download_op_image_bytes_async`
+    downloadOpImageBytesAsync = download_op_image_bytes_async
+    #: Псевдоним для :attr:`like_async`
+    likeAsync = like_async
+    #: Псевдоним для :attr:`dislike_async`
+    dislikeAsync = dislike_async
     #: Псевдоним для :attr:`get_tracks`
     getTracks = get_tracks
     #: Псевдоним для :attr:`get_tracks_async`
@@ -321,7 +337,3 @@ class Artist(YandexMusicObject):
     getAlbums = get_albums
     #: Псевдоним для :attr:`get_albums_async`
     getAlbumsAsync = get_albums_async
-    #: Псевдоним для :attr:`like_async`
-    likeAsync = like_async
-    #: Псевдоним для :attr:`dislike_async`
-    dislikeAsync = dislike_async

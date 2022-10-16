@@ -73,3 +73,14 @@ class Images(YandexMusicObject):
         data = super(Images, cls).de_json(data, client)
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`download_208x208`
+    download208X208 = download_208x208
+    #: Псевдоним для :attr:`download_300x300`
+    download300X300 = download_300x300
+    #: Псевдоним для :attr:`download_208x208_bytes`
+    download208X208Bytes = download_208x208_bytes
+    #: Псевдоним для :attr:`download_300x300_bytes`
+    download300X300Bytes = download_300x300_bytes

@@ -242,6 +242,12 @@ class MixLink(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`get_cover_url`
+    getCoverUrl = get_cover_url
+    #: Псевдоним для :attr:`get_cover_white_url`
+    getCoverWhiteUrl = get_cover_white_url
+    #: Псевдоним для :attr:`get_background_url`
+    getBackgroundUrl = get_background_url
     #: Псевдоним для :attr:`download_background_image`
     downloadBackgroundImage = download_background_image
     #: Псевдоним для :attr:`download_background_image_async`
@@ -254,3 +260,15 @@ class MixLink(YandexMusicObject):
     downloadCoverUri = download_cover_uri
     #: Псевдоним для :attr:`download_cover_uri_async`
     downloadCoverUriAsync = download_cover_uri_async
+    #: Псевдоним для :attr:`download_background_image_bytes`
+    downloadBackgroundImageBytes = download_background_image_bytes
+    #: Псевдоним для :attr:`download_background_image_bytes_async`
+    downloadBackgroundImageBytesAsync = download_background_image_bytes_async
+    #: Псевдоним для :attr:`download_cover_white_bytes`
+    downloadCoverWhiteBytes = download_cover_white_bytes
+    #: Псевдоним для :attr:`download_cover_white_bytes_async`
+    downloadCoverWhiteBytesAsync = download_cover_white_bytes_async
+    #: Псевдоним для :attr:`download_cover_uri_bytes`
+    downloadCoverUriBytes = download_cover_uri_bytes
+    #: Псевдоним для :attr:`download_cover_uri_bytes_async`
+    downloadCoverUriBytesAsync = download_cover_uri_bytes_async

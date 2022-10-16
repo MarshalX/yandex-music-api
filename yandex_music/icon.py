@@ -94,3 +94,9 @@ class Icon(YandexMusicObject):
 
     #: Псевдоним для :attr:`download_async`
     downloadAsync = download_async
+    #: Псевдоним для :attr:`download_bytes`
+    downloadBytes = download_bytes
+    #: Псевдоним для :attr:`download_bytes_async`
+    downloadBytesAsync = download_bytes_async
+    #: Псевдоним для :attr:`get_url`
+    getUrl = get_url

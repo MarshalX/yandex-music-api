@@ -491,6 +491,10 @@ class Track(YandexMusicObject):
     getSupplement = get_supplement
     #: Псевдоним для :attr:`get_supplement_async`
     getSupplementAsync = get_supplement_async
+    #: Псевдоним для :attr:`get_cover_url`
+    getCoverUrl = get_cover_url
+    #: Псевдоним для :attr:`get_og_image_url`
+    getOgImageUrl = get_og_image_url
     #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
     #: Псевдоним для :attr:`download_cover_async`
@@ -499,11 +503,29 @@ class Track(YandexMusicObject):
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_og_image_async`
     downloadOgImageAsync = download_og_image_async
-    #: Псевдоним для :attr:`track_id`
-    trackId = track_id
+    #: Псевдоним для :attr:`download_cover_bytes`
+    downloadCoverBytes = download_cover_bytes
+    #: Псевдоним для :attr:`download_cover_bytes_async`
+    downloadCoverBytesAsync = download_cover_bytes_async
+    #: Псевдоним для :attr:`download_og_image_bytes`
+    downloadOgImageBytes = download_og_image_bytes
+    #: Псевдоним для :attr:`download_og_image_bytes_async`
+    downloadOgImageBytesAsync = download_og_image_bytes_async
+    #: Псевдоним для :attr:`get_specific_download_info`
+    getSpecificDownloadInfo = get_specific_download_info
+    #: Псевдоним для :attr:`get_specific_download_info_async`
+    getSpecificDownloadInfoAsync = get_specific_download_info_async
+    #: Псевдоним для :attr:`download_async`
+    downloadAsync = download_async
+    #: Псевдоним для :attr:`download_bytes`
+    downloadBytes = download_bytes
+    #: Псевдоним для :attr:`download_bytes_async`
+    downloadBytesAsync = download_bytes_async
     #: Псевдоним для :attr:`like_async`
     likeAsync = like_async
     #: Псевдоним для :attr:`dislike_async`
-    dislike_async = dislike_async
-    #: Псевдоним для :attr:`download_async`
-    downloadAsync = download_async
+    dislikeAsync = dislike_async
+    #: Псевдоним для :attr:`artists_name`
+    artistsName = artists_name
+    #: Псевдоним для :attr:`track_id`
+    trackId = track_id

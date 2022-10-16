@@ -134,6 +134,8 @@ class ShotData(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`get_cover_url`
+    getCoverUrl = get_cover_url
     #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
     #: Псевдоним для :attr:`download_cover_async`
@@ -142,3 +144,11 @@ class ShotData(YandexMusicObject):
     downloadMds = download_mds
     #: Псевдоним для :attr:`download_mds_async`
     downloadMdsAsync = download_mds_async
+    #: Псевдоним для :attr:`download_cover_bytes`
+    downloadCoverBytes = download_cover_bytes
+    #: Псевдоним для :attr:`download_cover_bytes_async`
+    downloadCoverBytesAsync = download_cover_bytes_async
+    #: Псевдоним для :attr:`download_mds_bytes`
+    downloadMdsBytes = download_mds_bytes
+    #: Псевдоним для :attr:`download_mds_bytes_async`
+    downloadMdsBytesAsync = download_mds_bytes_async

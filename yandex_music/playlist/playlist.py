@@ -478,6 +478,10 @@ class Playlist(YandexMusicObject):
     getRecommendations = get_recommendations
     #: Псевдоним для :attr:`get_recommendations_async`
     getRecommendationsAsync = get_recommendations_async
+    #: Псевдоним для :attr:`get_animated_cover_url`
+    getAnimatedCoverUrl = get_animated_cover_url
+    #: Псевдоним для :attr:`get_og_image_url`
+    getOgImageUrl = get_og_image_url
     #: Псевдоним для :attr:`download_animated_cover`
     downloadAnimatedCover = download_animated_cover
     #: Псевдоним для :attr:`download_animated_cover_async`
@@ -486,6 +490,20 @@ class Playlist(YandexMusicObject):
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_og_image_async`
     downloadOgImageAsync = download_og_image_async
+    #: Псевдоним для :attr:`download_animated_cover_bytes`
+    downloadAnimatedCoverBytes = download_animated_cover_bytes
+    #: Псевдоним для :attr:`download_animated_cover_bytes_async`
+    downloadAnimatedCoverBytesAsync = download_animated_cover_bytes_async
+    #: Псевдоним для :attr:`download_og_image_bytes`
+    downloadOgImageBytes = download_og_image_bytes
+    #: Псевдоним для :attr:`download_og_image_bytes_async`
+    downloadOgImageBytesAsync = download_og_image_bytes_async
+    #: Псевдоним для :attr:`rename_async`
+    renameAsync = rename_async
+    #: Псевдоним для :attr:`like_async`
+    likeAsync = like_async
+    #: Псевдоним для :attr:`dislike_async`
+    dislikeAsync = dislike_async
     #: Псевдоним для :attr:`fetch_tracks`
     fetchTracks = fetch_tracks
     #: Псевдоним для :attr:`fetch_tracks_async`
@@ -498,11 +516,5 @@ class Playlist(YandexMusicObject):
     deleteTracks = delete_tracks
     #: Псевдоним для :attr:`delete_tracks_async`
     deleteTracksAsync = delete_tracks_async
-    #: Псевдоним для :attr:`rename_async`
-    renameAsync = rename_async
-    #: Псевдоним для :attr:`like_async`
-    likeAsync = like_async
-    #: Псевдоним для :attr:`dislike_async`
-    dislikeAsync = dislike_async
     #: Псевдоним для :attr:`delete_async`
     deleteAsync = delete_async
