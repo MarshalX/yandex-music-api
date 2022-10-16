@@ -2,7 +2,7 @@ import os
 import ast
 
 SOURCE_FOLDER = 'yandex_music'
-EXCLUDED_FUNCTIONS = {'de_json', 'de_list'}
+EXCLUDED_FUNCTIONS = {'de_dict', 'de_json', 'de_list', 'de_json_async', 'de_list_async'}
 
 ALIAS_TEMPLATE = '''
 #: Псевдоним для :attr:`{name}`
