@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, Optional, List, Union, TypeVar, Generic, Type, Dict
 
 from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video, User
 from yandex_music.utils import model
@@ -6,21 +6,23 @@ from yandex_music.utils import model
 if TYPE_CHECKING:
     from yandex_music import Client
 
+T = TypeVar('T', bound=Union[Track, Artist, Album, Playlist, Video])
 
-de_json_result = {
-    'track': Track.de_list,
-    'artist': Artist.de_list,
-    'album': Album.de_list,
-    'playlist': Playlist.de_list,
-    'video': Video.de_list,
-    'user': User.de_list,
-    'podcast': Album.de_list,
-    'podcast_episode': Track.de_list,
+
+type_class_by_str: Dict[str, Type[T]] = {
+    'track': Track,
+    'artist': Artist,
+    'album': Album,
+    'playlist': Playlist,
+    'video': Video,
+    'user': User,
+    'podcast': Album,
+    'podcast_episode': Track,
 }
 
 
 @model
-class SearchResult(YandexMusicObject):
+class SearchResult(YandexMusicObject, Generic[T]):
     """Класс, представляющий результаты поиска.
 
     Note:
@@ -40,14 +42,14 @@ class SearchResult(YandexMusicObject):
     total: int
     per_page: int
     order: int
-    results: List[Union[Track, Artist, Album, Playlist, Video]]
+    results: List[T]
     client: Optional['Client'] = None
 
     def __post_init__(self):
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['SearchResult']:
+    def de_json(cls, data: Dict[str, Dict], client: 'Client', type_: str = None) -> Optional['SearchResult']:
         """Десериализация объекта.
 
         Args:
@@ -63,6 +65,7 @@ class SearchResult(YandexMusicObject):
 
         data = super(SearchResult, cls).de_json(data, client)
         data['type'] = type_
-        data['results'] = de_json_result.get(type_)(data.get('results'), client)
+        type_class = type_class_by_str.get(type_)
+        data['results'] = type_class.de_list(data.get('results'), client)
 
         return cls(client=client, **data)
