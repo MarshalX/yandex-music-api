@@ -40,6 +40,22 @@ class Images(YandexMusicObject):
         """
         self.client.request.download(self._300x300, filename)
 
+    def download_208x208_bytes(self) -> bytes:
+        """Загрузка изображения 208x208 и возврат в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Изображение в виде байтов.
+        """
+        return self.client.request.retrieve(self._208x208)
+
+    def download_300x300_bytes(self) -> bytes:
+        """Загрузка изображения 300x300 и возврат в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Изображение в виде байтов.
+        """
+        return self.client.request.retrieve(self._300x300)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Images']:
         """Десериализация объекта.

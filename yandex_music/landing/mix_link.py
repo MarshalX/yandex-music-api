@@ -49,6 +49,39 @@ class MixLink(YandexMusicObject):
             self.cover_white,
         )
 
+    def get_cover_url(self, size: str = '200x200') -> str:
+        """Возвращает URL обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.cover_uri.replace("%%", size)}'
+
+    def get_cover_white_url(self, size: str = '200x200') -> str:
+        """Возвращает URL обложки white.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.cover_white.replace("%%", size)}'
+
+    def get_background_url(self, size: str = '200x200') -> str:
+        """Возвращает URL заднего фона.
+
+        Args:
+            size (:obj:`str`, optional): Размер заднего фона.
+
+        Returns:
+            :obj:`str`: URL заднего фона.
+        """
+        return f'https://{self.background_image_uri.replace("%%", size)}'
+
     def download_background_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка заднего фона.
 
@@ -56,7 +89,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер заднего фона.
         """
-        self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
+        self.client.request.download(self.get_background_url(size), filename)
 
     async def download_background_image_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка заднего фона.
@@ -65,7 +98,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер заднего фона.
         """
-        await self.client.request.download(f'https://{self.background_image_uri.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_background_url(size), filename)
 
     def download_cover_white(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки TODO.
@@ -74,7 +107,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', filename)
+        self.client.request.download(self.get_cover_white_url(size), filename)
 
     async def download_cover_white_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки TODO.
@@ -83,7 +116,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_white.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_cover_white_url(size), filename)
 
     def download_cover_uri(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -92,7 +125,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_uri_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -101,7 +134,73 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_cover_url(size), filename)
+
+    def download_background_image_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка заднего фона и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер заднего фона.
+
+        Returns:
+            :obj:`bytes`: Задний фон в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_background_url(size))
+
+    async def download_background_image_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка заднего фона и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер заднего фона.
+
+        Returns:
+            :obj:`bytes`: Задний фон в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_background_url(size))
+
+    def download_cover_white_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов TODO.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_cover_white_url(size))
+
+    async def download_cover_white_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов TODO.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_cover_white_url(size))
+
+    def download_cover_uri_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_cover_url(size))
+
+    async def download_cover_uri_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_cover_url(size))
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:

@@ -42,6 +42,20 @@ class Cover(YandexMusicObject):
     def __post_init__(self):
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
+    def get_url(self, index: int = 0, size: str = '200x200') -> str:
+        """Возвращает URL обложки.
+
+        Args:
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
+            size (:obj:`str`, optional): Размер изображения.
+
+        Returns:
+            :obj:`str`: URL адрес.
+        """
+        uri = self.uri or self.items_uri[index]
+
+        return f'https://{uri.replace("%%", size)}'
+
     def download(self, filename: str, index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.
 
@@ -50,9 +64,7 @@ class Cover(YandexMusicObject):
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
-        uri = self.uri or self.items_uri[index]
-
-        self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
+        self.client.request.download(self.get_url(index, size), filename)
 
     async def download_async(self, filename: str, index: int = 0, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -62,9 +74,31 @@ class Cover(YandexMusicObject):
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
-        uri = self.uri or self.items_uri[index]
+        await self.client.request.download(self.get_url(index, size), filename)
 
-        await self.client.request.download(f'https://{uri.replace("%%", size)}', filename)
+    def download_bytes(self, index: int = 0, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
+            size (:obj:`str`, optional): Размер изображения.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_url(index, size))
+
+    async def download_bytes_async(self, index: int = 0, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
+            size (:obj:`str`, optional): Размер изображения.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_url(index, size))
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:

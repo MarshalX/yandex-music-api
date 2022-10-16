@@ -108,6 +108,28 @@ class DownloadInfo(YandexMusicObject):
 
         await self.client.request.download(self.direct_link, filename)
 
+    def download_bytes(self) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        if self.direct_link is None:
+            self.get_direct_link()
+
+        return self.client.request.retrieve(self.direct_link)
+
+    async def download_bytes_async(self) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        if self.direct_link is None:
+            await self.get_direct_link_async()
+
+        return await self.client.request.retrieve(self.direct_link)
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['DownloadInfo']:
         """Десериализация объекта.
