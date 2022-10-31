@@ -227,8 +227,6 @@ class Client(YandexMusicObject):
         if not data:
             data = {param: str(value)}
 
-        # TODO (MarshalX) значения в data типа bool должны быть приведены к str при работе с async клиентом.
-
         result = self._request.post(url, data=data, *args, **kwargs)
 
         return UserSettings.de_json(result, self)
@@ -366,7 +364,8 @@ class Client(YandexMusicObject):
         url = f'{self.base_url}/landing3'
 
         result = self._request.get(url, {'blocks': blocks, 'eitherUserId': '10254713668400548221'}, *args, **kwargs)
-        # TODO что тут делает константа с моим User ID
+        # TODO (MarshalX) что тут делает константа с чьим-то User ID
+        #  https://github.com/MarshalX/yandex-music-api/issues/553
 
         return Landing.de_json(result, self)
 
@@ -1146,6 +1145,7 @@ class Client(YandexMusicObject):
         url = f'{self.base_url}/rotor/stations/list'
 
         # TODO (MarshalX) почему тут константный 'ru' когда есть поддержка выбора языка клиентом
+        #  https://github.com/MarshalX/yandex-music-api/issues/554
 
         result = self._request.get(url, {'language': language}, *args, **kwargs)
 
@@ -1358,7 +1358,7 @@ class Client(YandexMusicObject):
         station: str,
         mood_energy: str,
         diversity: str,
-        language: str = 'not-russian',  # TODO (MarshalX) почему не any
+        language: str = 'not-russian',  # TODO (MarshalX) почему не any https://github.com/MarshalX/yandex-music-api/issues/555
         type_: str = 'rotor',
         *args,
         **kwargs,
@@ -1689,7 +1689,8 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        # TODO (Marshal) что за True. Переделать на named argument
+        # TODO (MarshalX) что за True. Переделать на named argument
+        #  https://github.com/MarshalX/yandex-music-api/issues/550
         return self._like_action('artist', artist_ids, True, user_id, *args, **kwargs)
 
     @log
@@ -2261,6 +2262,7 @@ class Client(YandexMusicObject):
         result = self._request.get(url, params=params, *args, **kwargs)
 
         # TODO (MarshalX) судя по всему ручка ещё возвращает рекламу после треков для пользователей без подписки.
+        #  https://github.com/MarshalX/yandex-music-api/issues/557
         return ShotEvent.de_json(result.get('shot_event'), self)
 
     @log

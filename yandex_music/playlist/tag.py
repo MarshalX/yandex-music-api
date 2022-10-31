@@ -49,3 +49,4 @@ class Tag(YandexMusicObject):
         return cls(client=client, **data)
 
     # TODO (MarshalX) add download_og_image shortcut?
+    #  https://github.com/MarshalX/yandex-music-api/issues/556

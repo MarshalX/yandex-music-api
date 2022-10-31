@@ -75,14 +75,18 @@ class Difference:
         Returns:
             :obj:`yandex_music.utils.difference.Difference`: Набор операций над плейлистом.
         """
-        # TODO принимать TrackId, а так же строку и сплитить её по ":". При отсутствии album_id кидать исключение.
+        # TODO (MarshalX) принимать TrackId, а так же строку и сплитить её по ":".
+        #  При отсутствии album_id кидать исключение.
+        #  https://github.com/MarshalX/yandex-music-api/issues/558
         if not isinstance(tracks, list):
             tracks = [tracks]
 
         operation = {'op': Operation.INSERT.value, 'at': at, 'tracks': []}
 
         for track in tracks:
-            track = type('TrackId', (), track)  # TODO replace to normal TrackId object
+            # TODO (MarshalX) replace to normal TrackId object
+            #  https://github.com/MarshalX/yandex-music-api/issues/558
+            track = type('TrackId', (), track)
 
             operation['tracks'].append({'id': track.id, 'albumId': track.album_id})
 
