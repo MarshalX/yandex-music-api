@@ -10,6 +10,8 @@ if TYPE_CHECKING:
     from yandex_music import Client
     from xml.dom.minicompat import NodeList
 
+SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA'
+
 
 @model
 class DownloadInfo(YandexMusicObject):
@@ -52,7 +54,7 @@ class DownloadInfo(YandexMusicObject):
         path = self._get_text_node_data(doc.getElementsByTagName('path'))
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
         s = self._get_text_node_data(doc.getElementsByTagName('s'))
-        sign = md5(('XGRlBW9FXlekgbPrRHuSiA' + path[1::] + s).encode('utf-8')).hexdigest()
+        sign = md5((SIGN_SALT + path[1::] + s).encode('utf-8')).hexdigest()
 
         return f'https://{host}/get-mp3/{sign}/{ts}{path}'
 

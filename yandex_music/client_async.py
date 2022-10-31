@@ -452,7 +452,7 @@ class ClientAsync(YandexMusicObject):
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`yandex_music.LandingList`: Список подскастов.
+            :obj:`yandex_music.LandingList`: Список подкастов.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -1092,7 +1092,7 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def rotor_account_status(self, *args, **kwargs) -> Optional[Status]:
-        """Получение статуса пользователя с дополнителньыми полями.
+        """Получение статуса пользователя с дополнительными полями.
 
         Note:
             Данный статус отличается от обычного наличием дополнительных полей, например, `skips_per_hour`.
@@ -1174,12 +1174,12 @@ class ClientAsync(YandexMusicObject):
         *args,
         **kwargs,
     ) -> bool:
-        """Отправка ответной реакции на происходящее при прослушивании радио.
+        """Отправка обратной связи на действия при прослушивании радио.
 
         Note:
             Сообщения о начале прослушивания радио, начале и конце трека, его пропуска.
 
-            Известные типы фидбека: `radioStarted`, `trackStarted`, `trackFinished`, `skip`.
+            Известные типы обратной связи: `radioStarted`, `trackStarted`, `trackFinished`, `skip`.
 
             Пример `station`: `user:onyourwave`, `genre:allrock`.
 
@@ -1187,7 +1187,7 @@ class ClientAsync(YandexMusicObject):
 
         Args:
             station (:obj:`str`): Станция.
-            type_ (:obj:`str`): Тип отправляемого фидбека.
+            type_ (:obj:`str`): Тип отправляемого отзыва.
             timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Текущее время и дата.
             from_ (:obj:`str`, optional): Откуда начато воспроизведение радио.
             batch_id (:obj:`str`, optional): Уникальный идентификатор партии треков. Возвращается при получении треков.
@@ -1434,7 +1434,7 @@ class ClientAsync(YandexMusicObject):
             3. Отправить фидбек о начале следующего трека (второй в цепочки).
             4. Выполнить запрос получения треков. В ответе придёт новые треки или произойдёт сдвиг цепочки на 1 элемент.
 
-            Проход по цепочке до коцна не изучен. Часто встречаются дубликаты.
+            Проход по цепочке до конца не изучен. Часто встречаются дубликаты.
 
             Все официальные клиенты выполняют запросы с `settings2 = True`.
 
@@ -2276,7 +2276,7 @@ class ClientAsync(YandexMusicObject):
 
         result = await self._request.get(url, params=params, *args, **kwargs)
 
-        # TODO судя по всему эндпоинт ещё возвращает рекламу после треков для пользователей без подписки.
+        # TODO (MarshalX) судя по всему ручка ещё возвращает рекламу после треков для пользователей без подписки.
         return ShotEvent.de_json(result.get('shot_event'), self)
 
     @log
