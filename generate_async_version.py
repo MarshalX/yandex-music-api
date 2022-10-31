@@ -29,10 +29,9 @@ def gen_request(output_request_filename):
         code = code.replace(f'self.{method}(', f'await self.{method}(')
 
     code = code.replace('proxies=self.proxies', 'proxy=self.proxy_url')
-    code = code.replace('timeout=timeout', 'timeout=aiohttp.ClientTimeout(total=timeout)')
-    # undo one specific case
     code = code.replace(
-        'self.retrieve(url, timeout=aiohttp.ClientTimeout(total=timeout)', 'self.retrieve(url, timeout=timeout'
+        "kwargs['timeout'] = self._timeout",
+        f"kwargs['timeout'] = aiohttp.ClientTimeout(total=self._timeout)\n{' ' * 8}else:\n{' ' * 12}kwargs['timeout'] = aiohttp.ClientTimeout(total=kwargs['timeout'])",
     )
 
     # download method
