@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 @model
 class Pager(YandexMusicObject):
-    """Класс, представляющий пагинатор.
+    """Класс, представляющий пагинацию.
 
     Attributes:
         total (:obj:`int`): Всего треков.
@@ -35,7 +35,7 @@ class Pager(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Pager`: Пагинатор.
+            :obj:`yandex_music.Pager`: Пагинация.
         """
         if not data:
             return None
