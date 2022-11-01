@@ -481,6 +481,7 @@ def generated_playlist(playlist):
         TestGeneratedPlaylist.notify,
         playlist,
         TestGeneratedPlaylist.description,
+        TestGeneratedPlaylist.preview_description,
     )
 
 

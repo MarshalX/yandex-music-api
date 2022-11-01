@@ -21,6 +21,7 @@ class GeneratedPlaylist(YandexMusicObject):
         notify (:obj:`bool`): Уведомлён ли пользователь об обновлении содержания.
         data (:obj:`yandex_music.Playlist`, optional): Сгенерированный плейлист.
         description (:obj:`list`, optional): Описание TODO.
+        preview_description (:obj:`str`, optional): Короткое описание под блоком лендинга.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -29,6 +30,7 @@ class GeneratedPlaylist(YandexMusicObject):
     notify: bool
     data: Optional['Playlist']
     description: Optional[list] = None
+    preview_description: Optional[str] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
