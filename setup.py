@@ -21,7 +21,7 @@ with open('README.rst', 'r', encoding='utf-8') as f:
 setup(
     name='yandex-music',
     version=version,
-    author='Ilya Siamionau',
+    author='Ilya (Marshal)',
     author_email='ilya@marshal.dev',
     license='LGPLv3',
     url='https://github.com/MarshalX/yandex-music-api/',
@@ -48,6 +48,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         "Programming Language :: Python :: Implementation",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
