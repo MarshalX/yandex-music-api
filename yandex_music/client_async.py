@@ -106,7 +106,7 @@ class ClientAsync(YandexMusicObject):
             которых нет в библиотеке.
     """
 
-    notice_displayed = False
+    __notice_displayed = False
 
     def __init__(
         self,
@@ -116,10 +116,10 @@ class ClientAsync(YandexMusicObject):
         language: str = 'ru',
         report_unknown_fields=False,
     ) -> None:
-        if not ClientAsync.notice_displayed:
+        if not ClientAsync.__notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
             print(f'Licensed under the terms of the {__license__}', end='\n\n')
-            ClientAsync.notice_displayed = True
+            ClientAsync.__notice_displayed = True
 
         self.logger = logging.getLogger(__name__)
         self.token = token
