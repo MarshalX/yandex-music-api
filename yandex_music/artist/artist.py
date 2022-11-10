@@ -29,7 +29,7 @@ class Artist(YandexMusicObject):
         links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`, optional): Имеются ли в продаже билеты на концерт.
         likes_count (:obj:`int`, optional): Количество лайков.
-        popular_tracks (:obj:`list` :obj:`yandex_music.Track`, optional): Популярные треки.
+        popular_tracks (:obj:`list` из :obj:`yandex_music.Track`, optional): Популярные треки.
         regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
         decomposed (:obj:`list` из :obj:`str` и :obj:`yandex_music.Artist`, optional): Декомпозиция всех исполнителей.
             Лист, где чередуется разделитель и артист. Фиты и прочее.

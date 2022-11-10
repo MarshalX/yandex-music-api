@@ -12,7 +12,7 @@ class AlbumEvent(YandexMusicObject):
     """Класс, представляющий альбом в событии фида.
 
     Attributes:
-        album (:obj:`yandex_music.Album` | :obj:`None`): Альбом.
+        album (:obj:`yandex_music.Album`, optional): Альбом.
         tracks (:obj:`list` из :obj:`yandex_music.Track`): Треки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
