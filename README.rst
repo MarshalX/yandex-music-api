@@ -18,7 +18,7 @@ Yandex Music API
    :alt: Покрытие кода тестами
 
 .. image:: https://api.codacy.com/project/badge/Grade/27011a5a8d9f4b278d1bfe2fe8725fed
-   :target: https://www.codacy.com/manual/MarshalX/yandex-music-api
+   :target: https://app.codacy.com/gh/MarshalX/yandex-music-api
    :alt: Качество кода
 
 .. image:: https://github.com/MarshalX/yandex-music-api/actions/workflows/pytest_full.yml/badge.svg
