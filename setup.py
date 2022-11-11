@@ -21,7 +21,7 @@ with open('README.rst', 'r', encoding='utf-8') as f:
 setup(
     name='yandex-music',
     version=version,
-    author='Il`ya Semyonov',
+    author='Ilya (Marshal)',
     author_email='ilya@marshal.dev',
     license='LGPLv3',
     url='https://github.com/MarshalX/yandex-music-api/',
@@ -48,6 +48,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         "Programming Language :: Python :: Implementation",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
@@ -56,10 +57,9 @@ setup(
     cmdclass={'test': PyTest},
     tests_require=['pytest'],
     project_urls={
-        'Code': 'https://github.com/MarshalX/yandex-music-api',
-        'Documentation': 'https://yandex-music.readthedocs.io',
-        'Chat': 'https://t.me/yandex_music_api',
+        'Documentation': 'https://yandex-music.rtfd.io',
+        'Telegram chat': 'https://t.me/yandex_music_api',
         'Codecov': 'https://codecov.io/gh/MarshalX/yandex-music-api',
-        'Codacy': 'https://www.codacy.com/manual/MarshalX/yandex-music-api',
+        'Codacy': 'https://app.codacy.com/gh/MarshalX/yandex-music-api',
     },
 )

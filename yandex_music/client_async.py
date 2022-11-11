@@ -101,12 +101,12 @@ class ClientAsync(YandexMusicObject):
         base_url (:obj:`str`, optional): Ссылка на API Yandex Music.
         request (:obj:`yandex_music.utils.request.Request`, optional): Пре-инициализация
             :class:`yandex_music.utils.request.Request`.
-        language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API.
+        language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API. По умолчанию русский.
         report_unknown_fields (:obj:`bool`, optional): Включить предупреждения о неизвестных полях от API,
             которых нет в библиотеке.
     """
 
-    notice_displayed = False
+    __notice_displayed = False
 
     def __init__(
         self,
@@ -116,10 +116,10 @@ class ClientAsync(YandexMusicObject):
         language: str = 'ru',
         report_unknown_fields=False,
     ) -> None:
-        if not ClientAsync.notice_displayed:
+        if not ClientAsync.__notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
             print(f'Licensed under the terms of the {__license__}', end='\n\n')
-            ClientAsync.notice_displayed = True
+            ClientAsync.__notice_displayed = True
 
         self.logger = logging.getLogger(__name__)
         self.token = token
@@ -297,12 +297,17 @@ class ClientAsync(YandexMusicObject):
         return Experiments.de_json(result, self)
 
     @log
-    async def consume_promo_code(self, code: str, language: str = 'en', *args, **kwargs) -> Optional[PromoCodeStatus]:
+    async def consume_promo_code(
+        self, code: str, language: Optional[str] = None, *args, **kwargs
+    ) -> Optional[PromoCodeStatus]:
         """Активация промо-кода.
+
+        Note:
+            Доступные языки: en, uz, uk, us, ru, kk, hy.
 
         Args:
             code (:obj:`str`): Промо-код.
-            language (:obj:`str`, optional): Язык ответа API в ISO 639-1.
+            language (:obj:`str`, optional): Язык ответа API в ISO 639-1. По умолчанию язык клиента.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
@@ -313,6 +318,9 @@ class ClientAsync(YandexMusicObject):
         """
 
         url = f'{self.base_url}/account/consume-promo-code'
+
+        if not language:
+            language = self.language
 
         result = await self._request.post(url, {'code': code, 'language': language}, *args, **kwargs)
 
@@ -1134,19 +1142,21 @@ class ClientAsync(YandexMusicObject):
         return Dashboard.de_json(result, self)
 
     @log
-    async def rotor_stations_list(self, language: str = 'ru', *args, **kwargs) -> List[StationResult]:
+    async def rotor_stations_list(self, language: Optional[str] = None, *args, **kwargs) -> List[StationResult]:
         """Получение всех радиостанций с настройками пользователя.
 
         Note:
+            Доступные языки: en, uz, uk, us, ru, kk, hy.
+
             Чтобы определить что за тип станции (жанры, настроения, занятие и т.д.) необходимо смотреть в поле
             `id_for_from`.
 
         Args:
-            language (:obj:`str`): Язык, на котором будет информация о станциях.
+            language (:obj:`str`, optional): Язык, на котором будет информация о станциях. По умолчанию язык клиента.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.StationResult` | :obj:`None`: Станции или :obj:`None`.
+            :obj:`list` из :obj:`yandex_music.StationResult`: Список станций.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -1154,8 +1164,8 @@ class ClientAsync(YandexMusicObject):
 
         url = f'{self.base_url}/rotor/stations/list'
 
-        # TODO (MarshalX) почему тут константный 'ru' когда есть поддержка выбора языка клиентом
-        #  https://github.com/MarshalX/yandex-music-api/issues/554
+        if not language:
+            language = self.language
 
         result = await self._request.get(url, {'language': language}, *args, **kwargs)
 
