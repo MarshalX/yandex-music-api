@@ -27,6 +27,8 @@ class Status(YandexMusicObject):
         bar_below (:obj:`yandex_music.Alert`, optional): Блок с предупреждениями о конце подписке и подарках.
         premium_region (:obj:`int`, optional): Регион TODO.
         experiment (:obj:`int`, optional): Включенная новая фича на аккаунте (её ID) TODO.
+        pretrial_active (:obj:`bool`, optional): TODO.
+        userhash (:obj:`str`, optional): Хэш-код идентификатора пользователя.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -45,6 +47,8 @@ class Status(YandexMusicObject):
     bar_below: Optional['Alert'] = None
     premium_region: Optional[int] = None
     experiment: Optional[int] = None
+    pretrial_active: Optional[bool] = None
+    userhash: Optional[str] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):

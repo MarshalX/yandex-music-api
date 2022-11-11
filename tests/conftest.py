@@ -999,6 +999,8 @@ def status(account, permissions, subscription, plus, station_data, alert):
         alert,
         TestStatus.premium_region,
         TestStatus.experiment,
+        TestStatus.pretrial_active,
+        TestStatus.userhash,
     )
 
 
