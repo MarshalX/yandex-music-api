@@ -47,7 +47,7 @@ class Status(YandexMusicObject):
     bar_below: Optional['Alert'] = None
     premium_region: Optional[int] = None
     experiment: Optional[int] = None
-    pretrial_active: Optional[bool] = False
+    pretrial_active: Optional[bool] = None
     userhash: Optional[str] = None
     client: Optional['Client'] = None
 
