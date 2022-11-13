@@ -401,6 +401,17 @@ Telegram бот-клиент
    :target: https://music-yandex-bot.ru/
    :alt: Telegram бот-клиент
 
+-------------------
+YMAudio: Консольный ncurses-клиент
+-------------------
+
+Основан на libvlc, имеет весь основной функционал сервиса.
+Тесно интегрируется с Linux, также работает под Windows.
+
+Репозиторий: `egormanga/YMAudio <https://github.com/egormanga/YMAudio>`_.
+Пакет в AUR: `ymaudio-git <https://aur.archlinux.org/packages/ymaudio-git>`_.
+Автор: `@egormanga <https://github.com/egormanga>`_.
+
 =============
 Благодарность
 =============
