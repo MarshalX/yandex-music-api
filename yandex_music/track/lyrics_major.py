@@ -10,7 +10,14 @@ if TYPE_CHECKING:
 
 @model
 class LyricsMajor(YandexMusicObject):
-    """TODO"""
+    """Класс, представляющий сервис-источник текстов к трекам.
+
+    Args:
+        id (:obj:`int`): Уникальный идентификатор сервиса.
+        name (:obj:`str`): Имя сервиса.
+        pretty_name (:obj:`str`): Человекочитаемое имя сервиса.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+    """
 
     id: int
     name: str
@@ -22,6 +29,15 @@ class LyricsMajor(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['LyricsMajor']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.LyricsMajor`: Сервис-источник текстов к трекам.
+        """
         if not data:
             return None
 

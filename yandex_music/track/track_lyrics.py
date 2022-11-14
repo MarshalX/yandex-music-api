@@ -10,7 +10,16 @@ if TYPE_CHECKING:
 
 @model
 class TrackLyrics(YandexMusicObject):
-    """TODO"""
+    """Класс, представляющий текст трека.
+
+    Attributes:
+        download_url (:obj:`str`): Ссылка на скачивание текста.
+        lyric_id (:obj:`int`): Уникальный идентификатор текста.
+        external_lyric_id (:obj:`str`): Уникальный идентификатор текста на сервисе предоставляющий текст.
+        writers (:obj:`list` из :obj:`str`): Авторы текста.
+        major (:obj:`yandex_music.LyricsMajor`): Сервис, откуда был получен текст.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+    """
 
     download_url: str
     lyric_id: int
@@ -27,7 +36,15 @@ class TrackLyrics(YandexMusicObject):
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackLyrics']:
-        """TODO"""
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.TrackLyrics`: Текст трека.
+        """
         if not data:
             return None
 

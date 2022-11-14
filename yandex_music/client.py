@@ -572,15 +572,21 @@ class Client(YandexMusicObject):
     ) -> Optional[TrackLyrics]:
         """Получение текста трека.
 
+        Note:
+            Известные значения для аргумента format:
+                - `LRC` - формат с временными метками.
+                - `TEXT` - простой текст.
+
         Args:
             track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
             format (:obj:`str`): Формат текста.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
-            TODO
+            :obj:`yandex_music.TrackLyrics` | :obj:`None`: Информация о тексте трека.
 
         Raises:
+            :class:`yandex_music.exceptions.NotFoundError`: Текст у трека отсутствует.
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
 
