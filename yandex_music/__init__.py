@@ -62,6 +62,8 @@ from .shot.shot_event import ShotEvent
 from .tracks_list import TracksList
 from .track.major import Major
 from .track.licence_text_part import LicenceTextPart
+from .track.track_lyrics import TrackLyrics
+from .track.lyrics_major import LyricsMajor
 from .track.poetry_lover_match import PoetryLoverMatch
 from .track.meta_data import MetaData
 from .track.normalization import Normalization
@@ -260,4 +262,5 @@ __all__ = [
     'Queue',
     'QueueItem',
     'Deprecation',
+    'TrackLyrics',
 ]

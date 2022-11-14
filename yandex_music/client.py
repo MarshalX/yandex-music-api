@@ -28,6 +28,7 @@ from yandex_music import (
     Status,
     Suggestions,
     SimilarTracks,
+    TrackLyrics,
     Track,
     TracksList,
     UserSettings,
@@ -45,6 +46,7 @@ from yandex_music import (
 from yandex_music.exceptions import BadRequestError
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
+from yandex_music.utils.sign_request import get_sign_request
 
 de_list = {
     'artist': Artist.de_list,
@@ -560,6 +562,40 @@ class Client(YandexMusicObject):
         result = self._request.get(url, *args, **kwargs)
 
         return Supplement.de_json(result, self)
+
+    @log
+    def tracks_lyrics(
+        self,
+        track_id: Union[str, int],
+        format: str = 'TEXT',
+        **kwargs,
+    ) -> Optional[TrackLyrics]:
+        """Получение текста трека.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            format (:obj:`str`): Формат текста.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            TODO
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/tracks/{track_id}/lyrics'
+
+        sign = get_sign_request(track_id)
+        params = {
+            'format': format,
+            'timeStamp': sign.timestamp,
+            'sign': sign.value,
+        }
+
+        result = self._request.get(url, params=params, **kwargs)
+
+        return TrackLyrics.de_json(result, self)
 
     @log
     def tracks_similar(self, track_id: Union[str, int], *args, **kwargs) -> Optional[SimilarTracks]:
@@ -2408,6 +2444,8 @@ class Client(YandexMusicObject):
     tracksDownloadInfo = tracks_download_info
     #: Псевдоним для :attr:`track_supplement`
     trackSupplement = track_supplement
+    #: Псевдоним для :attr:`tracks_lyrics`
+    tracksLyrics = tracks_lyrics
     #: Псевдоним для :attr:`tracks_similar`
     tracksSimilar = tracks_similar
     #: Псевдоним для :attr:`play_audio`
