@@ -34,6 +34,22 @@ class TrackLyrics(YandexMusicObject):
             self.external_lyric_id,
         )
 
+    def fetch_lyrics(self) -> str:
+        """Получает текст песни по ссылке :attr:`yandex_music.TrackLyrics.download_url`.
+
+        Returns:
+            :obj:`str`: Текст песни.
+        """
+        return self.client.request.retrieve(self.download_url).decode('UTF-8')
+
+    async def fetch_lyrics_async(self) -> str:
+        """Получает текст песни по ссылке :attr:`yandex_music.TrackLyrics.download_url`.
+
+        Returns:
+            :obj:`str`: Текст песни.
+        """
+        return await self.client.request.retrieve(self.download_url).decode('UTF-8')
+
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackLyrics']:
         """Десериализация объекта.
@@ -54,3 +70,10 @@ class TrackLyrics(YandexMusicObject):
         data['major'] = LyricsMajor.de_json(data.get('major'), client)
 
         return cls(client=client, **data)
+
+    # camelCase псевдонимы
+
+    #: Псевдоним для :attr:`fetch_lyrics`
+    fetchLyrics = fetch_lyrics
+    #: Псевдоним для :attr:`fetch_lyrics_async`
+    fetchLyricsAsync = fetch_lyrics_async
