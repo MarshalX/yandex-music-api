@@ -1,6 +1,7 @@
 import os
 
 from yandex_music import Client
+from yandex_music.exceptions import NotFoundError
 
 
 TOKEN = os.environ.get('TOKEN')
@@ -18,8 +19,10 @@ artists = ', '.join(last_track.artists_name())
 title = last_track.title
 print(f'Сейчас играет: {artists} - {title}')
 
-supplement = last_track.get_supplement()
-if supplement.lyrics:
-    print(supplement.lyrics.full_lyrics)
-else:
+try:
+    lyrics = last_track.get_lyrics('LRC')
+    print(lyrics.fetch_lyrics())
+
+    print(f'\nИсточник: {lyrics.major.pretty_name}')
+except NotFoundError:
     print('Текст песни отсутствует')
