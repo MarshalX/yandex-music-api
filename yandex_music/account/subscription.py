@@ -20,6 +20,7 @@ class Subscription(YandexMusicObject):
         can_start_trial (:obj:`bool`, optional): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`, optional): mcdonalds TODO.
         end (:obj:`str`, optional): Дата окончания.
+        had_any_subscription (:obj:'bool'): Наличие какой-либо подписки в прошлом.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -31,6 +32,7 @@ class Subscription(YandexMusicObject):
     can_start_trial: Optional[bool] = None
     mcdonalds: Optional[bool] = None
     end: Optional[str] = None
+    had_any_subscription: bool = False
     client: Optional['Client'] = None
 
     def __post_init__(self):

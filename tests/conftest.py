@@ -885,6 +885,7 @@ def subscription(renewable_remainder, auto_renewable, operator, non_auto_renewab
         TestSubscription.can_start_trial,
         TestSubscription.mcdonalds,
         TestSubscription.end,
+        TestSubscription.had_any_subscription,
     )
 
 
