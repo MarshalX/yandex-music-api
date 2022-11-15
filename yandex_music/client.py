@@ -545,7 +545,7 @@ class Client(YandexMusicObject):
         """Получение дополнительной информации о треке.
 
         Args:
-            track_id (:obj:`str`): Уникальный идентификатор трека.
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
@@ -566,7 +566,7 @@ class Client(YandexMusicObject):
         """Получение похожих треков.
 
         Args:
-            track_id (:obj:`str`): Уникальный идентификатор трека.
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
 
         Returns:
