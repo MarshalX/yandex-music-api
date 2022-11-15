@@ -861,6 +861,7 @@ def account(passport_phone):
         [passport_phone],
         TestAccount.registered_at,
         TestAccount.has_info_for_app_metrica,
+        TestAccount.child,
     )
 
 
