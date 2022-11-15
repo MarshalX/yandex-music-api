@@ -15,7 +15,7 @@ class PyTest(test):
 with open('yandex_music/__init__.py', encoding='utf-8') as f:
     version = re.findall(r"__version__ = '(.+)'", f.read())[0]
 
-with open('README.rst', 'r', encoding='utf-8') as f:
+with open('README.md', 'r', encoding='utf-8') as f:
     readme = f.read()
 
 setup(
@@ -29,6 +29,7 @@ setup(
     'яндекс музыка апи обёртка библиотека клиент',
     description='Неофициальная Python библиотека для работы с API сервиса Яндекс.Музыка.',
     long_description=readme,
+    long_description_content_type='text/markdown',
     packages=find_packages(),
     install_requires=['requests[socks]', 'aiohttp', 'aiofiles'],
     include_package_data=True,
