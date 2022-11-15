@@ -546,6 +546,10 @@ class Client(YandexMusicObject):
     def track_supplement(self, track_id: Union[str, int], *args, **kwargs) -> Optional[Supplement]:
         """Получение дополнительной информации о треке.
 
+        Warning:
+            Получение текста из дополнительной информации устарело. Используйте
+            :func:`yandex_music.Client.tracks_lyrics`.
+
         Args:
             track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
