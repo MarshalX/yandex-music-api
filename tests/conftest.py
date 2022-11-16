@@ -1134,7 +1134,15 @@ def chart_item(track, chart):
 @pytest.fixture(scope='session')
 def station_result(station, rotor_settings, ad_params):
     return StationResult(
-        station, rotor_settings, rotor_settings, ad_params, TestStationResult.explanation, TestStationResult.prerolls
+        station,
+        rotor_settings,
+        rotor_settings,
+        ad_params,
+        TestStationResult.explanation,
+        TestStationResult.prerolls,
+        TestStationResult.rup_title,
+        TestStationResult.rup_description,
+        TestStationResult.custom_name,
     )
 
 
