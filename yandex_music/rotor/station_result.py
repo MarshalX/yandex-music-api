@@ -18,6 +18,9 @@ class StationResult(YandexMusicObject):
         ad_params (:obj:`yandex_music.AdParams` | :obj:`None`): Настройки рекламы.
         explanation (:obj:`str`, optional): TODO.
         prerolls (:obj:`list` из :obj:`str`, optional): Прероллы TODO.
+        rup_title (:obj:`str`): Название станции / Моя волна TODO.
+        rup_description (:obj:`str`): Описание станции.
+        custom_name (:obj:`str`, optional): Название станции TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -27,6 +30,9 @@ class StationResult(YandexMusicObject):
     ad_params: Optional['AdParams']
     explanation: Optional[str] = None
     prerolls: Optional[list] = None
+    rup_title: str = None
+    rup_description: str = None
+    custom_name: Optional[str] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
