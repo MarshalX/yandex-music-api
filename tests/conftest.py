@@ -92,6 +92,8 @@ from yandex_music import (
     Brand,
     Context,
     Deprecation,
+    TrackLyrics,
+    LyricsMajor,
 )
 from . import (
     TestAccount,
@@ -178,6 +180,8 @@ from . import (
     TestBrand,
     TestContext,
     TestDeprecation,
+    TestLyricsMajor,
+    TestTrackLyrics,
 )
 
 
@@ -312,6 +316,26 @@ def track_without_artists_and_albums(track_factory):
 @pytest.fixture(scope='session')
 def track_without_nested_tracks(artist, album, track_factory):
     return track_factory.get([artist], [album])
+
+
+@pytest.fixture(scope='session')
+def lyrics_major():
+    return LyricsMajor(
+        TestLyricsMajor.id,
+        TestLyricsMajor.name,
+        TestLyricsMajor.pretty_name,
+    )
+
+
+@pytest.fixture(scope='session')
+def track_lyrics(lyrics_major):
+    return TrackLyrics(
+        TestTrackLyrics.download_url,
+        TestTrackLyrics.lyric_id,
+        TestTrackLyrics.external_lyric_id,
+        TestTrackLyrics.writer,
+        lyrics_major,
+    )
 
 
 @pytest.fixture(scope='session')

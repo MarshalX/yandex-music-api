@@ -93,3 +93,5 @@ from .test_brand import TestBrand
 from .test_context import TestContext
 from .test_queue_item import TestQueueItem
 from .test_deprecation import TestDeprecation
+from .test_lyrics_major import TestLyricsMajor
+from .test_track_lyrics import TestTrackLyrics
