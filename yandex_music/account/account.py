@@ -44,8 +44,8 @@ class Account(YandexMusicObject):
     birthday: Optional[str] = None
     passport_phones: List['PassportPhone'] = None
     registered_at: Optional[str] = None
-    has_info_for_app_metrica: bool = False
-    child: bool = False
+    has_info_for_app_metrica: bool = None
+    child: bool = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
