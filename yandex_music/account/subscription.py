@@ -27,12 +27,12 @@ class Subscription(YandexMusicObject):
     non_auto_renewable_remainder: 'RenewableRemainder'
     auto_renewable: List['AutoRenewable']
     family_auto_renewable: List['AutoRenewable']
+    had_any_subscription: bool
     operator: List['Operator'] = None
     non_auto_renewable: Optional['NonAutoRenewable'] = None
     can_start_trial: Optional[bool] = None
     mcdonalds: Optional[bool] = None
     end: Optional[str] = None
-    had_any_subscription: bool = False
     client: Optional['Client'] = None
 
     def __post_init__(self):

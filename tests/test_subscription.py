@@ -60,8 +60,8 @@ class TestSubscription:
         assert subscription.had_any_subscription == self.had_any_subscription
 
     def test_equality(self, renewable_remainder, auto_renewable):
-        a = Subscription(renewable_remainder, [auto_renewable], [auto_renewable])
-        b = Subscription(renewable_remainder, [], [auto_renewable])
+        a = Subscription(renewable_remainder, [auto_renewable], [auto_renewable], self.had_any_subscription)
+        b = Subscription(renewable_remainder, [], [auto_renewable], self.had_any_subscription)
 
         assert a != b != auto_renewable
         assert hash(a) != hash(b) != hash(auto_renewable)

@@ -881,12 +881,12 @@ def subscription(renewable_remainder, auto_renewable, operator, non_auto_renewab
         renewable_remainder,
         [auto_renewable],
         [auto_renewable],
+        TestSubscription.had_any_subscription,
         [operator],
         non_auto_renewable,
         TestSubscription.can_start_trial,
         TestSubscription.mcdonalds,
         TestSubscription.end,
-        TestSubscription.had_any_subscription,
     )
 
 
