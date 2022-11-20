@@ -11,6 +11,9 @@ if TYPE_CHECKING:
 class StationResult(YandexMusicObject):
     """Класс, представляющий радиостанцию с настройками.
 
+    Note:
+        Известные значения `custom_name`: `Танцую`, `R'n'B`, `Отдыхаю`, `Просыпаюсь`, `Тренируюсь`, `В дороге`, `Работаю`, `Засыпаю`.
+
     Attributes:
         station (:obj:`yandex_music.Station` | :obj:`None`): Станция.
         settings (:obj:`yandex_music.RotorSettings` | :obj:`None`): Первый набор настроек.
