@@ -1649,7 +1649,6 @@ class Client(YandexMusicObject):
         self,
         track_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Поставить отметку "Мне нравится" треку/трекам.
@@ -1670,14 +1669,13 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._like_action('track', track_ids, False, user_id, *args, **kwargs)
+        return self._like_action('track', track_ids, remove=False, user_id=user_id, **kwargs)
 
     @log
     def users_likes_tracks_remove(
         self,
         track_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Снять отметку "Мне нравится" у трека/треков.
@@ -1695,7 +1693,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._like_action('track', track_ids, True, user_id, *args, **kwargs)
+        return self._like_action('track', track_ids, remove=True, user_id=user_id, **kwargs)
 
     @log
     def users_likes_artists_add(
@@ -1720,14 +1718,13 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._like_action('artist', artist_ids, False, user_id, *args, **kwargs)
+        return self._like_action('artist', artist_ids, remove=False, user_id=user_id, **kwargs)
 
     @log
     def users_likes_artists_remove(
         self,
         artist_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Снять отметку "Мне нравится" у исполнителя/исполнителей.
@@ -1745,16 +1742,13 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        # TODO (MarshalX) что за True. Переделать на named argument
-        #  https://github.com/MarshalX/yandex-music-api/issues/550
-        return self._like_action('artist', artist_ids, True, user_id, *args, **kwargs)
+        return self._like_action('artist', artist_ids, remove=True, user_id=user_id, **kwargs)
 
     @log
     def users_likes_playlists_add(
         self,
         playlist_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Поставить отметку "Мне нравится" плейлисту/плейлистам.
@@ -1776,14 +1770,13 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._like_action('playlist', playlist_ids, False, user_id, *args, **kwargs)
+        return self._like_action('playlist', playlist_ids, remove=False, user_id=user_id, **kwargs)
 
     @log
     def users_likes_playlists_remove(
         self,
         playlist_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Снять отметку "Мне нравится" у плейлиста/плейлистов.
@@ -1805,14 +1798,13 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._like_action('playlist', playlist_ids, True, user_id, *args, **kwargs)
+        return self._like_action('playlist', playlist_ids, remove=True, user_id=user_id, **kwargs)
 
     @log
     def users_likes_albums_add(
         self,
         album_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Поставить отметку "Мне нравится" альбому/альбомам.
@@ -1830,14 +1822,13 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._like_action('album', album_ids, False, user_id, *args, **kwargs)
+        return self._like_action('album', album_ids, remove=False, user_id=user_id, **kwargs)
 
     @log
     def users_likes_albums_remove(
         self,
         album_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Снять отметку "Мне нравится" у альбома/альбомов.
@@ -1855,7 +1846,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._like_action('album', album_ids, True, user_id, *args, **kwargs)
+        return self._like_action('album', album_ids, remove=True, user_id=user_id, **kwargs)
 
     def _get_list(
         self,
@@ -2214,7 +2205,6 @@ class Client(YandexMusicObject):
         self,
         track_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Поставить отметку "Не рекомендовать" треку/трекам.
@@ -2235,14 +2225,13 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._dislike_action(track_ids, False, user_id, *args, **kwargs)
+        return self._dislike_action(track_ids, remove=False, user_id=user_id, **kwargs)
 
     @log
     def users_dislikes_tracks_remove(
         self,
         track_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Снять отметку "Не рекомендовать" у трека/треков.
@@ -2260,7 +2249,7 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return self._dislike_action(track_ids, True, user_id, *args, **kwargs)
+        return self._dislike_action(track_ids, remove=True, user_id=user_id, **kwargs)
 
     @log
     def after_track(
