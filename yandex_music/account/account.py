@@ -26,6 +26,7 @@ class Account(YandexMusicObject):
         passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Мобильные номера.
         registered_at (:obj:`str`, optional): Дата создания учётной записи.
         has_info_for_app_metrica (:obj:`bool`, optional): Наличие информации для App Metrica.
+        child (:obj:`bool`): Дочерний / детский аккаунт (скорее детский, позволяет ограничить доступный контент ребенку на Кинопоиске).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -43,7 +44,8 @@ class Account(YandexMusicObject):
     birthday: Optional[str] = None
     passport_phones: List['PassportPhone'] = None
     registered_at: Optional[str] = None
-    has_info_for_app_metrica: bool = False
+    has_info_for_app_metrica: bool = None
+    child: bool = None
     client: Optional['Client'] = None
 
     def __post_init__(self):

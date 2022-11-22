@@ -15,6 +15,7 @@ class TestAccount:
     birthday = '1999-08-10'
     registered_at = '2018-06-10T09:34:22+00:00'
     has_info_for_app_metrica = False
+    child = False
 
     def test_expected_values(self, account, passport_phone):
         assert account.now == self.now
@@ -31,16 +32,18 @@ class TestAccount:
         assert account.passport_phones == [passport_phone]
         assert account.registered_at == self.registered_at
         assert account.has_info_for_app_metrica == self.has_info_for_app_metrica
+        assert account.child == self.child
 
     def test_de_json_none(self, client):
         assert Account.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'now': self.now, 'service_available': self.service_available}
+        json_dict = {'now': self.now, 'service_available': self.service_available, 'child': self.child}
         account = Account.de_json(json_dict, client)
 
         assert account.now == self.now
         assert account.service_available == self.service_available
+        assert account.child == self.child
 
     def test_de_json_all(self, client, passport_phone):
         json_dict = {
@@ -58,6 +61,7 @@ class TestAccount:
             'passport_phones': [passport_phone.to_dict()],
             'registered_at': self.registered_at,
             'has_info_for_app_metrica': self.has_info_for_app_metrica,
+            'child': self.child,
         }
         account = Account.de_json(json_dict, client)
 
@@ -75,9 +79,10 @@ class TestAccount:
         assert account.passport_phones == [passport_phone]
         assert account.registered_at == self.registered_at
         assert account.has_info_for_app_metrica == self.has_info_for_app_metrica
+        assert account.child == self.child
 
     def test_equality(self, user):
-        a = Account(self.now, self.service_available)
+        a = Account(self.now, self.service_available, self.child)
 
         assert a != user
         assert hash(a) != hash(user)

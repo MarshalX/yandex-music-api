@@ -861,6 +861,7 @@ def account(passport_phone):
         [passport_phone],
         TestAccount.registered_at,
         TestAccount.has_info_for_app_metrica,
+        TestAccount.child,
     )
 
 
@@ -880,6 +881,7 @@ def subscription(renewable_remainder, auto_renewable, operator, non_auto_renewab
         renewable_remainder,
         [auto_renewable],
         [auto_renewable],
+        TestSubscription.had_any_subscription,
         [operator],
         non_auto_renewable,
         TestSubscription.can_start_trial,
@@ -1134,7 +1136,15 @@ def chart_item(track, chart):
 @pytest.fixture(scope='session')
 def station_result(station, rotor_settings, ad_params):
     return StationResult(
-        station, rotor_settings, rotor_settings, ad_params, TestStationResult.explanation, TestStationResult.prerolls
+        station,
+        rotor_settings,
+        rotor_settings,
+        ad_params,
+        TestStationResult.explanation,
+        TestStationResult.prerolls,
+        TestStationResult.rup_title,
+        TestStationResult.rup_description,
+        TestStationResult.custom_name,
     )
 
 
