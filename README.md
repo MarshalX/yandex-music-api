@@ -33,6 +33,7 @@
     2.  [Telegram бот-клиент](#telegram-бот-клиент)
   - [Благодарность](#благодарность)
   - [Внесение своего вклада в проект](#внесение-своего-вклада-в-проект)
+  - [Спонсоры](#спонсоры)
   - [Лицензия](#лицензия)
 
 ### Введение
@@ -284,6 +285,16 @@ API wrapper на Node.JS. Не обновлялся больше двух лет
 Внесение своего вклада максимально приветствуется! Есть перечень пунктов, который стоит соблюдать. Каждый пункт перечня расписан в [CONTRIBUTING.md](https://github.com/MarshalX/yandex-music-api/blob/main/CONTRIBUTING.md).
 
 Вы можете помочь и сообщив о [баге](https://github.com/MarshalX/yandex-music-api/issues/new?assignees=MarshalX&labels=bug&template=bug-report.md&title=) или о [новом поле пришедшем от API](https://github.com/MarshalX/yandex-music-api/issues/new?assignees=&labels=feature&template=found-unknown-fields.md&title=%D0%9D%D0%BE%D0%B2%D0%BE%D0%B5+%D0%BD%D0%B5%D0%B8%D0%B7%D0%B2%D0%B5%D1%81%D1%82%D0%BD%D0%BE%D0%B5+%D0%BF%D0%BE%D0%BB%D0%B5+%D0%BE%D1%82+API).
+
+### Спонсоры
+
+#### JetBrains
+
+<img height="150" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
+
+> JetBrains предоставляет бесплатный набор инструментов для разработки активным контрибьюторам некоммерческих проектов с открытым исходным кодом.
+
+[Лицензии для проектов с открытым исходным кодом — Программы поддержки](https://jb.gg/OpenSourceSupport.)
 
 ### Лицензия
 
