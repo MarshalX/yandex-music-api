@@ -28,6 +28,7 @@ from yandex_music import (
     Status,
     Suggestions,
     SimilarTracks,
+    TrackLyrics,
     Track,
     TracksList,
     UserSettings,
@@ -45,6 +46,7 @@ from yandex_music import (
 from yandex_music.exceptions import BadRequestError
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request import Request
+from yandex_music.utils.sign_request import get_sign_request
 
 de_list = {
     'artist': Artist.de_list,
@@ -544,6 +546,10 @@ class Client(YandexMusicObject):
     def track_supplement(self, track_id: Union[str, int], *args, **kwargs) -> Optional[Supplement]:
         """Получение дополнительной информации о треке.
 
+        Warning:
+            Получение текста из дополнительной информации устарело. Используйте
+            :func:`yandex_music.Client.tracks_lyrics`.
+
         Args:
             track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
             **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
@@ -560,6 +566,46 @@ class Client(YandexMusicObject):
         result = self._request.get(url, *args, **kwargs)
 
         return Supplement.de_json(result, self)
+
+    @log
+    def tracks_lyrics(
+        self,
+        track_id: Union[str, int],
+        format: str = 'TEXT',
+        **kwargs,
+    ) -> Optional[TrackLyrics]:
+        """Получение текста трека.
+
+        Note:
+            Известные значения для аргумента format:
+                - `LRC` - формат с временными метками.
+                - `TEXT` - простой текст.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            format (:obj:`str`): Формат текста.
+            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.TrackLyrics` | :obj:`None`: Информация о тексте трека.
+
+        Raises:
+            :class:`yandex_music.exceptions.NotFoundError`: Текст у трека отсутствует.
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+
+        url = f'{self.base_url}/tracks/{track_id}/lyrics'
+
+        sign = get_sign_request(track_id)
+        params = {
+            'format': format,
+            'timeStamp': sign.timestamp,
+            'sign': sign.value,
+        }
+
+        result = self._request.get(url, params=params, **kwargs)
+
+        return TrackLyrics.de_json(result, self)
 
     @log
     def tracks_similar(self, track_id: Union[str, int], *args, **kwargs) -> Optional[SimilarTracks]:
@@ -2408,6 +2454,8 @@ class Client(YandexMusicObject):
     tracksDownloadInfo = tracks_download_info
     #: Псевдоним для :attr:`track_supplement`
     trackSupplement = track_supplement
+    #: Псевдоним для :attr:`tracks_lyrics`
+    tracksLyrics = tracks_lyrics
     #: Псевдоним для :attr:`tracks_similar`
     tracksSimilar = tracks_similar
     #: Псевдоним для :attr:`play_audio`

@@ -11,6 +11,10 @@ if TYPE_CHECKING:
 class Supplement(YandexMusicObject):
     """Класс, представляющий дополнительную информацию о треке.
 
+    Warning:
+        Получение текста из дополнительной информации устарело. Используйте
+        :func:`yandex_music.Client.tracks_lyrics`.
+
     Attributes:
         id (:obj:`int`): Уникальный идентификатор дополнительной информации.
         lyrics (:obj:`yandex_music.Lyrics`): Текст песни.

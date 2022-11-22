@@ -16,6 +16,7 @@ if TYPE_CHECKING:
         User,
         MetaData,
         PoetryLoverMatch,
+        TrackLyrics,
     )
 
 
@@ -153,6 +154,20 @@ class Track(YandexMusicObject):
         await client.track_supplement(track.id, *args, **kwargs)
         """
         return await self.client.track_supplement(self.id, *args, **kwargs)
+
+    def get_lyrics(self, *args, **kwargs) -> Optional['TrackLyrics']:
+        """Сокращение для::
+
+        client.tracks_lyrics(track.id, *args, **kwargs)
+        """
+        return self.client.tracks_lyrics(self.id, *args, **kwargs)
+
+    async def get_lyrics_async(self, *args, **kwargs) -> Optional['TrackLyrics']:
+        """Сокращение для::
+
+        client.tracks_lyrics(track.id, *args, **kwargs)
+        """
+        return await self.client.tracks_lyrics(self.id, *args, **kwargs)
 
     def get_cover_url(self, size: str = '200x200') -> str:
         """Возвращает URL обложки.
@@ -491,6 +506,10 @@ class Track(YandexMusicObject):
     getSupplement = get_supplement
     #: Псевдоним для :attr:`get_supplement_async`
     getSupplementAsync = get_supplement_async
+    #: Псевдоним для :attr:`get_lyrics`
+    getLyrics = get_lyrics
+    #: Псевдоним для :attr:`get_lyrics_async`
+    getLyricsAsync = get_lyrics_async
     #: Псевдоним для :attr:`get_cover_url`
     getCoverUrl = get_cover_url
     #: Псевдоним для :attr:`get_og_image_url`
