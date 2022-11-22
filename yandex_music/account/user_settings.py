@@ -16,7 +16,7 @@ class UserSettings(YandexMusicObject):
 
         Доступные значения для полей `user_music_visibility` и `user_social_visibility`: `private`, `public`.
 
-    Notes:
+    Note:
         `promos_disabled`, `ads_disabled`, `rbt_disabled` устарели и не работают.
 
         `last_fm_scrobbling_enabled`, `facebook_scrobbling_enabled` выглядят устаревшими.
