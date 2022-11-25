@@ -95,6 +95,7 @@ from yandex_music import (
     TrackLyrics,
     LyricsMajor,
     r128,
+    LyricsInfo,
 )
 from . import (
     TestAccount,
@@ -184,6 +185,7 @@ from . import (
     TestLyricsMajor,
     TestTrackLyrics,
     TestR128,
+    TestLyricsInfo,
 )
 
 
@@ -1302,6 +1304,12 @@ def search_result_with_results_and_type(request, types, results):
         types[request.param],
     )
 
+
 @pytest.fixture(scope='session')
 def r128_():
     return r128(TestR128.i, TestR128.tp)
+
+
+@pytest.fixture(scope='session')
+def lyrics_info():
+    return LyricsInfo(TestLyricsInfo.has_available_sync_lyrics, TestLyricsInfo.has_available_text_lyrics)

@@ -70,6 +70,7 @@ from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
 from .track.r128 import r128
+from .track.LyricsInfo import LyricsInfo
 
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
@@ -265,4 +266,5 @@ __all__ = [
     'Deprecation',
     'TrackLyrics',
     'r128',
+    'LyricsInfo',
 ]
