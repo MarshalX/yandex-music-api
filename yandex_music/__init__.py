@@ -69,6 +69,7 @@ from .track.meta_data import MetaData
 from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
+from .track.r128 import r128
 
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
@@ -263,4 +264,5 @@ __all__ = [
     'QueueItem',
     'Deprecation',
     'TrackLyrics',
+    'r128',
 ]

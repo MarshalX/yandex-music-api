@@ -94,6 +94,7 @@ from yandex_music import (
     Deprecation,
     TrackLyrics,
     LyricsMajor,
+    r128,
 )
 from . import (
     TestAccount,
@@ -182,6 +183,7 @@ from . import (
     TestDeprecation,
     TestLyricsMajor,
     TestTrackLyrics,
+    TestR128,
 )
 
 
@@ -1299,3 +1301,7 @@ def search_result_with_results_and_type(request, types, results):
         [results[request.param]],
         types[request.param],
     )
+
+@pytest.fixture(scope='session')
+def r128_():
+    return r128(TestR128.i, TestR128.tp)
