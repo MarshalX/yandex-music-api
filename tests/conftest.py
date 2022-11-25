@@ -250,7 +250,7 @@ def artist_decomposed(artist_without_nested_artist):
 
 
 @pytest.fixture(scope='session')
-def track_factory(major, normalization, user, meta_data, poetry_lover_match):
+def track_factory(major, normalization, user, meta_data, poetry_lover_match, r128_, lyrics_info):
     class TrackFactory:
         def get(self, artists, albums, track_without_nested_tracks=None):
             return Track(
@@ -292,6 +292,11 @@ def track_factory(major, normalization, user, meta_data, poetry_lover_match):
                 TestTrack.background_video_uri,
                 TestTrack.short_description,
                 TestTrack.is_suitable_for_children,
+                TestTrack.track_source,
+                TestTrack.available_for_options,
+                r128_,
+                lyrics_info,
+                TestTrack.track_sharing_flag,
             )
 
     return TrackFactory()
