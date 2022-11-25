@@ -96,3 +96,5 @@ from .test_deprecation import TestDeprecation
 from .test_lyrics_major import TestLyricsMajor
 from .test_track_lyrics import TestTrackLyrics
 from .test_custom_wave import TestCustomWave
+from .test_r128 import TestR128
+from .test_lyrics_info import TestLyricsInfo

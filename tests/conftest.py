@@ -95,6 +95,8 @@ from yandex_music import (
     Deprecation,
     TrackLyrics,
     LyricsMajor,
+    r128,
+    LyricsInfo,
 )
 from . import (
     TestAccount,
@@ -184,6 +186,8 @@ from . import (
     TestDeprecation,
     TestLyricsMajor,
     TestTrackLyrics,
+    TestR128,
+    TestLyricsInfo,
 )
 
 
@@ -248,7 +252,7 @@ def artist_decomposed(artist_without_nested_artist):
 
 
 @pytest.fixture(scope='session')
-def track_factory(major, normalization, user, meta_data, poetry_lover_match):
+def track_factory(major, normalization, user, meta_data, poetry_lover_match, r128_, lyrics_info):
     class TrackFactory:
         def get(self, artists, albums, track_without_nested_tracks=None):
             return Track(
@@ -290,6 +294,11 @@ def track_factory(major, normalization, user, meta_data, poetry_lover_match):
                 TestTrack.background_video_uri,
                 TestTrack.short_description,
                 TestTrack.is_suitable_for_children,
+                TestTrack.track_source,
+                TestTrack.available_for_options,
+                r128_,
+                lyrics_info,
+                TestTrack.track_sharing_flag,
             )
 
     return TrackFactory()
@@ -1310,3 +1319,13 @@ def search_result_with_results_and_type(request, types, results):
 @pytest.fixture(scope='session')
 def custom_wave():
     return CustomWave(TestCustomWave.title, TestCustomWave.animation_url, TestCustomWave.position)
+
+
+@pytest.fixture(scope='session')
+def r128_():
+    return r128(TestR128.i, TestR128.tp)
+
+
+@pytest.fixture(scope='session')
+def lyrics_info():
+    return LyricsInfo(TestLyricsInfo.has_available_sync_lyrics, TestLyricsInfo.has_available_text_lyrics)
