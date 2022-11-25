@@ -22,6 +22,7 @@ class TrackShort(YandexMusicObject):
         recent (:obj:`bool`, optional): Недавний.
         chart (:obj:`yandex_music.Chart`, optional): Позиция в чарте.
         track (:obj:`yandex_music.Track`, optional): Полная версия трека.
+        original_index (:obj:`int`, optional): Индекс в плейлисте или альбоме. TODO уточнить про альбом.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -32,6 +33,7 @@ class TrackShort(YandexMusicObject):
     recent: Optional[bool] = None
     chart: Optional['Chart'] = None
     track: Optional['Track'] = None
+    original_index: Optional[int] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
