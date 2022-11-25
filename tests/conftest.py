@@ -20,6 +20,7 @@ from yandex_music import (
     Client,
     Counts,
     Cover,
+    CustomWave,
     Day,
     Description,
     DiscreteScale,
@@ -110,6 +111,7 @@ from . import (
     TestChartInfoMenuItem,
     TestCounts,
     TestCover,
+    TestCustomWave,
     TestDay,
     TestDescription,
     TestDiscreteScale,
@@ -423,6 +425,8 @@ def playlist_factory(
     contest,
     open_graph_data,
     brand,
+    custom_wave,
+    pager,
 ):
     class PlaylistFactory:
         def get(self, similar_playlists, last_owner_playlists):
@@ -482,6 +486,8 @@ def playlist_factory(
                 TestPlaylist.ready,
                 TestPlaylist.is_for_from,
                 TestPlaylist.regions,
+                custom_wave,
+                pager,
             )
 
     return PlaylistFactory()
@@ -1299,3 +1305,8 @@ def search_result_with_results_and_type(request, types, results):
         [results[request.param]],
         types[request.param],
     )
+
+
+@pytest.fixture(scope='session')
+def custom_wave():
+    return CustomWave(TestCustomWave.title, TestCustomWave.animation_url, TestCustomWave.position)

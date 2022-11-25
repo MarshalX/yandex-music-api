@@ -44,6 +44,7 @@ from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
 from .playlist.user import User
 from .playlist.contest import Contest
+from .playlist.customwave import CustomWave
 from .playlist.open_graph_data import OpenGraphData
 from .playlist.brand import Brand
 from .playlist.play_counter import PlayCounter
@@ -263,4 +264,5 @@ __all__ = [
     'QueueItem',
     'Deprecation',
     'TrackLyrics',
+    'CustomWave',
 ]
