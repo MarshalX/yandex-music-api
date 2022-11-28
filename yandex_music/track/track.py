@@ -86,7 +86,7 @@ class Track(YandexMusicObject):
         is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
         track_source (:obj:`str`, optional): Источник трека.
         available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для трека.
-        r128 (:obj:`yandex_music.r128`, optional): Свойства трека.
+        r128 (:obj:`yandex_music.r128`, optional): Параметры нормализации громкости трека в соответствии с рекомендацией EBU R 128.
         lyrics_info (:obj:`yandex_music.LyricsInfo`, optional): Данные о наличии текстов трека.
         track_sharing_flag (:obj:`str`, optional): TODO.
 
