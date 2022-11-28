@@ -399,6 +399,7 @@ def album_factory(label, track_position):
                 TestAlbum.likes_count,
                 deprecation,
                 TestAlbum.available_regions,
+                TestAlbum.available_for_options,
             )
 
     return AlbumFactory()

@@ -20,6 +20,8 @@ class Album(YandexMusicObject):
 
         Известные значения поля `meta_type`: `music`.
 
+        Известные значения поля `available_for_options`: 'bookmate'.
+
     Attributes:
         id_(:obj:`int`, optional): Идентификатор альбома.
         error (:obj:`str`, optional): Ошибка получения альбома.
@@ -66,6 +68,7 @@ class Album(YandexMusicObject):
         likes_count (:obj:`int`, optional): Количество лайков TODO.
         deprecation (:obj:`yandex_music.Deprecation`, optional): TODO.
         available_regions (:obj:`list` из :obj:`str`, optional): Регионы, где доступн альбом.
+        available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для альбома.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -114,6 +117,7 @@ class Album(YandexMusicObject):
     likes_count: Optional[int] = None
     deprecation: Optional['Deprecation'] = None
     available_regions: Optional[List[str]] = None
+    available_for_options: Optional[List[str]] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):

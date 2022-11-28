@@ -46,6 +46,7 @@ class TestAlbum:
     start_date = '2020-06-30'
     likes_count = 2
     available_regions = ['kg', 'tm', 'by', 'kz', 'md', 'ru', 'am', 'ge', 'uz', 'tj', 'il', 'az', 'ua']
+    available_for_options = ['bookmate']
 
     def test_expected_values(
         self,
@@ -101,6 +102,7 @@ class TestAlbum:
         assert album.likes_count == self.likes_count
         assert album.deprecation == deprecation
         assert album.available_regions == self.available_regions
+        assert album.available_for_options == self.available_for_options
 
     def test_de_json_none(self, client):
         assert Album.de_json({}, client) is None
@@ -160,6 +162,7 @@ class TestAlbum:
             'likes_count': self.likes_count,
             'deprecation': deprecation.to_dict(),
             'available_regions': self.available_regions,
+            'available_for_options': self.available_for_options,
         }
         album = Album.de_json(json_dict, client)
 
@@ -207,6 +210,7 @@ class TestAlbum:
         assert album.likes_count == self.likes_count
         assert album.deprecation == deprecation
         assert album.available_regions == self.available_regions
+        assert album.available_for_options == self.available_for_options
 
     def test_equality(self, artist, label):
         a = Album(self.id)
