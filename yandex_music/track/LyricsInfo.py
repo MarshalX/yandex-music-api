@@ -33,7 +33,7 @@ class LyricsInfo(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.StationResult`: Радиостанция с настройками.
+            :obj:`yandex_music.LyricsInfo`: Типы доступных текстов трека.
         """
         if not data:
             return None
