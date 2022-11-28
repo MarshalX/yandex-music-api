@@ -18,7 +18,7 @@ class R128(YandexMusicObject):
         tp (:obj:`float`): True Peak. Реконструкция пикового уровня сигнала между выборками
                            (пикового уровня, генерируемого между двумя выборками ), рассчитанного с помощью
                            передискретизации.
-        client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     i: float
