@@ -31,9 +31,11 @@ class Track(YandexMusicObject):
 
         Известные значения поля `type`: `music`.
 
-        Известные значения поля `track_sharing_flag`: 'VIDEO_ALLOWED', 'COVER_ONLY'
+        Известные значения поля `track_sharing_flag`: 'VIDEO_ALLOWED', 'COVER_ONLY'.
 
-        Известные значения поля `available_for_options`: 'bookmate'
+        Известные значения поля `track_source`: 'OWN', 'OWN_REPLACED_TO_UGC'.
+
+        Известные значения поля `available_for_options`: 'bookmate'.
 
         Поля `can_publish`, `state`, `desired_visibility`, `filename`, `user_info` доступны только у треков что были
         загружены пользователем.
