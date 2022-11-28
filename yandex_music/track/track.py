@@ -485,7 +485,7 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch, r128, LyricsInfo
+        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch, R128, LyricsInfo
 
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
@@ -496,7 +496,7 @@ class Track(YandexMusicObject):
         data['user_info'] = User.de_json(data.get('user_info'), client)
         data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
         data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
-        data['r128'] = r128.de_json(data.get('r128'), client)
+        data['r128'] = R128.de_json(data.get('r128'), client)
         data['lyrics_info'] = LyricsInfo.de_json(data.get('lyrics_info'), client)
 
         return cls(client=client, **data)

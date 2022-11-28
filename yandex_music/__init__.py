@@ -70,7 +70,7 @@ from .track.meta_data import MetaData
 from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
-from .track.r128 import r128
+from .track.r128 import R128
 from .track.LyricsInfo import LyricsInfo
 
 from .feed.generated_playlist import GeneratedPlaylist
@@ -267,6 +267,6 @@ __all__ = [
     'Deprecation',
     'TrackLyrics',
     'CustomWave',
-    'r128',
+    'R128',
     'LyricsInfo',
 ]

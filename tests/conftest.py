@@ -95,7 +95,7 @@ from yandex_music import (
     Deprecation,
     TrackLyrics,
     LyricsMajor,
-    r128,
+    R128,
     LyricsInfo,
 )
 from . import (
@@ -252,7 +252,7 @@ def artist_decomposed(artist_without_nested_artist):
 
 
 @pytest.fixture(scope='session')
-def track_factory(major, normalization, user, meta_data, poetry_lover_match, r128_, lyrics_info):
+def track_factory(major, normalization, user, meta_data, poetry_lover_match, r_128, lyrics_info):
     class TrackFactory:
         def get(self, artists, albums, track_without_nested_tracks=None):
             return Track(
@@ -296,7 +296,7 @@ def track_factory(major, normalization, user, meta_data, poetry_lover_match, r12
                 TestTrack.is_suitable_for_children,
                 TestTrack.track_source,
                 TestTrack.available_for_options,
-                r128_,
+                r_128,
                 lyrics_info,
                 TestTrack.track_sharing_flag,
             )
@@ -1322,8 +1322,8 @@ def custom_wave():
 
 
 @pytest.fixture(scope='session')
-def r128_():
-    return r128(TestR128.i, TestR128.tp)
+def r_128():
+    return R128(TestR128.i, TestR128.tp)
 
 
 @pytest.fixture(scope='session')

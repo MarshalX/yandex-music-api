@@ -8,14 +8,16 @@ if TYPE_CHECKING:
 
 
 @model
-class r128(YandexMusicObject):
-    """Класс, описывающий свойства трека.
+class R128(YandexMusicObject):
+    """Класс, описывающий параметры нормализации громкости трека в соответствии с рекомендацией EBU R 128.
 
     Note:
 
     Attributes:
-        i (:obj:`float`): TODO.
-        tp (:obj:`float`): TODO.
+        i (:obj:`float`): Интегрированная громкость. Совокупная громкость от начала до конца.
+        tp (:obj:`float`): True Peak. Реконструкция пикового уровня сигнала между выборками
+                           (пикового уровня, генерируемого между двумя выборками ), рассчитанного с помощью
+                           передискретизации.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -27,19 +29,19 @@ class r128(YandexMusicObject):
         self._id_attrs = (self.i, self.tp)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['r128']:
-        """TODO.
+    def de_json(cls, data: dict, client: 'Client') -> Optional['R128']:
+        """Десериализация объекта.
 
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.r128`: TODO.
+            :obj:`yandex_music.r128`: Параметры нормализации громкости трека в соответствии с рекомендацией EBU R 128.
         """
         if not data:
             return None
 
-        data = super(r128, cls).de_json(data, client)
+        data = super(R128, cls).de_json(data, client)
 
         return cls(client=client, **data)

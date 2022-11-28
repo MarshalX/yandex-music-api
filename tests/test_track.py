@@ -51,7 +51,7 @@ class TestTrack:
         user,
         meta_data,
         poetry_lover_match,
-        r128_,
+        r_128,
         lyrics_info,
     ):
         assert track.id == self.id
@@ -94,7 +94,7 @@ class TestTrack:
         assert track.is_suitable_for_children == self.is_suitable_for_children
         assert track.track_source == self.track_source
         assert track.available_for_options == self.available_for_options
-        assert track.r128 == r128_
+        assert track.r128 == r_128
         assert track.lyrics_info == lyrics_info
         assert track.track_sharing_flag == self.track_sharing_flag
 
@@ -121,7 +121,7 @@ class TestTrack:
         user,
         meta_data,
         poetry_lover_match,
-        r128_,
+        r_128,
         lyrics_info,
     ):
         json_dict = {
@@ -165,7 +165,7 @@ class TestTrack:
             'is_suitable_for_children': self.is_suitable_for_children,
             'track_source': self.track_source,
             'available_for_options': self.available_for_options,
-            'r128': r128_.to_dict(),
+            'r128': r_128.to_dict(),
             'lyrics_info': lyrics_info.to_dict(),
             'track_sharing_flag': self.track_sharing_flag,
         }
@@ -211,7 +211,7 @@ class TestTrack:
         assert track.is_suitable_for_children == self.is_suitable_for_children
         assert track.track_source == self.track_source
         assert track.available_for_options == self.available_for_options
-        assert track.r128 == r128_
+        assert track.r128 == r_128
         assert track.lyrics_info == lyrics_info
         assert track.track_sharing_flag == self.track_sharing_flag
 
