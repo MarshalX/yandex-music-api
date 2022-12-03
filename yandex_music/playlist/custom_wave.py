@@ -15,9 +15,8 @@ class CustomWave(YandexMusicObject):
         Известные значения `position`: `default`.
 
     Attributes:
-
         title (:obj:`str`): Название плейлиста.
-        animation_url (:obj:`str`): Ссылка на анимированную обложку в json формате (кусочки PNG в BASE64, раскладка).
+        animation_url (:obj:`str`): JSON анимация Lottie.
         position (:obj:`str`): Позиция TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """

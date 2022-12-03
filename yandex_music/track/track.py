@@ -18,7 +18,7 @@ if TYPE_CHECKING:
         PoetryLoverMatch,
         TrackLyrics,
         LyricsInfo,
-        r128,
+        R128,
     )
 
 
@@ -86,7 +86,7 @@ class Track(YandexMusicObject):
         is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
         track_source (:obj:`str`, optional): Источник трека.
         available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для трека.
-        r128 (:obj:`yandex_music.r128`, optional): Параметры нормализации громкости трека в соответствии с рекомендацией EBU R 128.
+        r128 (:obj:`yandex_music.R128`, optional): Параметры нормализации громкости трека в соответствии с рекомендацией EBU R 128.
         lyrics_info (:obj:`yandex_music.LyricsInfo`, optional): Данные о наличии текстов трека.
         track_sharing_flag (:obj:`str`, optional): TODO.
 
@@ -133,7 +133,7 @@ class Track(YandexMusicObject):
     is_suitable_for_children: Optional[bool] = None
     track_source: Optional[str] = None
     available_for_options: Optional[List[str]] = None
-    r128: Optional['r128'] = None
+    r128: Optional['R128'] = None
     lyrics_info: Optional['LyricsInfo'] = None
     track_sharing_flag: Optional[str] = None
     client: Optional['Client'] = None
