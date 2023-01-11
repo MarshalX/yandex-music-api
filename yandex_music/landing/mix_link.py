@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Optional, List
 
 from yandex_music import YandexMusicObject
+from yandex_music.exceptions import YandexMusicError
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -23,7 +24,7 @@ class MixLink(YandexMusicObject):
         text_color (:obj:`str`): Цвет текста (HEX).
         background_color (:obj:`str`): Цвет заднего фона.
         background_image_uri (:obj:`str`): Ссылка на изображение заднего фона.
-        cover_white (:obj:`str`): Ссылка на изображение с обложкой TODO.
+        cover_white (:obj:`str`, optional): Ссылка на изображение с обложкой TODO.
         cover_uri (:obj:`str`, optional): Ссылка на изображение с обложкой.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
@@ -34,7 +35,7 @@ class MixLink(YandexMusicObject):
     text_color: str
     background_color: str
     background_image_uri: str
-    cover_white: str
+    cover_white: Optional[str] = None
     cover_uri: Optional[str] = None
     client: Optional['Client'] = None
 
@@ -46,7 +47,6 @@ class MixLink(YandexMusicObject):
             self.text_color,
             self.background_color,
             self.background_image_uri,
-            self.cover_white,
         )
 
     def get_cover_url(self, size: str = '200x200') -> str:
@@ -69,6 +69,10 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`str`: URL обложки.
         """
+
+        if not self.cover_white:
+            raise YandexMusicError('You can\'t get cover white because it\'s None.')
+
         return f'https://{self.cover_white.replace("%%", size)}'
 
     def get_background_url(self, size: str = '200x200') -> str:
