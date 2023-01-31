@@ -2417,7 +2417,7 @@ class Client(YandexMusicObject):
         self._request.headers['X-Yandex-Music-Device'] = device
         result = self._request.post(url, queue, *args, **kwargs)
 
-        return result.get('id_')
+        return result.get('id')
 
     # camelCase псевдонимы
 

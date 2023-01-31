@@ -2435,7 +2435,7 @@ class ClientAsync(YandexMusicObject):
         self._request.headers['X-Yandex-Music-Device'] = device
         result = await self._request.post(url, queue, *args, **kwargs)
 
-        return result.get('id_')
+        return result.get('id')
 
     # camelCase псевдонимы
 
