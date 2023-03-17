@@ -583,6 +583,8 @@ class ClientAsync(YandexMusicObject):
         """Получение текста трека.
 
         Note:
+            Для работы с методом необходима авторизация.
+
             Известные значения для аргумента format:
                 - `LRC` - формат с временными метками.
                 - `TEXT` - простой текст.
@@ -596,6 +598,7 @@ class ClientAsync(YandexMusicObject):
             :obj:`yandex_music.TrackLyrics` | :obj:`None`: Информация о тексте трека.
 
         Raises:
+            :class:`yandex_music.exceptions.UnauthorizedError`: Метод вызван без авторизации.
             :class:`yandex_music.exceptions.NotFoundError`: Текст у трека отсутствует.
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
