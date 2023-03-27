@@ -17,6 +17,8 @@ if TYPE_CHECKING:
         MetaData,
         PoetryLoverMatch,
         TrackLyrics,
+        LyricsInfo,
+        R128,
     )
 
 
@@ -28,6 +30,12 @@ class Track(YandexMusicObject):
         Известные значения поля `content_warning`: `explicit`.
 
         Известные значения поля `type`: `music`.
+
+        Известные значения поля `track_sharing_flag`: `VIDEO_ALLOWED`, `COVER_ONLY`.
+
+        Известные значения поля `track_source`: `OWN`, `OWN_REPLACED_TO_UGC`.
+
+        Известные значения поля `available_for_options`: `bookmate`.
 
         Поля `can_publish`, `state`, `desired_visibility`, `filename`, `user_info` доступны только у треков что были
         загружены пользователем.
@@ -71,11 +79,17 @@ class Track(YandexMusicObject):
         preview_duration_ms (:obj:`int`, optional): TODO.
         available_full_without_permission (:obj:`bool`, optional): Доступен ли без подписки.
         version (:obj:`str`, optional): Версия.
-        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминатся последняя позиция прослушивания,
+        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминается последняя позиция прослушивания,
             иначе позиция не запоминается.
         background_video_uri (:obj:`str`, optional): Ссылка на видеошот.
-        short_description (:obj:`str`, optional): Краткое опсание эпизода подкаста.
+        short_description (:obj:`str`, optional): Краткое описание эпизода подкаста.
         is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
+        track_source (:obj:`str`, optional): Источник трека.
+        available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для трека.
+        r128 (:obj:`yandex_music.R128`, optional): Параметры нормализации громкости трека
+            в соответствии с рекомендацией EBU R 128.
+        lyrics_info (:obj:`yandex_music.LyricsInfo`, optional): Данные о наличии текстов трека.
+        track_sharing_flag (:obj:`str`, optional): TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -117,6 +131,11 @@ class Track(YandexMusicObject):
     background_video_uri: Optional[str] = None
     short_description: Optional[str] = None
     is_suitable_for_children: Optional[bool] = None
+    track_source: Optional[str] = None
+    available_for_options: Optional[List[str]] = None
+    r128: Optional['R128'] = None
+    lyrics_info: Optional['LyricsInfo'] = None
+    track_sharing_flag: Optional[str] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
@@ -466,7 +485,7 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch
+        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch, R128, LyricsInfo
 
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
@@ -477,6 +496,8 @@ class Track(YandexMusicObject):
         data['user_info'] = User.de_json(data.get('user_info'), client)
         data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
         data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
+        data['r128'] = R128.de_json(data.get('r128'), client)
+        data['lyrics_info'] = LyricsInfo.de_json(data.get('lyrics_info'), client)
 
         return cls(client=client, **data)
 

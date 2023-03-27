@@ -20,6 +20,7 @@ from yandex_music import (
     Client,
     Counts,
     Cover,
+    CustomWave,
     Day,
     Description,
     DiscreteScale,
@@ -94,6 +95,8 @@ from yandex_music import (
     Deprecation,
     TrackLyrics,
     LyricsMajor,
+    R128,
+    LyricsInfo,
 )
 from . import (
     TestAccount,
@@ -110,6 +113,7 @@ from . import (
     TestChartInfoMenuItem,
     TestCounts,
     TestCover,
+    TestCustomWave,
     TestDay,
     TestDescription,
     TestDiscreteScale,
@@ -182,6 +186,8 @@ from . import (
     TestDeprecation,
     TestLyricsMajor,
     TestTrackLyrics,
+    TestR128,
+    TestLyricsInfo,
 )
 
 
@@ -246,7 +252,7 @@ def artist_decomposed(artist_without_nested_artist):
 
 
 @pytest.fixture(scope='session')
-def track_factory(major, normalization, user, meta_data, poetry_lover_match):
+def track_factory(major, normalization, user, meta_data, poetry_lover_match, r_128, lyrics_info):
     class TrackFactory:
         def get(self, artists, albums, track_without_nested_tracks=None):
             return Track(
@@ -288,6 +294,11 @@ def track_factory(major, normalization, user, meta_data, poetry_lover_match):
                 TestTrack.background_video_uri,
                 TestTrack.short_description,
                 TestTrack.is_suitable_for_children,
+                TestTrack.track_source,
+                TestTrack.available_for_options,
+                r_128,
+                lyrics_info,
+                TestTrack.track_sharing_flag,
             )
 
     return TrackFactory()
@@ -388,6 +399,7 @@ def album_factory(label, track_position):
                 TestAlbum.likes_count,
                 deprecation,
                 TestAlbum.available_regions,
+                TestAlbum.available_for_options,
             )
 
     return AlbumFactory()
@@ -423,6 +435,8 @@ def playlist_factory(
     contest,
     open_graph_data,
     brand,
+    custom_wave,
+    pager,
 ):
     class PlaylistFactory:
         def get(self, similar_playlists, last_owner_playlists):
@@ -482,6 +496,8 @@ def playlist_factory(
                 TestPlaylist.ready,
                 TestPlaylist.is_for_from,
                 TestPlaylist.regions,
+                custom_wave,
+                pager,
             )
 
     return PlaylistFactory()
@@ -1299,3 +1315,18 @@ def search_result_with_results_and_type(request, types, results):
         [results[request.param]],
         types[request.param],
     )
+
+
+@pytest.fixture(scope='session')
+def custom_wave():
+    return CustomWave(TestCustomWave.title, TestCustomWave.animation_url, TestCustomWave.position)
+
+
+@pytest.fixture(scope='session')
+def r_128():
+    return R128(TestR128.i, TestR128.tp)
+
+
+@pytest.fixture(scope='session')
+def lyrics_info():
+    return LyricsInfo(TestLyricsInfo.has_available_sync_lyrics, TestLyricsInfo.has_available_text_lyrics)

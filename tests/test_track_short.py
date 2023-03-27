@@ -13,6 +13,7 @@ def track_short(track, chart):
         TestTrackShort.recent,
         chart,
         track,
+        TestTrackShort.original_index,
     )
 
 
@@ -22,6 +23,7 @@ class TestTrackShort:
     album_id = None
     play_count = 0
     recent = False
+    original_index = 23
 
     def test_expected_values(self, track_short, track, chart):
         assert track_short.id == self.id
@@ -31,6 +33,7 @@ class TestTrackShort:
         assert track_short.recent == self.recent
         assert track_short.track == track
         assert track_short.chart == chart
+        assert track_short.original_index == self.original_index
 
     def test_de_json_none(self, client):
         assert TrackShort.de_json({}, client) is None
@@ -54,6 +57,7 @@ class TestTrackShort:
             'recent': self.recent,
             'track': track.to_dict(),
             'chart': chart.to_dict(),
+            'original_index': self.original_index,
         }
         track_short = TrackShort.de_json(json_dict, client)
 
@@ -64,6 +68,7 @@ class TestTrackShort:
         assert track_short.recent == self.recent
         assert track_short.track == track
         assert track_short.chart == chart
+        assert track_short.original_index == self.original_index
 
     def test_equality(self):
         a = TrackShort(self.id, self.timestamp, self.album_id)

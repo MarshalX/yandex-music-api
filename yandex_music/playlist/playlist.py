@@ -18,6 +18,8 @@ if TYPE_CHECKING:
         Contest,
         OpenGraphData,
         Brand,
+        Pager,
+        CustomWave,
     )
 
 
@@ -94,6 +96,8 @@ class Playlist(YandexMusicObject):
         ready (:obj:`bool`, optional): Готовность TODO.
         is_for_from: TODO.
         regions: Регион TODO.
+        custom_wave (:obj:'yandex_music.CustomWave`, optional): Описание плейлиста. TODO.
+        pager (:obj:`yandex_music.Pager`, optional): Пагинатор.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -152,6 +156,8 @@ class Playlist(YandexMusicObject):
     ready: Optional[bool] = None
     is_for_from: Any = None
     regions: Any = None
+    custom_wave: Optional['CustomWave'] = None
+    pager: Optional['Pager'] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
@@ -426,6 +432,8 @@ class Playlist(YandexMusicObject):
             Contest,
             OpenGraphData,
             Brand,
+            CustomWave,
+            Pager,
         )
 
         data['owner'] = User.de_json(data.get('owner'), client)
@@ -449,6 +457,9 @@ class Playlist(YandexMusicObject):
         if data.get('playlist_absense'):  # очепятка яндуха
             data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absense'), client)
             data.pop('playlist_absense')
+
+        data['custom_wave'] = CustomWave.de_json(data.get('custom_wave'), client)
+        data['pager'] = Pager.de_json(data.get('pager'), client)
 
         return cls(client=client, **data)
 

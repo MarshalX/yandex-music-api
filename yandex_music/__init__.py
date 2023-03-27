@@ -44,6 +44,7 @@ from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
 from .playlist.user import User
 from .playlist.contest import Contest
+from .playlist.custom_wave import CustomWave
 from .playlist.open_graph_data import OpenGraphData
 from .playlist.brand import Brand
 from .playlist.play_counter import PlayCounter
@@ -69,6 +70,8 @@ from .track.meta_data import MetaData
 from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
+from .track.r128 import R128
+from .track.lyrics_info import LyricsInfo
 
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
@@ -263,4 +266,7 @@ __all__ = [
     'QueueItem',
     'Deprecation',
     'TrackLyrics',
+    'CustomWave',
+    'R128',
+    'LyricsInfo',
 ]
