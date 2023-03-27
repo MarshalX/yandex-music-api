@@ -12,7 +12,7 @@ class LyricsInfo(YandexMusicObject):
     """Класс, описывающий доступные тексты трека.
 
     Attributes:
-        has_available_sync_lyrics (:obj:`bool`): Наличие синхроннизированного текста.
+        has_available_sync_lyrics (:obj:`bool`): Наличие синхронизированного текста.
         has_available_text_lyrics (:obj:`bool`): Наличие текста трека.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """

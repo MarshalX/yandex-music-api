@@ -12,8 +12,8 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   yandex_music.track.LyricsInfo
    yandex_music.track.licence_text_part
+   yandex_music.track.lyrics_info
    yandex_music.track.lyrics_major
    yandex_music.track.major
    yandex_music.track.meta_data

@@ -31,11 +31,11 @@ class Track(YandexMusicObject):
 
         Известные значения поля `type`: `music`.
 
-        Известные значения поля `track_sharing_flag`: 'VIDEO_ALLOWED', 'COVER_ONLY'.
+        Известные значения поля `track_sharing_flag`: `VIDEO_ALLOWED`, `COVER_ONLY`.
 
-        Известные значения поля `track_source`: 'OWN', 'OWN_REPLACED_TO_UGC'.
+        Известные значения поля `track_source`: `OWN`, `OWN_REPLACED_TO_UGC`.
 
-        Известные значения поля `available_for_options`: 'bookmate'.
+        Известные значения поля `available_for_options`: `bookmate`.
 
         Поля `can_publish`, `state`, `desired_visibility`, `filename`, `user_info` доступны только у треков что были
         загружены пользователем.
@@ -79,17 +79,17 @@ class Track(YandexMusicObject):
         preview_duration_ms (:obj:`int`, optional): TODO.
         available_full_without_permission (:obj:`bool`, optional): Доступен ли без подписки.
         version (:obj:`str`, optional): Версия.
-        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминатся последняя позиция прослушивания,
+        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминается последняя позиция прослушивания,
             иначе позиция не запоминается.
         background_video_uri (:obj:`str`, optional): Ссылка на видеошот.
-        short_description (:obj:`str`, optional): Краткое опсание эпизода подкаста.
+        short_description (:obj:`str`, optional): Краткое описание эпизода подкаста.
         is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
         track_source (:obj:`str`, optional): Источник трека.
         available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для трека.
-        r128 (:obj:`yandex_music.R128`, optional): Параметры нормализации громкости трека в соответствии с рекомендацией EBU R 128.
+        r128 (:obj:`yandex_music.R128`, optional): Параметры нормализации громкости трека
+            в соответствии с рекомендацией EBU R 128.
         lyrics_info (:obj:`yandex_music.LyricsInfo`, optional): Данные о наличии текстов трека.
         track_sharing_flag (:obj:`str`, optional): TODO.
-
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 

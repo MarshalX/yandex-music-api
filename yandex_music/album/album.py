@@ -20,10 +20,10 @@ class Album(YandexMusicObject):
 
         Известные значения поля `meta_type`: `music`.
 
-        Известные значения поля `available_for_options`: 'bookmate'.
+        Известные значения поля `available_for_options`: `bookmate`.
 
     Attributes:
-        id_(:obj:`int`, optional): Идентификатор альбома.
+        id (:obj:`int`, optional): Идентификатор альбома.
         error (:obj:`str`, optional): Ошибка получения альбома.
         title (:obj:`str`, optional): Название альбома.
         track_count (:obj:`int`, optional): Количество треков.
@@ -67,7 +67,7 @@ class Album(YandexMusicObject):
         start_date (:obj:`str`, optional): Дата начала в формате ISO 8601 TODO.
         likes_count (:obj:`int`, optional): Количество лайков TODO.
         deprecation (:obj:`yandex_music.Deprecation`, optional): TODO.
-        available_regions (:obj:`list` из :obj:`str`, optional): Регионы, где доступн альбом.
+        available_regions (:obj:`list` из :obj:`str`, optional): Регионы, где доступен альбом.
         available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для альбома.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
