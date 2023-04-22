@@ -1,7 +1,7 @@
 # Пример работы с радио
 
 Документация:
-- [rotor_station_tracks](https://yandex-music.readthedocs.io/ru/latest/yandex_music.client.html#yandex_music.Client.rotor_station_tracks) – 
+- [rotor_station_tracks](https://yandex-music.readthedocs.io/en/latest/yandex_music.client.html#yandex_music.client.Client.rotor_station_tracks) – 
   Получение цепочки треков определённой станции. Читайте примечание.
   
 Примеры:
