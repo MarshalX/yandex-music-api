@@ -13,6 +13,7 @@
    :maxdepth: 2
 
    readme
+   token
    client
    client_async
    module

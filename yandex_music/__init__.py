@@ -1,6 +1,6 @@
 __version__ = '2.1'
 __license__ = 'GNU Lesser General Public License v3 (LGPLv3)'
-__copyright__ = 'Copyright (C) 2019-2022 Il`ya (Marshal) <https://github.com/MarshalX>'
+__copyright__ = 'Copyright (C) 2019-2023 Ilya (Marshal) <https://github.com/MarshalX>'
 
 from .base import YandexMusicObject
 
