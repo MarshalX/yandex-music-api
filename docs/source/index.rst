@@ -16,6 +16,7 @@
    token
    client
    client_async
+   examples
    module
    changes
    contributing
