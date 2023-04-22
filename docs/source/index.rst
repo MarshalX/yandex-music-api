@@ -22,3 +22,4 @@
    contributing
    code_of_conduct
    security
+   licence
