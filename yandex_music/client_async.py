@@ -1956,6 +1956,13 @@ class ClientAsync(YandexMusicObject):
             Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
             плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
 
+            Данный метод возвращает сокращенную модель плейлиста для отображения больших список.
+
+        Warning:
+            Данный метод не возвращает список треков у плейлиста! Для получения объекта :obj:`yandex_music.Playlist` c
+            заполненным полем `tracks` используйте метод :func:`yandex_music.ClientAsync.users_playlists` или
+            метод :func:`yandex_music.Playlist.fetch_tracks`.
+
         Args:
             playlist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
                 идентификатор плейлиста или плейлистов.
