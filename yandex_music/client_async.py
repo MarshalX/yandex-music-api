@@ -233,7 +233,7 @@ class ClientAsync(YandexMusicObject):
         if not data:
             data = {param: str(value)}
 
-        result = await self._request.post(url, data=data, *args, **kwargs)
+        result = await self._request.post(url, data, *args, **kwargs)
 
         return UserSettings.de_json(result, self)
 
@@ -1230,7 +1230,6 @@ class ClientAsync(YandexMusicObject):
         batch_id: str = None,
         total_played_seconds: Union[int, float] = None,
         track_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Отправка обратной связи на действия при прослушивании радио.
@@ -1282,7 +1281,7 @@ class ClientAsync(YandexMusicObject):
         if total_played_seconds:
             data.update({'totalPlayedSeconds': total_played_seconds})
 
-        result = await self._request.post(url, params=params, json=data, *args, **kwargs)
+        result = await self._request.post(url, params=params, json=data, **kwargs)
 
         return result == 'ok'
 
@@ -1293,12 +1292,11 @@ class ClientAsync(YandexMusicObject):
         from_: str,
         batch_id: str = None,
         timestamp: Union[str, float, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Сокращение для::
 
-            client.rotor_station_feedback(station, 'radioStarted', timestamp, from, *args, **kwargs)
+            client.rotor_station_feedback(station, 'radioStarted', timestamp, from, batch_id, **kwargs)
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1307,7 +1305,7 @@ class ClientAsync(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return await self.rotor_station_feedback(
-            station, 'radioStarted', timestamp, from_=from_, batch_id=batch_id, *args, **kwargs
+            station, 'radioStarted', timestamp, from_=from_, batch_id=batch_id, **kwargs
         )
 
     @log
@@ -1317,12 +1315,12 @@ class ClientAsync(YandexMusicObject):
         track_id: Union[str, int],
         batch_id: str = None,
         timestamp: Union[str, float, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Сокращение для::
 
-            client.rotor_station_feedback(station, 'trackStarted', timestamp, track_id, *args, **kwargs)
+            client.rotor_station_feedback(station, 'trackStarted', timestamp, track_id=track_id,
+            batch_id=batch_id, **kwargs)
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1331,7 +1329,7 @@ class ClientAsync(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         return await self.rotor_station_feedback(
-            station, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id, *args, **kwargs
+            station, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id, **kwargs
         )
 
     @log
@@ -1342,13 +1340,12 @@ class ClientAsync(YandexMusicObject):
         total_played_seconds: float,
         batch_id: str = None,
         timestamp: Union[str, float, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Сокращение для::
 
-            client.rotor_station_feedback(station, 'trackFinished', timestamp, track_id, total_played_seconds,
-            *args, **kwargs)
+            client.rotor_station_feedback(station, 'trackFinished', timestamp,
+            track_id=track_id, total_played_seconds=total_played_seconds, batch_id=batch_id, **kwargs)
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1363,7 +1360,6 @@ class ClientAsync(YandexMusicObject):
             track_id=track_id,
             total_played_seconds=total_played_seconds,
             batch_id=batch_id,
-            *args,
             **kwargs,
         )
 
@@ -1375,13 +1371,12 @@ class ClientAsync(YandexMusicObject):
         total_played_seconds: float,
         batch_id: str = None,
         timestamp: Union[str, float, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Сокращение для::
 
-            client.rotor_station_feedback(station, 'skip', timestamp, track_id, total_played_seconds,
-            *args, **kwargs)
+            client.rotor_station_feedback(station, 'skip', timestamp, track_id=track_id,
+            total_played_seconds=total_played_seconds, batch_id=batch_id, **kwargs)
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1396,7 +1391,6 @@ class ClientAsync(YandexMusicObject):
             track_id=track_id,
             total_played_seconds=total_played_seconds,
             batch_id=batch_id,
-            *args,
             **kwargs,
         )
 
@@ -1427,9 +1421,8 @@ class ClientAsync(YandexMusicObject):
         station: str,
         mood_energy: str,
         diversity: str,
-        language: str = 'not-russian',  # TODO (MarshalX) почему не any https://github.com/MarshalX/yandex-music-api/issues/555
+        language: str = 'not-russian',  # TODO(#555): заменить на any
         type_: str = 'rotor',
-        *args,
         **kwargs,
     ) -> bool:
         """Изменение настроек определённой станции.
@@ -1467,7 +1460,7 @@ class ClientAsync(YandexMusicObject):
         if language:
             data.update({'language': language})
 
-        result = await self._request.post(url, json=data, *args, **kwargs)
+        result = await self._request.post(url, json=data, **kwargs)
 
         return result == 'ok'
 
@@ -1519,7 +1512,7 @@ class ClientAsync(YandexMusicObject):
         if queue:
             params = {'queue': queue}
 
-        result = await self._request.get(url, params=params, *args, **kwargs)
+        result = await self._request.get(url, params, *args, **kwargs)
 
         return StationTracksResult.de_json(result, self)
 
@@ -1713,7 +1706,6 @@ class ClientAsync(YandexMusicObject):
         self,
         artist_ids: Union[List[Union[str, int]], str, int],
         user_id: Union[str, int] = None,
-        *args,
         **kwargs,
     ) -> bool:
         """Поставить отметку "Мне нравится" исполнителю/исполнителям.
@@ -1978,7 +1970,7 @@ class ClientAsync(YandexMusicObject):
         return await self._get_list('playlist', playlist_ids, *args, **kwargs)
 
     @log
-    async def playlists_collective_join(self, user_id: int, token: str, *args, **kwargs) -> bool:
+    async def playlists_collective_join(self, user_id: int, token: str, **kwargs) -> bool:
         """Присоединение к плейлисту как соавтор.
 
         Note:
@@ -2002,7 +1994,7 @@ class ClientAsync(YandexMusicObject):
 
         params = {'uid': user_id, 'token': token}
 
-        result = await self._request.post(url, params=params, *args, **kwargs)
+        result = await self._request.post(url, params=params, **kwargs)
 
         return result == 'ok'
 
@@ -2323,7 +2315,7 @@ class ClientAsync(YandexMusicObject):
             'types': types,
         }
 
-        result = await self._request.get(url, params=params, *args, **kwargs)
+        result = await self._request.get(url, params, *args, **kwargs)
 
         # TODO (MarshalX) судя по всему ручка ещё возвращает рекламу после треков для пользователей без подписки.
         #  https://github.com/MarshalX/yandex-music-api/issues/557
@@ -2380,9 +2372,7 @@ class ClientAsync(YandexMusicObject):
         return Queue.de_json(result, self)
 
     @log
-    async def queue_update_position(
-        self, queue_id: str, current_index: int, device: str = None, *args, **kwargs
-    ) -> bool:
+    async def queue_update_position(self, queue_id: str, current_index: int, device: str = None, **kwargs) -> bool:
         """Установка текущего индекса проигрываемого трека в очереди треков.
 
         Note:
@@ -2407,7 +2397,7 @@ class ClientAsync(YandexMusicObject):
 
         self._request.headers['X-Yandex-Music-Device'] = device
         result = await self._request.post(
-            url, {'isInteractive': False}, params={'currentIndex': current_index}, *args, **kwargs
+            url, {'isInteractive': False}, params={'currentIndex': current_index}, **kwargs
         )
 
         return result.get('status') == 'ok'
