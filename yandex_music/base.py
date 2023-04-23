@@ -35,12 +35,12 @@ class YandexMusicObject:
         return self.__dict__[item]
 
     @staticmethod
-    def report_unknown_fields_callback(obj, unknown_fields):
+    def report_unknown_fields_callback(cls, unknown_fields):
         logger.warning(
             f'Found unknown fields received from API! Please copy warn message '
             f'and send to {new_issue_by_template_url} (github issue), thank you!'
         )
-        logger.warning(f'Type: {type(obj)}; fields: {unknown_fields}')
+        logger.warning(f'Type: {cls.__module__}.{cls.__name__}; fields: {unknown_fields}')
 
     @classmethod
     def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:
@@ -70,7 +70,7 @@ class YandexMusicObject:
                 unknown_data[k] = v
 
         if client.report_unknown_fields and unknown_data:
-            YandexMusicObject.report_unknown_fields_callback(cls, unknown_data)
+            cls.report_unknown_fields_callback(cls, unknown_data)
 
         return cleaned_data
 

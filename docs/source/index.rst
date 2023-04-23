@@ -6,10 +6,20 @@
 Документация библиотеки
 =======================
 
-.. include:: ../../README.rst
+.. include:: ../../README.md
+   :parser: myst_parser.sphinx_
 
 .. toctree::
+   :maxdepth: 2
 
    readme
-   yandex_music
+   token
+   client
+   client_async
+   examples
+   module
    changes
+   contributing
+   code_of_conduct
+   security
+   licence

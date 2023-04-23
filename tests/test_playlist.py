@@ -59,6 +59,8 @@ class TestPlaylist:
         contest,
         open_graph_data,
         brand,
+        custom_wave,
+        pager,
     ):
         assert playlist.owner == user
         assert playlist.uid == self.uid
@@ -115,6 +117,8 @@ class TestPlaylist:
         assert playlist.ready == self.ready
         assert playlist.is_for_from == self.is_for_from
         assert playlist.regions == self.regions
+        assert playlist.custom_wave == custom_wave
+        assert playlist.pager == pager
 
     def test_de_json_none(self, client):
         assert Playlist.de_json({}, client) is None
@@ -153,6 +157,8 @@ class TestPlaylist:
         contest,
         open_graph_data,
         brand,
+        custom_wave,
+        pager,
     ):
         json_dict = {
             'owner': user.to_dict(),
@@ -210,6 +216,8 @@ class TestPlaylist:
             'playlist_uuid': self.playlist_uuid,
             'type': self.type,
             'ready': self.ready,
+            'custom_wave': custom_wave.to_dict(),
+            'pager': pager.to_dict(),
         }
         playlist = Playlist.de_json(json_dict, client)
 
@@ -268,6 +276,8 @@ class TestPlaylist:
         assert playlist.ready == self.ready
         assert playlist.is_for_from == self.is_for_from
         assert playlist.regions == self.regions
+        assert playlist.custom_wave == custom_wave
+        assert playlist.pager == pager
 
     def test_equality(self, user, cover, made_for, play_counter, playlist_absence):
         a = Playlist(user, cover, made_for, play_counter, playlist_absence)

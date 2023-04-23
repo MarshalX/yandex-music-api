@@ -8,6 +8,8 @@ class UnauthorizedError(YandexMusicError):
     """
 
 
+# TODO (MarshalX) На самом деле поиск еще происходит по кодеку
+#  https://github.com/MarshalX/yandex-music-api/issues/552
 class InvalidBitrateError(YandexMusicError):
     """Класс исключения, вызываемого при попытке загрузки трека
     с недоступным битрейтом.
@@ -28,7 +30,7 @@ class NotFoundError(NetworkError):
     """Класс исключения, вызываемый в случае ответа от сервера со статус кодом 404."""
 
 
-# TimeoutError builtin. И не знаю хотим ли использовать его для синк и asyncio.TimeoutError для асинк
+# TimeoutError builtin. Пока не знаю хотим ли использовать его для синхронной и asyncio.TimeoutError для асинхронной
 class TimedOutError(NetworkError):
     """Класс исключения, вызываемого для случаев истечения времени ожидания."""
 

@@ -36,6 +36,9 @@ class TestTrack:
         ' желания познакомиться с девушкой, достаточно много. Обычно они сводятся к опасениям,'
     )
     is_suitable_for_children = True
+    track_source = 'OWN'
+    available_for_options = ['bookmate']
+    track_sharing_flag = 'VIDEO_ALLOWED'
 
     def test_expected_values(
         self,
@@ -48,6 +51,8 @@ class TestTrack:
         user,
         meta_data,
         poetry_lover_match,
+        r_128,
+        lyrics_info,
     ):
         assert track.id == self.id
         assert track.title == self.title
@@ -87,6 +92,11 @@ class TestTrack:
         assert track.background_video_uri == self.background_video_uri
         assert track.short_description == self.short_description
         assert track.is_suitable_for_children == self.is_suitable_for_children
+        assert track.track_source == self.track_source
+        assert track.available_for_options == self.available_for_options
+        assert track.r128 == r_128
+        assert track.lyrics_info == lyrics_info
+        assert track.track_sharing_flag == self.track_sharing_flag
 
     def test_de_json_none(self, client):
         assert Track.de_json({}, client) is None
@@ -111,6 +121,8 @@ class TestTrack:
         user,
         meta_data,
         poetry_lover_match,
+        r_128,
+        lyrics_info,
     ):
         json_dict = {
             'id': self.id,
@@ -151,6 +163,11 @@ class TestTrack:
             'background_video_uri': self.background_video_uri,
             'short_description': self.short_description,
             'is_suitable_for_children': self.is_suitable_for_children,
+            'track_source': self.track_source,
+            'available_for_options': self.available_for_options,
+            'r128': r_128.to_dict(),
+            'lyrics_info': lyrics_info.to_dict(),
+            'track_sharing_flag': self.track_sharing_flag,
         }
         track = Track.de_json(json_dict, client)
 
@@ -192,6 +209,11 @@ class TestTrack:
         assert track.background_video_uri == self.background_video_uri
         assert track.short_description == self.short_description
         assert track.is_suitable_for_children == self.is_suitable_for_children
+        assert track.track_source == self.track_source
+        assert track.available_for_options == self.available_for_options
+        assert track.r128 == r_128
+        assert track.lyrics_info == lyrics_info
+        assert track.track_sharing_flag == self.track_sharing_flag
 
     def test_equality(self):
         a = Track(self.id)

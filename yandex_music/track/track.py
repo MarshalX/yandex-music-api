@@ -16,6 +16,9 @@ if TYPE_CHECKING:
         User,
         MetaData,
         PoetryLoverMatch,
+        TrackLyrics,
+        LyricsInfo,
+        R128,
     )
 
 
@@ -27,6 +30,12 @@ class Track(YandexMusicObject):
         Известные значения поля `content_warning`: `explicit`.
 
         Известные значения поля `type`: `music`.
+
+        Известные значения поля `track_sharing_flag`: `VIDEO_ALLOWED`, `COVER_ONLY`.
+
+        Известные значения поля `track_source`: `OWN`, `OWN_REPLACED_TO_UGC`.
+
+        Известные значения поля `available_for_options`: `bookmate`.
 
         Поля `can_publish`, `state`, `desired_visibility`, `filename`, `user_info` доступны только у треков что были
         загружены пользователем.
@@ -70,11 +79,17 @@ class Track(YandexMusicObject):
         preview_duration_ms (:obj:`int`, optional): TODO.
         available_full_without_permission (:obj:`bool`, optional): Доступен ли без подписки.
         version (:obj:`str`, optional): Версия.
-        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминатся последняя позиция прослушивания,
+        remember_position (:obj:`bool`, optional): Если :obj:`True`, то запоминается последняя позиция прослушивания,
             иначе позиция не запоминается.
         background_video_uri (:obj:`str`, optional): Ссылка на видеошот.
-        short_description (:obj:`str`, optional): Краткое опсание эпизода подкаста.
+        short_description (:obj:`str`, optional): Краткое описание эпизода подкаста.
         is_suitable_for_children (:obj:`bool`, optional): Подходит ли для детей TODO.
+        track_source (:obj:`str`, optional): Источник трека.
+        available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для трека.
+        r128 (:obj:`yandex_music.R128`, optional): Параметры нормализации громкости трека
+            в соответствии с рекомендацией EBU R 128.
+        lyrics_info (:obj:`yandex_music.LyricsInfo`, optional): Данные о наличии текстов трека.
+        track_sharing_flag (:obj:`str`, optional): TODO.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -116,6 +131,11 @@ class Track(YandexMusicObject):
     background_video_uri: Optional[str] = None
     short_description: Optional[str] = None
     is_suitable_for_children: Optional[bool] = None
+    track_source: Optional[str] = None
+    available_for_options: Optional[List[str]] = None
+    r128: Optional['R128'] = None
+    lyrics_info: Optional['LyricsInfo'] = None
+    track_sharing_flag: Optional[str] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
@@ -154,6 +174,42 @@ class Track(YandexMusicObject):
         """
         return await self.client.track_supplement(self.id, *args, **kwargs)
 
+    def get_lyrics(self, *args, **kwargs) -> Optional['TrackLyrics']:
+        """Сокращение для::
+
+        client.tracks_lyrics(track.id, *args, **kwargs)
+        """
+        return self.client.tracks_lyrics(self.id, *args, **kwargs)
+
+    async def get_lyrics_async(self, *args, **kwargs) -> Optional['TrackLyrics']:
+        """Сокращение для::
+
+        client.tracks_lyrics(track.id, *args, **kwargs)
+        """
+        return await self.client.tracks_lyrics(self.id, *args, **kwargs)
+
+    def get_cover_url(self, size: str = '200x200') -> str:
+        """Возвращает URL обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.cover_uri.replace("%%", size)}'
+
+    def get_og_image_url(self, size: str = '200x200') -> str:
+        """Возвращает URL OG обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.og_image.replace("%%", size)}'
+
     def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
@@ -161,7 +217,7 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -170,7 +226,7 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_cover_url(size), filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -181,7 +237,7 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        self.client.request.download(self.get_og_image_url(size), filename)
 
     async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -192,7 +248,91 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_og_image_url(size), filename)
+
+    def download_cover_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_cover_url(size))
+
+    async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_cover_url(size))
+
+    def download_og_image_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Предпочтительнее использовать `self.download_cover()`.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_og_image_url(size))
+
+    async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Предпочтительнее использовать `self.download_cover_async()`.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_og_image_url(size))
+
+    def get_specific_download_info(self, codec: str, bitrate_in_kbps: int) -> Optional['DownloadInfo']:
+        """Возвращает вариант загрузки по критериям.
+
+        Args:
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Returns:
+            :obj:`yandex_music.DownloadInfo` | :obj:`None`: Вариант загрузки трека или :obj:`None`.
+        """
+        if self.download_info is None:
+            self.get_download_info()
+
+        for info in self.download_info:
+            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
+                return info
+        return None
+
+    async def get_specific_download_info_async(self, codec: str, bitrate_in_kbps: int) -> Optional['DownloadInfo']:
+        """Возвращает вариант загрузки по критериям.
+
+        Args:
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Returns:
+            :obj:`yandex_music.DownloadInfo` | :obj:`None`: Вариант загрузки трека или :obj:`None`.
+        """
+        if self.download_info is None:
+            await self.get_download_info_async()
+
+        for info in self.download_info:
+            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
+                return info
+        return None
 
     def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
         """Загрузка трека.
@@ -210,13 +350,9 @@ class Track(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
-        if self.download_info is None:
-            self.get_download_info()
-
-        for info in self.download_info:
-            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
-                info.download(filename)
-                break
+        info = self.get_specific_download_info(codec, bitrate_in_kbps)
+        if info:
+            info.download(filename)
         else:
             raise InvalidBitrateError('Unavailable bitrate')
 
@@ -236,13 +372,57 @@ class Track(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
-        if self.download_info is None:
-            await self.get_download_info_async()
+        info = await self.get_specific_download_info_async(codec, bitrate_in_kbps)
+        if info:
+            await info.download_async(filename)
+        else:
+            raise InvalidBitrateError('Unavailable bitrate')
 
-        for info in self.download_info:
-            if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
-                await info.download_async(filename)
-                break
+    def download_bytes(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Note:
+            Известные значения `codec`: `mp3`, `aac`.
+
+            Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
+
+        Args:
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Raises:
+            :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        info = self.get_specific_download_info(codec, bitrate_in_kbps)
+        if info:
+            return info.download_bytes()
+        else:
+            raise InvalidBitrateError('Unavailable bitrate')
+
+    async def download_bytes_async(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Note:
+            Известные значения `codec`: `mp3`, `aac`.
+
+            Известные значения `bitrate_in_kbps`: `64`, `128`, `192`, `320`.
+
+        Args:
+            codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
+            bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+
+        Raises:
+            :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        info = await self.get_specific_download_info_async(codec, bitrate_in_kbps)
+        if info:
+            return await info.download_bytes_async()
         else:
             raise InvalidBitrateError('Unavailable bitrate')
 
@@ -305,7 +485,7 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch
+        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch, R128, LyricsInfo
 
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
@@ -316,6 +496,8 @@ class Track(YandexMusicObject):
         data['user_info'] = User.de_json(data.get('user_info'), client)
         data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
         data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
+        data['r128'] = R128.de_json(data.get('r128'), client)
+        data['lyrics_info'] = LyricsInfo.de_json(data.get('lyrics_info'), client)
 
         return cls(client=client, **data)
 
@@ -345,6 +527,14 @@ class Track(YandexMusicObject):
     getSupplement = get_supplement
     #: Псевдоним для :attr:`get_supplement_async`
     getSupplementAsync = get_supplement_async
+    #: Псевдоним для :attr:`get_lyrics`
+    getLyrics = get_lyrics
+    #: Псевдоним для :attr:`get_lyrics_async`
+    getLyricsAsync = get_lyrics_async
+    #: Псевдоним для :attr:`get_cover_url`
+    getCoverUrl = get_cover_url
+    #: Псевдоним для :attr:`get_og_image_url`
+    getOgImageUrl = get_og_image_url
     #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
     #: Псевдоним для :attr:`download_cover_async`
@@ -353,11 +543,29 @@ class Track(YandexMusicObject):
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_og_image_async`
     downloadOgImageAsync = download_og_image_async
-    #: Псевдоним для :attr:`track_id`
-    trackId = track_id
+    #: Псевдоним для :attr:`download_cover_bytes`
+    downloadCoverBytes = download_cover_bytes
+    #: Псевдоним для :attr:`download_cover_bytes_async`
+    downloadCoverBytesAsync = download_cover_bytes_async
+    #: Псевдоним для :attr:`download_og_image_bytes`
+    downloadOgImageBytes = download_og_image_bytes
+    #: Псевдоним для :attr:`download_og_image_bytes_async`
+    downloadOgImageBytesAsync = download_og_image_bytes_async
+    #: Псевдоним для :attr:`get_specific_download_info`
+    getSpecificDownloadInfo = get_specific_download_info
+    #: Псевдоним для :attr:`get_specific_download_info_async`
+    getSpecificDownloadInfoAsync = get_specific_download_info_async
+    #: Псевдоним для :attr:`download_async`
+    downloadAsync = download_async
+    #: Псевдоним для :attr:`download_bytes`
+    downloadBytes = download_bytes
+    #: Псевдоним для :attr:`download_bytes_async`
+    downloadBytesAsync = download_bytes_async
     #: Псевдоним для :attr:`like_async`
     likeAsync = like_async
     #: Псевдоним для :attr:`dislike_async`
-    dislike_async = dislike_async
-    #: Псевдоним для :attr:`download_async`
-    downloadAsync = download_async
+    dislikeAsync = dislike_async
+    #: Псевдоним для :attr:`artists_name`
+    artistsName = artists_name
+    #: Псевдоним для :attr:`track_id`
+    trackId = track_id

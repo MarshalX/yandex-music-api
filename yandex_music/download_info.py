@@ -10,6 +10,8 @@ if TYPE_CHECKING:
     from yandex_music import Client
     from xml.dom.minicompat import NodeList
 
+SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA'
+
 
 @model
 class DownloadInfo(YandexMusicObject):
@@ -52,7 +54,7 @@ class DownloadInfo(YandexMusicObject):
         path = self._get_text_node_data(doc.getElementsByTagName('path'))
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
         s = self._get_text_node_data(doc.getElementsByTagName('s'))
-        sign = md5(('XGRlBW9FXlekgbPrRHuSiA' + path[1::] + s).encode('utf-8')).hexdigest()
+        sign = md5((SIGN_SALT + path[1::] + s).encode('utf-8')).hexdigest()
 
         return f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
@@ -107,6 +109,28 @@ class DownloadInfo(YandexMusicObject):
             await self.get_direct_link_async()
 
         await self.client.request.download(self.direct_link, filename)
+
+    def download_bytes(self) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        if self.direct_link is None:
+            self.get_direct_link()
+
+        return self.client.request.retrieve(self.direct_link)
+
+    async def download_bytes_async(self) -> bytes:
+        """Загрузка трека и возврат в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Трек в виде байтов.
+        """
+        if self.direct_link is None:
+            await self.get_direct_link_async()
+
+        return await self.client.request.retrieve(self.direct_link)
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['DownloadInfo']:
@@ -184,3 +208,7 @@ class DownloadInfo(YandexMusicObject):
     getDirectLinkAsync = get_direct_link_async
     #: Псевдоним для :attr:`download_async`
     downloadAsync = download_async
+    #: Псевдоним для :attr:`download_bytes`
+    downloadBytes = download_bytes
+    #: Псевдоним для :attr:`download_bytes_async`
+    downloadBytesAsync = download_bytes_async

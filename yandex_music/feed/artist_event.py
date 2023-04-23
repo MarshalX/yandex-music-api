@@ -12,9 +12,9 @@ class ArtistEvent(YandexMusicObject):
     """Класс, представляющий артиста в событии фида.
 
     Attributes:
-        artist (:obj:`yandex_music.Artist` | :obj:`None`): Артист.
-        tracks (:obj:`list` :obj:`yandex_music.Track`): Треки.
-        similar_to_artists_from_history (:obj:`list` :obj:`yandex_music.Artist`): Похожие артисты из истории.
+        artist (:obj:`yandex_music.Artist`, optional): Артист.
+        tracks (:obj:`list` из :obj:`yandex_music.Track`): Треки.
+        similar_to_artists_from_history (:obj:`list` из :obj:`yandex_music.Artist`): Похожие артисты из истории.
         subscribed (:obj:`bool`): Подписан ли на событие.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """

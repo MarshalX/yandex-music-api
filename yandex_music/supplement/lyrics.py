@@ -11,6 +11,10 @@ if TYPE_CHECKING:
 class Lyrics(YandexMusicObject):
     """Класс, представляющий текст трека.
 
+    Warning:
+        Получение текста из дополнительной информации устарело. Используйте
+        :func:`yandex_music.Client.tracks_lyrics`.
+
     Attributes:
         id (:obj:`int`): Уникальный идентификатор текста трека.
         lyrics (:obj:`str`): Первые строки текст песни.

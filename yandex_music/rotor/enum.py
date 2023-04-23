@@ -14,7 +14,7 @@ class Enum(YandexMusicObject):
     Attributes:
         type (:obj:`str`): Тип перечисления.
         name (:obj:`str`): Название перечисления.
-        possible_values (:obj:`list` из :obj:`yandex_Music.Value`): Доступные значения.
+        possible_values (:obj:`list` из :obj:`yandex_music.Value`): Доступные значения.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """

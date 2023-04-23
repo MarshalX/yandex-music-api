@@ -1,6 +1,6 @@
-__version__ = '2.0.1'
+__version__ = '2.1.0'
 __license__ = 'GNU Lesser General Public License v3 (LGPLv3)'
-__copyright__ = 'Copyright (C) 2019-2022 Il`ya (Marshal) <https://github.com/MarshalX>'
+__copyright__ = 'Copyright (C) 2019-2023 Ilya (Marshal) <https://github.com/MarshalX>'
 
 from .base import YandexMusicObject
 
@@ -44,6 +44,7 @@ from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
 from .playlist.user import User
 from .playlist.contest import Contest
+from .playlist.custom_wave import CustomWave
 from .playlist.open_graph_data import OpenGraphData
 from .playlist.brand import Brand
 from .playlist.play_counter import PlayCounter
@@ -62,11 +63,15 @@ from .shot.shot_event import ShotEvent
 from .tracks_list import TracksList
 from .track.major import Major
 from .track.licence_text_part import LicenceTextPart
+from .track.track_lyrics import TrackLyrics
+from .track.lyrics_major import LyricsMajor
 from .track.poetry_lover_match import PoetryLoverMatch
 from .track.meta_data import MetaData
 from .track.normalization import Normalization
 from .track.track import Track
 from .track.tracks_similar import SimilarTracks
+from .track.r128 import R128
+from .track.lyrics_info import LyricsInfo
 
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
@@ -260,4 +265,8 @@ __all__ = [
     'Queue',
     'QueueItem',
     'Deprecation',
+    'TrackLyrics',
+    'CustomWave',
+    'R128',
+    'LyricsInfo',
 ]

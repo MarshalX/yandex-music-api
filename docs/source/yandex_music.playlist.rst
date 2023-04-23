@@ -15,6 +15,7 @@ Submodules
    yandex_music.playlist.brand
    yandex_music.playlist.case_forms
    yandex_music.playlist.contest
+   yandex_music.playlist.custom_wave
    yandex_music.playlist.made_for
    yandex_music.playlist.open_graph_data
    yandex_music.playlist.play_counter

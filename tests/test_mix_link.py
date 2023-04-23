@@ -37,7 +37,6 @@ class TestMixLink:
             'text_color': self.text_color,
             'background_color': self.background_color,
             'background_image_uri': self.background_image_uri,
-            'cover_white': self.cover_white,
         }
         mix_link = MixLink.de_json(json_dict, client)
 
@@ -47,7 +46,6 @@ class TestMixLink:
         assert mix_link.text_color == self.text_color
         assert mix_link.background_color == self.background_color
         assert mix_link.background_image_uri == self.background_image_uri
-        assert mix_link.cover_white == self.cover_white
 
     def test_de_json_all(self, client):
         json_dict = {
@@ -79,7 +77,6 @@ class TestMixLink:
             self.text_color,
             self.background_color,
             self.background_image_uri,
-            self.cover_white,
         )
         b = MixLink(
             self.title,
@@ -88,7 +85,6 @@ class TestMixLink:
             self.text_color,
             self.background_color,
             self.background_image_uri,
-            self.cover_white,
         )
         c = MixLink(
             self.title,
@@ -97,7 +93,6 @@ class TestMixLink:
             '#000000',
             self.background_color,
             self.background_image_uri,
-            self.cover_white,
         )
         d = MixLink(
             self.title,
@@ -106,7 +101,6 @@ class TestMixLink:
             self.text_color,
             self.background_color,
             self.background_image_uri,
-            self.cover_white,
         )
 
         assert a != b != c

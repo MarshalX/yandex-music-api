@@ -95,9 +95,9 @@ class TrackId(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`track_full_id`
+    trackFullId = track_full_id
     #: Псевдоним для :attr:`fetch_track`
     fetchTrack = fetch_track
     #: Псевдоним для :attr:`fetch_track_async`
     fetchTrackAsync = fetch_track_async
-    #: Псевдоним для :attr:`track_full_id`
-    trackFullId = track_full_id

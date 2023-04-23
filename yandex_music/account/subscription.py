@@ -20,12 +20,14 @@ class Subscription(YandexMusicObject):
         can_start_trial (:obj:`bool`, optional): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`, optional): mcdonalds TODO.
         end (:obj:`str`, optional): Дата окончания.
+        had_any_subscription (:obj:'bool'): Наличие какой-либо подписки в прошлом.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     non_auto_renewable_remainder: 'RenewableRemainder'
     auto_renewable: List['AutoRenewable']
     family_auto_renewable: List['AutoRenewable']
+    had_any_subscription: bool
     operator: List['Operator'] = None
     non_auto_renewable: Optional['NonAutoRenewable'] = None
     can_start_trial: Optional[bool] = None

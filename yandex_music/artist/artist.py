@@ -29,7 +29,7 @@ class Artist(YandexMusicObject):
         links (:obj:`list` из :obj:`yandex_music.Link`, optional): Ссылки на ресурсы исполнителя.
         tickets_available (:obj:`bool`, optional): Имеются ли в продаже билеты на концерт.
         likes_count (:obj:`int`, optional): Количество лайков.
-        popular_tracks (:obj:`list` :obj:`yandex_music.Track`, optional): Популярные треки.
+        popular_tracks (:obj:`list` из :obj:`yandex_music.Track`, optional): Популярные треки.
         regions (:obj:`list` из :obj:`str`, optional): Регион TODO.
         decomposed (:obj:`list` из :obj:`str` и :obj:`yandex_music.Artist`, optional): Декомпозиция всех исполнителей.
             Лист, где чередуется разделитель и артист. Фиты и прочее.
@@ -81,6 +81,28 @@ class Artist(YandexMusicObject):
     def __post_init__(self):
         self._id_attrs = (self.id, self.name, self.cover)
 
+    def get_op_image_url(self, size: str = '200x200') -> str:
+        """Возвращает URL OP обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.op_image.replace("%%", size)}'
+
+    def get_og_image_url(self, size: str = '200x200') -> str:
+        """Возвращает URL OG обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.og_image.replace("%%", size)}'
+
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка изображения для Open Graph.
 
@@ -88,7 +110,7 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        self.client.request.download(self.get_og_image_url(size), filename)
 
     async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка изображения для Open Graph.
@@ -97,7 +119,7 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_og_image_url(size), filename)
 
     def download_op_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -109,7 +131,7 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
+        self.client.request.download(self.get_op_image_url(size), filename)
 
     async def download_op_image_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -121,7 +143,57 @@ class Artist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.op_image.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_op_image_url(size), filename)
+
+    def download_og_image_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка изображения для Open Graph и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Изображение в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_og_image_url(size))
+
+    async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка изображения для Open Graph и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Изображение в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_og_image_url(size))
+
+    def download_op_image_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Notes:
+            Используйте это только когда нет self.cover!
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_op_image_url(size))
+
+    async def download_op_image_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Notes:
+            Используйте это только когда нет self.cover!
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_op_image_url(size))
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
@@ -233,6 +305,10 @@ class Artist(YandexMusicObject):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`get_op_image_url`
+    getOpImageUrl = get_op_image_url
+    #: Псевдоним для :attr:`get_og_image_url`
+    getOgImageUrl = get_og_image_url
     #: Псевдоним для :attr:`download_og_image`
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_og_image_async`
@@ -241,6 +317,18 @@ class Artist(YandexMusicObject):
     downloadOpImage = download_op_image
     #: Псевдоним для :attr:`download_op_image_async`
     downloadOpImageAsync = download_op_image_async
+    #: Псевдоним для :attr:`download_og_image_bytes`
+    downloadOgImageBytes = download_og_image_bytes
+    #: Псевдоним для :attr:`download_og_image_bytes_async`
+    downloadOgImageBytesAsync = download_og_image_bytes_async
+    #: Псевдоним для :attr:`download_op_image_bytes`
+    downloadOpImageBytes = download_op_image_bytes
+    #: Псевдоним для :attr:`download_op_image_bytes_async`
+    downloadOpImageBytesAsync = download_op_image_bytes_async
+    #: Псевдоним для :attr:`like_async`
+    likeAsync = like_async
+    #: Псевдоним для :attr:`dislike_async`
+    dislikeAsync = dislike_async
     #: Псевдоним для :attr:`get_tracks`
     getTracks = get_tracks
     #: Псевдоним для :attr:`get_tracks_async`
@@ -249,7 +337,3 @@ class Artist(YandexMusicObject):
     getAlbums = get_albums
     #: Псевдоним для :attr:`get_albums_async`
     getAlbumsAsync = get_albums_async
-    #: Псевдоним для :attr:`like_async`
-    likeAsync = like_async
-    #: Псевдоним для :attr:`dislike_async`
-    dislikeAsync = dislike_async

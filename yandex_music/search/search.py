@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicObject, Album, Artist, Playlist, Track, Video, User
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -36,14 +36,14 @@ class Search(YandexMusicObject):
     search_request_id: str
     text: str
     best: Optional['Best']
-    albums: Optional['SearchResult']
-    artists: Optional['SearchResult']
-    playlists: Optional['SearchResult']
-    tracks: Optional['SearchResult']
-    videos: Optional['SearchResult']
-    users: Optional['SearchResult']
-    podcasts: Optional['SearchResult']
-    podcast_episodes: Optional['SearchResult']
+    albums: Optional['SearchResult[Album]']
+    artists: Optional['SearchResult[Artist]']
+    playlists: Optional['SearchResult[Playlist]']
+    tracks: Optional['SearchResult[Track]']
+    videos: Optional['SearchResult[Video]']
+    users: Optional['SearchResult[User]']
+    podcasts: Optional['SearchResult[Album]']
+    podcast_episodes: Optional['SearchResult[Track]']
     type: Optional[str] = None
     page: Optional[int] = None
     per_page: Optional[int] = None
@@ -165,7 +165,7 @@ class Search(YandexMusicObject):
     #: Псевдоним для :attr:`next_page`
     nextPage = next_page
     #: Псевдоним для :attr:`next_page_async`
-    nextPageASync = next_page_async
+    nextPageAsync = next_page_async
     #: Псевдоним для :attr:`prev_page`
     prevPage = prev_page
     #: Псевдоним для :attr:`prev_page_async`

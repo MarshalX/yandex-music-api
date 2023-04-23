@@ -43,7 +43,7 @@ if args.print_args:
     print(args)
     sys.exit()
 
-if type(args.token) is str and re.match(r'^[A-z0-9]{39}$', args.token):
+if type(args.token) is str and re.match(r'^[A-Za-z0-9]{39}$', args.token):
     if not args.no_save_token:
         parser.get_default('token').write_text(args.token)
 else:

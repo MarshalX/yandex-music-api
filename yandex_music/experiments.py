@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 @model
 class Experiments(YandexMusicObject):
-    """Класс, представляющий какие-то свистелки-перделки, флажки, режимы экспериментальных функций.
+    """Класс, представляющий какие-то свистелки и перделки, флажки, режимы экспериментальных функций.
 
     Attributes:
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
@@ -35,7 +35,7 @@ class Experiments(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.Experiments`: Какие-то свистелки-перделки, флажки, режимы экспериментальных функций.
+            :obj:`yandex_music.Experiments`: Какие-то свистелки и перделки, флажки, режимы экспериментальных функций.
         """
         if not data:
             return None

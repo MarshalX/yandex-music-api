@@ -20,8 +20,10 @@ class Album(YandexMusicObject):
 
         Известные значения поля `meta_type`: `music`.
 
+        Известные значения поля `available_for_options`: `bookmate`.
+
     Attributes:
-        id_(:obj:`int`, optional): Идентификатор альбома.
+        id (:obj:`int`, optional): Идентификатор альбома.
         error (:obj:`str`, optional): Ошибка получения альбома.
         title (:obj:`str`, optional): Название альбома.
         track_count (:obj:`int`, optional): Количество треков.
@@ -65,7 +67,8 @@ class Album(YandexMusicObject):
         start_date (:obj:`str`, optional): Дата начала в формате ISO 8601 TODO.
         likes_count (:obj:`int`, optional): Количество лайков TODO.
         deprecation (:obj:`yandex_music.Deprecation`, optional): TODO.
-        available_regions (:obj:`list` из :obj:`str`, optional): Регионы, где доступн альбом.
+        available_regions (:obj:`list` из :obj:`str`, optional): Регионы, где доступен альбом.
+        available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для альбома.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -114,6 +117,7 @@ class Album(YandexMusicObject):
     likes_count: Optional[int] = None
     deprecation: Optional['Deprecation'] = None
     available_regions: Optional[List[str]] = None
+    available_for_options: Optional[List[str]] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
@@ -133,6 +137,28 @@ class Album(YandexMusicObject):
         """
         return await self.client.albums_with_tracks(self.id, *args, **kwargs)
 
+    def get_cover_url(self, size: str = '200x200') -> str:
+        """Возвращает URL обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.cover_uri.replace("%%", size)}'
+
+    def get_og_image_url(self, size: str = '200x200') -> str:
+        """Возвращает URL OG обложки.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`str`: URL обложки.
+        """
+        return f'https://{self.og_image.replace("%%", size)}'
+
     def download_cover(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
 
@@ -140,7 +166,7 @@ class Album(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -149,7 +175,7 @@ class Album(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.cover_uri.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_cover_url(size), filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -160,7 +186,7 @@ class Album(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        self.client.request.download(self.get_og_image_url(size), filename)
 
     async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
         """Загрузка обложки.
@@ -171,7 +197,55 @@ class Album(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
-        await self.client.request.download(f'https://{self.og_image.replace("%%", size)}', filename)
+        await self.client.request.download(self.get_og_image_url(size), filename)
+
+    def download_cover_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_cover_url(size))
+
+    async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_cover_url(size))
+
+    def download_og_image_bytes(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Предпочтительнее использовать `self.download_cover()`.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return self.client.request.retrieve(self.get_og_image_url(size))
+
+    async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
+        """Загрузка обложки и возврат в виде байтов.
+
+        Предпочтительнее использовать `self.download_cover_async()`.
+
+        Args:
+            size (:obj:`str`, optional): Размер обложки.
+
+        Returns:
+            :obj:`bytes`: Обложка в виде байтов.
+        """
+        return await self.client.request.retrieve(self.get_og_image_url(size))
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
@@ -260,6 +334,10 @@ class Album(YandexMusicObject):
     withTracks = with_tracks
     #: Псевдоним для :attr:`with_tracks_async`
     withTracksAsync = with_tracks_async
+    #: Псевдоним для :attr:`get_cover_url`
+    getCoverUrl = get_cover_url
+    #: Псевдоним для :attr:`get_og_image_url`
+    getOgImageUrl = get_og_image_url
     #: Псевдоним для :attr:`download_cover`
     downloadCover = download_cover
     #: Псевдоним для :attr:`download_cover_async`
@@ -268,5 +346,17 @@ class Album(YandexMusicObject):
     downloadOgImage = download_og_image
     #: Псевдоним для :attr:`download_og_image_async`
     downloadOgImageAsync = download_og_image_async
+    #: Псевдоним для :attr:`download_cover_bytes`
+    downloadCoverBytes = download_cover_bytes
+    #: Псевдоним для :attr:`download_cover_bytes_async`
+    downloadCoverBytesAsync = download_cover_bytes_async
+    #: Псевдоним для :attr:`download_og_image_bytes`
+    downloadOgImageBytes = download_og_image_bytes
+    #: Псевдоним для :attr:`download_og_image_bytes_async`
+    downloadOgImageBytesAsync = download_og_image_bytes_async
+    #: Псевдоним для :attr:`like_async`
+    likeAsync = like_async
+    #: Псевдоним для :attr:`dislike_async`
+    dislikeAsync = dislike_async
     #: Псевдоним для :attr:`artists_name`
     artistsName = artists_name
