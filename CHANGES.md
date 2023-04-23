@@ -2,17 +2,51 @@
 
 ## Версия 2.1.0
 
-**XX.XX.2023**
+**23.04.2023**
 
-TODO
+**Переломные изменения**
+
+При работе над [#547](https://github.com/MarshalX/yandex-music-api/issues/547) и
+[#550](https://github.com/MarshalX/yandex-music-api/issues/550) 
+были удалены `*args` параметры, у методов класса `Client`, которые не имели никакого эффекта. 
+Передать через позиционные аргументы что-то в конечный запрос не было возможно. 
+Удаление данной конструкции **могло** затронуть код в котором ошибочно передавались лишние аргументы.
+При корректном использовании библиотеки новая версия полностью совместима со старым кодом.
 
 **Крупные изменения**
 
+- Добавлена поддержка Python 3.11.
 - В модели добавлены методы `download_bytes` и `download_bytes_async`, для получения файлов в виде байтов ([#539](https://github.com/MarshalX/yandex-music-api/issues/539)).
+- Добавлен новый метод получения текста и синхронного текста треков ([#568](https://github.com/MarshalX/yandex-music-api/pull/568)).
+- Добавлена возможность задать `timeout` по умолчанию для `Client` ([#362](https://github.com/MarshalX/yandex-music-api/issues/362)).
+- Использование настройки языка клиента во всех методах ([#554](https://github.com/MarshalX/yandex-music-api/issues/554)).
+- Добавлено поле `preview_description` классу `GeneratedPlaylist`.
+- Добавлены поля `pretrial_active` и `userhash` классу `Status`.
+- Добавлено поле `had_any_subscription` классу `Subscription`.
+- Добавлено поле `child` классу `Account`.
+- Добавлены новые поля `up_title`, `rup_description`, `custom_name` классу `StationResult`.
+- Добавлены новые модели: `CustomWave`, `R128`, `LyricsInfo`.
+- Классу `Track` добавлены новые поля: `track_source`, `available_for_options`, `r128`, `lyrics_info`, `track_sharing_flag`.
+- Классу `TrackShort` добавлены новые поля: `original_index`.
+- Классу `Playlist` добавлены новые поля: `custom_wave`, `pager`.
+- Классу `Album` добавлены новые поля: `available_for_options`.
+- Поле `cover_white` класса `MixLink` теперь опциональное.
 
 **Незначительные изменения и/или исправления**
 
-- Исправлены методы-сокращения класса Playlist (like, dislike) ([#516](https://github.com/MarshalX/yandex-music-api/pull/516)).
+- Добавлен генератор Camel Case псевдонимов для методов ([#542](https://github.com/MarshalX/yandex-music-api/issues/542)).
+- Добавлен Makefile с сокращениями удобными при разработке библиотеки.
+- Добавлено отображение модуля при нахождении неизвестного поля.
+- Добавлена поддержка MD файлов для документации.
+- Добавлена страница в документацию по получению токена.
+- Добавлены примеры в документацию.
+- Переделана структура и обновлена документации.
+- Исправлен запуск генератора async клиента на Windows.
+- Исправлен метод `fetch_tracks_async` у класса `Playlist`.
+- Исправлены type hints у декоратора `log`.
+- Исправлены type hints для `SearchResult` в классе `Search`.
+- Исправлено отображение название класса в `report_unknown_fields_callback`.
+- Исправлены методы-сокращения `like` и `dislike` класса `Playlist` ([#516](https://github.com/MarshalX/yandex-music-api/pull/516)).
 
 ## Версия 2.0.0
 
