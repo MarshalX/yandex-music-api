@@ -15,13 +15,13 @@ class LyricsMajor(YandexMusicObject):
     Args:
         id (:obj:`int`): Уникальный идентификатор сервиса.
         name (:obj:`str`): Имя сервиса.
-        pretty_name (:obj:`str`): Человекочитаемое имя сервиса.
+        pretty_name (:obj:`str`, optional): Человекочитаемое имя сервиса.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     id: int
     name: str
-    pretty_name: str
+    pretty_name: Optional[str] = None
     client: Optional['Client'] = None
 
     def __post_init__(self):
