@@ -15,11 +15,12 @@ class TestLyricsMajor:
         assert LyricsMajor.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'id': self.id, 'name': self.name}
+        json_dict = {'id': self.id, 'name': self.name, 'pretty_name': self.pretty_name}
 
         lyrics_major = LyricsMajor.de_json(json_dict, client)
         assert lyrics_major.id == self.id
         assert lyrics_major.name == self.name
+        assert lyrics_major.pretty_name == self.pretty_name
 
     def test_de_json_all(self, client):
         json_dict = {'id': self.id, 'name': self.name, 'pretty_name': self.pretty_name}
