@@ -247,6 +247,8 @@ logger.setLevel(logging.DEBUG)
 
 [@Winster332](https://github.com/Winster332) не сильно проявляет активность, но существует форк, который продолжил начатое. Эндпоинты изменены с фронтовых на мобильные: [K1llMan/Yandex.Music.Api](https://github.com/K1llMan/Yandex.Music.Api).
 
+Также существует активно разрабатываемая реализация от [KirMozor](https://gitlab.com/KirMozor): [Xeronix/YandexMusicApi](https://gitlab.com/Xeronix/YandexMusicApi)
+
 #### PHP
 
 Частично переписанная текущая библиотека на PHP: [LuckyWins/yandex-music-api](https://github.com/LuckyWins/yandex-music-api).
@@ -275,6 +277,12 @@ API wrapper на Node.JS. Не обновлялся больше двух лет
 Статья на habr.com с описанием реализации: [Под капотом бота-клиента Яндекс.Музыки](https://habr.com/ru/post/487428/).
 
 [![Telegram бот-клиент](https://hsto.org/webt/uv/4s/a3/uv4sa3pslohuzlmuzrjzteju2dk.png)](https://music-yandex-bot.ru/)
+
+#### DMusic
+
+Кроосплатформенный клиент на Qt 5, использует реализацию данного API на Nim, поддерживает весь основной функционал веб версии. Планируется портирование на большее количество OC и поддержка других музыкальных сервисов.
+
+Проект пока не имеет сайта. Исходный код и загрузка: [DMusic](https://github.com/levovix0/DMusic). Автор: [levovix0](https://github.com/levovix0).
 
 ### Благодарность
 
