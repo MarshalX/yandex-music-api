@@ -14,7 +14,7 @@ class Cover(YandexMusicObject):
     Attributes:
         type (:obj:`str`, optional): Тип обложки.
         uri (:obj:`str`, optional): Ссылка на изображение.
-        items_uri (:obj:`str`, optional): Список ссылок на изображения.
+        items_uri (:obj:`list` из :obj:`str`, optional): Список ссылок на изображения.
         dir (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
         is_custom (:obj:`bool`, optional): Является ли обложка пользовательской.
@@ -28,7 +28,7 @@ class Cover(YandexMusicObject):
 
     type: Optional[str] = None
     uri: Optional[str] = None
-    items_uri: Optional[str] = None
+    items_uri: Optional[List[str]] = None
     dir: Optional[str] = None
     version: Optional[str] = None
     custom: Optional[bool] = None
