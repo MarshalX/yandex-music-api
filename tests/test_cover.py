@@ -4,7 +4,10 @@ from yandex_music import Cover
 class TestCover:
     type = 'pic'
     uri = 'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461'
-    items_uri = None
+    items_uri = [
+        'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461',
+        'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461',
+    ]
     dir = '/get-music-user-playlist/34120/pvg900XixWaHcr/'
     version = '1572609906461'
     custom = True
