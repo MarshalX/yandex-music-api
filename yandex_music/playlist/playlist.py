@@ -148,6 +148,7 @@ class Playlist(YandexMusicObject):
     last_owner_playlists: List['Playlist'] = None
     generated_playlist_type: Optional[str] = None
     animated_cover_uri: Optional[str] = None
+    background_video_url: Optional[str] = None
     ever_played: Optional[bool] = None
     description: Optional[str] = None
     description_formatted: Optional[str] = None
