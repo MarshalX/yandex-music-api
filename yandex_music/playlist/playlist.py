@@ -210,6 +210,14 @@ class Playlist(YandexMusicObject):
         """
         return self.client.request.retrieve(self.background_video_url)
 
+    async def download_background_video_bytes_async(self) -> bytes:
+        """Загрузка фонового видео в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Фоновое видео в виде байтов.
+        """
+        return await self.client.request.retrieve(self.background_video_url)
+
     def get_animated_cover_url(self, size: str = '300x300') -> str:
         """Возвращает URL анимированной обложки.
 
