@@ -193,6 +193,22 @@ class Playlist(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением (mp4).
         """
         self.client.request.download(self.background_video_url, filename)
+    
+    async def download_background_video_async(self, filename: str) -> None:
+        """Загрузка фонового видео (эквивалент animated_cover_url).
+
+        Args:
+            filename (:obj:`str`): Путь для сохранения файла с названием и расширением (mp4).
+        """
+        await self.client.request.download(self.background_video_url, filename)
+    
+    def download_background_video_bytes(self) -> bytes:
+        """Загрузка фонового видео в виде байтов.
+
+        Returns:
+            :obj:`bytes`: Фоновое видео в виде байтов.
+        """
+        return self.client.request.retrieve(self.background_video_url)
 
     def get_animated_cover_url(self, size: str = '300x300') -> str:
         """Возвращает URL анимированной обложки.
