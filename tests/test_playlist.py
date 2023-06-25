@@ -35,6 +35,7 @@ class TestPlaylist:
     likes_count = 1
     generated_playlist_type = 'playlistOfTheDay'
     animated_cover_uri = 'avatars.yandex.net/get-music-user-playlist/30088/q0ahjvoZK5FT4A/%%'
+    background_video_url = 'https://ext-strm-m9-1519-63.strm.yandex.net/vh-music-videoshots-converted/vod-content/1911386646362923520/mp4/mp4/720x968p.mp4?noredir=1&lid=1519'
     ever_played = True
     description = 'Каждый день — новый. Каждый день — ваш!'
     description_formatted = 'Каждый день — новый. Каждый день — ваш!'
@@ -109,6 +110,7 @@ class TestPlaylist:
         assert playlist.last_owner_playlists == [playlist_without_nested_playlists]
         assert playlist.generated_playlist_type == self.generated_playlist_type
         assert playlist.animated_cover_uri == self.animated_cover_uri
+        assert playlist.background_video_url == self.background_video_url
         assert playlist.ever_played == self.ever_played
         assert playlist.description == self.description
         assert playlist.description_formatted == self.description_formatted
@@ -188,6 +190,7 @@ class TestPlaylist:
             'generated_playlist_type': self.generated_playlist_type,
             'url_part': self.url_part,
             'animated_cover_uri': self.animated_cover_uri,
+            'background_video_url': self.background_video_url,
             'ever_played': self.ever_played,
             'description': self.description,
             'description_formatted': self.description_formatted,
@@ -268,6 +271,7 @@ class TestPlaylist:
         assert playlist.last_owner_playlists == [playlist_without_nested_playlists]
         assert playlist.generated_playlist_type == self.generated_playlist_type
         assert playlist.animated_cover_uri == self.animated_cover_uri
+        assert playlist.background_video_url == self.background_video_url
         assert playlist.ever_played == self.ever_played
         assert playlist.description == self.description
         assert playlist.description_formatted == self.description_formatted
