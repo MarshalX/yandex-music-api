@@ -53,7 +53,7 @@ class PlaylistId(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlaylistId`: Уникальный идентификатор плейлиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PlaylistId, cls).de_json(data, client)
@@ -61,7 +61,7 @@ class PlaylistId(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['PlaylistId']:
+    def de_list(cls, data: list, client: 'Client') -> List['PlaylistId']:
         """Десериализация списка объектов.
 
         Args:
@@ -71,7 +71,7 @@ class PlaylistId(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.PlaylistId`: Уникальные идентификаторы плейлистов.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         playlist_ids = list()

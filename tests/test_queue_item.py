@@ -21,7 +21,7 @@ class TestQueueItem:
         assert QueueItem.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert QueueItem.de_list({}, client) == []
+        assert QueueItem.de_list([], client) == []
 
     def test_de_json_required(self, client, context):
         json_dict = {'id': self.id_, 'context': context.to_dict(), 'modified': self.modified}

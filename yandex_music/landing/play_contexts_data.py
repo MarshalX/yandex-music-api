@@ -33,7 +33,7 @@ class PlayContextsData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlayContextsData`: Данные проигрываемого контекста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PlayContextsData, cls).de_json(data, client)

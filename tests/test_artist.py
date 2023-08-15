@@ -67,7 +67,7 @@ class TestArtist:
         assert Artist.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Artist.de_list({}, client) == []
+        assert Artist.de_list([], client) == []
 
     def test_de_json_required(self, client, cover):
         json_dict = {'id': self.id}

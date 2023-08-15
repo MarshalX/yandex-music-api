@@ -47,7 +47,7 @@ class Queue(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Queue`: Очередь.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         from yandex_music import TrackId, Context

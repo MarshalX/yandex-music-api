@@ -52,7 +52,7 @@ class StationResult(YandexMusicObject):
         Returns:
             :obj:`yandex_music.StationResult`: Радиостанция с настройками.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(StationResult, cls).de_json(data, client)
@@ -66,7 +66,7 @@ class StationResult(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['StationResult']:
+    def de_list(cls, data: list, client: 'Client') -> List['StationResult']:
         """Десериализация списка объектов.
 
         Args:
@@ -76,7 +76,7 @@ class StationResult(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.StationResult`: Радиостанции с настройками.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         station_results = list()

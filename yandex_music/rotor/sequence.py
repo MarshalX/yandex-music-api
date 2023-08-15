@@ -40,7 +40,7 @@ class Sequence(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Sequence`: Звено последовательности.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Sequence, cls).de_json(data, client)
@@ -51,7 +51,7 @@ class Sequence(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Sequence']:
+    def de_list(cls, data: list, client: 'Client') -> List['Sequence']:
         """Десериализация списка объектов.
 
         Args:
@@ -61,7 +61,7 @@ class Sequence(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Sequence`: Последовательность треков.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         sequences = list()

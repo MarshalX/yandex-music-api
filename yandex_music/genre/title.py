@@ -35,7 +35,7 @@ class Title(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Title`: Заголовок жанра.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Title, cls).de_json(data, client)

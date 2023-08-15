@@ -44,7 +44,7 @@ class Shot(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Shot`: Шот от Алисы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Shot, cls).de_json(data, client)
@@ -55,7 +55,7 @@ class Shot(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Shot']:
+    def de_list(cls, data: list, client: 'Client') -> List['Shot']:
         """Десериализация списка объектов.
 
         Args:
@@ -65,7 +65,7 @@ class Shot(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Shot`: Шоты от Алисы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         shots = list()

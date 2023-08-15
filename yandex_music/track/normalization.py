@@ -35,7 +35,7 @@ class Normalization(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Normalization`: Значения для нормализации трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Normalization, cls).de_json(data, client)

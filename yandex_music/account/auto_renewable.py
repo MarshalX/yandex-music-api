@@ -47,7 +47,7 @@ class AutoRenewable(YandexMusicObject):
         Returns:
             :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(AutoRenewable, cls).de_json(data, client)
@@ -59,7 +59,7 @@ class AutoRenewable(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['AutoRenewable']:
+    def de_list(cls, data: list, client: 'Client') -> List['AutoRenewable']:
         """Десериализация списка объектов.
 
         Args:
@@ -69,7 +69,7 @@ class AutoRenewable(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(auto_renewable, client) for auto_renewable in data]

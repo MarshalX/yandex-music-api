@@ -47,7 +47,7 @@ class GeneratedPlaylist(YandexMusicObject):
         Returns:
             :obj:`yandex_music.GeneratedPlaylist`: Автоматически сгенерированный плейлист.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(GeneratedPlaylist, cls).de_json(data, client)
@@ -58,7 +58,7 @@ class GeneratedPlaylist(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['GeneratedPlaylist']:
+    def de_list(cls, data: list, client: 'Client') -> List['GeneratedPlaylist']:
         """Десериализация списка объектов.
 
         Args:
@@ -68,7 +68,7 @@ class GeneratedPlaylist(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.GeneratedPlaylist`: Автоматически сгенерированные плейлисты.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(generated_playlist, client) for generated_playlist in data]

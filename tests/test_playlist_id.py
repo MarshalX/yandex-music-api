@@ -13,7 +13,7 @@ class TestPlaylistId:
         assert PlaylistId.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert PlaylistId.de_list({}, client) == []
+        assert PlaylistId.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'uid': self.uid, 'kind': self.kind}

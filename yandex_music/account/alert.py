@@ -51,7 +51,7 @@ class Alert(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Alert`: Сообщение о статусе подписки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         from yandex_music import AlertButton

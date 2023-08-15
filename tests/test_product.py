@@ -63,7 +63,7 @@ class TestProduct:
         assert Product.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Product.de_list({}, client) == []
+        assert Product.de_list([], client) == []
 
     def test_de_json_required(self, client, price):
         json_dict = {

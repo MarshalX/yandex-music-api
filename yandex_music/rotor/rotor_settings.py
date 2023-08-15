@@ -50,7 +50,7 @@ class RotorSettings(YandexMusicObject):
         Returns:
             :obj:`yandex_music.RotorSettings`: Настройки станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(RotorSettings, cls).de_json(data, client)

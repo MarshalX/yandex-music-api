@@ -35,7 +35,7 @@ class ShotEvent(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotEvent`: Событие-шот перед началом следующего трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ShotEvent, cls).de_json(data, client)

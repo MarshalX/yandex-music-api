@@ -45,7 +45,7 @@ class VideoSupplement(YandexMusicObject):
         Returns:
             :obj:`yandex_music.VideoSupplement`: Видеоклип.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(VideoSupplement, cls).de_json(data, client)
@@ -53,7 +53,7 @@ class VideoSupplement(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['VideoSupplement']:
+    def de_list(cls, data: list, client: 'Client') -> List['VideoSupplement']:
         """Десериализация списка объектов.
 
         Args:
@@ -63,7 +63,7 @@ class VideoSupplement(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.VideoSupplement`: Видеоклипы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         videos = list()

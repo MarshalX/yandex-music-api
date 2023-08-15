@@ -70,7 +70,7 @@ class TrackId(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackId`: Уникальный идентификатор трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TrackId, cls).de_json(data, client)
@@ -78,7 +78,7 @@ class TrackId(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['TrackId']:
+    def de_list(cls, data: list, client: 'Client') -> List['TrackId']:
         """Десериализация списка объектов.
 
         Args:
@@ -88,7 +88,7 @@ class TrackId(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.TrackId`: Уникальные идентификаторы треков.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(track_id, client) for track_id in data]

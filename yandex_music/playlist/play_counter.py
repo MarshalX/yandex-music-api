@@ -41,7 +41,7 @@ class PlayCounter(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlayCounter`: Счетчик дней.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PlayCounter, cls).de_json(data, client)

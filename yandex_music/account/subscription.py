@@ -49,7 +49,7 @@ class Subscription(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Subscription`: Информация о подписках пользователя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Subscription, cls).de_json(data, client)

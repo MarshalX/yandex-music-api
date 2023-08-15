@@ -61,7 +61,7 @@ class TrackLyrics(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackLyrics`: Текст трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TrackLyrics, cls).de_json(data, client)

@@ -57,7 +57,7 @@ class AdParams(YandexMusicObject):
         Returns:
             :obj:`yandex_music.AdParams`: Параметры рекламного объявления.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(AdParams, cls).de_json(data, client)

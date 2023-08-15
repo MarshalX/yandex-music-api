@@ -65,7 +65,7 @@ class Status(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Status`: Информация об аккаунте пользователя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Status, cls).de_json(data, client)

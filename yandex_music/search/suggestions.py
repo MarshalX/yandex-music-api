@@ -41,7 +41,7 @@ class Suggestions(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Suggestions`: Подсказки при поиске.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Suggestions, cls).de_json(data, client)

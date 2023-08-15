@@ -63,7 +63,7 @@ class Account(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Account`: Основная информация об аккаунте пользователя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Account, cls).de_json(data, client)

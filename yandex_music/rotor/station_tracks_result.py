@@ -39,7 +39,7 @@ class StationTracksResult(YandexMusicObject):
         Returns:
             :obj:`yandex_music.StationTracksResult`: Последовательность треков станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(StationTracksResult, cls).de_json(data, client)

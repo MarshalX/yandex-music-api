@@ -45,7 +45,7 @@ class Supplement(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Supplement`: Дополнительная информация о треке.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Supplement, cls).de_json(data, client)

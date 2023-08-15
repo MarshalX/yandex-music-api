@@ -75,7 +75,7 @@ class BriefInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.BriefInfo`: Информация об артисте.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(BriefInfo, cls).de_json(data, client)

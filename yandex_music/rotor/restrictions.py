@@ -43,7 +43,7 @@ class Restrictions(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Restrictions`: Ограничения для настроек станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Restrictions, cls).de_json(data, client)

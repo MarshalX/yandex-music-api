@@ -20,7 +20,7 @@ class TestOperator:
         assert Operator.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Operator.de_list({}, client) == []
+        assert Operator.de_list([], client) == []
 
     def test_de_json_required(self, client, deactivation):
         json_dict = {

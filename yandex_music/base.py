@@ -2,7 +2,7 @@ import dataclasses
 import logging
 import keyword
 from abc import ABCMeta
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Any
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -42,6 +42,13 @@ class YandexMusicObject:
         )
         logger.warning(f'Type: {cls.__module__}.{cls.__name__}; fields: {unknown_fields}')
 
+    @staticmethod
+    def is_valid_model_data(data: Any, *, array: bool = False) -> bool:
+        if array:
+            return data and isinstance(data, list) and all(isinstance(item, dict) for item in data)
+
+        return data and isinstance(data, dict)
+
     @classmethod
     def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:
         """Десериализация объекта.
@@ -53,7 +60,7 @@ class YandexMusicObject:
         Returns:
             :obj:`yandex_music.YandexMusicObject` | :obj:`None`: :obj:`yandex_music.YandexMusicObject` или :obj:`None`.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = data.copy()

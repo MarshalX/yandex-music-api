@@ -35,7 +35,7 @@ class ShotType(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotType`: Тип шота от Алисы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ShotType, cls).de_json(data, client)

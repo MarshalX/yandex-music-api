@@ -40,7 +40,7 @@ class CustomWave(YandexMusicObject):
         Returns:
             :obj:`yandex_music.CustomWave`: Описание плейлиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(CustomWave, cls).de_json(data, client)

@@ -23,7 +23,7 @@ class TestAutoRenewable:
         assert AutoRenewable.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert AutoRenewable.de_list({}, client) == []
+        assert AutoRenewable.de_list([], client) == []
 
     def test_de_json_required(self, client, product):
         json_dict = {

@@ -43,7 +43,7 @@ class Counts(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Counts`: Cчётчик некоторых значений исполнителя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Counts, cls).de_json(data, client)
