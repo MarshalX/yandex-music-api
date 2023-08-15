@@ -35,7 +35,7 @@ class Plus(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Plus`: Plus подписка.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Plus, cls).de_json(data, client)

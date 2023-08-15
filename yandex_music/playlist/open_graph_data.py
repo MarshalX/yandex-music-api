@@ -37,7 +37,7 @@ class OpenGraphData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.OpenGraphData`: Данные для Open Graph.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(OpenGraphData, cls).de_json(data, client)

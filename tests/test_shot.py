@@ -18,7 +18,7 @@ class TestShot:
         assert Shot.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Shot.de_list({}, client) == []
+        assert Shot.de_list([], client) == []
 
     def test_de_json_required(self, client, shot_data):
         json_dict = {

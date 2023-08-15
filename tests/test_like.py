@@ -49,7 +49,7 @@ class TestLike:
         assert Like.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Like.de_list({}, client) == []
+        assert Like.de_list([], client) == []
 
     @pytest.mark.parametrize('param', [2, 3, 4])
     def test_de_json_all(self, results, types, client, param):

@@ -124,7 +124,7 @@ class TestPlaylist:
         assert Playlist.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Playlist.de_list({}, client) == []
+        assert Playlist.de_list([], client) == []
 
     def test_de_json_required(self, client, user, cover, made_for, play_counter, playlist_absence):
         json_dict = {

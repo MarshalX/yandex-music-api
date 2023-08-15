@@ -102,7 +102,7 @@ class TestTrack:
         assert Track.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Track.de_list({}, client) == []
+        assert Track.de_list([], client) == []
 
     def test_de_json_required(self, client, artist, album):
         json_dict = {'id': self.id}

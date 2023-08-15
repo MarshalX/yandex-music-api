@@ -34,7 +34,7 @@ class Label(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Label`: Лейбл.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Label, cls).de_json(data, client)
@@ -42,7 +42,7 @@ class Label(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List[Union['Label', str]]:
+    def de_list(cls, data: list, client: 'Client') -> List[Union['Label', str]]:
         """Десериализация списка объектов.
 
         Args:
@@ -55,7 +55,7 @@ class Label(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Label` или :obj:`str`: Лейблы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         labels = list()

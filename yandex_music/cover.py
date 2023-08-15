@@ -111,7 +111,7 @@ class Cover(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Cover`: Обложка.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Cover, cls).de_json(data, client)
@@ -119,7 +119,7 @@ class Cover(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Cover']:
+    def de_list(cls, data: list, client: 'Client') -> List['Cover']:
         """Десериализация списка объектов.
 
         Args:
@@ -129,7 +129,7 @@ class Cover(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Cover`: Обложки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         covers = list()

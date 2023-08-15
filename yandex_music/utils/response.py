@@ -52,7 +52,7 @@ class Response(YandexMusicObject):
         Returns:
             :obj:`yandex_music.utils.response.Response`: Ответ API.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Response, cls).de_json(data, client)

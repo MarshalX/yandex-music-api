@@ -83,7 +83,7 @@ class Icon(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Icon`: Иконка.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Icon, cls).de_json(data, client)

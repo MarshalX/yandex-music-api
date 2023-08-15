@@ -38,7 +38,7 @@ class Dashboard(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Dashboard`: Рекомендованные станций пользователя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Dashboard, cls).de_json(data, client)

@@ -10,7 +10,7 @@ class TestChartItem:
         assert ChartItem.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert ChartItem.de_list({}, client) == []
+        assert ChartItem.de_list([], client) == []
 
     def test_de_json_required(self, client, track, chart):
         json_dict = {'track': track.to_dict(), 'chart': chart.to_dict()}

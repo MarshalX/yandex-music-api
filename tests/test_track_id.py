@@ -17,7 +17,7 @@ class TestTrackId:
         assert TrackId.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert TrackId.de_list({}, client) == []
+        assert TrackId.de_list([], client) == []
 
     def test_de_json_all(self, client):
         json_dict = {'id': self.id, 'track_id': self.track_id, 'album_id': self.album_id, 'from_': self.from_}

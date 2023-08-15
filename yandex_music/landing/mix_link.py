@@ -217,7 +217,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`yandex_music.MixLink`: Блок-ссылка на подборку.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(MixLink, cls).de_json(data, client)
@@ -225,7 +225,7 @@ class MixLink(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['MixLink']:
+    def de_list(cls, data: list, client: 'Client') -> List['MixLink']:
         """Десериализация списка объектов.
 
         Args:
@@ -235,7 +235,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.MixLink`: Блоки-ссылки на подборки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         mix_links = list()

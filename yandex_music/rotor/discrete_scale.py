@@ -42,7 +42,7 @@ class DiscreteScale(YandexMusicObject):
         Returns:
             :obj:`yandex_music.DiscreteScale`: Дискретное значение.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(DiscreteScale, cls).de_json(data, client)

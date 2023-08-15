@@ -37,7 +37,7 @@ class PromoCodeStatus(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PromoCodeStatus`: Статус активации промо-кода.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PromoCodeStatus, cls).de_json(data, client)

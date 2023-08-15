@@ -42,7 +42,7 @@ class TestBlock:
         assert Block.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Block.de_list({}, client) == []
+        assert Block.de_list([], client) == []
 
     def test_de_json_required(self, client, block_entity):
         json_dict = {

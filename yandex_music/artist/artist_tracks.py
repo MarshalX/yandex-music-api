@@ -44,7 +44,7 @@ class ArtistTracks(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ArtistsTracks`: Страница списка треков артиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ArtistTracks, cls).de_json(data, client)

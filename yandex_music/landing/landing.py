@@ -40,7 +40,7 @@ class Landing(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Landing`: Лендинг.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Landing, cls).de_json(data, client)

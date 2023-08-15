@@ -37,7 +37,7 @@ class Pager(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Pager`: Пагинация.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Pager, cls).de_json(data, client)

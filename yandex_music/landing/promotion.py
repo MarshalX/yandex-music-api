@@ -115,7 +115,7 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Promotion`: Продвижение (реклама).
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Promotion, cls).de_json(data, client)
@@ -123,7 +123,7 @@ class Promotion(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Promotion']:
+    def de_list(cls, data: list, client: 'Client') -> List['Promotion']:
         """Десериализация списка объектов.
 
         Args:
@@ -133,7 +133,7 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Promotion`: Продвижения (реклама).
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         promotions = list()

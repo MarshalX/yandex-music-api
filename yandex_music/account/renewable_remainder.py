@@ -36,7 +36,7 @@ class RenewableRemainder(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PassportPhone`: Напоминание о продлении подписки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(RenewableRemainder, cls).de_json(data, client)

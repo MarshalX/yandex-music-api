@@ -68,7 +68,7 @@ class TestGenre:
         assert Genre.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Genre.de_list({}, client) == []
+        assert Genre.de_list([], client) == []
 
     def test_de_json_required(self, client, title, images):
         json_dict = {

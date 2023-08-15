@@ -33,7 +33,7 @@ class PersonalPlaylistsData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PersonalPlaylistsData`: Дополнительная информация о персональном плейлисте.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PersonalPlaylistsData, cls).de_json(data, client)

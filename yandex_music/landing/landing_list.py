@@ -50,7 +50,7 @@ class LandingList(YandexMusicObject):
         Returns:
             :obj:`yandex_music.LandingList`: Список объектов лендинга.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(LandingList, cls).de_json(data, client)

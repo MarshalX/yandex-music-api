@@ -143,7 +143,7 @@ class DownloadInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(DownloadInfo, cls).de_json(data, client)
@@ -151,7 +151,7 @@ class DownloadInfo(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client', get_direct_links: bool = False) -> List['DownloadInfo']:
+    def de_list(cls, data: list, client: 'Client', get_direct_links: bool = False) -> List['DownloadInfo']:
         """Десериализация списка объектов.
 
         Args:
@@ -162,7 +162,7 @@ class DownloadInfo(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         downloads_info = list()
@@ -187,7 +187,7 @@ class DownloadInfo(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         downloads_info = list()

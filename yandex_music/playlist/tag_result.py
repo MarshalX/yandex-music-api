@@ -35,7 +35,7 @@ class TagResult(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TagResult`: Тег и его плейлисты.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TagResult, cls).de_json(data, client)

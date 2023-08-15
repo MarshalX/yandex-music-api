@@ -39,7 +39,7 @@ class TestTrackShort:
         assert TrackShort.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert TrackShort.de_list({}, client) == []
+        assert TrackShort.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'id': self.id, 'timestamp': self.timestamp}

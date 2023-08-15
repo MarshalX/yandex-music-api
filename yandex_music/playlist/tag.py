@@ -41,7 +41,7 @@ class Tag(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Tag`: Тег.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Tag, cls).de_json(data, client)

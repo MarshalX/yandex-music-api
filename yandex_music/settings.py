@@ -41,7 +41,7 @@ class Settings(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Settings`: Предложение по покупке.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Settings, cls).de_json(data, client)

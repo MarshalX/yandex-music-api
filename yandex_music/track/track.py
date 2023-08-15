@@ -481,7 +481,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Track`: Трек.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Track, cls).de_json(data, client)
@@ -502,7 +502,7 @@ class Track(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Track']:
+    def de_list(cls, data: list, client: 'Client') -> List['Track']:
         """Десериализация списка объектов.
 
         Args:
@@ -512,7 +512,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Track`: Треки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(track, client) for track in data]
