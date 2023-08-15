@@ -6,6 +6,13 @@ from yandex_music.utils import model
 if TYPE_CHECKING:
     from yandex_music import Client
 
+ujson: bool = False
+try:
+    import ujson as json
+
+    ujson = True
+except ImportError:
+    import json
 
 @model
 class Deactivation(YandexMusicObject):
@@ -58,5 +65,8 @@ class Deactivation(YandexMusicObject):
         """
         if not data:
             return []
+
+        if isinstance(data, str):
+            data = json.loads(data)
 
         return [cls.de_json(deactivation, client) for deactivation in data]
