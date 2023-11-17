@@ -234,11 +234,9 @@ API wrapper на NodeJS. Не обновлялся больше двух лет:
 
 [![Telegram бот-клиент](https://hsto.org/webt/uv/4s/a3/uv4sa3pslohuzlmuzrjzteju2dk.png)](https://music-yandex-bot.ru/)
 
-# Благодарность
+# Благодарность и спонсоры
 
 Спасибо разработчикам `python-telegram-bot`. Выбрал Вас в качестве примера.
-
-# Спонсоры
 
 ## JetBrains
 
