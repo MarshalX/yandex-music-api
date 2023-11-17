@@ -7,16 +7,7 @@ permissions:
 
 jobs:
   codegen_check:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-
-    defaults:
-      run:
-        shell: bash
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -27,7 +18,9 @@ jobs:
           python-version: 3.7
 
       - name: Install dependencies.
-        run: pip install -r requirements-dev.txt
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -r docs/requirements.txt
 
       - name: Run codegen.
         run: |
