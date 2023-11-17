@@ -2,9 +2,9 @@ from math import floor
 from random import random
 from time import sleep
 
-from yandex_music import Client
-
 from radio import Radio
+
+from yandex_music import Client
 
 # API instance
 client = Client(token='YOUR_TOKEN_HERE')

@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track, AlbumEvent, ArtistEvent
+    from yandex_music import AlbumEvent, ArtistEvent, Client, Track
 
 
 @model
@@ -67,7 +67,7 @@ class Event(YandexMusicObject):
             return None
 
         data = super(Event, cls).de_json(data, client)
-        from yandex_music import Track, AlbumEvent, ArtistEvent
+        from yandex_music import AlbumEvent, ArtistEvent, Track
 
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['albums'] = AlbumEvent.de_list(data.get('albums'), client)
@@ -89,7 +89,7 @@ class Event(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        events = list()
+        events = []
         for event in data:
             events.append(cls.de_json(event, client))
 

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -56,7 +56,7 @@ class Value(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        values = list()
+        values = []
         for value in data:
             values.append(cls.de_json(value, client))
 

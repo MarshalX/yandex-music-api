@@ -1,10 +1,10 @@
-from typing import Any, TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Artist, Label, TrackPosition, Track, Deprecation
+    from yandex_music import Artist, Client, Deprecation, Label, Track, TrackPosition
 
 
 @model
@@ -299,7 +299,7 @@ class Album(YandexMusicObject):
             return None
 
         data = super(Album, cls).de_json(data, client)
-        from yandex_music import Artist, Label, TrackPosition, Track, Deprecation
+        from yandex_music import Artist, Deprecation, Label, Track, TrackPosition
 
         data['artists'] = Artist.de_list(data.get('artists'), client)
 

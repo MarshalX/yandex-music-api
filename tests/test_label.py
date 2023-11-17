@@ -8,7 +8,7 @@ class TestLabel:
     another_representation_of_label = 'NoCopyrightSounds'
 
     def test_expected_values(self, label):
-        if type(label) == str:
+        if isinstance(label, str):
             assert label == self.another_representation_of_label
         else:
             assert label.id == self.id

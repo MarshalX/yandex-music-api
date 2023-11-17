@@ -3,7 +3,6 @@ import os
 from yandex_music import Client
 from yandex_music.exceptions import NotFoundError
 
-
 TOKEN = os.environ.get('TOKEN')
 
 client = Client(TOKEN).init()

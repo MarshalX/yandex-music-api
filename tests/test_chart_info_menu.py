@@ -19,7 +19,7 @@ class TestChartInfoMenu:
 
     def test_equality(self, chart_info_menu_item):
         a = ChartInfoMenu([chart_info_menu_item])
-        b = ChartInfoMenu([ChartInfoMenuItem("tt", "no_url")])
+        b = ChartInfoMenu([ChartInfoMenuItem('tt', 'no_url')])
         c = ChartInfoMenu([chart_info_menu_item])
 
         assert a != b

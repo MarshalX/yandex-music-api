@@ -51,7 +51,7 @@ class TestStationTracksResult:
 
     def test_equality(self, id_, sequence):
         a = StationTracksResult(id_, sequence, self.batch_id, self.pumpkin)
-        b = StationTracksResult(id_, sequence, "", False)
+        b = StationTracksResult(id_, sequence, '', False)
         c = StationTracksResult(id_, sequence, self.batch_id, self.pumpkin)
 
         assert a != b

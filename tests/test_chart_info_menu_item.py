@@ -40,7 +40,7 @@ class TestChartInfoMenuItem:
 
     def test_equality(self):
         a = ChartInfoMenuItem(self.title, self.url, self.selected)
-        b = ChartInfoMenuItem(self.title, "no_url", self.selected)
+        b = ChartInfoMenuItem(self.title, 'no_url', self.selected)
         c = ChartInfoMenuItem(self.title, self.url, self.selected)
 
         assert a != b

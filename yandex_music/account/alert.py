@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, AlertButton
+    from yandex_music import AlertButton, Client
 
 
 @model

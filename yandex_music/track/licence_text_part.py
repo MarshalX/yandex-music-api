@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -25,7 +25,7 @@ class LicenceTextPart(YandexMusicObject):
         self._id_attrs = (self.text,)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['PassportPhone']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['LicenceTextPart']:
         """Десериализация объекта.
 
         Args:

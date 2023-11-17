@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -39,7 +39,7 @@ class TagResult(YandexMusicObject):
             return None
 
         data = super(TagResult, cls).de_json(data, client)
-        from yandex_music import Tag, PlaylistId
+        from yandex_music import PlaylistId, Tag
 
         data['tag'] = Tag.de_json(data.get('tag'), client)
         data['ids'] = PlaylistId.de_list(data.get('ids'), client)

@@ -2,7 +2,6 @@ import os
 
 from yandex_music import Client
 
-
 CHART_ID = 'world'
 TOKEN = os.environ.get('TOKEN')
 

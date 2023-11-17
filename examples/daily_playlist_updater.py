@@ -1,5 +1,6 @@
-import sys
 import datetime
+import sys
+
 from yandex_music.client import Client
 
 # Help text
@@ -19,7 +20,7 @@ DailyPlaylist = next(
 
 # Check if we don't need to update it
 if DailyPlaylist.play_counter.updated:
-    modifiedDate = datetime.datetime.strptime(DailyPlaylist.modified, "%Y-%m-%dT%H:%M:%S%z").date()
+    modifiedDate = datetime.datetime.strptime(DailyPlaylist.modified, '%Y-%m-%dT%H:%M:%S%z').date()
     if datetime.datetime.now().date() == modifiedDate:
         print('\x1b[6;30;43m' + 'Looks like it has been already updated today' + '\x1b[0m')
         quit()

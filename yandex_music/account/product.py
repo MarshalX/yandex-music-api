@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -102,7 +102,7 @@ class Product(YandexMusicObject):
             return None
 
         data = super(Product, cls).de_json(data, client)
-        from yandex_music import Price, LicenceTextPart
+        from yandex_music import LicenceTextPart, Price
 
         data['price'] = Price.de_json(data.get('price'), client)
         data['intro_price'] = Price.de_json(data.get('intro_price'), client)

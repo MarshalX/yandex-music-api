@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, Optional, List
-
-from hashlib import md5
 import xml.dom.minidom as minidom
+from hashlib import md5
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
     from xml.dom.minicompat import NodeList
+
+    from yandex_music import Client
 
 SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA'
 
@@ -40,7 +40,7 @@ class DownloadInfo(YandexMusicObject):
         self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
 
     @staticmethod
-    def _get_text_node_data(elements: 'NodeList') -> str:
+    def _get_text_node_data(elements: 'NodeList') -> Optional[str]:
         """:obj:`str`: Получение текстовой информации из узлов XML элемента."""
         for element in elements:
             nodes = element.childNodes
@@ -48,13 +48,15 @@ class DownloadInfo(YandexMusicObject):
                 if node.nodeType == node.TEXT_NODE:
                     return node.data
 
+        return None
+
     def __build_direct_link(self, xml: str) -> str:
-        doc = minidom.parseString(xml)
+        doc = minidom.parseString(xml)  # noqa: S318
         host = self._get_text_node_data(doc.getElementsByTagName('host'))
         path = self._get_text_node_data(doc.getElementsByTagName('path'))
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
         s = self._get_text_node_data(doc.getElementsByTagName('s'))
-        sign = md5((SIGN_SALT + path[1::] + s).encode('utf-8')).hexdigest()
+        sign = md5((SIGN_SALT + path[1::] + s).encode('utf-8')).hexdigest()  # noqa: S324
 
         return f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
@@ -165,7 +167,7 @@ class DownloadInfo(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        downloads_info = list()
+        downloads_info = []
         for download_info in data:
             downloads_info.append(cls.de_json(download_info, client))
 
@@ -190,7 +192,7 @@ class DownloadInfo(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        downloads_info = list()
+        downloads_info = []
         for download_info in data:
             downloads_info.append(cls.de_json(download_info, client))
 

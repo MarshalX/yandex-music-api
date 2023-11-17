@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Product, Price
+    from yandex_music import Client, Price, Product
 
 
 @model
@@ -45,7 +45,7 @@ class Settings(YandexMusicObject):
             return None
 
         data = super(Settings, cls).de_json(data, client)
-        from yandex_music import Product, Price
+        from yandex_music import Price, Product
 
         data['in_app_products'] = Product.de_list(data.get('in_app_products'), client)
         data['native_products'] = Product.de_list(data.get('native_products'), client)

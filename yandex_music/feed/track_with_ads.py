@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -62,7 +62,7 @@ class TrackWithAds(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        tracks_with_ads = list()
+        tracks_with_ads = []
         for track_with_ads in data:
             tracks_with_ads.append(cls.de_json(track_with_ads, client))
 

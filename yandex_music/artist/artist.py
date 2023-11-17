@@ -1,10 +1,10 @@
-from typing import Any, TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Cover, Ratings, Counts, Link, Track, Description, ArtistTracks, ArtistAlbums
+    from yandex_music import ArtistAlbums, ArtistTracks, Client, Counts, Cover, Description, Link, Ratings, Track
 
 
 @model
@@ -266,7 +266,7 @@ class Artist(YandexMusicObject):
             return None
 
         data = super(Artist, cls).de_json(data, client)
-        from yandex_music import Cover, Ratings, Counts, Link, Track, Description
+        from yandex_music import Counts, Cover, Description, Link, Ratings, Track
 
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['ratings'] = Ratings.de_json(data.get('ratings'), client)
@@ -297,7 +297,7 @@ class Artist(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        artists = list()
+        artists = []
         for artist in data:
             artists.append(cls.de_json(artist, client))
 

@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Id, Icon, Restrictions
+    from yandex_music import Client, Icon, Id, Restrictions
 
 
 @model
@@ -70,7 +70,7 @@ class Station(YandexMusicObject):
             return None
 
         data = super(Station, cls).de_json(data, client)
-        from yandex_music import Id, Icon, Restrictions
+        from yandex_music import Icon, Id, Restrictions
 
         data['id'] = Id.de_json(data.get('id'), client)
         data['parent_id'] = Id.de_json(data.get('parent_id'), client)

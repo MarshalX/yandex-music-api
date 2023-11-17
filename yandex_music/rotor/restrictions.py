@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject, Enum, DiscreteScale
+from yandex_music import DiscreteScale, Enum, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:

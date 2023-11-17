@@ -1,10 +1,10 @@
-from typing import List, TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, TrackId, Context
+    from yandex_music import Client, Context, TrackId
 
 
 @model
@@ -50,7 +50,7 @@ class Queue(YandexMusicObject):
         if not cls.is_valid_model_data(data):
             return None
 
-        from yandex_music import TrackId, Context
+        from yandex_music import Context, TrackId
 
         data = super(Queue, cls).de_json(data, client)
         data['tracks'] = TrackId.de_list(data.get('tracks'), client)
