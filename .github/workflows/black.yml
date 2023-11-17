@@ -1,6 +1,6 @@
 name: Black
 
-on: [pull_request, push]
+on: [ pull_request, push ]
 
 jobs:
   black:
@@ -8,10 +8,10 @@ jobs:
 
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Python.
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.7
 

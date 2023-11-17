@@ -1,11 +1,9 @@
-name: Build and upload package to PyPI
+name: Build and publish package to PyPI
 
 on:
-  push:
-    branches:
-      - pypi
+  workflow_dispatch:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   build_and_publish:
@@ -13,14 +11,15 @@ jobs:
 
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Python.
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.7
 
       - name: Publish a Python distribution to PyPI.
+        if: github.ref == 'refs/heads/main' && github.repository == 'MarshalX/yandex-music-api'
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
