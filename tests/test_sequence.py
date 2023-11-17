@@ -14,7 +14,7 @@ class TestSequence:
         assert Sequence.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Sequence.de_list({}, client) == []
+        assert Sequence.de_list([], client) == []
 
     def test_de_json_required(self, client, track):
         json_dict = {'type': self.type, 'track': track.to_dict(), 'liked': self.liked}

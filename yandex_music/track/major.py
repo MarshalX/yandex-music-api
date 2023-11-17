@@ -21,7 +21,7 @@ class Major(YandexMusicObject):
     name: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.name)
 
     @classmethod
@@ -35,7 +35,7 @@ class Major(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Major`: Мейджор-лейбл звукозаписи.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Major, cls).de_json(data, client)

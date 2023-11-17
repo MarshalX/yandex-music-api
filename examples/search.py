@@ -1,6 +1,5 @@
 from yandex_music import Client
 
-
 client = Client().init()
 
 type_to_name = {
@@ -15,7 +14,7 @@ type_to_name = {
 }
 
 
-def send_search_request_and_print_result(query):
+def send_search_request_and_print_result(query):  # noqa: C901
     search_result = client.search(query)
 
     text = [f'Результаты по запросу "{query}":', '']
@@ -35,7 +34,7 @@ def send_search_request_and_print_result(query):
         elif type_ == 'artist':
             best_result_text = best.name
         elif type_ in ['album', 'podcast']:
-            best_result_text = best.title
+            best_result_text = best.title  # noqa: SIM114
         elif type_ == 'playlist':
             best_result_text = best.title
         elif type_ == 'video':

@@ -29,7 +29,7 @@ class CaseForms(YandexMusicObject):
     prepositional: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.nominative,
             self.genitive,
@@ -50,7 +50,7 @@ class CaseForms(YandexMusicObject):
         Returns:
             :obj:`yandex_music.CaseForms`: Склонение имени.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(CaseForms, cls).de_json(data, client)

@@ -1,24 +1,24 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
-from yandex_music.utils import model
 from yandex_music.exceptions import InvalidBitrateError
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import (
-        Client,
-        Normalization,
-        Major,
+        R128,
         Album,
         Artist,
-        Supplement,
+        Client,
         DownloadInfo,
-        User,
-        MetaData,
-        PoetryLoverMatch,
-        TrackLyrics,
         LyricsInfo,
-        R128,
+        Major,
+        MetaData,
+        Normalization,
+        PoetryLoverMatch,
+        Supplement,
+        TrackLyrics,
+        User,
     )
 
 
@@ -138,11 +138,11 @@ class Track(YandexMusicObject):
     track_sharing_flag: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.download_info = None
         self._id_attrs = (self.id,)
 
-    def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
+    def get_download_info(self, get_direct_links: bool = False) -> List['DownloadInfo']:
         """Сокращение для::
 
         client.tracks_download_info(self.track_id, get_direct_links)
@@ -151,7 +151,7 @@ class Track(YandexMusicObject):
 
         return self.download_info
 
-    async def get_download_info_async(self, get_direct_links=False) -> List['DownloadInfo']:
+    async def get_download_info_async(self, get_direct_links: bool = False) -> List['DownloadInfo']:
         """Сокращение для::
 
         await client.tracks_download_info(self.track_id, get_direct_links)
@@ -399,8 +399,8 @@ class Track(YandexMusicObject):
         info = self.get_specific_download_info(codec, bitrate_in_kbps)
         if info:
             return info.download_bytes()
-        else:
-            raise InvalidBitrateError('Unavailable bitrate')
+
+        raise InvalidBitrateError('Unavailable bitrate')
 
     async def download_bytes_async(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
         """Загрузка трека и возврат в виде байтов.
@@ -423,8 +423,8 @@ class Track(YandexMusicObject):
         info = await self.get_specific_download_info_async(codec, bitrate_in_kbps)
         if info:
             return await info.download_bytes_async()
-        else:
-            raise InvalidBitrateError('Unavailable bitrate')
+
+        raise InvalidBitrateError('Unavailable bitrate')
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
@@ -481,11 +481,11 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Track`: Трек.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch, R128, LyricsInfo
+        from yandex_music import R128, Album, Artist, LyricsInfo, Major, MetaData, Normalization, PoetryLoverMatch, User
 
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)
@@ -502,7 +502,7 @@ class Track(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Track']:
+    def de_list(cls, data: list, client: 'Client') -> List['Track']:
         """Десериализация списка объектов.
 
         Args:
@@ -512,7 +512,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Track`: Треки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(track, client) for track in data]

@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Id, Icon, Restrictions
+    from yandex_music import Client, Icon, Id, Restrictions
 
 
 @model
@@ -43,7 +43,7 @@ class Station(YandexMusicObject):
     parent_id: Optional['Id'] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.id,
             self.name,
@@ -66,11 +66,11 @@ class Station(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Station`: Станция.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Station, cls).de_json(data, client)
-        from yandex_music import Id, Icon, Restrictions
+        from yandex_music import Icon, Id, Restrictions
 
         data['id'] = Id.de_json(data.get('id'), client)
         data['parent_id'] = Id.de_json(data.get('parent_id'), client)

@@ -2,7 +2,7 @@ from yandex_music import StationData
 
 
 class TestStationData:
-    name = 'Marshal\'s station'
+    name = "Marshal's station"
 
     def test_expected_values(self, station_data):
         assert station_data.name == self.name

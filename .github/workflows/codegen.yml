@@ -1,0 +1,32 @@
+name: Codegen check
+
+on: [ pull_request ]
+
+permissions:
+  contents: read
+
+jobs:
+  codegen_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+
+      - name: Set up Python.
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies.
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -r docs/requirements.txt
+
+      - name: Run codegen.
+        run: |
+          make gen
+          cd docs
+          make gen
+
+      - name: Check working directory is clean.
+        run: git diff --exit-code

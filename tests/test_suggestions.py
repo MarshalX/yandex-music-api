@@ -1,8 +1,7 @@
 import pytest
 
 from tests import TestBest
-
-from yandex_music import Suggestions, Best
+from yandex_music import Best, Suggestions
 
 
 @pytest.fixture(scope='class', params=[1, 2, 3, 4, 5])

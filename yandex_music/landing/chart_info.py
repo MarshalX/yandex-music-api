@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject, Playlist, ChartInfoMenu
+from yandex_music import ChartInfoMenu, Playlist, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -31,7 +31,7 @@ class ChartInfo(YandexMusicObject):
     chart_description: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id,)
 
     @classmethod
@@ -45,7 +45,7 @@ class ChartInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartInfo`: Чарт.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ChartInfo, cls).de_json(data, client)

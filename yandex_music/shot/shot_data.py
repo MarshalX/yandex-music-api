@@ -25,7 +25,7 @@ class ShotData(YandexMusicObject):
     shot_type: 'ShotType'
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.cover_uri, self.mds_url, self.shot_text, self.shot_type)
 
     def get_cover_url(self, size: str = '200x200') -> str:
@@ -122,7 +122,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotData`: Основная информация о шоте.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ShotData, cls).de_json(data, client)

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video, User
+from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -36,7 +36,7 @@ class Best(YandexMusicObject):
     text: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.result)
 
     @classmethod
@@ -50,7 +50,7 @@ class Best(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Best`: Лучший результат.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Best, cls).de_json(data, client)

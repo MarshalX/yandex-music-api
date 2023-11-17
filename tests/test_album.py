@@ -108,14 +108,14 @@ class TestAlbum:
         assert Album.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Album.de_list({}, client) == []
+        assert Album.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'id': self.id}
-        album = Album.de_json(json_dict, client)
+        Album.de_json(json_dict, client)
 
     def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums, deprecation):
-        labels = [label] if type(label) == str else [label.to_dict()]
+        labels = [label] if isinstance(label, str) else [label.to_dict()]
         json_dict = {
             'id': self.id,
             'error': self.error,

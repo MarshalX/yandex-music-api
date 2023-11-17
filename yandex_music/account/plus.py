@@ -21,7 +21,7 @@ class Plus(YandexMusicObject):
     is_tutorial_completed: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.has_plus, self.is_tutorial_completed)
 
     @classmethod
@@ -35,7 +35,7 @@ class Plus(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Plus`: Plus подписка.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Plus, cls).de_json(data, client)

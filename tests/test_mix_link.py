@@ -8,7 +8,7 @@ class TestMixLink:
     text_color = '#6c65a9'
     background_color = 'transparent'
     background_image_uri = (
-        'avatars.yandex.net/get-music-misc/28592/mix.5cf0bd5e58ea3a1e70caa07b.' 'background-image.1559281047248/%%'
+        'avatars.yandex.net/get-music-misc/28592/mix.5cf0bd5e58ea3a1e70caa07b.background-image.1559281047248/%%'
     )
     cover_white = 'avatars.yandex.net/get-music-misc/28052/mix.5cf0bd5e58ea3a1e70caa07b.cover-white.1559281049219/%%'
     cover_uri = 'avatars.yandex.net/get-music-misc/34161/mix.57c6d15a2d3213a86ac653d2.cover.1555818786846/%%'
@@ -27,7 +27,7 @@ class TestMixLink:
         assert MixLink.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert MixLink.de_list({}, client) == []
+        assert MixLink.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {

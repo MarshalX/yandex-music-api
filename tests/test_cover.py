@@ -4,7 +4,10 @@ from yandex_music import Cover
 class TestCover:
     type = 'pic'
     uri = 'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461'
-    items_uri = None
+    items_uri = [
+        'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461',
+        'avatars.yandex.net/get-music-user-playlist/38125/q0ahkhfQE3neTk/%%?1572609906461',
+    ]
     dir = '/get-music-user-playlist/34120/pvg900XixWaHcr/'
     version = '1572609906461'
     custom = True
@@ -31,11 +34,11 @@ class TestCover:
         assert Cover.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Cover.de_list({}, client) == []
+        assert Cover.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {}
-        cover = Cover.de_json(json_dict, client)
+        Cover.de_json(json_dict, client)
 
     def test_de_json_all(self, client):
         json_dict = {

@@ -60,7 +60,7 @@ class Radio:
     def __send_play_start_track(self, track, play_id):
         total_seconds = track.duration_ms / 1000
         self.client.play_audio(
-            from_="desktop_win-home-playlist_of_the_day-playlist-default",
+            from_='desktop_win-home-playlist_of_the_day-playlist-default',
             track_id=track.id,
             album_id=track.albums[0].id,
             play_id=play_id,
@@ -77,7 +77,7 @@ class Radio:
         played_seconds = track.duration_ms / 1000
         total_seconds = track.duration_ms / 1000
         self.client.play_audio(
-            from_="desktop_win-home-playlist_of_the_day-playlist-default",
+            from_='desktop_win-home-playlist_of_the_day-playlist-default',
             track_id=track.id,
             album_id=track.albums[0].id,
             play_id=play_id,
@@ -91,8 +91,7 @@ class Radio:
         self.client.rotor_station_feedback_track_finished(
             station=self.station_id, track_id=track.id, total_played_seconds=played_seconds, batch_id=batch_id
         )
-        pass
 
     @staticmethod
     def __generate_play_id():
-        return "%s-%s-%s" % (int(random() * 1000), int(random() * 1000), int(random() * 1000))
+        return '%s-%s-%s' % (int(random() * 1000), int(random() * 1000), int(random() * 1000))

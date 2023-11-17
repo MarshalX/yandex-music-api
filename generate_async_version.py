@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 import subprocess
 
-
-DISCLAIMER = '# THIS IS AUTO GENERATED COPY OF client.py. DON\'T EDIT IN BY HANDS #'
+DISCLAIMER = "# THIS IS AUTO GENERATED COPY OF client.py. DON'T EDIT IN BY HANDS #"
 DISCLAIMER = f'{"#" * len(DISCLAIMER)}\n{DISCLAIMER}\n{"#" * len(DISCLAIMER)}\n\n'
 
 REQUEST_METHODS = ('_request_wrapper', 'get', 'post', 'retrieve', 'download')
 
 
-def gen_request(output_request_filename):
+def gen_request(output_request_filename: str) -> None:
     with open('yandex_music/utils/request.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 
@@ -18,7 +17,7 @@ def gen_request(output_request_filename):
     code = code.replace('resp.content', 'content')
     code = code.replace(
         'resp = requests.request(*args, **kwargs)',
-        f'async with aiohttp.request(*args, **kwargs) as _resp:\n{" " * 16}resp = _resp\n{" " * 16}content = await resp.content.read()',
+        f'async with aiohttp.request(*args, **kwargs) as _resp:\n{" " * 16}resp = _resp\n{" " * 16}content = await resp.content.read()',  # noqa: E501
     )
 
     code = code.replace('except requests.Timeout', 'except asyncio.TimeoutError')
@@ -32,7 +31,7 @@ def gen_request(output_request_filename):
     code = code.replace('proxies=self.proxies', 'proxy=self.proxy_url')
     code = code.replace(
         "kwargs['timeout'] = self._timeout",
-        f"kwargs['timeout'] = aiohttp.ClientTimeout(total=self._timeout)\n{' ' * 8}else:\n{' ' * 12}kwargs['timeout'] = aiohttp.ClientTimeout(total=kwargs['timeout'])",
+        f"kwargs['timeout'] = aiohttp.ClientTimeout(total=self._timeout)\n{' ' * 8}else:\n{' ' * 12}kwargs['timeout'] = aiohttp.ClientTimeout(total=kwargs['timeout'])",  # noqa: E501
     )
 
     # download method
@@ -48,7 +47,7 @@ def gen_request(output_request_filename):
         f.write(code)
 
 
-def gen_client(output_client_filename):
+def gen_client(output_client_filename: str) -> None:
     with open('yandex_music/client.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 
@@ -85,4 +84,6 @@ if __name__ == '__main__':
     gen_client(client_filename)
 
     for file in (request_filename, client_filename):
-        subprocess.run(['black', '--config', 'black.toml', file])
+        subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
+        subprocess.run(['ruff', '--quiet', '--fix', file])  # noqa: S603, S607
+        subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607

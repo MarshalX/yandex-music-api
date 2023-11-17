@@ -14,7 +14,7 @@ class TestImages:
 
     def test_de_json_required(self, client):
         json_dict = {}
-        images = Images.de_json(json_dict, client)
+        Images.de_json(json_dict, client)
 
     def test_de_json_all(self, client):
         json_dict = {'_208x208': self._208x208, '_300x300': self._300x300}

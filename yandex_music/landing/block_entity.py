@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import (
-    YandexMusicObject,
-    Promotion,
     Album,
-    Playlist,
-    MixLink,
-    PlayContext,
     ChartItem,
     GeneratedPlaylist,
+    MixLink,
+    PlayContext,
+    Playlist,
+    Promotion,
+    YandexMusicObject,
 )
 from yandex_music.utils import model
 
@@ -50,7 +50,7 @@ class BlockEntity(YandexMusicObject):
     data: Union['GeneratedPlaylist', 'Promotion', 'Album', 'Playlist', 'ChartItem', 'PlayContext', 'MixLink']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
@@ -64,7 +64,7 @@ class BlockEntity(YandexMusicObject):
         Returns:
             :obj:`yandex_music.BlockEntity`: Сущность (объект) блока.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(BlockEntity, cls).de_json(data, client)
@@ -73,7 +73,7 @@ class BlockEntity(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['BlockEntity']:
+    def de_list(cls, data: list, client: 'Client') -> List['BlockEntity']:
         """Десериализация списка объектов.
 
         Args:
@@ -83,10 +83,10 @@ class BlockEntity(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.BlockEntity`: Содержимое блока.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        entities = list()
+        entities = []
         for entity in data:
             entities.append(cls.de_json(entity, client))
 

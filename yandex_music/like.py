@@ -1,4 +1,4 @@
-from typing import List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import Album, Artist, Playlist, YandexMusicObject
 from yandex_music.utils import model
@@ -46,7 +46,7 @@ class Like(YandexMusicObject):
     is_banner: Optional[bool] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
 
     @classmethod
@@ -61,7 +61,7 @@ class Like(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Like`: Объект с отметкой "мне нравится".
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Like, cls).de_json(data, client)
@@ -81,7 +81,7 @@ class Like(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client', type_: str = None) -> List['Like']:
+    def de_list(cls, data: list, client: 'Client', type_: str = None) -> List['Like']:
         """Десериализация списка объектов.
 
         Args:
@@ -92,10 +92,10 @@ class Like(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Like`: Объекты с отметкой "мне нравится".
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        likes = list()
+        likes = []
         for like in data:
             likes.append(cls.de_json(like, client, type_))
 

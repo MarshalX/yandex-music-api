@@ -1,10 +1,10 @@
-from typing import Any, TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Cover, Ratings, Counts, Link, Track, Description, ArtistTracks, ArtistAlbums
+    from yandex_music import ArtistAlbums, ArtistTracks, Client, Counts, Cover, Description, Link, Ratings, Track
 
 
 @model
@@ -78,7 +78,7 @@ class Artist(YandexMusicObject):
     ya_money_id: Optional[str] = None
     client: 'Client' = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.name, self.cover)
 
     def get_op_image_url(self, size: str = '200x200') -> str:
@@ -223,28 +223,32 @@ class Artist(YandexMusicObject):
         """
         return await self.client.users_likes_artists_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    def get_tracks(self, page=0, page_size=20, *args, **kwargs) -> Optional['ArtistTracks']:
+    def get_tracks(self, page: int = 0, page_size: int = 20, *args, **kwargs) -> Optional['ArtistTracks']:
         """Сокращение для::
 
         client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
         """
         return self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
 
-    async def get_tracks_async(self, page=0, page_size=20, *args, **kwargs) -> Optional['ArtistTracks']:
+    async def get_tracks_async(self, page: int = 0, page_size: int = 20, *args, **kwargs) -> Optional['ArtistTracks']:
         """Сокращение для::
 
         await client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
         """
         return await self.client.artists_tracks(self.id, page, page_size, *args, **kwargs)
 
-    def get_albums(self, page=0, page_size=20, sort_by='year', *args, **kwargs) -> Optional['ArtistAlbums']:
+    def get_albums(
+        self, page: int = 0, page_size: int = 20, sort_by: str = 'year', *args, **kwargs
+    ) -> Optional['ArtistAlbums']:
         """Сокращение для::
 
         client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
         """
         return self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
-    async def get_albums_async(self, page=0, page_size=20, sort_by='year', *args, **kwargs) -> Optional['ArtistAlbums']:
+    async def get_albums_async(
+        self, page: int = 0, page_size: int = 20, sort_by: str = 'year', *args, **kwargs
+    ) -> Optional['ArtistAlbums']:
         """Сокращение для::
 
         await client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
@@ -262,11 +266,11 @@ class Artist(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Artist`: Исполнитель.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Artist, cls).de_json(data, client)
-        from yandex_music import Cover, Ratings, Counts, Link, Track, Description
+        from yandex_music import Counts, Cover, Description, Link, Ratings, Track
 
         data['cover'] = Cover.de_json(data.get('cover'), client)
         data['ratings'] = Ratings.de_json(data.get('ratings'), client)
@@ -284,7 +288,7 @@ class Artist(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Artist']:
+    def de_list(cls, data: list, client: 'Client') -> List['Artist']:
         """Десериализация списка объектов.
 
         Args:
@@ -294,10 +298,10 @@ class Artist(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Artist`: Исполнители.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        artists = list()
+        artists = []
         for artist in data:
             artists.append(cls.de_json(artist, client))
 

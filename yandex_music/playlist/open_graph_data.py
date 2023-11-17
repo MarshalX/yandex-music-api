@@ -23,7 +23,7 @@ class OpenGraphData(YandexMusicObject):
     image: 'Cover'
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.title, self.description, self.image)
 
     @classmethod
@@ -37,7 +37,7 @@ class OpenGraphData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.OpenGraphData`: Данные для Open Graph.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(OpenGraphData, cls).de_json(data, client)

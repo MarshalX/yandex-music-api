@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -40,7 +40,7 @@ class Promotion(YandexMusicObject):
     image: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.promo_id,
             self.title,
@@ -115,7 +115,7 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Promotion`: Продвижение (реклама).
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Promotion, cls).de_json(data, client)
@@ -123,7 +123,7 @@ class Promotion(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Promotion']:
+    def de_list(cls, data: list, client: 'Client') -> List['Promotion']:
         """Десериализация списка объектов.
 
         Args:
@@ -133,10 +133,10 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Promotion`: Продвижения (реклама).
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        promotions = list()
+        promotions = []
         for promotion in data:
             promotions.append(cls.de_json(promotion, client))
 

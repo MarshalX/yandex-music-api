@@ -34,5 +34,5 @@ class NotFoundError(NetworkError):
 class TimedOutError(NetworkError):
     """Класс исключения, вызываемого для случаев истечения времени ожидания."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__('Timed out')

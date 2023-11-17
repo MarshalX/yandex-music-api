@@ -23,7 +23,7 @@ class Pager(YandexMusicObject):
     per_page: int
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.total, self.page, self.per_page)
 
     @classmethod
@@ -37,7 +37,7 @@ class Pager(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Pager`: Пагинация.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Pager, cls).de_json(data, client)

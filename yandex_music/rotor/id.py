@@ -25,7 +25,7 @@ class Id(YandexMusicObject):
     tag: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.tag)
 
     @classmethod
@@ -39,7 +39,7 @@ class Id(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Id`: Уникальный идентификатор станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Id, cls).de_json(data, client)

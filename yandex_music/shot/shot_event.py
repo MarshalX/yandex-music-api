@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -21,7 +21,7 @@ class ShotEvent(YandexMusicObject):
     shots: List['Shot']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.event_id, self.shots)
 
     @classmethod
@@ -35,7 +35,7 @@ class ShotEvent(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotEvent`: Событие-шот перед началом следующего трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ShotEvent, cls).de_json(data, client)

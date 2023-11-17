@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, Optional, List, Union, TypeVar, Generic, Type, Dict
+from typing import TYPE_CHECKING, Dict, Generic, List, Optional, Type, TypeVar, Union
 
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video, User
+from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -45,7 +45,7 @@ class SearchResult(YandexMusicObject, Generic[T]):
     results: List[T]
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod
@@ -60,7 +60,7 @@ class SearchResult(YandexMusicObject, Generic[T]):
         Returns:
             :obj:`yandex_music.SearchResult`: Результаты поиска.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(SearchResult, cls).de_json(data, client)

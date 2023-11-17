@@ -21,7 +21,7 @@ class Images(YandexMusicObject):
     _300x300: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self._208x208, self._300x300)
 
     def download_208x208(self, filename: str) -> None:
@@ -67,7 +67,7 @@ class Images(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Images`: Изображение жанра.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Images, cls).de_json(data, client)

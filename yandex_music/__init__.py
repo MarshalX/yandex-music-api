@@ -266,6 +266,7 @@ __all__ = [
     'QueueItem',
     'Deprecation',
     'TrackLyrics',
+    'LyricsMajor',
     'CustomWave',
     'R128',
     'LyricsInfo',

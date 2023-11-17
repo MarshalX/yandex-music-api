@@ -1,7 +1,7 @@
 import functools
 import logging
 from datetime import datetime
-from typing import Dict, List, Optional, Union, TypeVar, Callable, Any
+from typing import Any, Callable, Dict, List, Optional, TypeVar, Union
 
 from yandex_music import (
     Album,
@@ -9,36 +9,36 @@ from yandex_music import (
     ArtistAlbums,
     ArtistTracks,
     BriefInfo,
+    ChartInfo,
     Dashboard,
     DownloadInfo,
     Experiments,
     Feed,
     Genre,
     Landing,
+    LandingList,
     Like,
     PermissionAlerts,
     Playlist,
+    PlaylistRecommendations,
     PromoCodeStatus,
+    Queue,
+    QueueItem,
     Search,
     Settings,
     ShotEvent,
-    Supplement,
+    SimilarTracks,
     StationResult,
     StationTracksResult,
     Status,
     Suggestions,
-    SimilarTracks,
-    TrackLyrics,
+    Supplement,
+    TagResult,
     Track,
+    TrackLyrics,
     TracksList,
     UserSettings,
     YandexMusicObject,
-    ChartInfo,
-    TagResult,
-    PlaylistRecommendations,
-    LandingList,
-    QueueItem,
-    Queue,
     __copyright__,
     __license__,
     __version__,
@@ -64,7 +64,7 @@ def log(method: F) -> F:
     logger = logging.getLogger(method.__module__)
 
     @functools.wraps(method)
-    def wrapper(*args, **kwargs) -> Any:
+    def wrapper(*args, **kwargs) -> Any:  # noqa: ANN401:
         logger.debug(f'Entering: {method.__name__}')
 
         result = method(*args, **kwargs)
@@ -112,7 +112,7 @@ class Client(YandexMusicObject):
         base_url: str = None,
         request: Request = None,
         language: str = 'ru',
-        report_unknown_fields=False,
+        report_unknown_fields: bool = False,
     ) -> None:
         if not Client.__notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
@@ -151,7 +151,7 @@ class Client(YandexMusicObject):
         return self._request
 
     @log
-    def init(self):
+    def init(self) -> 'Client':
         """Получение информацию об аккаунте использующихся в других запросах."""
         self.me = self.account_status()
         return self
@@ -855,16 +855,16 @@ class Client(YandexMusicObject):
             data = {'kinds': kind}
 
             result = self._request.post(url, data, *args, **kwargs)
-
             return Playlist.de_list(result, self)
-        else:
-            url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
-            result = self._request.get(url, *args, **kwargs)
 
-            return Playlist.de_json(result, self)
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
+        result = self._request.get(url, *args, **kwargs)
+        return Playlist.de_json(result, self)
 
     @log
-    def users_playlists_recommendations(self, kind: Union[str, int], user_id: Union[str, int] = None, *args, **kwargs):
+    def users_playlists_recommendations(
+        self, kind: Union[str, int], user_id: Union[str, int] = None, *args, **kwargs
+    ) -> Optional[PlaylistRecommendations]:
         """Получение рекомендаций для плейлиста.
 
         Args:
@@ -2196,7 +2196,7 @@ class Client(YandexMusicObject):
         action = 'remove' if remove else 'add-multiple'
         url = f'{self.base_url}/users/{user_id}/dislikes/tracks/{action}'
 
-        result = self._request.post(url, {f'track-ids': ids}, *args, **kwargs)
+        result = self._request.post(url, {'track-ids': ids}, *args, **kwargs)
 
         return 'revision' in result
 

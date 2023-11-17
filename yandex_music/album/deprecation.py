@@ -23,7 +23,7 @@ class Deprecation(YandexMusicObject):
     done: Optional[bool]
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.target_album_id, self.status, self.done)
 
     @classmethod
@@ -36,7 +36,7 @@ class Deprecation(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Deprecation`: TODO.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Deprecation, cls).de_json(data, client)

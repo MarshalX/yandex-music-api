@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, User, CaseForms
+    from yandex_music import CaseForms, Client, User
 
 
 @model
@@ -21,7 +21,7 @@ class MadeFor(YandexMusicObject):
     case_forms: Optional['CaseForms']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.user_info, self.case_forms)
 
     @classmethod
@@ -35,11 +35,11 @@ class MadeFor(YandexMusicObject):
         Returns:
             :obj:`yandex_music.MadeFor`: Пользователь, для которого был сделан плейлист.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(MadeFor, cls).de_json(data, client)
-        from yandex_music import User, CaseForms
+        from yandex_music import CaseForms, User
 
         data['user_info'] = User.de_json(data.get('user_info'), client)
         data['case_forms'] = CaseForms.de_json(data.get('case_forms'), client)

@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, GeneratedPlaylist, Day
+    from yandex_music import Client, Day, GeneratedPlaylist
 
 
 @model
@@ -36,7 +36,7 @@ class Feed(YandexMusicObject):
     next_revision: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.can_get_more_events, self.generated_playlists, self.headlines, self.today, self.days)
 
     @classmethod
@@ -50,11 +50,11 @@ class Feed(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Feed`: Фид.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Feed, cls).de_json(data, client)
-        from yandex_music import GeneratedPlaylist, Day
+        from yandex_music import Day, GeneratedPlaylist
 
         data['generated_playlists'] = GeneratedPlaylist.de_list(data.get('generated_playlists'), client)
         data['days'] = Day.de_list(data.get('days'), client)

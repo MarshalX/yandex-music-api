@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -30,7 +30,7 @@ class Shot(YandexMusicObject):
     status: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.order, self.played, self.shot_data, self.shot_id, self.status)
 
     @classmethod
@@ -44,7 +44,7 @@ class Shot(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Shot`: Шот от Алисы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Shot, cls).de_json(data, client)
@@ -55,7 +55,7 @@ class Shot(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Shot']:
+    def de_list(cls, data: list, client: 'Client') -> List['Shot']:
         """Десериализация списка объектов.
 
         Args:
@@ -65,10 +65,10 @@ class Shot(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Shot`: Шоты от Алисы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        shots = list()
+        shots = []
         for shot in data:
             shots.append(cls.de_json(shot, client))
 

@@ -25,7 +25,7 @@ class Description(YandexMusicObject):
     uri: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.text, self.uri)
 
     @classmethod
@@ -39,7 +39,7 @@ class Description(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Description`: Описание исполнителя из другого источника.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Description, cls).de_json(data, client)

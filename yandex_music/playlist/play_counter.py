@@ -27,7 +27,7 @@ class PlayCounter(YandexMusicObject):
     updated: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.value, self.description, self.updated)
 
     @classmethod
@@ -41,7 +41,7 @@ class PlayCounter(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlayCounter`: Счетчик дней.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PlayCounter, cls).de_json(data, client)

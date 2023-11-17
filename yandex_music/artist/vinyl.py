@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -34,7 +34,7 @@ class Vinyl(YandexMusicObject):
     picture: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.title,
             self.price,
@@ -57,7 +57,7 @@ class Vinyl(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Vinyl`: Ваниловая пластинка.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Vinyl, cls).de_json(data, client)
@@ -65,7 +65,7 @@ class Vinyl(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Vinyl']:
+    def de_list(cls, data: list, client: 'Client') -> List['Vinyl']:
         """Десериализация списка объектов.
 
         Args:
@@ -75,10 +75,10 @@ class Vinyl(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Vinyl`: Ваниловые пластинки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        vinyls = list()
+        vinyls = []
         for vinyl in data:
             vinyls.append(cls.de_json(vinyl, client))
 

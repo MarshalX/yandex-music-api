@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, AlertButton
+    from yandex_music import AlertButton, Client
 
 
 @model
@@ -37,7 +37,7 @@ class Alert(YandexMusicObject):
     close_button: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.alert_id,)
 
     @classmethod
@@ -51,7 +51,7 @@ class Alert(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Alert`: Сообщение о статусе подписки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         from yandex_music import AlertButton

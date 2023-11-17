@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -39,7 +39,7 @@ class Video(YandexMusicObject):
     regions: Optional[List[str]] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.provider_video_id, self.youtube_url, self.title)
 
     @classmethod
@@ -53,7 +53,7 @@ class Video(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Video`: Видео.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Video, cls).de_json(data, client)
@@ -61,7 +61,7 @@ class Video(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Video']:
+    def de_list(cls, data: list, client: 'Client') -> List['Video']:
         """Десериализация списка объектов.
 
         Args:
@@ -71,10 +71,10 @@ class Video(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Video`: Видео.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        videos = list()
+        videos = []
         for video in data:
             videos.append(cls.de_json(video, client))
 

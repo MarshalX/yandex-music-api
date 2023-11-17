@@ -21,7 +21,7 @@ class LyricsInfo(YandexMusicObject):
     has_available_text_lyrics: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.has_available_sync_lyrics, self.has_available_text_lyrics)
 
     @classmethod
@@ -35,7 +35,7 @@ class LyricsInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.LyricsInfo`: Типы доступных текстов трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(LyricsInfo, cls).de_json(data, client)

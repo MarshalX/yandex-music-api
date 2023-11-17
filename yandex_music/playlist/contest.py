@@ -30,7 +30,7 @@ class Contest(YandexMusicObject):
     withdrawn: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.contest_id, self.status)
 
     @classmethod
@@ -44,7 +44,7 @@ class Contest(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Contest`: Контест.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Contest, cls).de_json(data, client)

@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, List, Optional
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
-
 if TYPE_CHECKING:
     from yandex_music import Client, LyricsMajor
 
@@ -28,7 +27,7 @@ class TrackLyrics(YandexMusicObject):
     major: 'LyricsMajor'
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.lyric_id,
             self.external_lyric_id,
@@ -48,7 +47,7 @@ class TrackLyrics(YandexMusicObject):
         Returns:
             :obj:`str`: Текст песни.
         """
-        return await self.client.request.retrieve(self.download_url).decode('UTF-8')
+        return (await self.client.request.retrieve(self.download_url)).decode('UTF-8')
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackLyrics']:
@@ -61,7 +60,7 @@ class TrackLyrics(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackLyrics`: Текст трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TrackLyrics, cls).de_json(data, client)

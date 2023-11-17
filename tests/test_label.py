@@ -8,14 +8,14 @@ class TestLabel:
     another_representation_of_label = 'NoCopyrightSounds'
 
     def test_expected_values(self, label):
-        if type(label) == str:
+        if isinstance(label, str):
             assert label == self.another_representation_of_label
         else:
             assert label.id == self.id
             assert label.name == self.name
 
     def test_de_list_none(self, client):
-        assert Label.de_list({}, client) == []
+        assert Label.de_list([], client) == []
 
     def test_de_json_none(self, client):
         assert Label.de_json({}, client) is None

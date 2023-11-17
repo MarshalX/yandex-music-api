@@ -33,7 +33,7 @@ class MetaData(YandexMusicObject):
     composer: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.album, self.volume, self.year)
 
     @classmethod
@@ -47,7 +47,7 @@ class MetaData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.MetaData`: Метаданные трека
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(MetaData, cls).de_json(data, client)

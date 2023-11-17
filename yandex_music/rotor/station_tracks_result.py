@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -25,11 +25,11 @@ class StationTracksResult(YandexMusicObject):
     pumpkin: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.sequence, self.batch_id, self.pumpkin)
 
     @classmethod
-    def de_json(cls, data, client) -> Optional['StationTracksResult']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['StationTracksResult']:
         """Десериализация объекта.
 
         Args:
@@ -39,7 +39,7 @@ class StationTracksResult(YandexMusicObject):
         Returns:
             :obj:`yandex_music.StationTracksResult`: Последовательность треков станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(StationTracksResult, cls).de_json(data, client)

@@ -36,7 +36,7 @@ class AdParams(YandexMusicObject):
     genre_name: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.partner_id,
             self.category_id,
@@ -57,7 +57,7 @@ class AdParams(YandexMusicObject):
         Returns:
             :obj:`yandex_music.AdParams`: Параметры рекламного объявления.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(AdParams, cls).de_json(data, client)

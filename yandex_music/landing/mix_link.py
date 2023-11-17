@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.exceptions import YandexMusicError
@@ -39,7 +39,7 @@ class MixLink(YandexMusicObject):
     cover_uri: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.url,
             self.title,
@@ -71,7 +71,7 @@ class MixLink(YandexMusicObject):
         """
 
         if not self.cover_white:
-            raise YandexMusicError('You can\'t get cover white because it\'s None.')
+            raise YandexMusicError("You can't get cover white because it's None.")
 
         return f'https://{self.cover_white.replace("%%", size)}'
 
@@ -217,7 +217,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`yandex_music.MixLink`: Блок-ссылка на подборку.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(MixLink, cls).de_json(data, client)
@@ -225,7 +225,7 @@ class MixLink(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['MixLink']:
+    def de_list(cls, data: list, client: 'Client') -> List['MixLink']:
         """Десериализация списка объектов.
 
         Args:
@@ -235,10 +235,10 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.MixLink`: Блоки-ссылки на подборки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        mix_links = list()
+        mix_links = []
         for mix_link in data:
             mix_links.append(cls.de_json(mix_link, client))
 

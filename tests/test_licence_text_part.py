@@ -13,7 +13,7 @@ class TestLicenceTextPart:
         assert LicenceTextPart.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert LicenceTextPart.de_list({}, client) == []
+        assert LicenceTextPart.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'text': self.text}

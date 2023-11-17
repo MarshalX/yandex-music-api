@@ -27,7 +27,7 @@ class TestPlaylist:
     id_for_from = 'playlist_of_the_day'
     dummy_description = 'Слушайте интересные подкасты, чтобы мы могли узнать вас получше и\\xa0собрать этот плейлист'
     dummy_page_description = (
-        'Чтобы собрать для вас этот плейлист, мы должны узнать ' 'вас чуточку поближе. Слушайте больше!'
+        'Чтобы собрать для вас этот плейлист, мы должны узнать вас чуточку поближе. Слушайте больше!'
     )
     metrika_id = 666666
     coauthors = [1130000003905541]
@@ -124,7 +124,7 @@ class TestPlaylist:
         assert Playlist.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Playlist.de_list({}, client) == []
+        assert Playlist.de_list([], client) == []
 
     def test_de_json_required(self, client, user, cover, made_for, play_counter, playlist_absence):
         json_dict = {

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -23,7 +23,7 @@ class ChartInfoMenuItem(YandexMusicObject):
     selected: Optional[bool] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.url, self.selected)
 
     @classmethod
@@ -37,7 +37,7 @@ class ChartInfoMenuItem(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartInfoMenuItem`: Элемент меню.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ChartInfoMenuItem, cls).de_json(data, client)
@@ -55,7 +55,7 @@ class ChartInfoMenuItem(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.ChartInfoMenuItem`: Список элементов меню чарта.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(item, client) for item in data]

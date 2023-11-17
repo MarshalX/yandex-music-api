@@ -23,7 +23,7 @@ class InvocationInfo(YandexMusicObject):
     exec_duration_millis: Optional[int] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.hostname, self.req_id)
 
     @classmethod
@@ -37,7 +37,7 @@ class InvocationInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.InvocationInfo`: Информация о запросе.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(InvocationInfo, cls).de_json(data, client)

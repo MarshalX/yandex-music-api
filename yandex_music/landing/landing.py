@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Block
+    from yandex_music import Block, Client
 
 
 @model
@@ -23,10 +23,10 @@ class Landing(YandexMusicObject):
     blocks: List['Block']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.content_id, self.blocks)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: int) -> 'Block':
         return self.blocks[item]
 
     @classmethod
@@ -40,7 +40,7 @@ class Landing(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Landing`: Лендинг.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Landing, cls).de_json(data, client)

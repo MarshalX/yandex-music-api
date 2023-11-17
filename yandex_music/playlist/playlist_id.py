@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, Playlist
 
 
 @model
@@ -21,21 +21,21 @@ class PlaylistId(YandexMusicObject):
     kind: int
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.kind)
 
     @property
-    def playlist_id(self):
+    def playlist_id(self) -> str:
         return f'{self.uid}:{self.kind}'
 
-    def fetch_playlist(self, *args, **kwargs):
+    def fetch_playlist(self, *args, **kwargs) -> Union['Playlist', List['Playlist']]:
         """Сокращение для::
 
         client.users_playlists(kind, uid, *args, **kwargs)
         """
         return self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
 
-    async def fetch_playlist_async(self, *args, **kwargs):
+    async def fetch_playlist_async(self, *args, **kwargs) -> Union['Playlist', List['Playlist']]:
         """Сокращение для::
 
         await client.users_playlists(kind, uid, *args, **kwargs)
@@ -53,7 +53,7 @@ class PlaylistId(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlaylistId`: Уникальный идентификатор плейлиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PlaylistId, cls).de_json(data, client)
@@ -61,7 +61,7 @@ class PlaylistId(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['PlaylistId']:
+    def de_list(cls, data: list, client: 'Client') -> List['PlaylistId']:
         """Десериализация списка объектов.
 
         Args:
@@ -71,10 +71,10 @@ class PlaylistId(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.PlaylistId`: Уникальные идентификаторы плейлистов.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        playlist_ids = list()
+        playlist_ids = []
         for playlist_id in data:
             playlist_ids.append(cls.de_json(playlist_id, client))
 

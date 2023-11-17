@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -21,7 +21,7 @@ class Value(YandexMusicObject):
     name: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.value, self.name)
 
     @classmethod
@@ -35,7 +35,7 @@ class Value(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Value`: Значение.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Value, cls).de_json(data, client)
@@ -43,7 +43,7 @@ class Value(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Value']:
+    def de_list(cls, data: list, client: 'Client') -> List['Value']:
         """Десериализация списка объектов.
 
         Args:
@@ -53,10 +53,10 @@ class Value(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Value`: Значения.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        values = list()
+        values = []
         for value in data:
             values.append(cls.de_json(value, client))
 

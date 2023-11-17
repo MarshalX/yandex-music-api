@@ -1,4 +1,4 @@
-from typing import List, TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -29,7 +29,7 @@ class Operator(YandexMusicObject):
     suspended: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.product_id, self.phone)
 
     @classmethod
@@ -43,7 +43,7 @@ class Operator(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Operator`: Услуга сотового оператора.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         from yandex_music import Deactivation
@@ -55,7 +55,7 @@ class Operator(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Operator']:
+    def de_list(cls, data: list, client: 'Client') -> List['Operator']:
         """Десериализация списка объектов.
 
         Args:
@@ -65,7 +65,7 @@ class Operator(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Operator`: Услуги сотового оператора.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(operator, client) for operator in data]

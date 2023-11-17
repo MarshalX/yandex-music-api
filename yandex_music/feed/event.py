@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track, AlbumEvent, ArtistEvent
+    from yandex_music import AlbumEvent, ArtistEvent, Client, Track
 
 
 @model
@@ -49,7 +49,7 @@ class Event(YandexMusicObject):
     genre: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type)
 
     @classmethod
@@ -63,11 +63,11 @@ class Event(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Event`: Событие фида.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Event, cls).de_json(data, client)
-        from yandex_music import Track, AlbumEvent, ArtistEvent
+        from yandex_music import AlbumEvent, ArtistEvent, Track
 
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['albums'] = AlbumEvent.de_list(data.get('albums'), client)
@@ -76,7 +76,7 @@ class Event(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Event']:
+    def de_list(cls, data: list, client: 'Client') -> List['Event']:
         """Десериализация списка объектов.
 
         Args:
@@ -86,10 +86,10 @@ class Event(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Event`: События фида.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        events = list()
+        events = []
         for event in data:
             events.append(cls.de_json(event, client))
 

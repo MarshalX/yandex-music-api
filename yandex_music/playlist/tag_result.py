@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -21,7 +21,7 @@ class TagResult(YandexMusicObject):
     ids: List['PlaylistId']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.tag, self.ids)
 
     @classmethod
@@ -35,11 +35,11 @@ class TagResult(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TagResult`: Тег и его плейлисты.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TagResult, cls).de_json(data, client)
-        from yandex_music import Tag, PlaylistId
+        from yandex_music import PlaylistId, Tag
 
         data['tag'] = Tag.de_json(data.get('tag'), client)
         data['ids'] = PlaylistId.de_list(data.get('ids'), client)

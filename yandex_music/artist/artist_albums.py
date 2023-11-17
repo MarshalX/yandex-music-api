@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List, Iterator
+from typing import TYPE_CHECKING, Iterator, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Album, Pager
+    from yandex_music import Album, Client, Pager
 
 
 @model
@@ -21,10 +21,10 @@ class ArtistAlbums(YandexMusicObject):
     pager: Optional['Pager']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.pager, self.albums)
 
-    def __getitem__(self, item) -> 'Album':
+    def __getitem__(self, item: int) -> 'Album':
         return self.albums[item]
 
     def __iter__(self) -> Iterator['Album']:
@@ -44,7 +44,7 @@ class ArtistAlbums(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ArtistAlbums`: Список альбомов артиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ArtistAlbums, cls).de_json(data, client)

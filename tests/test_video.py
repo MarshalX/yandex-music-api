@@ -31,7 +31,7 @@ class TestVideo:
         assert Video.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Video.de_list({}, client) == []
+        assert Video.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'title': self.title}

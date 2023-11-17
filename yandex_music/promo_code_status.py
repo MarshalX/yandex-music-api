@@ -23,7 +23,7 @@ class PromoCodeStatus(YandexMusicObject):
     account_status: Optional['Status']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.status, self.status_desc, self.account_status)
 
     @classmethod
@@ -37,7 +37,7 @@ class PromoCodeStatus(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PromoCodeStatus`: Статус активации промо-кода.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PromoCodeStatus, cls).de_json(data, client)

@@ -19,7 +19,7 @@ class PersonalPlaylistsData(YandexMusicObject):
     is_wizard_passed: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.is_wizard_passed,)
 
     @classmethod
@@ -33,7 +33,7 @@ class PersonalPlaylistsData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PersonalPlaylistsData`: Дополнительная информация о персональном плейлисте.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PersonalPlaylistsData, cls).de_json(data, client)

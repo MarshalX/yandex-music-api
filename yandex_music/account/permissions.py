@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -23,7 +23,7 @@ class Permissions(YandexMusicObject):
     default: List[str]
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.until, self.values, self.default)
 
     @classmethod
@@ -38,7 +38,7 @@ class Permissions(YandexMusicObject):
             :obj:`yandex_music.Permissions`: Информация о правах пользователя, их изначальных значениях и даты
                 окончания.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Permissions, cls).de_json(data, client)

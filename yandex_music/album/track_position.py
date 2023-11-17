@@ -26,7 +26,7 @@ class TrackPosition(YandexMusicObject):
     index: int
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.volume, self.index)
 
     @classmethod
@@ -40,7 +40,7 @@ class TrackPosition(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackPosition`: Позиция трека.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TrackPosition, cls).de_json(data, client)

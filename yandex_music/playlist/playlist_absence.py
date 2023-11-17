@@ -21,7 +21,7 @@ class PlaylistAbsence(YandexMusicObject):
     reason: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.kind, self.reason)
 
     @classmethod
@@ -35,7 +35,7 @@ class PlaylistAbsence(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlaylistAbsence`: Причина отсутствия плейлиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PlaylistAbsence, cls).de_json(data, client)

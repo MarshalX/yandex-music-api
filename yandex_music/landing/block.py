@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, BlockEntity, PersonalPlaylistsData, PlayContextsData
+    from yandex_music import BlockEntity, Client, PersonalPlaylistsData, PlayContextsData
 
 
 @model
@@ -35,7 +35,7 @@ class Block(YandexMusicObject):
     data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
 
     def __getitem__(self, item: int) -> 'BlockEntity':
@@ -52,11 +52,11 @@ class Block(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Block`: Блок лендинга.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Block, cls).de_json(data, client)
-        from yandex_music import BlockEntity, PlayContextsData, PersonalPlaylistsData
+        from yandex_music import BlockEntity, PersonalPlaylistsData, PlayContextsData
 
         data['entities'] = BlockEntity.de_list(data.get('entities'), client)
 
@@ -69,7 +69,7 @@ class Block(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Block']:
+    def de_list(cls, data: list, client: 'Client') -> List['Block']:
         """Десериализация списка объектов.
 
         Args:
@@ -79,10 +79,10 @@ class Block(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Block`: Блоки лендинга.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        blocks = list()
+        blocks = []
         for block in data:
             blocks.append(cls.de_json(block, client))
 

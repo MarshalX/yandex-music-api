@@ -23,7 +23,7 @@ class R128(YandexMusicObject):
     tp: float
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.i, self.tp)
 
     @classmethod
@@ -37,7 +37,7 @@ class R128(YandexMusicObject):
         Returns:
             :obj:`yandex_music.R128`: Параметры нормализации громкости трека в соответствии с рекомендацией EBU R 128.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(R128, cls).de_json(data, client)

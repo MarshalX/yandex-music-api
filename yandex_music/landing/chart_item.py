@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track, Chart
+    from yandex_music import Chart, Client, Track
 
 
 @model
@@ -21,7 +21,7 @@ class ChartItem(YandexMusicObject):
     chart: Optional['Chart']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.track, self.chart)
 
     @classmethod
@@ -35,7 +35,7 @@ class ChartItem(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartItem`: Трек в чарте.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ChartItem, cls).de_json(data, client)
@@ -47,7 +47,7 @@ class ChartItem(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['ChartItem']:
+    def de_list(cls, data: list, client: 'Client') -> List['ChartItem']:
         """Десериализация списка объектов.
 
         Args:
@@ -57,10 +57,10 @@ class ChartItem(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.ChartItem`: Треки в чартах.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
-        tracks = list()
+        tracks = []
         for track in data:
             tracks.append(cls.de_json(track, client))
 

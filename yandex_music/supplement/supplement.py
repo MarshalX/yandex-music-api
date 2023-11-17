@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -31,7 +31,7 @@ class Supplement(YandexMusicObject):
     description: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.lyrics, self.videos)
 
     @classmethod
@@ -45,7 +45,7 @@ class Supplement(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Supplement`: Дополнительная информация о треке.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Supplement, cls).de_json(data, client)

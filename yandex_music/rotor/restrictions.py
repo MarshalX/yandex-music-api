@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject, Enum, DiscreteScale
+from yandex_music import DiscreteScale, Enum, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -29,7 +29,7 @@ class Restrictions(YandexMusicObject):
     mood_energy: Optional['Enum'] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
@@ -43,7 +43,7 @@ class Restrictions(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Restrictions`: Ограничения для настроек станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Restrictions, cls).de_json(data, client)

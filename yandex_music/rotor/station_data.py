@@ -19,7 +19,7 @@ class StationData(YandexMusicObject):
     name: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.name,)
 
     @classmethod
@@ -33,7 +33,7 @@ class StationData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.StationData`: Информация о личной станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(StationData, cls).de_json(data, client)

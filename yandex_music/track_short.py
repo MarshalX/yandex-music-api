@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
-from yandex_music.utils import model
 from yandex_music import YandexMusicObject
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track, Chart
+    from yandex_music import Chart, Client, Track
 
 
 @model
@@ -36,7 +36,7 @@ class TrackShort(YandexMusicObject):
     original_index: Optional[int] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.album_id)
 
     def fetch_track(self) -> 'Track':
@@ -74,11 +74,11 @@ class TrackShort(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackShort`: Укороченная версия трека с неполными данными.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TrackShort, cls).de_json(data, client)
-        from yandex_music import Track, Chart
+        from yandex_music import Chart, Track
 
         data['track'] = Track.de_json(data.get('track'), client)
         data['chart'] = Chart.de_json(data.get('chart'), client)
@@ -86,7 +86,7 @@ class TrackShort(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['TrackShort']:
+    def de_list(cls, data: list, client: 'Client') -> List['TrackShort']:
         """Десериализация списка объектов.
 
         Args:
@@ -96,7 +96,7 @@ class TrackShort(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.TrackShort`: Укороченные версии треков с неполными данными.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(track, client) for track in data]

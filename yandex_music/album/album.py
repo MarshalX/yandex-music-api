@@ -1,10 +1,10 @@
-from typing import Any, TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Artist, Label, TrackPosition, Track, Deprecation
+    from yandex_music import Artist, Client, Deprecation, Label, Track, TrackPosition
 
 
 @model
@@ -120,7 +120,7 @@ class Album(YandexMusicObject):
     available_for_options: Optional[List[str]] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id,)
 
     def with_tracks(self, *args, **kwargs) -> Optional['Album']:
@@ -295,14 +295,24 @@ class Album(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Album`: Альбом.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Album, cls).de_json(data, client)
-        from yandex_music import Artist, Label, TrackPosition, Track, Deprecation
+        from yandex_music import Artist, Deprecation, Label, Track, TrackPosition
 
         data['artists'] = Artist.de_list(data.get('artists'), client)
-        data['labels'] = Label.de_list(data.get('labels'), client)
+
+        # В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
+        labels = data.get('labels')
+        if cls.is_valid_model_data(labels, array=True):
+            data['labels'] = Label.de_list(labels, client)
+        elif labels and all(isinstance(item, str) for item in data):
+            data['labels'] = labels
+        else:
+            # Поддержка формата. Все листы [] по умолчанию вместо None даже если данных нет.
+            data['labels'] = []
+
         data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
         data['duplicates'] = Album.de_list(data.get('duplicates'), client)
         data['albums'] = Album.de_list(data.get('albums'), client)
@@ -313,7 +323,7 @@ class Album(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Album']:
+    def de_list(cls, data: list, client: 'Client') -> List['Album']:
         """Десериализация списка объектов.
 
         Args:
@@ -323,7 +333,7 @@ class Album(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Album`: Альбомы.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(album, client) for album in data]

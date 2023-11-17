@@ -1,10 +1,10 @@
-from typing import Any, TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Any, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl, Playlist
+    from yandex_music import Album, Artist, Chart, Client, Cover, Playlist, PlaylistId, Track, Video, Vinyl
 
 
 @model
@@ -47,7 +47,7 @@ class BriefInfo(YandexMusicObject):
     tracks_in_chart: List['Chart'] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.artist,
             self.albums,
@@ -75,11 +75,11 @@ class BriefInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.BriefInfo`: Информация об артисте.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(BriefInfo, cls).de_json(data, client)
-        from yandex_music import Artist, Track, Album, Cover, PlaylistId, Video, Chart, Vinyl, Playlist
+        from yandex_music import Album, Artist, Chart, Cover, Playlist, PlaylistId, Track, Video, Vinyl
 
         data['playlists'] = Playlist.de_list(data.get('playlists'), client)
         data['artist'] = Artist.de_json(data.get('artist'), client)
