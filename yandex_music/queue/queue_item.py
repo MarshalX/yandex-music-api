@@ -51,7 +51,7 @@ class QueueItem(YandexMusicObject):
         Returns:
             :obj:`yandex_music.QueueItem`: Очередь в списке.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         from yandex_music import Context
@@ -62,7 +62,7 @@ class QueueItem(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['QueueItem']:
+    def de_list(cls, data: list, client: 'Client') -> List['QueueItem']:
         """Десериализация списка объектов.
 
         Args:
@@ -72,7 +72,7 @@ class QueueItem(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.QueueItem`: Список очередей всех устройств.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         return [cls.de_json(queue, client) for queue in data]

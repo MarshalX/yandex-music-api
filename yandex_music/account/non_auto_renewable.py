@@ -35,7 +35,7 @@ class NonAutoRenewable(YandexMusicObject):
         Returns:
             :obj:`yandex_music.NonAutoRenewable`: Отключённое автопродление.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(NonAutoRenewable, cls).de_json(data, client)

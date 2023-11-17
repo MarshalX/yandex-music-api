@@ -93,7 +93,7 @@ class UserSettings(YandexMusicObject):
         Returns:
             :obj:`yandex_music.UserSettings`: Настройки пользователя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(UserSettings, cls).de_json(data, client)

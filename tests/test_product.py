@@ -63,13 +63,12 @@ class TestProduct:
         assert Product.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Product.de_list({}, client) == []
+        assert Product.de_list([], client) == []
 
     def test_de_json_required(self, client, price):
         json_dict = {
             'product_id': self.product_id,
             'type': self.type,
-            'common_period_duration': self.common_period_duration,
             'duration': self.duration,
             'trial_duration': self.trial_duration,
             'price': price.to_dict(),
@@ -81,7 +80,6 @@ class TestProduct:
 
         assert product.product_id == self.product_id
         assert product.type == self.type
-        assert product.common_period_duration == self.common_period_duration
         assert product.duration == self.duration
         assert product.trial_duration == self.trial_duration
         assert product.price == price
@@ -157,7 +155,6 @@ class TestProduct:
         a = Product(
             self.product_id,
             self.type,
-            self.common_period_duration,
             self.duration,
             self.trial_duration,
             price,
@@ -168,7 +165,6 @@ class TestProduct:
         b = Product(
             '',
             self.type,
-            self.common_period_duration,
             self.duration,
             self.trial_duration,
             price,
@@ -179,7 +175,6 @@ class TestProduct:
         c = Product(
             self.product_id,
             self.type,
-            self.common_period_duration,
             self.duration,
             self.trial_duration,
             price,

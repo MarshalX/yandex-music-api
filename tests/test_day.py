@@ -14,7 +14,7 @@ class TestDay:
         assert Day.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert Day.de_list({}, client) == []
+        assert Day.de_list([], client) == []
 
     def test_de_json_required(self, client, event, track_with_ads, track):
         json_dict = {

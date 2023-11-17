@@ -52,7 +52,7 @@ class Block(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Block`: Блок лендинга.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Block, cls).de_json(data, client)
@@ -69,7 +69,7 @@ class Block(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Block']:
+    def de_list(cls, data: list, client: 'Client') -> List['Block']:
         """Десериализация списка объектов.
 
         Args:
@@ -79,7 +79,7 @@ class Block(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Block`: Блоки лендинга.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         blocks = list()

@@ -38,7 +38,7 @@ class Permissions(YandexMusicObject):
             :obj:`yandex_music.Permissions`: Информация о правах пользователя, их изначальных значениях и даты
                 окончания.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Permissions, cls).de_json(data, client)

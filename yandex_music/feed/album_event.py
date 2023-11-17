@@ -35,7 +35,7 @@ class AlbumEvent(YandexMusicObject):
         Returns:
             :obj:`yandex_music.AlbumEvent`: Альбом в событии фида.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(AlbumEvent, cls).de_json(data, client)
@@ -47,7 +47,7 @@ class AlbumEvent(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['AlbumEvent']:
+    def de_list(cls, data: list, client: 'Client') -> List['AlbumEvent']:
         """Десериализация списка объектов.
 
         Args:
@@ -57,7 +57,7 @@ class AlbumEvent(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.AlbumEvent`: Альбомы в событии фида.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         album_events = list()

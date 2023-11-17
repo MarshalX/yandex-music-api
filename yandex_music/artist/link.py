@@ -42,7 +42,7 @@ class Link(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Link`: Ссылка на официальную страницу исполнителя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Link, cls).de_json(data, client)
@@ -50,7 +50,7 @@ class Link(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Link']:
+    def de_list(cls, data: list, client: 'Client') -> List['Link']:
         """Десериализация списка объектов.
 
         Args:
@@ -60,7 +60,7 @@ class Link(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Link`: Ссылки на официальные страницы исполнителя.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         links = list()

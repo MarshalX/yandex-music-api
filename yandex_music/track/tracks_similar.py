@@ -44,7 +44,7 @@ class SimilarTracks(YandexMusicObject):
         Returns:
             :obj:`yandex_music.SimilarTracks`: Список похожих треков на другой трек.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(SimilarTracks, cls).de_json(data, client)

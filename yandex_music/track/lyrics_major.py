@@ -38,7 +38,7 @@ class LyricsMajor(YandexMusicObject):
         Returns:
             :obj:`yandex_music.LyricsMajor`: Сервис-источник текстов к трекам.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(LyricsMajor, cls).de_json(data, client)

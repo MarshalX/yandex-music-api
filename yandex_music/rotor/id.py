@@ -39,7 +39,7 @@ class Id(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Id`: Уникальный идентификатор станции.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Id, cls).de_json(data, client)

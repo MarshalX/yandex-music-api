@@ -46,7 +46,7 @@ class Context(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Context`: Содержимое очереди.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Context, cls).de_json(data, client)

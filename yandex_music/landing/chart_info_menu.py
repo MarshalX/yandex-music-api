@@ -33,7 +33,7 @@ class ChartInfoMenu(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartInfoMenu`: Меню чарта.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ChartInfoMenu, cls).de_json(data, client)

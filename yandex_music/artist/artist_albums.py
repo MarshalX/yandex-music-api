@@ -44,7 +44,7 @@ class ArtistAlbums(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ArtistAlbums`: Список альбомов артиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ArtistAlbums, cls).de_json(data, client)

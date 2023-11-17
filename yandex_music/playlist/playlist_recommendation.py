@@ -35,7 +35,7 @@ class PlaylistRecommendations(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlaylistRecommendations`: Рекомендации для плейлиста.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(PlaylistRecommendations, cls).de_json(data, client)

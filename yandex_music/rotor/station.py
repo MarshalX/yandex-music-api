@@ -66,7 +66,7 @@ class Station(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Station`: Станция.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Station, cls).de_json(data, client)

@@ -67,7 +67,7 @@ class Images(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Images`: Изображение жанра.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Images, cls).de_json(data, client)

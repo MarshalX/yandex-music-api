@@ -10,7 +10,7 @@ class TestAlbumEvent:
         assert AlbumEvent.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert AlbumEvent.de_list({}, client) == []
+        assert AlbumEvent.de_list([], client) == []
 
     def test_de_json_required(self, client, album, track):
         json_dict = {'album': album.to_dict(), 'tracks': [track.to_dict()]}

@@ -15,7 +15,7 @@ class TestPoetryLoverMatch:
         assert PoetryLoverMatch.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert PoetryLoverMatch.de_list({}, client) == []
+        assert PoetryLoverMatch.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'begin': self.begin, 'end': self.end, 'line': self.line}

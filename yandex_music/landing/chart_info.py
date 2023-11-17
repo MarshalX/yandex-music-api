@@ -45,7 +45,7 @@ class ChartInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartInfo`: Чарт.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ChartInfo, cls).de_json(data, client)

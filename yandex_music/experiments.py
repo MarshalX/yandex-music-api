@@ -37,7 +37,7 @@ class Experiments(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Experiments`: Какие-то свистелки и перделки, флажки, режимы экспериментальных функций.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Experiments, cls).de_json(data, client)

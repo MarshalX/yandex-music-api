@@ -35,7 +35,7 @@ class MadeFor(YandexMusicObject):
         Returns:
             :obj:`yandex_music.MadeFor`: Пользователь, для которого был сделан плейлист.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(MadeFor, cls).de_json(data, client)

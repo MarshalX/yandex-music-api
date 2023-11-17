@@ -39,7 +39,7 @@ class AlertButton(YandexMusicObject):
         Returns:
             :obj:`yandex_music.AlertButton`: Кнопка в статусе о подписки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(AlertButton, cls).de_json(data, client)

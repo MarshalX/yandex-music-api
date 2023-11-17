@@ -60,7 +60,7 @@ class SearchResult(YandexMusicObject, Generic[T]):
         Returns:
             :obj:`yandex_music.SearchResult`: Результаты поиска.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(SearchResult, cls).de_json(data, client)

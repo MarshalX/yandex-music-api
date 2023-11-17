@@ -14,7 +14,7 @@ class Cover(YandexMusicObject):
     Attributes:
         type (:obj:`str`, optional): Тип обложки.
         uri (:obj:`str`, optional): Ссылка на изображение.
-        items_uri (:obj:`str`, optional): Список ссылок на изображения.
+        items_uri (:obj:`list` из :obj:`str`, optional): Список ссылок на изображения.
         dir (:obj:`str`, optional): Директория хранения изображения на сервере.
         version (:obj:`str`, optional): Версия.
         is_custom (:obj:`bool`, optional): Является ли обложка пользовательской.
@@ -28,7 +28,7 @@ class Cover(YandexMusicObject):
 
     type: Optional[str] = None
     uri: Optional[str] = None
-    items_uri: Optional[str] = None
+    items_uri: Optional[List[str]] = None
     dir: Optional[str] = None
     version: Optional[str] = None
     custom: Optional[bool] = None
@@ -111,7 +111,7 @@ class Cover(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Cover`: Обложка.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(Cover, cls).de_json(data, client)
@@ -119,7 +119,7 @@ class Cover(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['Cover']:
+    def de_list(cls, data: list, client: 'Client') -> List['Cover']:
         """Десериализация списка объектов.
 
         Args:
@@ -129,7 +129,7 @@ class Cover(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Cover`: Обложки.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         covers = list()

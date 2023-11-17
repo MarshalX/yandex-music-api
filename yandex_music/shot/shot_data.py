@@ -122,7 +122,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotData`: Основная информация о шоте.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(ShotData, cls).de_json(data, client)

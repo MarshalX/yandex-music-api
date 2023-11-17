@@ -38,7 +38,7 @@ class TrackWithAds(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackWithAds`: Трек с рекламой.
         """
-        if not data:
+        if not cls.is_valid_model_data(data):
             return None
 
         data = super(TrackWithAds, cls).de_json(data, client)
@@ -49,7 +49,7 @@ class TrackWithAds(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_list(cls, data: dict, client: 'Client') -> List['TrackWithAds']:
+    def de_list(cls, data: list, client: 'Client') -> List['TrackWithAds']:
         """Десериализация списка объектов.
 
         Args:
@@ -59,7 +59,7 @@ class TrackWithAds(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.TrackWithAds`: Треки с рекламой.
         """
-        if not data:
+        if not cls.is_valid_model_data(data, array=True):
             return []
 
         tracks_with_ads = list()

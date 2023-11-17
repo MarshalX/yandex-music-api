@@ -25,7 +25,7 @@ class TestUser:
         assert User.de_json({}, client) is None
 
     def test_de_list_none(self, client):
-        assert User.de_list({}, client) == []
+        assert User.de_list([], client) == []
 
     def test_de_json_required(self, client):
         json_dict = {'uid': self.uid, 'login': self.login}
