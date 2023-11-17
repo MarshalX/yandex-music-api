@@ -47,7 +47,7 @@ class TrackLyrics(YandexMusicObject):
         Returns:
             :obj:`str`: Текст песни.
         """
-        return await self.client.request.retrieve(self.download_url).decode('UTF-8')
+        return (await self.client.request.retrieve(self.download_url)).decode('UTF-8')
 
     @classmethod
     def de_json(cls, data: dict, client: 'Client') -> Optional['TrackLyrics']:
