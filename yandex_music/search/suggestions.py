@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Iterable, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -21,13 +21,13 @@ class Suggestions(YandexMusicObject):
     suggestions: List[str]
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.best, self.suggestions)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: int) -> str:
         return self.suggestions[item]
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[str]:
         return iter(self.suggestions)
 
     @classmethod

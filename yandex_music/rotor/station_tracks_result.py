@@ -25,11 +25,11 @@ class StationTracksResult(YandexMusicObject):
     pumpkin: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.sequence, self.batch_id, self.pumpkin)
 
     @classmethod
-    def de_json(cls, data, client) -> Optional['StationTracksResult']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['StationTracksResult']:
         """Десериализация объекта.
 
         Args:

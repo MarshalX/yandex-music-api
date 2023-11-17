@@ -21,7 +21,7 @@ class Plus(YandexMusicObject):
     is_tutorial_completed: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.has_plus, self.is_tutorial_completed)
 
     @classmethod

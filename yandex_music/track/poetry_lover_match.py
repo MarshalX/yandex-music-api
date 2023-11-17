@@ -26,7 +26,7 @@ class PoetryLoverMatch(YandexMusicObject):
     line: int
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.begin, self.end, self.line)
 
     @classmethod

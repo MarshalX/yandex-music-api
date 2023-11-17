@@ -120,7 +120,7 @@ class Album(YandexMusicObject):
     available_for_options: Optional[List[str]] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id,)
 
     def with_tracks(self, *args, **kwargs) -> Optional['Album']:

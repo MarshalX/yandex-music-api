@@ -31,11 +31,11 @@ class YandexMusicObject:
     def __repr__(self) -> str:
         return str(self)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: str) -> Any:  # noqa: ANN401
         return self.__dict__[item]
 
     @staticmethod
-    def report_unknown_fields_callback(cls, unknown_fields):
+    def report_unknown_fields_callback(cls: type, unknown_fields: dict) -> None:
         logger.warning(
             f'Found unknown fields received from API! Please copy warn message '
             f'and send to {new_issue_by_template_url} (github issue), thank you!'
@@ -43,7 +43,7 @@ class YandexMusicObject:
         logger.warning(f'Type: {cls.__module__}.{cls.__name__}; fields: {unknown_fields}')
 
     @staticmethod
-    def is_valid_model_data(data: Any, *, array: bool = False) -> bool:
+    def is_valid_model_data(data: Any, *, array: bool = False) -> bool:  # noqa: ANN401
         if array:
             return data and isinstance(data, list) and all(isinstance(item, dict) for item in data)
 
@@ -81,7 +81,7 @@ class YandexMusicObject:
 
         return cleaned_data
 
-    def to_json(self, for_request=False) -> str:
+    def to_json(self, for_request: bool = False) -> str:
         """Сериализация объекта.
 
         Args:
@@ -92,7 +92,7 @@ class YandexMusicObject:
         """
         return json.dumps(self.to_dict(for_request), ensure_ascii=not ujson)
 
-    def to_dict(self, for_request=False) -> dict:
+    def to_dict(self, for_request: bool = False) -> dict:
         """Рекурсивная сериализация объекта.
 
         Args:
@@ -107,7 +107,7 @@ class YandexMusicObject:
             :obj:`dict`: Сериализованный в dict объект.
         """
 
-        def parse(val):
+        def parse(val: Any) -> Any:  # noqa: ANN401
             if hasattr(val, 'to_dict'):
                 return val.to_dict(for_request)
             if isinstance(val, list):
@@ -135,7 +135,7 @@ class YandexMusicObject:
 
         return parse(data)
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:  # noqa: ANN401
         """Проверка на равенство двух объектов.
 
         Note:

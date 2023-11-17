@@ -39,7 +39,7 @@ class Cover(YandexMusicObject):
     error: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
     def get_url(self, index: int = 0, size: str = '200x200') -> str:

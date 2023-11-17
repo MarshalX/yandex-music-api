@@ -21,7 +21,7 @@ class ShotEvent(YandexMusicObject):
     shots: List['Shot']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.event_id, self.shots)
 
     @classmethod

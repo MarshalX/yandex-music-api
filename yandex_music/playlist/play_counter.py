@@ -27,7 +27,7 @@ class PlayCounter(YandexMusicObject):
     updated: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.value, self.description, self.updated)
 
     @classmethod

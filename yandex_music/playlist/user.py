@@ -42,7 +42,7 @@ class User(YandexMusicObject):
     regions: List[int] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.login)
 
     @classmethod

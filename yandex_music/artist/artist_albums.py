@@ -21,10 +21,10 @@ class ArtistAlbums(YandexMusicObject):
     pager: Optional['Pager']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.pager, self.albums)
 
-    def __getitem__(self, item) -> 'Album':
+    def __getitem__(self, item: int) -> 'Album':
         return self.albums[item]
 
     def __iter__(self) -> Iterator['Album']:

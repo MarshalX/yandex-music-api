@@ -32,7 +32,7 @@ def convert_snake_case_to_camel_case(string: str) -> str:
     return camel_case[0].lower() + camel_case[1:]
 
 
-def _generate_code(function_name: str, intent=0) -> str:
+def _generate_code(function_name: str, intent: int = 0) -> str:
     camel_case_name = convert_snake_case_to_camel_case(function_name)
     code = ALIAS_TEMPLATE.format(name=function_name, camel_case_name=camel_case_name)
 
@@ -85,7 +85,7 @@ def _process_file(file: str) -> None:
         f.write(new_file_code)
 
 
-def main():
+def main() -> None:
     for root, _, files in os.walk(SOURCE_FOLDER):
         for file in files:
             if file.endswith('.py') and file != '__init__.py':

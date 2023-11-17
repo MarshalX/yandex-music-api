@@ -6,7 +6,7 @@ from setuptools.command.test import test
 
 
 class PyTest(test):
-    def run_tests(self):
+    def run_tests(self) -> None:
         import pytest
 
         sys.exit(pytest.main(['tests']))

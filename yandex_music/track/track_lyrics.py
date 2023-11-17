@@ -27,7 +27,7 @@ class TrackLyrics(YandexMusicObject):
     major: 'LyricsMajor'
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.lyric_id,
             self.external_lyric_id,

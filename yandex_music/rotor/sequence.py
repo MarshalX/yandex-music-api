@@ -26,7 +26,7 @@ class Sequence(YandexMusicObject):
     liked: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.track, self.liked)
 
     @classmethod

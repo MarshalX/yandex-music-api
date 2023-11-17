@@ -47,7 +47,7 @@ class BriefInfo(YandexMusicObject):
     tracks_in_chart: List['Chart'] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.artist,
             self.albums,

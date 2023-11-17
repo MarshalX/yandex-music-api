@@ -21,10 +21,10 @@ class SimilarTracks(YandexMusicObject):
     similar_tracks: List['Track']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.track, self.similar_tracks)
 
-    def __getitem__(self, item) -> 'Track':
+    def __getitem__(self, item: int) -> 'Track':
         return self.similar_tracks[item]
 
     def __iter__(self) -> Iterator['Track']:

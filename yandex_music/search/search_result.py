@@ -45,7 +45,7 @@ class SearchResult(YandexMusicObject, Generic[T]):
     results: List[T]
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod

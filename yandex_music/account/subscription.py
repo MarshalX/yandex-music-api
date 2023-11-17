@@ -35,7 +35,7 @@ class Subscription(YandexMusicObject):
     end: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.non_auto_renewable_remainder, self.auto_renewable, self.family_auto_renewable)
 
     @classmethod

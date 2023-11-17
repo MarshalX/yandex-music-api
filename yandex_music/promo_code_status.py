@@ -23,7 +23,7 @@ class PromoCodeStatus(YandexMusicObject):
     account_status: Optional['Status']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.status, self.status_desc, self.account_status)
 
     @classmethod

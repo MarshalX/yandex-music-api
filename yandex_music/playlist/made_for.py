@@ -21,7 +21,7 @@ class MadeFor(YandexMusicObject):
     case_forms: Optional['CaseForms']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.user_info, self.case_forms)
 
     @classmethod

@@ -35,7 +35,7 @@ class DownloadInfo(YandexMusicObject):
     direct: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.direct_link = None
         self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
 

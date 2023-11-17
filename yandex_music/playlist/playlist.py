@@ -160,7 +160,7 @@ class Playlist(YandexMusicObject):
     pager: Optional['Pager'] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.kind, self.title, self.playlist_absence)
 
     @property
@@ -391,14 +391,14 @@ class Playlist(YandexMusicObject):
             self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs
         )
 
-    def delete(self, *args, **kwargs):
+    def delete(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
         client.users_playlists_delete(self.kind, self.owner.uid)
         """
         return self.client.users_playlists_delete(self.kind, self.owner.uid, *args, **kwargs)
 
-    async def delete_async(self, *args, **kwargs):
+    async def delete_async(self, *args, **kwargs) -> bool:
         """Сокращение для::
 
         await client.users_playlists_delete(self.kind, self.owner.uid)
