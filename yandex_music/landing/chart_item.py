@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track, Chart
+    from yandex_music import Chart, Client, Track
 
 
 @model
@@ -60,7 +60,7 @@ class ChartItem(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        tracks = list()
+        tracks = []
         for track in data:
             tracks.append(cls.de_json(track, client))
 

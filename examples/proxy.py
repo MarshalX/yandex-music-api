@@ -9,7 +9,7 @@ proxied_request = Request(proxy_url=os.environ.get('PROXY_URL'))
 
 try:
     if not yandex_music_token:
-        raise YandexMusicError()
+        raise YandexMusicError
 
     # подключаемся без прокси для получения информации об аккаунте (доступно из других стран)
     client = Client(yandex_music_token, request=Request()).init()

@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import (
-    YandexMusicObject,
-    Promotion,
     Album,
-    Playlist,
-    MixLink,
-    PlayContext,
     ChartItem,
     GeneratedPlaylist,
+    MixLink,
+    PlayContext,
+    Playlist,
+    Promotion,
+    YandexMusicObject,
 )
 from yandex_music.utils import model
 
@@ -86,7 +86,7 @@ class BlockEntity(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        entities = list()
+        entities = []
         for entity in data:
             entities.append(cls.de_json(entity, client))
 

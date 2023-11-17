@@ -1,12 +1,11 @@
-from typing import Union
-from dataclasses import dataclass
-import datetime
-import hmac
-import hashlib
 import base64
+import datetime
+import hashlib
+import hmac
+from dataclasses import dataclass
+from typing import Union
 
 from yandex_music.utils.convert_track_id import convert_track_id_to_number
-
 
 DEFAULT_SIGN_KEY = 'p93jhgh689SBReK6ghtw62'
 """:obj:`str`: Ключ для подписи из Android приложения."""

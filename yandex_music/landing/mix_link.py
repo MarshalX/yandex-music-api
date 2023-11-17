@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.exceptions import YandexMusicError
@@ -71,7 +71,7 @@ class MixLink(YandexMusicObject):
         """
 
         if not self.cover_white:
-            raise YandexMusicError('You can\'t get cover white because it\'s None.')
+            raise YandexMusicError("You can't get cover white because it's None.")
 
         return f'https://{self.cover_white.replace("%%", size)}'
 
@@ -238,7 +238,7 @@ class MixLink(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        mix_links = list()
+        mix_links = []
         for mix_link in data:
             mix_links.append(cls.de_json(mix_link, client))
 

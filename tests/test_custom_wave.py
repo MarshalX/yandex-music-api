@@ -1,5 +1,3 @@
-import pytest
-
 from yandex_music import CustomWave
 
 

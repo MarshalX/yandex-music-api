@@ -1,4 +1,4 @@
-from typing import Any, TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model

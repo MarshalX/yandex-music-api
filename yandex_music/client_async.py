@@ -5,7 +5,7 @@
 import functools
 import logging
 from datetime import datetime
-from typing import Dict, List, Optional, Union, TypeVar, Callable, Any
+from typing import Any, Callable, Dict, List, Optional, TypeVar, Union
 
 from yandex_music import (
     Album,
@@ -13,36 +13,36 @@ from yandex_music import (
     ArtistAlbums,
     ArtistTracks,
     BriefInfo,
+    ChartInfo,
     Dashboard,
     DownloadInfo,
     Experiments,
     Feed,
     Genre,
     Landing,
+    LandingList,
     Like,
     PermissionAlerts,
     Playlist,
+    PlaylistRecommendations,
     PromoCodeStatus,
+    Queue,
+    QueueItem,
     Search,
     Settings,
     ShotEvent,
-    Supplement,
+    SimilarTracks,
     StationResult,
     StationTracksResult,
     Status,
     Suggestions,
-    SimilarTracks,
-    TrackLyrics,
+    Supplement,
+    TagResult,
     Track,
+    TrackLyrics,
     TracksList,
     UserSettings,
     YandexMusicObject,
-    ChartInfo,
-    TagResult,
-    PlaylistRecommendations,
-    LandingList,
-    QueueItem,
-    Queue,
     __copyright__,
     __license__,
     __version__,
@@ -861,13 +861,11 @@ class ClientAsync(YandexMusicObject):
             data = {'kinds': kind}
 
             result = await self._request.post(url, data, *args, **kwargs)
-
             return Playlist.de_list(result, self)
-        else:
-            url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
-            result = await self._request.get(url, *args, **kwargs)
 
-            return Playlist.de_json(result, self)
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
+        result = await self._request.get(url, *args, **kwargs)
+        return Playlist.de_json(result, self)
 
     @log
     async def users_playlists_recommendations(
@@ -2214,7 +2212,7 @@ class ClientAsync(YandexMusicObject):
         action = 'remove' if remove else 'add-multiple'
         url = f'{self.base_url}/users/{user_id}/dislikes/tracks/{action}'
 
-        result = await self._request.post(url, {f'track-ids': ids}, *args, **kwargs)
+        result = await self._request.post(url, {'track-ids': ids}, *args, **kwargs)
 
         return 'revision' in result
 

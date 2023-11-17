@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, Dict
+from typing import TYPE_CHECKING, Dict, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -56,7 +56,7 @@ class Title(YandexMusicObject):
         if not data:
             return {}
 
-        titles = dict()
+        titles = {}
         for lang, title in data.items():
             titles.update({lang: cls.de_json(title, client)})
 

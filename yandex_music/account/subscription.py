@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, AutoRenewable, RenewableRemainder, NonAutoRenewable, Operator
+    from yandex_music import AutoRenewable, Client, NonAutoRenewable, Operator, RenewableRemainder
 
 
 @model
@@ -53,7 +53,7 @@ class Subscription(YandexMusicObject):
             return None
 
         data = super(Subscription, cls).de_json(data, client)
-        from yandex_music import AutoRenewable, RenewableRemainder, NonAutoRenewable, Operator
+        from yandex_music import AutoRenewable, NonAutoRenewable, Operator, RenewableRemainder
 
         data['auto_renewable'] = AutoRenewable.de_list(data.get('auto_renewable'), client)
         data['family_auto_renewable'] = AutoRenewable.de_list(data.get('family_auto_renewable'), client)

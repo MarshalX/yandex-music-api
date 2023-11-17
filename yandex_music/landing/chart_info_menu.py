@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject, ChartInfoMenuItem
+from yandex_music import ChartInfoMenuItem, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:

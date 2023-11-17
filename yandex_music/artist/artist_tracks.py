@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List, Iterator
+from typing import TYPE_CHECKING, Iterator, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track, Pager
+    from yandex_music import Client, Pager, Track
 
 
 @model
@@ -48,7 +48,7 @@ class ArtistTracks(YandexMusicObject):
             return None
 
         data = super(ArtistTracks, cls).de_json(data, client)
-        from yandex_music import Track, Pager
+        from yandex_music import Pager, Track
 
         data['tracks'] = Track.de_list(data.get('tracks'), client)
         data['pager'] = Pager.de_json(data.get('pager'), client)

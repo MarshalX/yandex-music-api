@@ -2,7 +2,6 @@ import os
 
 from yandex_music import Client
 
-
 TOKEN = os.environ.get('TOKEN')
 ALBUM_ID = 2832563
 

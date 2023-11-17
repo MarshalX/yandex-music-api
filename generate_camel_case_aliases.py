@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-import os
 import ast
+import os
 
 SOURCE_FOLDER = 'yandex_music'
 EXCLUDED_FUNCTIONS = {'de_dict', 'de_json', 'de_list', 'de_json_async', 'de_list_async'}
 
-ALIAS_TEMPLATE = '''
+ALIAS_TEMPLATE = """
 #: Псевдоним для :attr:`{name}`
 {camel_case_name} = {name}
-'''
+"""
 
 ALIAS_SECTION_MARKER = '    # camelCase псевдонимы'
 
@@ -38,9 +38,8 @@ def _generate_code(function_name: str, intent=0) -> str:
 
     code_lines = [line for line in code.split('\n') if line]
     code_lines = [f'{" " * intent}{line}' for line in code_lines]
-    code = '\n'.join(code_lines)
 
-    return code
+    return '\n'.join(code_lines)
 
 
 def _process_file(file: str) -> None:
@@ -52,10 +51,9 @@ def _process_file(file: str) -> None:
             if isinstance(node, ast.ClassDef):
                 count_of_class_def += 1
 
-            if isinstance(node, ast.FunctionDef) or isinstance(node, ast.AsyncFunctionDef):
-                if _validate_function_name(node.name):
-                    alias_code = _generate_code(node.name, node.col_offset)
-                    file_aliases_code_fragments.append(alias_code)
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and _validate_function_name(node.name):
+                alias_code = _generate_code(node.name, node.col_offset)
+                file_aliases_code_fragments.append(alias_code)
 
         # there are no such cases in data models yet
         # only in yandex_music/exceptions.py and yandex_music/utils/difference.py
@@ -76,7 +74,7 @@ def _process_file(file: str) -> None:
             return
 
         # remove prev aliases
-        file_code_lines = file_code_lines[:marker_lineno + 1]
+        file_code_lines = file_code_lines[: marker_lineno + 1]
         file_code_lines.append('')
         file_code_lines.extend(file_aliases_code_fragments)
         file_code_lines.append('')

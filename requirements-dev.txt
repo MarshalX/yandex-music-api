@@ -3,7 +3,7 @@ requests
 aiohttp
 aiofiles
 # rly dev
-black
+ruff==0.1.6
 coverage
 pytest
 pytest-cov

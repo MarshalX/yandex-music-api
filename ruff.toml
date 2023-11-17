@@ -1,0 +1,54 @@
+extend-select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # Pyflakes
+    "I",  # isort
+    "C90",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "Q",  # flake8-quotes
+    "S",  # flake8-bandit
+    "ASYNC", # flake8-async
+    #    "ANN", # flake8-annotations. Not all resolved yet
+    "C",
+    "BLE",
+    "ERA",
+    "ICN",
+    "INP",
+    "ISC",
+    "NPY",
+    "PGH",
+    "PIE",
+    "RET",
+    "RSE",
+    "SIM",
+    "T20",
+    "TCH",
+    "TID",
+    "YTT",
+]
+line-length = 120
+target-version = "py37"
+ignore = [
+    "PGH004", # use specific rule code with noqa; works bad with JetBrains IDE Warnings
+    "ANN002", # Missing type annotation for `*args`
+    "ANN003", # Missing type annotation for `**kwargs`
+    "ANN101", # Missing type annotation for `self` in method
+    "ANN102", # Missing type annotation for `cls` in classmethod
+]
+
+[per-file-ignores]
+"examples/*.py" = ["T201", "S311", "ERA001", "INP001", "S106", "BLE001", "S603"]
+"docs/source/conf.py" = ["INP001"]
+"tests/*.py" = ["S101"] # Use of assert
+"tests/__init__.py" = ["F401"] # Unused import
+"yandex_music/__init__.py" = ["I001"] # Import sort
+"yandex_music/client*.py" = ["T201"] # print
+"test.py" = ["S101", "ERA001", "T201", "E501", "F401", "F841"]
+
+[flake8-quotes]
+docstring-quotes = "double"
+multiline-quotes = "double"
+inline-quotes = "single"
+
+[format]
+quote-style = "single"

@@ -1,10 +1,10 @@
 # makefile for Yandex Music project
 
-black:
-	black --config=black.toml yandex_music
+ruff:
+	ruff . --fix
 
-black_test:
-	black --config=black.toml tests
+ruff_format:
+	ruff format .
 
 gen_async:
 	python generate_async_version.py
@@ -15,17 +15,11 @@ gen_alias:
 gen:
 	make gen_async && make gen_alias
 
-b:
-	make black
-
-bt:
-	make black_test
-
 g:
 	make gen
 
 all:
-	make g && make b && make bt
+	make g && make ruff && make ruff_format
 
 a:
 	make all

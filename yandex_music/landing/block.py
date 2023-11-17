@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, BlockEntity, PersonalPlaylistsData, PlayContextsData
+    from yandex_music import BlockEntity, Client, PersonalPlaylistsData, PlayContextsData
 
 
 @model
@@ -56,7 +56,7 @@ class Block(YandexMusicObject):
             return None
 
         data = super(Block, cls).de_json(data, client)
-        from yandex_music import BlockEntity, PlayContextsData, PersonalPlaylistsData
+        from yandex_music import BlockEntity, PersonalPlaylistsData, PlayContextsData
 
         data['entities'] = BlockEntity.de_list(data.get('entities'), client)
 
@@ -82,7 +82,7 @@ class Block(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        blocks = list()
+        blocks = []
         for block in data:
             blocks.append(cls.de_json(block, client))
 

@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject, Album, Artist, Playlist, Track, Video, User
+from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Best, SearchResult
+    from yandex_music import Best, Client, SearchResult
 
 
 @model
@@ -137,7 +137,7 @@ class Search(YandexMusicObject):
             return None
 
         data = super(Search, cls).de_json(data, client)
-        from yandex_music import SearchResult, Best
+        from yandex_music import Best, SearchResult
 
         # в ОЧЕНЬ редких случаях сервер творит дичь и может вернуть результат плейлистов в поле artists
         # или вернуть в поле users результаты с плейлистами

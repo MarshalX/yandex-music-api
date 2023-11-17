@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -58,7 +58,7 @@ class Label(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        labels = list()
+        labels = []
         for label in data:
             if isinstance(label, dict):
                 labels.append(cls.de_json(label, client))

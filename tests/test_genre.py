@@ -53,7 +53,7 @@ class TestGenre:
         assert genre.weight == self.weight
         assert genre.composer_top == self.composer_top
         assert genre.title == self.title
-        assert genre.titles == {"uz": title}
+        assert genre.titles == {'uz': title}
         assert genre.images == images
         assert genre.show_in_menu == self.show_in_menu
         assert genre.show_in_regions == self.show_in_regions

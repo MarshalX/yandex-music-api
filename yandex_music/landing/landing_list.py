@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -40,7 +40,7 @@ class LandingList(YandexMusicObject):
         self._id_attrs = (self.id, self.new_releases, self.new_playlists, self.podcasts)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Chart']:
+    def de_json(cls, data: dict, client: 'Client') -> Optional['LandingList']:
         """Десериализация объекта.
 
         Args:

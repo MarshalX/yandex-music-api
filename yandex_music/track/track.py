@@ -1,24 +1,24 @@
-from typing import TYPE_CHECKING, Optional, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 from yandex_music import YandexMusicObject
-from yandex_music.utils import model
 from yandex_music.exceptions import InvalidBitrateError
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import (
-        Client,
-        Normalization,
-        Major,
+        R128,
         Album,
         Artist,
-        Supplement,
+        Client,
         DownloadInfo,
-        User,
-        MetaData,
-        PoetryLoverMatch,
-        TrackLyrics,
         LyricsInfo,
-        R128,
+        Major,
+        MetaData,
+        Normalization,
+        PoetryLoverMatch,
+        Supplement,
+        TrackLyrics,
+        User,
     )
 
 
@@ -399,8 +399,8 @@ class Track(YandexMusicObject):
         info = self.get_specific_download_info(codec, bitrate_in_kbps)
         if info:
             return info.download_bytes()
-        else:
-            raise InvalidBitrateError('Unavailable bitrate')
+
+        raise InvalidBitrateError('Unavailable bitrate')
 
     async def download_bytes_async(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
         """Загрузка трека и возврат в виде байтов.
@@ -423,8 +423,8 @@ class Track(YandexMusicObject):
         info = await self.get_specific_download_info_async(codec, bitrate_in_kbps)
         if info:
             return await info.download_bytes_async()
-        else:
-            raise InvalidBitrateError('Unavailable bitrate')
+
+        raise InvalidBitrateError('Unavailable bitrate')
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::
@@ -485,7 +485,7 @@ class Track(YandexMusicObject):
             return None
 
         data = super(Track, cls).de_json(data, client)
-        from yandex_music import Normalization, Major, Album, Artist, User, MetaData, PoetryLoverMatch, R128, LyricsInfo
+        from yandex_music import R128, Album, Artist, LyricsInfo, Major, MetaData, Normalization, PoetryLoverMatch, User
 
         data['albums'] = Album.de_list(data.get('albums'), client)
         data['artists'] = Artist.de_list(data.get('artists'), client)

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -64,7 +64,7 @@ class TrackShortOld(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        tracks = list()
+        tracks = []
         for track in data:
             tracks.append(cls.de_json(track, client))
 

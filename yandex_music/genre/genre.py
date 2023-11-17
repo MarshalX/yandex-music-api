@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List, Dict
+from typing import TYPE_CHECKING, Dict, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Title, Icon, Images
+    from yandex_music import Client, Icon, Images, Title
 
 
 @model
@@ -63,7 +63,7 @@ class Genre(YandexMusicObject):
             return None
 
         data = super(Genre, cls).de_json(data, client)
-        from yandex_music import Title, Icon, Images
+        from yandex_music import Icon, Images, Title
 
         data['titles'] = Title.de_dict(data.get('titles'), client)
         data['images'] = Images.de_json(data.get('images'), client)

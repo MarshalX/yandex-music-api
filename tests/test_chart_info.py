@@ -64,7 +64,7 @@ class TestChartInfo:
             self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist
         )
         b = ChartInfo(
-            "no_id", self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist
+            'no_id', self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist
         )
         c = ChartInfo(
             self.id, self.type, self.type_for_from, self.title, self.chart_description, chart_info_menu, playlist

@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Station, RotorSettings, AdParams
+    from yandex_music import AdParams, Client, RotorSettings, Station
 
 
 @model
@@ -12,7 +12,8 @@ class StationResult(YandexMusicObject):
     """Класс, представляющий радиостанцию с настройками.
 
     Note:
-        Известные значения `custom_name`: `Танцую`, `R'n'B`, `Отдыхаю`, `Просыпаюсь`, `Тренируюсь`, `В дороге`, `Работаю`, `Засыпаю`.
+        Известные значения `custom_name`: `Танцую`, `R'n'B`, `Отдыхаю`, `Просыпаюсь`,
+        `Тренируюсь`, `В дороге`, `Работаю`, `Засыпаю`.
 
     Attributes:
         station (:obj:`yandex_music.Station` | :obj:`None`): Станция.
@@ -56,7 +57,7 @@ class StationResult(YandexMusicObject):
             return None
 
         data = super(StationResult, cls).de_json(data, client)
-        from yandex_music import Station, RotorSettings, AdParams
+        from yandex_music import AdParams, RotorSettings, Station
 
         data['station'] = Station.de_json(data.get('station'), client)
         data['settings'] = RotorSettings.de_json(data.get('settings'), client)
@@ -79,7 +80,7 @@ class StationResult(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        station_results = list()
+        station_results = []
         for station_result in data:
             station_results.append(cls.de_json(station_result, client))
 

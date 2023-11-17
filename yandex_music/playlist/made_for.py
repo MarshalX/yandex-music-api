@@ -4,7 +4,7 @@ from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, User, CaseForms
+    from yandex_music import CaseForms, Client, User
 
 
 @model
@@ -39,7 +39,7 @@ class MadeFor(YandexMusicObject):
             return None
 
         data = super(MadeFor, cls).de_json(data, client)
-        from yandex_music import User, CaseForms
+        from yandex_music import CaseForms, User
 
         data['user_info'] = User.de_json(data.get('user_info'), client)
         data['case_forms'] = CaseForms.de_json(data.get('case_forms'), client)

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from yandex_music import YandexMusicObject, Artist, Album, Track, Playlist, Video, User
+from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:

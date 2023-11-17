@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -65,7 +65,7 @@ class Day(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        days = list()
+        days = []
         for day in data:
             days.append(cls.de_json(day, client))
 

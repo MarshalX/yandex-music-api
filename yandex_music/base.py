@@ -1,8 +1,8 @@
 import dataclasses
-import logging
 import keyword
+import logging
 from abc import ABCMeta
-from typing import TYPE_CHECKING, Optional, Any
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -67,8 +67,8 @@ class YandexMusicObject:
 
         fields = {f.name for f in dataclasses.fields(cls)}
 
-        cleaned_data = dict()
-        unknown_data = dict()
+        cleaned_data = {}
+        unknown_data = {}
 
         for k, v in data.items():
             if k in fields:
@@ -110,12 +110,11 @@ class YandexMusicObject:
         def parse(val):
             if hasattr(val, 'to_dict'):
                 return val.to_dict(for_request)
-            elif isinstance(val, list):
+            if isinstance(val, list):
                 return [parse(it) for it in val]
-            elif isinstance(val, dict):
+            if isinstance(val, dict):
                 return {key: parse(value) for key, value in val.items()}
-            else:
-                return val
+            return val
 
         data = self.__dict__.copy()
         data.pop('client', None)

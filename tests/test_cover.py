@@ -38,7 +38,7 @@ class TestCover:
 
     def test_de_json_required(self, client):
         json_dict = {}
-        cover = Cover.de_json(json_dict, client)
+        Cover.de_json(json_dict, client)
 
     def test_de_json_all(self, client):
         json_dict = {

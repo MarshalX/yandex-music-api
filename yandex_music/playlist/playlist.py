@@ -1,25 +1,25 @@
-from typing import Any, TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, Any, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import (
-        Client,
-        User,
-        Cover,
-        MadeFor,
-        TrackShort,
-        PlaylistAbsence,
-        PlayCounter,
-        PlaylistRecommendations,
         Artist,
-        TrackId,
-        Contest,
-        OpenGraphData,
         Brand,
-        Pager,
+        Client,
+        Contest,
+        Cover,
         CustomWave,
+        MadeFor,
+        OpenGraphData,
+        Pager,
+        PlayCounter,
+        PlaylistAbsence,
+        PlaylistRecommendations,
+        TrackId,
+        TrackShort,
+        User,
     )
 
 
@@ -353,24 +353,24 @@ class Playlist(YandexMusicObject):
         """
         return (await self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs)).tracks
 
-    def insert_track(self, track_id: int, album_id: int, *args, **kwargs) -> Optional['Playlist']:
+    def insert_track(self, track_id: int, album_id: int, **kwargs) -> Optional['Playlist']:
         """Сокращение для::
 
         client.users_playlists_insert_track(self.kind, track_id, album_id, user_id=self.owner.uid,
         revision=self.revision, *args, **kwargs)
         """
         return self.client.users_playlists_insert_track(
-            self.kind, track_id, album_id, user_id=self.owner.uid, revision=self.revision, *args, **kwargs
+            self.kind, track_id, album_id, user_id=self.owner.uid, revision=self.revision, **kwargs
         )
 
-    async def insert_track_async(self, track_id: int, album_id: int, *args, **kwargs) -> Optional['Playlist']:
+    async def insert_track_async(self, track_id: int, album_id: int, **kwargs) -> Optional['Playlist']:
         """Сокращение для::
 
         await client.users_playlists_insert_track(self.kind, track_id, album_id, user_id=self.owner.uid,
         revision=self.revision, *args, **kwargs)
         """
         return await self.client.users_playlists_insert_track(
-            self.kind, track_id, album_id, user_id=self.owner.uid, revision=self.revision, *args, **kwargs
+            self.kind, track_id, album_id, user_id=self.owner.uid, revision=self.revision, **kwargs
         )
 
     def delete_tracks(self, from_: int, to: int, *args, **kwargs) -> Optional['Playlist']:
@@ -421,19 +421,19 @@ class Playlist(YandexMusicObject):
 
         data = super(Playlist, cls).de_json(data, client)
         from yandex_music import (
-            User,
-            MadeFor,
-            Cover,
-            PlayCounter,
-            TrackShort,
-            PlaylistAbsence,
             Artist,
-            TrackId,
-            Contest,
-            OpenGraphData,
             Brand,
+            Contest,
+            Cover,
             CustomWave,
+            MadeFor,
+            OpenGraphData,
             Pager,
+            PlayCounter,
+            PlaylistAbsence,
+            TrackId,
+            TrackShort,
+            User,
         )
 
         data['owner'] = User.de_json(data.get('owner'), client)

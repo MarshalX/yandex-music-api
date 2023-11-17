@@ -1,4 +1,4 @@
-from typing import List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import Album, Artist, Playlist, YandexMusicObject
 from yandex_music.utils import model
@@ -95,7 +95,7 @@ class Like(YandexMusicObject):
         if not cls.is_valid_model_data(data, array=True):
             return []
 
-        likes = list()
+        likes = []
         for like in data:
             likes.append(cls.de_json(like, client, type_))
 

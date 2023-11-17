@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional, List
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicObject
 from yandex_music.utils import model
@@ -26,7 +26,8 @@ class Account(YandexMusicObject):
         passport_phones (:obj:`list` из :obj:`yandex_music.PassportPhone`): Мобильные номера.
         registered_at (:obj:`str`, optional): Дата создания учётной записи.
         has_info_for_app_metrica (:obj:`bool`, optional): Наличие информации для App Metrica.
-        child (:obj:`bool`): Дочерний / детский аккаунт (скорее детский, позволяет ограничить доступный контент ребенку на Кинопоиске).
+        child (:obj:`bool`): Дочерний / детский аккаунт (скорее детский, позволяет ограничить
+            доступный контент ребенку на Кинопоиске).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
