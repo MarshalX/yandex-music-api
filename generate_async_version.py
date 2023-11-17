@@ -7,7 +7,7 @@ DISCLAIMER = f'{"#" * len(DISCLAIMER)}\n{DISCLAIMER}\n{"#" * len(DISCLAIMER)}\n\
 REQUEST_METHODS = ('_request_wrapper', 'get', 'post', 'retrieve', 'download')
 
 
-def gen_request(output_request_filename):
+def gen_request(output_request_filename: str) -> None:
     with open('yandex_music/utils/request.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 
@@ -47,7 +47,7 @@ def gen_request(output_request_filename):
         f.write(code)
 
 
-def gen_client(output_client_filename):
+def gen_client(output_client_filename: str) -> None:
     with open('yandex_music/client.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 

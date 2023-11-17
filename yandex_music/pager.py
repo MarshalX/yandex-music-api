@@ -23,7 +23,7 @@ class Pager(YandexMusicObject):
     per_page: int
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.total, self.page, self.per_page)
 
     @classmethod

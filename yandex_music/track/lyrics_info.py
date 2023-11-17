@@ -21,7 +21,7 @@ class LyricsInfo(YandexMusicObject):
     has_available_text_lyrics: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.has_available_sync_lyrics, self.has_available_text_lyrics)
 
     @classmethod

@@ -32,7 +32,7 @@ class PlayContext(YandexMusicObject):
     tracks: List['TrackShortOld']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.client_, self.context_item, self.context_item, self.tracks)
 
     @classmethod

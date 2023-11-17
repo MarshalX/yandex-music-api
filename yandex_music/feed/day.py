@@ -25,7 +25,7 @@ class Day(YandexMusicObject):
     tracks_to_play: List['Track']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.day, self.events, self.tracks_to_play_with_ads, self.tracks_to_play)
 
     @classmethod

@@ -30,7 +30,7 @@ class Shot(YandexMusicObject):
     status: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.order, self.played, self.shot_data, self.shot_id, self.status)
 
     @classmethod

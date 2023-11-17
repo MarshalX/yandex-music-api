@@ -68,7 +68,7 @@ def log(method: F) -> F:
     logger = logging.getLogger(method.__module__)
 
     @functools.wraps(method)
-    async def wrapper(*args, **kwargs) -> Any:
+    async def wrapper(*args, **kwargs) -> Any:  # noqa: ANN401:
         logger.debug(f'Entering: {method.__name__}')
 
         result = await method(*args, **kwargs)
@@ -116,7 +116,7 @@ class ClientAsync(YandexMusicObject):
         base_url: str = None,
         request: Request = None,
         language: str = 'ru',
-        report_unknown_fields=False,
+        report_unknown_fields: bool = False,
     ) -> None:
         if not ClientAsync.__notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
@@ -155,7 +155,7 @@ class ClientAsync(YandexMusicObject):
         return self._request
 
     @log
-    async def init(self):
+    async def init(self) -> 'ClientAsync':
         """Получение информацию об аккаунте использующихся в других запросах."""
         self.me = await self.account_status()
         return self
@@ -870,7 +870,7 @@ class ClientAsync(YandexMusicObject):
     @log
     async def users_playlists_recommendations(
         self, kind: Union[str, int], user_id: Union[str, int] = None, *args, **kwargs
-    ):
+    ) -> Optional[PlaylistRecommendations]:
         """Получение рекомендаций для плейлиста.
 
         Args:

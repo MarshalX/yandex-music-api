@@ -23,10 +23,10 @@ class TracksList(YandexMusicObject):
     tracks: List['TrackShort']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.tracks)
 
-    def __getitem__(self, item) -> 'TrackShort':
+    def __getitem__(self, item: int) -> 'TrackShort':
         return self.tracks[item]
 
     def __iter__(self) -> Iterator['TrackShort']:

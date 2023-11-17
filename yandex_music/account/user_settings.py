@@ -61,7 +61,7 @@ class UserSettings(YandexMusicObject):
     show_disk_tracks_in_library: Optional[bool] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (
             self.uid,
             self.last_fm_scrobbling_enabled,

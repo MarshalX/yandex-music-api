@@ -23,10 +23,10 @@ class Landing(YandexMusicObject):
     blocks: List['Block']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.content_id, self.blocks)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: int) -> 'Block':
         return self.blocks[item]
 
     @classmethod

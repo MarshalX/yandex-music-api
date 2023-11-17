@@ -27,7 +27,7 @@ class Settings(YandexMusicObject):
     web_payment_month_product_price: Optional['Price'] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.in_app_products, self.native_products, self.web_payment_url, self.promo_codes_enabled)
 
     @classmethod

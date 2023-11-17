@@ -50,7 +50,7 @@ class BlockEntity(YandexMusicObject):
     data: Union['GeneratedPlaylist', 'Promotion', 'Album', 'Playlist', 'ChartItem', 'PlayContext', 'MixLink']
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod

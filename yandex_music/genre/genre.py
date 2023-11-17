@@ -45,7 +45,7 @@ class Genre(YandexMusicObject):
     hide_in_regions = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
 
     @classmethod

@@ -21,7 +21,7 @@ class Title(YandexMusicObject):
     full_title: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.title, self.full_title)
 
     @classmethod
@@ -43,15 +43,15 @@ class Title(YandexMusicObject):
         return cls(client=client, **data)
 
     @classmethod
-    def de_dict(cls, data, client) -> Dict[str, Optional['Title']]:
+    def de_dict(cls, data: dict, client: 'Client') -> Dict[str, Optional['Title']]:
         """Десериализация списка объектов.
 
         Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
+            data (:obj:`dict`): Словарь с полями и значениями десериализуемого объекта.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Title`: Заголовки жанров.
+            :obj:`dict` где ключ это язык :obj:`str`, а значение :obj:`yandex_music.Title`: Заголовки жанров.
         """
         if not data:
             return {}

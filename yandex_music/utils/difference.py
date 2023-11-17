@@ -33,7 +33,7 @@ class Difference:
         operations (:obj:`list` из :obj:`dict`): Перечень операция для изменения плейлиста.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.operations = []
 
     def to_json(self) -> str:

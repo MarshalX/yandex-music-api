@@ -24,7 +24,7 @@ class Dashboard(YandexMusicObject):
     pumpkin: bool
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.dashboard_id, self.stations, self.pumpkin)
 
     @classmethod

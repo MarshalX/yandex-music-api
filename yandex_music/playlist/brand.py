@@ -34,7 +34,7 @@ class Brand(YandexMusicObject):
     button: str
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.image, self.reference, self.pixels)
 
     @classmethod

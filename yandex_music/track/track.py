@@ -138,11 +138,11 @@ class Track(YandexMusicObject):
     track_sharing_flag: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.download_info = None
         self._id_attrs = (self.id,)
 
-    def get_download_info(self, get_direct_links=False) -> List['DownloadInfo']:
+    def get_download_info(self, get_direct_links: bool = False) -> List['DownloadInfo']:
         """Сокращение для::
 
         client.tracks_download_info(self.track_id, get_direct_links)
@@ -151,7 +151,7 @@ class Track(YandexMusicObject):
 
         return self.download_info
 
-    async def get_download_info_async(self, get_direct_links=False) -> List['DownloadInfo']:
+    async def get_download_info_async(self, get_direct_links: bool = False) -> List['DownloadInfo']:
         """Сокращение для::
 
         await client.tracks_download_info(self.track_id, get_direct_links)

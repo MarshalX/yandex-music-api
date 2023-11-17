@@ -49,7 +49,7 @@ class Account(YandexMusicObject):
     child: bool = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.uid:
             self._id_attrs = (self.uid,)
 

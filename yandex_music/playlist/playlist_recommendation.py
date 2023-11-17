@@ -21,7 +21,7 @@ class PlaylistRecommendations(YandexMusicObject):
     batch_id: Optional[str] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.batch_id, self.tracks)
 
     @classmethod

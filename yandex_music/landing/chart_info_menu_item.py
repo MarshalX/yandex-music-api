@@ -23,7 +23,7 @@ class ChartInfoMenuItem(YandexMusicObject):
     selected: Optional[bool] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.url, self.selected)
 
     @classmethod

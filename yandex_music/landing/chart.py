@@ -32,7 +32,7 @@ class Chart(YandexMusicObject):
     track_id: Optional['TrackId'] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.position, self.progress, self.listeners, self.shift, self.track_id)
 
     @classmethod

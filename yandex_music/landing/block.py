@@ -35,7 +35,7 @@ class Block(YandexMusicObject):
     data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
 
     def __getitem__(self, item: int) -> 'BlockEntity':

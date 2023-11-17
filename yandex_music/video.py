@@ -39,7 +39,7 @@ class Video(YandexMusicObject):
     regions: Optional[List[str]] = None
     client: Optional['Client'] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._id_attrs = (self.provider_video_id, self.youtube_url, self.title)
 
     @classmethod
