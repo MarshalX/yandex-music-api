@@ -167,7 +167,7 @@ class Request:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         try:
-            decoded_s = json_data.decode('utf-8')
+            decoded_s = json_data.decode('UTF-8')
             data = json.loads(decoded_s, object_hook=Request._object_hook)
 
         except UnicodeDecodeError as e:

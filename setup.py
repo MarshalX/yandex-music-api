@@ -12,10 +12,10 @@ class PyTest(test):
         sys.exit(pytest.main(['tests']))
 
 
-with open('yandex_music/__init__.py', encoding='utf-8') as f:
+with open('yandex_music/__init__.py', encoding='UTF-8') as f:
     version = re.findall(r"__version__ = '(.+)'", f.read())[0]
 
-with open('README.md', 'r', encoding='utf-8') as f:
+with open('README.md', 'r', encoding='UTF-8') as f:
     readme = f.read()
 
 setup(
@@ -50,6 +50,7 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: Implementation',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
@@ -59,6 +60,8 @@ setup(
     tests_require=['pytest'],
     project_urls={
         'Documentation': 'https://yandex-music.rtfd.io',
+        'Changes': 'https://github.com/MarshalX/yandex-music-api/blob/main/CHANGES.md',
+        'Tracker': 'https://github.com/MarshalX/yandex-music-api/issues',
         'Telegram chat': 'https://t.me/yandex_music_api',
         'Codecov': 'https://codecov.io/gh/MarshalX/yandex-music-api',
         'Codacy': 'https://app.codacy.com/gh/MarshalX/yandex-music-api',
