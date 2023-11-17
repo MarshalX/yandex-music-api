@@ -237,3 +237,13 @@ API wrapper на NodeJS. Не обновлялся больше двух лет:
 # Благодарность
 
 Спасибо разработчикам `python-telegram-bot`. Выбрал Вас в качестве примера.
+
+# Спонсоры
+
+## JetBrains
+
+<img height="150" width="150" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
+
+> JetBrains предоставляет бесплатный набор инструментов для разработки активным контрибьюторам некоммерческих проектов с открытым исходным кодом.
+
+[Лицензии для проектов с открытым исходным кодом — Программы поддержки](https://jb.gg/OpenSourceSupport)
