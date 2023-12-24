@@ -1,3 +1,4 @@
+"""Setup script for yandex-music-api."""
 import re
 import sys
 
@@ -6,7 +7,10 @@ from setuptools.command.test import test
 
 
 class PyTest(test):
+    """PyTest test runner."""
+
     def run_tests(self) -> None:
+        """Run tests."""
         import pytest
 
         sys.exit(pytest.main(['tests']))

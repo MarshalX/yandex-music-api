@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Generate async version of client.py and request.py."""
 import subprocess
 
 DISCLAIMER = "# THIS IS AUTO GENERATED COPY OF client.py. DON'T EDIT IN BY HANDS #"
@@ -8,6 +9,7 @@ REQUEST_METHODS = ('_request_wrapper', 'get', 'post', 'retrieve', 'download')
 
 
 def gen_request(output_request_filename: str) -> None:
+    """Generate async version of request.py."""
     with open('yandex_music/utils/request.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 
@@ -48,6 +50,7 @@ def gen_request(output_request_filename: str) -> None:
 
 
 def gen_client(output_client_filename: str) -> None:
+    """Generate async version of client.py."""
     with open('yandex_music/client.py', 'r', encoding='UTF-8') as f:
         code = f.read()
 

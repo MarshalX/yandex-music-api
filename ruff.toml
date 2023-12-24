@@ -49,11 +49,11 @@ ignore = [
 "yandex_music/__init__.py" = ["I001"] # Import sort
 "yandex_music/client*.py" = ["T201"] # print
 "yandex_music/utils/request*.py" = ["ANN"] # TODO(MarshalX): annotate and remove this ignore
-"tests/*.py" = ["S101", "ANN"] # Use of assert
+"tests/*.py" = ["S101", "ANN", "D"]
 "tests/__init__.py" = ["F401"] # Unused import
 "test.py" = ["S101", "ERA001", "T201", "E501", "F401", "F841"]
 "docs/source/conf.py" = ["INP001"]
-"examples/*.py" = ["T201", "S311", "ERA001", "INP001", "S106", "BLE001", "S603", "ANN"]
+"examples/*.py" = ["T201", "S311", "ERA001", "INP001", "S106", "BLE001", "S603", "ANN", "D"]
 
 
 [flake8-quotes]
