@@ -14,4 +14,4 @@
 - [Способ вместо расширения для продвинутых](https://github.com/MarshalX/yandex-music-api/discussions/513#discussioncomment-2729781)
 - [Скрипт получения токена из другого проекта для Яндекс Станции](https://github.com/AlexxIT/YandexStation/blob/master/custom_components/yandex_station/core/yandex_session.py)
 
-Полученный токен можно передавать в конструктор классов :doc:``client`` и :doc:``client_async``.
+Полученный токен можно передавать в конструктор классов :doc:`client` и :doc:`client_async`.
