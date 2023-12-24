@@ -281,7 +281,6 @@ class Album(YandexMusicObject):
         Returns:
               :obj:`list` из :obj:`str`: Имена исполнителей.
         """
-
         return [i.name for i in self.artists]
 
     @classmethod

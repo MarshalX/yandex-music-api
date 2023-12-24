@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Generate camel case aliases for snake case functions."""
 import ast
 import os
 
@@ -28,6 +29,7 @@ def _validate_function_name(function_name: str) -> bool:
 
 
 def convert_snake_case_to_camel_case(string: str) -> str:
+    """Convert snake case string to camel case string."""
     camel_case = ''.join(word.title() for word in string.split('_'))
     return camel_case[0].lower() + camel_case[1:]
 
@@ -86,6 +88,7 @@ def _process_file(file: str) -> None:
 
 
 def main() -> None:
+    """Generate camel case aliases for snake case functions."""
     for root, _, files in os.walk(SOURCE_FOLDER):
         for file in files:
             if file.endswith('.py') and file != '__init__.py':

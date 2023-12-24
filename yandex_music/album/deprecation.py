@@ -33,6 +33,7 @@ class Deprecation(YandexMusicObject):
         Args:
             data (:obj:`dict`): Поля и значения десериализуемого объекта.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
         Returns:
             :obj:`yandex_music.Deprecation`: TODO.
         """

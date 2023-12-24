@@ -43,8 +43,9 @@ default_timeout = object()
 
 
 class Request:
-    """Вспомогательный класс для yandex_music, представляющий методы для выполнения POST и GET запросов, скачивания
-    файлов.
+    """Вспомогательный класс для выполнения запросов.
+
+    Предоставляет методы для выполнения POST и GET запросов, скачивания файлов.
 
     Args:
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.

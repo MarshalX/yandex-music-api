@@ -69,7 +69,6 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`str`: URL обложки.
         """
-
         if not self.cover_white:
             raise YandexMusicError("You can't get cover white because it's None.")
 
