@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 USER_AGENT = 'Yandex-Music-API'
 HEADERS = {
-    'X-Yandex-Music-Client': 'YandexMusicAndroid/24023231',
+    'X-Yandex-Music-Client': 'YandexMusicAndroid/24023621',
 }
 DEFAULT_TIMEOUT = 5
 
