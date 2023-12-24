@@ -56,7 +56,7 @@ class DownloadInfo(YandexMusicObject):
         path = self._get_text_node_data(doc.getElementsByTagName('path'))
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
         s = self._get_text_node_data(doc.getElementsByTagName('s'))
-        sign = md5((SIGN_SALT + path[1::] + s).encode('utf-8')).hexdigest()  # noqa: S324
+        sign = md5((SIGN_SALT + path[1::] + s).encode('UTF-8')).hexdigest()  # noqa: S324
 
         return f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
