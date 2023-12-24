@@ -73,6 +73,8 @@ class Search(YandexMusicObject):
 
         Args:
             page (:obj:`int`): Номер страницы.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
@@ -84,6 +86,8 @@ class Search(YandexMusicObject):
 
         Args:
             page (:obj:`int`): Номер страницы.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.

@@ -161,7 +161,8 @@ class Client(YandexMusicObject):
         """Получение статуса аккаунта. Нет обязательных параметров.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Status` | :obj:`None`: Информация об аккаунте если он валиден, иначе :obj:`None`.
@@ -169,7 +170,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/account/status'
 
         result = self._request.get(url, *args, **kwargs)
@@ -181,7 +181,8 @@ class Client(YandexMusicObject):
         """Получение настроек текущего пользователя.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.UserSettings` | :obj:`None`: Настройки пользователя если аккаунт валиден,
@@ -190,7 +191,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/account/settings'
 
         result = self._request.get(url, *args, **kwargs)
@@ -215,7 +215,8 @@ class Client(YandexMusicObject):
             param (:obj:`str`): Название параметра для изменения.
             value (:obj:`str` | :obj:`int` | :obj:`bool`): Значение параметра.
             data (:obj:`dict`): Словарь параметров и значений для множественного изменения.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.UserSettings` | :obj:`None`: Настройки пользователя или :obj:`None`.
@@ -223,7 +224,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/account/settings'
 
         if not data:
@@ -238,7 +238,8 @@ class Client(YandexMusicObject):
         """Получение предложений по покупке. Нет обязательных параметров.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Settings` | :obj:`None`: Информацию о предлагаемых продуктах если аккаунт валиден
@@ -247,7 +248,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/settings'
 
         result = self._request.get(url, *args, **kwargs)
@@ -259,7 +259,8 @@ class Client(YandexMusicObject):
         """Получение оповещений. Нет обязательных параметров.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.PermissionAlerts` | :obj:`None`: Оповещения если аккаунт валиден или :obj:`None`.
@@ -267,7 +268,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/permission-alerts'
 
         result = self._request.get(url, *args, **kwargs)
@@ -279,7 +279,8 @@ class Client(YandexMusicObject):
         """Получение значений экспериментальных функций аккаунта.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Experiments` | :obj:`None`: Состояние экспериментальных функций или :obj:`None`.
@@ -287,7 +288,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/account/experiments'
 
         result = self._request.get(url, *args, **kwargs)
@@ -306,7 +306,8 @@ class Client(YandexMusicObject):
         Args:
             code (:obj:`str`): Промо-код.
             language (:obj:`str`, optional): Язык ответа API в ISO 639-1. По умолчанию язык клиента.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.PromoCodeStatus` | :obj:`None`: Информация об активации промо-кода или :obj:`None`.
@@ -314,7 +315,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/account/consume-promo-code'
 
         if not language:
@@ -329,7 +329,8 @@ class Client(YandexMusicObject):
         """Получение потока информации (фида) подобранного под пользователя. Содержит умные плейлисты.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Feed` | :obj:`None`: Умные плейлисты пользователя или :obj:`None`.
@@ -337,7 +338,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/feed'
 
         result = self._request.get(url, *args, **kwargs)
@@ -346,6 +346,18 @@ class Client(YandexMusicObject):
 
     @log
     def feed_wizard_is_passed(self, *args, **kwargs) -> bool:
+        """Получение информации о прохождении визарда.
+
+        Note:
+            Временное событие на хэллоуин.
+
+        Args:
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: Прошел ли пользователь визард или нет.
+        """
         url = f'{self.base_url}/feed/wizard/is-passed'
 
         result = self._request.get(url, *args, **kwargs)
@@ -362,7 +374,8 @@ class Client(YandexMusicObject):
 
         Args:
             blocks (:obj:`str` | :obj:`list` из :obj:`str`): Блок или список блоков необходимых для выдачи.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Landing` | :obj:`None`: Лендинг-страница или :obj:`None`.
@@ -370,7 +383,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/landing3'
 
         result = self._request.get(url, {'blocks': blocks, 'eitherUserId': '10254713668400548221'}, *args, **kwargs)
@@ -389,7 +401,8 @@ class Client(YandexMusicObject):
 
         Args:
             chart_option (:obj:`str` optional): Параметры чарта.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.ChartInfo`: Чарт.
@@ -397,7 +410,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/landing3/chart'
 
         if chart_option:
@@ -412,7 +424,8 @@ class Client(YandexMusicObject):
         """Получение полного списка всех новых релизов (альбомов).
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.LandingList`: Список новых альбомов.
@@ -420,7 +433,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/landing3/new-releases'
 
         result = self._request.get(url, *args, **kwargs)
@@ -432,7 +444,8 @@ class Client(YandexMusicObject):
         """Получение полного списка всех новых плейлистов.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.LandingList`: Список новых плейлистов.
@@ -440,7 +453,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/landing3/new-playlists'
 
         result = self._request.get(url, *args, **kwargs)
@@ -452,7 +464,8 @@ class Client(YandexMusicObject):
         """Получение подкастов с лендинга.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.LandingList`: Список подкастов.
@@ -460,7 +473,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/landing3/podcasts'
 
         result = self._request.get(url, *args, **kwargs)
@@ -472,7 +484,8 @@ class Client(YandexMusicObject):
         """Получение жанров музыки.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Genre` | :obj:`None`: Жанры музыки или :obj:`None`.
@@ -480,7 +493,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/genres'
 
         result = self._request.get(url, *args, **kwargs)
@@ -499,7 +511,8 @@ class Client(YandexMusicObject):
 
         Args:
             tag_id (:obj:`str`): Уникальный идентификатор тега.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
            :obj:`yandex_music.TagResult`: Тег с плейлистами.
@@ -507,7 +520,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/tags/{tag_id}/playlist-ids'
 
         result = self._request.get(url, *args, **kwargs)
@@ -527,7 +539,8 @@ class Client(YandexMusicObject):
         Args:
             track_id (:obj:`str` | :obj:`list` из :obj:`str`): Уникальный идентификатор трека или треков.
             get_direct_links (:obj:`bool`, optional): Получить ли при вызове метода прямую ссылку на загрузку.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.DownloadInfo` | :obj:`None`: Варианты загрузки трека или :obj:`None`.
@@ -535,7 +548,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/tracks/{track_id}/download-info'
 
         result = self._request.get(url, *args, **kwargs)
@@ -552,7 +564,8 @@ class Client(YandexMusicObject):
 
         Args:
             track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Supplement`: Дополнительная информация о треке.
@@ -560,7 +573,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/tracks/{track_id}/supplement'
 
         result = self._request.get(url, *args, **kwargs)
@@ -586,7 +598,8 @@ class Client(YandexMusicObject):
         Args:
             track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
             format (:obj:`str`): Формат текста.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.TrackLyrics` | :obj:`None`: Информация о тексте трека.
@@ -596,7 +609,6 @@ class Client(YandexMusicObject):
             :class:`yandex_music.exceptions.NotFoundError`: Текст у трека отсутствует.
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/tracks/{track_id}/lyrics'
 
         sign = get_sign_request(track_id)
@@ -616,7 +628,8 @@ class Client(YandexMusicObject):
 
         Args:
             track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.SimilarTracks`: Похожие треки на другой трек.
@@ -624,7 +637,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/tracks/{track_id}/similar'
 
         result = self._request.get(url, *args, **kwargs)
@@ -664,7 +676,8 @@ class Client(YandexMusicObject):
             total_played_seconds (:obj:`int`, optional): Сколько было всего воспроизведено трека в секундах.
             end_position_seconds (:obj:`int`, optional): Окончательное значение воспроизведенных секунд.
             client_now (:obj:`str`, optional): Текущая дата и время клиента в ISO.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -672,7 +685,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if uid is None and self.me is not None:
             uid = self.me.account.uid
 
@@ -703,7 +715,8 @@ class Client(YandexMusicObject):
 
         Args:
             album_id (:obj:`str` | :obj:`int`): Уникальный идентификатор альбома.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Album` | :obj:`None`: Альбом или :obj:`None`.
@@ -711,7 +724,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/albums/{album_id}/with-tracks'
 
         result = self._request.get(url, *args, **kwargs)
@@ -744,7 +756,8 @@ class Client(YandexMusicObject):
             type_ (:obj:`str`): Среди какого типа искать (трек, плейлист, альбом, исполнитель, пользователь, подкаст).
             page (:obj:`int`): Номер страницы.
             playlist_in_best (:obj:`bool`): Выдавать ли плейлисты лучшим вариантом поиска.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Результаты поиска или :obj:`None`.
@@ -752,7 +765,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/search'
 
         params = {
@@ -776,7 +788,8 @@ class Client(YandexMusicObject):
 
         Args:
             part (:obj:`str`): Часть поискового запроса.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Suggestions` | :obj:`None`: Подсказки для запроса или :obj:`None`.
@@ -784,7 +797,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/search/suggest'
 
         result = self._request.get(url, {'part': part}, *args, **kwargs)
@@ -801,7 +813,8 @@ class Client(YandexMusicObject):
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя чьи настройки хотим
                 получить.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.UserSettings` | :obj:`None`: Настройки пользователя или :obj:`None`.
@@ -809,7 +822,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -836,7 +848,8 @@ class Client(YandexMusicObject):
             kind (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста
                 или их список.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Playlist` | :obj:`yandex_music.Playlist` | :obj:`None`:
@@ -845,7 +858,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -870,7 +882,8 @@ class Client(YandexMusicObject):
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             user_id (:obj:`str` | :obj:`int`): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.PlaylistRecommendations` | :obj:`None`: Рекомендации для плейлиста или :obj:`None`.
@@ -902,7 +915,8 @@ class Client(YandexMusicObject):
             title (:obj:`str`): Название.
             visibility (:obj:`str`, optional): Модификатор доступа.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Playlist` | :obj:`None`: Созданный плейлист или :obj:`None`.
@@ -910,7 +924,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -929,7 +942,8 @@ class Client(YandexMusicObject):
         Args:
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -937,7 +951,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -962,7 +975,8 @@ class Client(YandexMusicObject):
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             name (:obj:`str`): Новое название.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Playlist` | :obj:`None`: Изменённый плейлист или :obj:`None`.
@@ -970,7 +984,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -998,7 +1011,8 @@ class Client(YandexMusicObject):
             kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
             visibility (:obj:`str`): Новое название.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Playlist` | :obj:`None`: Изменённый плейлист или :obj:`None`.
@@ -1006,7 +1020,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -1038,7 +1051,8 @@ class Client(YandexMusicObject):
             revision (:obj:`int`): TODO.
             diff (:obj:`str`): JSON представления отличий старого и нового плейлиста.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Playlist`: Изменённый плейлист или :obj:`None`.
@@ -1046,7 +1060,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -1082,7 +1095,8 @@ class Client(YandexMusicObject):
             at (:obj:`int`): Индекс для вставки.
             revision (:obj:`int`): TODO.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Playlist`: Изменённый плейлист или :obj:`None`.
@@ -1090,7 +1104,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -1120,7 +1133,8 @@ class Client(YandexMusicObject):
             to (:obj:`int`): По какой индекс.
             revision (:obj:`int`): TODO.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Playlist` | :obj:`None`: Изменённый плейлист или :obj:`None`.
@@ -1128,7 +1142,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if user_id is None and self.me is not None:
             user_id = self.me.account.uid
 
@@ -1144,7 +1157,8 @@ class Client(YandexMusicObject):
             Данный статус отличается от обычного наличием дополнительных полей, например, `skips_per_hour`.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Status` | :obj:`None`: Статус пользователя с дополнительными полями от радио или
@@ -1153,7 +1167,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/rotor/account/status'
 
         result = self._request.get(url, *args, **kwargs)
@@ -1165,7 +1178,8 @@ class Client(YandexMusicObject):
         """Получение рекомендованных станций текущего пользователя.
 
         Args:
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Dashboard` | :obj:`None`: Рекомендованные станции или :obj:`None`.
@@ -1173,7 +1187,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/rotor/stations/dashboard'
 
         result = self._request.get(url, *args, **kwargs)
@@ -1192,7 +1205,8 @@ class Client(YandexMusicObject):
 
         Args:
             language (:obj:`str`, optional): Язык, на котором будет информация о станциях. По умолчанию язык клиента.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.StationResult`: Список станций.
@@ -1200,7 +1214,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/rotor/stations/list'
 
         if not language:
@@ -1242,7 +1255,8 @@ class Client(YandexMusicObject):
             total_played_seconds (:obj:`int` |:obj:`float`, optional): Сколько было проиграно секунд трека
                 перед действием.
             track_id (:obj:`int` | :obj:`str`, optional): Уникальной идентификатор трека.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1250,7 +1264,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         if timestamp is None:
             timestamp = datetime.now().timestamp()
 
@@ -1388,7 +1401,8 @@ class Client(YandexMusicObject):
 
         Args:
             station (:obj:`str`): Станция.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.StationResult` | :obj:`None`: Информация о станции или :obj:`None`.
@@ -1396,7 +1410,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/rotor/station/{station}/info'
 
         result = self._request.get(url, *args, **kwargs)
@@ -1432,7 +1445,8 @@ class Client(YandexMusicObject):
             diversity (:obj:`str`): Треки.
             language (:obj:`str`): Язык.
             type_ (:obj:`str`): Тип.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1440,7 +1454,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/rotor/station/{station}/settings3'
 
         data = {'moodEnergy': mood_energy, 'diversity': diversity, 'type': type_}
@@ -1481,8 +1494,9 @@ class Client(YandexMusicObject):
         Args:
             station (:obj:`str`): Станция.
             settings2 (:obj:`bool`, optional): Использовать ли второй набор настроек.
-            queue (:obj:`str` | :obj:`int` , optional): Уникальной идентификатор трека, который только что был.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            queue (:obj:`str` | :obj:`int`, optional): Уникальной идентификатор трека, который только что был.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.StationTracksResult` | :obj:`None`: Последовательность треков станции или :obj:`None`.
@@ -1490,7 +1504,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/rotor/station/{station}/tracks'
 
         params = {}
@@ -1510,7 +1523,8 @@ class Client(YandexMusicObject):
 
         Args:
             artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор исполнителя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.BriefInfo` | :obj:`None`: Информация об артисте или :obj:`None`.
@@ -1539,7 +1553,8 @@ class Client(YandexMusicObject):
             artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
             page (:obj:`int`, optional): Номер страницы.
             page_size (:obj:`int`, optional): Количество треков на странице.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.ArtistsTracks` | :obj:`None`: Страница списка треков артиста или :obj:`None`.
@@ -1547,7 +1562,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/artists/{artist_id}/tracks'
 
         params = {'page': page, 'page-size': page_size}
@@ -1576,7 +1590,8 @@ class Client(YandexMusicObject):
             page (:obj:`int`, optional): Номер страницы.
             page_size (:obj:`int`, optional): Количество альбомов на странице.
             sort_by (:obj:`str`, optional): Параметр для сортировки.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.ArtistAlbums` | :obj:`None`: Страница списка альбомов артиста или :obj:`None`.
@@ -1584,7 +1599,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/artists/{artist_id}/direct-albums'
 
         params = {'sort-by': sort_by, 'page': page, 'page-size': page_size}
@@ -1617,7 +1631,8 @@ class Client(YandexMusicObject):
             remove (:obj:`bool`, optional): Если :obj:`True` то снимает отметку, иначе ставит.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1655,7 +1670,8 @@ class Client(YandexMusicObject):
                 идентификатор трека или треков.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1679,7 +1695,8 @@ class Client(YandexMusicObject):
                 идентификатор трека или треков.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1703,7 +1720,8 @@ class Client(YandexMusicObject):
                 идентификатор артиста или артистов.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1727,7 +1745,8 @@ class Client(YandexMusicObject):
                 идентификатор артиста или артистов.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1755,7 +1774,8 @@ class Client(YandexMusicObject):
                 идентификатор плейлиста или плейлистов.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1783,7 +1803,8 @@ class Client(YandexMusicObject):
                 идентификатор плейлиста или плейлистов.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1807,7 +1828,8 @@ class Client(YandexMusicObject):
                 идентификатор артиста или артистов.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1831,7 +1853,8 @@ class Client(YandexMusicObject):
                 идентификатор артиста или артистов.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -1856,7 +1879,8 @@ class Client(YandexMusicObject):
             ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
                 идентификатор объекта или объектов.
             params (:obj:`dict`, optional): Параметры, которые будут переданы в запрос.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Artist` | :obj:`list` из :obj:`yandex_music.Album` |
@@ -1883,7 +1907,8 @@ class Client(YandexMusicObject):
         Args:
             artist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
                 идентификатор исполнителя или исполнителей.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Artist`: Исполнитель или исполнители.
@@ -1900,7 +1925,8 @@ class Client(YandexMusicObject):
         Args:
             album_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
                 идентификатор альбома или альбомов.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Album`: Альбом или альбомы.
@@ -1924,7 +1950,8 @@ class Client(YandexMusicObject):
             track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
                 идентификатор трека или треков.
             with_positions (:obj:`bool`, optional): С позициями TODO.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Track`: Трек или Треки.
@@ -1952,7 +1979,8 @@ class Client(YandexMusicObject):
         Args:
             playlist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
                 идентификатор плейлиста или плейлистов.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Playlist`: Плейлист или плейлисты.
@@ -1998,7 +2026,8 @@ class Client(YandexMusicObject):
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Playlist`: Плейлисты пользователя.
@@ -2030,7 +2059,8 @@ class Client(YandexMusicObject):
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
             params (:obj:`dict`, optional): Параметры, которые будут переданы в запрос.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Like` | :obj:`yandex_music.TracksList`: Объекты с отметкой "Мне нравится".
@@ -2064,7 +2094,8 @@ class Client(YandexMusicObject):
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
             if_modified_since_revision (:obj:`int`, optional): TODO.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.TracksList`: Треки с отметкой "Мне нравится".
@@ -2084,7 +2115,8 @@ class Client(YandexMusicObject):
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
             rich (:obj:`bool`, optional): Если False, то приходит укороченная версия.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Like`: Альбомы с отметкой "Мне нравится".
@@ -2108,7 +2140,8 @@ class Client(YandexMusicObject):
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
             with_timestamps (:obj:`bool`, optional):  С временными метками TODO.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Like`: Артисты с отметкой "Мне нравится".
@@ -2125,7 +2158,8 @@ class Client(YandexMusicObject):
         Args:
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.Like`: Плейлисты с отметкой "Мне нравится".
@@ -2149,7 +2183,8 @@ class Client(YandexMusicObject):
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
             if_modified_since_revision (:obj:`bool`, optional): TODO.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.TracksList`: Треки с отметкой "Не рекомендовать".
@@ -2182,7 +2217,8 @@ class Client(YandexMusicObject):
             remove (:obj:`bool`, optional): Если :obj:`True`, то снимает отметку, иначе ставит.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -2217,7 +2253,8 @@ class Client(YandexMusicObject):
                 идентификатор трека или треков.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -2241,7 +2278,8 @@ class Client(YandexMusicObject):
                 идентификатор трека или треков.
             user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
                 используется ID текущего пользователя.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -2284,7 +2322,8 @@ class Client(YandexMusicObject):
             context (:obj:`str`, optional): Место, откуда было вызвано получение.
             types (:obj:`str`, optional): Тип того, что вернуть после трека.
             from_ (:obj:`str`, optional): Место, с которого попали в контекст.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.ShotEvent`: Шот от Алисы или :obj:`None`.
@@ -2292,7 +2331,6 @@ class Client(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-
         url = f'{self.base_url}/after-track'
 
         params = {
@@ -2322,7 +2360,8 @@ class Client(YandexMusicObject):
 
         Args:
             device (:obj:`str`, optional): Содержит информацию об устройстве с которого выполняется запрос.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`list` из :obj:`yandex_music.QueueItem`: Элементы очереди всех устройств.
@@ -2346,7 +2385,8 @@ class Client(YandexMusicObject):
 
         Args:
             queue_id (:obj:`str`): Уникальный идентификатор очереди.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`yandex_music.Queue`: Очередь или :obj:`None`.
@@ -2371,7 +2411,8 @@ class Client(YandexMusicObject):
             queue_id (:obj:`str`): Уникальный идентификатор очереди.
             current_index (:obj:`int`): Текущий индекс.
             device (:obj:`str`, optional): Содержит информацию об устройстве с которого выполняется запрос.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -2396,7 +2437,8 @@ class Client(YandexMusicObject):
         Args:
             queue (:obj:`yandex_music.Queue` | :obj:`str`): Объект очереди или JSON строка с этим объектом.
             device (:obj:`str`, optional): Содержит информацию об устройстве с которого выполняется запрос.
-            **kwargs (:obj:`dict`, optional): Произвольные аргументы (будут переданы в запрос).
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
             :obj:`str`: Вернёт уникальный идентификатор созданной очереди, иначе :obj:`None`.

@@ -165,10 +165,12 @@ class Playlist(YandexMusicObject):
 
     @property
     def is_mine(self) -> bool:
+        """Является ли плейлист моим."""
         return self.owner.uid == self.client.me.account.uid
 
     @property
     def playlist_id(self) -> str:
+        """Полный ID плейлиста."""
         return f'{self.owner.uid}:{self.kind}'
 
     def get_recommendations(self, *args, **kwargs) -> Optional['PlaylistRecommendations']:
@@ -295,17 +297,25 @@ class Playlist(YandexMusicObject):
         """
         return await self.client.request.retrieve(self.get_og_image_url(size))
 
-    def rename(self, name: str) -> None:
+    def rename(self, name: str, *args, **kwargs) -> None:
+        """Сокращение для::
+
+        client.users_playlists_name(playlist.kind, name, *args, **kwargs)
+        """
         client, kind = self.client, self.kind
 
         self.__dict__.clear()
-        self.__dict__.update(client.users_playlists_name(kind, name).__dict__)
+        self.__dict__.update(client.users_playlists_name(kind, name, *args, **kwargs).__dict__)
 
-    async def rename_async(self, name: str) -> None:
+    async def rename_async(self, name: str, *args, **kwargs) -> None:
+        """Сокращение для::
+
+        client.users_playlists_name(playlist.kind, name, *args, **kwargs)
+        """
         client, kind = self.client, self.kind
 
         self.__dict__.clear()
-        self.__dict__.update((await client.users_playlists_name(kind, name)).__dict__)
+        self.__dict__.update((await client.users_playlists_name(kind, name, *args, **kwargs)).__dict__)
 
     def like(self, *args, **kwargs) -> bool:
         """Сокращение для::

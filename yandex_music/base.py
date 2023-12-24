@@ -22,6 +22,8 @@ new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
 
 
 class YandexMusicObject:
+    """Базовый класс для всех объектов библиотеки."""
+
     __metaclass__ = ABCMeta
     _id_attrs: tuple = ()
 
@@ -36,6 +38,7 @@ class YandexMusicObject:
 
     @staticmethod
     def report_unknown_fields_callback(cls: type, unknown_fields: dict) -> None:
+        """Обратный вызов для обработки неизвестных полей."""
         logger.warning(
             f'Found unknown fields received from API! Please copy warn message '
             f'and send to {new_issue_by_template_url} (github issue), thank you!'
@@ -44,6 +47,15 @@ class YandexMusicObject:
 
     @staticmethod
     def is_valid_model_data(data: Any, *, array: bool = False) -> bool:  # noqa: ANN401
+        """Проверка на валидность данных.
+
+        Args:
+            data (:obj:`Any`): Данные для проверки.
+            array (:obj:`bool`, optional): Является ли объект массивом.
+
+        Returns:
+            :obj:`bool`: Валидны ли данные.
+        """
         if array:
             return data and isinstance(data, list) and all(isinstance(item, dict) for item in data)
 

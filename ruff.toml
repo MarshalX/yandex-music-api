@@ -3,6 +3,7 @@ extend-select = [
     "W",  # pycodestyle warnings
     "F",  # Pyflakes
     "I",  # isort
+    "D",  # pydocstyle
     "C90",  # flake8-comprehensions
     "B",  # flake8-bugbear
     "Q",  # flake8-quotes
@@ -29,22 +30,31 @@ extend-select = [
 line-length = 120
 target-version = "py37"
 ignore = [
+    "ISC001", # conftlics with format
     "PGH004", # use specific rule code with noqa; works bad with JetBrains IDE Warnings
     "ANN002", # Missing type annotation for `*args`
     "ANN003", # Missing type annotation for `**kwargs`
     "ANN101", # Missing type annotation for `self` in method
     "ANN102", # Missing type annotation for `cls` in classmethod
+    "D203", # we are not using blank line before class
+    "D213", # we are using first line for summary
+    "D406", "D407", # we are using google style docstring
 ]
 
 [per-file-ignores]
-"examples/*.py" = ["T201", "S311", "ERA001", "INP001", "S106", "BLE001", "S603", "ANN"]
-"docs/source/conf.py" = ["INP001"]
-"tests/*.py" = ["S101", "ANN"] # Use of assert
-"tests/__init__.py" = ["F401"] # Unused import
+"yandex_music/*.py" = [
+    "D105", "D104", "D100", "D107", "D103", "D415", # missing docstring
+    "D400", # first line should end with a period. TODO(MarshalX): We are using strange docsting style for methods-shortcuts
+]
 "yandex_music/__init__.py" = ["I001"] # Import sort
 "yandex_music/client*.py" = ["T201"] # print
+"yandex_music/utils/request*.py" = ["ANN"] # TODO(MarshalX): annotate and remove this ignore
+"tests/*.py" = ["S101", "ANN"] # Use of assert
+"tests/__init__.py" = ["F401"] # Unused import
 "test.py" = ["S101", "ERA001", "T201", "E501", "F401", "F841"]
-"yandex_music/utils/request*.py" = ["ANN"]  # TODO(MarshalX): annotate and remove this ignore
+"docs/source/conf.py" = ["INP001"]
+"examples/*.py" = ["T201", "S311", "ERA001", "INP001", "S106", "BLE001", "S603", "ANN"]
+
 
 [flake8-quotes]
 docstring-quotes = "double"

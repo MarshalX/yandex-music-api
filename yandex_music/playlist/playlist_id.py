@@ -26,6 +26,7 @@ class PlaylistId(YandexMusicObject):
 
     @property
     def playlist_id(self) -> str:
+        """Полный ID плейлиста."""
         return f'{self.uid}:{self.kind}'
 
     def fetch_playlist(self, *args, **kwargs) -> Union['Playlist', List['Playlist']]:
