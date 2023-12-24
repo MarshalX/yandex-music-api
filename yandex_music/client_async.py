@@ -108,7 +108,7 @@ class ClientAsync(YandexMusicObject):
             которых нет в библиотеке.
     """
 
-    __notice_displayed = False
+    __notice_displayed = True  # больше не используется
 
     def __init__(
         self,
