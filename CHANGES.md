@@ -6,7 +6,7 @@
 
 * Добавлена поддержка Python 3.12 by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/628
 * Добавлен fallback до `None` или пустого списка при данных неправильного типа  by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/612
-* Обновлён заголовок из новой версии by @glebliutsko in https://github.com/MarshalX/yandex-music-api/pull/592
+* Обновлён HTTP заголовок версии приложения by @glebliutsko in https://github.com/MarshalX/yandex-music-api/pull/592 and @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/635
 * Исправлен метод `fetch_lyrics_async` by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/627
 * Исправлен тип поля `items_uri` в классе `Cover` by @Rirusha in https://github.com/MarshalX/yandex-music-api/pull/603
 * Исправлена аннотация типа `de_list` и тесты на пустой список by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/612
