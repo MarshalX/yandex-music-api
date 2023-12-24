@@ -1,5 +1,25 @@
 # Список изменений
 
+## Версия 2.2.0
+
+**24.12.2023**
+
+* Добавлена поддержка Python 3.12 by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/628
+* Добавлен fallback до `None` или пустого списка при данных неправильного типа  by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/612
+* Обновлён HTTP заголовок версии приложения by @glebliutsko in https://github.com/MarshalX/yandex-music-api/pull/592 and @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/635
+* Исправлен метод `fetch_lyrics_async` by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/627
+* Исправлен тип поля `items_uri` в классе `Cover` by @Rirusha in https://github.com/MarshalX/yandex-music-api/pull/603
+* Исправлена аннотация типа `de_list` и тесты на пустой список by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/612
+
+Ведение проекта:
+* Переезд на `ruff` и `ruff format` by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/625 and https://github.com/MarshalX/yandex-music-api/pull/632
+* Добавлен GitHub Actions Workflow для проверки актуальности генерируемого кода by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/624
+* Упрощены GitHub Actions Workflow by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/623
+* Удалено использование dev ветки by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/622
+* Улучшены аннотации типов by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/626
+* Исправление ошибок в `README` by @json1c in https://github.com/MarshalX/yandex-music-api/pull/599 and @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/629
+* Обновлена структура документации by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/633
+
 ## Версия 2.1.0
 
 **23.04.2023**
