@@ -92,7 +92,7 @@ class Search(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
         """
-        return await self.client.search(self.text, self.nocorrect, self.type_, page, *args, **kwargs)
+        return await self.client.search(self.text, self.nocorrect, self.type, page, *args, **kwargs)
 
     def next_page(self, *args, **kwargs) -> Optional['Search']:
         """Получение следующей страницы поиска.
