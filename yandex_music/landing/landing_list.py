@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicObject, PlaylistId
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -22,7 +22,7 @@ class LandingList(YandexMusicObject):
         title (:obj:`str`): Заголовок страницы.
         id (:obj:`str`, optional): Уникальный идентификатор списка.
         new_releases (:obj:`list` из :obj:`int`, optional): Новые альбомы.
-        new_playlists (:obj:`list` из :obj:`int`, optional): Новые плейлисты.
+        new_playlists (:obj:`list` из :obj:`PlaylistId`, optional): Новые плейлисты.
         podcasts (:obj:`list` из :obj:`int`, optional): Подкасты.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
@@ -32,7 +32,7 @@ class LandingList(YandexMusicObject):
     title: str
     id: Optional[str] = None
     new_releases: List[int] = None
-    new_playlists: List[int] = None
+    new_playlists: List['PlaylistId'] = None
     podcasts: List[int] = None
     client: Optional['Client'] = None
 
