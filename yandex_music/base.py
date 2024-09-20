@@ -1,8 +1,11 @@
 import dataclasses
 import keyword
 import logging
-from abc import ABCMeta
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union, cast
+
+from typing_extensions import Self, TypeGuard
+
+from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import Client
@@ -21,11 +24,16 @@ logger = logging.getLogger(__name__)
 new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
 
 
-class YandexMusicObject:
-    """Базовый класс для всех объектов библиотеки."""
+JSONType = Union[Dict[str, 'JSONType'], List['JSONType'], str, int, float, bool, None]
 
-    __metaclass__ = ABCMeta
-    _id_attrs: tuple = ()
+
+class YandexMusicObject:
+    """Базовый класс для всех классов библиотеки."""
+
+
+@model
+class YandexMusicModel(YandexMusicObject):
+    """Базовый класс для всех моделей библиотеки."""
 
     def __str__(self) -> str:
         return str(self.to_dict())
@@ -37,50 +45,61 @@ class YandexMusicObject:
         return self.__dict__[item]
 
     @staticmethod
-    def report_unknown_fields_callback(cls: type, unknown_fields: dict) -> None:
+    def report_unknown_fields_callback(klass: type, unknown_fields: JSONType) -> None:
         """Обратный вызов для обработки неизвестных полей."""
         logger.warning(
             f'Found unknown fields received from API! Please copy warn message '
-            f'and send to {new_issue_by_template_url} (github issue), thank you!'
+            f'and send to {new_issue_by_template_url} (GitHub issue), thank you!'
         )
-        logger.warning(f'Type: {cls.__module__}.{cls.__name__}; fields: {unknown_fields}')
+        logger.warning(f'Type: {klass.__module__}.{klass.__name__}; fields: {unknown_fields}')
 
     @staticmethod
-    def is_valid_model_data(data: Any, *, array: bool = False) -> bool:  # noqa: ANN401
-        """Проверка на валидность данных.
+    def is_dict_model_data(data: JSONType) -> TypeGuard[Dict[str, JSONType]]:
+        """Проверка на соответствие данных словарю.
 
         Args:
-            data (:obj:`Any`): Данные для проверки.
-            array (:obj:`bool`, optional): Является ли объект массивом.
+            data (:obj:`JSONType`): Данные для проверки.
 
         Returns:
             :obj:`bool`: Валидны ли данные.
         """
-        if array:
-            return data and isinstance(data, list) and all(isinstance(item, dict) for item in data)
+        return bool(data) and isinstance(data, dict)
 
-        return data and isinstance(data, dict)
-
-    @classmethod
-    def de_json(cls, data: dict, client: Optional['Client']) -> Optional[dict]:
-        """Десериализация объекта.
+    @staticmethod
+    def is_array_model_data(data: JSONType) -> TypeGuard[List[Dict[str, JSONType]]]:
+        """Проверка на соответствие данных массиву словарей.
 
         Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            data (:obj:`JSONType`): Данные для проверки.
+
+        Returns:
+            :obj:`bool`: Валидны ли данные.
+        """
+        return bool(data) and isinstance(data, list) and all(isinstance(item, dict) for item in data)
+
+    @classmethod
+    def cleanup_data(cls, data: JSONType, client: Optional['Client']) -> Dict[str, JSONType]:
+        """Удаляет незадекларированные поля для текущей модели из сырых данных.
+
+        Note:
+            Фильтрует только словарь поле:значение. Иначе вернёт пустой :obj:`dict`.
+
+        Args:
+            data (:obj:`JSONType`): Поля и значения десериализуемого объекта.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.YandexMusicObject` | :obj:`None`: :obj:`yandex_music.YandexMusicObject` или :obj:`None`.
+            :obj:`Dict[str, JSONType]`: Отфильтрованные данные.
         """
-        if not cls.is_valid_model_data(data):
-            return None
+        if not YandexMusicModel.is_dict_model_data(data):
+            return {}
 
         data = data.copy()
 
         fields = {f.name for f in dataclasses.fields(cls)}
 
-        cleaned_data = {}
-        unknown_data = {}
+        cleaned_data: Dict[str, JSONType] = {}
+        unknown_data: Dict[str, JSONType] = {}
 
         for k, v in data.items():
             if k in fields:
@@ -88,10 +107,51 @@ class YandexMusicObject:
             else:
                 unknown_data[k] = v
 
-        if client.report_unknown_fields and unknown_data:
+        if client and client.report_unknown_fields and unknown_data:
             cls.report_unknown_fields_callback(cls, unknown_data)
 
         return cleaned_data
+
+    @classmethod
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional[Self]:
+        """Десериализация объекта.
+
+        Note:
+            Переопределяется в дочерних классах когда есть вложенные объекты.
+
+        Args:
+            data (:obj:`JSONType`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.YandexMusicModel`: Десериализованный объект.
+        """
+        if not cls.is_dict_model_data(data):
+            return None
+
+        return cls(client=client, **cls.cleanup_data(data, client))
+
+    @classmethod
+    def de_list(cls, data: JSONType, client: 'Client') -> List[Self]:
+        """Десериализация списка объектов.
+
+        Note:
+            Переопределяется в дочерних классах, если необходимо.
+
+            Например, в сложных объектах где есть вариации подтипов.
+
+        Args:
+            data (:obj:`JSONType`): Список словарей с полями и значениями десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.YandexMusicModel`: Список десериализованных объектов.
+        """
+        if not cls.is_array_model_data(data):
+            return []
+
+        items = [cls.de_json(item, client) for item in data]
+        return [item for item in items if item is not None]
 
     def to_json(self, for_request: bool = False) -> str:
         """Сериализация объекта.
@@ -104,7 +164,7 @@ class YandexMusicObject:
         """
         return json.dumps(self.to_dict(for_request), ensure_ascii=not ujson)
 
-    def to_dict(self, for_request: bool = False) -> dict:
+    def to_dict(self, for_request: bool = False) -> JSONType:
         """Рекурсивная сериализация объекта.
 
         Args:
@@ -119,8 +179,8 @@ class YandexMusicObject:
             :obj:`dict`: Сериализованный в dict объект.
         """
 
-        def parse(val: Any) -> Any:  # noqa: ANN401
-            if hasattr(val, 'to_dict'):
+        def parse(val: Union['YandexMusicModel', JSONType]) -> Any:  # noqa: ANN401
+            if isinstance(val, YandexMusicModel):
                 return val.to_dict(for_request)
             if isinstance(val, list):
                 return [parse(it) for it in val]
@@ -147,6 +207,14 @@ class YandexMusicObject:
 
         return parse(data)
 
+    def _get_id_attrs(self) -> Tuple[str]:
+        """Получение ключевых атрибутов объекта.
+
+        Returns:
+            :obj:`tuple`: Ключевые атрибуты объекта для сравнения.
+        """
+        return cast(Tuple[str], getattr(self, '_id_attrs', ()))
+
     def __eq__(self, other: Any) -> bool:  # noqa: ANN401
         """Проверка на равенство двух объектов.
 
@@ -157,8 +225,8 @@ class YandexMusicObject:
             :obj:`bool`: Одинаковые ли объекты (по содержимому).
         """
         if isinstance(other, self.__class__):
-            return self._id_attrs == other._id_attrs
-        return super(YandexMusicObject, self).__eq__(other)
+            return self._get_id_attrs() == other._get_id_attrs()
+        return super(YandexMusicModel, self).__eq__(other)
 
     def __hash__(self) -> int:
         """Реализация хеш-функции на основе ключевых атрибутов.
@@ -169,7 +237,9 @@ class YandexMusicObject:
         Returns:
             :obj:`int`: Хеш объекта.
         """
-        if self._id_attrs:
-            frozen_attrs = tuple(frozenset(attr) if isinstance(attr, list) else attr for attr in self._id_attrs)
-            return hash((self.__class__, frozen_attrs))
-        return super(YandexMusicObject, self).__hash__()
+        id_attrs = self._get_id_attrs()
+        if not id_attrs:
+            return super(YandexMusicModel, self).__hash__()
+
+        frozen_attrs = tuple(frozenset(attr) if isinstance(attr, list) else attr for attr in id_attrs)
+        return hash((self.__class__, frozen_attrs))

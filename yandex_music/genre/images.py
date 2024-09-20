@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Images(YandexMusicObject):
+class Images(YandexMusicModel):
     """Класс, представляющий изображение жанра.
 
     Attributes:
@@ -55,24 +55,6 @@ class Images(YandexMusicObject):
             :obj:`bytes`: Изображение в виде байтов.
         """
         return self.client.request.retrieve(self._300x300)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Images']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Images`: Изображение жанра.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Images, cls).de_json(data, client)
-
-        return cls(client=client, **data)
 
     # camelCase псевдонимы
 

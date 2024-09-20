@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Context(YandexMusicObject):
+class Context(YandexMusicModel):
     """Класс, представляющий содержимое очереди.
 
     Note:
@@ -34,21 +34,3 @@ class Context(YandexMusicObject):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.id)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Context']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Context`: Содержимое очереди.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Context, cls).de_json(data, client)
-
-        return cls(client=client, **data)

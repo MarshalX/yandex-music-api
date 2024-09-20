@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class AdParams(YandexMusicObject):
+class AdParams(YandexMusicModel):
     """Класс, представляющий параметры рекламного объявления.
 
     Note:
@@ -45,21 +45,3 @@ class AdParams(YandexMusicObject):
             self.other_params,
             self.ad_volume,
         )
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['AdParams']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.AdParams`: Параметры рекламного объявления.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(AdParams, cls).de_json(data, client)
-
-        return cls(client=client, **data)

@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import Album, Artist, Playlist, YandexMusicObject
+from yandex_music import Album, Artist, JSONType, Playlist, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -13,7 +13,7 @@ de_list = {
 
 
 @model
-class Like(YandexMusicObject):
+class Like(YandexMusicModel):
     """Класс, представляющий объект с отметкой "мне нравится".
 
     None:
@@ -50,7 +50,7 @@ class Like(YandexMusicObject):
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client', type_: str = None) -> Optional['Like']:
+    def de_json(cls, data: JSONType, client: 'Client', type_: Optional[str] = None) -> Optional['Like']:
         """Десериализация объекта.
 
         Args:
@@ -61,10 +61,10 @@ class Like(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Like`: Объект с отметкой "мне нравится".
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Like, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
 
         if type_ == 'artist':
             if 'artist' not in data:
@@ -79,24 +79,3 @@ class Like(YandexMusicObject):
         data['type'] = type_
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client', type_: str = None) -> List['Like']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            type_ (:obj:`str`, optional): Тип объекта с отметкой "мне нравится".
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Like`: Объекты с отметкой "мне нравится".
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        likes = []
-        for like in data:
-            likes.append(cls.de_json(like, client, type_))
-
-        return likes

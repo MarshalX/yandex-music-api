@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Operator(YandexMusicObject):
+class Operator(YandexMusicModel):
     """Класс, представляющий услугу сотового оператора.
 
     Attributes:
@@ -33,7 +33,7 @@ class Operator(YandexMusicObject):
         self._id_attrs = (self.product_id, self.phone)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Operator']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Operator']:
         """Десериализация объекта.
 
         Args:
@@ -43,29 +43,11 @@ class Operator(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Operator`: Услуга сотового оператора.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
         from yandex_music import Deactivation
 
         data['deactivation'] = Deactivation.de_list(data.get('deactivation'), client)
 
-        data = super(Operator, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Operator']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Operator`: Услуги сотового оператора.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(operator, client) for operator in data]
+        return cls(client=client, **cls.cleanup_data(data, client))

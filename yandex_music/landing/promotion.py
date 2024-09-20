@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Promotion(YandexMusicObject):
+class Promotion(YandexMusicModel):
     """Класс, представляющий продвижение (рекламу).
 
     Note:
@@ -103,44 +103,6 @@ class Promotion(YandexMusicObject):
             :obj:`bytes`: Рекламное изображение в виде байтов.
         """
         return await self.client.request.retrieve(self.get_image_url(size))
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Promotion`: Продвижение (реклама).
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Promotion, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Promotion']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Promotion`: Продвижения (реклама).
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        promotions = []
-        for promotion in data:
-            promotions.append(cls.de_json(promotion, client))
-
-        return promotions
 
     # camelCase псевдонимы
 

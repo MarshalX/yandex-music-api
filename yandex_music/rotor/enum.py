@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Enum(YandexMusicObject):
+class Enum(YandexMusicModel):
     """Класс, представляющий перечисления.
 
     Attributes:
@@ -28,7 +28,7 @@ class Enum(YandexMusicObject):
         self._id_attrs = (self.type, self.name, self.possible_values)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Enum']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Enum']:
         """Десериализация объекта.
 
         Args:
@@ -38,10 +38,10 @@ class Enum(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Enum`: Перечисление.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Enum, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Value
 
         data['possible_values'] = Value.de_list(data.get('possible_values'), client)

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Feed(YandexMusicObject):
+class Feed(YandexMusicModel):
     """Класс, представляющий фид.
 
     Note:
@@ -40,7 +40,7 @@ class Feed(YandexMusicObject):
         self._id_attrs = (self.can_get_more_events, self.generated_playlists, self.headlines, self.today, self.days)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Feed']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Feed']:
         """Десериализация объекта.
 
         Args:
@@ -50,10 +50,10 @@ class Feed(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Feed`: Фид.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Feed, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Day, GeneratedPlaylist
 
         data['generated_playlists'] = GeneratedPlaylist.de_list(data.get('generated_playlists'), client)

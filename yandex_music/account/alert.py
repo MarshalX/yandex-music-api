@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Alert(YandexMusicObject):
+class Alert(YandexMusicModel):
     """Класс, представляющий блок с предупреждением.
 
     Note:
@@ -41,7 +41,7 @@ class Alert(YandexMusicObject):
         self._id_attrs = (self.alert_id,)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Alert']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Alert']:
         """Десериализация объекта.
 
         Args:
@@ -51,12 +51,12 @@ class Alert(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Alert`: Сообщение о статусе подписки.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
         from yandex_music import AlertButton
 
-        data = super(Alert, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         data['button'] = AlertButton.de_json(data.get('button'), client)
 
         return cls(client=client, **data)

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Response(YandexMusicObject):
+class Response(YandexMusicModel):
     """Класс, представляющий ответ API.
 
     Note:
@@ -42,7 +42,7 @@ class Response(YandexMusicObject):
         return self.data if self.result is None else self.result
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Response']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Response']:
         """Десериализация объекта.
 
         Args:
@@ -52,10 +52,10 @@ class Response(YandexMusicObject):
         Returns:
             :obj:`yandex_music.utils.response.Response`: Ответ API.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Response, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         data['data'] = data.copy()
         from yandex_music import InvocationInfo
 

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class ShotData(YandexMusicObject):
+class ShotData(YandexMusicModel):
     """Класс, представляющий основную информацию о шоте.
 
     Attributes:
@@ -112,7 +112,7 @@ class ShotData(YandexMusicObject):
         return await self.client.request.retrieve(self.mds_url)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['ShotData']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['ShotData']:
         """Десериализация объекта.
 
         Args:
@@ -122,10 +122,10 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotData`: Основная информация о шоте.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(ShotData, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import ShotType
 
         data['shot_type'] = ShotType.de_json(data.get('shot_type'), client)

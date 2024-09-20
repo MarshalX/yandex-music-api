@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Status(YandexMusicObject):
+class Status(YandexMusicModel):
     """Класс, представляющий подробную информацию об аккаунте пользователя.
 
     Attributes:
@@ -55,7 +55,7 @@ class Status(YandexMusicObject):
         self._id_attrs = (self.account, self.permissions)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Status']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Status']:
         """Десериализация объекта.
 
         Args:
@@ -65,10 +65,10 @@ class Status(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Status`: Информация об аккаунте пользователя.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Status, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Account, Alert, Permissions, Plus, StationData, Subscription
 
         data['account'] = Account.de_json(data.get('account'), client)

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import DiscreteScale, Enum, YandexMusicObject
+from yandex_music import DiscreteScale, Enum, JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -10,7 +10,7 @@ de_json = {'enum': Enum.de_json, 'discrete-scale': DiscreteScale.de_json}
 
 
 @model
-class Restrictions(YandexMusicObject):
+class Restrictions(YandexMusicModel):
     """Класс, представляющий ограничения для настроек станции.
 
     Attributes:
@@ -33,7 +33,7 @@ class Restrictions(YandexMusicObject):
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Restrictions']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Restrictions']:
         """Десериализация объекта.
 
         Args:
@@ -43,10 +43,10 @@ class Restrictions(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Restrictions`: Ограничения для настроек станции.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Restrictions, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
 
         for key, value in data.items():
             data[key] = de_json.get(value.get('type'))(value, client)

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.exceptions import InvalidBitrateError
 from yandex_music.utils import model
 
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Track(YandexMusicObject):
+class Track(YandexMusicModel):
     """Класс, представляющий трек.
 
     Note:
@@ -470,7 +470,7 @@ class Track(YandexMusicObject):
         return f'{self.id}'
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Track']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Track']:
         """Десериализация объекта.
 
         Args:
@@ -480,10 +480,10 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Track`: Трек.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Track, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import R128, Album, Artist, LyricsInfo, Major, MetaData, Normalization, PoetryLoverMatch, User
 
         data['albums'] = Album.de_list(data.get('albums'), client)
@@ -499,22 +499,6 @@ class Track(YandexMusicObject):
         data['lyrics_info'] = LyricsInfo.de_json(data.get('lyrics_info'), client)
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Track']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Track`: Треки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(track, client) for track in data]
 
     # camelCase псевдонимы
 

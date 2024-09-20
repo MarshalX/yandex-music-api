@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Dict, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Genre(YandexMusicObject):
+class Genre(YandexMusicModel):
     """Класс, представляющий жанр музыки.
 
     Attributes:
@@ -49,7 +49,7 @@ class Genre(YandexMusicObject):
         self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Genre']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Genre']:
         """Десериализация объекта.
 
         Args:
@@ -59,10 +59,10 @@ class Genre(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Genre`: Жанр музыки.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Genre, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Icon, Images, Title
 
         data['titles'] = Title.de_dict(data.get('titles'), client)
@@ -71,19 +71,3 @@ class Genre(YandexMusicObject):
         data['sub_genres'] = Genre.de_list(data.get('sub_genres'), client)
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Genre']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Genre`: Жанры музыки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(genre, client) for genre in data]

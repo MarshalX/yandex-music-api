@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Dict, Generic, List, Optional, Type, TypeVar, Union
 
-from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
+from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -22,14 +22,14 @@ type_class_by_str: Dict[str, Type[T]] = {
 
 
 @model
-class SearchResult(YandexMusicObject, Generic[T]):
+class SearchResult(YandexMusicModel, Generic[T]):
     """Класс, представляющий результаты поиска.
 
     Note:
         Значения поля `type`: `track`, `artist`, `playlist`, `album`, `video`.
 
     Attributes:
-        type (:obj:`str`):  Тип результата.
+        type (:obj:`str`): Тип результата.
         total (:obj:`int`): Количество результатов.
         per_page (:obj:`int`): Максимальное количество результатов на странице.
         order (:obj:`int`): Позиция блока.
@@ -49,7 +49,7 @@ class SearchResult(YandexMusicObject, Generic[T]):
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod
-    def de_json(cls, data: Dict[str, Dict], client: 'Client', type_: str = None) -> Optional['SearchResult']:
+    def de_json(cls, data: JSONType, client: 'Client', type_: str = None) -> Optional['SearchResult']:
         """Десериализация объекта.
 
         Args:
@@ -60,10 +60,10 @@ class SearchResult(YandexMusicObject, Generic[T]):
         Returns:
             :obj:`yandex_music.SearchResult`: Результаты поиска.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(SearchResult, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         data['type'] = type_
         type_class = type_class_by_str.get(type_)
         data['results'] = type_class.de_list(data.get('results'), client)

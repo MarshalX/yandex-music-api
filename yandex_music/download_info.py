@@ -2,7 +2,7 @@ import xml.dom.minidom as minidom
 from hashlib import md5
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -14,7 +14,7 @@ SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA'
 
 
 @model
-class DownloadInfo(YandexMusicObject):
+class DownloadInfo(YandexMusicModel):
     """Класс, представляющий информацию о вариантах загрузки трека.
 
     Attributes:
@@ -135,25 +135,7 @@ class DownloadInfo(YandexMusicObject):
         return await self.client.request.retrieve(self.direct_link)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['DownloadInfo']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(DownloadInfo, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client', get_direct_links: bool = False) -> List['DownloadInfo']:
+    def de_list(cls, data: JSONType, client: 'Client', get_direct_links: bool = False) -> List['DownloadInfo']:
         """Десериализация списка объектов.
 
         Args:
@@ -164,7 +146,7 @@ class DownloadInfo(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
-        if not cls.is_valid_model_data(data, array=True):
+        if not cls.is_array_model_data(data):
             return []
 
         downloads_info = []
@@ -189,7 +171,7 @@ class DownloadInfo(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.DownloadInfo`: Варианты загрузки треков.
         """
-        if not cls.is_valid_model_data(data, array=True):
+        if not cls.is_array_model_data(data):
             return []
 
         downloads_info = []

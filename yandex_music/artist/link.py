@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Link(YandexMusicObject):
+class Link(YandexMusicModel):
     """Класс, представляющий ссылку на официальную страницу исполнителя.
 
     Note:
@@ -30,41 +30,3 @@ class Link(YandexMusicObject):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.title, self.href, self.type)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Link']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Link`: Ссылка на официальную страницу исполнителя.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Link, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Link']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Link`: Ссылки на официальные страницы исполнителя.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        links = []
-        for link in data:
-            links.append(cls.de_json(link, client))
-
-        return links

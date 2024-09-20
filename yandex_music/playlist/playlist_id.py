@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class PlaylistId(YandexMusicObject):
+class PlaylistId(YandexMusicModel):
     """Класс, представляющий уникальный идентификатор плейлиста.
 
     Attributes:
@@ -42,44 +42,6 @@ class PlaylistId(YandexMusicObject):
         await client.users_playlists(kind, uid, *args, **kwargs)
         """
         return await self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistId']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.PlaylistId`: Уникальный идентификатор плейлиста.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(PlaylistId, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['PlaylistId']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.PlaylistId`: Уникальные идентификаторы плейлистов.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        playlist_ids = []
-        for playlist_id in data:
-            playlist_ids.append(cls.de_json(playlist_id, client))
-
-        return playlist_ids
 
     # camelCase псевдонимы
 

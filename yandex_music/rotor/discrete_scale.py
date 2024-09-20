@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class DiscreteScale(YandexMusicObject):
+class DiscreteScale(YandexMusicModel):
     """Класс, представляющий дискретное значение.
 
     Note:
@@ -32,7 +32,7 @@ class DiscreteScale(YandexMusicObject):
         self._id_attrs = (self.type, self.name, self.min, self.max)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['DiscreteScale']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['DiscreteScale']:
         """Десериализация объекта.
 
         Args:
@@ -42,10 +42,10 @@ class DiscreteScale(YandexMusicObject):
         Returns:
             :obj:`yandex_music.DiscreteScale`: Дискретное значение.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(DiscreteScale, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Value
 
         data['min'] = Value.de_json(data.get('min'), client)

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Iterable, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Suggestions(YandexMusicObject):
+class Suggestions(YandexMusicModel):
     """Класс, представляющий подсказки при поиске.
 
     Attributes:
@@ -31,7 +31,7 @@ class Suggestions(YandexMusicObject):
         return iter(self.suggestions)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Suggestions']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Suggestions']:
         """Десериализация объекта.
 
         Args:
@@ -41,10 +41,10 @@ class Suggestions(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Suggestions`: Подсказки при поиске.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Suggestions, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Best
 
         data['best'] = Best.de_json(data.get('best'), client)

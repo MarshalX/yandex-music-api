@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.exceptions import YandexMusicError
 from yandex_music.utils import model
 
@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 @model
-class MixLink(YandexMusicObject):
+class MixLink(YandexMusicModel):
     """Класс, представляющий ссылку (кликабельный блок) на подборку.
 
     Note:
@@ -204,44 +204,6 @@ class MixLink(YandexMusicObject):
             :obj:`bytes`: Обложка в виде байтов.
         """
         return await self.client.request.retrieve(self.get_cover_url(size))
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.MixLink`: Блок-ссылка на подборку.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(MixLink, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['MixLink']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.MixLink`: Блоки-ссылки на подборки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        mix_links = []
-        for mix_link in data:
-            mix_links.append(cls.de_json(mix_link, client))
-
-        return mix_links
 
     # camelCase псевдонимы
 

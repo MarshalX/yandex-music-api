@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import ChartInfoMenu, Playlist, YandexMusicObject
+from yandex_music import ChartInfoMenu, JSONType, Playlist, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class ChartInfo(YandexMusicObject):
+class ChartInfo(YandexMusicModel):
     """Класс, представляющий чарт.
 
     Attributes:
@@ -35,7 +35,7 @@ class ChartInfo(YandexMusicObject):
         self._id_attrs = (self.id,)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfo']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['ChartInfo']:
         """Десериализация объекта.
 
         Args:
@@ -45,10 +45,10 @@ class ChartInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartInfo`: Чарт.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(ChartInfo, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         data['chart'] = Playlist.de_json(data.get('chart'), client)
         data['menu'] = ChartInfoMenu.de_json(data.get('menu'), client)
 

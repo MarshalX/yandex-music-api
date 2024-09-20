@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Artist(YandexMusicObject):
+class Artist(YandexMusicModel):
     """Класс, представляющий исполнителя.
 
     Attributes:
@@ -256,7 +256,7 @@ class Artist(YandexMusicObject):
         return await self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Artist']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Artist']:
         """Десериализация объекта.
 
         Args:
@@ -266,10 +266,10 @@ class Artist(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Artist`: Исполнитель.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Artist, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Counts, Cover, Description, Link, Ratings, Track
 
         data['cover'] = Cover.de_json(data.get('cover'), client)
@@ -286,26 +286,6 @@ class Artist(YandexMusicObject):
             ]
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Artist']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Artist`: Исполнители.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        artists = []
-        for artist in data:
-            artists.append(cls.de_json(artist, client))
-
-        return artists
 
     # camelCase псевдонимы
 

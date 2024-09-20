@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Event(YandexMusicObject):
+class Event(YandexMusicModel):
     """Класс, представляющий событие фида.
 
     Note:
@@ -53,7 +53,7 @@ class Event(YandexMusicObject):
         self._id_attrs = (self.id, self.type)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Event']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Event']:
         """Десериализация объекта.
 
         Args:
@@ -63,10 +63,10 @@ class Event(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Event`: Событие фида.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Event, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import AlbumEvent, ArtistEvent, Track
 
         data['tracks'] = Track.de_list(data.get('tracks'), client)
@@ -74,23 +74,3 @@ class Event(YandexMusicObject):
         data['artists'] = ArtistEvent.de_list(data.get('artists'), client)
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Event']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Event`: События фида.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        events = []
-        for event in data:
-            events.append(cls.de_json(event, client))
-
-        return events

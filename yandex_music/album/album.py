@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Album(YandexMusicObject):
+class Album(YandexMusicModel):
     """Класс, представляющий альбом.
 
     Note:
@@ -284,7 +284,7 @@ class Album(YandexMusicObject):
         return [i.name for i in self.artists]
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Album']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Album']:
         """Десериализация объекта.
 
         Args:
@@ -294,17 +294,17 @@ class Album(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Album`: Альбом.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Album, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Artist, Deprecation, Label, Track, TrackPosition
 
         data['artists'] = Artist.de_list(data.get('artists'), client)
 
         # В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
         labels = data.get('labels')
-        if cls.is_valid_model_data(labels, array=True):
+        if cls.is_array_model_data(labels):
             data['labels'] = Label.de_list(labels, client)
         elif labels and all(isinstance(item, str) for item in data):
             data['labels'] = labels
@@ -320,22 +320,6 @@ class Album(YandexMusicObject):
             data['volumes'] = [Track.de_list(i, client) for i in data['volumes']]
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Album']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Album`: Альбомы.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(album, client) for album in data]
 
     # camelCase псевдонимы
 

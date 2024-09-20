@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
+from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -20,7 +20,7 @@ de_json_result = {
 
 
 @model
-class Best(YandexMusicObject):
+class Best(YandexMusicModel):
     """Класс, представляющий лучший результат поиска.
 
     Attributes:
@@ -40,7 +40,7 @@ class Best(YandexMusicObject):
         self._id_attrs = (self.type, self.result)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Best']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Best']:
         """Десериализация объекта.
 
         Args:
@@ -50,10 +50,10 @@ class Best(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Best`: Лучший результат.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Best, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         data['result'] = de_json_result.get(data.get('type'))(data.get('result'), client)
 
         return cls(client=client, **data)

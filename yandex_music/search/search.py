@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
+from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Search(YandexMusicObject):
+class Search(YandexMusicModel):
     """Класс, представляющий результаты поиска.
 
     Attributes:
@@ -127,7 +127,7 @@ class Search(YandexMusicObject):
         return await self.get_page_async(self.page - 1, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Search']:
         """Десериализация объекта.
 
         Args:
@@ -137,10 +137,10 @@ class Search(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Search`: Результаты поиска.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Search, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Best, SearchResult
 
         # в ОЧЕНЬ редких случаях сервер творит дичь и может вернуть результат плейлистов в поле artists

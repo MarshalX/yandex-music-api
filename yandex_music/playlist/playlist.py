@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Any, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Playlist(YandexMusicObject):
+class Playlist(YandexMusicModel):
     """Класс, представляющий плейлист.
 
     Note:
@@ -416,7 +416,7 @@ class Playlist(YandexMusicObject):
         return await self.client.users_playlists_delete(self.kind, self.owner.uid, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Playlist']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Playlist']:
         """Десериализация объекта.
 
         Args:
@@ -426,10 +426,10 @@ class Playlist(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Playlist`: Плейлист.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Playlist, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import (
             Artist,
             Brand,
@@ -472,22 +472,6 @@ class Playlist(YandexMusicObject):
         data['pager'] = Pager.de_json(data.get('pager'), client)
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Playlist']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Playlist`: Плейлисты.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(playlist, client) for playlist in data]
 
     # camelCase псевдонимы
 

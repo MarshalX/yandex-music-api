@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Subscription(YandexMusicObject):
+class Subscription(YandexMusicModel):
     """Класс, представляющий информацию о подписках пользователя.
 
     Attributes:
@@ -39,7 +39,7 @@ class Subscription(YandexMusicObject):
         self._id_attrs = (self.non_auto_renewable_remainder, self.auto_renewable, self.family_auto_renewable)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Subscription']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Subscription']:
         """Десериализация объекта.
 
         Args:
@@ -49,10 +49,10 @@ class Subscription(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Subscription`: Информация о подписках пользователя.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Subscription, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import AutoRenewable, NonAutoRenewable, Operator, RenewableRemainder
 
         data['auto_renewable'] = AutoRenewable.de_list(data.get('auto_renewable'), client)

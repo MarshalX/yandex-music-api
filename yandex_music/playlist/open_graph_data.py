@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class OpenGraphData(YandexMusicObject):
+class OpenGraphData(YandexMusicModel):
     """Класс, представляющий данные для Open Graph.
 
     Attributes:
@@ -27,7 +27,7 @@ class OpenGraphData(YandexMusicObject):
         self._id_attrs = (self.title, self.description, self.image)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['OpenGraphData']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['OpenGraphData']:
         """Десериализация объекта.
 
         Args:
@@ -37,10 +37,10 @@ class OpenGraphData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.OpenGraphData`: Данные для Open Graph.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(OpenGraphData, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Cover
 
         data['image'] = Cover.de_json(data.get('image'), client)

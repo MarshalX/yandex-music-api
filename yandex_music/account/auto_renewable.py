@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class AutoRenewable(YandexMusicObject):
+class AutoRenewable(YandexMusicModel):
     """Класс, представляющий информацию об автопродлении подписки.
 
     Attributes:
@@ -37,7 +37,7 @@ class AutoRenewable(YandexMusicObject):
         self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product, self.finished)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['AutoRenewable']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['AutoRenewable']:
         """Десериализация объекта.
 
         Args:
@@ -47,29 +47,13 @@ class AutoRenewable(YandexMusicObject):
         Returns:
             :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(AutoRenewable, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Product, User
 
         data['product'] = Product.de_json(data.get('product'), client)
         data['master_info'] = User.de_json(data.get('master_info'), client)
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['AutoRenewable']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.AutoRenewable`: Информация об автопродлении подписки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(auto_renewable, client) for auto_renewable in data]

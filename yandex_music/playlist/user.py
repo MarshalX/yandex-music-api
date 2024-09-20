@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class User(YandexMusicObject):
+class User(YandexMusicModel):
     """Класс, представляющий пользователя.
 
     Note:
@@ -44,37 +44,3 @@ class User(YandexMusicObject):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.login)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['User']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.User`: Пользователь.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(User, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['User']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.User`: Пользователи.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(user, client) for user in data]

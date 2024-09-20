@@ -1,14 +1,15 @@
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 from yandex_music import (
     Album,
     ChartItem,
     GeneratedPlaylist,
+    JSONType,
     MixLink,
     PlayContext,
     Playlist,
     Promotion,
-    YandexMusicObject,
+    YandexMusicModel,
 )
 from yandex_music.utils import model
 
@@ -27,7 +28,7 @@ de_json = {
 
 
 @model
-class BlockEntity(YandexMusicObject):
+class BlockEntity(YandexMusicModel):
     """Класс, представляющий содержимое блока.
 
     Note:
@@ -54,7 +55,7 @@ class BlockEntity(YandexMusicObject):
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['BlockEntity']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['BlockEntity']:
         """Десериализация объекта.
 
         Args:
@@ -64,30 +65,10 @@ class BlockEntity(YandexMusicObject):
         Returns:
             :obj:`yandex_music.BlockEntity`: Сущность (объект) блока.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(BlockEntity, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         data['data'] = de_json.get(data.get('type'))(data.get('data'), client)
 
         return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['BlockEntity']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.BlockEntity`: Содержимое блока.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        entities = []
-        for entity in data:
-            entities.append(cls.de_json(entity, client))
-
-        return entities

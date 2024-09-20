@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Supplement(YandexMusicObject):
+class Supplement(YandexMusicModel):
     """Класс, представляющий дополнительную информацию о треке.
 
     Warning:
@@ -35,7 +35,7 @@ class Supplement(YandexMusicObject):
         self._id_attrs = (self.id, self.lyrics, self.videos)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Supplement']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Supplement']:
         """Десериализация объекта.
 
         Args:
@@ -45,10 +45,10 @@ class Supplement(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Supplement`: Дополнительная информация о треке.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Supplement, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Lyrics, VideoSupplement
 
         data['lyrics'] = Lyrics.de_json(data.get('lyrics'), client)

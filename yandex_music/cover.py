@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Cover(YandexMusicObject):
+class Cover(YandexMusicModel):
     """Класс, представляющий обложку.
 
     Attributes:
@@ -99,44 +99,6 @@ class Cover(YandexMusicObject):
             :obj:`bytes`: Обложка в виде байтов.
         """
         return await self.client.request.retrieve(self.get_url(index, size))
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Cover`: Обложка.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Cover, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Cover']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Cover`: Обложки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        covers = []
-        for cover in data:
-            covers.append(cls.de_json(cover, client))
-
-        return covers
 
     # camelCase псевдонимы
 

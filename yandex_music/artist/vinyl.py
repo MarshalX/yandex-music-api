@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Vinyl(YandexMusicObject):
+class Vinyl(YandexMusicModel):
     """Класс, представляющий виниловую пластинку.
 
     Attributes:
@@ -45,41 +45,3 @@ class Vinyl(YandexMusicObject):
             self.offer_id,
             self.artist_ids,
         )
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Vinyl']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Vinyl`: Ваниловая пластинка.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Vinyl, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Vinyl']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Vinyl`: Ваниловые пластинки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        vinyls = []
-        for vinyl in data:
-            vinyls.append(cls.de_json(vinyl, client))
-
-        return vinyls

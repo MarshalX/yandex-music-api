@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @model
-class ShotEvent(YandexMusicObject):
+class ShotEvent(YandexMusicModel):
     """Класс, представляющий событие-шот перед началом следующего трека.
 
     Attributes:
@@ -25,7 +25,7 @@ class ShotEvent(YandexMusicObject):
         self._id_attrs = (self.event_id, self.shots)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['ShotEvent']:
+    def de_json(cls, data: JSONType, client: 'Client') -> Optional['ShotEvent']:
         """Десериализация объекта.
 
         Args:
@@ -35,10 +35,10 @@ class ShotEvent(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotEvent`: Событие-шот перед началом следующего трека.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(ShotEvent, cls).de_json(data, client)
+        data = cls.cleanup_data(data, client)
         from yandex_music import Shot
 
         data['shots'] = Shot.de_list(data.get('shots'), client)
