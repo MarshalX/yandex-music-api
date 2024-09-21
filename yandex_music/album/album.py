@@ -1,11 +1,11 @@
 from dataclasses import field
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union, cast
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Artist, ClientType, Deprecation, Label, Track, TrackPosition
+    from yandex_music import Artist, ClientType, Deprecation, JSONType, Label, Track, TrackPosition
 
 
 @model
@@ -78,7 +78,7 @@ class Album(YandexMusicModel):
     title: Optional[str] = None
     track_count: Optional[int] = None
     artists: List['Artist'] = field(default_factory=list)
-    labels: List[Union['Label', str]] = field(default_factory=list)
+    labels: Union[List['Label'], List['str']] = field(default_factory=list)
     available: Optional[bool] = None
     available_for_premium_users: Optional[bool] = None
     version: Optional[str] = None
@@ -129,6 +129,8 @@ class Album(YandexMusicModel):
 
         client.albums_with_tracks(album.id, *args, **kwargs)
         """
+        assert isinstance(self.id, int)
+        assert self.valid_client(self.client)
         return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
     async def with_tracks_async(self, *args: Any, **kwargs: Any) -> Optional['Album']:
@@ -136,6 +138,8 @@ class Album(YandexMusicModel):
 
         await client.albums_with_tracks(album.id, *args, **kwargs)
         """
+        assert isinstance(self.id, int)
+        assert self.valid_async_client(self.client)
         return await self.client.albums_with_tracks(self.id, *args, **kwargs)
 
     def get_cover_url(self, size: str = '200x200') -> str:
@@ -147,6 +151,7 @@ class Album(YandexMusicModel):
         Returns:
             :obj:`str`: URL обложки.
         """
+        assert isinstance(self.cover_uri, str)
         return f'https://{self.cover_uri.replace("%%", size)}'
 
     def get_og_image_url(self, size: str = '200x200') -> str:
@@ -158,6 +163,7 @@ class Album(YandexMusicModel):
         Returns:
             :obj:`str`: URL обложки.
         """
+        assert isinstance(self.og_image, str)
         return f'https://{self.og_image.replace("%%", size)}'
 
     def download_cover(self, filename: str, size: str = '200x200') -> None:
@@ -167,6 +173,7 @@ class Album(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
@@ -176,6 +183,7 @@ class Album(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_cover_url(size), filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
@@ -187,6 +195,7 @@ class Album(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_og_image_url(size), filename)
 
     async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
@@ -198,6 +207,7 @@ class Album(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_og_image_url(size), filename)
 
     def download_cover_bytes(self, size: str = '200x200') -> bytes:
@@ -209,6 +219,7 @@ class Album(YandexMusicModel):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_cover_url(size))
 
     async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
@@ -220,6 +231,7 @@ class Album(YandexMusicModel):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_cover_url(size))
 
     def download_og_image_bytes(self, size: str = '200x200') -> bytes:
@@ -233,6 +245,7 @@ class Album(YandexMusicModel):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_og_image_url(size))
 
     async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
@@ -246,6 +259,7 @@ class Album(YandexMusicModel):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_og_image_url(size))
 
     def like(self, *args: Any, **kwargs: Any) -> bool:
@@ -253,28 +267,36 @@ class Album(YandexMusicModel):
 
         client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
-        return self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
+        assert isinstance(self.id, int)
+        assert self.valid_client(self.client)
+        return self.client.users_likes_albums_add(self.id, self.client.account_uid, *args, **kwargs)
 
     async def like_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
-        return await self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
+        assert isinstance(self.id, int)
+        assert self.valid_async_client(self.client)
+        return await self.client.users_likes_albums_add(self.id, self.client.account_uid, *args, **kwargs)
 
     def dislike(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
         """
-        return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
+        assert isinstance(self.id, int)
+        assert self.valid_client(self.client)
+        return self.client.users_likes_albums_remove(self.id, self.client.account_uid, *args, **kwargs)
 
     async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
         """
-        return await self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
+        assert isinstance(self.id, int)
+        assert self.valid_async_client(self.client)
+        return await self.client.users_likes_albums_remove(self.id, self.client.account_uid, *args, **kwargs)
 
     def artists_name(self) -> List[str]:
         """Получает имена всех исполнителей.
@@ -285,7 +307,7 @@ class Album(YandexMusicModel):
         return [i.name for i in self.artists if i.name]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Album']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Album']:
         """Десериализация объекта.
 
         Args:
@@ -298,29 +320,31 @@ class Album(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Artist, Deprecation, Label, Track, TrackPosition
 
-        data['artists'] = Artist.de_list(data.get('artists'), client)
+        cls_data['artists'] = Artist.de_list(data.get('artists'), client)
 
         # В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
         labels = data.get('labels')
         if cls.is_array_model_data(labels):
-            data['labels'] = Label.de_list(labels, client)
-        elif labels and all(isinstance(item, str) for item in data):
-            data['labels'] = labels
+            cls_data['labels'] = Label.de_list(labels, client)
+        elif isinstance(labels, list) and all(isinstance(label, str) for label in labels):
+            cls_data['labels'] = cast(List[str], labels)
         else:
             # Поддержка формата. Все листы [] по умолчанию вместо None даже если данных нет.
-            data['labels'] = []
+            cls_data['labels'] = []
 
-        data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
-        data['duplicates'] = Album.de_list(data.get('duplicates'), client)
-        data['albums'] = Album.de_list(data.get('albums'), client)
-        data['deprecation'] = Deprecation.de_json(data.get('deprecation'), client)
-        if data.get('volumes'):
-            data['volumes'] = [Track.de_list(i, client) for i in data['volumes']]
+        cls_data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
+        cls_data['duplicates'] = Album.de_list(data.get('duplicates'), client)
+        cls_data['albums'] = Album.de_list(data.get('albums'), client)
+        cls_data['deprecation'] = Deprecation.de_json(data.get('deprecation'), client)
 
-        return cls(client=client, **data)
+        volumes = data.get('volumes')
+        if isinstance(volumes, list):
+            cls_data['volumes'] = [Track.de_list(volume, client) for volume in volumes]
+
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

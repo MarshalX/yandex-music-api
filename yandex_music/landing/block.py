@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import BlockEntity, ClientType, PersonalPlaylistsData, PlayContextsData
+    from yandex_music import BlockEntity, ClientType, JSONType, PersonalPlaylistsData, PlayContextsData
 
 
 @model
@@ -42,7 +42,7 @@ class Block(YandexMusicModel):
         return self.entities[item]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Block']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Block']:
         """Десериализация объекта.
 
         Args:
@@ -55,15 +55,15 @@ class Block(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import BlockEntity, PersonalPlaylistsData, PlayContextsData
 
-        data['entities'] = BlockEntity.de_list(data.get('entities'), client)
+        cls_data['entities'] = BlockEntity.de_list(data.get('entities'), client)
 
         block_type = data.get('type')
         if block_type == 'personal-playlists':
-            data['data'] = PersonalPlaylistsData.de_json(data.get('data'), client)
+            cls_data['data'] = PersonalPlaylistsData.de_json(data.get('data'), client)
         elif block_type == 'play-contexts':
-            data['data'] = PlayContextsData.de_json(data.get('data'), client)
+            cls_data['data'] = PlayContextsData.de_json(data.get('data'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

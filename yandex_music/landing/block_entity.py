@@ -4,7 +4,6 @@ from yandex_music import (
     Album,
     ChartItem,
     GeneratedPlaylist,
-    JSONType,
     MixLink,
     PlayContext,
     Playlist,
@@ -14,9 +13,9 @@ from yandex_music import (
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType
+    from yandex_music import ClientType, JSONType, MapTypeToDeJson
 
-de_json = {
+_TYPE_TO_DE_JSON_DEF: 'MapTypeToDeJson' = {
     'personal-playlist': GeneratedPlaylist.de_json,
     'promotion': Promotion.de_json,
     'album': Album.de_json,
@@ -55,7 +54,7 @@ class BlockEntity(YandexMusicModel):
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['BlockEntity']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['BlockEntity']:
         """Десериализация объекта.
 
         Args:
@@ -68,7 +67,11 @@ class BlockEntity(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
-        data['data'] = de_json.get(data.get('type'))(data.get('data'), client)
+        cls_data = cls.cleanup_data(data, client)
 
-        return cls(client=client, **data)
+        type_ = data.get('type')
+        if isinstance(type_, str) and type_ in _TYPE_TO_DE_JSON_DEF:
+            de_json_def = _TYPE_TO_DE_JSON_DEF[type_]
+            cls_data['data'] = de_json_def(data.get('data'), client)
+
+        return cls(client=client, **cls_data)  # type: ignore

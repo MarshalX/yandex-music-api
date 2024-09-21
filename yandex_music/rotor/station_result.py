@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AdParams, ClientType, RotorSettings, Station
+    from yandex_music import AdParams, ClientType, JSONType, RotorSettings, Station
 
 
 @model
@@ -43,7 +43,7 @@ class StationResult(YandexMusicModel):
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['StationResult']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['StationResult']:
         """Десериализация объекта.
 
         Args:
@@ -56,12 +56,12 @@ class StationResult(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import AdParams, RotorSettings, Station
 
-        data['station'] = Station.de_json(data.get('station'), client)
-        data['settings'] = RotorSettings.de_json(data.get('settings'), client)
-        data['settings2'] = RotorSettings.de_json(data.get('settings2'), client)
-        data['ad_params'] = AdParams.de_json(data.get('ad_params'), client)
+        cls_data['station'] = Station.de_json(data.get('station'), client)
+        cls_data['settings'] = RotorSettings.de_json(data.get('settings'), client)
+        cls_data['settings2'] = RotorSettings.de_json(data.get('settings2'), client)
+        cls_data['ad_params'] = AdParams.de_json(data.get('ad_params'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

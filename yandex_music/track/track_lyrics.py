@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, LyricsMajor
+    from yandex_music import ClientType, JSONType, LyricsMajor
 
 
 @model
@@ -52,7 +52,7 @@ class TrackLyrics(YandexMusicModel):
         return (await self.client.request.retrieve(self.download_url)).decode('UTF-8')
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['TrackLyrics']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['TrackLyrics']:
         """Десериализация объекта.
 
         Args:
@@ -65,12 +65,12 @@ class TrackLyrics(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import LyricsMajor
 
-        data['major'] = LyricsMajor.de_json(data.get('major'), client)
+        cls_data['major'] = LyricsMajor.de_json(data.get('major'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

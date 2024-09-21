@@ -65,7 +65,7 @@ class Request:
         headers: Optional[Dict[str, str]] = None,
         proxy_url: Optional[str] = None,
         timeout: 'TimeoutType' = default_timeout,
-    ):
+    ) -> None:
         self.headers = headers or HEADERS.copy()
 
         self._timeout = DEFAULT_TIMEOUT
@@ -91,7 +91,7 @@ class Request:
         """
         self.headers.update({'Accept-Language': lang})
 
-    def set_timeout(self, timeout: Union[int, float, object] = default_timeout):
+    def set_timeout(self, timeout: Union[int, float, object] = default_timeout) -> None:
         """Устанавливает время ожидания для всех запросов.
 
         Args:
@@ -204,7 +204,7 @@ class Request:
 
         return Response.de_json(data, self.client)
 
-    async def _request_wrapper(self, *args: Any, **kwargs: Any):  # noqa: C901
+    async def _request_wrapper(self, *args: Any, **kwargs: Any) -> bytes:  # noqa: C901
         """Обёртка над запросом библиотеки `aiohttp`.
 
         Note:

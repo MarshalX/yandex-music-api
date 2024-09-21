@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import Album, Artist, JSONType, Playlist, YandexMusicModel
+from yandex_music import Album, Artist, Playlist, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType
+    from yandex_music import ClientType, JSONType, MapTypeToDeJson
 
-de_list = {
+_TYPE_TO_DE_JSON_DEF: 'MapTypeToDeJson' = {
     'album': Album.de_json,
     'playlist': Playlist.de_json,
 }
@@ -50,7 +50,7 @@ class Like(YandexMusicModel):
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType', type_: Optional[str] = None) -> Optional['Like']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType', type_: Optional[str] = None) -> Optional['Like']:
         """Десериализация объекта.
 
         Args:
@@ -64,18 +64,19 @@ class Like(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
 
         if type_ == 'artist':
             if 'artist' not in data:
                 temp_data = data.copy()
-                data.clear()
-                data[type_] = Artist.de_json(temp_data, client)
+                cls_data.clear()
+                cls_data[type_] = Artist.de_json(temp_data, client)
             else:
-                data[type_] = Artist.de_json(data.get('artist'), client)
-        else:
-            data[type_] = de_list[type_](data.get(type_), client)
+                cls_data[type_] = Artist.de_json(data.get('artist'), client)
+        elif type_:
+            de_json = _TYPE_TO_DE_JSON_DEF[type_]
+            cls_data[type_] = de_json(data.get(type_), client)
 
-        data['type'] = type_
+        cls_data['type'] = type_
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

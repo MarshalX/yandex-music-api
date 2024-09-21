@@ -1,11 +1,11 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Price
+    from yandex_music import ClientType, JSONType, Price
 
 
 @model
@@ -89,7 +89,7 @@ class Product(YandexMusicModel):
         )
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Product']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Product']:
         """Десериализация объекта.
 
         Args:
@@ -102,12 +102,12 @@ class Product(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import LicenceTextPart, Price
 
-        data['price'] = Price.de_json(data.get('price'), client)
-        data['intro_price'] = Price.de_json(data.get('intro_price'), client)
-        data['start_price'] = Price.de_json(data.get('start_price'), client)
-        data['licence_text_parts'] = LicenceTextPart.de_list(data.get('licence_text_parts'), client)
+        cls_data['price'] = Price.de_json(data.get('price'), client)
+        cls_data['intro_price'] = Price.de_json(data.get('intro_price'), client)
+        cls_data['start_price'] = Price.de_json(data.get('start_price'), client)
+        cls_data['licence_text_parts'] = LicenceTextPart.de_list(data.get('licence_text_parts'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Context, TrackId
+    from yandex_music import ClientType, Context, JSONType, TrackId
 
 
 @model
@@ -37,7 +37,7 @@ class Queue(YandexMusicModel):
         return self.tracks[self.current_index]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Queue']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Queue']:
         """Десериализация объекта.
 
         Args:
@@ -52,11 +52,11 @@ class Queue(YandexMusicModel):
 
         from yandex_music import Context, TrackId
 
-        data = cls.cleanup_data(data, client)
-        data['tracks'] = TrackId.de_list(data.get('tracks'), client)
-        data['context'] = Context.de_json(data.get('context'), client)
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['tracks'] = TrackId.de_list(data.get('tracks'), client)
+        cls_data['context'] = Context.de_json(data.get('context'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

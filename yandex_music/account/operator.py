@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Deactivation
+    from yandex_music import ClientType, Deactivation, JSONType
 
 
 @model
@@ -33,7 +33,7 @@ class Operator(YandexMusicModel):
         self._id_attrs = (self.product_id, self.phone)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Operator']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Operator']:
         """Десериализация объекта.
 
         Args:
@@ -48,6 +48,7 @@ class Operator(YandexMusicModel):
 
         from yandex_music import Deactivation
 
-        data['deactivation'] = Deactivation.de_list(data.get('deactivation'), client)
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['deactivation'] = Deactivation.de_list(data.get('deactivation'), client)
 
-        return cls(client=client, **cls.cleanup_data(data, client))
+        return cls(client=client, **cls_data)  # type: ignore

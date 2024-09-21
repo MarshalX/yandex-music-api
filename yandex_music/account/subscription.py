@@ -1,11 +1,11 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AutoRenewable, ClientType, NonAutoRenewable, Operator, RenewableRemainder
+    from yandex_music import AutoRenewable, ClientType, JSONType, NonAutoRenewable, Operator, RenewableRemainder
 
 
 @model
@@ -40,7 +40,7 @@ class Subscription(YandexMusicModel):
         self._id_attrs = (self.non_auto_renewable_remainder, self.auto_renewable, self.family_auto_renewable)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Subscription']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Subscription']:
         """Десериализация объекта.
 
         Args:
@@ -53,15 +53,15 @@ class Subscription(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import AutoRenewable, NonAutoRenewable, Operator, RenewableRemainder
 
-        data['auto_renewable'] = AutoRenewable.de_list(data.get('auto_renewable'), client)
-        data['family_auto_renewable'] = AutoRenewable.de_list(data.get('family_auto_renewable'), client)
-        data['non_auto_renewable_remainder'] = RenewableRemainder.de_json(
+        cls_data['auto_renewable'] = AutoRenewable.de_list(data.get('auto_renewable'), client)
+        cls_data['family_auto_renewable'] = AutoRenewable.de_list(data.get('family_auto_renewable'), client)
+        cls_data['non_auto_renewable_remainder'] = RenewableRemainder.de_json(
             data.get('non_auto_renewable_remainder'), client
         )
-        data['non_auto_renewable'] = NonAutoRenewable.de_json(data.get('non_auto_renewable'), client)
-        data['operator'] = Operator.de_list(data.get('operator'), client)
+        cls_data['non_auto_renewable'] = NonAutoRenewable.de_json(data.get('non_auto_renewable'), client)
+        cls_data['operator'] = Operator.de_list(data.get('operator'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

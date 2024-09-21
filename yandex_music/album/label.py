@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, List, Optional, Union, cast
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -25,7 +25,7 @@ class Label(YandexMusicModel):
         self._id_attrs = (self.id, self.name)
 
     @classmethod
-    def de_list(cls, data: 'JSONType', client: 'ClientType') -> List[Union['Label', str]]:
+    def de_list(cls, data: 'JSONType', client: 'ClientType') -> Union[List['Label'], List[str]]:
         """Десериализация списка объектов.
 
         Args:
@@ -38,14 +38,7 @@ class Label(YandexMusicModel):
         Returns:
             :obj:`list` из :obj:`yandex_music.Label` или :obj:`str`: Лейблы.
         """
-        if not cls.is_array_model_data(data):
-            return []
+        if isinstance(data, list) and all(isinstance(label, str) for label in data):
+            return cast(List[str], data)
 
-        labels = []
-        for label in data:
-            if isinstance(label, dict):
-                labels.append(cls.de_json(label, client))
-            else:
-                labels.append(label)
-
-        return labels
+        return super().de_list(data, client)  # type: ignore

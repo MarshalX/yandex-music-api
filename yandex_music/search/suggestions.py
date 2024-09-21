@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Iterable, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Best, ClientType
+    from yandex_music import Best, ClientType, JSONType
 
 
 @model
@@ -31,7 +31,7 @@ class Suggestions(YandexMusicModel):
         return iter(self.suggestions)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Suggestions']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Suggestions']:
         """Десериализация объекта.
 
         Args:
@@ -44,9 +44,9 @@ class Suggestions(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Best
 
-        data['best'] = Best.de_json(data.get('best'), client)
+        cls_data['best'] = Best.de_json(data.get('best'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

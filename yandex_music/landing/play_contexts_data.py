@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, TrackShortOld
+    from yandex_music import ClientType, JSONType, TrackShortOld
 
 
 @model
@@ -23,7 +23,7 @@ class PlayContextsData(YandexMusicModel):
         self._id_attrs = (self.other_tracks,)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['PlayContextsData']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['PlayContextsData']:
         """Десериализация объекта.
 
         Args:
@@ -36,9 +36,9 @@ class PlayContextsData(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import TrackShortOld
 
-        data['other_tracks'] = TrackShortOld.de_list(data.get('other_tracks'), client)
+        cls_data['other_tracks'] = TrackShortOld.de_list(data.get('other_tracks'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

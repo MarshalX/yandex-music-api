@@ -137,7 +137,7 @@ class Search(YandexMusicModel):
         return await self.get_page_async(self.page - 1, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Search']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Search']:
         """Десериализация объекта.
 
         Args:
@@ -150,7 +150,7 @@ class Search(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Best, SearchResult
 
         # в ОЧЕНЬ редких случаях сервер творит дичь и может вернуть результат плейлистов в поле artists
@@ -158,17 +158,17 @@ class Search(YandexMusicModel):
 
         # очень редких это около 10 запросов за 3 месяца работы стороннего клиента
 
-        data['best'] = Best.de_json(data.get('best'), client)
-        data['albums'] = SearchResult.de_json(data.get('albums'), client, 'album')
-        data['artists'] = SearchResult.de_json(data.get('artists'), client, 'artist')
-        data['playlists'] = SearchResult.de_json(data.get('playlists'), client, 'playlist')
-        data['tracks'] = SearchResult.de_json(data.get('tracks'), client, 'track')
-        data['videos'] = SearchResult.de_json(data.get('videos'), client, 'video')
-        data['users'] = SearchResult.de_json(data.get('users'), client, 'user')
-        data['podcasts'] = SearchResult.de_json(data.get('podcasts'), client, 'podcast')
-        data['podcast_episodes'] = SearchResult.de_json(data.get('podcast_episodes'), client, 'podcast_episode')
+        cls_data['best'] = Best.de_json(data.get('best'), client)
+        cls_data['albums'] = SearchResult.de_json(data.get('albums'), client, 'album')
+        cls_data['artists'] = SearchResult.de_json(data.get('artists'), client, 'artist')
+        cls_data['playlists'] = SearchResult.de_json(data.get('playlists'), client, 'playlist')
+        cls_data['tracks'] = SearchResult.de_json(data.get('tracks'), client, 'track')
+        cls_data['videos'] = SearchResult.de_json(data.get('videos'), client, 'video')
+        cls_data['users'] = SearchResult.de_json(data.get('users'), client, 'user')
+        cls_data['podcasts'] = SearchResult.de_json(data.get('podcasts'), client, 'podcast')
+        cls_data['podcast_episodes'] = SearchResult.de_json(data.get('podcast_episodes'), client, 'podcast_episode')
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Account, Alert, ClientType, Permissions, Plus, StationData, Subscription
+    from yandex_music import Account, Alert, ClientType, JSONType, Permissions, Plus, StationData, Subscription
 
 
 @model
@@ -55,7 +55,7 @@ class Status(YandexMusicModel):
         self._id_attrs = (self.account, self.permissions)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Status']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Status']:
         """Десериализация объекта.
 
         Args:
@@ -68,14 +68,14 @@ class Status(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Account, Alert, Permissions, Plus, StationData, Subscription
 
-        data['account'] = Account.de_json(data.get('account'), client)
-        data['permissions'] = Permissions.de_json(data.get('permissions'), client)
-        data['subscription'] = Subscription.de_json(data.get('subscription'), client)
-        data['plus'] = Plus.de_json(data.get('plus'), client)
-        data['station_data'] = StationData.de_json(data.get('station_data'), client)
-        data['bar_below'] = Alert.de_json(data.get('bar_below'), client)
+        cls_data['account'] = Account.de_json(data.get('account'), client)
+        cls_data['permissions'] = Permissions.de_json(data.get('permissions'), client)
+        cls_data['subscription'] = Subscription.de_json(data.get('subscription'), client)
+        cls_data['plus'] = Plus.de_json(data.get('plus'), client)
+        cls_data['station_data'] = StationData.de_json(data.get('station_data'), client)
+        cls_data['bar_below'] = Alert.de_json(data.get('bar_below'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Any, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Context, Queue
+    from yandex_music import ClientType, Context, JSONType, Queue
 
 
 @model
@@ -31,6 +31,7 @@ class QueueItem(YandexMusicModel):
 
         client.queue(id, *args, **kwargs)
         """
+        assert self.valid_client(self.client)
         return self.client.queue(self.id, *args, **kwargs)
 
     async def fetch_queue_async(self, *args: Any, **kwargs: Any) -> Optional['Queue']:
@@ -38,10 +39,11 @@ class QueueItem(YandexMusicModel):
 
         await client.queue(id, *args, **kwargs)
         """
+        assert self.valid_async_client(self.client)
         return await self.client.queue(self.id, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['QueueItem']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['QueueItem']:
         """Десериализация объекта.
 
         Args:
@@ -56,10 +58,10 @@ class QueueItem(YandexMusicModel):
 
         from yandex_music import Context
 
-        data = cls.cleanup_data(data, client)
-        data['context'] = Context.de_json(data.get('context'), client)
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['context'] = Context.de_json(data.get('context'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

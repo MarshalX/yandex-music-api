@@ -1,7 +1,7 @@
 import dataclasses
 import keyword
 import logging
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union, cast
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Tuple, Union, cast
 
 from typing_extensions import Self, TypeGuard
 
@@ -24,11 +24,13 @@ logger = logging.getLogger(__name__)
 new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
 
 
-JSONType = Union[Dict[str, 'JSONType'], List['JSONType'], str, int, float, bool, None]
-ModelFieldTypeRequired = Union[
-    Dict[str, 'ModelFieldTypeRequired'], List['ModelFieldTypeRequired'], 'YandexMusicModel', str, int, float, bool
-]
+JSONType = Union[Dict[str, 'JSONType'], Sequence['JSONType'], str, int, float, bool, None]
 ClientType = Union['Client', 'ClientAsync']
+ModelFieldType = Union[
+    Dict[str, 'ModelFieldType'], Sequence['ModelFieldType'], 'YandexMusicModel', str, int, float, bool, None
+]
+ModelFieldMap = Dict[str, 'ModelFieldType']
+MapTypeToDeJson = Dict[str, Callable[['JSONType', 'ClientType'], Optional['YandexMusicModel']]]
 
 
 class YandexMusicObject:
@@ -45,7 +47,7 @@ class YandexMusicModel(YandexMusicObject):
     def __repr__(self) -> str:
         return str(self)
 
-    def __getitem__(self, item: str) -> Any:  # noqa: ANN401
+    def __getitem__(self, item: str) -> Any:
         return self.__dict__[item]
 
     @staticmethod
@@ -110,7 +112,7 @@ class YandexMusicModel(YandexMusicObject):
         return bool(data) and isinstance(data, list) and all(isinstance(item, dict) for item in data)
 
     @classmethod
-    def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> Dict[str, JSONType]:
+    def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> ModelFieldMap:
         """Удаляет незадекларированные поля для текущей модели из сырых данных.
 
         Note:
@@ -121,7 +123,7 @@ class YandexMusicModel(YandexMusicObject):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`Dict[str, JSONType]`: Отфильтрованные данные.
+            :obj:`ModelFieldMap`: Отфильтрованные данные.
         """
         if not YandexMusicModel.is_dict_model_data(data):
             return {}
@@ -145,7 +147,7 @@ class YandexMusicModel(YandexMusicObject):
         return cleaned_data
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional[Self]:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional[Self]:
         """Десериализация объекта.
 
         Note:
@@ -164,7 +166,7 @@ class YandexMusicModel(YandexMusicObject):
         return cls(client=client, **cls.cleanup_data(data, client))
 
     @classmethod
-    def de_list(cls, data: JSONType, client: 'ClientType') -> List[Self]:
+    def de_list(cls, data: JSONType, client: 'ClientType') -> Sequence[Self]:
         """Десериализация списка объектов.
 
         Note:

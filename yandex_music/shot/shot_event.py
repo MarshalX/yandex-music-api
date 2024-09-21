@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Shot
+    from yandex_music import ClientType, JSONType, Shot
 
 
 @model
@@ -25,7 +25,7 @@ class ShotEvent(YandexMusicModel):
         self._id_attrs = (self.event_id, self.shots)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['ShotEvent']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ShotEvent']:
         """Десериализация объекта.
 
         Args:
@@ -38,9 +38,9 @@ class ShotEvent(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Shot
 
-        data['shots'] = Shot.de_list(data.get('shots'), client)
+        cls_data['shots'] = Shot.de_list(data.get('shots'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

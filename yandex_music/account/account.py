@@ -1,11 +1,11 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, PassportPhone
+    from yandex_music import ClientType, JSONType, PassportPhone
 
 
 @model
@@ -55,7 +55,7 @@ class Account(YandexMusicModel):
             self._id_attrs = (self.uid,)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Account']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Account']:
         """Десериализация объекта.
 
         Args:
@@ -68,9 +68,9 @@ class Account(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import PassportPhone
 
-        data['passport_phones'] = PassportPhone.de_list(data.get('passport_phones'), client)
+        cls_data['passport_phones'] = PassportPhone.de_list(data.get('passport_phones'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

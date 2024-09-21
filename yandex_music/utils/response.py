@@ -55,10 +55,10 @@ class Response(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
-        data['data'] = data.copy()
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['data'] = data.copy()
         from yandex_music import InvocationInfo
 
-        data['invocation_info'] = InvocationInfo.de_json(data.get('invocation_info'), client)
+        cls_data['invocation_info'] = InvocationInfo.de_json(data.get('invocation_info'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

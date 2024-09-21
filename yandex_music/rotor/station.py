@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Icon, Id, Restrictions
+    from yandex_music import ClientType, Icon, Id, JSONType, Restrictions
 
 
 @model
@@ -56,7 +56,7 @@ class Station(YandexMusicModel):
         )
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Station']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Station']:
         """Десериализация объекта.
 
         Args:
@@ -69,15 +69,15 @@ class Station(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Icon, Id, Restrictions
 
-        data['id'] = Id.de_json(data.get('id'), client)
-        data['parent_id'] = Id.de_json(data.get('parent_id'), client)
-        data['icon'] = Icon.de_json(data.get('icon'), client)
-        data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)
-        data['geocell_icon'] = Icon.de_json(data.get('geocell_icon'), client)
-        data['restrictions'] = Restrictions.de_json(data.get('restrictions'), client)
-        data['restrictions2'] = Restrictions.de_json(data.get('restrictions2'), client)
+        cls_data['id'] = Id.de_json(data.get('id'), client)
+        cls_data['parent_id'] = Id.de_json(data.get('parent_id'), client)
+        cls_data['icon'] = Icon.de_json(data.get('icon'), client)
+        cls_data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)
+        cls_data['geocell_icon'] = Icon.de_json(data.get('geocell_icon'), client)
+        cls_data['restrictions'] = Restrictions.de_json(data.get('restrictions'), client)
+        cls_data['restrictions2'] = Restrictions.de_json(data.get('restrictions2'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

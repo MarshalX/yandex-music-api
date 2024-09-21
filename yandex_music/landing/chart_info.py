@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import ChartInfoMenu, JSONType, Playlist, YandexMusicModel
+from yandex_music import ChartInfoMenu, Playlist, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType
+    from yandex_music import ClientType, JSONType
 
 
 @model
@@ -35,7 +35,7 @@ class ChartInfo(YandexMusicModel):
         self._id_attrs = (self.id,)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['ChartInfo']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ChartInfo']:
         """Десериализация объекта.
 
         Args:
@@ -48,8 +48,8 @@ class ChartInfo(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
-        data['chart'] = Playlist.de_json(data.get('chart'), client)
-        data['menu'] = ChartInfoMenu.de_json(data.get('menu'), client)
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['chart'] = Playlist.de_json(data.get('chart'), client)
+        cls_data['menu'] = ChartInfoMenu.de_json(data.get('menu'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

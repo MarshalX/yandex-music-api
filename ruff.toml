@@ -41,6 +41,7 @@ ignore = [
     "D213", # we are using first line for summary
     "D406", "D407", # we are using google style docstring
     "S101", # Use of `assert` detected
+    "PGH003", # Use specific rule codes when ignoring type issue
 ]
 
 [per-file-ignores]
@@ -50,7 +51,6 @@ ignore = [
 ]
 "yandex_music/__init__.py" = ["I001"] # Import sort
 "yandex_music/client*.py" = ["T201"] # print
-"yandex_music/utils/request*.py" = ["ANN"] # TODO(MarshalX): annotate and remove this ignore
 "tests/*.py" = ["S101", "ANN", "D"]
 "tests/__init__.py" = ["F401"] # Unused import
 "test.py" = ["S101", "ERA001", "T201", "E501", "F401", "F841"]

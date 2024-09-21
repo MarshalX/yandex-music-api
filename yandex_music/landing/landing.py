@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Block, ClientType
+    from yandex_music import Block, ClientType, JSONType
 
 
 @model
@@ -30,7 +30,7 @@ class Landing(YandexMusicModel):
         return self.blocks[item]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Landing']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Landing']:
         """Десериализация объекта.
 
         Args:
@@ -43,9 +43,9 @@ class Landing(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Block
 
-        data['blocks'] = Block.de_list(data.get('blocks'), client)
+        cls_data['blocks'] = Block.de_list(data.get('blocks'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

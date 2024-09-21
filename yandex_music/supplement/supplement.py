@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Lyrics, VideoSupplement
+    from yandex_music import ClientType, JSONType, Lyrics, VideoSupplement
 
 
 @model
@@ -35,7 +35,7 @@ class Supplement(YandexMusicModel):
         self._id_attrs = (self.id, self.lyrics, self.videos)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Supplement']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Supplement']:
         """Десериализация объекта.
 
         Args:
@@ -48,10 +48,10 @@ class Supplement(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Lyrics, VideoSupplement
 
-        data['lyrics'] = Lyrics.de_json(data.get('lyrics'), client)
-        data['videos'] = VideoSupplement.de_list(data.get('videos'), client)
+        cls_data['lyrics'] = Lyrics.de_json(data.get('lyrics'), client)
+        cls_data['videos'] = VideoSupplement.de_list(data.get('videos'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

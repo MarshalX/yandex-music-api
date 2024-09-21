@@ -71,6 +71,7 @@ class Promotion(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_image_url(size), filename)
 
     async def download_image_async(self, filename: str, size: str = '300x300') -> None:
@@ -80,6 +81,7 @@ class Promotion(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_image_url(size), filename)
 
     def download_image_bytes(self, size: str = '300x300') -> bytes:
@@ -91,6 +93,7 @@ class Promotion(YandexMusicModel):
         Returns:
             :obj:`bytes`: Рекламное изображение в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_image_url(size))
 
     async def download_image_bytes_async(self, size: str = '300x300') -> bytes:
@@ -102,6 +105,7 @@ class Promotion(YandexMusicModel):
         Returns:
             :obj:`bytes`: Рекламное изображение в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_image_url(size))
 
     # camelCase псевдонимы

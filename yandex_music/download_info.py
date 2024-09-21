@@ -2,13 +2,13 @@ import xml.dom.minidom as minidom
 from hashlib import md5
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from xml.dom.minicompat import NodeList
 
-    from yandex_music import ClientType
+    from yandex_music import ClientType, JSONType
 
 SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA'
 
@@ -141,7 +141,7 @@ class DownloadInfo(YandexMusicModel):
         return await self.client.request.retrieve(self.direct_link)
 
     @classmethod
-    def de_list(cls, data: JSONType, client: 'ClientType', get_direct_links: bool = False) -> List['DownloadInfo']:
+    def de_list(cls, data: 'JSONType', client: 'ClientType', get_direct_links: bool = False) -> List['DownloadInfo']:
         """Десериализация списка объектов.
 
         Args:

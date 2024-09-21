@@ -48,6 +48,7 @@ class TrackId(YandexMusicModel):
         Returns:
             :obj:`yandex_music.Track`: Полная версия.
         """
+        assert self.valid_client(self.client)
         return self.client.tracks(self.track_full_id, *args, **kwargs)[0]
 
     async def fetch_track_async(self, *args: Any, **kwargs: Any) -> 'Track':
@@ -56,6 +57,7 @@ class TrackId(YandexMusicModel):
         Returns:
             :obj:`yandex_music.Track`: Полная версия.
         """
+        assert self.valid_async_client(self.client)
         return (await self.client.tracks(self.track_full_id, *args, **kwargs))[0]
 
     # camelCase псевдонимы

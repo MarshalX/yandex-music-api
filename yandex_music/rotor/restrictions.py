@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import DiscreteScale, Enum, JSONType, YandexMusicModel
+from yandex_music import DiscreteScale, Enum, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType
+    from yandex_music import ClientType, JSONType, MapTypeToDeJson
 
-de_json = {'enum': Enum.de_json, 'discrete-scale': DiscreteScale.de_json}
+_TYPE_TO_DE_JSON_DEF: 'MapTypeToDeJson' = {'enum': Enum.de_json, 'discrete-scale': DiscreteScale.de_json}
 
 
 @model
@@ -33,7 +33,7 @@ class Restrictions(YandexMusicModel):
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Restrictions']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Restrictions']:
         """Десериализация объекта.
 
         Args:
@@ -46,9 +46,12 @@ class Restrictions(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
 
         for key, value in data.items():
-            data[key] = de_json.get(value.get('type'))(value, client)
+            type_ = value.get('type') if isinstance(value, dict) else None
+            if isinstance(type_, str) and type_ in _TYPE_TO_DE_JSON_DEF:
+                de_json = _TYPE_TO_DE_JSON_DEF[type_]
+                cls_data[key] = de_json(value, client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

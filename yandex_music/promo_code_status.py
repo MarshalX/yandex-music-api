@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Status
+    from yandex_music import ClientType, JSONType, Status
 
 
 @model
@@ -27,7 +27,7 @@ class PromoCodeStatus(YandexMusicModel):
         self._id_attrs = (self.status, self.status_desc, self.account_status)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['PromoCodeStatus']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['PromoCodeStatus']:
         """Десериализация объекта.
 
         Args:
@@ -40,9 +40,9 @@ class PromoCodeStatus(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Status
 
-        data['account_status'] = Status.de_json(data.get('account_status'), client)
+        cls_data['account_status'] = Status.de_json(data.get('account_status'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

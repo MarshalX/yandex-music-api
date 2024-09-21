@@ -1,10 +1,21 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ArtistAlbums, ArtistTracks, ClientType, Counts, Cover, Description, Link, Ratings, Track
+    from yandex_music import (
+        ArtistAlbums,
+        ArtistTracks,
+        ClientType,
+        Counts,
+        Cover,
+        Description,
+        JSONType,
+        Link,
+        Ratings,
+        Track,
+    )
 
 
 @model
@@ -276,7 +287,7 @@ class Artist(YandexMusicModel):
         return await self.client.artists_direct_albums(self.id, page, page_size, sort_by, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Artist']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Artist']:
         """Десериализация объекта.
 
         Args:
@@ -289,23 +300,31 @@ class Artist(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        data = cls.cleanup_data(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Counts, Cover, Description, Link, Ratings, Track
 
-        data['cover'] = Cover.de_json(data.get('cover'), client)
-        data['ratings'] = Ratings.de_json(data.get('ratings'), client)
-        data['counts'] = Counts.de_json(data.get('counts'), client)
-        data['links'] = Link.de_list(data.get('links'), client)
-        data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
-        data['description'] = Description.de_json(data.get('description'), client)
+        cls_data['cover'] = Cover.de_json(data.get('cover'), client)
+        cls_data['ratings'] = Ratings.de_json(data.get('ratings'), client)
+        cls_data['counts'] = Counts.de_json(data.get('counts'), client)
+        cls_data['links'] = Link.de_list(data.get('links'), client)
+        cls_data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
+        cls_data['description'] = Description.de_json(data.get('description'), client)
 
-        # Мне очень интересно увидеть как в яндухе на клиентах солвят свой бэковский костыль, пригласите на экскурсию
-        if data.get('decomposed'):
-            data['decomposed'] = [
-                Artist.de_json(part, client) if isinstance(part, dict) else part for part in data['decomposed']
-            ]
+        # Мне всё равно как в яндухе на клиентах солвят свой бэковский костыль
+        decomposed = data.get('decomposed')
+        if isinstance(decomposed, list):
+            decomposed_items: List[Union[str, 'Artist']] = []
+            for part in decomposed:
+                if isinstance(part, str):
+                    decomposed_items.append(part)
+                elif isinstance(part, dict):
+                    artist = Artist.de_json(part, client)
+                    if artist:
+                        decomposed_items.append(artist)
 
-        return cls(client=client, **data)
+            cls_data['decomposed'] = decomposed_items
+
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

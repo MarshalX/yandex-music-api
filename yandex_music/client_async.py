@@ -1960,7 +1960,7 @@ class ClientAsync(YandexMusicObject):
     @log
     async def tracks(
         self,
-        track_ids: Union[List[Union[str, int]], int, str],
+        track_ids: Union[List[str], List[int], List[Union[str, int]], int, str],
         with_positions: bool = True,
         *args: Any,
         **kwargs: Any,
