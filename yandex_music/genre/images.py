@@ -108,9 +108,17 @@ class Images(YandexMusicModel):
 
     #: Псевдоним для :attr:`download_208x208`
     download208X208 = download_208x208
+    #: Псевдоним для :attr:`download_208x208_async`
+    download208X208Async = download_208x208_async
     #: Псевдоним для :attr:`download_300x300`
     download300X300 = download_300x300
+    #: Псевдоним для :attr:`download_300x300_async`
+    download300X300Async = download_300x300_async
     #: Псевдоним для :attr:`download_208x208_bytes`
     download208X208Bytes = download_208x208_bytes
+    #: Псевдоним для :attr:`download_208x208_bytes_async`
+    download208X208BytesAsync = download_208x208_bytes_async
     #: Псевдоним для :attr:`download_300x300_bytes`
     download300X300Bytes = download_300x300_bytes
+    #: Псевдоним для :attr:`download_300x300_bytes_async`
+    download300X300BytesAsync = download_300x300_bytes_async
