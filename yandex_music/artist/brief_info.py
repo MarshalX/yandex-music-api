@@ -1,14 +1,27 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Album, Artist, Chart, Client, Cover, Playlist, PlaylistId, Track, Video, Vinyl
+    from yandex_music import (
+        Album,
+        Artist,
+        Chart,
+        ClientType,
+        Cover,
+        JSONType,
+        Playlist,
+        PlaylistId,
+        Track,
+        Video,
+        Vinyl,
+    )
 
 
 @model
-class BriefInfo(YandexMusicObject):
+class BriefInfo(YandexMusicModel):
     """Класс, представляющий информацию об артисте.
 
     Attributes:
@@ -44,8 +57,8 @@ class BriefInfo(YandexMusicObject):
     vinyls: List['Vinyl']
     has_promotions: bool
     playlist_ids: List['PlaylistId']
-    tracks_in_chart: List['Chart'] = None
-    client: Optional['Client'] = None
+    tracks_in_chart: List['Chart'] = field(default_factory=list)
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -65,7 +78,7 @@ class BriefInfo(YandexMusicObject):
         )
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['BriefInfo']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['BriefInfo']:
         """Десериализация объекта.
 
         Args:
@@ -75,23 +88,23 @@ class BriefInfo(YandexMusicObject):
         Returns:
             :obj:`yandex_music.BriefInfo`: Информация об артисте.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(BriefInfo, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Album, Artist, Chart, Cover, Playlist, PlaylistId, Track, Video, Vinyl
 
-        data['playlists'] = Playlist.de_list(data.get('playlists'), client)
-        data['artist'] = Artist.de_json(data.get('artist'), client)
-        data['similar_artists'] = Artist.de_list(data.get('similar_artists'), client)
-        data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
-        data['albums'] = Album.de_list(data.get('albums'), client)
-        data['also_albums'] = Album.de_list(data.get('also_albums'), client)
-        data['last_releases'] = Album.de_list(data.get('last_releases'), client)
-        data['all_covers'] = Cover.de_list(data.get('all_covers'), client)
-        data['playlist_ids'] = PlaylistId.de_list(data.get('playlist_ids'), client)
-        data['videos'] = Video.de_list(data.get('videos'), client)
-        data['tracks_in_chart'] = Chart.de_list(data.get('tracks_in_chart'), client)
-        data['vinyls'] = Vinyl.de_list(data.get('vinyls'), client)
+        cls_data['playlists'] = Playlist.de_list(data.get('playlists'), client)
+        cls_data['artist'] = Artist.de_json(data.get('artist'), client)
+        cls_data['similar_artists'] = Artist.de_list(data.get('similar_artists'), client)
+        cls_data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
+        cls_data['albums'] = Album.de_list(data.get('albums'), client)
+        cls_data['also_albums'] = Album.de_list(data.get('also_albums'), client)
+        cls_data['last_releases'] = Album.de_list(data.get('last_releases'), client)
+        cls_data['all_covers'] = Cover.de_list(data.get('all_covers'), client)
+        cls_data['playlist_ids'] = PlaylistId.de_list(data.get('playlist_ids'), client)
+        cls_data['videos'] = Video.de_list(data.get('videos'), client)
+        cls_data['tracks_in_chart'] = Chart.de_list(data.get('tracks_in_chart'), client)
+        cls_data['vinyls'] = Vinyl.de_list(data.get('vinyls'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

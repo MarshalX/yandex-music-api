@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class UserSettings(YandexMusicObject):
+class UserSettings(YandexMusicModel):
     """Класс, представляющий настройки пользователя.
 
     Note:
@@ -59,7 +59,7 @@ class UserSettings(YandexMusicObject):
     ads_disabled: Optional[bool] = None
     disk_enabled: Optional[bool] = None
     show_disk_tracks_in_library: Optional[bool] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -81,21 +81,3 @@ class UserSettings(YandexMusicObject):
             self.disk_enabled,
             self.show_disk_tracks_in_library,
         )
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['UserSettings']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.UserSettings`: Настройки пользователя.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(UserSettings, cls).de_json(data, client)
-
-        return cls(client=client, **data)

@@ -35,7 +35,7 @@ setup(
     long_description=readme,
     long_description_content_type='text/markdown',
     packages=find_packages(),
-    install_requires=['requests[socks]', 'aiohttp', 'aiofiles'],
+    install_requires=['requests[socks]', 'aiohttp', 'aiofiles', 'typing-extensions'],
     include_package_data=True,
     classifiers=[
         'Development Status :: 5 - Production/Stable',

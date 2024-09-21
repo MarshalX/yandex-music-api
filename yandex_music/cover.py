@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class Cover(YandexMusicObject):
+class Cover(YandexMusicModel):
     """Класс, представляющий обложку.
 
     Attributes:
@@ -37,7 +37,7 @@ class Cover(YandexMusicObject):
     copyright_cline: Optional[str] = None
     prefix: Optional[str] = None
     error: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
@@ -52,7 +52,10 @@ class Cover(YandexMusicObject):
         Returns:
             :obj:`str`: URL адрес.
         """
-        uri = self.uri or self.items_uri[index]
+        uri = self.uri
+        if not uri:
+            assert isinstance(self.items_uri, list)
+            uri = self.items_uri[index]
 
         return f'https://{uri.replace("%%", size)}'
 
@@ -64,6 +67,7 @@ class Cover(YandexMusicObject):
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_url(index, size), filename)
 
     async def download_async(self, filename: str, index: int = 0, size: str = '200x200') -> None:
@@ -74,6 +78,7 @@ class Cover(YandexMusicObject):
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_url(index, size), filename)
 
     def download_bytes(self, index: int = 0, size: str = '200x200') -> bytes:
@@ -86,6 +91,7 @@ class Cover(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_url(index, size))
 
     async def download_bytes_async(self, index: int = 0, size: str = '200x200') -> bytes:
@@ -98,45 +104,8 @@ class Cover(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_url(index, size))
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Cover']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Cover`: Обложка.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Cover, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Cover']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Cover`: Обложки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        covers = []
-        for cover in data:
-            covers.append(cls.de_json(cover, client))
-
-        return covers
 
     # camelCase псевдонимы
 

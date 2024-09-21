@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Event, Track, TrackWithAds
+    from yandex_music import ClientType, Event, JSONType, Track, TrackWithAds
 
 
 @model
-class Day(YandexMusicObject):
+class Day(YandexMusicModel):
     """Класс, представляющий день в фиде.
 
     Attributes:
@@ -23,13 +23,13 @@ class Day(YandexMusicObject):
     events: List['Event']
     tracks_to_play_with_ads: List['TrackWithAds']
     tracks_to_play: List['Track']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.day, self.events, self.tracks_to_play_with_ads, self.tracks_to_play)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Day']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Day']:
         """Десериализация объекта.
 
         Args:
@@ -39,34 +39,14 @@ class Day(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Day`: День в фиде.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Day, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Event, Track, TrackWithAds
 
-        data['events'] = Event.de_list(data.get('events'), client)
-        data['tracks_to_play_with_ads'] = TrackWithAds.de_list(data.get('tracks_to_play_with_ads'), client)
-        data['tracks_to_play'] = Track.de_list(data.get('tracks_to_play'), client)
+        cls_data['events'] = Event.de_list(data.get('events'), client)
+        cls_data['tracks_to_play_with_ads'] = TrackWithAds.de_list(data.get('tracks_to_play_with_ads'), client)
+        cls_data['tracks_to_play'] = Track.de_list(data.get('tracks_to_play'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Day']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Day`: Дни в фиде.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        days = []
-        for day in data:
-            days.append(cls.de_json(day, client))
-
-        return days
+        return cls(client=client, **cls_data)  # type: ignore

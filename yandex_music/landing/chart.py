@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, TrackId
+    from yandex_music import ClientType, JSONType, TrackId
 
 
 @model
-class Chart(YandexMusicObject):
+class Chart(YandexMusicModel):
     """Класс, представляющий элемент чарта.
 
     Note:
@@ -30,13 +30,13 @@ class Chart(YandexMusicObject):
     shift: int
     bg_color: Optional[str] = None
     track_id: Optional['TrackId'] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.position, self.progress, self.listeners, self.shift, self.track_id)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Chart']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Chart']:
         """Десериализация объекта.
 
         Args:
@@ -46,28 +46,12 @@ class Chart(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Chart`: Элемент чарта.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Chart, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import TrackId
 
-        data['track_id'] = TrackId.de_json(data.get('track_id'), client)
+        cls_data['track_id'] = TrackId.de_json(data.get('track_id'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Chart']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Chart`: Чарт.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(chart, client) for chart in data]
+        return cls(client=client, **cls_data)  # type: ignore

@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track
+    from yandex_music import ClientType, JSONType, Track
 
 
 @model
-class TrackWithAds(YandexMusicObject):
+class TrackWithAds(YandexMusicModel):
     """Класс, представляющий трек с рекламой.
 
     Note:
@@ -22,13 +22,13 @@ class TrackWithAds(YandexMusicObject):
 
     type: str
     track: Optional['Track']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.track)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackWithAds']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['TrackWithAds']:
         """Десериализация объекта.
 
         Args:
@@ -38,32 +38,12 @@ class TrackWithAds(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackWithAds`: Трек с рекламой.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(TrackWithAds, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Track
 
-        data['track'] = Track.de_json(data.get('track'), client)
+        cls_data['track'] = Track.de_json(data.get('track'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['TrackWithAds']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.TrackWithAds`: Треки с рекламой.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        tracks_with_ads = []
-        for track_with_ads in data:
-            tracks_with_ads.append(cls.de_json(track_with_ads, client))
-
-        return tracks_with_ads
+        return cls(client=client, **cls_data)  # type: ignore

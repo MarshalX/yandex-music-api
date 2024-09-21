@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Id, Sequence
+    from yandex_music import ClientType, Id, JSONType, Sequence
 
 
 @model
-class StationTracksResult(YandexMusicObject):
+class StationTracksResult(YandexMusicModel):
     """Класс, представляющий последовательность треков станции.
 
     Attributes:
@@ -23,13 +23,13 @@ class StationTracksResult(YandexMusicObject):
     sequence: List['Sequence']
     batch_id: str
     pumpkin: bool
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.sequence, self.batch_id, self.pumpkin)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['StationTracksResult']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['StationTracksResult']:
         """Десериализация объекта.
 
         Args:
@@ -39,13 +39,13 @@ class StationTracksResult(YandexMusicObject):
         Returns:
             :obj:`yandex_music.StationTracksResult`: Последовательность треков станции.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(StationTracksResult, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Id, Sequence
 
-        data['id'] = Id.de_json(data.get('id'), client)
-        data['sequence'] = Sequence.de_list(data.get('sequence'), client)
+        cls_data['id'] = Id.de_json(data.get('id'), client)
+        cls_data['sequence'] = Sequence.de_list(data.get('sequence'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

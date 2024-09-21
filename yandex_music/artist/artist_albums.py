@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Iterator, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Album, Client, Pager
+    from yandex_music import Album, ClientType, JSONType, Pager
 
 
 @model
-class ArtistAlbums(YandexMusicObject):
+class ArtistAlbums(YandexMusicModel):
     """Класс, представляющий страницу списка альбомов артиста.
 
     Attributes:
@@ -19,7 +19,7 @@ class ArtistAlbums(YandexMusicObject):
 
     albums: List['Album']
     pager: Optional['Pager']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.pager, self.albums)
@@ -34,7 +34,7 @@ class ArtistAlbums(YandexMusicObject):
         return len(self.albums)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['ArtistAlbums']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ArtistAlbums']:
         """Десериализация объекта.
 
         Args:
@@ -44,13 +44,13 @@ class ArtistAlbums(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ArtistAlbums`: Список альбомов артиста.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(ArtistAlbums, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Album, Pager
 
-        data['albums'] = Album.de_list(data.get('albums'), client)
-        data['pager'] = Pager.de_json(data.get('pager'), client)
+        cls_data['albums'] = Album.de_list(data.get('albums'), client)
+        cls_data['pager'] = Pager.de_json(data.get('pager'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

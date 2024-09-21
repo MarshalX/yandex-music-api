@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track
+    from yandex_music import ClientType, Track
 
 
 @model
-class TrackId(YandexMusicObject):
+class TrackId(YandexMusicModel):
     """Класс, представляющий уникальный идентификатор трека.
 
     Note:
@@ -28,7 +28,7 @@ class TrackId(YandexMusicObject):
     track_id: Optional[int] = None
     album_id: Optional[int] = None
     from_: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.track_id, self.id, self.album_id)
@@ -42,55 +42,23 @@ class TrackId(YandexMusicObject):
 
         return f'{track_id}:{self.album_id}'
 
-    def fetch_track(self, *args, **kwargs) -> 'Track':
+    def fetch_track(self, *args: Any, **kwargs: Any) -> 'Track':
         """Получение полной версии трека.
 
         Returns:
             :obj:`yandex_music.Track`: Полная версия.
         """
+        assert self.valid_client(self.client)
         return self.client.tracks(self.track_full_id, *args, **kwargs)[0]
 
-    async def fetch_track_async(self, *args, **kwargs) -> 'Track':
+    async def fetch_track_async(self, *args: Any, **kwargs: Any) -> 'Track':
         """Получение полной версии трека.
 
         Returns:
             :obj:`yandex_music.Track`: Полная версия.
         """
+        assert self.valid_async_client(self.client)
         return (await self.client.tracks(self.track_full_id, *args, **kwargs))[0]
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackId']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.TrackId`: Уникальный идентификатор трека.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(TrackId, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['TrackId']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.TrackId`: Уникальные идентификаторы треков.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(track_id, client) for track_id in data]
 
     # camelCase псевдонимы
 

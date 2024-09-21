@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class PersonalPlaylistsData(YandexMusicObject):
+class PersonalPlaylistsData(YandexMusicModel):
     """Класс, представляющий дополнительную информацию о персональном плейлисте.
 
     Attributes:
@@ -17,25 +17,7 @@ class PersonalPlaylistsData(YandexMusicObject):
     """
 
     is_wizard_passed: bool
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.is_wizard_passed,)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['PersonalPlaylistsData']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.PersonalPlaylistsData`: Дополнительная информация о персональном плейлисте.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(PersonalPlaylistsData, cls).de_json(data, client)
-
-        return cls(client=client, **data)

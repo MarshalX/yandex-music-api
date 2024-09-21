@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Iterator, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track
+    from yandex_music import ClientType, JSONType, Track
 
 
 @model
-class SimilarTracks(YandexMusicObject):
+class SimilarTracks(YandexMusicModel):
     """Класс, представляющий список похожих треков на другой трек.
 
     Attributes:
@@ -19,7 +19,7 @@ class SimilarTracks(YandexMusicObject):
 
     track: Optional['Track']
     similar_tracks: List['Track']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.track, self.similar_tracks)
@@ -34,7 +34,7 @@ class SimilarTracks(YandexMusicObject):
         return len(self.similar_tracks)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['SimilarTracks']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['SimilarTracks']:
         """Десериализация объекта.
 
         Args:
@@ -44,13 +44,13 @@ class SimilarTracks(YandexMusicObject):
         Returns:
             :obj:`yandex_music.SimilarTracks`: Список похожих треков на другой трек.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(SimilarTracks, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Track
 
-        data['track'] = Track.de_json(data.get('track'), client)
-        data['similar_tracks'] = Track.de_list(data.get('similar_tracks'), client)
+        cls_data['track'] = Track.de_json(data.get('track'), client)
+        cls_data['similar_tracks'] = Track.de_list(data.get('similar_tracks'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

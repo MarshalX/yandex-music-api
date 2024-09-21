@@ -1,15 +1,15 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.exceptions import YandexMusicError
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class MixLink(YandexMusicObject):
+class MixLink(YandexMusicModel):
     """Класс, представляющий ссылку (кликабельный блок) на подборку.
 
     Note:
@@ -37,7 +37,7 @@ class MixLink(YandexMusicObject):
     background_image_uri: str
     cover_white: Optional[str] = None
     cover_uri: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -58,6 +58,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`str`: URL обложки.
         """
+        assert isinstance(self.cover_uri, str)
         return f'https://{self.cover_uri.replace("%%", size)}'
 
     def get_cover_white_url(self, size: str = '200x200') -> str:
@@ -92,6 +93,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер заднего фона.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_background_url(size), filename)
 
     async def download_background_image_async(self, filename: str, size: str = '200x200') -> None:
@@ -101,6 +103,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер заднего фона.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_background_url(size), filename)
 
     def download_cover_white(self, filename: str, size: str = '200x200') -> None:
@@ -110,6 +113,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_cover_white_url(size), filename)
 
     async def download_cover_white_async(self, filename: str, size: str = '200x200') -> None:
@@ -119,6 +123,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_cover_white_url(size), filename)
 
     def download_cover_uri(self, filename: str, size: str = '200x200') -> None:
@@ -128,6 +133,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_uri_async(self, filename: str, size: str = '200x200') -> None:
@@ -137,6 +143,7 @@ class MixLink(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_cover_url(size), filename)
 
     def download_background_image_bytes(self, size: str = '200x200') -> bytes:
@@ -148,6 +155,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`bytes`: Задний фон в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_background_url(size))
 
     async def download_background_image_bytes_async(self, size: str = '200x200') -> bytes:
@@ -159,6 +167,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`bytes`: Задний фон в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_background_url(size))
 
     def download_cover_white_bytes(self, size: str = '200x200') -> bytes:
@@ -170,6 +179,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_cover_white_url(size))
 
     async def download_cover_white_bytes_async(self, size: str = '200x200') -> bytes:
@@ -181,6 +191,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_cover_white_url(size))
 
     def download_cover_uri_bytes(self, size: str = '200x200') -> bytes:
@@ -192,6 +203,7 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_cover_url(size))
 
     async def download_cover_uri_bytes_async(self, size: str = '200x200') -> bytes:
@@ -203,45 +215,8 @@ class MixLink(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_cover_url(size))
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['MixLink']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.MixLink`: Блок-ссылка на подборку.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(MixLink, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['MixLink']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.MixLink`: Блоки-ссылки на подборки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        mix_links = []
-        for mix_link in data:
-            mix_links.append(cls.de_json(mix_link, client))
-
-        return mix_links
 
     # camelCase псевдонимы
 

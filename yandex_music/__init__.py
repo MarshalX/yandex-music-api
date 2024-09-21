@@ -1,8 +1,8 @@
 __version__ = '2.2.0'
 __license__ = 'GNU Lesser General Public License v3 (LGPLv3)'
-__copyright__ = 'Copyright (C) 2019-2023 Ilya (Marshal) <https://github.com/MarshalX>'
+__copyright__ = 'Copyright (C) 2019-2024 Ilya (Marshal) <https://github.com/MarshalX>'
 
-from .base import YandexMusicObject
+from .base import ClientType, YandexMusicObject, YandexMusicModel, JSONType, MapTypeToDeJson
 
 from .settings import Settings
 from .permission_alerts import PermissionAlerts
@@ -147,7 +147,11 @@ __all__ = [
     '__copyright__',
     '__license__',
     '__version__',
+    'ClientType',
     'YandexMusicObject',
+    'YandexMusicModel',
+    'JSONType',
+    'MapTypeToDeJson',
     'Client',
     'ClientAsync',
     'Account',

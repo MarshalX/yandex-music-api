@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, InvocationInfo
+    from yandex_music import ClientType, InvocationInfo, JSONType
 
 
 @model
-class Response(YandexMusicObject):
+class Response(YandexMusicModel):
     """Класс, представляющий ответ API.
 
     Note:
@@ -26,23 +26,23 @@ class Response(YandexMusicObject):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    data: dict
+    data: 'JSONType'
     invocation_info: Optional['InvocationInfo'] = None
-    result: dict = None
-    error: str = None
-    error_description: str = None
-    client: Optional['Client'] = None
+    result: Optional['JSONType'] = None
+    error: Optional[str] = None
+    error_description: Optional[str] = None
+    client: Optional['ClientType'] = None
 
     def get_error(self) -> str:
         """:obj:`str`: Код ошибки вместе с описанием"""
         return f'{self.error} {self.error_description if self.error_description else ""}'
 
-    def get_result(self) -> dict:
+    def get_result(self) -> 'JSONType':
         """:obj:`dict`: Результат выполнения запроса. Данный для распаковки."""
         return self.data if self.result is None else self.result
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Response']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Response']:
         """Десериализация объекта.
 
         Args:
@@ -52,13 +52,13 @@ class Response(YandexMusicObject):
         Returns:
             :obj:`yandex_music.utils.response.Response`: Ответ API.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Response, cls).de_json(data, client)
-        data['data'] = data.copy()
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['data'] = data.copy()
         from yandex_music import InvocationInfo
 
-        data['invocation_info'] = InvocationInfo.de_json(data.get('invocation_info'), client)
+        cls_data['invocation_info'] = InvocationInfo.de_json(data.get('invocation_info'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

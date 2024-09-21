@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Icon, Id, Restrictions
+    from yandex_music import ClientType, Icon, Id, JSONType, Restrictions
 
 
 @model
-class Station(YandexMusicObject):
+class Station(YandexMusicModel):
     """Класс, представляющий станцию.
 
     Note:
@@ -41,7 +41,7 @@ class Station(YandexMusicObject):
     full_image_url: Optional[str] = None
     mts_full_image_url: Optional[str] = None
     parent_id: Optional['Id'] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -56,7 +56,7 @@ class Station(YandexMusicObject):
         )
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Station']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Station']:
         """Десериализация объекта.
 
         Args:
@@ -66,18 +66,18 @@ class Station(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Station`: Станция.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Station, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Icon, Id, Restrictions
 
-        data['id'] = Id.de_json(data.get('id'), client)
-        data['parent_id'] = Id.de_json(data.get('parent_id'), client)
-        data['icon'] = Icon.de_json(data.get('icon'), client)
-        data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)
-        data['geocell_icon'] = Icon.de_json(data.get('geocell_icon'), client)
-        data['restrictions'] = Restrictions.de_json(data.get('restrictions'), client)
-        data['restrictions2'] = Restrictions.de_json(data.get('restrictions2'), client)
+        cls_data['id'] = Id.de_json(data.get('id'), client)
+        cls_data['parent_id'] = Id.de_json(data.get('parent_id'), client)
+        cls_data['icon'] = Icon.de_json(data.get('icon'), client)
+        cls_data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)
+        cls_data['geocell_icon'] = Icon.de_json(data.get('geocell_icon'), client)
+        cls_data['restrictions'] = Restrictions.de_json(data.get('restrictions'), client)
+        cls_data['restrictions2'] = Restrictions.de_json(data.get('restrictions2'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

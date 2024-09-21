@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class Brand(YandexMusicObject):
+class Brand(YandexMusicModel):
     """Класс, представляющий бренд плейлиста.
 
     Note:
@@ -32,25 +32,7 @@ class Brand(YandexMusicObject):
     theme: str
     playlist_theme: str
     button: str
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.image, self.reference, self.pixels)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Brand']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Brand`: Бренд плейлиста.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Brand, cls).de_json(data, client)
-
-        return cls(client=client, **data)

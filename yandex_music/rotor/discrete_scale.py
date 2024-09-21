@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Value
+    from yandex_music import ClientType, JSONType, Value
 
 
 @model
-class DiscreteScale(YandexMusicObject):
+class DiscreteScale(YandexMusicModel):
     """Класс, представляющий дискретное значение.
 
     Note:
@@ -26,13 +26,13 @@ class DiscreteScale(YandexMusicObject):
     name: str
     min: Optional['Value']
     max: Optional['Value']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.name, self.min, self.max)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['DiscreteScale']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['DiscreteScale']:
         """Десериализация объекта.
 
         Args:
@@ -42,13 +42,13 @@ class DiscreteScale(YandexMusicObject):
         Returns:
             :obj:`yandex_music.DiscreteScale`: Дискретное значение.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(DiscreteScale, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Value
 
-        data['min'] = Value.de_json(data.get('min'), client)
-        data['max'] = Value.de_json(data.get('max'), client)
+        cls_data['min'] = Value.de_json(data.get('min'), client)
+        cls_data['max'] = Value.de_json(data.get('max'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

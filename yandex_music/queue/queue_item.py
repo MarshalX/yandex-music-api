@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Context, Queue
+    from yandex_music import ClientType, Context, JSONType, Queue
 
 
 @model
-class QueueItem(YandexMusicObject):
+class QueueItem(YandexMusicModel):
     """Класс, представляющий очередь треков в списке очередей устройств.
 
     Attributes:
@@ -21,27 +21,29 @@ class QueueItem(YandexMusicObject):
     id: str
     context: Optional['Context']
     modified: str
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id,)
 
-    def fetch_queue(self, *args, **kwargs) -> Optional['Queue']:
+    def fetch_queue(self, *args: Any, **kwargs: Any) -> Optional['Queue']:
         """Сокращение для::
 
         client.queue(id, *args, **kwargs)
         """
+        assert self.valid_client(self.client)
         return self.client.queue(self.id, *args, **kwargs)
 
-    async def fetch_queue_async(self, *args, **kwargs) -> Optional['Queue']:
+    async def fetch_queue_async(self, *args: Any, **kwargs: Any) -> Optional['Queue']:
         """Сокращение для::
 
         await client.queue(id, *args, **kwargs)
         """
+        assert self.valid_async_client(self.client)
         return await self.client.queue(self.id, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['QueueItem']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['QueueItem']:
         """Десериализация объекта.
 
         Args:
@@ -51,31 +53,15 @@ class QueueItem(YandexMusicObject):
         Returns:
             :obj:`yandex_music.QueueItem`: Очередь в списке.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
         from yandex_music import Context
 
-        data = super(QueueItem, cls).de_json(data, client)
-        data['context'] = Context.de_json(data.get('context'), client)
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['context'] = Context.de_json(data.get('context'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['QueueItem']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.QueueItem`: Список очередей всех устройств.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(queue, client) for queue in data]
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

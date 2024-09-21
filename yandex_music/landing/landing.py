@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Block, Client
+    from yandex_music import Block, ClientType, JSONType
 
 
 @model
-class Landing(YandexMusicObject):
+class Landing(YandexMusicModel):
     """Класс, представляющий лендинг.
 
     Attributes:
@@ -21,7 +21,7 @@ class Landing(YandexMusicObject):
     pumpkin: bool
     content_id: Union[str, int]
     blocks: List['Block']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.content_id, self.blocks)
@@ -30,7 +30,7 @@ class Landing(YandexMusicObject):
         return self.blocks[item]
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Landing']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Landing']:
         """Десериализация объекта.
 
         Args:
@@ -40,12 +40,12 @@ class Landing(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Landing`: Лендинг.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Landing, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Block
 
-        data['blocks'] = Block.de_list(data.get('blocks'), client)
+        cls_data['blocks'] = Block.de_list(data.get('blocks'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

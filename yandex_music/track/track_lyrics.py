@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, LyricsMajor
+    from yandex_music import ClientType, JSONType, LyricsMajor
 
 
 @model
-class TrackLyrics(YandexMusicObject):
+class TrackLyrics(YandexMusicModel):
     """Класс, представляющий текст трека.
 
     Attributes:
@@ -25,7 +25,7 @@ class TrackLyrics(YandexMusicObject):
     external_lyric_id: str
     writers: List[str]
     major: 'LyricsMajor'
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -39,6 +39,7 @@ class TrackLyrics(YandexMusicObject):
         Returns:
             :obj:`str`: Текст песни.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.download_url).decode('UTF-8')
 
     async def fetch_lyrics_async(self) -> str:
@@ -47,10 +48,11 @@ class TrackLyrics(YandexMusicObject):
         Returns:
             :obj:`str`: Текст песни.
         """
+        assert self.valid_async_client(self.client)
         return (await self.client.request.retrieve(self.download_url)).decode('UTF-8')
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackLyrics']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['TrackLyrics']:
         """Десериализация объекта.
 
         Args:
@@ -60,15 +62,15 @@ class TrackLyrics(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackLyrics`: Текст трека.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(TrackLyrics, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import LyricsMajor
 
-        data['major'] = LyricsMajor.de_json(data.get('major'), client)
+        cls_data['major'] = LyricsMajor.de_json(data.get('major'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track
+    from yandex_music import ClientType, JSONType, Track
 
 
 @model
-class PlaylistRecommendations(YandexMusicObject):
+class PlaylistRecommendations(YandexMusicModel):
     """Класс, представляющий рекомендации для плейлиста.
 
     Attributes:
@@ -19,13 +19,13 @@ class PlaylistRecommendations(YandexMusicObject):
 
     tracks: List['Track']
     batch_id: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.batch_id, self.tracks)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['PlaylistRecommendations']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['PlaylistRecommendations']:
         """Десериализация объекта.
 
         Args:
@@ -35,12 +35,12 @@ class PlaylistRecommendations(YandexMusicObject):
         Returns:
             :obj:`yandex_music.PlaylistRecommendations`: Рекомендации для плейлиста.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(PlaylistRecommendations, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Track
 
-        data['tracks'] = Track.de_list(data.get('tracks'), client)
+        cls_data['tracks'] = Track.de_list(data.get('tracks'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

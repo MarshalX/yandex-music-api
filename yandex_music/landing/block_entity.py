@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 from yandex_music import (
     Album,
@@ -8,14 +8,14 @@ from yandex_music import (
     PlayContext,
     Playlist,
     Promotion,
-    YandexMusicObject,
+    YandexMusicModel,
 )
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType, JSONType, MapTypeToDeJson
 
-de_json = {
+_TYPE_TO_DE_JSON_DEF: 'MapTypeToDeJson' = {
     'personal-playlist': GeneratedPlaylist.de_json,
     'promotion': Promotion.de_json,
     'album': Album.de_json,
@@ -27,7 +27,7 @@ de_json = {
 
 
 @model
-class BlockEntity(YandexMusicObject):
+class BlockEntity(YandexMusicModel):
     """Класс, представляющий содержимое блока.
 
     Note:
@@ -48,13 +48,13 @@ class BlockEntity(YandexMusicObject):
     id: str
     type: str
     data: Union['GeneratedPlaylist', 'Promotion', 'Album', 'Playlist', 'ChartItem', 'PlayContext', 'MixLink']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['BlockEntity']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['BlockEntity']:
         """Десериализация объекта.
 
         Args:
@@ -64,30 +64,14 @@ class BlockEntity(YandexMusicObject):
         Returns:
             :obj:`yandex_music.BlockEntity`: Сущность (объект) блока.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(BlockEntity, cls).de_json(data, client)
-        data['data'] = de_json.get(data.get('type'))(data.get('data'), client)
+        cls_data = cls.cleanup_data(data, client)
 
-        return cls(client=client, **data)
+        type_ = data.get('type')
+        if isinstance(type_, str) and type_ in _TYPE_TO_DE_JSON_DEF:
+            de_json_def = _TYPE_TO_DE_JSON_DEF[type_]
+            cls_data['data'] = de_json_def(data.get('data'), client)
 
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['BlockEntity']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.BlockEntity`: Содержимое блока.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        entities = []
-        for entity in data:
-            entities.append(cls.de_json(entity, client))
-
-        return entities
+        return cls(client=client, **cls_data)  # type: ignore

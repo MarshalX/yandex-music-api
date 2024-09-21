@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class Experiments(YandexMusicObject):
+class Experiments(YandexMusicModel):
     """Класс, представляющий какие-то свистелки и перделки, флажки, режимы экспериментальных функций.
 
     Attributes:
@@ -20,25 +20,7 @@ class Experiments(YandexMusicObject):
         **kwargs: Собственно тут и передаются все эти свистелки.
     """
 
-    def __init__(self, client: Optional['Client'] = None, **kwargs) -> None:
+    def __init__(self, client: Optional['ClientType'] = None, **kwargs: Any) -> None:
         self.__dict__.update(kwargs)
 
         self.client = client
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Experiments']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Experiments`: Какие-то свистелки и перделки, флажки, режимы экспериментальных функций.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Experiments, cls).de_json(data, client)
-
-        return cls(client=client, **data)

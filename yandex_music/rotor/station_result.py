@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AdParams, Client, RotorSettings, Station
+    from yandex_music import AdParams, ClientType, JSONType, RotorSettings, Station
 
 
 @model
-class StationResult(YandexMusicObject):
+class StationResult(YandexMusicModel):
     """Класс, представляющий радиостанцию с настройками.
 
     Note:
@@ -34,16 +34,16 @@ class StationResult(YandexMusicObject):
     ad_params: Optional['AdParams']
     explanation: Optional[str] = None
     prerolls: Optional[list] = None
-    rup_title: str = None
-    rup_description: str = None
+    rup_title: Optional[str] = None
+    rup_description: Optional[str] = None
     custom_name: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['StationResult']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['StationResult']:
         """Десериализация объекта.
 
         Args:
@@ -53,35 +53,15 @@ class StationResult(YandexMusicObject):
         Returns:
             :obj:`yandex_music.StationResult`: Радиостанция с настройками.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(StationResult, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import AdParams, RotorSettings, Station
 
-        data['station'] = Station.de_json(data.get('station'), client)
-        data['settings'] = RotorSettings.de_json(data.get('settings'), client)
-        data['settings2'] = RotorSettings.de_json(data.get('settings2'), client)
-        data['ad_params'] = AdParams.de_json(data.get('ad_params'), client)
+        cls_data['station'] = Station.de_json(data.get('station'), client)
+        cls_data['settings'] = RotorSettings.de_json(data.get('settings'), client)
+        cls_data['settings2'] = RotorSettings.de_json(data.get('settings2'), client)
+        cls_data['ad_params'] = AdParams.de_json(data.get('ad_params'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['StationResult']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.StationResult`: Радиостанции с настройками.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        station_results = []
-        for station_result in data:
-            station_results.append(cls.de_json(station_result, client))
-
-        return station_results
+        return cls(client=client, **cls_data)  # type: ignore

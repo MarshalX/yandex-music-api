@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, TrackId
+    from yandex_music import ClientType, JSONType, TrackId
 
 
 @model
-class TrackShortOld(YandexMusicObject):
+class TrackShortOld(YandexMusicModel):
     """Класс, представляющий сокращённую версию трека.
 
     Note:
@@ -24,13 +24,13 @@ class TrackShortOld(YandexMusicObject):
 
     track_id: Optional['TrackId']
     timestamp: str
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.track_id,)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['TrackShortOld']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['TrackShortOld']:
         """Десериализация объекта.
 
         Args:
@@ -40,32 +40,12 @@ class TrackShortOld(YandexMusicObject):
         Returns:
             :obj:`yandex_music.TrackShortOld`: Сокращённая версия трека или :obj:`None`.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(TrackShortOld, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import TrackId
 
-        data['track_id'] = TrackId.de_json(data.get('track_id'), client)
+        cls_data['track_id'] = TrackId.de_json(data.get('track_id'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['TrackShortOld']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.TrackShortOld`: Сокращённые версии треков.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        tracks = []
-        for track in data:
-            tracks.append(cls.de_json(track, client))
-
-        return tracks
+        return cls(client=client, **cls_data)  # type: ignore

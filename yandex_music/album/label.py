@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, List, Optional, Union, cast
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType, JSONType
 
 
 @model
-class Label(YandexMusicObject):
+class Label(YandexMusicModel):
     """Класс, представляющий лейбл альбома.
 
     Attributes:
@@ -19,31 +19,13 @@ class Label(YandexMusicObject):
 
     id: int
     name: str
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.name)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Label']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Label`: Лейбл.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Label, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List[Union['Label', str]]:
+    def de_list(cls, data: 'JSONType', client: 'ClientType') -> Union[List['Label'], List[str]]:
         """Десериализация списка объектов.
 
         Args:
@@ -56,14 +38,7 @@ class Label(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.Label` или :obj:`str`: Лейблы.
         """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
+        if isinstance(data, list) and all(isinstance(label, str) for label in data):
+            return cast(List[str], data)
 
-        labels = []
-        for label in data:
-            if isinstance(label, dict):
-                labels.append(cls.de_json(label, client))
-            else:
-                labels.append(label)
-
-        return labels
+        return super().de_list(data, client)  # type: ignore

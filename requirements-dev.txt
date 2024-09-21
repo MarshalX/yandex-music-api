@@ -2,6 +2,7 @@
 requests
 aiohttp
 aiofiles
+typing-extensions
 # rly dev
 ruff==0.1.6
 coverage

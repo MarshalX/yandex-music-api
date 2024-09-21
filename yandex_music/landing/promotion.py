@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class Promotion(YandexMusicObject):
+class Promotion(YandexMusicModel):
     """Класс, представляющий продвижение (рекламу).
 
     Note:
@@ -38,7 +38,7 @@ class Promotion(YandexMusicObject):
     text_color: str
     gradient: str
     image: str
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -71,6 +71,7 @@ class Promotion(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_image_url(size), filename)
 
     async def download_image_async(self, filename: str, size: str = '300x300') -> None:
@@ -80,6 +81,7 @@ class Promotion(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_image_url(size), filename)
 
     def download_image_bytes(self, size: str = '300x300') -> bytes:
@@ -91,6 +93,7 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`bytes`: Рекламное изображение в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_image_url(size))
 
     async def download_image_bytes_async(self, size: str = '300x300') -> bytes:
@@ -102,45 +105,8 @@ class Promotion(YandexMusicObject):
         Returns:
             :obj:`bytes`: Рекламное изображение в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_image_url(size))
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Promotion']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Promotion`: Продвижение (реклама).
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(Promotion, cls).de_json(data, client)
-
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Promotion']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Promotion`: Продвижения (реклама).
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        promotions = []
-        for promotion in data:
-            promotions.append(cls.de_json(promotion, client))
-
-        return promotions
 
     # camelCase псевдонимы
 

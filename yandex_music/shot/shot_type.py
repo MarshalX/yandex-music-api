@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
-class ShotType(YandexMusicObject):
+class ShotType(YandexMusicModel):
     """Класс, представляющий тип шота от Алисы.
 
     Attributes:
@@ -19,25 +19,7 @@ class ShotType(YandexMusicObject):
 
     id: str
     title: str
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.title)
-
-    @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['ShotType']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.ShotType`: Тип шота от Алисы.
-        """
-        if not cls.is_valid_model_data(data):
-            return None
-
-        data = super(ShotType, cls).de_json(data, client)
-
-        return cls(client=client, **data)

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, List, Optional, Union
+from dataclasses import field
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.exceptions import InvalidBitrateError
 from yandex_music.utils import model
 
@@ -9,8 +10,9 @@ if TYPE_CHECKING:
         R128,
         Album,
         Artist,
-        Client,
+        ClientType,
         DownloadInfo,
+        JSONType,
         LyricsInfo,
         Major,
         MetaData,
@@ -23,7 +25,7 @@ if TYPE_CHECKING:
 
 
 @model
-class Track(YandexMusicObject):
+class Track(YandexMusicModel):
     """Класс, представляющий трек.
 
     Note:
@@ -96,11 +98,11 @@ class Track(YandexMusicObject):
     id: Union[str, int]
     title: Optional[str] = None
     available: Optional[bool] = None
-    artists: List['Artist'] = None
-    albums: List['Album'] = None
+    artists: List['Artist'] = field(default_factory=list)
+    albums: List['Album'] = field(default_factory=list)
     available_for_premium_users: Optional[bool] = None
     lyrics_available: Optional[bool] = None
-    poetry_lover_matches: List['PoetryLoverMatch'] = None
+    poetry_lover_matches: List['PoetryLoverMatch'] = field(default_factory=list)
     best: Optional[bool] = None
     real_id: Optional[Union[str, int]] = None
     og_image: Optional[str] = None
@@ -136,7 +138,7 @@ class Track(YandexMusicObject):
     r128: Optional['R128'] = None
     lyrics_info: Optional['LyricsInfo'] = None
     track_sharing_flag: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self.download_info = None
@@ -147,8 +149,8 @@ class Track(YandexMusicObject):
 
         client.tracks_download_info(self.track_id, get_direct_links)
         """
+        assert self.valid_client(self.client)
         self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
-
         return self.download_info
 
     async def get_download_info_async(self, get_direct_links: bool = False) -> List['DownloadInfo']:
@@ -156,36 +158,40 @@ class Track(YandexMusicObject):
 
         await client.tracks_download_info(self.track_id, get_direct_links)
         """
+        assert self.valid_async_client(self.client)
         self.download_info = await self.client.tracks_download_info(self.track_id, get_direct_links)
-
         return self.download_info
 
-    def get_supplement(self, *args, **kwargs) -> Optional['Supplement']:
+    def get_supplement(self, *args: Any, **kwargs: Any) -> Optional['Supplement']:
         """Сокращение для::
 
         client.track_supplement(track.id, *args, **kwargs)
         """
+        assert self.valid_client(self.client)
         return self.client.track_supplement(self.id, *args, **kwargs)
 
-    async def get_supplement_async(self, *args, **kwargs) -> Optional['Supplement']:
+    async def get_supplement_async(self, *args: Any, **kwargs: Any) -> Optional['Supplement']:
         """Сокращение для::
 
         await client.track_supplement(track.id, *args, **kwargs)
         """
+        assert self.valid_async_client(self.client)
         return await self.client.track_supplement(self.id, *args, **kwargs)
 
-    def get_lyrics(self, *args, **kwargs) -> Optional['TrackLyrics']:
+    def get_lyrics(self, *args: Any, **kwargs: Any) -> Optional['TrackLyrics']:
         """Сокращение для::
 
         client.tracks_lyrics(track.id, *args, **kwargs)
         """
+        assert self.valid_client(self.client)
         return self.client.tracks_lyrics(self.id, *args, **kwargs)
 
-    async def get_lyrics_async(self, *args, **kwargs) -> Optional['TrackLyrics']:
+    async def get_lyrics_async(self, *args: Any, **kwargs: Any) -> Optional['TrackLyrics']:
         """Сокращение для::
 
         client.tracks_lyrics(track.id, *args, **kwargs)
         """
+        assert self.valid_async_client(self.client)
         return await self.client.tracks_lyrics(self.id, *args, **kwargs)
 
     def get_cover_url(self, size: str = '200x200') -> str:
@@ -197,6 +203,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`str`: URL обложки.
         """
+        assert isinstance(self.cover_uri, str)
         return f'https://{self.cover_uri.replace("%%", size)}'
 
     def get_og_image_url(self, size: str = '200x200') -> str:
@@ -208,6 +215,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`str`: URL обложки.
         """
+        assert isinstance(self.og_image, str)
         return f'https://{self.og_image.replace("%%", size)}'
 
     def download_cover(self, filename: str, size: str = '200x200') -> None:
@@ -217,6 +225,7 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
@@ -226,6 +235,7 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_cover_url(size), filename)
 
     def download_og_image(self, filename: str, size: str = '200x200') -> None:
@@ -237,6 +247,7 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_og_image_url(size), filename)
 
     async def download_og_image_async(self, filename: str, size: str = '200x200') -> None:
@@ -248,6 +259,7 @@ class Track(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_og_image_url(size), filename)
 
     def download_cover_bytes(self, size: str = '200x200') -> bytes:
@@ -259,6 +271,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_cover_url(size))
 
     async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
@@ -270,6 +283,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_cover_url(size))
 
     def download_og_image_bytes(self, size: str = '200x200') -> bytes:
@@ -283,6 +297,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_og_image_url(size))
 
     async def download_og_image_bytes_async(self, size: str = '200x200') -> bytes:
@@ -296,6 +311,7 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_og_image_url(size))
 
     def get_specific_download_info(self, codec: str, bitrate_in_kbps: int) -> Optional['DownloadInfo']:
@@ -309,7 +325,7 @@ class Track(YandexMusicObject):
             :obj:`yandex_music.DownloadInfo` | :obj:`None`: Вариант загрузки трека или :obj:`None`.
         """
         if self.download_info is None:
-            self.get_download_info()
+            self.download_info = self.get_download_info()
 
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
@@ -327,7 +343,7 @@ class Track(YandexMusicObject):
             :obj:`yandex_music.DownloadInfo` | :obj:`None`: Вариант загрузки трека или :obj:`None`.
         """
         if self.download_info is None:
-            await self.get_download_info_async()
+            self.download_info = await self.get_download_info_async()
 
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
@@ -426,33 +442,37 @@ class Track(YandexMusicObject):
 
         raise InvalidBitrateError('Unavailable bitrate')
 
-    def like(self, *args, **kwargs) -> bool:
+    def like(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
-        return self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
+        assert self.valid_client(self.client)
+        return self.client.users_likes_tracks_add(self.track_id, self.client.account_uid, *args, **kwargs)
 
-    async def like_async(self, *args, **kwargs) -> bool:
+    async def like_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
-        return await self.client.users_likes_tracks_add(self.track_id, self.client.me.account.uid, *args, **kwargs)
+        assert self.valid_async_client(self.client)
+        return await self.client.users_likes_tracks_add(self.track_id, self.client.account_uid, *args, **kwargs)
 
-    def dislike(self, *args, **kwargs) -> bool:
+    def dislike(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
-        return self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
+        assert self.valid_client(self.client)
+        return self.client.users_likes_tracks_remove(self.track_id, self.client.account_uid, *args, **kwargs)
 
-    async def dislike_async(self, *args, **kwargs) -> bool:
+    async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
-        return await self.client.users_likes_tracks_remove(self.track_id, self.client.me.account.uid, *args, **kwargs)
+        assert self.valid_async_client(self.client)
+        return await self.client.users_likes_tracks_remove(self.track_id, self.client.account_uid, *args, **kwargs)
 
     def artists_name(self) -> List[str]:
         """Получает имена всех исполнителей.
@@ -460,7 +480,7 @@ class Track(YandexMusicObject):
         Returns:
               :obj:`list` из :obj:`str`: Имена исполнителей.
         """
-        return [i.name for i in self.artists]
+        return [i.name for i in self.artists if i.name]
 
     @property
     def track_id(self) -> str:
@@ -470,7 +490,7 @@ class Track(YandexMusicObject):
         return f'{self.id}'
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Track']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Track']:
         """Десериализация объекта.
 
         Args:
@@ -480,41 +500,25 @@ class Track(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Track`: Трек.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Track, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import R128, Album, Artist, LyricsInfo, Major, MetaData, Normalization, PoetryLoverMatch, User
 
-        data['albums'] = Album.de_list(data.get('albums'), client)
-        data['artists'] = Artist.de_list(data.get('artists'), client)
-        data['normalization'] = Normalization.de_json(data.get('normalization'), client)
-        data['major'] = Major.de_json(data.get('major'), client)
-        data['substituted'] = Track.de_json(data.get('substituted'), client)
-        data['matched_track'] = Track.de_json(data.get('matched_track'), client)
-        data['user_info'] = User.de_json(data.get('user_info'), client)
-        data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
-        data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
-        data['r128'] = R128.de_json(data.get('r128'), client)
-        data['lyrics_info'] = LyricsInfo.de_json(data.get('lyrics_info'), client)
+        cls_data['albums'] = Album.de_list(data.get('albums'), client)
+        cls_data['artists'] = Artist.de_list(data.get('artists'), client)
+        cls_data['normalization'] = Normalization.de_json(data.get('normalization'), client)
+        cls_data['major'] = Major.de_json(data.get('major'), client)
+        cls_data['substituted'] = Track.de_json(data.get('substituted'), client)
+        cls_data['matched_track'] = Track.de_json(data.get('matched_track'), client)
+        cls_data['user_info'] = User.de_json(data.get('user_info'), client)
+        cls_data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
+        cls_data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
+        cls_data['r128'] = R128.de_json(data.get('r128'), client)
+        cls_data['lyrics_info'] = LyricsInfo.de_json(data.get('lyrics_info'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Track']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Track`: Треки.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(track, client) for track in data]
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

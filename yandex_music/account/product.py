@@ -1,14 +1,15 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Price
+    from yandex_music import ClientType, JSONType, Price
 
 
 @model
-class Product(YandexMusicObject):
+class Product(YandexMusicModel):
     """Класс, представляющий продаваемый продукт.
 
     Attributes:
@@ -69,12 +70,12 @@ class Product(YandexMusicObject):
     intro_price: Optional['Price'] = None
     start_period_duration: Optional[str] = None
     start_price: Optional['Price'] = None
-    licence_text_parts: List['Price'] = None
+    licence_text_parts: List['Price'] = field(default_factory=list)
     vendor_trial_available: Optional[bool] = None
     button_text: Optional[str] = None
     button_additional_text: Optional[str] = None
-    payment_method_types: List[str] = None
-    client: Optional['Client'] = None
+    payment_method_types: List[str] = field(default_factory=list)
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -88,7 +89,7 @@ class Product(YandexMusicObject):
         )
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Product']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Product']:
         """Десериализация объекта.
 
         Args:
@@ -98,31 +99,15 @@ class Product(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Product`: Продаваемый продукт.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Product, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import LicenceTextPart, Price
 
-        data['price'] = Price.de_json(data.get('price'), client)
-        data['intro_price'] = Price.de_json(data.get('intro_price'), client)
-        data['start_price'] = Price.de_json(data.get('start_price'), client)
-        data['licence_text_parts'] = LicenceTextPart.de_list(data.get('licence_text_parts'), client)
+        cls_data['price'] = Price.de_json(data.get('price'), client)
+        cls_data['intro_price'] = Price.de_json(data.get('intro_price'), client)
+        cls_data['start_price'] = Price.de_json(data.get('start_price'), client)
+        cls_data['licence_text_parts'] = LicenceTextPart.de_list(data.get('licence_text_parts'), client)
 
-        return cls(client=client, **data)
-
-    @classmethod
-    def de_list(cls, data: list, client: 'Client') -> List['Product']:
-        """Десериализация списка объектов.
-
-        Args:
-            data (:obj:`list`): Список словарей с полями и значениями десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`list` из :obj:`yandex_music.Product`: Продаваемые продукты.
-        """
-        if not cls.is_valid_model_data(data, array=True):
-            return []
-
-        return [cls.de_json(product, client) for product in data]
+        return cls(client=client, **cls_data)  # type: ignore

@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Iterable, List, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Best, Client
+    from yandex_music import Best, ClientType, JSONType
 
 
 @model
-class Suggestions(YandexMusicObject):
+class Suggestions(YandexMusicModel):
     """Класс, представляющий подсказки при поиске.
 
     Attributes:
@@ -19,7 +19,7 @@ class Suggestions(YandexMusicObject):
 
     best: Optional['Best']
     suggestions: List[str]
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.best, self.suggestions)
@@ -31,7 +31,7 @@ class Suggestions(YandexMusicObject):
         return iter(self.suggestions)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Suggestions']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Suggestions']:
         """Десериализация объекта.
 
         Args:
@@ -41,12 +41,12 @@ class Suggestions(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Suggestions`: Подсказки при поиске.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Suggestions, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Best
 
-        data['best'] = Best.de_json(data.get('best'), client)
+        cls_data['best'] = Best.de_json(data.get('best'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

@@ -1,13 +1,13 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
+from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType, JSONType, MapTypeToDeJson
 
 
-de_json_result = {
+_TYPE_TO_DE_JSON_DEF: 'MapTypeToDeJson' = {
     'track': Track.de_json,
     'artist': Artist.de_json,
     'album': Album.de_json,
@@ -20,7 +20,7 @@ de_json_result = {
 
 
 @model
-class Best(YandexMusicObject):
+class Best(YandexMusicModel):
     """Класс, представляющий лучший результат поиска.
 
     Attributes:
@@ -34,13 +34,13 @@ class Best(YandexMusicObject):
     type: str
     result: Optional[Union[Track, Artist, Album, Playlist, Video]]
     text: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.result)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Best']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Best']:
         """Десериализация объекта.
 
         Args:
@@ -50,10 +50,14 @@ class Best(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Best`: Лучший результат.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Best, cls).de_json(data, client)
-        data['result'] = de_json_result.get(data.get('type'))(data.get('result'), client)
+        cls_data = cls.cleanup_data(data, client)
 
-        return cls(client=client, **data)
+        type_ = data.get('type')
+        if type_ and type_ in _TYPE_TO_DE_JSON_DEF:
+            de_json = _TYPE_TO_DE_JSON_DEF[type_]
+            cls_data['result'] = de_json(data.get('result'), client)
+
+        return cls(client=client, **cls_data)  # type: ignore

@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from yandex_music import ChartInfoMenuItem, YandexMusicObject
+from yandex_music import ChartInfoMenuItem, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType, JSONType
 
 
 @model
-class ChartInfoMenu(YandexMusicObject):
+class ChartInfoMenu(YandexMusicModel):
     """Класс, представляющий меню чарта.
 
     Attributes:
@@ -17,13 +17,13 @@ class ChartInfoMenu(YandexMusicObject):
     """
 
     items: List['ChartInfoMenuItem']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.items,)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['ChartInfoMenu']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ChartInfoMenu']:
         """Десериализация объекта.
 
         Args:
@@ -33,10 +33,10 @@ class ChartInfoMenu(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ChartInfoMenu`: Меню чарта.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(ChartInfoMenu, cls).de_json(data, client)
-        data['items'] = ChartInfoMenuItem.de_list(data.get('items'), client)
+        cls_data = cls.cleanup_data(data, client)
+        cls_data['items'] = ChartInfoMenuItem.de_list(data.get('items'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore

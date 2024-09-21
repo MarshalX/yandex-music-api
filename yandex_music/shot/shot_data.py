@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING, Optional
 
-from yandex_music import YandexMusicObject
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, ShotType
+    from yandex_music import ClientType, JSONType, ShotType
 
 
 @model
-class ShotData(YandexMusicObject):
+class ShotData(YandexMusicModel):
     """Класс, представляющий основную информацию о шоте.
 
     Attributes:
@@ -23,7 +23,7 @@ class ShotData(YandexMusicObject):
     mds_url: str
     shot_text: str
     shot_type: 'ShotType'
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.cover_uri, self.mds_url, self.shot_text, self.shot_type)
@@ -46,6 +46,7 @@ class ShotData(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_cover_url(size), filename)
 
     async def download_cover_async(self, filename: str, size: str = '200x200') -> None:
@@ -55,6 +56,7 @@ class ShotData(YandexMusicObject):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             size (:obj:`str`, optional): Размер обложки.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_cover_url(size), filename)
 
     def download_mds(self, filename: str) -> None:
@@ -63,6 +65,7 @@ class ShotData(YandexMusicObject):
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.mds_url, filename)
 
     async def download_mds_async(self, filename: str) -> None:
@@ -71,6 +74,7 @@ class ShotData(YandexMusicObject):
         Args:
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.mds_url, filename)
 
     def download_cover_bytes(self, size: str = '200x200') -> bytes:
@@ -82,6 +86,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_cover_url(size))
 
     async def download_cover_bytes_async(self, size: str = '200x200') -> bytes:
@@ -93,6 +98,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Обложка в виде байтов
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_cover_url(size))
 
     def download_mds_bytes(self) -> bytes:
@@ -101,6 +107,7 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Аудиоверсия шота в виде байтов
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.mds_url)
 
     async def download_mds_bytes_async(self) -> bytes:
@@ -109,10 +116,11 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`bytes`: Аудиоверсия шота в виде байтов
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.mds_url)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['ShotData']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ShotData']:
         """Десериализация объекта.
 
         Args:
@@ -122,15 +130,15 @@ class ShotData(YandexMusicObject):
         Returns:
             :obj:`yandex_music.ShotData`: Основная информация о шоте.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(ShotData, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import ShotType
 
-        data['shot_type'] = ShotType.de_json(data.get('shot_type'), client)
+        cls_data['shot_type'] = ShotType.de_json(data.get('shot_type'), client)
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 

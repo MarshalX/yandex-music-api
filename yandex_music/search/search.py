@@ -1,14 +1,14 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
-from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicObject
+from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Best, Client, SearchResult
+    from yandex_music import Best, ClientType, SearchResult
 
 
 @model
-class Search(YandexMusicObject):
+class Search(YandexMusicModel):
     """Класс, представляющий результаты поиска.
 
     Attributes:
@@ -51,7 +51,7 @@ class Search(YandexMusicObject):
     misspell_original: Optional[str] = None
     misspell_corrected: Optional[bool] = None
     nocorrect: Optional[bool] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -68,7 +68,7 @@ class Search(YandexMusicObject):
             self.podcast_episodes,
         )
 
-    def get_page(self, page: int, *args, **kwargs) -> Optional['Search']:
+    def get_page(self, page: int, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение определённой страницы поиска.
 
         Args:
@@ -79,9 +79,12 @@ class Search(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.nocorrect, bool)
+        assert isinstance(self.type, str)
+        assert self.valid_client(self.client)
         return self.client.search(self.text, self.nocorrect, self.type, page, *args, **kwargs)
 
-    async def get_page_async(self, page: int, *args, **kwargs) -> Optional['Search']:
+    async def get_page_async(self, page: int, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение определённой страницы поиска.
 
         Args:
@@ -92,42 +95,49 @@ class Search(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.nocorrect, bool)
+        assert isinstance(self.type, str)
+        assert self.valid_async_client(self.client)
         return await self.client.search(self.text, self.nocorrect, self.type, page, *args, **kwargs)
 
-    def next_page(self, *args, **kwargs) -> Optional['Search']:
+    def next_page(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение следующей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Следующая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return self.get_page(self.page + 1, *args, **kwargs)
 
-    async def next_page_async(self, *args, **kwargs) -> Optional['Search']:
+    async def next_page_async(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение следующей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Следующая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return await self.get_page_async(self.page + 1, *args, **kwargs)
 
-    def prev_page(self, *args, **kwargs) -> Optional['Search']:
+    def prev_page(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение предыдущей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return self.get_page(self.page - 1, *args, **kwargs)
 
-    async def prev_page_async(self, *args, **kwargs) -> Optional['Search']:
+    async def prev_page_async(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение предыдущей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return await self.get_page_async(self.page - 1, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: dict, client: 'Client') -> Optional['Search']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Search']:
         """Десериализация объекта.
 
         Args:
@@ -137,10 +147,10 @@ class Search(YandexMusicObject):
         Returns:
             :obj:`yandex_music.Search`: Результаты поиска.
         """
-        if not cls.is_valid_model_data(data):
+        if not cls.is_dict_model_data(data):
             return None
 
-        data = super(Search, cls).de_json(data, client)
+        cls_data = cls.cleanup_data(data, client)
         from yandex_music import Best, SearchResult
 
         # в ОЧЕНЬ редких случаях сервер творит дичь и может вернуть результат плейлистов в поле artists
@@ -148,17 +158,17 @@ class Search(YandexMusicObject):
 
         # очень редких это около 10 запросов за 3 месяца работы стороннего клиента
 
-        data['best'] = Best.de_json(data.get('best'), client)
-        data['albums'] = SearchResult.de_json(data.get('albums'), client, 'album')
-        data['artists'] = SearchResult.de_json(data.get('artists'), client, 'artist')
-        data['playlists'] = SearchResult.de_json(data.get('playlists'), client, 'playlist')
-        data['tracks'] = SearchResult.de_json(data.get('tracks'), client, 'track')
-        data['videos'] = SearchResult.de_json(data.get('videos'), client, 'video')
-        data['users'] = SearchResult.de_json(data.get('users'), client, 'user')
-        data['podcasts'] = SearchResult.de_json(data.get('podcasts'), client, 'podcast')
-        data['podcast_episodes'] = SearchResult.de_json(data.get('podcast_episodes'), client, 'podcast_episode')
+        cls_data['best'] = Best.de_json(data.get('best'), client)
+        cls_data['albums'] = SearchResult.de_json(data.get('albums'), client, 'album')
+        cls_data['artists'] = SearchResult.de_json(data.get('artists'), client, 'artist')
+        cls_data['playlists'] = SearchResult.de_json(data.get('playlists'), client, 'playlist')
+        cls_data['tracks'] = SearchResult.de_json(data.get('tracks'), client, 'track')
+        cls_data['videos'] = SearchResult.de_json(data.get('videos'), client, 'video')
+        cls_data['users'] = SearchResult.de_json(data.get('users'), client, 'user')
+        cls_data['podcasts'] = SearchResult.de_json(data.get('podcasts'), client, 'podcast')
+        cls_data['podcast_episodes'] = SearchResult.de_json(data.get('podcast_episodes'), client, 'podcast_episode')
 
-        return cls(client=client, **data)
+        return cls(client=client, **cls_data)  # type: ignore
 
     # camelCase псевдонимы
 
