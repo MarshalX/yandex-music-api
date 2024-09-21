@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Playlist
+    from yandex_music import ClientType, Playlist
 
 
 @model
@@ -19,7 +19,7 @@ class PlaylistId(YandexMusicModel):
 
     uid: int
     kind: int
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.kind)
@@ -29,14 +29,14 @@ class PlaylistId(YandexMusicModel):
         """Полный ID плейлиста."""
         return f'{self.uid}:{self.kind}'
 
-    def fetch_playlist(self, *args, **kwargs) -> Union['Playlist', List['Playlist']]:
+    def fetch_playlist(self, *args: Any, **kwargs: Any) -> Union['Playlist', List['Playlist']]:
         """Сокращение для::
 
         client.users_playlists(kind, uid, *args, **kwargs)
         """
         return self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
 
-    async def fetch_playlist_async(self, *args, **kwargs) -> Union['Playlist', List['Playlist']]:
+    async def fetch_playlist_async(self, *args: Any, **kwargs: Any) -> Union['Playlist', List['Playlist']]:
         """Сокращение для::
 
         await client.users_playlists(kind, uid, *args, **kwargs)

@@ -8,7 +8,7 @@ from typing_extensions import Self, TypeGuard
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import Client, ClientAsync
 
 ujson: bool = False
 try:
@@ -25,6 +25,10 @@ new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
 
 
 JSONType = Union[Dict[str, 'JSONType'], List['JSONType'], str, int, float, bool, None]
+ModelFieldTypeRequired = Union[
+    Dict[str, 'ModelFieldTypeRequired'], List['ModelFieldTypeRequired'], 'YandexMusicModel', str, int, float, bool
+]
+ClientType = Union['Client', 'ClientAsync']
 
 
 class YandexMusicObject:
@@ -66,6 +70,34 @@ class YandexMusicModel(YandexMusicObject):
         return bool(data) and isinstance(data, dict)
 
     @staticmethod
+    def valid_client(client: Optional['ClientType']) -> TypeGuard['Client']:
+        """Проверка что клиент передан и является синхронным.
+
+        Args:
+            client (:obj:`Optional['ClientType']`): Клиент для проверки.
+
+        Returns:
+            :obj:`bool`: Синхронный ли клиент.
+        """
+        from yandex_music import Client
+
+        return isinstance(client, Client)
+
+    @staticmethod
+    def valid_async_client(client: Optional['ClientType']) -> TypeGuard['ClientAsync']:
+        """Проверка что клиент передан и является асинхронным.
+
+        Args:
+            client (:obj:`Optional['ClientType']`): Клиент для проверки.
+
+        Returns:
+            :obj:`bool`: Асинхронный ли клиент.
+        """
+        from yandex_music import ClientAsync
+
+        return isinstance(client, ClientAsync)
+
+    @staticmethod
     def is_array_model_data(data: JSONType) -> TypeGuard[List[Dict[str, JSONType]]]:
         """Проверка на соответствие данных массиву словарей.
 
@@ -78,7 +110,7 @@ class YandexMusicModel(YandexMusicObject):
         return bool(data) and isinstance(data, list) and all(isinstance(item, dict) for item in data)
 
     @classmethod
-    def cleanup_data(cls, data: JSONType, client: Optional['Client']) -> Dict[str, JSONType]:
+    def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> Dict[str, JSONType]:
         """Удаляет незадекларированные поля для текущей модели из сырых данных.
 
         Note:
@@ -113,7 +145,7 @@ class YandexMusicModel(YandexMusicObject):
         return cleaned_data
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional[Self]:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional[Self]:
         """Десериализация объекта.
 
         Note:
@@ -132,7 +164,7 @@ class YandexMusicModel(YandexMusicObject):
         return cls(client=client, **cls.cleanup_data(data, client))
 
     @classmethod
-    def de_list(cls, data: JSONType, client: 'Client') -> List[Self]:
+    def de_list(cls, data: JSONType, client: 'ClientType') -> List[Self]:
         """Десериализация списка объектов.
 
         Note:

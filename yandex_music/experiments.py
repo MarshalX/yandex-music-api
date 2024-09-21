@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -20,7 +20,7 @@ class Experiments(YandexMusicModel):
         **kwargs: Собственно тут и передаются все эти свистелки.
     """
 
-    def __init__(self, client: Optional['Client'] = None, **kwargs) -> None:
+    def __init__(self, client: Optional['ClientType'] = None, **kwargs: Any) -> None:
         self.__dict__.update(kwargs)
 
         self.client = client

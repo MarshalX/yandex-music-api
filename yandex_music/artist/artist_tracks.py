@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Pager, Track
+    from yandex_music import ClientType, Pager, Track
 
 
 @model
@@ -19,7 +19,7 @@ class ArtistTracks(YandexMusicModel):
 
     tracks: List['Track']
     pager: Optional['Pager']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.pager, self.tracks)
@@ -34,7 +34,7 @@ class ArtistTracks(YandexMusicModel):
         return len(self.tracks)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['ArtistTracks']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['ArtistTracks']:
         """Десериализация объекта.
 
         Args:

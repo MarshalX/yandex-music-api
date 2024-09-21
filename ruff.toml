@@ -34,11 +34,13 @@ ignore = [
     "PGH004", # use specific rule code with noqa; works bad with JetBrains IDE Warnings
     "ANN002", # Missing type annotation for `*args`
     "ANN003", # Missing type annotation for `**kwargs`
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `*args`
     "ANN101", # Missing type annotation for `self` in method
     "ANN102", # Missing type annotation for `cls` in classmethod
     "D203", # we are not using blank line before class
     "D213", # we are using first line for summary
     "D406", "D407", # we are using google style docstring
+    "S101", # Use of `assert` detected
 ]
 
 [per-file-ignores]

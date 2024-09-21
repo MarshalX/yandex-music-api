@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -37,7 +37,7 @@ class Cover(YandexMusicModel):
     copyright_cline: Optional[str] = None
     prefix: Optional[str] = None
     error: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
@@ -52,7 +52,10 @@ class Cover(YandexMusicModel):
         Returns:
             :obj:`str`: URL адрес.
         """
-        uri = self.uri or self.items_uri[index]
+        uri = self.uri
+        if not uri:
+            assert isinstance(self.items_uri, list)
+            uri = self.items_uri[index]
 
         return f'https://{uri.replace("%%", size)}'
 
@@ -64,6 +67,7 @@ class Cover(YandexMusicModel):
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_client(self.client)
         self.client.request.download(self.get_url(index, size), filename)
 
     async def download_async(self, filename: str, index: int = 0, size: str = '200x200') -> None:
@@ -74,6 +78,7 @@ class Cover(YandexMusicModel):
             index (:obj:`int`, optional): Индекс элемента в списке ссылок на обложки если нет `self.uri`.
             size (:obj:`str`, optional): Размер изображения.
         """
+        assert self.valid_async_client(self.client)
         await self.client.request.download(self.get_url(index, size), filename)
 
     def download_bytes(self, index: int = 0, size: str = '200x200') -> bytes:
@@ -86,6 +91,7 @@ class Cover(YandexMusicModel):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.get_url(index, size))
 
     async def download_bytes_async(self, index: int = 0, size: str = '200x200') -> bytes:
@@ -98,6 +104,7 @@ class Cover(YandexMusicModel):
         Returns:
             :obj:`bytes`: Обложка в виде байтов.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_url(index, size))
 
     # camelCase псевдонимы

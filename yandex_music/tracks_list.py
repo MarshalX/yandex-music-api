@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track, TrackShort
+    from yandex_music import ClientType, Track, TrackShort
 
 
 @model
@@ -21,7 +21,7 @@ class TracksList(YandexMusicModel):
     uid: int
     revision: int
     tracks: List['TrackShort']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.tracks)
@@ -46,6 +46,7 @@ class TracksList(YandexMusicModel):
         Returns:
             :obj:`list` из :obj:`yandex_music.Track`: Полная версия трека.
         """
+        assert self.valid_client(self.client)
         return self.client.tracks(self.tracks_ids)
 
     async def fetch_tracks_async(self) -> List['Track']:
@@ -54,10 +55,11 @@ class TracksList(YandexMusicModel):
         Returns:
             :obj:`list` из :obj:`yandex_music.Track`: Полная версия трека.
         """
+        assert self.valid_async_client(self.client)
         return await self.client.tracks(self.tracks_ids)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['TracksList']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['TracksList']:
         """Десериализация объекта.
 
         Args:

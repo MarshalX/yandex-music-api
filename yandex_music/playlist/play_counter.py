@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -25,7 +25,7 @@ class PlayCounter(YandexMusicModel):
     value: int
     description: str
     updated: bool
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.value, self.description, self.updated)

@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -59,7 +59,7 @@ class UserSettings(YandexMusicModel):
     ads_disabled: Optional[bool] = None
     disk_enabled: Optional[bool] = None
     show_disk_tracks_in_library: Optional[bool] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (

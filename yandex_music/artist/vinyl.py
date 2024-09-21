@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -32,7 +32,7 @@ class Vinyl(YandexMusicModel):
     offer_id: int
     artist_ids: List[int]
     picture: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (

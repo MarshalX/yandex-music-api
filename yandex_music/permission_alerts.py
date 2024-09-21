@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -17,4 +17,4 @@ class PermissionAlerts(YandexMusicModel):
     """
 
     alerts: List[str]
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None

@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Icon, Id, Restrictions
+    from yandex_music import ClientType, Icon, Id, Restrictions
 
 
 @model
@@ -41,7 +41,7 @@ class Station(YandexMusicModel):
     full_image_url: Optional[str] = None
     mts_full_image_url: Optional[str] = None
     parent_id: Optional['Id'] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -56,7 +56,7 @@ class Station(YandexMusicModel):
         )
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Station']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Station']:
         """Десериализация объекта.
 
         Args:

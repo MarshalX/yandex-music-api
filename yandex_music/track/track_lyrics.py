@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, LyricsMajor
+    from yandex_music import ClientType, LyricsMajor
 
 
 @model
@@ -25,7 +25,7 @@ class TrackLyrics(YandexMusicModel):
     external_lyric_id: str
     writers: List[str]
     major: 'LyricsMajor'
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -39,6 +39,7 @@ class TrackLyrics(YandexMusicModel):
         Returns:
             :obj:`str`: Текст песни.
         """
+        assert self.valid_client(self.client)
         return self.client.request.retrieve(self.download_url).decode('UTF-8')
 
     async def fetch_lyrics_async(self) -> str:
@@ -47,10 +48,11 @@ class TrackLyrics(YandexMusicModel):
         Returns:
             :obj:`str`: Текст песни.
         """
+        assert self.valid_async_client(self.client)
         return (await self.client.request.retrieve(self.download_url)).decode('UTF-8')
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['TrackLyrics']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['TrackLyrics']:
         """Десериализация объекта.
 
         Args:

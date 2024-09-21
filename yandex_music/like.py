@@ -4,7 +4,7 @@ from yandex_music import Album, Artist, JSONType, Playlist, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 de_list = {
     'album': Album.de_json,
@@ -44,13 +44,13 @@ class Like(YandexMusicModel):
     description: Optional[str] = None
     is_premiere: Optional[bool] = None
     is_banner: Optional[bool] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client', type_: Optional[str] = None) -> Optional['Like']:
+    def de_json(cls, data: JSONType, client: 'ClientType', type_: Optional[str] = None) -> Optional['Like']:
         """Десериализация объекта.
 
         Args:

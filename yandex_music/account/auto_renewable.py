@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Product, User
+    from yandex_music import ClientType, Product, User
 
 
 @model
@@ -31,13 +31,13 @@ class AutoRenewable(YandexMusicModel):
     master_info: Optional['User'] = None
     product_id: Optional[str] = None
     order_id: Optional[int] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.expires, self.vendor, self.vendor_help_url, self.product, self.finished)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['AutoRenewable']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['AutoRenewable']:
         """Десериализация объекта.
 
         Args:

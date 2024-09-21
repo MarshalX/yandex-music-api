@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -37,7 +37,7 @@ class Video(YandexMusicModel):
     text: Optional[str] = None
     html_auto_play_video_player: Optional[str] = None
     regions: Optional[List[str]] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.provider_video_id, self.youtube_url, self.title)

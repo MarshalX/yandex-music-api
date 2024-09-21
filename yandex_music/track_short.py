@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Chart, Client, Track
+    from yandex_music import Chart, ClientType, Track
 
 
 @model
@@ -34,7 +34,7 @@ class TrackShort(YandexMusicModel):
     chart: Optional['Chart'] = None
     track: Optional['Track'] = None
     original_index: Optional[int] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.album_id)
@@ -45,6 +45,7 @@ class TrackShort(YandexMusicModel):
         Returns:
             :obj:`yandex_music.Track`: Полная версия трека.
         """
+        assert self.valid_client(self.client)
         return self.client.tracks(self.track_id)[0]
 
     async def fetch_track_async(self) -> 'Track':
@@ -53,6 +54,7 @@ class TrackShort(YandexMusicModel):
         Returns:
             :obj:`yandex_music.Track`: Полная версия трека.
         """
+        assert self.valid_async_client(self.client)
         return (await self.client.tracks(self.track_id))[0]
 
     @property
@@ -64,7 +66,7 @@ class TrackShort(YandexMusicModel):
         return f'{self.id}'
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['TrackShort']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['TrackShort']:
         """Десериализация объекта.
 
         Args:

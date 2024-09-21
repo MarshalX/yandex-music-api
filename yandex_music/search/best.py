@@ -4,7 +4,7 @@ from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, 
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 de_json_result = {
@@ -34,13 +34,13 @@ class Best(YandexMusicModel):
     type: str
     result: Optional[Union[Track, Artist, Album, Playlist, Video]]
     text: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.result)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Best']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Best']:
         """Десериализация объекта.
 
         Args:

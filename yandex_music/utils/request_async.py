@@ -10,7 +10,7 @@ import json
 import keyword
 import logging
 import re
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 import aiofiles
 import aiohttp
@@ -26,7 +26,7 @@ from yandex_music.exceptions import (
 from yandex_music.utils.response import Response
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType, JSONType
 
 
 USER_AGENT = 'Yandex-Music-API'
@@ -35,11 +35,17 @@ HEADERS = {
 }
 DEFAULT_TIMEOUT = 5
 
-reserved_names = keyword.kwlist + ['client']
+reserved_names = list(keyword.kwlist) + ['ClientType']
 
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
-default_timeout = object()
+
+class DefaultTimeout:
+    """Заглушка для установки времени ожидания по умолчанию."""
+
+
+default_timeout = DefaultTimeout()
+TimeoutType = Union[int, float, DefaultTimeout]
 
 
 class Request:
@@ -53,13 +59,20 @@ class Request:
         proxy_url (:obj:`str`, optional): Прокси.
     """
 
-    def __init__(self, client=None, headers=None, proxy_url=None, timeout=default_timeout):
+    def __init__(
+        self,
+        client: Optional['ClientType'] = None,
+        headers: Optional[Dict[str, str]] = None,
+        proxy_url: Optional[str] = None,
+        timeout: 'TimeoutType' = default_timeout,
+    ):
         self.headers = headers or HEADERS.copy()
 
         self._timeout = DEFAULT_TIMEOUT
         self.set_timeout(timeout)
 
-        self.client = self.set_and_return_client(client)
+        if client:
+            self.client = self.set_and_return_client(client)
 
         # aiohttp
         self.proxy_url = proxy_url
@@ -99,7 +112,7 @@ class Request:
         """
         self.headers.update({'Authorization': f'OAuth {token}'})
 
-    def set_and_return_client(self, client) -> 'Client':
+    def set_and_return_client(self, client: 'ClientType') -> 'ClientType':
         """Принимает клиент и присваивает его текущему объекту. При наличии авторизации добавляет заголовок.
 
         Args:
@@ -129,7 +142,7 @@ class Request:
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s).lower()
 
     @staticmethod
-    def _object_hook(obj: dict) -> dict:
+    def _object_hook(obj: 'JSONType') -> 'JSONType':
         """Нормализация имён переменных пришедших с API.
 
         Note:
@@ -143,7 +156,10 @@ class Request:
         Returns:
             :obj:`dict`: Тот же словарь, что и на входе, но с нормализованными ключами.
         """
-        cleaned_object = {}
+        if not isinstance(obj, dict):
+            return obj
+
+        cleaned_object: Dict[str, JSONType] = {}
         for key, value in obj.items():
             key = Request._convert_camel_to_snake(key.replace('-', '_'))
             key = key.lower()
@@ -188,7 +204,7 @@ class Request:
 
         return Response.de_json(data, self.client)
 
-    async def _request_wrapper(self, *args, **kwargs):  # noqa: C901
+    async def _request_wrapper(self, *args: Any, **kwargs: Any):  # noqa: C901
         """Обёртка над запросом библиотеки `aiohttp`.
 
         Note:
@@ -231,9 +247,11 @@ class Request:
         if 200 <= resp.status <= 299:
             return content
 
+        message = 'Unknown error'
         try:
             parse = self._parse(content)
-            message = parse.get_error()
+            if parse:
+                message = parse.get_error()
         except YandexMusicError:
             message = 'Unknown HTTPError'
 
@@ -252,8 +270,8 @@ class Request:
         raise NetworkError(f'{message} ({resp.status}): {content}')
 
     async def get(
-        self, url: str, params: dict = None, timeout: Union[int, float] = default_timeout, **kwargs
-    ) -> Union[dict, str]:
+        self, url: str, params: 'JSONType' = None, timeout: 'TimeoutType' = default_timeout, **kwargs: Any
+    ) -> 'JSONType':
         """Отправка GET запроса.
 
         Args:
@@ -264,7 +282,7 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
-            :obj:`dict` | :obj:`str`: Обработанное тело ответа.
+            :obj:`JSONType`: Обработанное тело ответа.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -272,10 +290,15 @@ class Request:
         result = await self._request_wrapper(
             'GET', url, params=params, headers=self.headers, proxy=self.proxy_url, timeout=timeout, **kwargs
         )
+        response = self._parse(result)
+        if response:
+            return response.get_result()
 
-        return self._parse(result).get_result()
+        return None
 
-    async def post(self, url, data=None, timeout=default_timeout, **kwargs) -> Union[dict, str]:
+    async def post(
+        self, url: str, data: 'JSONType', timeout: 'TimeoutType' = default_timeout, **kwargs: Any
+    ) -> 'JSONType':
         """Отправка POST запроса.
 
         Args:
@@ -286,7 +309,7 @@ class Request:
             **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
-            :obj:`dict` | :obj:`str`: Обработанное тело ответа.
+            :obj:`JSONType`: Обработанное тело ответа.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -294,10 +317,13 @@ class Request:
         result = await self._request_wrapper(
             'POST', url, headers=self.headers, proxy=self.proxy_url, data=data, timeout=timeout, **kwargs
         )
+        response = self._parse(result)
+        if response:
+            return response.get_result()
 
-        return self._parse(result).get_result()
+        return None
 
-    async def retrieve(self, url, timeout=default_timeout, **kwargs) -> bytes:
+    async def retrieve(self, url: str, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> bytes:
         """Отправка GET запроса и получение содержимого без обработки (парсинга).
 
         Args:
@@ -314,7 +340,7 @@ class Request:
         """
         return await self._request_wrapper('GET', url, proxy=self.proxy_url, timeout=timeout, **kwargs)
 
-    async def download(self, url, filename, timeout=default_timeout, **kwargs) -> None:
+    async def download(self, url: str, filename: str, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> None:
         """Отправка запроса на получение содержимого и его запись в файл.
 
         Args:

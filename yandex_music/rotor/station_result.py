@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AdParams, Client, RotorSettings, Station
+    from yandex_music import AdParams, ClientType, RotorSettings, Station
 
 
 @model
@@ -34,16 +34,16 @@ class StationResult(YandexMusicModel):
     ad_params: Optional['AdParams']
     explanation: Optional[str] = None
     prerolls: Optional[list] = None
-    rup_title: str = None
-    rup_description: str = None
+    rup_title: Optional[str] = None
+    rup_description: Optional[str] = None
     custom_name: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['StationResult']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['StationResult']:
         """Десериализация объекта.
 
         Args:

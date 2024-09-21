@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Artist, Client, Deprecation, Label, Track, TrackPosition
+    from yandex_music import Artist, ClientType, Deprecation, Label, Track, TrackPosition
 
 
 @model
@@ -76,8 +76,8 @@ class Album(YandexMusicModel):
     error: Optional[str] = None
     title: Optional[str] = None
     track_count: Optional[int] = None
-    artists: List['Artist'] = None
-    labels: List[Union['Label', str]] = None
+    artists: List['Artist'] = []
+    labels: List[Union['Label', str]] = []
     available: Optional[bool] = None
     available_for_premium_users: Optional[bool] = None
     version: Optional[str] = None
@@ -99,7 +99,7 @@ class Album(YandexMusicModel):
     available_for_mobile: Optional[bool] = None
     available_partially: Optional[bool] = None
     bests: Optional[List[int]] = None
-    duplicates: List['Album'] = None
+    duplicates: List['Album'] = []
     prerolls: Optional[list] = None
     volumes: Optional[List[List['Track']]] = None
     year: Optional[int] = None
@@ -118,19 +118,19 @@ class Album(YandexMusicModel):
     deprecation: Optional['Deprecation'] = None
     available_regions: Optional[List[str]] = None
     available_for_options: Optional[List[str]] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id,)
 
-    def with_tracks(self, *args, **kwargs) -> Optional['Album']:
+    def with_tracks(self, *args: Any, **kwargs: Any) -> Optional['Album']:
         """Сокращение для::
 
         client.albums_with_tracks(album.id, *args, **kwargs)
         """
         return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
-    async def with_tracks_async(self, *args, **kwargs) -> Optional['Album']:
+    async def with_tracks_async(self, *args: Any, **kwargs: Any) -> Optional['Album']:
         """Сокращение для::
 
         await client.albums_with_tracks(album.id, *args, **kwargs)
@@ -247,28 +247,28 @@ class Album(YandexMusicModel):
         """
         return await self.client.request.retrieve(self.get_og_image_url(size))
 
-    def like(self, *args, **kwargs) -> bool:
+    def like(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    async def like_async(self, *args, **kwargs) -> bool:
+    async def like_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
         return await self.client.users_likes_albums_add(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    def dislike(self, *args, **kwargs) -> bool:
+    def dislike(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
         """
         return self.client.users_likes_albums_remove(self.id, self.client.me.account.uid, *args, **kwargs)
 
-    async def dislike_async(self, *args, **kwargs) -> bool:
+    async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
@@ -281,10 +281,10 @@ class Album(YandexMusicModel):
         Returns:
               :obj:`list` из :obj:`str`: Имена исполнителей.
         """
-        return [i.name for i in self.artists]
+        return [i.name for i in self.artists if i.name]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Album']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Album']:
         """Десериализация объекта.
 
         Args:

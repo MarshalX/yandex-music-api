@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
-from yandex_music import JSONType, YandexMusicModel
+from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType, JSONType
 
 
 @model
@@ -19,13 +19,13 @@ class Label(YandexMusicModel):
 
     id: int
     name: str
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.name)
 
     @classmethod
-    def de_list(cls, data: JSONType, client: 'Client') -> List[Union['Label', str]]:
+    def de_list(cls, data: 'JSONType', client: 'ClientType') -> List[Union['Label', str]]:
         """Десериализация списка объектов.
 
         Args:

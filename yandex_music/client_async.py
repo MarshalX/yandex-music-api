@@ -5,7 +5,7 @@
 import functools
 import logging
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Callable, List, Optional, TypeVar, Union, cast
 
 from yandex_music import (
     Album,
@@ -47,6 +47,9 @@ from yandex_music import (
     __license__,
     __version__,
 )
+
+if TYPE_CHECKING:
+    from yandex_music.base import JSONType
 from yandex_music.exceptions import BadRequestError
 from yandex_music.utils.difference import Difference
 from yandex_music.utils.request_async import Request
@@ -63,12 +66,15 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 F = TypeVar('F', bound=Callable[..., Any])
 
+UserIdType = Optional[Union[str, int]]
+TimestampType = Optional[Union[str, float, int]]
+
 
 def log(method: F) -> F:
     logger = logging.getLogger(method.__module__)
 
     @functools.wraps(method)
-    async def wrapper(*args, **kwargs) -> Any:  # noqa: ANN401:
+    async def wrapper(*args: Any, **kwargs: Any) -> Any:  # noqa: ANN401:
         logger.debug(f'Entering: {method.__name__}')
 
         result = await method(*args, **kwargs)
@@ -112,9 +118,9 @@ class ClientAsync(YandexMusicObject):
 
     def __init__(
         self,
-        token: str = None,
-        base_url: str = None,
-        request: Request = None,
+        token: Optional[str] = None,
+        base_url: Optional[str] = None,
+        request: Optional[Request] = None,
         language: str = 'ru',
         report_unknown_fields: bool = False,
     ) -> None:
@@ -147,7 +153,8 @@ class ClientAsync(YandexMusicObject):
             'model=Yandex Music API; clid=; device_id=random; uuid=random'
         )
 
-        self.me = None
+        self.me: Optional['Status'] = None
+        self.account_uid: Optional[str] = None
 
     @property
     def request(self) -> Request:
@@ -158,10 +165,12 @@ class ClientAsync(YandexMusicObject):
     async def init(self) -> 'ClientAsync':
         """Получение информацию об аккаунте использующихся в других запросах."""
         self.me = await self.account_status()
+        if self.me and self.me.account:
+            self.account_uid = self.me.account.uid
         return self
 
     @log
-    async def account_status(self, *args, **kwargs) -> Optional[Status]:
+    async def account_status(self, *args: Any, **kwargs: Any) -> Optional[Status]:
         """Получение статуса аккаунта. Нет обязательных параметров.
 
         Args:
@@ -181,7 +190,7 @@ class ClientAsync(YandexMusicObject):
         return Status.de_json(result, self)
 
     @log
-    async def account_settings(self, *args, **kwargs) -> Optional[UserSettings]:
+    async def account_settings(self, *args: Any, **kwargs: Any) -> Optional[UserSettings]:
         """Получение настроек текущего пользователя.
 
         Args:
@@ -204,11 +213,11 @@ class ClientAsync(YandexMusicObject):
     @log
     async def account_settings_set(
         self,
-        param: str = None,
-        value: Union[str, int, bool] = None,
-        data: Dict[str, Union[str, int, bool]] = None,
-        *args,
-        **kwargs,
+        param: Optional[str] = None,
+        value: Optional[Union[str, int, bool]] = None,
+        data: Optional['JSONType'] = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[UserSettings]:
         """Изменение настроек текущего пользователя.
 
@@ -230,7 +239,7 @@ class ClientAsync(YandexMusicObject):
         """
         url = f'{self.base_url}/account/settings'
 
-        if not data:
+        if not data and param:
             data = {param: str(value)}
 
         result = await self._request.post(url, data, *args, **kwargs)
@@ -238,7 +247,7 @@ class ClientAsync(YandexMusicObject):
         return UserSettings.de_json(result, self)
 
     @log
-    async def settings(self, *args, **kwargs) -> Optional[Settings]:
+    async def settings(self, *args: Any, **kwargs: Any) -> Optional[Settings]:
         """Получение предложений по покупке. Нет обязательных параметров.
 
         Args:
@@ -259,7 +268,7 @@ class ClientAsync(YandexMusicObject):
         return Settings.de_json(result, self)
 
     @log
-    async def permission_alerts(self, *args, **kwargs) -> Optional[PermissionAlerts]:
+    async def permission_alerts(self, *args: Any, **kwargs: Any) -> Optional[PermissionAlerts]:
         """Получение оповещений. Нет обязательных параметров.
 
         Args:
@@ -279,7 +288,7 @@ class ClientAsync(YandexMusicObject):
         return PermissionAlerts.de_json(result, self)
 
     @log
-    async def account_experiments(self, *args, **kwargs) -> Optional[Experiments]:
+    async def account_experiments(self, *args: Any, **kwargs: Any) -> Optional[Experiments]:
         """Получение значений экспериментальных функций аккаунта.
 
         Args:
@@ -329,7 +338,7 @@ class ClientAsync(YandexMusicObject):
         return PromoCodeStatus.de_json(result, self)
 
     @log
-    async def feed(self, *args, **kwargs) -> Optional[Feed]:
+    async def feed(self, *args: Any, **kwargs: Any) -> Optional[Feed]:
         """Получение потока информации (фида) подобранного под пользователя. Содержит умные плейлисты.
 
         Args:
@@ -349,7 +358,7 @@ class ClientAsync(YandexMusicObject):
         return Feed.de_json(result, self)
 
     @log
-    async def feed_wizard_is_passed(self, *args, **kwargs) -> bool:
+    async def feed_wizard_is_passed(self, *args: Any, **kwargs: Any) -> bool:
         """Получение информации о прохождении визарда.
 
         Note:
@@ -369,7 +378,7 @@ class ClientAsync(YandexMusicObject):
         return result.get('is_wizard_passed') or False
 
     @log
-    async def landing(self, blocks: Union[str, List[str]], *args, **kwargs) -> Optional[Landing]:
+    async def landing(self, blocks: Union[str, List[str]], *args: Any, **kwargs: Any) -> Optional[Landing]:
         """Получение лендинг-страницы содержащий блоки с новыми релизами, чартами, плейлистами с новинками и т.д.
 
         Note:
@@ -388,17 +397,16 @@ class ClientAsync(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         url = f'{self.base_url}/landing3'
+        params = cast('JSONType', {'blocks': blocks, 'eitherUserId': '10254713668400548221'})
 
-        result = await self._request.get(
-            url, {'blocks': blocks, 'eitherUserId': '10254713668400548221'}, *args, **kwargs
-        )
+        result = await self._request.get(url, params, *args, **kwargs)
         # TODO (MarshalX) что тут делает константа с чьим-то User ID
         #  https://github.com/MarshalX/yandex-music-api/issues/553
 
         return Landing.de_json(result, self)
 
     @log
-    async def chart(self, chart_option: str = '', *args, **kwargs) -> Optional[ChartInfo]:
+    async def chart(self, chart_option: str = '', *args: Any, **kwargs: Any) -> Optional[ChartInfo]:
         """Получение чарта.
 
         Note:
@@ -426,7 +434,7 @@ class ClientAsync(YandexMusicObject):
         return ChartInfo.de_json(result, self)
 
     @log
-    async def new_releases(self, *args, **kwargs) -> Optional[LandingList]:
+    async def new_releases(self, *args: Any, **kwargs: Any) -> Optional[LandingList]:
         """Получение полного списка всех новых релизов (альбомов).
 
         Args:
@@ -446,7 +454,7 @@ class ClientAsync(YandexMusicObject):
         return LandingList.de_json(result, self)
 
     @log
-    async def new_playlists(self, *args, **kwargs) -> Optional[LandingList]:
+    async def new_playlists(self, *args: Any, **kwargs: Any) -> Optional[LandingList]:
         """Получение полного списка всех новых плейлистов.
 
         Args:
@@ -466,7 +474,7 @@ class ClientAsync(YandexMusicObject):
         return LandingList.de_json(result, self)
 
     @log
-    async def podcasts(self, *args, **kwargs) -> Optional[LandingList]:
+    async def podcasts(self, *args: Any, **kwargs: Any) -> Optional[LandingList]:
         """Получение подкастов с лендинга.
 
         Args:
@@ -486,7 +494,7 @@ class ClientAsync(YandexMusicObject):
         return LandingList.de_json(result, self)
 
     @log
-    async def genres(self, *args, **kwargs) -> List[Genre]:
+    async def genres(self, *args: Any, **kwargs: Any) -> List[Genre]:
         """Получение жанров музыки.
 
         Args:
@@ -506,7 +514,7 @@ class ClientAsync(YandexMusicObject):
         return Genre.de_list(result, self)
 
     @log
-    async def tags(self, tag_id: str, *args, **kwargs) -> Optional[TagResult]:
+    async def tags(self, tag_id: str, *args: Any, **kwargs: Any) -> Optional[TagResult]:
         """Получение тега (подборки).
 
         Note:
@@ -537,8 +545,8 @@ class ClientAsync(YandexMusicObject):
         self,
         track_id: Union[str, int],
         get_direct_links: bool = False,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> List[DownloadInfo]:
         """Получение информации о доступных вариантах загрузки трека.
 
@@ -561,7 +569,7 @@ class ClientAsync(YandexMusicObject):
         return await DownloadInfo.de_list_async(result, self, get_direct_links)
 
     @log
-    async def track_supplement(self, track_id: Union[str, int], *args, **kwargs) -> Optional[Supplement]:
+    async def track_supplement(self, track_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Supplement]:
         """Получение дополнительной информации о треке.
 
         Warning:
@@ -589,8 +597,8 @@ class ClientAsync(YandexMusicObject):
     async def tracks_lyrics(
         self,
         track_id: Union[str, int],
-        format: str = 'TEXT',
-        **kwargs,
+        format_: str = 'TEXT',
+        **kwargs: Any,
     ) -> Optional[TrackLyrics]:
         """Получение текста трека.
 
@@ -603,8 +611,7 @@ class ClientAsync(YandexMusicObject):
 
         Args:
             track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
-            format (:obj:`str`): Формат текста.
-            *args: Произвольные аргументы (будут переданы в запрос).
+            format_ (:obj:`str`): Формат текста.
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
@@ -619,7 +626,7 @@ class ClientAsync(YandexMusicObject):
 
         sign = get_sign_request(track_id)
         params = {
-            'format': format,
+            'format': format_,
             'timeStamp': sign.timestamp,
             'sign': sign.value,
         }
@@ -629,7 +636,7 @@ class ClientAsync(YandexMusicObject):
         return TrackLyrics.de_json(result, self)
 
     @log
-    async def tracks_similar(self, track_id: Union[str, int], *args, **kwargs) -> Optional[SimilarTracks]:
+    async def tracks_similar(self, track_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[SimilarTracks]:
         """Получение похожих треков.
 
         Args:
@@ -655,17 +662,17 @@ class ClientAsync(YandexMusicObject):
         track_id: Union[str, int],
         from_: str,
         album_id: Union[str, int],
-        playlist_id: str = None,
+        playlist_id: Optional[str] = None,
         from_cache: bool = False,
-        play_id: str = None,
-        uid: int = None,
-        timestamp: str = None,
+        play_id: Optional[str] = None,
+        uid: Optional[int] = None,
+        timestamp: Optional[str] = None,
         track_length_seconds: int = 0,
         total_played_seconds: int = 0,
         end_position_seconds: int = 0,
-        client_now: str = None,
-        *args,
-        **kwargs,
+        client_now: Optional[str] = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> bool:
         """Метод для отправки текущего состояния прослушиваемого трека.
 
@@ -691,8 +698,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if uid is None and self.me is not None:
-            uid = self.me.account.uid
+        if uid is None and self.account_uid is not None:
+            uid = self.account_uid
 
         url = f'{self.base_url}/play-audio'
 
@@ -716,7 +723,7 @@ class ClientAsync(YandexMusicObject):
         return result == 'ok'
 
     @log
-    async def albums_with_tracks(self, album_id: Union[str, int], *args, **kwargs) -> Optional[Album]:
+    async def albums_with_tracks(self, album_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Album]:
         """Получение альбома по его уникальному идентификатору вместе с треками.
 
         Args:
@@ -744,8 +751,8 @@ class ClientAsync(YandexMusicObject):
         type_: str = 'all',
         page: int = 0,
         playlist_in_best: bool = True,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[Search]:
         """Осуществление поиска по запросу и типу, получение результатов.
 
@@ -789,7 +796,7 @@ class ClientAsync(YandexMusicObject):
         return Search.de_json(result, self)
 
     @log
-    async def search_suggest(self, part: str, *args, **kwargs) -> Optional[Suggestions]:
+    async def search_suggest(self, part: str, *args: Any, **kwargs: Any) -> Optional[Suggestions]:
         """Получение подсказок по введенной части поискового запроса.
 
         Args:
@@ -810,7 +817,7 @@ class ClientAsync(YandexMusicObject):
         return Suggestions.de_json(result, self)
 
     @log
-    async def users_settings(self, user_id: Union[str, int] = None, *args, **kwargs) -> Optional[UserSettings]:
+    async def users_settings(self, user_id: UserIdType = None, *args: Any, **kwargs: Any) -> Optional[UserSettings]:
         """Получение настроек пользователя.
 
         Note:
@@ -828,8 +835,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/settings'
 
@@ -841,10 +848,10 @@ class ClientAsync(YandexMusicObject):
     async def users_playlists(
         self,
         kind: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
-    ) -> Union[Playlist, List[Playlist]]:
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Union[Playlist, List[Playlist], None]:
         """Получение плейлиста или списка плейлистов по уникальным идентификаторам.
 
         Note:
@@ -864,8 +871,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         if isinstance(kind, list):
             url = f'{self.base_url}/users/{user_id}/playlists'
@@ -881,7 +888,7 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def users_playlists_recommendations(
-        self, kind: Union[str, int], user_id: Union[str, int] = None, *args, **kwargs
+        self, kind: Union[str, int], user_id: UserIdType = None, *args: Any, **kwargs: Any
     ) -> Optional[PlaylistRecommendations]:
         """Получение рекомендаций для плейлиста.
 
@@ -897,8 +904,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/recommendations'
 
@@ -911,9 +918,9 @@ class ClientAsync(YandexMusicObject):
         self,
         title: str,
         visibility: str = 'public',
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[Playlist]:
         """Создание плейлиста.
 
@@ -930,8 +937,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/create'
 
@@ -943,7 +950,7 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def users_playlists_delete(
-        self, kind: Union[str, int], user_id: Union[str, int] = None, *args, **kwargs
+        self, kind: Union[str, int], user_id: UserIdType = None, *args: Any, **kwargs: Any
     ) -> bool:
         """Удаление плейлиста.
 
@@ -959,8 +966,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/delete'
 
@@ -973,9 +980,9 @@ class ClientAsync(YandexMusicObject):
         self,
         kind: Union[str, int],
         name: str,
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[Playlist]:
         """Изменение названия плейлиста.
 
@@ -992,8 +999,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/name'
 
@@ -1006,9 +1013,9 @@ class ClientAsync(YandexMusicObject):
         self,
         kind: Union[str, int],
         visibility: str,
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[Playlist]:
         """Изменение видимости плейлиста.
 
@@ -1028,8 +1035,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/visibility'
 
@@ -1043,9 +1050,9 @@ class ClientAsync(YandexMusicObject):
         kind: Union[str, int],
         diff: str,
         revision: int = 1,
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[Playlist]:
         """Изменение плейлиста.
 
@@ -1068,8 +1075,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}/change'
 
@@ -1087,9 +1094,9 @@ class ClientAsync(YandexMusicObject):
         album_id: Union[str, int],
         at: int = 0,
         revision: int = 1,
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[Playlist]:
         """Добавление трека в плейлист.
 
@@ -1112,8 +1119,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         diff = Difference().add_insert(at, {'id': track_id, 'album_id': album_id})
 
@@ -1126,9 +1133,9 @@ class ClientAsync(YandexMusicObject):
         from_: int,
         to: int,
         revision: int = 1,
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[Playlist]:
         """Удаление треков из плейлиста.
 
@@ -1150,15 +1157,15 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         diff = Difference().add_delete(from_, to)
 
         return await self.users_playlists_change(kind, diff.to_json(), revision, user_id, *args, **kwargs)
 
     @log
-    async def rotor_account_status(self, *args, **kwargs) -> Optional[Status]:
+    async def rotor_account_status(self, *args: Any, **kwargs: Any) -> Optional[Status]:
         """Получение статуса пользователя с дополнительными полями.
 
         Note:
@@ -1182,7 +1189,7 @@ class ClientAsync(YandexMusicObject):
         return Status.de_json(result, self)
 
     @log
-    async def rotor_stations_dashboard(self, *args, **kwargs) -> Optional[Dashboard]:
+    async def rotor_stations_dashboard(self, *args: Any, **kwargs: Any) -> Optional[Dashboard]:
         """Получение рекомендованных станций текущего пользователя.
 
         Args:
@@ -1202,7 +1209,9 @@ class ClientAsync(YandexMusicObject):
         return Dashboard.de_json(result, self)
 
     @log
-    async def rotor_stations_list(self, language: Optional[str] = None, *args, **kwargs) -> List[StationResult]:
+    async def rotor_stations_list(
+        self, language: Optional[str] = None, *args: Any, **kwargs: Any
+    ) -> List[StationResult]:
         """Получение всех радиостанций с настройками пользователя.
 
         Note:
@@ -1236,12 +1245,12 @@ class ClientAsync(YandexMusicObject):
         self,
         station: str,
         type_: str,
-        timestamp: Union[str, float, int] = None,
-        from_: str = None,
-        batch_id: str = None,
-        total_played_seconds: Union[int, float] = None,
-        track_id: Union[str, int] = None,
-        **kwargs,
+        timestamp: TimestampType = None,
+        from_: Optional[str] = None,
+        batch_id: Optional[str] = None,
+        total_played_seconds: Optional[Union[int, float]] = None,
+        track_id: Optional[Union[str, int]] = None,
+        **kwargs: Any,
     ) -> bool:
         """Отправка обратной связи на действия при прослушивании радио.
 
@@ -1301,9 +1310,9 @@ class ClientAsync(YandexMusicObject):
         self,
         station: str,
         from_: str,
-        batch_id: str = None,
-        timestamp: Union[str, float, int] = None,
-        **kwargs,
+        batch_id: Optional[str] = None,
+        timestamp: TimestampType = None,
+        **kwargs: Any,
     ) -> bool:
         """Сокращение для::
 
@@ -1324,9 +1333,9 @@ class ClientAsync(YandexMusicObject):
         self,
         station: str,
         track_id: Union[str, int],
-        batch_id: str = None,
-        timestamp: Union[str, float, int] = None,
-        **kwargs,
+        batch_id: Optional[str] = None,
+        timestamp: TimestampType = None,
+        **kwargs: Any,
     ) -> bool:
         """Сокращение для::
 
@@ -1349,9 +1358,9 @@ class ClientAsync(YandexMusicObject):
         station: str,
         track_id: Union[str, int],
         total_played_seconds: float,
-        batch_id: str = None,
-        timestamp: Union[str, float, int] = None,
-        **kwargs,
+        batch_id: Optional[str] = None,
+        timestamp: TimestampType = None,
+        **kwargs: Any,
     ) -> bool:
         """Сокращение для::
 
@@ -1380,9 +1389,9 @@ class ClientAsync(YandexMusicObject):
         station: str,
         track_id: Union[str, int],
         total_played_seconds: float,
-        batch_id: str = None,
-        timestamp: Union[str, float, int] = None,
-        **kwargs,
+        batch_id: Optional[str] = None,
+        timestamp: TimestampType = None,
+        **kwargs: Any,
     ) -> bool:
         """Сокращение для::
 
@@ -1406,7 +1415,7 @@ class ClientAsync(YandexMusicObject):
         )
 
     @log
-    async def rotor_station_info(self, station: str, *args, **kwargs) -> List[StationResult]:
+    async def rotor_station_info(self, station: str, *args: Any, **kwargs: Any) -> List[StationResult]:
         """Получение информации о станции и пользовательских настроек на неё.
 
         Args:
@@ -1434,7 +1443,7 @@ class ClientAsync(YandexMusicObject):
         diversity: str,
         language: str = 'not-russian',  # TODO(#555): заменить на any
         type_: str = 'rotor',
-        **kwargs,
+        **kwargs: Any,
     ) -> bool:
         """Изменение настроек определённой станции.
 
@@ -1480,9 +1489,9 @@ class ClientAsync(YandexMusicObject):
         self,
         station: str,
         settings2: bool = True,
-        queue: Union[str, int] = None,
-        *args,
-        **kwargs,
+        queue: Optional[Union[str, int]] = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[StationTracksResult]:
         """Получение цепочки треков определённой станции.
 
@@ -1528,7 +1537,7 @@ class ClientAsync(YandexMusicObject):
         return StationTracksResult.de_json(result, self)
 
     @log
-    async def artists_brief_info(self, artist_id: Union[str, int], *args, **kwargs) -> Optional[BriefInfo]:
+    async def artists_brief_info(self, artist_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[BriefInfo]:
         """Получение информации об артисте.
 
         Args:
@@ -1554,8 +1563,8 @@ class ClientAsync(YandexMusicObject):
         artist_id: Union[str, int],
         page: int = 0,
         page_size: int = 20,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[ArtistTracks]:
         """Получение треков артиста.
 
@@ -1587,8 +1596,8 @@ class ClientAsync(YandexMusicObject):
         page: int = 0,
         page_size: int = 20,
         sort_by: str = 'year',
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[ArtistAlbums]:
         """Получение альбомов артиста.
 
@@ -1622,9 +1631,9 @@ class ClientAsync(YandexMusicObject):
         object_type: str,
         ids: Union[List[Union[str, int]], str, int],
         remove: bool = False,
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> bool:
         """Действия с отметкой "Мне нравится".
 
@@ -1650,8 +1659,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         action = 'remove' if remove else 'add-multiple'
         url = f'{self.base_url}/users/{user_id}/likes/{object_type}s/{action}'
@@ -1667,8 +1676,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_tracks_add(
         self,
         track_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Поставить отметку "Мне нравится" треку/трекам.
 
@@ -1695,8 +1704,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_tracks_remove(
         self,
         track_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Снять отметку "Мне нравится" у трека/треков.
 
@@ -1720,8 +1729,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_artists_add(
         self,
         artist_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Поставить отметку "Мне нравится" исполнителю/исполнителям.
 
@@ -1745,8 +1754,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_artists_remove(
         self,
         artist_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Снять отметку "Мне нравится" у исполнителя/исполнителей.
 
@@ -1770,8 +1779,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_playlists_add(
         self,
         playlist_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Поставить отметку "Мне нравится" плейлисту/плейлистам.
 
@@ -1799,8 +1808,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_playlists_remove(
         self,
         playlist_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Снять отметку "Мне нравится" у плейлиста/плейлистов.
 
@@ -1828,8 +1837,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_albums_add(
         self,
         album_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Поставить отметку "Мне нравится" альбому/альбомам.
 
@@ -1853,8 +1862,8 @@ class ClientAsync(YandexMusicObject):
     async def users_likes_albums_remove(
         self,
         album_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Снять отметку "Мне нравится" у альбома/альбомов.
 
@@ -1878,9 +1887,9 @@ class ClientAsync(YandexMusicObject):
         self,
         object_type: str,
         ids: Union[List[Union[str, int]], int, str],
-        params: dict = None,
-        *args,
-        **kwargs,
+        params: Optional['JSONType'] = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> List[Union[Artist, Album, Track, Playlist]]:
         """Получение объекта/объектов.
 
@@ -1911,7 +1920,9 @@ class ClientAsync(YandexMusicObject):
         return de_list[object_type](result, self)
 
     @log
-    async def artists(self, artist_ids: Union[List[Union[str, int]], int, str], *args, **kwargs) -> List[Artist]:
+    async def artists(
+        self, artist_ids: Union[List[Union[str, int]], int, str], *args: Any, **kwargs: Any
+    ) -> List[Artist]:
         """Получение исполнителя/исполнителей.
 
         Args:
@@ -1929,7 +1940,7 @@ class ClientAsync(YandexMusicObject):
         return await self._get_list('artist', artist_ids, *args, **kwargs)
 
     @log
-    async def albums(self, album_ids: Union[List[Union[str, int]], int, str], *args, **kwargs) -> List[Album]:
+    async def albums(self, album_ids: Union[List[Union[str, int]], int, str], *args: Any, **kwargs: Any) -> List[Album]:
         """Получение альбома/альбомов.
 
         Args:
@@ -1951,8 +1962,8 @@ class ClientAsync(YandexMusicObject):
         self,
         track_ids: Union[List[Union[str, int]], int, str],
         with_positions: bool = True,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> List[Track]:
         """Получение трека/треков.
 
@@ -1973,7 +1984,7 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def playlists_list(
-        self, playlist_ids: Union[List[Union[str, int]], int, str], *args, **kwargs
+        self, playlist_ids: Union[List[Union[str, int]], int, str], *args: Any, **kwargs: Any
     ) -> List[Playlist]:
         """Получение плейлиста/плейлистов.
 
@@ -2003,7 +2014,7 @@ class ClientAsync(YandexMusicObject):
         return await self._get_list('playlist', playlist_ids, *args, **kwargs)
 
     @log
-    async def playlists_collective_join(self, user_id: int, token: str, **kwargs) -> bool:
+    async def playlists_collective_join(self, user_id: int, token: str, **kwargs: Any) -> bool:
         """Присоединение к плейлисту как соавтор.
 
         Note:
@@ -2032,7 +2043,7 @@ class ClientAsync(YandexMusicObject):
         return result == 'ok'
 
     @log
-    async def users_playlists_list(self, user_id: Union[str, int] = None, *args, **kwargs) -> List[Playlist]:
+    async def users_playlists_list(self, user_id: UserIdType = None, *args: Any, **kwargs: Any) -> List[Playlist]:
         """Получение списка плейлистов пользователя.
 
         Args:
@@ -2047,8 +2058,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/playlists/list'
 
@@ -2059,10 +2070,10 @@ class ClientAsync(YandexMusicObject):
     async def _get_likes(
         self,
         object_type: str,
-        user_id: Union[str, int] = None,
-        params: dict = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        params: Optional['JSONType'] = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> Union[List[Like], Optional[TracksList]]:
         """Получение объектов с отметкой "Мне нравится".
 
@@ -2080,8 +2091,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/likes/{object_type}s'
 
@@ -2095,10 +2106,10 @@ class ClientAsync(YandexMusicObject):
     @log
     async def users_likes_tracks(
         self,
-        user_id: Union[str, int] = None,
+        user_id: UserIdType = None,
         if_modified_since_revision: int = 0,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[TracksList]:
         """Получение треков с отметкой "Мне нравится".
 
@@ -2121,7 +2132,7 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def users_likes_albums(
-        self, user_id: Union[str, int] = None, rich: bool = True, *args, **kwargs
+        self, user_id: UserIdType = None, rich: bool = True, *args: Any, **kwargs: Any
     ) -> List[Like]:
         """Получение альбомов с отметкой "Мне нравится".
 
@@ -2143,10 +2154,10 @@ class ClientAsync(YandexMusicObject):
     @log
     async def users_likes_artists(
         self,
-        user_id: Union[str, int] = None,
+        user_id: UserIdType = None,
         with_timestamps: bool = True,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> List[Like]:
         """Получение артистов с отметкой "Мне нравится".
 
@@ -2166,7 +2177,7 @@ class ClientAsync(YandexMusicObject):
         return await self._get_likes('artist', user_id, {'with-timestamps': str(with_timestamps)}, *args, **kwargs)
 
     @log
-    async def users_likes_playlists(self, user_id: Union[str, int] = None, *args, **kwargs) -> List[Like]:
+    async def users_likes_playlists(self, user_id: UserIdType = None, *args: Any, **kwargs: Any) -> List[Like]:
         """Получение плейлистов с отметкой "Мне нравится".
 
         Args:
@@ -2186,10 +2197,10 @@ class ClientAsync(YandexMusicObject):
     @log
     async def users_dislikes_tracks(
         self,
-        user_id: Union[str, int] = None,
+        user_id: UserIdType = None,
         if_modified_since_revision: int = 0,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[TracksList]:
         """Получение треков с отметкой "Не рекомендовать".
 
@@ -2206,8 +2217,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         url = f'{self.base_url}/users/{user_id}/dislikes/tracks'
 
@@ -2221,9 +2232,9 @@ class ClientAsync(YandexMusicObject):
         self,
         ids: Union[List[Union[str, int]], str, int],
         remove: bool = False,
-        user_id: Union[str, int] = None,
-        *args,
-        **kwargs,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
     ) -> bool:
         """Действия с отметкой "Не рекомендовать".
 
@@ -2242,8 +2253,8 @@ class ClientAsync(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.me is not None:
-            user_id = self.me.account.uid
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
 
         action = 'remove' if remove else 'add-multiple'
         url = f'{self.base_url}/users/{user_id}/dislikes/tracks/{action}'
@@ -2256,8 +2267,8 @@ class ClientAsync(YandexMusicObject):
     async def users_dislikes_tracks_add(
         self,
         track_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Поставить отметку "Не рекомендовать" треку/трекам.
 
@@ -2284,8 +2295,8 @@ class ClientAsync(YandexMusicObject):
     async def users_dislikes_tracks_remove(
         self,
         track_ids: Union[List[Union[str, int]], str, int],
-        user_id: Union[str, int] = None,
-        **kwargs,
+        user_id: UserIdType = None,
+        **kwargs: Any,
     ) -> bool:
         """Снять отметку "Не рекомендовать" у трека/треков.
 
@@ -2310,12 +2321,12 @@ class ClientAsync(YandexMusicObject):
         self,
         next_track_id: Union[str, int],
         context_item: str,
-        prev_track_id: Union[str, int] = None,
+        prev_track_id: Optional[Union[str, int]] = None,
         context: str = 'playlist',
         types: str = 'shot',
         from_: str = 'mobile-landing-origin-default',
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional[ShotEvent]:
         """Получение рекламы или шота от Алисы после трека.
 
@@ -2365,7 +2376,7 @@ class ClientAsync(YandexMusicObject):
         return ShotEvent.de_json(result.get('shot_event'), self)
 
     @log
-    async def queues_list(self, device: str = None, *args, **kwargs) -> List[QueueItem]:
+    async def queues_list(self, device: Optional[str] = None, *args: Any, **kwargs: Any) -> List[QueueItem]:
         """Получение всех очередей треков с разных устройств для синхронизации между ними.
 
         Note:
@@ -2396,7 +2407,7 @@ class ClientAsync(YandexMusicObject):
         return QueueItem.de_list(result.get('queues'), self)
 
     @log
-    async def queue(self, queue_id: str, *args, **kwargs) -> Optional[Queue]:
+    async def queue(self, queue_id: str, *args: Any, **kwargs: Any) -> Optional[Queue]:
         """Получение информации об очереди треков и самих треков в ней.
 
         Args:
@@ -2417,7 +2428,9 @@ class ClientAsync(YandexMusicObject):
         return Queue.de_json(result, self)
 
     @log
-    async def queue_update_position(self, queue_id: str, current_index: int, device: str = None, **kwargs) -> bool:
+    async def queue_update_position(
+        self, queue_id: str, current_index: int, device: Optional[str] = None, **kwargs
+    ) -> bool:
         """Установка текущего индекса проигрываемого трека в очереди треков.
 
         Note:
@@ -2449,7 +2462,9 @@ class ClientAsync(YandexMusicObject):
         return result.get('status') == 'ok'
 
     @log
-    async def queue_create(self, queue: Union[Queue, str], device: str = None, *args, **kwargs) -> Optional[str]:
+    async def queue_create(
+        self, queue: Union[Queue, str], device: Optional[str] = None, *args: Any, **kwargs: Any
+    ) -> Optional[str]:
         """Создание новой очереди треков.
 
         Args:

@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Artist, Client, Track
+    from yandex_music import Artist, ClientType, Track
 
 
 @model
@@ -23,13 +23,13 @@ class ArtistEvent(YandexMusicModel):
     tracks: List['Track']
     similar_to_artists_from_history: List['Artist']
     subscribed: Optional['bool'] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['ArtistEvent']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['ArtistEvent']:
         """Десериализация объекта.
 
         Args:

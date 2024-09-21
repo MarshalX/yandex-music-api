@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Track
+    from yandex_music import ClientType, Track
 
 
 @model
@@ -28,7 +28,7 @@ class TrackId(YandexMusicModel):
     track_id: Optional[int] = None
     album_id: Optional[int] = None
     from_: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.track_id, self.id, self.album_id)
@@ -42,7 +42,7 @@ class TrackId(YandexMusicModel):
 
         return f'{track_id}:{self.album_id}'
 
-    def fetch_track(self, *args, **kwargs) -> 'Track':
+    def fetch_track(self, *args: Any, **kwargs: Any) -> 'Track':
         """Получение полной версии трека.
 
         Returns:
@@ -50,7 +50,7 @@ class TrackId(YandexMusicModel):
         """
         return self.client.tracks(self.track_full_id, *args, **kwargs)[0]
 
-    async def fetch_track_async(self, *args, **kwargs) -> 'Track':
+    async def fetch_track_async(self, *args: Any, **kwargs: Any) -> 'Track':
         """Получение полной версии трека.
 
         Returns:

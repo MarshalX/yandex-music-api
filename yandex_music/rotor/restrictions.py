@@ -4,7 +4,7 @@ from yandex_music import DiscreteScale, Enum, JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 de_json = {'enum': Enum.de_json, 'discrete-scale': DiscreteScale.de_json}
 
@@ -27,13 +27,13 @@ class Restrictions(YandexMusicModel):
     mood: Optional['DiscreteScale'] = None
     energy: Optional['DiscreteScale'] = None
     mood_energy: Optional['Enum'] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Restrictions']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Restrictions']:
         """Десериализация объекта.
 
         Args:

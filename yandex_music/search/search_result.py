@@ -4,9 +4,9 @@ from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, 
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
-T = TypeVar('T', bound=Union[Track, Artist, Album, Playlist, Video])
+T = TypeVar('T', bound=Union[Track, Artist, Album, Playlist, Video, User])
 
 
 type_class_by_str: Dict[str, Type[T]] = {
@@ -43,13 +43,13 @@ class SearchResult(YandexMusicModel, Generic[T]):
     per_page: int
     order: int
     results: List[T]
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client', type_: str = None) -> Optional['SearchResult']:
+    def de_json(cls, data: JSONType, client: 'ClientType', type_: Optional[str] = None) -> Optional['SearchResult[T]']:
         """Десериализация объекта.
 
         Args:

@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -19,7 +19,7 @@ class LyricsInfo(YandexMusicModel):
 
     has_available_sync_lyrics: bool
     has_available_text_lyrics: bool
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.has_available_sync_lyrics, self.has_available_text_lyrics)

@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Block, Client
+    from yandex_music import Block, ClientType
 
 
 @model
@@ -21,7 +21,7 @@ class Landing(YandexMusicModel):
     pumpkin: bool
     content_id: Union[str, int]
     blocks: List['Block']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.content_id, self.blocks)
@@ -30,7 +30,7 @@ class Landing(YandexMusicModel):
         return self.blocks[item]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Landing']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Landing']:
         """Десериализация объекта.
 
         Args:

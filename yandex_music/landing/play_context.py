@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, TrackShortOld
+    from yandex_music import ClientType, TrackShortOld
 
 
 @model
@@ -30,13 +30,13 @@ class PlayContext(YandexMusicModel):
     context: str
     context_item: str
     tracks: List['TrackShortOld']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.client_, self.context_item, self.context_item, self.tracks)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['PlayContext']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['PlayContext']:
         """Десериализация объекта.
 
         Args:

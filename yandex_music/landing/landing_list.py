@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, PlaylistId
+    from yandex_music import ClientType, PlaylistId
 
 
 @model
@@ -31,16 +31,16 @@ class LandingList(YandexMusicModel):
     type_for_from: str
     title: str
     id: Optional[str] = None
-    new_releases: List[int] = None
-    new_playlists: List['PlaylistId'] = None
-    podcasts: List[int] = None
-    client: Optional['Client'] = None
+    new_releases: List[int] = []
+    new_playlists: List['PlaylistId'] = []
+    podcasts: List[int] = []
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.new_releases, self.new_playlists, self.podcasts)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['LandingList']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['LandingList']:
         """Десериализация объекта.
 
         Args:

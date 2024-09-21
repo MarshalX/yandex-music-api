@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Album, Artist, Chart, Client, Cover, Playlist, PlaylistId, Track, Video, Vinyl
+    from yandex_music import Album, Artist, Chart, ClientType, Cover, Playlist, PlaylistId, Track, Video, Vinyl
 
 
 @model
@@ -44,8 +44,8 @@ class BriefInfo(YandexMusicModel):
     vinyls: List['Vinyl']
     has_promotions: bool
     playlist_ids: List['PlaylistId']
-    tracks_in_chart: List['Chart'] = None
-    client: Optional['Client'] = None
+    tracks_in_chart: List['Chart'] = []
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -65,7 +65,7 @@ class BriefInfo(YandexMusicModel):
         )
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['BriefInfo']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['BriefInfo']:
         """Десериализация объекта.
 
         Args:

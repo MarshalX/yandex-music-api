@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Context, TrackId
+    from yandex_music import ClientType, Context, TrackId
 
 
 @model
@@ -27,7 +27,7 @@ class Queue(YandexMusicModel):
     modified: str
     id: Optional[str] = None
     from_: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.tracks, self.context, self.modified)
@@ -37,7 +37,7 @@ class Queue(YandexMusicModel):
         return self.tracks[self.current_index]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Queue']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Queue']:
         """Десериализация объекта.
 
         Args:

@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, StationResult
+    from yandex_music import ClientType, StationResult
 
 
 @model
@@ -22,13 +22,13 @@ class Dashboard(YandexMusicModel):
     dashboard_id: str
     stations: List['StationResult']
     pumpkin: bool
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.dashboard_id, self.stations, self.pumpkin)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Dashboard']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Dashboard']:
         """Десериализация объекта.
 
         Args:

@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import BlockEntity, Client, PersonalPlaylistsData, PlayContextsData
+    from yandex_music import BlockEntity, ClientType, PersonalPlaylistsData, PlayContextsData
 
 
 @model
@@ -33,7 +33,7 @@ class Block(YandexMusicModel):
     entities: List['BlockEntity']
     description: Optional[str] = None
     data: Optional[Union['PersonalPlaylistsData', 'PlayContextsData']] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
@@ -42,7 +42,7 @@ class Block(YandexMusicModel):
         return self.entities[item]
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Block']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Block']:
         """Десериализация объекта.
 
         Args:

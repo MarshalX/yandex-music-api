@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Cover
+    from yandex_music import ClientType, Cover
 
 
 @model
@@ -21,13 +21,13 @@ class OpenGraphData(YandexMusicModel):
     title: str
     description: str
     image: 'Cover'
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.title, self.description, self.image)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['OpenGraphData']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['OpenGraphData']:
         """Десериализация объекта.
 
         Args:

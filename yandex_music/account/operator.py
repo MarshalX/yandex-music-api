@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Deactivation
+    from yandex_music import ClientType, Deactivation
 
 
 @model
@@ -27,13 +27,13 @@ class Operator(YandexMusicModel):
     deactivation: List['Deactivation']
     title: str
     suspended: bool
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.product_id, self.phone)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Operator']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Operator']:
         """Десериализация объекта.
 
         Args:

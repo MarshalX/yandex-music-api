@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType, JSONType
 
 
 @model
@@ -19,13 +19,13 @@ class Title(YandexMusicModel):
 
     title: str
     full_title: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.title, self.full_title)
 
     @classmethod
-    def de_dict(cls, data: dict, client: 'Client') -> Dict[str, Optional['Title']]:
+    def de_dict(cls, data: 'JSONType', client: 'ClientType') -> Dict[str, 'Title']:
         """Десериализация списка объектов.
 
         Args:
@@ -35,11 +35,13 @@ class Title(YandexMusicModel):
         Returns:
             :obj:`dict` где ключ это язык :obj:`str`, а значение :obj:`yandex_music.Title`: Заголовки жанров.
         """
-        if not data:
+        if not cls.is_dict_model_data(data):
             return {}
 
-        titles = {}
-        for lang, title in data.items():
-            titles.update({lang: cls.de_json(title, client)})
+        titles: Dict[str, 'Title'] = {}
+        for lang, raw_title in data.items():
+            title = cls.de_json(raw_title, client)
+            if title:
+                titles.update({lang: title})
 
         return titles

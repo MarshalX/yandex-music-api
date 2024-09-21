@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Icon, Images, Title
+    from yandex_music import ClientType, Icon, Images, Title
 
 
 @model
@@ -36,20 +36,20 @@ class Genre(YandexMusicModel):
     titles: Dict[str, Optional['Title']]
     images: Optional['Images']
     show_in_menu: bool
-    show_in_regions: Optional[list] = None
+    show_in_regions: Optional[List[int]] = None
     full_title: Optional[str] = None
     url_part: Optional[str] = None
     color: Optional[str] = None
     radio_icon: Optional['Icon'] = None
-    sub_genres: List['Genre'] = None
+    sub_genres: List['Genre'] = []
     hide_in_regions = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.weight, self.composer_top, self.title, self.images, self.show_in_menu)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Genre']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Genre']:
         """Десериализация объекта.
 
         Args:

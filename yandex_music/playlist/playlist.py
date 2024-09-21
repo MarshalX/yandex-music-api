@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from yandex_music import (
         Artist,
         Brand,
-        Client,
+        ClientType,
         Contest,
         Cover,
         CustomWave,
@@ -138,14 +138,14 @@ class Playlist(YandexMusicModel):
     og_data: Optional['OpenGraphData'] = None
     branding: Optional['Brand'] = None
     metrika_id: Optional[int] = None
-    coauthors: List[int] = None
-    top_artist: List['Artist'] = None
-    recent_tracks: List['TrackId'] = None
-    tracks: List['TrackShort'] = None
+    coauthors: List[int] = []
+    top_artist: List['Artist'] = []
+    recent_tracks: List['TrackId'] = []
+    tracks: List['TrackShort'] = []
     prerolls: Optional[list] = None
     likes_count: Optional[int] = None
-    similar_playlists: List['Playlist'] = None
-    last_owner_playlists: List['Playlist'] = None
+    similar_playlists: List['Playlist'] = []
+    last_owner_playlists: List['Playlist'] = []
     generated_playlist_type: Optional[str] = None
     animated_cover_uri: Optional[str] = None
     ever_played: Optional[bool] = None
@@ -158,7 +158,7 @@ class Playlist(YandexMusicModel):
     regions: Any = None
     custom_wave: Optional['CustomWave'] = None
     pager: Optional['Pager'] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.uid, self.kind, self.title, self.playlist_absence)
@@ -166,21 +166,25 @@ class Playlist(YandexMusicModel):
     @property
     def is_mine(self) -> bool:
         """Является ли плейлист моим."""
-        return self.owner.uid == self.client.me.account.uid
+        if not self.owner or not self.client:
+            return False
+        return str(self.owner.uid) == self.client.account_uid
 
     @property
     def playlist_id(self) -> str:
         """Полный ID плейлиста."""
-        return f'{self.owner.uid}:{self.kind}'
+        if self.owner:
+            return f'{self.owner.uid}:{self.kind}'
+        return str(self.kind)
 
-    def get_recommendations(self, *args, **kwargs) -> Optional['PlaylistRecommendations']:
+    def get_recommendations(self, *args: Any, **kwargs: Any) -> Optional['PlaylistRecommendations']:
         """Сокращение для::
 
         client.users_playlists_recommendations(playlist.kind, playlist.owner.uid, *args, **kwargs)
         """
         return self.client.users_playlists_recommendations(self.kind, self.owner.uid, *args, **kwargs)
 
-    async def get_recommendations_async(self, *args, **kwargs) -> Optional['PlaylistRecommendations']:
+    async def get_recommendations_async(self, *args: Any, **kwargs: Any) -> Optional['PlaylistRecommendations']:
         """Сокращение для::
 
         await client.users_playlists_recommendations(playlist.kind, playlist.owner.uid, *args, **kwargs)
@@ -297,7 +301,7 @@ class Playlist(YandexMusicModel):
         """
         return await self.client.request.retrieve(self.get_og_image_url(size))
 
-    def rename(self, name: str, *args, **kwargs) -> None:
+    def rename(self, name: str, *args: Any, **kwargs: Any) -> None:
         """Сокращение для::
 
         client.users_playlists_name(playlist.kind, name, *args, **kwargs)
@@ -307,7 +311,7 @@ class Playlist(YandexMusicModel):
         self.__dict__.clear()
         self.__dict__.update(client.users_playlists_name(kind, name, *args, **kwargs).__dict__)
 
-    async def rename_async(self, name: str, *args, **kwargs) -> None:
+    async def rename_async(self, name: str, *args: Any, **kwargs: Any) -> None:
         """Сокращение для::
 
         client.users_playlists_name(playlist.kind, name, *args, **kwargs)
@@ -317,14 +321,14 @@ class Playlist(YandexMusicModel):
         self.__dict__.clear()
         self.__dict__.update((await client.users_playlists_name(kind, name, *args, **kwargs)).__dict__)
 
-    def like(self, *args, **kwargs) -> bool:
+    def like(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_likes_playlists_add(playlist.playlist_id, user.id, *args, **kwargs)
         """
         return self.client.users_likes_playlists_add(self.playlist_id, self.client.me.account.uid, *args, **kwargs)
 
-    async def like_async(self, *args, **kwargs) -> bool:
+    async def like_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_playlists_add(playlist.playlist_id, user.id, *args, **kwargs)
@@ -333,14 +337,14 @@ class Playlist(YandexMusicModel):
             self.playlist_id, self.client.me.account.uid, *args, **kwargs
         )
 
-    def dislike(self, *args, **kwargs) -> bool:
+    def dislike(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_likes_playlists_remove(playlist.playlist_id, user.id, *args, **kwargs)
         """
         return self.client.users_likes_playlists_remove(self.playlist_id, self.client.me.account.uid, *args, **kwargs)
 
-    async def dislike_async(self, *args, **kwargs) -> bool:
+    async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_likes_playlists_remove(playlist.playlist_id, user.id, *args, **kwargs)
@@ -349,14 +353,14 @@ class Playlist(YandexMusicModel):
             self.playlist_id, self.client.me.account.uid, *args, **kwargs
         )
 
-    def fetch_tracks(self, *args, **kwargs) -> List['TrackShort']:
+    def fetch_tracks(self, *args: Any, **kwargs: Any) -> List['TrackShort']:
         """Сокращение для::
 
         client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
         """
         return self.client.users_playlists(self.kind, self.owner.uid, *args, **kwargs).tracks
 
-    async def fetch_tracks_async(self, *args, **kwargs) -> List['TrackShort']:
+    async def fetch_tracks_async(self, *args: Any, **kwargs: Any) -> List['TrackShort']:
         """Сокращение для::
 
         await client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
@@ -383,7 +387,7 @@ class Playlist(YandexMusicModel):
             self.kind, track_id, album_id, user_id=self.owner.uid, revision=self.revision, **kwargs
         )
 
-    def delete_tracks(self, from_: int, to: int, *args, **kwargs) -> Optional['Playlist']:
+    def delete_tracks(self, from_: int, to: int, *args: Any, **kwargs: Any) -> Optional['Playlist']:
         """Сокращение для::
 
         client.users_playlists_delete_track(self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs)
@@ -392,7 +396,7 @@ class Playlist(YandexMusicModel):
             self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs
         )
 
-    async def delete_tracks_async(self, from_: int, to: int, *args, **kwargs) -> Optional['Playlist']:
+    async def delete_tracks_async(self, from_: int, to: int, *args: Any, **kwargs: Any) -> Optional['Playlist']:
         """Сокращение для::
 
         await client.users_playlists_delete_track(self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs)
@@ -401,14 +405,14 @@ class Playlist(YandexMusicModel):
             self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs
         )
 
-    def delete(self, *args, **kwargs) -> bool:
+    def delete(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         client.users_playlists_delete(self.kind, self.owner.uid)
         """
         return self.client.users_playlists_delete(self.kind, self.owner.uid, *args, **kwargs)
 
-    async def delete_async(self, *args, **kwargs) -> bool:
+    async def delete_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
         await client.users_playlists_delete(self.kind, self.owner.uid)
@@ -416,7 +420,7 @@ class Playlist(YandexMusicModel):
         return await self.client.users_playlists_delete(self.kind, self.owner.uid, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Playlist']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Playlist']:
         """Десериализация объекта.
 
         Args:

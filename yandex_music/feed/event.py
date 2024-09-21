@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AlbumEvent, ArtistEvent, Client, Track
+    from yandex_music import AlbumEvent, ArtistEvent, ClientType, Track
 
 
 @model
@@ -40,20 +40,20 @@ class Event(YandexMusicModel):
     type: str
     type_for_from: Optional[str] = None
     title: Optional[str] = None
-    tracks: List['Track'] = None
-    artists: List['ArtistEvent'] = None
-    albums: List['AlbumEvent'] = None
+    tracks: List['Track'] = []
+    artists: List['ArtistEvent'] = []
+    albums: List['AlbumEvent'] = []
     message: Optional[str] = None
     device: Optional[str] = None
     tracks_count: Optional[int] = None
     genre: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Event']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Event']:
         """Десериализация объекта.
 
         Args:

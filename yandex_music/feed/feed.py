@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Day, GeneratedPlaylist
+    from yandex_music import ClientType, Day, GeneratedPlaylist
 
 
 @model
@@ -30,17 +30,17 @@ class Feed(YandexMusicModel):
     pumpkin: bool
     is_wizard_passed: bool
     generated_playlists: List['GeneratedPlaylist']
-    headlines: list
+    headlines: List[str]
     today: str
     days: List['Day']
     next_revision: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.can_get_more_events, self.generated_playlists, self.headlines, self.today, self.days)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Feed']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Feed']:
         """Десериализация объекта.
 
         Args:

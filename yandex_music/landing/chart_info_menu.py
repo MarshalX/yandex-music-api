@@ -4,7 +4,7 @@ from yandex_music import ChartInfoMenuItem, JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client
+    from yandex_music import ClientType
 
 
 @model
@@ -17,13 +17,13 @@ class ChartInfoMenu(YandexMusicModel):
     """
 
     items: List['ChartInfoMenuItem']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.items,)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['ChartInfoMenu']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['ChartInfoMenu']:
         """Десериализация объекта.
 
         Args:

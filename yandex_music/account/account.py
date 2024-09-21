@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, PassportPhone
+    from yandex_music import ClientType, PassportPhone
 
 
 @model
@@ -43,18 +43,18 @@ class Account(YandexMusicModel):
     display_name: Optional[str] = None
     hosted_user: Optional[bool] = None
     birthday: Optional[str] = None
-    passport_phones: List['PassportPhone'] = None
+    passport_phones: List['PassportPhone'] = []
     registered_at: Optional[str] = None
-    has_info_for_app_metrica: bool = None
-    child: bool = None
-    client: Optional['Client'] = None
+    has_info_for_app_metrica: Optional[bool] = None
+    child: Optional[bool] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         if self.uid:
             self._id_attrs = (self.uid,)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Account']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Account']:
         """Десериализация объекта.
 
         Args:

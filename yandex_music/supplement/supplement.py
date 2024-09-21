@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Lyrics, VideoSupplement
+    from yandex_music import ClientType, Lyrics, VideoSupplement
 
 
 @model
@@ -27,15 +27,15 @@ class Supplement(YandexMusicModel):
     id: int
     lyrics: Optional['Lyrics']
     videos: List['VideoSupplement']
-    radio_is_available: bool = None
+    radio_is_available: Optional[bool] = None
     description: Optional[str] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.lyrics, self.videos)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Supplement']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Supplement']:
         """Десериализация объекта.
 
         Args:

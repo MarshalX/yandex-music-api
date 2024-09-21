@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Best, Client, SearchResult
+    from yandex_music import Best, ClientType, SearchResult
 
 
 @model
@@ -51,7 +51,7 @@ class Search(YandexMusicModel):
     misspell_original: Optional[str] = None
     misspell_corrected: Optional[bool] = None
     nocorrect: Optional[bool] = None
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (
@@ -68,7 +68,7 @@ class Search(YandexMusicModel):
             self.podcast_episodes,
         )
 
-    def get_page(self, page: int, *args, **kwargs) -> Optional['Search']:
+    def get_page(self, page: int, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение определённой страницы поиска.
 
         Args:
@@ -79,9 +79,12 @@ class Search(YandexMusicModel):
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.nocorrect, bool)
+        assert isinstance(self.type, str)
+        assert self.valid_client(self.client)
         return self.client.search(self.text, self.nocorrect, self.type, page, *args, **kwargs)
 
-    async def get_page_async(self, page: int, *args, **kwargs) -> Optional['Search']:
+    async def get_page_async(self, page: int, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение определённой страницы поиска.
 
         Args:
@@ -92,42 +95,49 @@ class Search(YandexMusicModel):
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.nocorrect, bool)
+        assert isinstance(self.type, str)
+        assert self.valid_async_client(self.client)
         return await self.client.search(self.text, self.nocorrect, self.type, page, *args, **kwargs)
 
-    def next_page(self, *args, **kwargs) -> Optional['Search']:
+    def next_page(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение следующей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Следующая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return self.get_page(self.page + 1, *args, **kwargs)
 
-    async def next_page_async(self, *args, **kwargs) -> Optional['Search']:
+    async def next_page_async(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение следующей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Следующая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return await self.get_page_async(self.page + 1, *args, **kwargs)
 
-    def prev_page(self, *args, **kwargs) -> Optional['Search']:
+    def prev_page(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение предыдущей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return self.get_page(self.page - 1, *args, **kwargs)
 
-    async def prev_page_async(self, *args, **kwargs) -> Optional['Search']:
+    async def prev_page_async(self, *args: Any, **kwargs: Any) -> Optional['Search']:
         """Получение предыдущей страницы поиска.
 
         Returns:
             :obj:`yandex_music.Search` | :obj:`None`: Предыдущая страница результата поиска или :obj:`None`.
         """
+        assert isinstance(self.page, int)
         return await self.get_page_async(self.page - 1, *args, **kwargs)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Search']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Search']:
         """Десериализация объекта.
 
         Args:

@@ -4,7 +4,7 @@ from yandex_music import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Client, Value
+    from yandex_music import ClientType, Value
 
 
 @model
@@ -22,13 +22,13 @@ class Enum(YandexMusicModel):
     type: str
     name: str
     possible_values: List['Value']
-    client: Optional['Client'] = None
+    client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.name, self.possible_values)
 
     @classmethod
-    def de_json(cls, data: JSONType, client: 'Client') -> Optional['Enum']:
+    def de_json(cls, data: JSONType, client: 'ClientType') -> Optional['Enum']:
         """Десериализация объекта.
 
         Args:
