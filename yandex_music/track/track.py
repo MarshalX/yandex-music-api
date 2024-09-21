@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import JSONType, YandexMusicModel
@@ -96,11 +97,11 @@ class Track(YandexMusicModel):
     id: Union[str, int]
     title: Optional[str] = None
     available: Optional[bool] = None
-    artists: List['Artist'] = []
-    albums: List['Album'] = []
+    artists: List['Artist'] = field(default_factory=list)
+    albums: List['Album'] = field(default_factory=list)
     available_for_premium_users: Optional[bool] = None
     lyrics_available: Optional[bool] = None
-    poetry_lover_matches: List['PoetryLoverMatch'] = []
+    poetry_lover_matches: List['PoetryLoverMatch'] = field(default_factory=list)
     best: Optional[bool] = None
     real_id: Optional[Union[str, int]] = None
     og_image: Optional[str] = None

@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -44,7 +45,7 @@ class BriefInfo(YandexMusicModel):
     vinyls: List['Vinyl']
     has_promotions: bool
     playlist_ids: List['PlaylistId']
-    tracks_in_chart: List['Chart'] = []
+    tracks_in_chart: List['Chart'] = field(default_factory=list)
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -43,7 +44,7 @@ class Account(YandexMusicModel):
     display_name: Optional[str] = None
     hosted_user: Optional[bool] = None
     birthday: Optional[str] = None
-    passport_phones: List['PassportPhone'] = []
+    passport_phones: List['PassportPhone'] = field(default_factory=list)
     registered_at: Optional[str] = None
     has_info_for_app_metrica: Optional[bool] = None
     child: Optional[bool] = None

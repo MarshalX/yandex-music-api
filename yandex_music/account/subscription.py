@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -28,7 +29,7 @@ class Subscription(YandexMusicModel):
     auto_renewable: List['AutoRenewable']
     family_auto_renewable: List['AutoRenewable']
     had_any_subscription: bool
-    operator: List['Operator'] = []
+    operator: List['Operator'] = field(default_factory=list)
     non_auto_renewable: Optional['NonAutoRenewable'] = None
     can_start_trial: Optional[bool] = None
     mcdonalds: Optional[bool] = None

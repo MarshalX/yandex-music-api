@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -138,14 +139,14 @@ class Playlist(YandexMusicModel):
     og_data: Optional['OpenGraphData'] = None
     branding: Optional['Brand'] = None
     metrika_id: Optional[int] = None
-    coauthors: List[int] = []
-    top_artist: List['Artist'] = []
-    recent_tracks: List['TrackId'] = []
-    tracks: List['TrackShort'] = []
+    coauthors: List[int] = field(default_factory=list)
+    top_artist: List['Artist'] = field(default_factory=list)
+    recent_tracks: List['TrackId'] = field(default_factory=list)
+    tracks: List['TrackShort'] = field(default_factory=list)
     prerolls: Optional[list] = None
     likes_count: Optional[int] = None
-    similar_playlists: List['Playlist'] = []
-    last_owner_playlists: List['Playlist'] = []
+    similar_playlists: List['Playlist'] = field(default_factory=list)
+    last_owner_playlists: List['Playlist'] = field(default_factory=list)
     generated_playlist_type: Optional[str] = None
     animated_cover_uri: Optional[str] = None
     ever_played: Optional[bool] = None

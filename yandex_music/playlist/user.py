@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicModel
@@ -39,7 +40,7 @@ class User(YandexMusicModel):
     full_name: Optional[str] = None
     sex: Optional[str] = None
     verified: Optional[bool] = None
-    regions: List[int] = []
+    regions: List[int] = field(default_factory=list)
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

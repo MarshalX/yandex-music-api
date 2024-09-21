@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, Dict, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -41,7 +42,7 @@ class Genre(YandexMusicModel):
     url_part: Optional[str] = None
     color: Optional[str] = None
     radio_icon: Optional['Icon'] = None
-    sub_genres: List['Genre'] = []
+    sub_genres: List['Genre'] = field(default_factory=list)
     hide_in_regions = None
     client: Optional['ClientType'] = None
 

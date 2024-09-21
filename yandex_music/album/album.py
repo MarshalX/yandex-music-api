@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import JSONType, YandexMusicModel
@@ -76,8 +77,8 @@ class Album(YandexMusicModel):
     error: Optional[str] = None
     title: Optional[str] = None
     track_count: Optional[int] = None
-    artists: List['Artist'] = []
-    labels: List[Union['Label', str]] = []
+    artists: List['Artist'] = field(default_factory=list)
+    labels: List[Union['Label', str]] = field(default_factory=list)
     available: Optional[bool] = None
     available_for_premium_users: Optional[bool] = None
     version: Optional[str] = None
@@ -99,7 +100,7 @@ class Album(YandexMusicModel):
     available_for_mobile: Optional[bool] = None
     available_partially: Optional[bool] = None
     bests: Optional[List[int]] = None
-    duplicates: List['Album'] = []
+    duplicates: List['Album'] = field(default_factory=list)
     prerolls: Optional[list] = None
     volumes: Optional[List[List['Track']]] = None
     year: Optional[int] = None

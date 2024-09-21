@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -31,9 +32,9 @@ class LandingList(YandexMusicModel):
     type_for_from: str
     title: str
     id: Optional[str] = None
-    new_releases: List[int] = []
-    new_playlists: List['PlaylistId'] = []
-    podcasts: List[int] = []
+    new_releases: List[int] = field(default_factory=list)
+    new_playlists: List['PlaylistId'] = field(default_factory=list)
+    podcasts: List[int] = field(default_factory=list)
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

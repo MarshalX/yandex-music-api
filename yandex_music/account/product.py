@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -69,11 +70,11 @@ class Product(YandexMusicModel):
     intro_price: Optional['Price'] = None
     start_period_duration: Optional[str] = None
     start_price: Optional['Price'] = None
-    licence_text_parts: List['Price'] = []
+    licence_text_parts: List['Price'] = field(default_factory=list)
     vendor_trial_available: Optional[bool] = None
     button_text: Optional[str] = None
     button_additional_text: Optional[str] = None
-    payment_method_types: List[str] = []
+    payment_method_types: List[str] = field(default_factory=list)
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

@@ -1,3 +1,4 @@
+from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import JSONType, YandexMusicModel
@@ -40,9 +41,9 @@ class Event(YandexMusicModel):
     type: str
     type_for_from: Optional[str] = None
     title: Optional[str] = None
-    tracks: List['Track'] = []
-    artists: List['ArtistEvent'] = []
-    albums: List['AlbumEvent'] = []
+    tracks: List['Track'] = field(default_factory=list)
+    artists: List['ArtistEvent'] = field(default_factory=list)
+    albums: List['AlbumEvent'] = field(default_factory=list)
     message: Optional[str] = None
     device: Optional[str] = None
     tracks_count: Optional[int] = None
