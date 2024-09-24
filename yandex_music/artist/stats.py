@@ -13,7 +13,7 @@ class Stats(YandexMusicModel):
 
     Attributes:
         last_month_listeners (:obj:`int`): Количество слушателей за последний месяц.
-        last_month_listeners_delta (:obj:`int`): Изменения количетсво слушателей за последний месяц.
+        last_month_listeners_delta (:obj:`int`): Изменение количества слушателей за последний месяц.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 

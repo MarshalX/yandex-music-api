@@ -40,6 +40,7 @@ class BriefInfo(YandexMusicModel):
         vinyls (:obj:`list` из :obj:`yandex_music.Vinyl`): Пластинки.
         has_promotions (:obj:`bool`): Рекламируется ли TODO.
         playlist_ids (:obj:`list` из :obj:`yandex_music.PlaylistId`): Уникальные идентификаторы плейлистов.
+        stats (:obj:`yandex_music.Stats`, optional): Статистика прослушиваний за месяц.
         tracks_in_chart (:obj:`list` из :obj:`yandex_music.Chart`, optional): Треки в чарте.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
