@@ -4,7 +4,7 @@ from yandex_music import BriefInfo
 
 
 @pytest.fixture(scope='class')
-def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart, vinyl):
+def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart, vinyl, stats):
     return BriefInfo(
         artist,
         [album],
@@ -20,6 +20,7 @@ def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart,
         [vinyl],
         TestBriefInfo.has_promotions,
         [playlist_id],
+        stats,
         [chart],
     )
 
@@ -119,7 +120,7 @@ class TestBriefInfo:
         assert brief_info.playlist_ids == [playlist_id]
         assert brief_info.tracks_in_chart == [chart]
 
-    def test_equality(self, artist, track, album, playlist, cover, playlist_id, video, vinyl):
+    def test_equality(self, artist, track, album, playlist, cover, playlist_id, video, vinyl, stats):
         a = BriefInfo(
             artist,
             [album],
@@ -135,6 +136,7 @@ class TestBriefInfo:
             [vinyl],
             self.has_promotions,
             [playlist_id],
+            stats,
         )
         b = BriefInfo(
             artist,
@@ -151,6 +153,7 @@ class TestBriefInfo:
             [vinyl],
             True,
             [playlist_id],
+            stats,
         )
         c = BriefInfo(
             artist,
@@ -167,6 +170,7 @@ class TestBriefInfo:
             [vinyl],
             self.has_promotions,
             [playlist_id],
+            stats,
         )
         d = BriefInfo(
             artist,
@@ -183,6 +187,7 @@ class TestBriefInfo:
             [vinyl],
             self.has_promotions,
             [playlist_id],
+            stats,
         )
 
         assert a != b != c

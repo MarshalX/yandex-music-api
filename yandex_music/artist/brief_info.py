@@ -14,6 +14,7 @@ if TYPE_CHECKING:
         JSONType,
         Playlist,
         PlaylistId,
+        Stats,
         Track,
         Video,
         Vinyl,
@@ -57,6 +58,7 @@ class BriefInfo(YandexMusicModel):
     vinyls: List['Vinyl']
     has_promotions: bool
     playlist_ids: List['PlaylistId']
+    stats: Optional['Stats']
     tracks_in_chart: List['Chart'] = field(default_factory=list)
     client: Optional['ClientType'] = None
 
@@ -92,7 +94,7 @@ class BriefInfo(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Album, Artist, Chart, Cover, Playlist, PlaylistId, Track, Video, Vinyl
+        from yandex_music import Album, Artist, Chart, Cover, Playlist, PlaylistId, Stats, Track, Video, Vinyl
 
         cls_data['playlists'] = Playlist.de_list(data.get('playlists'), client)
         cls_data['artist'] = Artist.de_json(data.get('artist'), client)
@@ -106,5 +108,6 @@ class BriefInfo(YandexMusicModel):
         cls_data['videos'] = Video.de_list(data.get('videos'), client)
         cls_data['tracks_in_chart'] = Chart.de_list(data.get('tracks_in_chart'), client)
         cls_data['vinyls'] = Vinyl.de_list(data.get('vinyls'), client)
+        cls_data['stats'] = Stats.de_json(data.get('stats'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

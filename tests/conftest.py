@@ -81,6 +81,7 @@ from yandex_music import (
     Station,
     StationData,
     StationResult,
+    Stats,
     Status,
     Subscription,
     Tag,
@@ -173,6 +174,7 @@ from . import (
     TestStation,
     TestStationData,
     TestStationResult,
+    TestStats,
     TestStatus,
     TestSubscription,
     TestTag,
@@ -1326,3 +1328,8 @@ def r_128():
 @pytest.fixture(scope='session')
 def lyrics_info():
     return LyricsInfo(TestLyricsInfo.has_available_sync_lyrics, TestLyricsInfo.has_available_text_lyrics)
+
+
+@pytest.fixture(scope='session')
+def stats():
+    return Stats(TestStats.last_month_listeners, TestStats.last_month_listeners_delta)

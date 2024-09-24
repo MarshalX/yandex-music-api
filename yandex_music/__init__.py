@@ -38,6 +38,7 @@ from .artist.counts import Counts
 from .artist.description import Description
 from .artist.link import Link
 from .artist.ratings import Ratings
+from .artist.stats import Stats
 from .artist.vinyl import Vinyl
 
 from .playlist.case_forms import CaseForms
@@ -274,4 +275,5 @@ __all__ = [
     'CustomWave',
     'R128',
     'LyricsInfo',
+    'Stats',
 ]
