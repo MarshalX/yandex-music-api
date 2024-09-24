@@ -170,6 +170,7 @@ __all__ = [
     'Experiments',
     'Cover',
     'Ratings',
+    'Stats',
     'Counts',
     'Link',
     'Artist',
@@ -275,5 +276,4 @@ __all__ = [
     'CustomWave',
     'R128',
     'LyricsInfo',
-    'Stats',
 ]

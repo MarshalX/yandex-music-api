@@ -59,7 +59,7 @@ class BriefInfo(YandexMusicModel):
     vinyls: List['Vinyl']
     has_promotions: bool
     playlist_ids: List['PlaylistId']
-    stats: Optional['Stats']
+    stats: Optional['Stats'] = None
     tracks_in_chart: List['Chart'] = field(default_factory=list)
     client: Optional['ClientType'] = None
 
