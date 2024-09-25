@@ -20,4 +20,5 @@ Submodules
    yandex_music.artist.description
    yandex_music.artist.link
    yandex_music.artist.ratings
+   yandex_music.artist.stats
    yandex_music.artist.vinyl

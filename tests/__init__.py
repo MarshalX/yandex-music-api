@@ -78,6 +78,7 @@ from .test_shot_type import TestShotType
 from .test_station import TestStation
 from .test_station_data import TestStationData
 from .test_station_result import TestStationResult
+from .test_stats import TestStats
 from .test_status import TestStatus
 from .test_subscription import TestSubscription
 from .test_suggestions import TestSuggestions

@@ -4,7 +4,7 @@ from yandex_music import BriefInfo
 
 
 @pytest.fixture(scope='class')
-def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart, vinyl):
+def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart, vinyl, stats):
     return BriefInfo(
         artist,
         [album],
@@ -20,6 +20,7 @@ def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart,
         [vinyl],
         TestBriefInfo.has_promotions,
         [playlist_id],
+        stats,
         [chart],
     )
 
@@ -29,7 +30,9 @@ class TestBriefInfo:
     concerts = None
     has_promotions = False
 
-    def test_expected_values(self, brief_info, artist, track, album, playlist, cover, playlist_id, video, chart, vinyl):
+    def test_expected_values(
+        self, brief_info, artist, track, album, playlist, cover, playlist_id, video, chart, vinyl, stats
+    ):
         assert brief_info.artist == artist
         assert brief_info.albums == [album]
         assert brief_info.playlists == [playlist]
@@ -44,6 +47,7 @@ class TestBriefInfo:
         assert brief_info.vinyls == [vinyl]
         assert brief_info.has_promotions == self.has_promotions
         assert brief_info.playlist_ids == [playlist_id]
+        assert brief_info.stats == stats
         assert brief_info.tracks_in_chart == [chart]
 
     def test_de_json_none(self, client):
@@ -83,7 +87,7 @@ class TestBriefInfo:
         assert brief_info.has_promotions == self.has_promotions
         assert brief_info.playlist_ids == [playlist_id]
 
-    def test_de_json_all(self, client, artist, track, album, playlist, cover, playlist_id, video, chart, vinyl):
+    def test_de_json_all(self, client, artist, track, album, playlist, cover, playlist_id, video, chart, vinyl, stats):
         json_dict = {
             'artist': artist.to_dict(),
             'albums': [album.to_dict()],
@@ -100,6 +104,7 @@ class TestBriefInfo:
             'playlist_ids': [playlist_id.to_dict()],
             'tracks_in_chart': [chart.to_dict()],
             'playlists': [playlist.to_dict()],
+            'stats': stats.to_dict(),
         }
         brief_info = BriefInfo.de_json(json_dict, client)
 
@@ -117,9 +122,10 @@ class TestBriefInfo:
         assert brief_info.vinyls == [vinyl]
         assert brief_info.has_promotions == self.has_promotions
         assert brief_info.playlist_ids == [playlist_id]
+        assert brief_info.stats == stats
         assert brief_info.tracks_in_chart == [chart]
 
-    def test_equality(self, artist, track, album, playlist, cover, playlist_id, video, vinyl):
+    def test_equality(self, artist, track, album, playlist, cover, playlist_id, video, vinyl, stats):
         a = BriefInfo(
             artist,
             [album],
@@ -135,6 +141,7 @@ class TestBriefInfo:
             [vinyl],
             self.has_promotions,
             [playlist_id],
+            stats,
         )
         b = BriefInfo(
             artist,
@@ -151,6 +158,7 @@ class TestBriefInfo:
             [vinyl],
             True,
             [playlist_id],
+            stats,
         )
         c = BriefInfo(
             artist,
@@ -167,6 +175,7 @@ class TestBriefInfo:
             [vinyl],
             self.has_promotions,
             [playlist_id],
+            stats,
         )
         d = BriefInfo(
             artist,
@@ -183,6 +192,7 @@ class TestBriefInfo:
             [vinyl],
             self.has_promotions,
             [playlist_id],
+            stats,
         )
 
         assert a != b != c
