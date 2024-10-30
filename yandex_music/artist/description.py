@@ -17,12 +17,12 @@ class Description(YandexMusicModel):
 
     Attributes:
         text (:obj:`str`): Описание исполнителя.
-        uri (:obj:`str`): Ссылка на источник.
+        uri (:obj:`str`, optional): Ссылка на источник.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     text: str
-    uri: str
+    uri: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
