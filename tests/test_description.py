@@ -17,11 +17,10 @@ class TestDescription:
         assert Description.de_json({}, client) is None
 
     def test_de_json_required(self, client):
-        json_dict = {'text': self.text, 'uri': self.uri}
+        json_dict = {'text': self.text}
         description = Description.de_json(json_dict, client)
 
         assert description.text == self.text
-        assert description.uri == self.uri
 
     def test_de_json_all(self, client):
         json_dict = {'text': self.text, 'uri': self.uri}
