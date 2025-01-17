@@ -1,6 +1,7 @@
 import pytest
 
 from yandex_music import Artist
+from yandex_music.exceptions import IDMissingError
 
 
 class TestArtist:
@@ -165,5 +166,5 @@ class TestArtist:
         artist = Artist.de_json({'name': self.name}, client)
 
         # Make sure we throw an error if we try to access the id_required property when id is None
-        with pytest.raises(ValueError):
+        with pytest.raises(IDMissingError):
             _ = artist.id_required

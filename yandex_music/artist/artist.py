@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import YandexMusicModel
+from yandex_music.exceptions import IDMissingError
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -103,8 +104,7 @@ class Artist(YandexMusicModel):
             :obj:`int`: Уникальный идентификатор исполнителя.
         """
         if self.id is None:
-            msg = 'Artist.id is required'
-            raise ValueError(msg)
+            raise IDMissingError('Artist.id is required')
 
         return self.id
 
@@ -235,7 +235,7 @@ class Artist(YandexMusicModel):
     def like(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
-        client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
+        client.users_likes_artists_add(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.users_likes_artists_add(self.id_required, self.client.account_uid, *args, **kwargs)
@@ -243,7 +243,7 @@ class Artist(YandexMusicModel):
     async def like_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
-        await client.users_likes_artists_add(artist.id, user.id *args, **kwargs)
+        await client.users_likes_artists_add(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.users_likes_artists_add(self.id_required, self.client.account_uid, *args, **kwargs)
@@ -251,7 +251,7 @@ class Artist(YandexMusicModel):
     def dislike(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
-        client.users_likes_artists_remove(artist.id, user.id *args, **kwargs)
+        client.users_likes_artists_remove(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.users_likes_artists_remove(self.id_required, self.client.account_uid, *args, **kwargs)
@@ -259,7 +259,7 @@ class Artist(YandexMusicModel):
     async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение для::
 
-        await client.users_likes_artists_remove(artist.id, user.id *args, **kwargs)
+        await client.users_likes_artists_remove(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.users_likes_artists_remove(self.id_required, self.client.account_uid, *args, **kwargs)
@@ -267,7 +267,7 @@ class Artist(YandexMusicModel):
     def get_tracks(self, page: int = 0, page_size: int = 20, *args: Any, **kwargs: Any) -> Optional['ArtistTracks']:
         """Сокращение для::
 
-        client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
+        client.artists_tracks(artist.id_required, page, page_size, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.artists_tracks(self.id_required, page, page_size, *args, **kwargs)
@@ -277,7 +277,7 @@ class Artist(YandexMusicModel):
     ) -> Optional['ArtistTracks']:
         """Сокращение для::
 
-        await client.artists_tracks(artist.id, page, page_size, *args, **kwargs)
+        await client.artists_tracks(artist.id_required, page, page_size, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.artists_tracks(self.id_required, page, page_size, *args, **kwargs)
@@ -287,7 +287,7 @@ class Artist(YandexMusicModel):
     ) -> Optional['ArtistAlbums']:
         """Сокращение для::
 
-        client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
+        client.artists_direct_albums(artist.id_required, page, page_size, sort_by, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.artists_direct_albums(self.id_required, page, page_size, sort_by, *args, **kwargs)
@@ -297,7 +297,7 @@ class Artist(YandexMusicModel):
     ) -> Optional['ArtistAlbums']:
         """Сокращение для::
 
-        await client.artists_direct_albums(artist.id, page, page_size, sort_by, *args, **kwargs)
+        await client.artists_direct_albums(artist.id_required, page, page_size, sort_by, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.artists_direct_albums(self.id_required, page, page_size, sort_by, *args, **kwargs)
@@ -344,6 +344,8 @@ class Artist(YandexMusicModel):
 
     # camelCase псевдонимы
 
+    #: Псевдоним для :attr:`id_required`
+    idRequired = id_required
     #: Псевдоним для :attr:`get_op_image_url`
     getOpImageUrl = get_op_image_url
     #: Псевдоним для :attr:`get_og_image_url`
