@@ -1,3 +1,5 @@
+import pytest
+
 from yandex_music import Artist
 
 
@@ -70,10 +72,14 @@ class TestArtist:
         assert Artist.de_list([], client) == []
 
     def test_de_json_required(self, client, cover):
-        json_dict = {'id': self.id}
-        artist = Artist.de_json(json_dict, client)
+        # We don't have any required fields anymore,
+        #   so just make sure we don't throw any errors.
+        Artist.de_json({}, client)
 
-        assert artist.id == self.id
+    def test_de_json_ugc(self, client):
+        # An example of UGC artist from #663
+        artist = Artist.de_json({'name': self.name}, client)
+        assert artist.name == self.name
 
     def test_de_json_all(
         self, client, cover, counts, ratings, link, track_without_artists, description, artist_decomposed
@@ -154,3 +160,10 @@ class TestArtist:
         assert a is not b
 
         assert a == c
+
+    def test_id_required(self, client):
+        artist = Artist.de_json({'name': self.name}, client)
+
+        # Make sure we throw an error if we try to access the id_required property when id is None
+        with pytest.raises(ValueError):
+            _ = artist.id_required
