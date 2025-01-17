@@ -23,7 +23,7 @@ class Artist(YandexMusicModel):
     """Класс, представляющий исполнителя.
 
     Attributes:
-        id (:obj:`int`): Уникальный идентификатор.
+        id (:obj:`int`, optional): Уникальный идентификатор.
         error (:obj:`str`, optional): Сообщение об ошибке с объяснением почему не вернуло исполнителя.
         reason (:obj:`str`, optional): Причина отсутствия исполнителя (сообщение об ошибке).
         name (:obj:`str`, optional): Название.
@@ -57,7 +57,7 @@ class Artist(YandexMusicModel):
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
-    id: int
+    id: Optional[int] = None
     error: Optional[str] = None
     reason: Optional[str] = None
     name: Optional[str] = None
