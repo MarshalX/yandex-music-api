@@ -12,7 +12,7 @@ class InvalidBitrateError(YandexMusicError):
     """Класс исключения, вызываемого при попытке загрузки трека с недоступным битрейтом."""
 
 
-class IDMissingError(YandexMusicError):
+class IdMissingError(YandexMusicError):
     """Класс исключения, вызываемого при попытке использования отсутствующего ID."""
 
 

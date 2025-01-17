@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import YandexMusicModel
-from yandex_music.exceptions import IDMissingError
+from yandex_music.exceptions import IdMissingError
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
@@ -98,13 +98,13 @@ class Artist(YandexMusicModel):
         """Возвращает ID исполнителя, удостоверяясь, что он указан.
 
         Raises:
-            ValueError: Если ID исполнителя не установлен.
+            IdMissingError: Если ID исполнителя не установлен.
 
         Returns:
             :obj:`int`: Уникальный идентификатор исполнителя.
         """
         if self.id is None:
-            raise IDMissingError('Artist.id is required')
+            raise IdMissingError('Artist.id is required')
 
         return self.id
 
