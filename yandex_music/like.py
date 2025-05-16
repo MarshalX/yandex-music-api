@@ -82,7 +82,7 @@ class Like(YandexMusicModel):
         return cls(client=client, **cls_data)  # type: ignore
 
     @classmethod
-    def de_list(cls, data: JSONType, client: 'ClientType', type_: Optional[str] = None) -> Sequence['Like']:
+    def de_list(cls, data: 'JSONType', client: 'ClientType', type_: Optional[str] = None) -> Sequence['Like']:
         """Десериализация списка объектов.
 
         Note:
