@@ -1295,7 +1295,7 @@ class Client(YandexMusicObject):
         if total_played_seconds:
             data.update({'totalPlayedSeconds': total_played_seconds})
 
-        result = self._request.post(url, params=params, json=data, **kwargs)
+        result = self._request.post(url, params=params, data=data, **kwargs)
 
         return result == 'ok'
 
@@ -1472,7 +1472,7 @@ class Client(YandexMusicObject):
         if language:
             data.update({'language': language})
 
-        result = self._request.post(url, json=data, **kwargs)
+        result = self._request.post(url, data=data, **kwargs)
 
         return result == 'ok'
 
