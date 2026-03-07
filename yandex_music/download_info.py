@@ -70,7 +70,8 @@ class DownloadInfo(YandexMusicModel):
 
         """
         assert self.valid_client(self.client)
-        result = self.client.request.retrieve(self.download_info_url)
+        url = self.download_info_url.replace('service-10-track', 'web-main')
+        result = self.client.request.retrieve(url)
 
         self.direct_link = self.__build_direct_link(result)
 
@@ -86,7 +87,8 @@ class DownloadInfo(YandexMusicModel):
 
         """
         assert self.valid_async_client(self.client)
-        result = await self.client.request.retrieve(self.download_info_url)
+        url = self.download_info_url.replace('service-10-track', 'web-main')
+        result = await self.client.request.retrieve(url)
 
         self.direct_link = self.__build_direct_link(result)
 

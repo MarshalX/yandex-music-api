@@ -88,5 +88,5 @@ if __name__ == '__main__':
 
     for file in (request_filename, client_filename):
         subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
-        subprocess.run(['ruff', '--quiet', '--fix', file])  # noqa: S603, S607
+        subprocess.run(['ruff', 'check', '--quiet', '--fix', file])  # noqa: S603, S607
         subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607

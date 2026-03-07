@@ -4,6 +4,7 @@
 
 import functools
 import logging
+import uuid
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Callable, List, Optional, TypeVar, Union, cast
 
@@ -148,10 +149,13 @@ class ClientAsync(YandexMusicObject):
         self.language = language
         self._request.set_language(self.language)
 
+        # Маскировка устройства под Android для стабильности сессии
+        uid = str(uuid.uuid4()).replace('-', '')[:16]
         self.device = (
-            'os=Python; os_version=; manufacturer=Marshal; '
-            'model=Yandex Music API; clid=; device_id=random; uuid=random'
+            f'os=Android; os_version=15; manufacturer=Google; '
+            f'model=Pixel 9; clid=2346618; device_id={uid}; uuid={uid}'
         )
+        self._request.headers['X-Yandex-Music-Device'] = self.device
 
         self.me: Optional['Status'] = None
         self.account_uid: Optional[str] = None
@@ -563,6 +567,13 @@ class ClientAsync(YandexMusicObject):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         url = f'{self.base_url}/tracks/{track_id}/download-info'
+
+        params = kwargs.get('params', {})
+        if 'from' not in params:
+            params['from'] = 'web-main'
+        params['external-domain'] = 'music.yandex.ru'
+        params['overloading'] = 'false'
+        kwargs['params'] = params
 
         result = await self._request.get(url, *args, **kwargs)
 
