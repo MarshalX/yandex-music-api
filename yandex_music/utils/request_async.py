@@ -10,6 +10,7 @@ import json
 import keyword
 import logging
 import re
+import uuid
 from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 import aiofiles
@@ -29,9 +30,13 @@ if TYPE_CHECKING:
     from yandex_music import ClientType, JSONType
 
 
-USER_AGENT = 'Yandex-Music-API'
+USER_AGENT = (
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
+)
 HEADERS = {
-    'X-Yandex-Music-Client': 'YandexMusicAndroid/24023621',
+    'X-Yandex-Music-Client': 'Web',
+    'Origin': 'https://music.yandex.ru',
+    'Referer': 'https://music.yandex.ru/',
 }
 DEFAULT_TIMEOUT = 5
 
@@ -67,6 +72,11 @@ class Request:
         timeout: 'TimeoutType' = default_timeout,
     ) -> None:
         self.headers = headers or HEADERS.copy()
+
+        # Генерируем уникальные идентификаторы сессии для обхода рекламных заглушек
+        self.headers['X-Yandex-Log-OTID'] = str(uuid.uuid4())
+
+        self.headers['X-Yandex-Music-Client-ID'] = str(uuid.uuid4())
 
         self._timeout = DEFAULT_TIMEOUT
         self.set_timeout(timeout)
