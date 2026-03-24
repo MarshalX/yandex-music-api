@@ -1,4 +1,3 @@
-import dataclasses
 import keyword
 import logging
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Tuple, Union, cast
@@ -45,7 +44,7 @@ class YandexMusicModel(YandexMusicObject):
         return self.__dict__[item]
 
     @staticmethod
-    def report_unknown_fields_callback(klass: type, unknown_fields: JSONType) -> None:
+    def report_unknown_fields_callback(klass: type, unknown_fields: 'set[str]') -> None:
         """Обратный вызов для обработки неизвестных полей."""
         logger.warning(
             f'Found unknown fields received from API! Please copy warn message '
@@ -122,23 +121,14 @@ class YandexMusicModel(YandexMusicObject):
         if not YandexMusicModel.is_dict_model_data(data):
             return {}
 
-        data = data.copy()
+        known = cls.__dataclass_fields__
 
-        fields = {f.name for f in dataclasses.fields(cls)}
+        if client and client.report_unknown_fields:
+            unknown_keys = data.keys() - known.keys()
+            if unknown_keys:
+                cls.report_unknown_fields_callback(cls, unknown_keys)
 
-        cleaned_data: Dict[str, JSONType] = {}
-        unknown_data: Dict[str, JSONType] = {}
-
-        for k, v in data.items():
-            if k in fields:
-                cleaned_data[k] = v
-            else:
-                unknown_data[k] = v
-
-        if client and client.report_unknown_fields and unknown_data:
-            cls.report_unknown_fields_callback(cls, unknown_data)
-
-        return cleaned_data
+        return cast('ModelFieldMap', {k: v for k, v in data.items() if k in known})
 
     @classmethod
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional[Self]:
