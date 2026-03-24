@@ -1,4 +1,3 @@
-import json
 import keyword
 import logging
 import re
@@ -12,6 +11,7 @@ from yandex_music.exceptions import (
     UnauthorizedError,
     YandexMusicError,
 )
+from yandex_music.utils.json_compat import loads as _json_loads
 from yandex_music.utils.response import Response
 
 if TYPE_CHECKING:
@@ -191,26 +191,6 @@ class RequestBase:
         """
         return _convert_camel_to_snake(text)
 
-    @staticmethod
-    def _object_hook(obj: 'JSONType') -> 'JSONType':
-        """Нормализация имён переменных пришедших с API.
-
-        Note:
-            В названии переменной заменяет "-" на "_", конвертирует в SnakeCase, если название является
-            зарезервированным словом или "client" - добавляет "_" в конец. Если название переменной начинается с цифры -
-            добавляет в начало "_".
-
-        Args:
-            obj (:obj:`dict`): Словарь, где ключ название переменной, а значение - содержимое.
-
-        Returns:
-            :obj:`dict`: Тот же словарь, что и на входе, но с нормализованными ключами.
-        """
-        if not isinstance(obj, dict):
-            return obj
-
-        return {_normalize_key(k): v for k, v in obj.items()}
-
     def _parse(self, json_data: bytes) -> Optional[Response]:
         """Разбор ответа от API.
 
@@ -227,8 +207,7 @@ class RequestBase:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         try:
-            decoded_s = json_data.decode('UTF-8')
-            data = json.loads(decoded_s)
+            data = _json_loads(json_data)
             data = _normalize_keys_recursive(data)
 
         except UnicodeDecodeError as e:

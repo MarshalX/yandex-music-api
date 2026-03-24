@@ -14,6 +14,7 @@ Submodules
 
    yandex_music.utils.convert_track_id
    yandex_music.utils.difference
+   yandex_music.utils.json_compat
    yandex_music.utils.request
    yandex_music.utils.request_async
    yandex_music.utils.request_base

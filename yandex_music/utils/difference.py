@@ -1,13 +1,7 @@
 from enum import Enum
 from typing import List, Union
 
-ujson = False
-try:
-    import ujson as json
-
-    ujson = True
-except ImportError:
-    import json
+from yandex_music.utils.json_compat import dumps as _json_dumps
 
 
 class Operation(Enum):
@@ -42,7 +36,7 @@ class Difference:
         Returns:
             :obj:`str`: Сформированное тело для запроса.
         """
-        return json.dumps(self.operations, ensure_ascii=not ujson)
+        return _json_dumps(self.operations)
 
     def add_delete(self, from_: int, to: int) -> 'Difference':
         """Добавление операции удаления.
