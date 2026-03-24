@@ -140,35 +140,6 @@ class TestNormalizeKeysRecursive:
         assert result['other_key'] == 'CamelValueNotTouched'
 
 
-class TestObjectHook:
-    def test_normalizes_keys(self):
-        result = RequestBase._object_hook({'camelCase': 1, 'other-key': 2})
-        assert result == {'camel_case': 1, 'other_key': 2}
-
-    def test_non_dict_passthrough(self):
-        assert RequestBase._object_hook([1, 2]) == [1, 2]
-        assert RequestBase._object_hook('string') == 'string'
-        assert RequestBase._object_hook(42) == 42
-
-    def test_does_not_recurse(self):
-        result = RequestBase._object_hook({'outerKey': {'innerKey': 1}})
-        assert 'outer_key' in result
-        assert result['outer_key'] == {'innerKey': 1}
-
-    def test_reserved_word_key(self):
-        result = RequestBase._object_hook({'class': 'value'})
-        assert result == {'class_': 'value'}
-
-    def test_empty_dict(self):
-        assert RequestBase._object_hook({}) == {}
-
-    def test_accessible_on_subclass(self):
-        from yandex_music.utils.request import Request
-
-        result = Request._object_hook({'camelCase': 1})
-        assert result == {'camel_case': 1}
-
-
 class TestRequestBaseInit:
     def test_default_headers(self):
         req = RequestBase()

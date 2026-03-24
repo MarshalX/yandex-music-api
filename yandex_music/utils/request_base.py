@@ -191,26 +191,6 @@ class RequestBase:
         """
         return _convert_camel_to_snake(text)
 
-    @staticmethod
-    def _object_hook(obj: 'JSONType') -> 'JSONType':
-        """Нормализация имён переменных пришедших с API.
-
-        Note:
-            В названии переменной заменяет "-" на "_", конвертирует в SnakeCase, если название является
-            зарезервированным словом или "client" - добавляет "_" в конец. Если название переменной начинается с цифры -
-            добавляет в начало "_".
-
-        Args:
-            obj (:obj:`dict`): Словарь, где ключ название переменной, а значение - содержимое.
-
-        Returns:
-            :obj:`dict`: Тот же словарь, что и на входе, но с нормализованными ключами.
-        """
-        if not isinstance(obj, dict):
-            return obj
-
-        return {_normalize_key(k): v for k, v in obj.items()}
-
     def _parse(self, json_data: bytes) -> Optional[Response]:
         """Разбор ответа от API.
 
