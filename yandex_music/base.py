@@ -10,13 +10,7 @@ from yandex_music.utils import model
 if TYPE_CHECKING:
     from yandex_music import Client, ClientAsync
 
-ujson: bool = False
-try:
-    import ujson as json
-
-    ujson = True
-except ImportError:
-    import json
+from yandex_music.utils.json_compat import dumps as _json_dumps
 
 reserved_names = keyword.kwlist
 
@@ -196,7 +190,7 @@ class YandexMusicModel(YandexMusicObject):
         Returns:
             :obj:`str`: Сериализованный в JSON объект.
         """
-        return json.dumps(self.to_dict(for_request), ensure_ascii=not ujson)
+        return _json_dumps(self.to_dict(for_request))
 
     def to_dict(self, for_request: bool = False) -> JSONType:
         """Рекурсивная сериализация объекта.

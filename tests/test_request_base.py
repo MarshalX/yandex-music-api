@@ -319,7 +319,7 @@ class TestParse:
 
     def test_invalid_utf8_raises(self):
         req = self._make_request()
-        with pytest.raises(YandexMusicError, match='could not be decoded using UTF-8'):
+        with pytest.raises(YandexMusicError):
             req._parse(b'\xff\xfe')
 
     def test_invalid_json_raises(self):

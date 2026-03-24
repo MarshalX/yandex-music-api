@@ -1,4 +1,3 @@
-import json
 import keyword
 import logging
 import re
@@ -12,6 +11,7 @@ from yandex_music.exceptions import (
     UnauthorizedError,
     YandexMusicError,
 )
+from yandex_music.utils.json_compat import loads as _json_loads
 from yandex_music.utils.response import Response
 
 if TYPE_CHECKING:
@@ -227,8 +227,7 @@ class RequestBase:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         try:
-            decoded_s = json_data.decode('UTF-8')
-            data = json.loads(decoded_s)
+            data = _json_loads(json_data)
             data = _normalize_keys_recursive(data)
 
         except UnicodeDecodeError as e:
