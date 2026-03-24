@@ -13,7 +13,6 @@ from yandex_music.utils.request_base import (
     RequestBase,
     TimeoutType,
     default_timeout,
-    reserved_names,
 )
 
 if TYPE_CHECKING:
@@ -28,7 +27,6 @@ __all__ = [
     'DefaultTimeout',
     'default_timeout',
     'TimeoutType',
-    'reserved_names',
 ]
 
 

@@ -50,7 +50,7 @@ class SimilarTracks(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Track
 
-        cls_data['track'] = Track.de_json(data.get('track'), client)
-        cls_data['similar_tracks'] = Track.de_list(data.get('similar_tracks'), client)
+        cls_data['track'] = Track.de_json(cls_data.get('track'), client)
+        cls_data['similar_tracks'] = Track.de_list(cls_data.get('similar_tracks'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

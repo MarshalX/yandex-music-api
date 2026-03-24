@@ -55,9 +55,9 @@ class Best(YandexMusicModel):
 
         cls_data = cls.cleanup_data(data, client)
 
-        type_ = data.get('type')
+        type_ = cls_data.get('type')
         if type_ and type_ in _TYPE_TO_DE_JSON_DEF:
             de_json = _TYPE_TO_DE_JSON_DEF[type_]
-            cls_data['result'] = de_json(data.get('result'), client)
+            cls_data['result'] = de_json(cls_data.get('result'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

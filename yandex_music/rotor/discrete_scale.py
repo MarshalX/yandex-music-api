@@ -48,7 +48,7 @@ class DiscreteScale(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Value
 
-        cls_data['min'] = Value.de_json(data.get('min'), client)
-        cls_data['max'] = Value.de_json(data.get('max'), client)
+        cls_data['min'] = Value.de_json(cls_data.get('min'), client)
+        cls_data['max'] = Value.de_json(cls_data.get('max'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

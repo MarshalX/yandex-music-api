@@ -82,8 +82,8 @@ class TrackShort(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Chart, Track
 
-        cls_data['track'] = Track.de_json(data.get('track'), client)
-        cls_data['chart'] = Chart.de_json(data.get('chart'), client)
+        cls_data['track'] = Track.de_json(cls_data.get('track'), client)
+        cls_data['chart'] = Chart.de_json(cls_data.get('chart'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

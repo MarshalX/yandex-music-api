@@ -69,9 +69,9 @@ class BlockEntity(YandexMusicModel):
 
         cls_data = cls.cleanup_data(data, client)
 
-        type_ = data.get('type')
+        type_ = cls_data.get('type')
         if isinstance(type_, str) and type_ in _TYPE_TO_DE_JSON_DEF:
             de_json_def = _TYPE_TO_DE_JSON_DEF[type_]
-            cls_data['data'] = de_json_def(data.get('data'), client)
+            cls_data['data'] = de_json_def(cls_data.get('data'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

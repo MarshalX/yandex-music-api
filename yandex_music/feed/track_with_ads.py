@@ -44,6 +44,6 @@ class TrackWithAds(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Track
 
-        cls_data['track'] = Track.de_json(data.get('track'), client)
+        cls_data['track'] = Track.de_json(cls_data.get('track'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

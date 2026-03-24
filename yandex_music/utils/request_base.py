@@ -1,7 +1,4 @@
-import keyword
 import logging
-import re
-from functools import lru_cache
 from typing import TYPE_CHECKING, Any, Dict, NoReturn, Optional, Union
 
 from yandex_music.exceptions import (
@@ -12,10 +9,11 @@ from yandex_music.exceptions import (
     YandexMusicError,
 )
 from yandex_music.utils.json_compat import loads as _json_loads
+from yandex_music.utils.normalize import _convert_camel_to_snake
 from yandex_music.utils.response import Response
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType
+    from yandex_music import ClientType
 
 
 USER_AGENT = 'Yandex-Music-API'
@@ -24,13 +22,7 @@ HEADERS = {
 }
 DEFAULT_TIMEOUT = 5
 
-reserved_names = list(keyword.kwlist) + ['ClientType']
-_RESERVED_NAMES_SET = frozenset(reserved_names)
-
 logging.getLogger('urllib3').setLevel(logging.WARNING)
-
-_CAMEL_RE1 = re.compile('(.)([A-Z][a-z]+)')
-_CAMEL_RE2 = re.compile('([a-z0-9])([A-Z])')
 
 
 class DefaultTimeout:
@@ -39,63 +31,6 @@ class DefaultTimeout:
 
 default_timeout = DefaultTimeout()
 TimeoutType = Union[int, float, DefaultTimeout]
-
-
-@lru_cache(maxsize=2048)
-def _convert_camel_to_snake(text: str) -> str:
-    """Конвертация CamelCase в SnakeCase.
-
-    Args:
-        text (:obj:`str`): Название переменной в CamelCase.
-
-    Returns:
-        :obj:`str`: Название переменной в SnakeCase.
-    """
-    s = _CAMEL_RE1.sub(r'\1_\2', text)
-    return _CAMEL_RE2.sub(r'\1_\2', s).lower()
-
-
-@lru_cache(maxsize=2048)
-def _normalize_key(key: str) -> str:
-    """Нормализация имени переменной пришедшей с API.
-
-    Note:
-        В названии переменной заменяет "-" на "_", конвертирует в SnakeCase, если название является
-        зарезервированным словом или "client" - добавляет "_" в конец. Если название переменной начинается с цифры -
-        добавляет в начало "_".
-
-    Args:
-        key (:obj:`str`): Название переменной.
-
-    Returns:
-        :obj:`str`: Нормализованное название переменной.
-    """
-    key = _convert_camel_to_snake(key.replace('-', '_'))
-    key = key.lower()
-
-    if key in _RESERVED_NAMES_SET:
-        key += '_'
-
-    if key and key[0].isdigit():
-        key = '_' + key
-
-    return key
-
-
-def _normalize_keys_recursive(obj: 'JSONType') -> 'JSONType':
-    """Рекурсивная нормализация ключей во всей структуре JSON.
-
-    Args:
-        obj: Разобранная JSON структура.
-
-    Returns:
-        Та же структура с нормализованными ключами словарей.
-    """
-    if isinstance(obj, dict):
-        return {_normalize_key(k): _normalize_keys_recursive(v) for k, v in obj.items()}
-    if isinstance(obj, list):
-        return [_normalize_keys_recursive(item) for item in obj]
-    return obj
 
 
 class RequestBase:
@@ -195,7 +130,11 @@ class RequestBase:
         """Разбор ответа от API.
 
         Note:
-            Если данные отсутствуют в `result`, то переформировывает ответ используя данные из корня.
+            Если данные отсутствуют в ``result``, то переформировывает ответ используя данные из корня.
+
+            Нормализация ключей выполняется лениво: здесь нормализуются только ключи верхнего уровня
+            ответа и ключи ``result`` (если это словарь). Более глубокие уровни нормализуются
+            в ``cleanup_data`` каждой конкретной модели.
 
         Args:
             json_data (:obj:`bytes`): Ответ от API.
@@ -208,8 +147,6 @@ class RequestBase:
         """
         try:
             data = _json_loads(json_data)
-            data = _normalize_keys_recursive(data)
-
         except UnicodeDecodeError as e:
             logging.getLogger(__name__).debug('Logging raw invalid UTF-8 response:\n%r', json_data)
             raise YandexMusicError('Server response could not be decoded using UTF-8') from e
@@ -217,7 +154,7 @@ class RequestBase:
             raise YandexMusicError('Invalid server response') from e
 
         if isinstance(data, dict) and data.get('result') is None:
-            data = {'result': data, 'error': data.get('error'), 'error_description': data.get('error_description')}
+            data = {'result': data, 'error': data.get('error'), 'errorDescription': data.get('errorDescription')}
 
         return Response.de_json(data, self.client)
 

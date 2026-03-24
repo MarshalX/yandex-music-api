@@ -52,6 +52,6 @@ class PlayContext(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import TrackShortOld
 
-        cls_data['tracks'] = TrackShortOld.de_list(data.get('tracks'), client)
+        cls_data['tracks'] = TrackShortOld.de_list(cls_data.get('tracks'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

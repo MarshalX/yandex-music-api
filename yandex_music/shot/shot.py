@@ -50,6 +50,6 @@ class Shot(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import ShotData
 
-        cls_data['shot_data'] = ShotData.de_json(data.get('shot_data'), client)
+        cls_data['shot_data'] = ShotData.de_json(cls_data.get('shot_data'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

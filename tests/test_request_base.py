@@ -10,14 +10,12 @@ from yandex_music.exceptions import (
     UnauthorizedError,
     YandexMusicError,
 )
+from yandex_music.utils.normalize import _convert_camel_to_snake, _normalize_key
 from yandex_music.utils.request_base import (
     DEFAULT_TIMEOUT,
     HEADERS,
     USER_AGENT,
     RequestBase,
-    _convert_camel_to_snake,
-    _normalize_key,
-    _normalize_keys_recursive,
     default_timeout,
 )
 
@@ -95,49 +93,6 @@ class TestNormalizeKey:
         _normalize_key('cachingTestKey')
         info = _normalize_key.cache_info()
         assert info.hits >= 1
-
-
-class TestNormalizeKeysRecursive:
-    def test_flat_dict(self):
-        assert _normalize_keys_recursive({'camelCase': 1, 'otherKey': 2}) == {'camel_case': 1, 'other_key': 2}
-
-    def test_nested_dict(self):
-        data = {'outerKey': {'innerKey': 'value'}}
-        assert _normalize_keys_recursive(data) == {'outer_key': {'inner_key': 'value'}}
-
-    def test_list_of_dicts(self):
-        data = [{'keyOne': 1}, {'keyTwo': 2}]
-        assert _normalize_keys_recursive(data) == [{'key_one': 1}, {'key_two': 2}]
-
-    def test_dict_with_list(self):
-        data = {'someList': [{'nestedKey': 'v'}]}
-        assert _normalize_keys_recursive(data) == {'some_list': [{'nested_key': 'v'}]}
-
-    def test_deeply_nested(self):
-        data = {'a': {'b': {'c': {'deepKey': 1}}}}
-        assert _normalize_keys_recursive(data) == {'a': {'b': {'c': {'deep_key': 1}}}}
-
-    def test_primitives_unchanged(self):
-        assert _normalize_keys_recursive('string') == 'string'
-        assert _normalize_keys_recursive(42) == 42
-        assert _normalize_keys_recursive(3.14) == 3.14
-        assert _normalize_keys_recursive(True) is True
-        assert _normalize_keys_recursive(None) is None
-
-    def test_empty_structures(self):
-        assert _normalize_keys_recursive({}) == {}
-        assert _normalize_keys_recursive([]) == []
-
-    def test_mixed_list(self):
-        data = [1, 'str', {'someKey': True}, [{'anotherKey': None}]]
-        expected = [1, 'str', {'some_key': True}, [{'another_key': None}]]
-        assert _normalize_keys_recursive(data) == expected
-
-    def test_values_preserved(self):
-        data = {'camelKey': [1, 2, 3], 'otherKey': 'CamelValueNotTouched'}
-        result = _normalize_keys_recursive(data)
-        assert result['camel_key'] == [1, 2, 3]
-        assert result['other_key'] == 'CamelValueNotTouched'
 
 
 class TestRequestBaseInit:
@@ -264,12 +219,13 @@ class TestParse:
 
     def test_parses_valid_json_with_result(self):
         req = self._make_request()
-        data = {'result': {'someKey': 'value'}, 'invocation_info': None}
+        data = {'result': {'someKey': 'value'}, 'invocationInfo': None}
         json_bytes = json.dumps(data).encode('UTF-8')
         response = req._parse(json_bytes)
         assert response is not None
         result = response.get_result()
-        assert result['some_key'] == 'value'
+        # _parse does no normalization; keys are raw from API
+        assert result['someKey'] == 'value'
 
     def test_wraps_result_when_missing(self):
         req = self._make_request()
@@ -278,15 +234,16 @@ class TestParse:
         response = req._parse(json_bytes)
         assert response is not None
 
-    def test_normalizes_keys(self):
+    def test_no_normalization_in_parse(self):
         req = self._make_request()
         data = {'result': {'camelCase': 1, 'nested-key': {'innerKey': 2}}}
         json_bytes = json.dumps(data).encode('UTF-8')
         response = req._parse(json_bytes)
         result = response.get_result()
-        assert 'camel_case' in result
-        assert 'nested_key' in result
-        assert 'inner_key' in result['nested_key']
+        # _parse passes raw keys through — normalization happens lazily in cleanup_data
+        assert 'camelCase' in result
+        assert 'nested-key' in result
+        assert 'innerKey' in result['nested-key']
 
     def test_invalid_utf8_raises(self):
         req = self._make_request()
@@ -300,7 +257,7 @@ class TestParse:
 
     def test_preserves_error_fields(self):
         req = self._make_request()
-        data = {'error': 'something_wrong', 'error_description': 'details'}
+        data = {'error': 'something_wrong', 'errorDescription': 'details'}
         json_bytes = json.dumps(data).encode('UTF-8')
         response = req._parse(json_bytes)
         assert response is not None

@@ -85,6 +85,16 @@ class TestCleanupData:
             SampleModel.cleanup_data({'name': 'test', 'value': 1}, client)
             callback.assert_not_called()
 
+    def test_normalizes_camel_case_keys(self):
+        data = {'Name': 'test', 'Value': 42}
+        result = SampleModel.cleanup_data(data, None)
+        assert result == {'name': 'test', 'value': 42}
+
+    def test_normalizes_camel_case_and_strips_unknown(self):
+        data = {'name': 'test', 'unknownField': 'drop_me', 'anotherThing': 123}
+        result = SampleModel.cleanup_data(data, None)
+        assert result == {'name': 'test'}
+
     def test_de_json_integration(self):
         client = MagicMock()
         client.report_unknown_fields = False
@@ -93,3 +103,11 @@ class TestCleanupData:
         assert obj.name == 'hello'
         assert obj.value == 5
         assert not hasattr(obj, 'junk')
+
+    def test_de_json_with_camel_case(self):
+        client = MagicMock()
+        client.report_unknown_fields = False
+
+        obj = SampleModel.de_json({'Name': 'hello', 'Value': 5}, client)
+        assert obj.name == 'hello'
+        assert obj.value == 5

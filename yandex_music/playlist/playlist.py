@@ -508,30 +508,37 @@ class Playlist(YandexMusicModel):
             User,
         )
 
-        cls_data['owner'] = User.de_json(data.get('owner'), client)
-        cls_data['cover'] = Cover.de_json(data.get('cover'), client)
-        cls_data['cover_without_text'] = Cover.de_json(data.get('cover_without_text'), client)
-        cls_data['made_for'] = MadeFor.de_json(data.get('made_for'), client)
-        cls_data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
-        cls_data['recent_tracks'] = TrackId.de_list(data.get('recent_tracks'), client)
-        cls_data['play_counter'] = PlayCounter.de_json(data.get('play_counter'), client)
-        cls_data['top_artist'] = Artist.de_list(data.get('top_artist'), client)
-        cls_data['contest'] = Contest.de_json(data.get('contest'), client)
-        cls_data['og_data'] = OpenGraphData.de_json(data.get('og_data'), client)
-        cls_data['dummy_cover'] = Cover.de_json(data.get('dummy_cover'), client)
-        cls_data['dummy_rollover_cover'] = Cover.de_json(data.get('dummy_rollover_cover'), client)
-        cls_data['branding'] = Brand.de_json(data.get('branding'), client)
+        cls_data['owner'] = User.de_json(cls_data.get('owner'), client)
+        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
+        cls_data['cover_without_text'] = Cover.de_json(cls_data.get('cover_without_text'), client)
+        cls_data['made_for'] = MadeFor.de_json(cls_data.get('made_for'), client)
+        cls_data['tracks'] = TrackShort.de_list(cls_data.get('tracks'), client)
+        cls_data['recent_tracks'] = TrackId.de_list(cls_data.get('recent_tracks'), client)
+        cls_data['play_counter'] = PlayCounter.de_json(cls_data.get('play_counter'), client)
+        cls_data['top_artist'] = Artist.de_list(cls_data.get('top_artist'), client)
+        cls_data['contest'] = Contest.de_json(cls_data.get('contest'), client)
+        cls_data['og_data'] = OpenGraphData.de_json(cls_data.get('og_data'), client)
+        cls_data['dummy_cover'] = Cover.de_json(cls_data.get('dummy_cover'), client)
+        cls_data['dummy_rollover_cover'] = Cover.de_json(cls_data.get('dummy_rollover_cover'), client)
+        cls_data['branding'] = Brand.de_json(cls_data.get('branding'), client)
 
-        cls_data['similar_playlists'] = Playlist.de_list(data.get('similar_playlists'), client)
-        cls_data['last_owner_playlists'] = Playlist.de_list(data.get('last_owner_playlists'), client)
+        cls_data['similar_playlists'] = Playlist.de_list(cls_data.get('similar_playlists'), client)
+        cls_data['last_owner_playlists'] = Playlist.de_list(cls_data.get('last_owner_playlists'), client)
 
-        cls_data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absence'), client)  # на случай фикса
-        if data.get('playlist_absense'):  # очепятка яндуха
-            cls_data['playlist_absence'] = PlaylistAbsence.de_json(data.get('playlist_absense'), client)
-            cls_data.pop('playlist_absense')
+        cls_data['playlist_absence'] = PlaylistAbsence.de_json(
+            cls_data.get('playlist_absence'), client
+        )  # на случай фикса
+        # Yandex API typo: sends "playlistAbsense" instead of "playlistAbsence".
+        # The typo normalizes to 'playlist_absense' which isn't a known field,
+        # so cleanup_data drops it. Check raw data for the original key.
+        for _typo_key in ('playlistAbsense', 'playlist_absense'):
+            _typo_val = data.get(_typo_key)
+            if _typo_val:
+                cls_data['playlist_absence'] = PlaylistAbsence.de_json(_typo_val, client)
+                break
 
-        cls_data['custom_wave'] = CustomWave.de_json(data.get('custom_wave'), client)
-        cls_data['pager'] = Pager.de_json(data.get('pager'), client)
+        cls_data['custom_wave'] = CustomWave.de_json(cls_data.get('custom_wave'), client)
+        cls_data['pager'] = Pager.de_json(cls_data.get('pager'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

@@ -58,12 +58,12 @@ class Block(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import BlockEntity, PersonalPlaylistsData, PlayContextsData
 
-        cls_data['entities'] = BlockEntity.de_list(data.get('entities'), client)
+        cls_data['entities'] = BlockEntity.de_list(cls_data.get('entities'), client)
 
-        block_type = data.get('type')
+        block_type = cls_data.get('type')
         if block_type == 'personal-playlists':
-            cls_data['data'] = PersonalPlaylistsData.de_json(data.get('data'), client)
+            cls_data['data'] = PersonalPlaylistsData.de_json(cls_data.get('data'), client)
         elif block_type == 'play-contexts':
-            cls_data['data'] = PlayContextsData.de_json(data.get('data'), client)
+            cls_data['data'] = PlayContextsData.de_json(cls_data.get('data'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

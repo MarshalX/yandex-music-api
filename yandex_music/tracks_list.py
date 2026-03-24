@@ -75,7 +75,7 @@ class TracksList(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import TrackShort
 
-        cls_data['tracks'] = TrackShort.de_list(data.get('tracks'), client)
+        cls_data['tracks'] = TrackShort.de_list(cls_data.get('tracks'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

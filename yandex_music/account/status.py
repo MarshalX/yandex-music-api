@@ -71,11 +71,11 @@ class Status(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Account, Alert, Permissions, Plus, StationData, Subscription
 
-        cls_data['account'] = Account.de_json(data.get('account'), client)
-        cls_data['permissions'] = Permissions.de_json(data.get('permissions'), client)
-        cls_data['subscription'] = Subscription.de_json(data.get('subscription'), client)
-        cls_data['plus'] = Plus.de_json(data.get('plus'), client)
-        cls_data['station_data'] = StationData.de_json(data.get('station_data'), client)
-        cls_data['bar_below'] = Alert.de_json(data.get('bar_below'), client)
+        cls_data['account'] = Account.de_json(cls_data.get('account'), client)
+        cls_data['permissions'] = Permissions.de_json(cls_data.get('permissions'), client)
+        cls_data['subscription'] = Subscription.de_json(cls_data.get('subscription'), client)
+        cls_data['plus'] = Plus.de_json(cls_data.get('plus'), client)
+        cls_data['station_data'] = StationData.de_json(cls_data.get('station_data'), client)
+        cls_data['bar_below'] = Alert.de_json(cls_data.get('bar_below'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

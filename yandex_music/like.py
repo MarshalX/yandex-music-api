@@ -67,15 +67,14 @@ class Like(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
 
         if type_ == 'artist':
-            if 'artist' not in data:
-                temp_data = data.copy()
+            if 'artist' not in cls_data:
                 cls_data.clear()
-                cls_data[type_] = Artist.de_json(temp_data, client)
+                cls_data[type_] = Artist.de_json(data, client)
             else:
-                cls_data[type_] = Artist.de_json(data.get('artist'), client)
+                cls_data[type_] = Artist.de_json(cls_data.get('artist'), client)
         elif type_:
             de_json = _TYPE_TO_DE_JSON_DEF[type_]
-            cls_data[type_] = de_json(data.get(type_), client)
+            cls_data[type_] = de_json(cls_data.get(type_), client)
 
         cls_data['type'] = type_
 

@@ -44,6 +44,6 @@ class Enum(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Value
 
-        cls_data['possible_values'] = Value.de_list(data.get('possible_values'), client)
+        cls_data['possible_values'] = Value.de_list(cls_data.get('possible_values'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

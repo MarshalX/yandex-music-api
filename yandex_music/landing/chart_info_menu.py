@@ -37,6 +37,6 @@ class ChartInfoMenu(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        cls_data['items'] = ChartInfoMenuItem.de_list(data.get('items'), client)
+        cls_data['items'] = ChartInfoMenuItem.de_list(cls_data.get('items'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

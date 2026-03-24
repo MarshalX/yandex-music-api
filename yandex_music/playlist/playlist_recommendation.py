@@ -41,6 +41,6 @@ class PlaylistRecommendations(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Track
 
-        cls_data['tracks'] = Track.de_list(data.get('tracks'), client)
+        cls_data['tracks'] = Track.de_list(cls_data.get('tracks'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

@@ -43,6 +43,6 @@ class PromoCodeStatus(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Status
 
-        cls_data['account_status'] = Status.de_json(data.get('account_status'), client)
+        cls_data['account_status'] = Status.de_json(cls_data.get('account_status'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

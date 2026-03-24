@@ -59,9 +59,9 @@ class StationResult(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import AdParams, RotorSettings, Station
 
-        cls_data['station'] = Station.de_json(data.get('station'), client)
-        cls_data['settings'] = RotorSettings.de_json(data.get('settings'), client)
-        cls_data['settings2'] = RotorSettings.de_json(data.get('settings2'), client)
-        cls_data['ad_params'] = AdParams.de_json(data.get('ad_params'), client)
+        cls_data['station'] = Station.de_json(cls_data.get('station'), client)
+        cls_data['settings'] = RotorSettings.de_json(cls_data.get('settings'), client)
+        cls_data['settings2'] = RotorSettings.de_json(cls_data.get('settings2'), client)
+        cls_data['ad_params'] = AdParams.de_json(cls_data.get('ad_params'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

@@ -70,6 +70,6 @@ class SearchResult(YandexMusicModel, Generic[T]):
 
         if type_ and type_ in _TYPE_TO_CLASS:
             klass = _TYPE_TO_CLASS[type_]
-            cls_data['results'] = klass.de_list(data.get('results'), client)
+            cls_data['results'] = klass.de_list(cls_data.get('results'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

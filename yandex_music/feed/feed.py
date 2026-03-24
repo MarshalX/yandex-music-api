@@ -56,7 +56,7 @@ class Feed(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Day, GeneratedPlaylist
 
-        cls_data['generated_playlists'] = GeneratedPlaylist.de_list(data.get('generated_playlists'), client)
-        cls_data['days'] = Day.de_list(data.get('days'), client)
+        cls_data['generated_playlists'] = GeneratedPlaylist.de_list(cls_data.get('generated_playlists'), client)
+        cls_data['days'] = Day.de_list(cls_data.get('days'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

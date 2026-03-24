@@ -319,15 +319,15 @@ class Artist(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Counts, Cover, Description, Link, Ratings, Track
 
-        cls_data['cover'] = Cover.de_json(data.get('cover'), client)
-        cls_data['ratings'] = Ratings.de_json(data.get('ratings'), client)
-        cls_data['counts'] = Counts.de_json(data.get('counts'), client)
-        cls_data['links'] = Link.de_list(data.get('links'), client)
-        cls_data['popular_tracks'] = Track.de_list(data.get('popular_tracks'), client)
-        cls_data['description'] = Description.de_json(data.get('description'), client)
+        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
+        cls_data['ratings'] = Ratings.de_json(cls_data.get('ratings'), client)
+        cls_data['counts'] = Counts.de_json(cls_data.get('counts'), client)
+        cls_data['links'] = Link.de_list(cls_data.get('links'), client)
+        cls_data['popular_tracks'] = Track.de_list(cls_data.get('popular_tracks'), client)
+        cls_data['description'] = Description.de_json(cls_data.get('description'), client)
 
         # Мне всё равно как в яндухе на клиентах солвят свой бэковский костыль
-        decomposed = data.get('decomposed')
+        decomposed = cls_data.get('decomposed')
         if isinstance(decomposed, list):
             decomposed_items: List[Union[str, 'Artist']] = []
             for part in decomposed:

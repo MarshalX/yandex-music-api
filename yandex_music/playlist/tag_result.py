@@ -41,8 +41,8 @@ class TagResult(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import PlaylistId, Tag
 
-        cls_data['tag'] = Tag.de_json(data.get('tag'), client)
-        cls_data['ids'] = PlaylistId.de_list(data.get('ids'), client)
+        cls_data['tag'] = Tag.de_json(cls_data.get('tag'), client)
+        cls_data['ids'] = PlaylistId.de_list(cls_data.get('ids'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

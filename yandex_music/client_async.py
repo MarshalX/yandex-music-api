@@ -375,7 +375,7 @@ class ClientAsync(YandexMusicObject):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        return result.get('is_wizard_passed') or False
+        return result.get('isWizardPassed') or False
 
     @log
     async def landing(self, blocks: Union[str, List[str]], *args: Any, **kwargs: Any) -> Optional[Landing]:
@@ -842,7 +842,7 @@ class ClientAsync(YandexMusicObject):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        return UserSettings.de_json(result.get('user_settings'), self)
+        return UserSettings.de_json(result.get('userSettings'), self)
 
     @log
     async def users_playlists(
@@ -2373,7 +2373,7 @@ class ClientAsync(YandexMusicObject):
 
         # TODO (MarshalX) судя по всему ручка ещё возвращает рекламу после треков для пользователей без подписки.
         #  https://github.com/MarshalX/yandex-music-api/issues/557
-        return ShotEvent.de_json(result.get('shot_event'), self)
+        return ShotEvent.de_json(result.get('shotEvent'), self)
 
     @log
     async def queues_list(self, device: Optional[str] = None, *args: Any, **kwargs: Any) -> List[QueueItem]:

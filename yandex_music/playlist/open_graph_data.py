@@ -43,6 +43,6 @@ class OpenGraphData(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Cover
 
-        cls_data['image'] = Cover.de_json(data.get('image'), client)
+        cls_data['image'] = Cover.de_json(cls_data.get('image'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

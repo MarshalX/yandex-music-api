@@ -136,7 +136,7 @@ class ShotData(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import ShotType
 
-        cls_data['shot_type'] = ShotType.de_json(data.get('shot_type'), client)
+        cls_data['shot_type'] = ShotType.de_json(cls_data.get('shot_type'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

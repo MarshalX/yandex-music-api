@@ -47,6 +47,6 @@ class Suggestions(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Best
 
-        cls_data['best'] = Best.de_json(data.get('best'), client)
+        cls_data['best'] = Best.de_json(cls_data.get('best'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

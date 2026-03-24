@@ -53,6 +53,6 @@ class GeneratedPlaylist(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Playlist
 
-        cls_data['data'] = Playlist.de_json(data.get('data'), client)
+        cls_data['data'] = Playlist.de_json(cls_data.get('data'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

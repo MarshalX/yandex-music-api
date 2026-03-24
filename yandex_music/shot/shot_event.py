@@ -41,6 +41,6 @@ class ShotEvent(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Shot
 
-        cls_data['shots'] = Shot.de_list(data.get('shots'), client)
+        cls_data['shots'] = Shot.de_list(cls_data.get('shots'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
