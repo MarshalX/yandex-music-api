@@ -56,7 +56,7 @@ class Response(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        cls_data['data'] = data.copy()
+        cls_data['data'] = data
         from yandex_music import InvocationInfo
 
         cls_data['invocation_info'] = InvocationInfo.de_json(data.get('invocation_info'), client)
