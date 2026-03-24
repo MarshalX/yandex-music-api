@@ -45,8 +45,8 @@ class Day(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Event, Track, TrackWithAds
 
-        cls_data['events'] = Event.de_list(data.get('events'), client)
-        cls_data['tracks_to_play_with_ads'] = TrackWithAds.de_list(data.get('tracks_to_play_with_ads'), client)
-        cls_data['tracks_to_play'] = Track.de_list(data.get('tracks_to_play'), client)
+        cls_data['events'] = Event.de_list(cls_data.get('events'), client)
+        cls_data['tracks_to_play_with_ads'] = TrackWithAds.de_list(cls_data.get('tracks_to_play_with_ads'), client)
+        cls_data['tracks_to_play'] = Track.de_list(cls_data.get('tracks_to_play'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

@@ -323,10 +323,10 @@ class Album(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Artist, Deprecation, Label, Track, TrackPosition
 
-        cls_data['artists'] = Artist.de_list(data.get('artists'), client)
+        cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
 
         # В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
-        labels = data.get('labels')
+        labels = cls_data.get('labels')
         if cls.is_array_model_data(labels):
             cls_data['labels'] = Label.de_list(labels, client)
         elif isinstance(labels, list) and all(isinstance(label, str) for label in labels):
@@ -335,12 +335,12 @@ class Album(YandexMusicModel):
             # Поддержка формата. Все листы [] по умолчанию вместо None даже если данных нет.
             cls_data['labels'] = []
 
-        cls_data['track_position'] = TrackPosition.de_json(data.get('track_position'), client)
-        cls_data['duplicates'] = Album.de_list(data.get('duplicates'), client)
-        cls_data['albums'] = Album.de_list(data.get('albums'), client)
-        cls_data['deprecation'] = Deprecation.de_json(data.get('deprecation'), client)
+        cls_data['track_position'] = TrackPosition.de_json(cls_data.get('track_position'), client)
+        cls_data['duplicates'] = Album.de_list(cls_data.get('duplicates'), client)
+        cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
+        cls_data['deprecation'] = Deprecation.de_json(cls_data.get('deprecation'), client)
 
-        volumes = data.get('volumes')
+        volumes = cls_data.get('volumes')
         if isinstance(volumes, list):
             cls_data['volumes'] = [Track.de_list(volume, client) for volume in volumes]
 

@@ -49,6 +49,6 @@ class Operator(YandexMusicModel):
         from yandex_music import Deactivation
 
         cls_data = cls.cleanup_data(data, client)
-        cls_data['deactivation'] = Deactivation.de_list(data.get('deactivation'), client)
+        cls_data['deactivation'] = Deactivation.de_list(cls_data.get('deactivation'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

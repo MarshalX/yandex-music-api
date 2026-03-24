@@ -264,12 +264,13 @@ class TestParse:
 
     def test_parses_valid_json_with_result(self):
         req = self._make_request()
-        data = {'result': {'someKey': 'value'}, 'invocation_info': None}
+        data = {'result': {'someKey': 'value'}, 'invocationInfo': None}
         json_bytes = json.dumps(data).encode('UTF-8')
         response = req._parse(json_bytes)
         assert response is not None
         result = response.get_result()
-        assert result['some_key'] == 'value'
+        # _parse does no normalization; keys are raw from API
+        assert result['someKey'] == 'value'
 
     def test_wraps_result_when_missing(self):
         req = self._make_request()
@@ -278,15 +279,16 @@ class TestParse:
         response = req._parse(json_bytes)
         assert response is not None
 
-    def test_normalizes_keys(self):
+    def test_no_normalization_in_parse(self):
         req = self._make_request()
         data = {'result': {'camelCase': 1, 'nested-key': {'innerKey': 2}}}
         json_bytes = json.dumps(data).encode('UTF-8')
         response = req._parse(json_bytes)
         result = response.get_result()
-        assert 'camel_case' in result
-        assert 'nested_key' in result
-        assert 'inner_key' in result['nested_key']
+        # _parse passes raw keys through — normalization happens lazily in cleanup_data
+        assert 'camelCase' in result
+        assert 'nested-key' in result
+        assert 'innerKey' in result['nested-key']
 
     def test_invalid_utf8_raises(self):
         req = self._make_request()
@@ -300,7 +302,7 @@ class TestParse:
 
     def test_preserves_error_fields(self):
         req = self._make_request()
-        data = {'error': 'something_wrong', 'error_description': 'details'}
+        data = {'error': 'something_wrong', 'errorDescription': 'details'}
         json_bytes = json.dumps(data).encode('UTF-8')
         response = req._parse(json_bytes)
         assert response is not None

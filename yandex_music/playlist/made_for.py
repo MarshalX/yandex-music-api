@@ -41,7 +41,7 @@ class MadeFor(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import CaseForms, User
 
-        cls_data['user_info'] = User.de_json(data.get('user_info'), client)
-        cls_data['case_forms'] = CaseForms.de_json(data.get('case_forms'), client)
+        cls_data['user_info'] = User.de_json(cls_data.get('user_info'), client)
+        cls_data['case_forms'] = CaseForms.de_json(cls_data.get('case_forms'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

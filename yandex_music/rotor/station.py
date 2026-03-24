@@ -72,12 +72,12 @@ class Station(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Icon, Id, Restrictions
 
-        cls_data['id'] = Id.de_json(data.get('id'), client)
-        cls_data['parent_id'] = Id.de_json(data.get('parent_id'), client)
-        cls_data['icon'] = Icon.de_json(data.get('icon'), client)
-        cls_data['mts_icon'] = Icon.de_json(data.get('mts_icon'), client)
-        cls_data['geocell_icon'] = Icon.de_json(data.get('geocell_icon'), client)
-        cls_data['restrictions'] = Restrictions.de_json(data.get('restrictions'), client)
-        cls_data['restrictions2'] = Restrictions.de_json(data.get('restrictions2'), client)
+        cls_data['id'] = Id.de_json(cls_data.get('id'), client)
+        cls_data['parent_id'] = Id.de_json(cls_data.get('parent_id'), client)
+        cls_data['icon'] = Icon.de_json(cls_data.get('icon'), client)
+        cls_data['mts_icon'] = Icon.de_json(cls_data.get('mts_icon'), client)
+        cls_data['geocell_icon'] = Icon.de_json(cls_data.get('geocell_icon'), client)
+        cls_data['restrictions'] = Restrictions.de_json(cls_data.get('restrictions'), client)
+        cls_data['restrictions2'] = Restrictions.de_json(cls_data.get('restrictions2'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

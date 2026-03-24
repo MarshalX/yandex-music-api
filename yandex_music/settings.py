@@ -47,8 +47,10 @@ class Settings(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Price, Product
 
-        cls_data['in_app_products'] = Product.de_list(data.get('in_app_products'), client)
-        cls_data['native_products'] = Product.de_list(data.get('native_products'), client)
-        cls_data['web_payment_month_product_price'] = Price.de_json(data.get('web_payment_month_product_price'), client)
+        cls_data['in_app_products'] = Product.de_list(cls_data.get('in_app_products'), client)
+        cls_data['native_products'] = Product.de_list(cls_data.get('native_products'), client)
+        cls_data['web_payment_month_product_price'] = Price.de_json(
+            cls_data.get('web_payment_month_product_price'), client
+        )
 
         return cls(client=client, **cls_data)  # type: ignore

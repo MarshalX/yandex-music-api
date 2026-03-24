@@ -51,7 +51,7 @@ class Supplement(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Lyrics, VideoSupplement
 
-        cls_data['lyrics'] = Lyrics.de_json(data.get('lyrics'), client)
-        cls_data['videos'] = VideoSupplement.de_list(data.get('videos'), client)
+        cls_data['lyrics'] = Lyrics.de_json(cls_data.get('lyrics'), client)
+        cls_data['videos'] = VideoSupplement.de_list(cls_data.get('videos'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

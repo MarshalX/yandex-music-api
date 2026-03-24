@@ -59,7 +59,7 @@ class QueueItem(YandexMusicModel):
         from yandex_music import Context
 
         cls_data = cls.cleanup_data(data, client)
-        cls_data['context'] = Context.de_json(data.get('context'), client)
+        cls_data['context'] = Context.de_json(cls_data.get('context'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

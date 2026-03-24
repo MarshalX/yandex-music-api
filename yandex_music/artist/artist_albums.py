@@ -50,7 +50,7 @@ class ArtistAlbums(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Album, Pager
 
-        cls_data['albums'] = Album.de_list(data.get('albums'), client)
-        cls_data['pager'] = Pager.de_json(data.get('pager'), client)
+        cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
+        cls_data['pager'] = Pager.de_json(cls_data.get('pager'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

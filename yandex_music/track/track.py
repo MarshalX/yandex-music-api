@@ -506,17 +506,17 @@ class Track(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import R128, Album, Artist, LyricsInfo, Major, MetaData, Normalization, PoetryLoverMatch, User
 
-        cls_data['albums'] = Album.de_list(data.get('albums'), client)
-        cls_data['artists'] = Artist.de_list(data.get('artists'), client)
-        cls_data['normalization'] = Normalization.de_json(data.get('normalization'), client)
-        cls_data['major'] = Major.de_json(data.get('major'), client)
-        cls_data['substituted'] = Track.de_json(data.get('substituted'), client)
-        cls_data['matched_track'] = Track.de_json(data.get('matched_track'), client)
-        cls_data['user_info'] = User.de_json(data.get('user_info'), client)
-        cls_data['meta_data'] = MetaData.de_json(data.get('meta_data'), client)
-        cls_data['poetry_lover_matches'] = PoetryLoverMatch.de_list(data.get('poetry_lover_matches'), client)
-        cls_data['r128'] = R128.de_json(data.get('r128'), client)
-        cls_data['lyrics_info'] = LyricsInfo.de_json(data.get('lyrics_info'), client)
+        cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
+        cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
+        cls_data['normalization'] = Normalization.de_json(cls_data.get('normalization'), client)
+        cls_data['major'] = Major.de_json(cls_data.get('major'), client)
+        cls_data['substituted'] = Track.de_json(cls_data.get('substituted'), client)
+        cls_data['matched_track'] = Track.de_json(cls_data.get('matched_track'), client)
+        cls_data['user_info'] = User.de_json(cls_data.get('user_info'), client)
+        cls_data['meta_data'] = MetaData.de_json(cls_data.get('meta_data'), client)
+        cls_data['poetry_lover_matches'] = PoetryLoverMatch.de_list(cls_data.get('poetry_lover_matches'), client)
+        cls_data['r128'] = R128.de_json(cls_data.get('r128'), client)
+        cls_data['lyrics_info'] = LyricsInfo.de_json(cls_data.get('lyrics_info'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

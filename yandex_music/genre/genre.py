@@ -66,9 +66,9 @@ class Genre(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Icon, Images, Title
 
-        cls_data['titles'] = Title.de_dict(data.get('titles'), client)  # type: ignore особенный случай
-        cls_data['images'] = Images.de_json(data.get('images'), client)
-        cls_data['radio_icon'] = Icon.de_json(data.get('radio_icon'), client)
-        cls_data['sub_genres'] = Genre.de_list(data.get('sub_genres'), client)
+        cls_data['titles'] = Title.de_dict(cls_data.get('titles'), client)  # type: ignore особенный случай
+        cls_data['images'] = Images.de_json(cls_data.get('images'), client)
+        cls_data['radio_icon'] = Icon.de_json(cls_data.get('radio_icon'), client)
+        cls_data['sub_genres'] = Genre.de_list(cls_data.get('sub_genres'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

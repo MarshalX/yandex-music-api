@@ -57,6 +57,6 @@ class Alert(YandexMusicModel):
         from yandex_music import AlertButton
 
         cls_data = cls.cleanup_data(data, client)
-        cls_data['button'] = AlertButton.de_json(data.get('button'), client)
+        cls_data['button'] = AlertButton.de_json(cls_data.get('button'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

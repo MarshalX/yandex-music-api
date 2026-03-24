@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Optional
 import requests
 
 from yandex_music.exceptions import NetworkError, TimedOutError
+from yandex_music.utils.normalize import reserved_names
 from yandex_music.utils.request_base import (
     DEFAULT_TIMEOUT,
     HEADERS,
@@ -11,7 +12,6 @@ from yandex_music.utils.request_base import (
     RequestBase,
     TimeoutType,
     default_timeout,
-    reserved_names,
 )
 
 if TYPE_CHECKING:

@@ -57,6 +57,6 @@ class LandingList(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import PlaylistId
 
-        cls_data['new_playlists'] = PlaylistId.de_list(data.get('new_playlists'), client)
+        cls_data['new_playlists'] = PlaylistId.de_list(cls_data.get('new_playlists'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

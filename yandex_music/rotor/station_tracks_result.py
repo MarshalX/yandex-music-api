@@ -45,7 +45,7 @@ class StationTracksResult(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Id, Sequence
 
-        cls_data['id'] = Id.de_json(data.get('id'), client)
-        cls_data['sequence'] = Sequence.de_list(data.get('sequence'), client)
+        cls_data['id'] = Id.de_json(cls_data.get('id'), client)
+        cls_data['sequence'] = Sequence.de_list(cls_data.get('sequence'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

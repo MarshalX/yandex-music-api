@@ -46,6 +46,6 @@ class Landing(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Block
 
-        cls_data['blocks'] = Block.de_list(data.get('blocks'), client)
+        cls_data['blocks'] = Block.de_list(cls_data.get('blocks'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

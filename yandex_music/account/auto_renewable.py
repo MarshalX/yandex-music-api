@@ -53,7 +53,7 @@ class AutoRenewable(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Product, User
 
-        cls_data['product'] = Product.de_json(data.get('product'), client)
-        cls_data['master_info'] = User.de_json(data.get('master_info'), client)
+        cls_data['product'] = Product.de_json(cls_data.get('product'), client)
+        cls_data['master_info'] = User.de_json(cls_data.get('master_info'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

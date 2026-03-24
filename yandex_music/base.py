@@ -5,13 +5,14 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence,
 from typing_extensions import Self, TypeGuard
 
 from yandex_music.utils import model
+from yandex_music.utils.normalize import _normalize_key
 
 if TYPE_CHECKING:
     from yandex_music import Client, ClientAsync
 
 from yandex_music.utils.json_compat import dumps as _json_dumps
 
-reserved_names = keyword.kwlist
+reserved_names = frozenset(keyword.kwlist)
 
 logger = logging.getLogger(__name__)
 new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
@@ -102,33 +103,43 @@ class YandexMusicModel(YandexMusicObject):
         Returns:
             :obj:`bool`: Валидны ли данные.
         """
-        return bool(data) and isinstance(data, list) and all(isinstance(item, dict) for item in data)
+        return bool(data) and isinstance(data, list) and isinstance(data[0], dict)
 
     @classmethod
-    def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> ModelFieldMap:
-        """Удаляет незадекларированные поля для текущей модели из сырых данных.
+    def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> Dict[str, Any]:
+        """Нормализует ключи и удаляет незадекларированные поля для текущей модели из сырых данных.
 
         Note:
-            Фильтрует только словарь поле:значение. Иначе вернёт пустой :obj:`dict`.
+            Нормализация ключей (camelCase → snake_case) выполняется лениво на текущем уровне,
+            без рекурсивного обхода вложенных структур. Фильтрует только словарь поле:значение.
+            Иначе вернёт пустой :obj:`dict`.
 
         Args:
             data (:obj:`JSONType`): Поля и значения десериализуемого объекта.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`ModelFieldMap`: Отфильтрованные данные.
+            :obj:`dict`: Отфильтрованные данные с нормализованными ключами.
         """
         if not YandexMusicModel.is_dict_model_data(data):
             return {}
 
         known = cls.__dataclass_fields__
+        result: Dict[str, Any] = {}
+        report = client and client.report_unknown_fields
+        unknown_keys = set() if report else None
 
-        if client and client.report_unknown_fields:
-            unknown_keys = data.keys() - known.keys()
-            if unknown_keys:
-                cls.report_unknown_fields_callback(cls, unknown_keys)
+        for k, v in data.items():
+            nk = _normalize_key(k)
+            if nk in known:
+                result[nk] = v
+            elif unknown_keys is not None:
+                unknown_keys.add(nk)
 
-        return cast('ModelFieldMap', {k: v for k, v in data.items() if k in known})
+        if unknown_keys:
+            cls.report_unknown_fields_callback(cls, unknown_keys)
+
+        return result
 
     @classmethod
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional[Self]:
@@ -165,11 +176,16 @@ class YandexMusicModel(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.YandexMusicModel`: Список десериализованных объектов.
         """
-        if not cls.is_array_model_data(data):
+        if not data or not isinstance(data, list):
             return []
 
-        items = [cls.de_json(item, client) for item in data]
-        return [item for item in items if item is not None]
+        result = []
+        for item in data:
+            if isinstance(item, dict):
+                obj = cls.de_json(item, client)
+                if obj is not None:
+                    result.append(obj)
+        return result
 
     def to_json(self, for_request: bool = False) -> str:
         """Сериализация объекта.
@@ -211,17 +227,16 @@ class YandexMusicModel(YandexMusicObject):
         data.pop('_id_attrs', None)
 
         if for_request:
-            for k, v in data.copy().items():
+            new_data = {}
+            for k, v in data.items():
                 camel_case = ''.join(word.title() for word in k.split('_'))
                 camel_case = camel_case[0].lower() + camel_case[1:]
-
-                data.pop(k)
-                data.update({camel_case: v})
+                new_data[camel_case] = v
+            data = new_data
         else:
-            for k, v in data.copy().items():
-                if k.lower() in reserved_names:
-                    data.pop(k)
-                    data.update({f'{k}_': v})
+            for k in list(data):
+                if k in reserved_names:
+                    data[f'{k}_'] = data.pop(k)
 
         return parse(data)
 

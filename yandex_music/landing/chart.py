@@ -52,6 +52,6 @@ class Chart(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import TrackId
 
-        cls_data['track_id'] = TrackId.de_json(data.get('track_id'), client)
+        cls_data['track_id'] = TrackId.de_json(cls_data.get('track_id'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

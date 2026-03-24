@@ -105,9 +105,9 @@ class Product(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import LicenceTextPart, Price
 
-        cls_data['price'] = Price.de_json(data.get('price'), client)
-        cls_data['intro_price'] = Price.de_json(data.get('intro_price'), client)
-        cls_data['start_price'] = Price.de_json(data.get('start_price'), client)
-        cls_data['licence_text_parts'] = LicenceTextPart.de_list(data.get('licence_text_parts'), client)
+        cls_data['price'] = Price.de_json(cls_data.get('price'), client)
+        cls_data['intro_price'] = Price.de_json(cls_data.get('intro_price'), client)
+        cls_data['start_price'] = Price.de_json(cls_data.get('start_price'), client)
+        cls_data['licence_text_parts'] = LicenceTextPart.de_list(cls_data.get('licence_text_parts'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

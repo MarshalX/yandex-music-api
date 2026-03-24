@@ -45,10 +45,10 @@ class ArtistEvent(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Artist, Track
 
-        cls_data['artist'] = Artist.de_json(data.get('artist'), client)
-        cls_data['tracks'] = Track.de_list(data.get('tracks'), client)
+        cls_data['artist'] = Artist.de_json(cls_data.get('artist'), client)
+        cls_data['tracks'] = Track.de_list(cls_data.get('tracks'), client)
         cls_data['similar_to_artists_from_history'] = Artist.de_list(
-            data.get('similar_to_artists_from_history'), client
+            cls_data.get('similar_to_artists_from_history'), client
         )
 
         return cls(client=client, **cls_data)  # type: ignore

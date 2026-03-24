@@ -71,6 +71,6 @@ class Account(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import PassportPhone
 
-        cls_data['passport_phones'] = PassportPhone.de_list(data.get('passport_phones'), client)
+        cls_data['passport_phones'] = PassportPhone.de_list(cls_data.get('passport_phones'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

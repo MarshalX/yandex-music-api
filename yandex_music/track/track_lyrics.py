@@ -68,7 +68,7 @@ class TrackLyrics(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import LyricsMajor
 
-        cls_data['major'] = LyricsMajor.de_json(data.get('major'), client)
+        cls_data['major'] = LyricsMajor.de_json(cls_data.get('major'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

@@ -44,6 +44,6 @@ class Dashboard(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import StationResult
 
-        cls_data['stations'] = StationResult.de_list(data.get('stations'), client)
+        cls_data['stations'] = StationResult.de_list(cls_data.get('stations'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

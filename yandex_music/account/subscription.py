@@ -56,12 +56,12 @@ class Subscription(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import AutoRenewable, NonAutoRenewable, Operator, RenewableRemainder
 
-        cls_data['auto_renewable'] = AutoRenewable.de_list(data.get('auto_renewable'), client)
-        cls_data['family_auto_renewable'] = AutoRenewable.de_list(data.get('family_auto_renewable'), client)
+        cls_data['auto_renewable'] = AutoRenewable.de_list(cls_data.get('auto_renewable'), client)
+        cls_data['family_auto_renewable'] = AutoRenewable.de_list(cls_data.get('family_auto_renewable'), client)
         cls_data['non_auto_renewable_remainder'] = RenewableRemainder.de_json(
-            data.get('non_auto_renewable_remainder'), client
+            cls_data.get('non_auto_renewable_remainder'), client
         )
-        cls_data['non_auto_renewable'] = NonAutoRenewable.de_json(data.get('non_auto_renewable'), client)
-        cls_data['operator'] = Operator.de_list(data.get('operator'), client)
+        cls_data['non_auto_renewable'] = NonAutoRenewable.de_json(cls_data.get('non_auto_renewable'), client)
+        cls_data['operator'] = Operator.de_list(cls_data.get('operator'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

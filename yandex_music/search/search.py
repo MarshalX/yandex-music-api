@@ -158,15 +158,15 @@ class Search(YandexMusicModel):
 
         # очень редких это около 10 запросов за 3 месяца работы стороннего клиента
 
-        cls_data['best'] = Best.de_json(data.get('best'), client)
-        cls_data['albums'] = SearchResult.de_json(data.get('albums'), client, 'album')
-        cls_data['artists'] = SearchResult.de_json(data.get('artists'), client, 'artist')
-        cls_data['playlists'] = SearchResult.de_json(data.get('playlists'), client, 'playlist')
-        cls_data['tracks'] = SearchResult.de_json(data.get('tracks'), client, 'track')
-        cls_data['videos'] = SearchResult.de_json(data.get('videos'), client, 'video')
-        cls_data['users'] = SearchResult.de_json(data.get('users'), client, 'user')
-        cls_data['podcasts'] = SearchResult.de_json(data.get('podcasts'), client, 'podcast')
-        cls_data['podcast_episodes'] = SearchResult.de_json(data.get('podcast_episodes'), client, 'podcast_episode')
+        cls_data['best'] = Best.de_json(cls_data.get('best'), client)
+        cls_data['albums'] = SearchResult.de_json(cls_data.get('albums'), client, 'album')
+        cls_data['artists'] = SearchResult.de_json(cls_data.get('artists'), client, 'artist')
+        cls_data['playlists'] = SearchResult.de_json(cls_data.get('playlists'), client, 'playlist')
+        cls_data['tracks'] = SearchResult.de_json(cls_data.get('tracks'), client, 'track')
+        cls_data['videos'] = SearchResult.de_json(cls_data.get('videos'), client, 'video')
+        cls_data['users'] = SearchResult.de_json(cls_data.get('users'), client, 'user')
+        cls_data['podcasts'] = SearchResult.de_json(cls_data.get('podcasts'), client, 'podcast')
+        cls_data['podcast_episodes'] = SearchResult.de_json(cls_data.get('podcast_episodes'), client, 'podcast_episode')
 
         return cls(client=client, **cls_data)  # type: ignore
 
