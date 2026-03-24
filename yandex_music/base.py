@@ -1,18 +1,15 @@
-import keyword
 import logging
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Tuple, Union, cast
 
 from typing_extensions import Self, TypeGuard
 
 from yandex_music.utils import model
-from yandex_music.utils.normalize import _normalize_key
+from yandex_music.utils.normalize import RESERVED_NAMES, _normalize_key
 
 if TYPE_CHECKING:
     from yandex_music import Client, ClientAsync
 
 from yandex_music.utils.json_compat import dumps as _json_dumps
-
-reserved_names = frozenset(keyword.kwlist)
 
 logger = logging.getLogger(__name__)
 new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
@@ -103,7 +100,7 @@ class YandexMusicModel(YandexMusicObject):
         Returns:
             :obj:`bool`: Валидны ли данные.
         """
-        return bool(data) and isinstance(data, list) and isinstance(data[0], dict)
+        return bool(data) and isinstance(data, list) and all(isinstance(item, dict) for item in data)
 
     @classmethod
     def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> Dict[str, Any]:
@@ -235,7 +232,7 @@ class YandexMusicModel(YandexMusicObject):
             data = new_data
         else:
             for k in list(data):
-                if k in reserved_names:
+                if k in RESERVED_NAMES:
                     data[f'{k}_'] = data.pop(k)
 
         return parse(data)

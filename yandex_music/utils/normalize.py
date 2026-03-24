@@ -7,8 +7,7 @@ from functools import lru_cache
 _CAMEL_RE1 = re.compile('(.)([A-Z][a-z]+)')
 _CAMEL_RE2 = re.compile('([a-z0-9])([A-Z])')
 
-reserved_names = list(keyword.kwlist) + ['ClientType']
-_RESERVED_NAMES_SET = frozenset(reserved_names)
+RESERVED_NAMES = frozenset([*keyword.kwlist, 'ClientType'])
 
 
 @lru_cache(maxsize=2048)
@@ -41,9 +40,8 @@ def _normalize_key(key: str) -> str:
         :obj:`str`: Нормализованное название переменной.
     """
     key = _convert_camel_to_snake(key.replace('-', '_'))
-    key = key.lower()
 
-    if key in _RESERVED_NAMES_SET:
+    if key in RESERVED_NAMES:
         key += '_'
 
     if key and key[0].isdigit():

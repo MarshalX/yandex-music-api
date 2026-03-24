@@ -5,7 +5,6 @@ import aiofiles
 import aiohttp
 
 from yandex_music.exceptions import NetworkError, TimedOutError
-from yandex_music.utils.normalize import reserved_names
 from yandex_music.utils.request_base import (
     DEFAULT_TIMEOUT,
     HEADERS,
@@ -28,7 +27,6 @@ __all__ = [
     'DefaultTimeout',
     'default_timeout',
     'TimeoutType',
-    'reserved_names',
 ]
 
 

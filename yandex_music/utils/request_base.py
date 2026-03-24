@@ -9,14 +9,11 @@ from yandex_music.exceptions import (
     YandexMusicError,
 )
 from yandex_music.utils.json_compat import loads as _json_loads
-from yandex_music.utils.normalize import (
-    _convert_camel_to_snake,
-    _normalize_key,
-)
+from yandex_music.utils.normalize import _convert_camel_to_snake
 from yandex_music.utils.response import Response
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType
+    from yandex_music import ClientType
 
 
 USER_AGENT = 'Yandex-Music-API'
@@ -34,26 +31,6 @@ class DefaultTimeout:
 
 default_timeout = DefaultTimeout()
 TimeoutType = Union[int, float, DefaultTimeout]
-
-
-def _normalize_keys_recursive(obj: 'JSONType') -> 'JSONType':
-    """Рекурсивная нормализация ключей во всей структуре JSON.
-
-    Note:
-        Устаревшая функция, оставлена для обратной совместимости.
-        Нормализация теперь выполняется лениво в cleanup_data каждой модели.
-
-    Args:
-        obj: Разобранная JSON структура.
-
-    Returns:
-        Та же структура с нормализованными ключами словарей.
-    """
-    if isinstance(obj, dict):
-        return {_normalize_key(k): _normalize_keys_recursive(v) for k, v in obj.items()}
-    if isinstance(obj, list):
-        return [_normalize_keys_recursive(item) for item in obj]
-    return obj
 
 
 class RequestBase:
