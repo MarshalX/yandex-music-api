@@ -342,10 +342,12 @@ class TestHandleErrorResponse:
         return req
 
     def _make_error_body(self, error='test_error', description='test_desc'):
-        return json.dumps({
-            'error': error,
-            'error_description': description,
-        }).encode('UTF-8')
+        return json.dumps(
+            {
+                'error': error,
+                'error_description': description,
+            }
+        ).encode('UTF-8')
 
     @pytest.mark.parametrize('status_code', [401, 403])
     def test_unauthorized(self, status_code):

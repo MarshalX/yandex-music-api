@@ -168,9 +168,7 @@ class Request(RequestBase):
         """
         return await self._request_wrapper('GET', url, proxy=self.proxy_url, timeout=timeout, **kwargs)
 
-    async def download(
-        self, url: str, filename: str, timeout: 'TimeoutType' = default_timeout, **kwargs: Any
-    ) -> None:
+    async def download(self, url: str, filename: str, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> None:
         """Отправка запроса на получение содержимого и его запись в файл.
 
         Args:
