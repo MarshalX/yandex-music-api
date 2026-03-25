@@ -16,7 +16,7 @@ _TYPE_TO_DE_JSON_DEF: 'MapTypeToDeJson' = {
 class Like(YandexMusicModel):
     """Класс, представляющий объект с отметкой "мне нравится".
 
-    None:
+    Note:
         В поле `type` содержится одно из трёх значений: `artist`, `playlist`, `album`. Обозначает поле, в котором
         содержится информация.
 
