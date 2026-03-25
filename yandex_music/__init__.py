@@ -107,6 +107,19 @@ from .landing.track_id import TrackId
 from .landing.chart import Chart
 from .landing.play_contexts_data import PlayContextsData
 from .landing.personal_playlists_data import PersonalPlaylistsData
+from .landing.history_tabs import (
+    HistoryTab,
+    HistoryTabItem,
+    HistoryTabContext,
+    HistoryTrack,
+    TrackContextData,
+    WaveContextData,
+    TrackItemId,
+    WaveItemId,
+    WaveAgent,
+    WaveData,
+    WaveFullModel,
+)
 
 from .genre.title import Title
 from .genre.images import Images
@@ -214,6 +227,17 @@ __all__ = [
     'Chart',
     'ChartItem',
     'PlayContext',
+    'HistoryTab',
+    'HistoryTabItem',
+    'HistoryTabContext',
+    'HistoryTrack',
+    'TrackContextData',
+    'WaveContextData',
+    'TrackItemId',
+    'WaveItemId',
+    'WaveAgent',
+    'WaveData',
+    'WaveFullModel',
     'Title',
     'Genre',
     'Icon',
