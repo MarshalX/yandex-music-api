@@ -1,6 +1,6 @@
 import xml.dom.minidom as minidom
 from hashlib import md5
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Any, List, Optional
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -60,58 +60,66 @@ class DownloadInfo(YandexMusicModel):
 
         return f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
-    def get_direct_link(self) -> str:
+    def get_direct_link(self, **kwargs: Any) -> str:
         """Получение прямой ссылки на загрузку из XML ответа.
 
         Метод доступен только одну минуту с момента получения информации о загрузке, иначе 410 ошибка!
+
+        Args:
+            **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
         Returns:
             :obj:`str`: Прямая ссылка на загрузку трека.
 
         """
         assert self.valid_client(self.client)
-        result = self.client.request.retrieve(self.download_info_url)
+        result = self.client.request.retrieve(self.download_info_url, **kwargs)
 
         self.direct_link = self.__build_direct_link(result)
 
         return self.direct_link
 
-    async def get_direct_link_async(self) -> str:
+    async def get_direct_link_async(self, **kwargs: Any) -> str:
         """Получение прямой ссылки на загрузку из XML ответа.
 
         Метод доступен только одну минуту с момента получения информации о загрузке, иначе 410 ошибка!
+
+        Args:
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
             :obj:`str`: Прямая ссылка на загрузку трека.
 
         """
         assert self.valid_async_client(self.client)
-        result = await self.client.request.retrieve(self.download_info_url)
+        result = await self.client.request.retrieve(self.download_info_url, **kwargs)
 
         self.direct_link = self.__build_direct_link(result)
 
         return self.direct_link
 
-    def download(self, filename: str) -> None:
+    def download(self, filename: str, **kwargs: Any) -> None:
         """Загрузка трека.
 
         Args:
             filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
+            **kwargs: Произвольные ключевые аргументы для `requests.request`.
         """
         if self.direct_link is None:
-            self.direct_link = self.get_direct_link()
+            self.direct_link = self.get_direct_link(**kwargs)
 
         assert self.valid_client(self.client)
         self.client.request.download(self.direct_link, filename)
 
-    async def download_async(self, filename: str) -> None:
+    async def download_async(self, filename: str, **kwargs: Any) -> None:
         """Загрузка трека.
 
         Args:
             filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
         """
         if self.direct_link is None:
-            self.direct_link = await self.get_direct_link_async()
+            self.direct_link = await self.get_direct_link_async(**kwargs)
 
         assert self.valid_async_client(self.client)
         await self.client.request.download(self.direct_link, filename)
