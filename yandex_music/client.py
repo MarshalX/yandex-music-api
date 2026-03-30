@@ -15,6 +15,7 @@ from yandex_music import (
     Experiments,
     Feed,
     Genre,
+    HistoryTab,
     Landing,
     LandingList,
     Like,
@@ -2476,6 +2477,32 @@ class Client(YandexMusicObject):
 
         return result.get('id')
 
+    @log
+    def music_history(self, full_models_count: int = 999999999, *args: Any, **kwargs: Any) -> List[Track]:
+        """Получение истории прослушиваний.
+
+        Args:
+            full_models_count (:obj:`int`, optional): Количество полных моделей для получения.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Track`: Список треков из истории прослушиваний.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/music-history'
+
+        params = {
+            'fullModelsCount': full_models_count,
+        }
+
+        result = self._request.get(url, *args, params=params, **kwargs)
+
+        history_tabs = HistoryTab.de_list(result.get('history_tabs'), self)
+        return HistoryTab.extract_tracks(history_tabs)
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`account_status`
@@ -2602,3 +2629,5 @@ class Client(YandexMusicObject):
     queueUpdatePosition = queue_update_position
     #: Псевдоним для :attr:`queue_create`
     queueCreate = queue_create
+    #: Псевдоним для :attr:`music_history`
+    musicHistory = music_history

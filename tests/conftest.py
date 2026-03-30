@@ -35,6 +35,10 @@ from yandex_music import (
     Enum,
     Event,
     GeneratedPlaylist,
+    HistoryTab,
+    HistoryTabContext,
+    HistoryTabItem,
+    HistoryTrack,
     Icon,
     Id,
     Images,
@@ -87,7 +91,9 @@ from yandex_music import (
     Tag,
     Title,
     Track,
+    TrackContextData,
     TrackId,
+    TrackItemId,
     TrackLyrics,
     TrackPosition,
     TrackShort,
@@ -1333,3 +1339,33 @@ def lyrics_info():
 @pytest.fixture(scope='session')
 def stats():
     return Stats(TestStats.last_month_listeners, TestStats.last_month_listeners_delta)
+
+
+@pytest.fixture(scope='session')
+def track_item_id():
+    return TrackItemId('12345678', '11111111')
+
+
+@pytest.fixture(scope='session')
+def track_context_data(track_item_id, track):
+    return TrackContextData(track_item_id, track)
+
+
+@pytest.fixture(scope='session')
+def history_track(track_context_data):
+    return HistoryTrack('track', track_context_data)
+
+
+@pytest.fixture(scope='session')
+def history_tab_context():
+    return HistoryTabContext('search')
+
+
+@pytest.fixture(scope='session')
+def history_tab_item(history_tab_context, history_track):
+    return HistoryTabItem(history_tab_context, [history_track])
+
+
+@pytest.fixture(scope='session')
+def history_tab(history_tab_item):
+    return HistoryTab('2026-01-23', [history_tab_item])
