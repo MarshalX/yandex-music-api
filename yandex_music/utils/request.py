@@ -1,7 +1,5 @@
 from typing import TYPE_CHECKING, Any, Optional
 
-import requests
-
 from yandex_music.exceptions import NetworkError, TimedOutError
 from yandex_music.utils.request_base import (
     DEFAULT_TIMEOUT,
@@ -60,6 +58,8 @@ class Request(RequestBase):
             :class:`yandex_music.exceptions.BadRequestError`: При неправильном запросе.
             :class:`yandex_music.exceptions.NetworkError`: При проблемах с сетью.
         """
+        import requests
+
         kwargs = self._prepare_kwargs(kwargs)
 
         try:

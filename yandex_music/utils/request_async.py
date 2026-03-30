@@ -1,9 +1,6 @@
 import asyncio
 from typing import TYPE_CHECKING, Any, Dict, Optional
 
-import aiofiles
-import aiohttp
-
 from yandex_music.exceptions import NetworkError, TimedOutError
 from yandex_music.utils.request_base import (
     DEFAULT_TIMEOUT,
@@ -53,6 +50,8 @@ class Request(RequestBase):
         Returns:
             :obj:`dict`: Подготовленные аргументы.
         """
+        import aiohttp
+
         kwargs = super()._prepare_kwargs(kwargs)
         kwargs['timeout'] = aiohttp.ClientTimeout(total=kwargs['timeout'])
         return kwargs
@@ -78,6 +77,8 @@ class Request(RequestBase):
             :class:`yandex_music.exceptions.BadRequestError`: При неправильном запросе.
             :class:`yandex_music.exceptions.NetworkError`: При проблемах с сетью.
         """
+        import aiohttp
+
         kwargs = self._prepare_kwargs(kwargs)
 
         try:
@@ -179,6 +180,8 @@ class Request(RequestBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
+        import aiofiles
+
         result = await self.retrieve(url, timeout=timeout, **kwargs)
         async with aiofiles.open(filename, 'wb') as f:
             await f.write(result)
