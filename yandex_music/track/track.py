@@ -144,22 +144,22 @@ class Track(YandexMusicModel):
         self.download_info = None
         self._id_attrs = (self.id,)
 
-    def get_download_info(self, get_direct_links: bool = False) -> List['DownloadInfo']:
+    def get_download_info(self, get_direct_links: bool = False, **kwargs: Any) -> List['DownloadInfo']:
         """Сокращение для::
 
         client.tracks_download_info(self.track_id, get_direct_links)
         """
         assert self.valid_client(self.client)
-        self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links)
+        self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links, **kwargs)
         return self.download_info
 
-    async def get_download_info_async(self, get_direct_links: bool = False) -> List['DownloadInfo']:
+    async def get_download_info_async(self, get_direct_links: bool = False, **kwargs: Any) -> List['DownloadInfo']:
         """Сокращение для::
 
         await client.tracks_download_info(self.track_id, get_direct_links)
         """
         assert self.valid_async_client(self.client)
-        self.download_info = await self.client.tracks_download_info(self.track_id, get_direct_links)
+        self.download_info = await self.client.tracks_download_info(self.track_id, get_direct_links, **kwargs)
         return self.download_info
 
     def get_supplement(self, *args: Any, **kwargs: Any) -> Optional['Supplement']:
