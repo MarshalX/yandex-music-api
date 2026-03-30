@@ -92,7 +92,7 @@ class DownloadInfo(YandexMusicModel):
 
         """
         assert self.valid_async_client(self.client)
-        result = await self.client.request.retrieve(self.download_info_url,  **kwargs)
+        result = await self.client.request.retrieve(self.download_info_url, **kwargs)
 
         self.direct_link = self.__build_direct_link(result)
 
