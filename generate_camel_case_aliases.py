@@ -23,10 +23,7 @@ def _validate_function_name(function_name: str) -> bool:
         return False
 
     # camel case will be the same
-    if '_' not in function_name:
-        return False
-
-    return True
+    return '_' in function_name
 
 
 def convert_snake_case_to_camel_case(string: str) -> str:
