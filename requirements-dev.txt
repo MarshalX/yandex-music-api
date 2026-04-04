@@ -4,7 +4,7 @@ aiohttp
 aiofiles
 typing-extensions
 # rly dev
-ruff==0.1.6
+ruff==0.15.9
 coverage
 pytest
 pytest-cov

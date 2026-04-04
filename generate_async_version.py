@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generate async version of client.py."""
+
 import subprocess
 
 DISCLAIMER = "# THIS IS AUTO GENERATED COPY OF client.py. DON'T EDIT IN BY HANDS #"

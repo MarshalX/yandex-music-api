@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generate camel case aliases for snake case functions."""
+
 import ast
 import os
 

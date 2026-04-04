@@ -14,11 +14,11 @@ from typing import Any, Union
 try:
     import orjson
 
-    def loads(data: Union[bytes, str]) -> Any:  # noqa: ANN401
+    def loads(data: Union[bytes, str]) -> Any:
         """Десериализация JSON. Принимает bytes напрямую (без decode)."""
         return orjson.loads(data)
 
-    def dumps(obj: Any) -> str:  # noqa: ANN401
+    def dumps(obj: Any) -> str:
         """Сериализация в JSON строку (UTF-8, без ensure_ascii)."""
         return orjson.dumps(obj).decode('UTF-8')
 
@@ -27,13 +27,13 @@ try:
 except ImportError:
     import json
 
-    def loads(data: Union[bytes, str]) -> Any:  # noqa: ANN401
+    def loads(data: Union[bytes, str]) -> Any:
         """Десериализация JSON."""
         if isinstance(data, bytes):
             data = data.decode('UTF-8')
         return json.loads(data)
 
-    def dumps(obj: Any) -> str:  # noqa: ANN401
+    def dumps(obj: Any) -> str:
         """Сериализация в JSON строку (UTF-8, без экранирования не-ASCII символов)."""
         return json.dumps(obj, ensure_ascii=False)
 

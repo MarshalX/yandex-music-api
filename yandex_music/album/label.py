@@ -39,6 +39,6 @@ class Label(YandexMusicModel):
             :obj:`list` из :obj:`yandex_music.Label` или :obj:`str`: Лейблы.
         """
         if isinstance(data, list) and all(isinstance(label, str) for label in data):
-            return cast(List[str], data)
+            return cast('List[str]', data)
 
         return super().de_list(data, client)  # type: ignore

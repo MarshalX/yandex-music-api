@@ -1,7 +1,7 @@
 # makefile for Yandex Music project
 
 ruff:
-	ruff . --fix
+	ruff check . --fix
 
 ruff_format:
 	ruff format .

@@ -10,6 +10,7 @@ If extensions (or modules to document with autodoc) are in another directory,
 add these directories to sys.path here. If the directory is relative to the
 documentation root, use os.path.abspath to make it absolute, like shown here.
 """
+
 import os
 import sys
 
@@ -25,7 +26,7 @@ source_suffix = {
 # -- Project information -----------------------------------------------------
 
 project = 'Yandex Music API'
-copyright = '2019-2024 Ilya (Marshal) <https://github.com/MarshalX>'
+copyright = '2019-2026 Ilya (Marshal) <https://github.com/MarshalX>'
 author = 'Ilya (Marshal)'
 
 language = 'en'

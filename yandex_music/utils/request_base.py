@@ -84,7 +84,7 @@ class RequestBase:
             timeout (:obj:`int` | :obj:`float`): Время ожидания от сервера.
         """
         self._timeout = timeout
-        if timeout is default_timeout:
+        if isinstance(timeout, DefaultTimeout):
             self._timeout = DEFAULT_TIMEOUT
 
     def set_authorization(self, token: str) -> None:
@@ -172,7 +172,7 @@ class RequestBase:
 
         kwargs['headers']['User-Agent'] = USER_AGENT
 
-        if kwargs['timeout'] is default_timeout:
+        if isinstance(kwargs['timeout'], DefaultTimeout):
             kwargs['timeout'] = self._timeout
 
         return kwargs

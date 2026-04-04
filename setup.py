@@ -1,4 +1,5 @@
 """Setup script for yandex-music-api."""
+
 import re
 import sys
 
@@ -29,8 +30,7 @@ setup(
     author_email='ilya@marshal.dev',
     license='LGPLv3',
     url='https://github.com/MarshalX/yandex-music-api/',
-    keywords='python yandex music api wrapper library client питон пайтон '
-    'яндекс музыка апи обёртка библиотека клиент',
+    keywords='python yandex music api wrapper library client питон пайтон яндекс музыка апи обёртка библиотека клиент',
     description='Неофициальная Python библиотека для работы с API сервиса Яндекс.Музыка.',
     long_description=readme,
     long_description_content_type='text/markdown',
@@ -57,6 +57,8 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
         'Programming Language :: Python :: Implementation',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',

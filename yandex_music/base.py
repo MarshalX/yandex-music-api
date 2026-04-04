@@ -210,7 +210,7 @@ class YandexMusicModel(YandexMusicObject):
             :obj:`dict`: Сериализованный в dict объект.
         """
 
-        def parse(val: Union['YandexMusicModel', JSONType]) -> Any:  # noqa: ANN401
+        def parse(val: Union['YandexMusicModel', JSONType]) -> Any:
             if isinstance(val, YandexMusicModel):
                 return val.to_dict(for_request)
             if isinstance(val, list):
@@ -243,9 +243,9 @@ class YandexMusicModel(YandexMusicObject):
         Returns:
             :obj:`tuple`: Ключевые атрибуты объекта для сравнения.
         """
-        return cast(Tuple[str], getattr(self, '_id_attrs', ()))
+        return cast('Tuple[str]', getattr(self, '_id_attrs', ()))
 
-    def __eq__(self, other: Any) -> bool:  # noqa: ANN401
+    def __eq__(self, other: Any) -> bool:
         """Проверка на равенство двух объектов.
 
         Note:
