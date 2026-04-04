@@ -9,6 +9,6 @@ coverage
 pytest
 pytest-cov
 codecov
-orjson<=3.10.15
+orjson
 importlib_metadata
 atomicwrites
