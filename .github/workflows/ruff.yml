@@ -20,10 +20,10 @@ jobs:
       - name: Run linter check.
         uses: chartboost/ruff-action@v1
         with:
-          version: 0.1.6
+          version: 0.15.9
 
       - name: Run code style check.
         uses: chartboost/ruff-action@v1
         with:
-          version: 0.1.6
+          version: 0.15.9
           args: format --check

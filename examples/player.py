@@ -92,7 +92,7 @@ for i, short_track in enumerate(tracks):
 
             print(f'Now playing {i + 1}/{total_tracks}: ', end='')
             print('|'.join(a.name for a in track.artists), end='')
-            print(f" [{'|'.join(a.title for a in track.albums)}]", '~', track.title)
+            print(f' [{"|".join(a.title for a in track.albums)}]', '~', track.title)
 
             artist_dir = Path(f'{track.artists[0].name}_{track.artists[0].id}')
             album_dir = Path(f'{track.albums[0].title}_{track.albums[0].id}')

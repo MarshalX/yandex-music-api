@@ -149,8 +149,7 @@ class ClientAsync(YandexMusicObject):
         self._request.set_language(self.language)
 
         self.device = (
-            'os=Python; os_version=; manufacturer=Marshal; '
-            'model=Yandex Music API; clid=; device_id=random; uuid=random'
+            'os=Python; os_version=; manufacturer=Marshal; model=Yandex Music API; clid=; device_id=random; uuid=random'
         )
 
         self.me: Optional['Status'] = None

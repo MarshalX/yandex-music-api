@@ -17,7 +17,7 @@ for i, volume in enumerate(album.volumes):
 
 text = 'АЛЬБОМ\n\n'
 text += f'{album.title}\n'
-text += f"Исполнитель: {', '.join([artist.name for artist in album.artists])}\n"
+text += f'Исполнитель: {", ".join([artist.name for artist in album.artists])}\n'
 text += f'{album.year} · {album.genre}\n'
 
 cover = album.cover_uri

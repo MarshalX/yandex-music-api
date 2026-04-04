@@ -17,13 +17,13 @@ if TYPE_CHECKING:
 
 
 __all__ = [
-    'Request',
-    'USER_AGENT',
-    'HEADERS',
     'DEFAULT_TIMEOUT',
+    'HEADERS',
+    'USER_AGENT',
     'DefaultTimeout',
-    'default_timeout',
+    'Request',
     'TimeoutType',
+    'default_timeout',
 ]
 
 
@@ -56,7 +56,7 @@ class Request(RequestBase):
         kwargs['timeout'] = aiohttp.ClientTimeout(total=kwargs['timeout'])
         return kwargs
 
-    async def _request_wrapper(self, *args: Any, **kwargs: Any) -> bytes:  # noqa: C901
+    async def _request_wrapper(self, *args: Any, **kwargs: Any) -> bytes:
         """Обёртка над запросом библиотеки `aiohttp`.
 
         Note:

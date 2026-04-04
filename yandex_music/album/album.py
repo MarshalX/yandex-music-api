@@ -330,7 +330,7 @@ class Album(YandexMusicModel):
         if cls.is_array_model_data(labels):
             cls_data['labels'] = Label.de_list(labels, client)
         elif isinstance(labels, list) and all(isinstance(label, str) for label in labels):
-            cls_data['labels'] = cast(List[str], labels)
+            cls_data['labels'] = cast('List[str]', labels)
         else:
             # Поддержка формата. Все листы [] по умолчанию вместо None даже если данных нет.
             cls_data['labels'] = []

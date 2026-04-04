@@ -16,13 +16,13 @@ if TYPE_CHECKING:
 
 
 __all__ = [
-    'Request',
-    'USER_AGENT',
-    'HEADERS',
     'DEFAULT_TIMEOUT',
+    'HEADERS',
+    'USER_AGENT',
     'DefaultTimeout',
-    'default_timeout',
+    'Request',
     'TimeoutType',
+    'default_timeout',
 ]
 
 
@@ -37,7 +37,7 @@ class Request(RequestBase):
         proxy_url (:obj:`str`, optional): Прокси.
     """
 
-    def _request_wrapper(self, *args: Any, **kwargs: Any) -> bytes:  # noqa: C901
+    def _request_wrapper(self, *args: Any, **kwargs: Any) -> bytes:
         """Обёртка над запросом библиотеки `requests`.
 
         Note:
@@ -63,7 +63,7 @@ class Request(RequestBase):
         kwargs = self._prepare_kwargs(kwargs)
 
         try:
-            resp = requests.request(*args, **kwargs)
+            resp = requests.request(*args, **kwargs)  # noqa: S113
         except requests.Timeout as e:
             raise TimedOutError from e
         except requests.RequestException as e:

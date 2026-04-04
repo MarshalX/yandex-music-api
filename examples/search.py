@@ -33,9 +33,7 @@ def send_search_request_and_print_result(query):  # noqa: C901
             best_result_text = best.title + artists
         elif type_ == 'artist':
             best_result_text = best.name
-        elif type_ in ['album', 'podcast']:
-            best_result_text = best.title  # noqa: SIM114
-        elif type_ == 'playlist':
+        elif type_ in ['album', 'podcast'] or type_ == 'playlist':
             best_result_text = best.title
         elif type_ == 'video':
             best_result_text = f'{best.title} {best.text}'
