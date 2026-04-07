@@ -161,9 +161,9 @@ class ClientAsync(YandexMusicObject):
         return self._request
 
     @log
-    async def init(self) -> 'ClientAsync':
+    async def init(self, *args, **kwargs) -> 'ClientAsync':
         """Получение информацию об аккаунте использующихся в других запросах."""
-        self.me = await self.account_status()
+        self.me = await self.account_status(*args, **kwargs)
         if self.me and self.me.account:
             self.account_uid = self.me.account.uid
         return self
