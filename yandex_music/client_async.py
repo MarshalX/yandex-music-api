@@ -162,7 +162,18 @@ class ClientAsync(YandexMusicObject):
 
     @log
     async def init(self, *args, **kwargs) -> 'ClientAsync':
-        """Получение информацию об аккаунте использующихся в других запросах."""
+        """Получение информации об аккаунте, использующейся в других запросах.
+
+        Args:
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ClientAsync`: клиент Yandex Music.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
         self.me = await self.account_status(*args, **kwargs)
         if self.me and self.me.account:
             self.account_uid = self.me.account.uid
