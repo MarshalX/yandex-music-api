@@ -1,3 +1,7 @@
+##########################################################################
+# THIS IS AUTO GENERATED COPY OF client_async.py. DON'T EDIT IT BY HANDS #
+##########################################################################
+
 import functools
 import logging
 from datetime import datetime

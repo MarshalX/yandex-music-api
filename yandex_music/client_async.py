@@ -1,7 +1,3 @@
-####################################################################
-# THIS IS AUTO GENERATED COPY OF client.py. DON'T EDIT IN BY HANDS #
-####################################################################
-
 import functools
 import logging
 from datetime import datetime
