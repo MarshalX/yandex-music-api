@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Generate sync version of client_async.py using unasync."""
+"""Generate sync version of async client code using unasync."""
 
+import glob
 import os
 import shutil
 import subprocess
@@ -8,16 +9,19 @@ import tempfile
 
 import unasync
 
-DISCLAIMER = "# THIS IS AUTO GENERATED COPY OF client_async.py. DON'T EDIT IT BY HANDS #"
-DISCLAIMER = f'{"#" * len(DISCLAIMER)}\n{DISCLAIMER}\n{"#" * len(DISCLAIMER)}\n\n'
+DISCLAIMER = "# THIS IS AUTO GENERATED COPY OF {source}. DON'T EDIT IT BY HANDS #"
 
-SRC = 'yandex_music/client_async.py'
-DST = 'yandex_music/client.py'
+CLIENT_SRC = 'yandex_music/client_async.py'
+CLIENT_DST = 'yandex_music/client.py'
+
+MIXINS_SRC_DIR = 'yandex_music/_client_async'
+MIXINS_DST_DIR = 'yandex_music/_client'
 
 ADDITIONAL_REPLACEMENTS = {
     'ClientAsync': 'Client',
     'request_async': 'request',
     'de_list_async': 'de_list',
+    '_client_async': '_client',
 }
 
 # unasync operates on tokens, so replacements inside docstrings/comments
@@ -27,16 +31,26 @@ STRING_REPLACEMENTS = {
 }
 
 
-def gen_client() -> None:
-    """Generate sync version of client_async.py."""
+def _make_disclaimer(source: str) -> str:
+    """Create a disclaimer header for a generated file."""
+    text = DISCLAIMER.format(source=source)
+    return f'{"#" * len(text)}\n{text}\n{"#" * len(text)}\n\n'
+
+
+def _run_unasync(src_files: list[str], src_dir: str, dst_dir: str) -> dict[str, str]:
+    """Run unasync on source files and return mapping of dst_path -> generated code."""
+    results = {}
+
     with tempfile.TemporaryDirectory() as tmp:
-        # unasync is directory-based: it replaces fromdir with todir in file paths.
-        # Set up a temp structure: tmp/_async/client.py -> tmp/_sync/client.py
         async_dir = os.path.join(tmp, '_async')
         sync_dir = os.path.join(tmp, '_sync')
         os.makedirs(async_dir)
 
-        shutil.copy2(SRC, os.path.join(async_dir, 'client.py'))
+        for src_file in src_files:
+            rel_path = os.path.relpath(src_file, src_dir)
+            tmp_src = os.path.join(async_dir, rel_path)
+            os.makedirs(os.path.dirname(tmp_src), exist_ok=True)
+            shutil.copy2(src_file, tmp_src)
 
         rules = [
             unasync.Rule(
@@ -46,28 +60,61 @@ def gen_client() -> None:
             ),
         ]
 
-        unasync.unasync_files(
-            [os.path.join(async_dir, 'client.py')],
-            rules,
-        )
+        tmp_files = [os.path.join(async_dir, os.path.relpath(f, src_dir)) for f in src_files]
+        unasync.unasync_files(tmp_files, rules)
 
-        generated = os.path.join(sync_dir, 'client.py')
-        with open(generated, 'r', encoding='UTF-8') as f:
-            code = f.read()
+        for src_file in src_files:
+            rel_path = os.path.relpath(src_file, src_dir)
+            generated = os.path.join(sync_dir, rel_path)
+            with open(generated, 'r', encoding='UTF-8') as f:
+                code = f.read()
 
-    # Apply string-level replacements for things unasync misses (e.g. inside docstrings).
-    for old, new in STRING_REPLACEMENTS.items():
-        code = code.replace(old, new)
+            for old, new in STRING_REPLACEMENTS.items():
+                code = code.replace(old, new)
 
-    code = DISCLAIMER + code
-    with open(DST, 'w', encoding='UTF-8') as f:
-        f.write(code)
+            results[os.path.join(dst_dir, rel_path)] = code
+
+    return results
+
+
+def gen_client() -> list[str]:
+    """Generate sync version of all async client files."""
+    generated_files = []
+
+    # Generate sync client.py from client_async.py
+    client_results = _run_unasync(
+        [CLIENT_SRC],
+        os.path.dirname(CLIENT_SRC),
+        os.path.dirname(CLIENT_DST),
+    )
+    ((_, code),) = client_results.items()
+    disclaimer = _make_disclaimer(CLIENT_SRC)
+    with open(CLIENT_DST, 'w', encoding='UTF-8') as f:
+        f.write(disclaimer + code)
+    generated_files.append(CLIENT_DST)
+
+    # Generate sync mixin files from _client_async/ to _client/
+    mixin_files = sorted(glob.glob(os.path.join(MIXINS_SRC_DIR, '*.py')))
+    if mixin_files:
+        mixin_results = _run_unasync(mixin_files, MIXINS_SRC_DIR, MIXINS_DST_DIR)
+        os.makedirs(MIXINS_DST_DIR, exist_ok=True)
+
+        for dst_path, code in mixin_results.items():
+            src_rel = os.path.relpath(
+                os.path.join(MIXINS_SRC_DIR, os.path.relpath(dst_path, MIXINS_DST_DIR)),
+            )
+            disclaimer = _make_disclaimer(src_rel)
+            with open(dst_path, 'w', encoding='UTF-8') as f:
+                f.write(disclaimer + code)
+            generated_files.append(dst_path)
+
+    return generated_files
 
 
 if __name__ == '__main__':
-    gen_client()
+    files = gen_client()
 
-    for file in (DST,):
+    for file in files:
         subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
         subprocess.run(['ruff', 'check', '--quiet', '--fix', file])  # noqa: S603, S607
         subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
