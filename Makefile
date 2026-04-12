@@ -6,14 +6,14 @@ ruff:
 ruff_format:
 	ruff format .
 
-gen_async:
-	python generate_async_version.py
+gen_sync:
+	python generate_sync_version.py
 
 gen_alias:
 	python generate_camel_case_aliases.py
 
 gen:
-	make gen_async && make gen_alias
+	make gen_sync && make gen_alias
 
 g:
 	make gen

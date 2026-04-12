@@ -12,3 +12,4 @@ codecov
 orjson
 importlib_metadata
 atomicwrites
+unasync
