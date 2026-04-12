@@ -1,6 +1,6 @@
 import functools
 import logging
-from typing import Any, Callable, TypeVar
+from typing import Any, Callable, TypeVar, cast
 
 F = TypeVar('F', bound=Callable[..., Any])
 
@@ -10,7 +10,7 @@ def log(method: F) -> F:
     logger = logging.getLogger(method.__module__)
 
     @functools.wraps(method)
-    async def wrapper(*args: Any, **kwargs: Any) -> Any:  # noqa: ANN401:
+    async def wrapper(*args: Any, **kwargs: Any) -> Any:
         logger.debug(f'Entering: {method.__name__}')
 
         result = await method(*args, **kwargs)
@@ -20,4 +20,4 @@ def log(method: F) -> F:
 
         return result
 
-    return wrapper
+    return cast('F', wrapper)

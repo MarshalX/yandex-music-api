@@ -2,14 +2,15 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/batch.py. DON'T EDIT IT BY HANDS #
 ##############################################################################################
 
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Sequence, Union, overload
+
+from typing_extensions import Literal
 
 from yandex_music import Album, Artist, Playlist, Track
 from yandex_music._client import log
 from yandex_music._client_base import ClientBase, de_list
 
 if TYPE_CHECKING:
-    from yandex_music.base import JSONType
     from yandex_music.utils.request import Request
 
 
@@ -18,14 +19,54 @@ class BatchMixin(ClientBase):
 
     _request: 'Request'
 
+    @overload
+    def _get_list(
+        self,
+        object_type: Literal['artist'],
+        ids: Union[Sequence[Union[str, int]], int, str],
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Artist]: ...
+
+    @overload
+    def _get_list(
+        self,
+        object_type: Literal['album'],
+        ids: Union[Sequence[Union[str, int]], int, str],
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Album]: ...
+
+    @overload
+    def _get_list(
+        self,
+        object_type: Literal['track'],
+        ids: Union[Sequence[Union[str, int]], int, str],
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Track]: ...
+
+    @overload
+    def _get_list(
+        self,
+        object_type: Literal['playlist'],
+        ids: Union[Sequence[Union[str, int]], int, str],
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Playlist]: ...
+
     def _get_list(
         self,
         object_type: str,
-        ids: Union[List[Union[str, int]], int, str],
-        params: Optional['JSONType'] = None,
+        ids: Union[Sequence[Union[str, int]], int, str],
+        params: Optional[Dict[str, Any]] = None,
         *args: Any,
         **kwargs: Any,
-    ) -> List[Union[Artist, Album, Track, Playlist]]:
+    ) -> list:
         """Получение объекта/объектов.
 
         Args:
@@ -52,7 +93,7 @@ class BatchMixin(ClientBase):
 
         result = self._request.post(url, params, *args, **kwargs)
 
-        return de_list[object_type](result, self)
+        return list(de_list[object_type](result, self))
 
     @log
     def artists(self, artist_ids: Union[List[Union[str, int]], int, str], *args: Any, **kwargs: Any) -> List[Artist]:
@@ -93,7 +134,7 @@ class BatchMixin(ClientBase):
     @log
     def tracks(
         self,
-        track_ids: Union[List[str], List[int], List[Union[str, int]], int, str],
+        track_ids: Union[Sequence[Union[str, int]], int, str],
         with_positions: bool = True,
         *args: Any,
         **kwargs: Any,
