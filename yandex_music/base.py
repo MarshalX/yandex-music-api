@@ -8,6 +8,7 @@ from yandex_music.utils.normalize import RESERVED_NAMES, _normalize_key
 
 if TYPE_CHECKING:
     from yandex_music import Client, ClientAsync
+    from yandex_music._client_base import ClientBase
 
 from yandex_music.utils.json_compat import dumps as _json_dumps
 
@@ -16,7 +17,7 @@ new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
 
 
 JSONType = Union[Dict[str, 'JSONType'], Sequence['JSONType'], str, int, float, bool, None]
-ClientType = Union['Client', 'ClientAsync']
+ClientType = Union['Client', 'ClientAsync', 'ClientBase']
 ModelFieldType = Union[
     Dict[str, 'ModelFieldType'], Sequence['ModelFieldType'], 'YandexMusicModel', str, int, float, bool, None
 ]

@@ -52,6 +52,8 @@ ignore = [
 ]
 "yandex_music/__init__.py" = ["I001"] # Import sort
 "yandex_music/client*.py" = ["T201"] # print
+"yandex_music/_client/*.py" = ["T201"] # print (generated)
+"yandex_music/_client_async/*.py" = ["T201"] # print
 "tests/*.py" = ["S101", "ANN", "D", "RUF012"]
 "tests/__init__.py" = ["F401"] # Unused import
 "test.py" = ["S101", "ERA001", "T201", "E501", "F401", "F841"]
