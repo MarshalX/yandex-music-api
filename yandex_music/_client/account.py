@@ -2,7 +2,7 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/account.py. DON'T EDIT IT BY HANDS #
 ################################################################################################
 
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from typing_extensions import Self
 
@@ -11,7 +11,6 @@ from yandex_music._client import log
 from yandex_music._client_base import ClientBase
 
 if TYPE_CHECKING:
-    from yandex_music.base import JSONType
     from yandex_music.utils.request import Request
 
 
@@ -85,7 +84,7 @@ class AccountMixin(ClientBase):
         self,
         param: Optional[str] = None,
         value: Optional[Union[str, int, bool]] = None,
-        data: Optional['JSONType'] = None,
+        data: Optional[Dict[str, Any]] = None,
         *args: Any,
         **kwargs: Any,
     ) -> Optional[UserSettings]:

@@ -2,11 +2,11 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/queue.py. DON'T EDIT IT BY HANDS #
 ##############################################################################################
 
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union, cast
 
 from yandex_music import Queue, QueueItem
 from yandex_music._client import log
-from yandex_music._client_base import ClientBase
+from yandex_music._client_base import ClientBase, is_dict
 
 if TYPE_CHECKING:
     from yandex_music.utils.request import Request
@@ -46,7 +46,9 @@ class QueueMixin(ClientBase):
         self._request.headers['X-Yandex-Music-Device'] = device
         result = self._request.get(url, *args, **kwargs)
 
-        return QueueItem.de_list(result.get('queues'), self)
+        if is_dict(result):
+            return list(QueueItem.de_list(result.get('queues'), self))
+        return []
 
     @log
     def queue(self, queue_id: str, *args: Any, **kwargs: Any) -> Optional[Queue]:
@@ -97,7 +99,7 @@ class QueueMixin(ClientBase):
         self._request.headers['X-Yandex-Music-Device'] = device
         result = self._request.post(url, {'isInteractive': False}, params={'currentIndex': current_index}, **kwargs)
 
-        return result.get('status') == 'ok'
+        return is_dict(result) and result.get('status') == 'ok'
 
     @log
     def queue_create(
@@ -128,7 +130,9 @@ class QueueMixin(ClientBase):
         self._request.headers['X-Yandex-Music-Device'] = device
         result = self._request.post(url, queue, *args, **kwargs)
 
-        return result.get('id')
+        if is_dict(result):
+            return cast('Optional[str]', result.get('id'))
+        return None
 
     # camelCase псевдонимы
 

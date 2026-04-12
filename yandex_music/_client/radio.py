@@ -90,7 +90,7 @@ class RadioMixin(ClientBase):
 
         result = self._request.get(url, {'language': language}, *args, **kwargs)
 
-        return StationResult.de_list(result, self)
+        return list(StationResult.de_list(result, self))
 
     @log
     def rotor_station_feedback(
@@ -283,7 +283,7 @@ class RadioMixin(ClientBase):
 
         result = self._request.get(url, *args, **kwargs)
 
-        return StationResult.de_list(result, self)
+        return list(StationResult.de_list(result, self))
 
     @log
     def rotor_station_settings2(

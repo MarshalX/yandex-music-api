@@ -99,7 +99,7 @@ class Client(
         )
 
         self.me: Optional['Status'] = None
-        self.account_uid: Optional[str] = None
+        self.account_uid: Optional[int] = None
 
     @property
     def request(self) -> Request:

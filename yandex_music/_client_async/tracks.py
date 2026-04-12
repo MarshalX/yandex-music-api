@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import Album, DownloadInfo, ShotEvent, SimilarTracks, Supplement, TrackLyrics
 from yandex_music._client_async import log
-from yandex_music._client_base import ClientBase
+from yandex_music._client_base import ClientBase, is_dict
 from yandex_music.utils.sign_request import get_sign_request
 
 if TYPE_CHECKING:
@@ -275,7 +275,9 @@ class TracksMixin(ClientBase):
 
         # TODO (MarshalX) судя по всему ручка ещё возвращает рекламу после треков для пользователей без подписки.
         #  https://github.com/MarshalX/yandex-music-api/issues/557
-        return ShotEvent.de_json(result.get('shotEvent'), self)
+        if is_dict(result):
+            return ShotEvent.de_json(result.get('shotEvent'), self)
+        return None
 
     # camelCase псевдонимы
 

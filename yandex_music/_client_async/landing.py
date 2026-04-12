@@ -1,11 +1,10 @@
-from typing import TYPE_CHECKING, Any, List, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from yandex_music import ChartInfo, Feed, Genre, Landing, LandingList, TagResult
 from yandex_music._client_async import log
-from yandex_music._client_base import ClientBase
+from yandex_music._client_base import ClientBase, is_dict
 
 if TYPE_CHECKING:
-    from yandex_music.base import JSONType
     from yandex_music.utils.request_async import Request
 
 
@@ -52,7 +51,9 @@ class LandingMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        return result.get('isWizardPassed') or False
+        if is_dict(result):
+            return bool(result.get('isWizardPassed'))
+        return False
 
     @log
     async def landing(self, blocks: Union[str, List[str]], *args: Any, **kwargs: Any) -> Optional[Landing]:
@@ -74,7 +75,7 @@ class LandingMixin(ClientBase):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         url = f'{self.base_url}/landing3'
-        params = cast('JSONType', {'blocks': blocks, 'eitherUserId': '10254713668400548221'})
+        params: Dict[str, Any] = {'blocks': blocks, 'eitherUserId': '10254713668400548221'}
 
         result = await self._request.get(url, params, *args, **kwargs)
         # TODO (MarshalX) что тут делает константа с чьим-то User ID
@@ -188,7 +189,7 @@ class LandingMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        return Genre.de_list(result, self)
+        return list(Genre.de_list(result, self))
 
     @log
     async def tags(self, tag_id: str, *args: Any, **kwargs: Any) -> Optional[TagResult]:

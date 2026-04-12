@@ -1,7 +1,9 @@
 import logging
-from typing import Optional, Union
+from typing import Dict, Optional, Union
 
-from yandex_music import Album, Artist, Playlist, Status, Track, YandexMusicObject
+from typing_extensions import TypeGuard
+
+from yandex_music import Album, Artist, JSONType, Playlist, Status, Track, YandexMusicObject
 
 de_list = {
     'artist': Artist.de_list,
@@ -14,6 +16,11 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 UserIdType = Optional[Union[str, int]]
 TimestampType = Optional[Union[str, float, int]]
+
+
+def is_dict(data: Optional[JSONType]) -> TypeGuard[Dict[str, JSONType]]:
+    """TypeGuard для сужения JSONType до словаря."""
+    return isinstance(data, dict)
 
 
 class ClientBase(YandexMusicObject):
@@ -30,4 +37,4 @@ class ClientBase(YandexMusicObject):
     language: str
     device: str
     me: Optional[Status] = None
-    account_uid: Optional[str] = None
+    account_uid: Optional[int] = None

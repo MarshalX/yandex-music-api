@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import Playlist, PlaylistRecommendations, UserSettings
 from yandex_music._client_async import log
-from yandex_music._client_base import ClientBase, UserIdType
+from yandex_music._client_base import ClientBase, UserIdType, is_dict
 from yandex_music.utils.difference import Difference
 
 if TYPE_CHECKING:
@@ -40,7 +40,9 @@ class PlaylistsMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        return UserSettings.de_json(result.get('userSettings'), self)
+        if is_dict(result):
+            return UserSettings.de_json(result.get('userSettings'), self)
+        return None
 
     @log
     async def users_playlists(
@@ -78,7 +80,7 @@ class PlaylistsMixin(ClientBase):
             data = {'kinds': kind}
 
             result = await self._request.post(url, data, *args, **kwargs)
-            return Playlist.de_list(result, self)
+            return list(Playlist.de_list(result, self))
 
         url = f'{self.base_url}/users/{user_id}/playlists/{kind}'
         result = await self._request.get(url, *args, **kwargs)
@@ -414,7 +416,7 @@ class PlaylistsMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        return Playlist.de_list(result, self)
+        return list(Playlist.de_list(result, self))
 
     # camelCase псевдонимы
 

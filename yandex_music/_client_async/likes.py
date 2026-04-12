@@ -1,11 +1,12 @@
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union, overload
+
+from typing_extensions import Literal
 
 from yandex_music import Like, TracksList
 from yandex_music._client_async import log
-from yandex_music._client_base import ClientBase, UserIdType
+from yandex_music._client_base import ClientBase, UserIdType, is_dict
 
 if TYPE_CHECKING:
-    from yandex_music.base import JSONType
     from yandex_music.utils.request_async import Request
 
 
@@ -56,7 +57,7 @@ class LikesMixin(ClientBase):
         result = await self._request.post(url, {f'{object_type}-ids': ids}, *args, **kwargs)
 
         if object_type == 'track':
-            return 'revision' in result
+            return is_dict(result) and 'revision' in result
 
         return result == 'ok'
 
@@ -271,11 +272,31 @@ class LikesMixin(ClientBase):
         """
         return await self._like_action('album', album_ids, remove=True, user_id=user_id, **kwargs)
 
+    @overload
+    async def _get_likes(
+        self,
+        object_type: Literal['track'],
+        user_id: UserIdType = ...,
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[TracksList]: ...
+
+    @overload
+    async def _get_likes(
+        self,
+        object_type: Literal['album', 'artist', 'playlist'],
+        user_id: UserIdType = ...,
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Like]: ...
+
     async def _get_likes(
         self,
         object_type: str,
         user_id: UserIdType = None,
-        params: Optional['JSONType'] = None,
+        params: Optional[Dict[str, Any]] = None,
         *args: Any,
         **kwargs: Any,
     ) -> Union[List[Like], Optional[TracksList]]:
@@ -303,9 +324,11 @@ class LikesMixin(ClientBase):
         result = await self._request.get(url, params, *args, **kwargs)
 
         if object_type == 'track':
-            return TracksList.de_json(result.get('library'), self)
+            if is_dict(result):
+                return TracksList.de_json(result.get('library'), self)
+            return None
 
-        return Like.de_list(result, self, object_type)
+        return list(Like.de_list(result, self, object_type))
 
     @log
     async def users_likes_tracks(
@@ -430,7 +453,9 @@ class LikesMixin(ClientBase):
             url, {'if_modified_since_revision': if_modified_since_revision}, *args, **kwargs
         )
 
-        return TracksList.de_json(result.get('library'), self)
+        if is_dict(result):
+            return TracksList.de_json(result.get('library'), self)
+        return None
 
     async def _dislike_action(
         self,
@@ -465,7 +490,7 @@ class LikesMixin(ClientBase):
 
         result = await self._request.post(url, {'track-ids': ids}, *args, **kwargs)
 
-        return 'revision' in result
+        return is_dict(result) and 'revision' in result
 
     @log
     async def users_dislikes_tracks_add(

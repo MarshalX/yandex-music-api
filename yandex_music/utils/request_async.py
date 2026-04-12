@@ -1,5 +1,5 @@
 import asyncio
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from yandex_music.exceptions import NetworkError, TimedOutError
 from yandex_music.utils.request_base import (
@@ -97,7 +97,7 @@ class Request(RequestBase):
         return None
 
     async def get(
-        self, url: str, params: 'JSONType' = None, timeout: 'TimeoutType' = default_timeout, **kwargs: Any
+        self, url: str, params: Optional[Dict[str, Any]] = None, timeout: 'TimeoutType' = default_timeout, **kwargs: Any
     ) -> Optional['JSONType']:
         """Отправка GET запроса.
 
@@ -124,7 +124,11 @@ class Request(RequestBase):
         return None
 
     async def post(
-        self, url: str, data: 'JSONType', timeout: 'TimeoutType' = default_timeout, **kwargs: Any
+        self,
+        url: str,
+        data: Optional[Union[Dict[str, Any], str]] = None,
+        timeout: 'TimeoutType' = default_timeout,
+        **kwargs: Any,
     ) -> Optional['JSONType']:
         """Отправка POST запроса.
 
