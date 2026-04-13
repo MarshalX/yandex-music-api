@@ -2,11 +2,11 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/artists.py. DON'T EDIT IT BY HANDS #
 ################################################################################################
 
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import ArtistAlbums, ArtistTracks, BriefInfo
+from yandex_music import Artist, ArtistAlbums, ArtistConcerts, ArtistLink, ArtistTracks, BriefInfo
 from yandex_music._client import log
-from yandex_music._client_base import ClientBase
+from yandex_music._client_base import ClientBase, is_dict
 
 if TYPE_CHECKING:
     from yandex_music.utils.request import Request
@@ -107,6 +107,237 @@ class ArtistsMixin(ClientBase):
 
         return ArtistAlbums.de_json(result, self)
 
+    @log
+    def artists_similar(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Artist]:
+        """Получение похожих артистов.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Artist`: Список похожих артистов.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/similar'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        if is_dict(result):
+            return list(Artist.de_list(result.get('similar_artists', []), self))
+
+        return []
+
+    @log
+    def artists_links(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[ArtistLink]:
+        """Получение ссылок на страницы артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.ArtistLink`: Список ссылок на страницы артиста.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/artist-links'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        if is_dict(result):
+            return list(ArtistLink.de_list(result.get('links', []), self))
+
+        return []
+
+    @log
+    def artists_also_albums(
+        self,
+        artist_id: Union[str, int],
+        page: int = 0,
+        page_size: int = 20,
+        sort_by: str = 'year',
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistAlbums]:
+        """Получение сборников и альбомов, в которых участвовал артист.
+
+        Note:
+            Известные значения для `sort_by`: `year`, `rating`.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            page (:obj:`int`, optional): Номер страницы.
+            page_size (:obj:`int`, optional): Количество альбомов на странице.
+            sort_by (:obj:`str`, optional): Параметр для сортировки.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistAlbums` | :obj:`None`: Страница списка альбомов артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/also-albums'
+
+        params = {'sort-by': sort_by, 'page': page, 'page-size': page_size}
+
+        result = self._request.get(url, params, *args, **kwargs)
+
+        return ArtistAlbums.de_json(result, self)
+
+    @log
+    def artists_discography_albums(
+        self,
+        artist_id: Union[str, int],
+        page: int = 0,
+        page_size: int = 20,
+        sort_by: str = 'year',
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistAlbums]:
+        """Получение дискографии артиста.
+
+        Note:
+            Известные значения для `sort_by`: `year`, `rating`.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            page (:obj:`int`, optional): Номер страницы.
+            page_size (:obj:`int`, optional): Количество альбомов на странице.
+            sort_by (:obj:`str`, optional): Параметр для сортировки.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistAlbums` | :obj:`None`: Страница списка дискографии артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/discography-albums'
+
+        params = {'sort-by': sort_by, 'page': page, 'page-size': page_size}
+
+        result = self._request.get(url, params, *args, **kwargs)
+
+        return ArtistAlbums.de_json(result, self)
+
+    @log
+    def artists_safe_direct_albums(
+        self,
+        artist_id: Union[str, int],
+        sort_by: str = 'year',
+        sort_order: str = 'desc',
+        limit: int = 20,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistAlbums]:
+        """Получение безопасных альбомов артиста.
+
+        Note:
+            Известные значения для `sort_by`: `year`, `rating`.
+            Известные значения для `sort_order`: `asc`, `desc`.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            sort_by (:obj:`str`, optional): Параметр для сортировки.
+            sort_order (:obj:`str`, optional): Порядок сортировки.
+            limit (:obj:`int`, optional): Количество альбомов.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistAlbums` | :obj:`None`: Список альбомов артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/safe-direct-albums'
+
+        params = {'sort-by': sort_by, 'sort-order': sort_order, 'limit': limit}
+
+        result = self._request.get(url, params, *args, **kwargs)
+
+        return ArtistAlbums.de_json(result, self)
+
+    @log
+    def artists_track_ids(
+        self,
+        artist_id: Union[str, int],
+        page: int = 0,
+        page_size: int = 20,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[str]:
+        """Получение идентификаторов треков артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            page (:obj:`int`, optional): Номер страницы.
+            page_size (:obj:`int`, optional): Количество треков на странице.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`str`: Список идентификаторов треков.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/track-ids'
+
+        params = {'page': page, 'page-size': page_size}
+
+        result = self._request.get(url, params, *args, **kwargs)
+
+        if isinstance(result, list):
+            return result
+
+        return []
+
+    @log
+    def artists_concerts(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistConcerts]:
+        """Получение концертов артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistConcerts` | :obj:`None`: Информация о концертах артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/concerts'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ArtistConcerts.de_json(result, self)
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`artists_brief_info`
@@ -115,3 +346,17 @@ class ArtistsMixin(ClientBase):
     artistsTracks = artists_tracks
     #: Псевдоним для :attr:`artists_direct_albums`
     artistsDirectAlbums = artists_direct_albums
+    #: Псевдоним для :attr:`artists_similar`
+    artistsSimilar = artists_similar
+    #: Псевдоним для :attr:`artists_links`
+    artistsLinks = artists_links
+    #: Псевдоним для :attr:`artists_also_albums`
+    artistsAlsoAlbums = artists_also_albums
+    #: Псевдоним для :attr:`artists_discography_albums`
+    artistsDiscographyAlbums = artists_discography_albums
+    #: Псевдоним для :attr:`artists_safe_direct_albums`
+    artistsSafeDirectAlbums = artists_safe_direct_albums
+    #: Псевдоним для :attr:`artists_track_ids`
+    artistsTrackIds = artists_track_ids
+    #: Псевдоним для :attr:`artists_concerts`
+    artistsConcerts = artists_concerts

@@ -16,8 +16,9 @@ class TestCover:
     copyright_name = 'ТАСС'
     copyright_cline = 'imago stock&people'
     error = None
+    color = '#6d6e72'
 
-    def test_expected_values(self, cover):
+    def test_expected_values(self, cover, cover_derived_colors):
         assert cover.type == self.type
         assert cover.uri == self.uri
         assert cover.items_uri == self.items_uri
@@ -29,6 +30,8 @@ class TestCover:
         assert cover.copyright_cline == self.copyright_cline
         assert cover.prefix == self.prefix
         assert cover.error == self.error
+        assert cover.color == self.color
+        assert cover.derived_colors == cover_derived_colors
 
     def test_de_json_none(self, client):
         assert Cover.de_json({}, client) is None
@@ -40,7 +43,7 @@ class TestCover:
         json_dict = {}
         Cover.de_json(json_dict, client)
 
-    def test_de_json_all(self, client):
+    def test_de_json_all(self, client, cover_derived_colors):
         json_dict = {
             'type': self.type,
             'uri': self.uri,
@@ -53,6 +56,8 @@ class TestCover:
             'error': self.error,
             'copyright_name': self.copyright_name,
             'copyright_cline': self.copyright_cline,
+            'color': self.color,
+            'derivedColors': cover_derived_colors.to_dict(),
         }
         cover = Cover.de_json(json_dict, client)
 
@@ -67,6 +72,8 @@ class TestCover:
         assert cover.copyright_cline == self.copyright_cline
         assert cover.prefix == self.prefix
         assert cover.error == self.error
+        assert cover.color == self.color
+        assert cover.derived_colors == cover_derived_colors
 
     def test_equality(self, images):
         a = Cover(self.type, self.uri, self.items_uri)

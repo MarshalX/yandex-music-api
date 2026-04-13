@@ -9,6 +9,7 @@ if TYPE_CHECKING:
         ArtistAlbums,
         ArtistTracks,
         ClientType,
+        ContentRestrictions,
         Counts,
         Cover,
         Description,
@@ -55,6 +56,8 @@ class Artist(YandexMusicModel):
         init_date (:obj:`str`, optional): Дата начала в формате YYYY-MM-DD или YYYY.
         end_date (:obj:`str`, optional): Дата окончания в формате YYYY-MM-DD или YYYY.
         ya_money_id (:obj:`str`): Номер кошеляка Яндекс.Деньги TODO.
+        disclaimers (:obj:`list` из :obj:`str`, optional): Дисклеймеры, например ["foreignAgent"].
+        content_restrictions (:obj:`yandex_music.ContentRestrictions`, optional): Ограничения контента.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -88,6 +91,8 @@ class Artist(YandexMusicModel):
     init_date: Optional[str] = None
     end_date: Optional[str] = None
     ya_money_id: Optional[str] = None
+    disclaimers: Optional[List[str]] = None
+    content_restrictions: Optional['ContentRestrictions'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -317,7 +322,7 @@ class Artist(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Counts, Cover, Description, Link, Ratings, Track
+        from yandex_music import ContentRestrictions, Counts, Cover, Description, Link, Ratings, Track
 
         cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
         cls_data['ratings'] = Ratings.de_json(cls_data.get('ratings'), client)
@@ -325,6 +330,7 @@ class Artist(YandexMusicModel):
         cls_data['links'] = Link.de_list(cls_data.get('links'), client)
         cls_data['popular_tracks'] = Track.de_list(cls_data.get('popular_tracks'), client)
         cls_data['description'] = Description.de_json(cls_data.get('description'), client)
+        cls_data['content_restrictions'] = ContentRestrictions.de_json(cls_data.get('content_restrictions'), client)
 
         # Мне всё равно как в яндухе на клиентах солвят свой бэковский костыль
         decomposed = cls_data.get('decomposed')
