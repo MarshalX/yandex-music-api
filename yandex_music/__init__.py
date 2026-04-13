@@ -31,8 +31,9 @@ from .album.track_position import TrackPosition
 from .album.deprecation import Deprecation
 
 from .artist.artist import Artist
-from .artist.artist_tracks import ArtistTracks
 from .artist.artist_albums import ArtistAlbums
+from .artist.artist_link import ArtistLink
+from .artist.artist_tracks import ArtistTracks
 from .artist.brief_info import BriefInfo
 from .artist.counts import Counts
 from .artist.description import Description
@@ -40,6 +41,12 @@ from .artist.link import Link
 from .artist.ratings import Ratings
 from .artist.stats import Stats
 from .artist.vinyl import Vinyl
+
+from .concert.concert_min_price import ConcertMinPrice
+from .concert.concert_cashback import ConcertCashback
+from .concert.concert_event_info import ConcertEventInfo
+from .concert.concert import Concert
+from .concert.artist_concerts import ArtistConcerts
 
 from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
@@ -134,12 +141,16 @@ from .queue.context import Context
 from .queue.queue import Queue
 from .queue.queue_item import QueueItem
 
+from .content_restrictions import ContentRestrictions
 from .like import Like
 from .pager import Pager
 from .cover import Cover
+from .cover_derived_colors import CoverDerivedColors
 from .invocation_info import InvocationInfo
 from .track_short import TrackShort
 from .icon import Icon
+from .pin.pin_data import PinData
+from .pin.pin import Pin
 from .client import Client
 from .client_async import ClientAsync
 
@@ -154,7 +165,9 @@ __all__ = [
     'AlertButton',
     'Artist',
     'ArtistAlbums',
+    'ArtistConcerts',
     'ArtistEvent',
+    'ArtistLink',
     'ArtistTracks',
     'AutoRenewable',
     'Best',
@@ -171,10 +184,16 @@ __all__ = [
     'Client',
     'ClientAsync',
     'ClientType',
+    'Concert',
+    'ConcertCashback',
+    'ConcertEventInfo',
+    'ConcertMinPrice',
+    'ContentRestrictions',
     'Contest',
     'Context',
     'Counts',
     'Cover',
+    'CoverDerivedColors',
     'CustomWave',
     'Dashboard',
     'Day',
@@ -217,6 +236,8 @@ __all__ = [
     'PermissionAlerts',
     'Permissions',
     'PersonalPlaylistsData',
+    'Pin',
+    'PinData',
     'PlayContext',
     'PlayContextsData',
     'PlayCounter',

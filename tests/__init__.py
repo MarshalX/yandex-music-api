@@ -5,7 +5,9 @@ from .test_album_event import TestAlbumEvent
 from .test_alert import TestAlert
 from .test_alert_button import TestAlertButton
 from .test_artist import TestArtist
+from .test_artist_concerts import TestArtistConcerts
 from .test_artist_event import TestArtistEvent
+from .test_artist_link import TestArtistLink
 from .test_auto_renewable import TestAutoRenewable
 from .test_best import TestBest
 from .test_block import TestBlock
@@ -16,10 +18,16 @@ from .test_chart import TestChart
 from .test_chart_info import TestChartInfo
 from .test_chart_info_menu import TestChartInfoMenu
 from .test_chart_info_menu_item import TestChartInfoMenuItem
+from .test_concert import TestConcert
+from .test_concert_cashback import TestConcertCashback
+from .test_concert_event_info import TestConcertEventInfo
+from .test_concert_min_price import TestConcertMinPrice
+from .test_content_restrictions import TestContentRestrictions
 from .test_contest import TestContest
 from .test_context import TestContext
 from .test_counts import TestCounts
 from .test_cover import TestCover
+from .test_cover_derived_colors import TestCoverDerivedColors
 from .test_custom_wave import TestCustomWave
 from .test_day import TestDay
 from .test_deactivation import TestDeactivation
@@ -52,6 +60,8 @@ from .test_pager import TestPager
 from .test_passport_phone import TestPassportPhone
 from .test_permissions import TestPermissions
 from .test_personal_playlists_data import TestPersonalPlaylistsData
+from .test_pin import TestPin
+from .test_pin_data import TestPinData
 from .test_play_context import TestPlayContext
 from .test_play_contexts_data import TestPlayContextsData
 from .test_play_counter import TestPlayCounter

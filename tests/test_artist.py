@@ -31,9 +31,19 @@ class TestArtist:
     init_date = '1935-01-08'
     end_date = None
     ya_money_id = '4100170623944'
+    disclaimers = ['foreignAgent']
 
     def test_expected_values(
-        self, artist, cover, counts, ratings, link, track_without_artists_and_albums, description, artist_decomposed
+        self,
+        artist,
+        cover,
+        counts,
+        ratings,
+        link,
+        track_without_artists_and_albums,
+        description,
+        artist_decomposed,
+        content_restrictions,
     ):
         assert artist.id == self.id
         assert artist.error == self.error
@@ -65,6 +75,8 @@ class TestArtist:
         assert artist.init_date == self.init_date
         assert artist.end_date == self.end_date
         assert artist.ya_money_id == self.ya_money_id
+        assert artist.disclaimers == self.disclaimers
+        assert artist.content_restrictions == content_restrictions
 
     def test_de_json_none(self, client):
         assert Artist.de_json({}, client) is None
@@ -83,7 +95,16 @@ class TestArtist:
         assert artist.name == self.name
 
     def test_de_json_all(
-        self, client, cover, counts, ratings, link, track_without_artists, description, artist_decomposed
+        self,
+        client,
+        cover,
+        counts,
+        ratings,
+        link,
+        track_without_artists,
+        description,
+        artist_decomposed,
+        content_restrictions,
     ):
         artist_decomposed_dict = [item if isinstance(item, str) else item.to_dict() for item in artist_decomposed]
         json_dict = {
@@ -117,6 +138,8 @@ class TestArtist:
             'end_date': self.end_date,
             'hand_made_description': self.hand_made_description,
             'ya_money_id': self.ya_money_id,
+            'disclaimers': self.disclaimers,
+            'contentRestrictions': content_restrictions.to_dict(),
         }
         artist = Artist.de_json(json_dict, client)
 
@@ -150,6 +173,8 @@ class TestArtist:
         assert artist.init_date == self.init_date
         assert artist.end_date == self.end_date
         assert artist.ya_money_id == self.ya_money_id
+        assert artist.disclaimers == self.disclaimers
+        assert artist.content_restrictions == content_restrictions
 
     def test_equality(self, cover):
         a = Artist(self.id)

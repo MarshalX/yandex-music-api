@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType
+    from yandex_music import ClientType, CoverDerivedColors, JSONType
 
 
 @model
@@ -23,6 +23,8 @@ class Cover(YandexMusicModel):
         copyright_name (:obj:`str`, optional): Название владельца авторским правом.
         copyright_cline (:obj:`str`, optional): Владелец прав на музыку (автор текста и т.д.), а не её записи.
         error (:obj:`str`, optional): Сообщение об ошибке.
+        color (:obj:`str`, optional): Основной цвет обложки, например "#6d6e72".
+        derived_colors (:obj:`yandex_music.CoverDerivedColors`, optional): Производные цвета обложки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -37,10 +39,33 @@ class Cover(YandexMusicModel):
     copyright_cline: Optional[str] = None
     prefix: Optional[str] = None
     error: Optional[str] = None
+    color: Optional[str] = None
+    derived_colors: Optional['CoverDerivedColors'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
+
+    @classmethod
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Cover']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.Cover`: Обложка.
+        """
+        if not cls.is_dict_model_data(data):
+            return None
+
+        cls_data = cls.cleanup_data(data, client)
+        from yandex_music import CoverDerivedColors
+
+        cls_data['derived_colors'] = CoverDerivedColors.de_json(cls_data.get('derived_colors'), client)
+
+        return cls(client=client, **cls_data)
 
     def get_url(self, index: int = 0, size: str = '200x200') -> str:
         """Возвращает URL обложки.

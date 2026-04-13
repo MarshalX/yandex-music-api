@@ -15,9 +15,11 @@ Subpackages
    yandex_music.account
    yandex_music.album
    yandex_music.artist
+   yandex_music.concert
    yandex_music.feed
    yandex_music.genre
    yandex_music.landing
+   yandex_music.pin
    yandex_music.playlist
    yandex_music.queue
    yandex_music.rotor
@@ -36,7 +38,9 @@ Submodules
    yandex_music.base
    yandex_music.client
    yandex_music.client_async
+   yandex_music.content_restrictions
    yandex_music.cover
+   yandex_music.cover_derived_colors
    yandex_music.download_info
    yandex_music.exceptions
    yandex_music.experiments

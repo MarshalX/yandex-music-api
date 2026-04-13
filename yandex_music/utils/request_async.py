@@ -154,6 +154,68 @@ class Request(RequestBase):
 
         return None
 
+    async def put(
+        self,
+        url: str,
+        json: Optional[Dict[str, Any]] = None,
+        timeout: 'TimeoutType' = default_timeout,
+        **kwargs: Any,
+    ) -> Optional['JSONType']:
+        """Отправка PUT запроса.
+
+        Args:
+            url (:obj:`str`): Адрес для запроса.
+            json (:obj:`dict`): JSON тело запроса.
+            timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
+                при создании пула.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
+
+        Returns:
+            :obj:`JSONType`: Обработанное тело ответа.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        result = await self._request_wrapper(
+            'PUT', url, headers=self.headers, proxy=self.proxy_url, json=json, timeout=timeout, **kwargs
+        )
+        response = self._parse(result)
+        if response:
+            return response.get_result()
+
+        return None
+
+    async def delete(
+        self,
+        url: str,
+        json: Optional[Dict[str, Any]] = None,
+        timeout: 'TimeoutType' = default_timeout,
+        **kwargs: Any,
+    ) -> Optional['JSONType']:
+        """Отправка DELETE запроса.
+
+        Args:
+            url (:obj:`str`): Адрес для запроса.
+            json (:obj:`dict`): JSON тело запроса.
+            timeout (:obj:`int` | :obj:`float`): Используется как время ожидания ответа от сервера вместо указанного
+                при создании пула.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
+
+        Returns:
+            :obj:`JSONType`: Обработанное тело ответа.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        result = await self._request_wrapper(
+            'DELETE', url, headers=self.headers, proxy=self.proxy_url, json=json, timeout=timeout, **kwargs
+        )
+        response = self._parse(result)
+        if response:
+            return response.get_result()
+
+        return None
+
     async def retrieve(self, url: str, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> bytes:
         """Отправка GET запроса и получение содержимого без обработки (парсинга).
 

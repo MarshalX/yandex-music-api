@@ -9,7 +9,9 @@ from yandex_music import (
     Alert,
     AlertButton,
     Artist,
+    ArtistConcerts,
     ArtistEvent,
+    ArtistLink,
     AutoRenewable,
     Best,
     Block,
@@ -22,10 +24,16 @@ from yandex_music import (
     ChartInfoMenuItem,
     ChartItem,
     Client,
+    Concert,
+    ConcertCashback,
+    ConcertEventInfo,
+    ConcertMinPrice,
+    ContentRestrictions,
     Contest,
     Context,
     Counts,
     Cover,
+    CoverDerivedColors,
     CustomWave,
     Day,
     Deactivation,
@@ -57,6 +65,8 @@ from yandex_music import (
     PassportPhone,
     Permissions,
     PersonalPlaylistsData,
+    Pin,
+    PinData,
     PlayContext,
     PlayContextsData,
     PlayCounter,
@@ -107,7 +117,9 @@ from . import (
     TestAlert,
     TestAlertButton,
     TestArtist,
+    TestArtistConcerts,
     TestArtistEvent,
+    TestArtistLink,
     TestAutoRenewable,
     TestBest,
     TestBlock,
@@ -117,10 +129,16 @@ from . import (
     TestChart,
     TestChartInfo,
     TestChartInfoMenuItem,
+    TestConcert,
+    TestConcertCashback,
+    TestConcertEventInfo,
+    TestConcertMinPrice,
+    TestContentRestrictions,
     TestContest,
     TestContext,
     TestCounts,
     TestCover,
+    TestCoverDerivedColors,
     TestCustomWave,
     TestDay,
     TestDeactivation,
@@ -151,6 +169,8 @@ from . import (
     TestPassportPhone,
     TestPermissions,
     TestPersonalPlaylistsData,
+    TestPin,
+    TestPinData,
     TestPlayContext,
     TestPlayCounter,
     TestPlaylist,
@@ -195,7 +215,7 @@ from . import (
 
 
 @pytest.fixture(scope='session')
-def artist_factory(cover, counts, ratings, link, description):
+def artist_factory(cover, counts, ratings, link, description, content_restrictions):
     class ArtistFactory:
         def get(self, popular_tracks, decomposed=None):
             return Artist(
@@ -229,6 +249,8 @@ def artist_factory(cover, counts, ratings, link, description):
                 TestArtist.init_date,
                 TestArtist.end_date,
                 TestArtist.ya_money_id,
+                TestArtist.disclaimers,
+                content_restrictions,
             )
 
     return ArtistFactory()
@@ -625,7 +647,25 @@ def icon():
 
 
 @pytest.fixture(scope='session')
-def cover():
+def content_restrictions():
+    return ContentRestrictions(
+        TestContentRestrictions.available,
+        TestContentRestrictions.disclaimers,
+    )
+
+
+@pytest.fixture(scope='session')
+def cover_derived_colors():
+    return CoverDerivedColors(
+        TestCoverDerivedColors.average,
+        TestCoverDerivedColors.wave_text,
+        TestCoverDerivedColors.mini_player,
+        TestCoverDerivedColors.accent,
+    )
+
+
+@pytest.fixture(scope='session')
+def cover(cover_derived_colors):
     return Cover(
         TestCover.type,
         TestCover.uri,
@@ -638,6 +678,59 @@ def cover():
         TestCover.copyright_cline,
         TestCover.prefix,
         TestCover.error,
+        TestCover.color,
+        cover_derived_colors,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_min_price():
+    return ConcertMinPrice(
+        TestConcertMinPrice.value,
+        TestConcertMinPrice.currency,
+        TestConcertMinPrice.currency_symbol,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_cashback():
+    return ConcertCashback(
+        TestConcertCashback.title,
+        TestConcertCashback.value_percent,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_event_info():
+    return ConcertEventInfo(
+        TestConcertEventInfo.type,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert(concert_min_price, concert_cashback, concert_event_info):
+    return Concert(
+        TestConcert.id,
+        TestConcert.images,
+        TestConcert.image_url,
+        TestConcert.concert_title,
+        TestConcert.afisha_url,
+        TestConcert.city,
+        TestConcert.place,
+        TestConcert.address,
+        TestConcert.datetime,
+        TestConcert.content_rating,
+        concert_min_price,
+        concert_cashback,
+        concert_event_info,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_concerts(concert):
+    return ArtistConcerts(
+        TestArtistConcerts.artist_title,
+        [concert],
     )
 
 
@@ -1333,3 +1426,54 @@ def lyrics_info():
 @pytest.fixture(scope='session')
 def stats():
     return Stats(TestStats.last_month_listeners, TestStats.last_month_listeners_delta)
+
+
+@pytest.fixture(scope='session')
+def pin_data_artist(cover, content_restrictions):
+    return PinData(
+        id=TestPinData.id,
+        name=TestPinData.name,
+        cover=cover,
+        content_restrictions=content_restrictions,
+    )
+
+
+@pytest.fixture(scope='session')
+def pin_data_album(cover, content_restrictions):
+    return PinData(
+        id=TestPinData.id,
+        title=TestPinData.title,
+        cover=cover,
+        content_restrictions=content_restrictions,
+    )
+
+
+@pytest.fixture(scope='session')
+def pin_data_playlist(cover):
+    return PinData(
+        uid=TestPinData.uid,
+        kind=TestPinData.kind,
+        playlist_uuid=TestPinData.playlist_uuid,
+        title=TestPinData.title,
+        cover=cover,
+    )
+
+
+@pytest.fixture(scope='session')
+def pin_artist(pin_data_artist):
+    return Pin(type=TestPin.type_artist, data=pin_data_artist)
+
+
+@pytest.fixture(scope='session')
+def pin_album(pin_data_album):
+    return Pin(type=TestPin.type_album, data=pin_data_album)
+
+
+@pytest.fixture(scope='session')
+def pin_playlist(pin_data_playlist):
+    return Pin(type=TestPin.type_playlist, data=pin_data_playlist)
+
+
+@pytest.fixture(scope='session')
+def artist_link():
+    return ArtistLink(TestArtistLink.title, TestArtistLink.subtitle, TestArtistLink.url, TestArtistLink.img_url)
