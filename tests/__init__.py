@@ -22,6 +22,8 @@ from .test_chart import TestChart
 from .test_chart_info import TestChartInfo
 from .test_chart_info_menu import TestChartInfoMenu
 from .test_chart_info_menu_item import TestChartInfoMenuItem
+from .test_clip import TestClip
+from .test_clips_will_like import TestClipsWillLike
 from .test_concert import TestConcert
 from .test_concert_cashback import TestConcertCashback
 from .test_concert_event_info import TestConcertEventInfo
@@ -32,6 +34,8 @@ from .test_context import TestContext
 from .test_counts import TestCounts
 from .test_cover import TestCover
 from .test_cover_derived_colors import TestCoverDerivedColors
+from .test_credit import TestCredit
+from .test_credits import TestCredits
 from .test_custom_wave import TestCustomWave
 from .test_day import TestDay
 from .test_deactivation import TestDeactivation
@@ -106,8 +110,6 @@ from .test_suggestions import TestSuggestions
 from .test_tag import TestTag
 from .test_title import TestTitle
 from .test_track import TestTrack
-from .test_track_credit import TestTrackCredit
-from .test_track_credits import TestTrackCredits
 from .test_track_full_info import TestTrackFullInfo
 from .test_track_id import TestTrackId
 from .test_track_lyrics import TestTrackLyrics

@@ -15,6 +15,7 @@ Subpackages
    yandex_music.account
    yandex_music.album
    yandex_music.artist
+   yandex_music.clip
    yandex_music.concert
    yandex_music.feed
    yandex_music.genre
@@ -42,6 +43,8 @@ Submodules
    yandex_music.content_restrictions
    yandex_music.cover
    yandex_music.cover_derived_colors
+   yandex_music.credit
+   yandex_music.credits
    yandex_music.disclaimer
    yandex_music.download_info
    yandex_music.exceptions

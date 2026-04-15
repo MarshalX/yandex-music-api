@@ -47,6 +47,9 @@ from .artist.ratings import Ratings
 from .artist.stats import Stats
 from .artist.vinyl import Vinyl
 
+from .clip.clip import Clip
+from .clip.clips_will_like import ClipsWillLike
+
 from .concert.concert_min_price import ConcertMinPrice
 from .concert.concert_cashback import ConcertCashback
 from .concert.concert_event_info import ConcertEventInfo
@@ -87,8 +90,6 @@ from .track.r128 import R128
 from .track.lyrics_info import LyricsInfo
 from .track.fade import Fade
 from .track.smart_preview_params import SmartPreviewParams
-from .track.track_credit import TrackCredit
-from .track.track_credits import TrackCredits
 from .track.track_trailer import TrackTrailer
 from .track.track_full_info import TrackFullInfo
 
@@ -159,6 +160,8 @@ from .wave.similar_entity_data import SimilarEntityData
 from .wave.similar_entity_item import SimilarEntityItem
 
 from .content_restrictions import ContentRestrictions
+from .credit import Credit
+from .credits import Credits
 from .disclaimer import Disclaimer
 from .foreign_agent import ForeignAgent
 from .like import Like
@@ -208,6 +211,8 @@ __all__ = [
     'Client',
     'ClientAsync',
     'ClientType',
+    'Clip',
+    'ClipsWillLike',
     'Concert',
     'ConcertCashback',
     'ConcertEventInfo',
@@ -218,6 +223,8 @@ __all__ = [
     'Counts',
     'Cover',
     'CoverDerivedColors',
+    'Credit',
+    'Credits',
     'CustomWave',
     'Dashboard',
     'Day',
@@ -310,8 +317,6 @@ __all__ = [
     'TagResult',
     'Title',
     'Track',
-    'TrackCredit',
-    'TrackCredits',
     'TrackFullInfo',
     'TrackId',
     'TrackLyrics',

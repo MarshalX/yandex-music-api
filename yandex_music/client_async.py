@@ -6,6 +6,9 @@ from yandex_music._client_async.account import AccountMixin
 from yandex_music._client_async.albums import AlbumsMixin
 from yandex_music._client_async.artists import ArtistsMixin
 from yandex_music._client_async.batch import BatchMixin
+from yandex_music._client_async.clips import ClipsMixin
+from yandex_music._client_async.credits import CreditsMixin
+from yandex_music._client_async.disclaimers import DisclaimersMixin
 from yandex_music._client_async.landing import LandingMixin
 from yandex_music._client_async.likes import LikesMixin
 from yandex_music._client_async.pins import PinsMixin
@@ -22,6 +25,9 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 class ClientAsync(
     AccountMixin,
     AlbumsMixin,
+    ClipsMixin,
+    CreditsMixin,
+    DisclaimersMixin,
     LandingMixin,
     TracksMixin,
     SearchMixin,

@@ -8,8 +8,8 @@ if TYPE_CHECKING:
 
 
 @model
-class TrackCredit(YandexMusicModel):
-    """Класс, представляющий информацию об участнике создания трека.
+class Credit(YandexMusicModel):
+    """Класс, представляющий информацию об участнике создания контента (трека, клипа и т.д.).
 
     Attributes:
         title (:obj:`str`, optional): Роль участника (например, «Автор музыки», «Лейбл»).
