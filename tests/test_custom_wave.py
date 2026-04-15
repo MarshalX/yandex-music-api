@@ -5,6 +5,10 @@ class TestCustomWave:
     title = 'В стиле: Трибунал'
     animation_url = 'https://music-custom-wave-media.s3.yandex.net/base.json'
     position = 'default'
+    header = 'Моя волна по плейлисту'
+    background_image_url = (
+        'avatars.mds.yandex.net/get-music-misc/28052/custom-wave-default-playlist-background.image/%%'
+    )
 
     def test_expected_values(self, custom_wave):
         assert custom_wave.title == self.title
@@ -31,12 +35,16 @@ class TestCustomWave:
             'title': self.title,
             'animation_url': self.animation_url,
             'position': self.position,
+            'header': self.header,
+            'backgroundImageUrl': self.background_image_url,
         }
         customwave = CustomWave.de_json(json_dict, client)
 
         assert customwave.title == self.title
         assert customwave.animation_url == self.animation_url
         assert customwave.position == self.position
+        assert customwave.header == self.header
+        assert customwave.background_image_url == self.background_image_url
 
     def test_equality(self):
         a = CustomWave(self.title, self.animation_url, self.position)

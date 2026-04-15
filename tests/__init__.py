@@ -104,7 +104,11 @@ from .test_play_contexts_data import TestPlayContextsData
 from .test_play_counter import TestPlayCounter
 from .test_playlist import TestPlaylist
 from .test_playlist_absence import TestPlaylistAbsence
+from .test_playlist_availability import TestPlaylistAvailability
 from .test_playlist_id import TestPlaylistId
+from .test_playlist_similar_entities import TestPlaylistSimilarEntities
+from .test_playlist_trailer import TestPlaylistTrailer
+from .test_playlists_list import TestPlaylistsList
 from .test_plus import TestPlus
 from .test_poetry_lover_match import TestPoetryLoverMatch
 from .test_presaves import TestPresaves

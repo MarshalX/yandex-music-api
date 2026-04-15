@@ -61,4 +61,5 @@ Submodules
    yandex_music.settings
    yandex_music.track_short
    yandex_music.tracks_list
+   yandex_music.trailer_info
    yandex_music.video

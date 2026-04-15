@@ -4,7 +4,15 @@
 
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import Playlist, PlaylistRecommendations, UserSettings
+from yandex_music import (
+    GeneratedPlaylist,
+    Playlist,
+    PlaylistRecommendations,
+    PlaylistSimilarEntities,
+    PlaylistsList,
+    PlaylistTrailer,
+    UserSettings,
+)
 from yandex_music._client import log
 from yandex_music._client_base import ClientBase, UserIdType, is_dict
 from yandex_music.utils.difference import Difference
@@ -422,6 +430,196 @@ class PlaylistsMixin(ClientBase):
 
         return list(Playlist.de_list(result, self))
 
+    @log
+    def playlist(self, playlist_uuid: str, *args: Any, **kwargs: Any) -> Optional[Playlist]:
+        """Получение плейлиста по его UUID.
+
+        Args:
+            playlist_uuid (:obj:`str`): UUID плейлиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Playlist` | :obj:`None`: Плейлист или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/playlist/{playlist_uuid}'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return Playlist.de_json(result, self)
+
+    @log
+    def playlist_similar_entities(
+        self, playlist_uuid: str, *args: Any, **kwargs: Any
+    ) -> Optional[PlaylistSimilarEntities]:
+        """Получение похожих сущностей для плейлиста.
+
+        Args:
+            playlist_uuid (:obj:`str`): UUID плейлиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.PlaylistSimilarEntities` | :obj:`None`: Похожие сущности или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/playlist/{playlist_uuid}/similar-entities'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return PlaylistSimilarEntities.de_json(result, self)
+
+    @log
+    def playlists(self, playlist_ids: Union[List[str], str], *args: Any, **kwargs: Any) -> Optional[PlaylistsList]:
+        """Получение списка плейлистов по идентификаторам.
+
+        Note:
+            Идентификаторы плейлистов имеют формат ``uid:kind`` (например, ``503646255:161344908``).
+
+        Args:
+            playlist_ids (:obj:`str` | :obj:`list` из :obj:`str`): Идентификатор плейлиста или список идентификаторов
+                в формате ``uid:kind``.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.PlaylistsList` | :obj:`None`: Список плейлистов или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/playlists'
+
+        if isinstance(playlist_ids, list):
+            playlist_ids = ','.join(playlist_ids)
+
+        kwargs['params'] = {'playlistIds': playlist_ids}
+        result = self._request.get(url, *args, **kwargs)
+
+        return PlaylistsList.de_json(result, self)
+
+    @log
+    def playlists_personal(self, playlist_id: str, *args: Any, **kwargs: Any) -> Optional[GeneratedPlaylist]:
+        """Получение персонального плейлиста.
+
+        Note:
+            Известные значения ``playlist_id``: ``daily`` (Плейлист дня), ``missedLikes`` (Тайник),
+            ``recentTracks`` (Премьера), ``neverHeard`` (Дежавю), ``podcasts`` (Подкасты недели),
+            ``origin`` (Плейлист с Алисой).
+
+        Args:
+            playlist_id (:obj:`str`): Идентификатор персонального плейлиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.GeneratedPlaylist` | :obj:`None`: Персональный плейлист или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/playlists/personal/{playlist_id}'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return GeneratedPlaylist.de_json(result, self)
+
+    @log
+    def users_playlists_description(
+        self,
+        kind: Union[str, int],
+        description: str,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[Playlist]:
+        """Изменение описания плейлиста.
+
+        Args:
+            kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
+            description (:obj:`str`): Новое описание.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Playlist` | :obj:`None`: Изменённый плейлист или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/description'
+
+        result = self._request.post(url, {'value': description}, *args, **kwargs)
+
+        return Playlist.de_json(result, self)
+
+    @log
+    def users_playlists_trailer(
+        self,
+        kind: Union[str, int],
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[PlaylistTrailer]:
+        """Получение трейлера плейлиста.
+
+        Args:
+            kind (:obj:`str` | :obj:`int`): Уникальный идентификатор плейлиста.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя владеющим плейлистом.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.PlaylistTrailer` | :obj:`None`: Трейлер плейлиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/{kind}/trailer'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return PlaylistTrailer.de_json(result, self)
+
+    @log
+    def users_playlists_kinds(self, user_id: UserIdType = None, *args: Any, **kwargs: Any) -> List[int]:
+        """Получение списка идентификаторов (kind) плейлистов пользователя.
+
+        Args:
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`int`: Список идентификаторов плейлистов.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
+
+        url = f'{self.base_url}/users/{user_id}/playlists/list/kinds'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        if isinstance(result, list):
+            return result
+        return []
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`users_settings`
@@ -448,3 +646,13 @@ class PlaylistsMixin(ClientBase):
     playlistsCollectiveJoin = playlists_collective_join
     #: Псевдоним для :attr:`users_playlists_list`
     usersPlaylistsList = users_playlists_list
+    #: Псевдоним для :attr:`playlist_similar_entities`
+    playlistSimilarEntities = playlist_similar_entities
+    #: Псевдоним для :attr:`playlists_personal`
+    playlistsPersonal = playlists_personal
+    #: Псевдоним для :attr:`users_playlists_description`
+    usersPlaylistsDescription = users_playlists_description
+    #: Псевдоним для :attr:`users_playlists_trailer`
+    usersPlaylistsTrailer = users_playlists_trailer
+    #: Псевдоним для :attr:`users_playlists_kinds`
+    usersPlaylistsKinds = users_playlists_kinds
