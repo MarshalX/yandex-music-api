@@ -26,8 +26,10 @@ from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
 from .album.album import Album
+from .album.album_trailer import AlbumTrailer
 from .album.label import Label
 from .album.track_position import TrackPosition
+from .album.trailer_info import TrailerInfo
 from .album.deprecation import Deprecation
 
 from .artist.artist import Artist
@@ -141,6 +143,12 @@ from .queue.context import Context
 from .queue.queue import Queue
 from .queue.queue_item import QueueItem
 
+from .wave.wave import Wave
+from .wave.wave_agent_entity import WaveAgentEntity
+from .wave.wave_agent import WaveAgent
+from .wave.similar_entity_data import SimilarEntityData
+from .wave.similar_entity_item import SimilarEntityItem
+
 from .content_restrictions import ContentRestrictions
 from .like import Like
 from .pager import Pager
@@ -161,6 +169,7 @@ __all__ = [
     'AdParams',
     'Album',
     'AlbumEvent',
+    'AlbumTrailer',
     'Alert',
     'AlertButton',
     'Artist',
@@ -265,6 +274,8 @@ __all__ = [
     'ShotData',
     'ShotEvent',
     'ShotType',
+    'SimilarEntityData',
+    'SimilarEntityItem',
     'SimilarTracks',
     'Station',
     'StationData',
@@ -286,12 +297,16 @@ __all__ = [
     'TrackShortOld',
     'TrackWithAds',
     'TracksList',
+    'TrailerInfo',
     'User',
     'UserSettings',
     'Value',
     'Video',
     'VideoSupplement',
     'Vinyl',
+    'Wave',
+    'WaveAgent',
+    'WaveAgentEntity',
     'YandexMusicModel',
     'YandexMusicObject',
     '__copyright__',

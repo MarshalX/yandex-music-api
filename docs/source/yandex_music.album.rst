@@ -13,6 +13,8 @@ Submodules
    :maxdepth: 4
 
    yandex_music.album.album
+   yandex_music.album.album_trailer
    yandex_music.album.deprecation
    yandex_music.album.label
    yandex_music.album.track_position
+   yandex_music.album.trailer_info

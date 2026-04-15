@@ -2,6 +2,7 @@ from .test_account import TestAccount
 from .test_ad_params import TestAdParams
 from .test_album import TestAlbum
 from .test_album_event import TestAlbumEvent
+from .test_album_trailer import TestAlbumTrailer
 from .test_alert import TestAlert
 from .test_alert_button import TestAlertButton
 from .test_artist import TestArtist
@@ -85,6 +86,8 @@ from .test_settings import TestSettings
 from .test_shot import TestShot
 from .test_shot_data import TestShotData
 from .test_shot_type import TestShotType
+from .test_similar_entity_data import TestSimilarEntityData
+from .test_similar_entity_item import TestSimilarEntityItem
 from .test_station import TestStation
 from .test_station_data import TestStationData
 from .test_station_result import TestStationResult
@@ -101,8 +104,12 @@ from .test_track_position import TestTrackPosition
 from .test_track_short import TestTrackShort
 from .test_track_short_old import TestTrackShortOld
 from .test_track_with_ads import TestTrackWithAds
+from .test_trailer_info import TestTrailerInfo
 from .test_user import TestUser
 from .test_value import TestValue
 from .test_video import TestVideo
 from .test_video_supplement import TestVideoSupplement
 from .test_vinyl import TestVinyl
+from .test_wave import TestWave
+from .test_wave_agent import TestWaveAgent
+from .test_wave_agent_entity import TestWaveAgentEntity

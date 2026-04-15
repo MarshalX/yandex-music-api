@@ -6,6 +6,7 @@ from yandex_music import (
     AdParams,
     Album,
     AlbumEvent,
+    AlbumTrailer,
     Alert,
     AlertButton,
     Artist,
@@ -88,6 +89,8 @@ from yandex_music import (
     Shot,
     ShotData,
     ShotType,
+    SimilarEntityData,
+    SimilarEntityItem,
     Station,
     StationData,
     StationResult,
@@ -103,11 +106,15 @@ from yandex_music import (
     TrackShort,
     TrackShortOld,
     TrackWithAds,
+    TrailerInfo,
     User,
     Value,
     Video,
     VideoSupplement,
     Vinyl,
+    Wave,
+    WaveAgent,
+    WaveAgentEntity,
 )
 
 from . import (
@@ -191,6 +198,7 @@ from . import (
     TestShot,
     TestShotData,
     TestShotType,
+    TestSimilarEntityItem,
     TestStation,
     TestStationData,
     TestStationResult,
@@ -206,11 +214,15 @@ from . import (
     TestTrackShort,
     TestTrackShortOld,
     TestTrackWithAds,
+    TestTrailerInfo,
     TestUser,
     TestValue,
     TestVideo,
     TestVideoSupplement,
     TestVinyl,
+    TestWave,
+    TestWaveAgent,
+    TestWaveAgentEntity,
 )
 
 
@@ -1472,6 +1484,59 @@ def pin_album(pin_data_album):
 @pytest.fixture(scope='session')
 def pin_playlist(pin_data_playlist):
     return Pin(type=TestPin.type_playlist, data=pin_data_playlist)
+
+
+@pytest.fixture(scope='session')
+def wave():
+    return Wave(
+        name=TestWave.name,
+        description=TestWave.description,
+        seeds=TestWave.seeds,
+    )
+
+
+@pytest.fixture(scope='session')
+def wave_agent_entity():
+    return WaveAgentEntity(type=TestWaveAgentEntity.type)
+
+
+@pytest.fixture(scope='session')
+def wave_agent(cover, wave_agent_entity):
+    return WaveAgent(
+        animation_uri=TestWaveAgent.animation_uri,
+        cover=cover,
+        entity=wave_agent_entity,
+    )
+
+
+@pytest.fixture(scope='session')
+def similar_entity_data(wave, wave_agent):
+    return SimilarEntityData(wave=wave, agent=wave_agent)
+
+
+@pytest.fixture(scope='session')
+def similar_entity_item(similar_entity_data):
+    return SimilarEntityItem(
+        type=TestSimilarEntityItem.type,
+        data=similar_entity_data,
+    )
+
+
+@pytest.fixture(scope='session')
+def trailer_info(track):
+    return TrailerInfo(
+        title=TestTrailerInfo.title,
+        tracks=[track],
+    )
+
+
+@pytest.fixture(scope='session')
+def album_trailer(album, artist, trailer_info):
+    return AlbumTrailer(
+        album=album,
+        artists=[artist],
+        trailer=trailer_info,
+    )
 
 
 @pytest.fixture(scope='session')

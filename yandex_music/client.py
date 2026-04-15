@@ -7,6 +7,7 @@ from typing import Optional
 
 from yandex_music import Status, YandexMusicObject, __copyright__, __license__, __version__
 from yandex_music._client.account import AccountMixin
+from yandex_music._client.albums import AlbumsMixin
 from yandex_music._client.artists import ArtistsMixin
 from yandex_music._client.batch import BatchMixin
 from yandex_music._client.landing import LandingMixin
@@ -24,6 +25,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 class Client(
     AccountMixin,
+    AlbumsMixin,
     LandingMixin,
     TracksMixin,
     SearchMixin,
