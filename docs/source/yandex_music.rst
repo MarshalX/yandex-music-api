@@ -20,6 +20,7 @@ Subpackages
    yandex_music.feed
    yandex_music.genre
    yandex_music.landing
+   yandex_music.music_history
    yandex_music.pin
    yandex_music.playlist
    yandex_music.presave
