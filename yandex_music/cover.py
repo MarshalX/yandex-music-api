@@ -25,6 +25,7 @@ class Cover(YandexMusicModel):
         error (:obj:`str`, optional): Сообщение об ошибке.
         color (:obj:`str`, optional): Основной цвет обложки, например "#6d6e72".
         derived_colors (:obj:`yandex_music.CoverDerivedColors`, optional): Производные цвета обложки.
+        video_url (:obj:`str`, optional): URL видео обложки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -41,6 +42,7 @@ class Cover(YandexMusicModel):
     error: Optional[str] = None
     color: Optional[str] = None
     derived_colors: Optional['CoverDerivedColors'] = None
+    video_url: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

@@ -27,7 +27,7 @@ class DisclaimersMixin(ClientBase):
         """Получение дисклеймера контента.
 
         Note:
-            Известные типы сущностей: ``tracks``, ``clips``, ``albums``.
+            Известные типы сущностей: ``tracks``, ``clips``, ``albums``, ``artists``.
 
         Args:
             entity_type (:obj:`str`): Тип сущности (``tracks``, ``clips``, ``albums``).
@@ -98,6 +98,23 @@ class DisclaimersMixin(ClientBase):
         """
         return self._get_disclaimer('albums', album_id, *args, **kwargs)
 
+    @log
+    def artists_disclaimer(self, artist_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Disclaimer]:
+        """Получение дисклеймера артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Disclaimer` | :obj:`None`: Дисклеймер артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return self._get_disclaimer('artists', artist_id, *args, **kwargs)
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`tracks_disclaimer`
@@ -106,3 +123,5 @@ class DisclaimersMixin(ClientBase):
     clipsDisclaimer = clips_disclaimer
     #: Псевдоним для :attr:`albums_disclaimer`
     albumsDisclaimer = albums_disclaimer
+    #: Псевдоним для :attr:`artists_disclaimer`
+    artistsDisclaimer = artists_disclaimer

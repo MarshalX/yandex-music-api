@@ -58,6 +58,7 @@ class Artist(YandexMusicModel):
         ya_money_id (:obj:`str`): Номер кошеляка Яндекс.Деньги TODO.
         disclaimers (:obj:`list` из :obj:`str`, optional): Дисклеймеры, например ["foreignAgent"].
         content_restrictions (:obj:`yandex_music.ContentRestrictions`, optional): Ограничения контента.
+        cutout_cover (:obj:`yandex_music.Cover`, optional): Вырезанная обложка артиста.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -93,6 +94,7 @@ class Artist(YandexMusicModel):
     ya_money_id: Optional[str] = None
     disclaimers: Optional[List[str]] = None
     content_restrictions: Optional['ContentRestrictions'] = None
+    cutout_cover: Optional['Cover'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -325,6 +327,7 @@ class Artist(YandexMusicModel):
         from yandex_music import ContentRestrictions, Counts, Cover, Description, Link, Ratings, Track
 
         cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
+        cls_data['cutout_cover'] = Cover.de_json(cls_data.get('cutout_cover'), client)
         cls_data['ratings'] = Ratings.de_json(cls_data.get('ratings'), client)
         cls_data['counts'] = Counts.de_json(cls_data.get('counts'), client)
         cls_data['links'] = Link.de_list(cls_data.get('links'), client)
