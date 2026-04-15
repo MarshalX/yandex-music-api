@@ -10,6 +10,9 @@ from yandex_music._client.account import AccountMixin
 from yandex_music._client.albums import AlbumsMixin
 from yandex_music._client.artists import ArtistsMixin
 from yandex_music._client.batch import BatchMixin
+from yandex_music._client.clips import ClipsMixin
+from yandex_music._client.credits import CreditsMixin
+from yandex_music._client.disclaimers import DisclaimersMixin
 from yandex_music._client.landing import LandingMixin
 from yandex_music._client.likes import LikesMixin
 from yandex_music._client.pins import PinsMixin
@@ -26,6 +29,9 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 class Client(
     AccountMixin,
     AlbumsMixin,
+    ClipsMixin,
+    CreditsMixin,
+    DisclaimersMixin,
     LandingMixin,
     TracksMixin,
     SearchMixin,

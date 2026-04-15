@@ -4,7 +4,7 @@
 
 from typing import TYPE_CHECKING, Any, Optional, Union
 
-from yandex_music import Album, AlbumSimilarEntities, AlbumTrailer, Disclaimer
+from yandex_music import Album, AlbumSimilarEntities, AlbumTrailer
 from yandex_music._client import log
 from yandex_music._client_base import ClientBase
 
@@ -37,27 +37,6 @@ class AlbumsMixin(ClientBase):
         result = self._request.get(url, *args, **kwargs)
 
         return Album.de_json(result, self)
-
-    @log
-    def albums_disclaimer(self, album_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Disclaimer]:
-        """Получение дисклеймера альбома.
-
-        Args:
-            album_id (:obj:`str` | :obj:`int`): Уникальный идентификатор альбома.
-            *args: Произвольные аргументы (будут переданы в запрос).
-            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
-
-        Returns:
-            :obj:`yandex_music.Disclaimer` | :obj:`None`: Дисклеймер альбома или :obj:`None`.
-
-        Raises:
-            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
-        """
-        url = f'{self.base_url}/albums/{album_id}/disclaimer'
-
-        result = self._request.get(url, *args, **kwargs)
-
-        return Disclaimer.de_json(result, self)
 
     @log
     def albums_similar_entities(
@@ -107,8 +86,6 @@ class AlbumsMixin(ClientBase):
 
     #: Псевдоним для :attr:`albums_with_tracks`
     albumsWithTracks = albums_with_tracks
-    #: Псевдоним для :attr:`albums_disclaimer`
-    albumsDisclaimer = albums_disclaimer
     #: Псевдоним для :attr:`albums_similar_entities`
     albumsSimilarEntities = albums_similar_entities
     #: Псевдоним для :attr:`albums_trailer`

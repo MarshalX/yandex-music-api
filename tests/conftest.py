@@ -28,6 +28,8 @@ from yandex_music import (
     ChartInfoMenuItem,
     ChartItem,
     Client,
+    Clip,
+    ClipsWillLike,
     Concert,
     ConcertCashback,
     ConcertEventInfo,
@@ -38,6 +40,8 @@ from yandex_music import (
     Counts,
     Cover,
     CoverDerivedColors,
+    Credit,
+    Credits,
     CustomWave,
     Day,
     Deactivation,
@@ -108,8 +112,6 @@ from yandex_music import (
     Tag,
     Title,
     Track,
-    TrackCredit,
-    TrackCredits,
     TrackFullInfo,
     TrackId,
     TrackLyrics,
@@ -148,6 +150,7 @@ from . import (
     TestChart,
     TestChartInfo,
     TestChartInfoMenuItem,
+    TestClip,
     TestConcert,
     TestConcertCashback,
     TestConcertEventInfo,
@@ -158,6 +161,7 @@ from . import (
     TestCounts,
     TestCover,
     TestCoverDerivedColors,
+    TestCredit,
     TestCustomWave,
     TestDay,
     TestDeactivation,
@@ -223,7 +227,6 @@ from . import (
     TestTag,
     TestTitle,
     TestTrack,
-    TestTrackCredit,
     TestTrackFullInfo,
     TestTrackId,
     TestTrackLyrics,
@@ -823,6 +826,32 @@ def deprecation():
 @pytest.fixture(scope='session')
 def pager():
     return Pager(TestPager.total, TestPager.page, TestPager.per_page)
+
+
+@pytest.fixture(scope='session')
+def clip(artist):
+    return Clip(
+        clip_id=TestClip.clip_id,
+        title=TestClip.title,
+        version=TestClip.version,
+        player_id=TestClip.player_id,
+        uuid=TestClip.uuid,
+        thumbnail=TestClip.thumbnail,
+        preview_url=TestClip.preview_url,
+        duration=TestClip.duration,
+        track_ids=TestClip.track_ids,
+        artists=[artist],
+        disclaimers=TestClip.disclaimers,
+        explicit=TestClip.explicit,
+    )
+
+
+@pytest.fixture(scope='session')
+def clips_will_like(clip, pager):
+    return ClipsWillLike(
+        clips=[clip],
+        pager=pager,
+    )
 
 
 @pytest.fixture(scope='session')
@@ -1605,17 +1634,17 @@ def smart_preview_params(fade):
 
 
 @pytest.fixture(scope='session')
-def track_credit():
-    return TrackCredit(
-        title=TestTrackCredit.title,
-        value=TestTrackCredit.value,
+def credit():
+    return Credit(
+        title=TestCredit.title,
+        value=TestCredit.value,
     )
 
 
 @pytest.fixture(scope='session')
-def track_credits(track_credit):
-    return TrackCredits(
-        credits=[track_credit],
+def credits_(credit):
+    return Credits(
+        credits=[credit],
     )
 
 
