@@ -4,7 +4,20 @@
 
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import ArtistAlbums, ArtistConcerts, ArtistLinks, ArtistSimilar, ArtistTracks, BriefInfo
+from yandex_music import (
+    ArtistAbout,
+    ArtistAlbums,
+    ArtistClips,
+    ArtistConcerts,
+    ArtistDonations,
+    ArtistInfo,
+    ArtistLinks,
+    ArtistSimilar,
+    ArtistSkeleton,
+    ArtistTracks,
+    ArtistTrailer,
+    BriefInfo,
+)
 from yandex_music._client import log
 from yandex_music._client_base import ClientBase
 
@@ -332,6 +345,164 @@ class ArtistsMixin(ClientBase):
 
         return ArtistConcerts.de_json(result, self)
 
+    @log
+    def artists_about(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistAbout]:
+        """Получение информации «Об артисте».
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistAbout` | :obj:`None`: Информация «Об артисте» или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/about-artist'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ArtistAbout.de_json(result, self)
+
+    @log
+    def artists_clips(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistClips]:
+        """Получение клипов артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistClips` | :obj:`None`: Клипы артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/blocks/artist-clips'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ArtistClips.de_json(result, self)
+
+    @log
+    def artists_donation(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistDonations]:
+        """Получение информации о донатах артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistDonations` | :obj:`None`: Информация о донатах артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/blocks/artist-donation'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ArtistDonations.de_json(result, self)
+
+    @log
+    def artists_info(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistInfo]:
+        """Получение подробной информации об артисте.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistInfo` | :obj:`None`: Подробная информация об артисте или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/info'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ArtistInfo.de_json(result, self)
+
+    @log
+    def artists_skeleton(
+        self,
+        artist_id: Union[str, int],
+        skeleton_id: str = 'web-artist-default',
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistSkeleton]:
+        """Получение скелетона страницы артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            skeleton_id (:obj:`str`, optional): Идентификатор скелетона.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistSkeleton` | :obj:`None`: Скелетон страницы артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/skeletons/{skeleton_id}'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ArtistSkeleton.de_json(result, self)
+
+    @log
+    def artists_trailer(
+        self,
+        artist_id: Union[str, int],
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ArtistTrailer]:
+        """Получение трейлера артиста.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ArtistTrailer` | :obj:`None`: Трейлер артиста или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/artists/{artist_id}/trailer'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ArtistTrailer.de_json(result, self)
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`artists_brief_info`
@@ -354,3 +525,15 @@ class ArtistsMixin(ClientBase):
     artistsTrackIds = artists_track_ids
     #: Псевдоним для :attr:`artists_concerts`
     artistsConcerts = artists_concerts
+    #: Псевдоним для :attr:`artists_about`
+    artistsAbout = artists_about
+    #: Псевдоним для :attr:`artists_clips`
+    artistsClips = artists_clips
+    #: Псевдоним для :attr:`artists_donation`
+    artistsDonation = artists_donation
+    #: Псевдоним для :attr:`artists_info`
+    artistsInfo = artists_info
+    #: Псевдоним для :attr:`artists_skeleton`
+    artistsSkeleton = artists_skeleton
+    #: Псевдоним для :attr:`artists_trailer`
+    artistsTrailer = artists_trailer

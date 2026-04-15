@@ -33,12 +33,29 @@ from .album.track_position import TrackPosition
 from .album.trailer_info import TrailerInfo
 from .album.deprecation import Deprecation
 
+from .artist.about_artist import ArtistAbout
 from .artist.artist import Artist
 from .artist.artist_albums import ArtistAlbums
+from .artist.artist_clip_data import ArtistClipData
+from .artist.artist_clip_item import ArtistClipItem
+from .artist.artist_clips import ArtistClips
+from .artist.artist_donation_data import ArtistDonationData
+from .artist.artist_donation_goal import ArtistDonationGoal
+from .artist.artist_donation_item import ArtistDonationItem
+from .artist.artist_donations import ArtistDonations
+from .artist.artist_info import ArtistInfo
 from .artist.artist_link import ArtistLink
 from .artist.artist_links import ArtistLinks
 from .artist.artist_similar import ArtistSimilar
+from .artist.artist_skeleton import ArtistSkeleton
+from .artist.artist_skeleton_block import ArtistSkeletonBlock
+from .artist.artist_skeleton_block_data import ArtistSkeletonBlockData
+from .artist.artist_skeleton_source import ArtistSkeletonSource
+from .artist.artist_skeleton_tab import ArtistSkeletonTab
+from .artist.artist_skeleton_view_all_action import ArtistSkeletonViewAllAction
 from .artist.artist_tracks import ArtistTracks
+from .artist.artist_trailer import ArtistTrailer
+from .artist.artist_trailer_status import ArtistTrailerStatus
 from .artist.brief_info import BriefInfo
 from .artist.counts import Counts
 from .artist.description import Description
@@ -200,13 +217,30 @@ __all__ = [
     'Alert',
     'AlertButton',
     'Artist',
+    'ArtistAbout',
     'ArtistAlbums',
+    'ArtistClipData',
+    'ArtistClipItem',
+    'ArtistClips',
     'ArtistConcerts',
+    'ArtistDonationData',
+    'ArtistDonationGoal',
+    'ArtistDonationItem',
+    'ArtistDonations',
     'ArtistEvent',
+    'ArtistInfo',
     'ArtistLink',
     'ArtistLinks',
     'ArtistSimilar',
+    'ArtistSkeleton',
+    'ArtistSkeletonBlock',
+    'ArtistSkeletonBlockData',
+    'ArtistSkeletonSource',
+    'ArtistSkeletonTab',
+    'ArtistSkeletonViewAllAction',
     'ArtistTracks',
+    'ArtistTrailer',
+    'ArtistTrailerStatus',
     'AutoRenewable',
     'Best',
     'Block',

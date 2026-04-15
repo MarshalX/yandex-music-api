@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType
+    from yandex_music import ClientType, ContentRestrictions, Cover, JSONType
     from yandex_music.artist.artist import Artist
 
 
@@ -25,6 +25,8 @@ class Clip(YandexMusicModel):
         artists (:obj:`list` из :obj:`yandex_music.Artist`, optional): Список артистов клипа.
         disclaimers (:obj:`list` из :obj:`str`, optional): Список дисклеймеров.
         explicit (:obj:`bool`, optional): Содержит ли клип ненормативный контент.
+        cover (:obj:`yandex_music.Cover`, optional): Обложка клипа.
+        content_restrictions (:obj:`yandex_music.ContentRestrictions`, optional): Ограничения контента.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -40,6 +42,8 @@ class Clip(YandexMusicModel):
     artists: Optional[List['Artist']] = None
     disclaimers: Optional[List[str]] = None
     explicit: Optional[bool] = None
+    cover: Optional['Cover'] = None
+    content_restrictions: Optional['ContentRestrictions'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -60,8 +64,10 @@ class Clip(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Artist
+        from yandex_music import Artist, ContentRestrictions, Cover
 
         cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
+        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
+        cls_data['content_restrictions'] = ContentRestrictions.de_json(cls_data.get('content_restrictions'), client)
 
         return cls(client=client, **cls_data)

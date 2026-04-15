@@ -1,0 +1,65 @@
+from typing import TYPE_CHECKING, List, Optional
+
+from yandex_music import YandexMusicModel
+from yandex_music.utils import model
+
+if TYPE_CHECKING:
+    from yandex_music import ClientType, JSONType
+    from yandex_music.artist.artist_skeleton_source import ArtistSkeletonSource
+    from yandex_music.artist.artist_skeleton_tab import ArtistSkeletonTab
+    from yandex_music.artist.artist_skeleton_view_all_action import ArtistSkeletonViewAllAction
+
+
+@model
+class ArtistSkeletonBlockData(YandexMusicModel):
+    """Класс, представляющий данные блока скелетона артиста.
+
+    Note:
+        Для блока типа ``TABS`` заполняются поля ``tabs`` и ``selected_tab_index``.
+        Для остальных блоков заполняются ``source``, ``title``, ``show_policy``, ``view_all_action``.
+
+    Attributes:
+        tabs (:obj:`list` из :obj:`yandex_music.ArtistSkeletonTab`, optional): Список вкладок.
+        selected_tab_index (:obj:`int`, optional): Индекс выбранной вкладки.
+        source (:obj:`yandex_music.ArtistSkeletonSource`, optional): Источник данных.
+        title (:obj:`str`, optional): Заголовок блока.
+        show_policy (:obj:`str`, optional): Политика отображения.
+        view_all_action (:obj:`yandex_music.ArtistSkeletonViewAllAction`, optional): Действие «Показать все».
+        client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+    """
+
+    tabs: Optional[List['ArtistSkeletonTab']] = None
+    selected_tab_index: Optional[int] = None
+    source: Optional['ArtistSkeletonSource'] = None
+    title: Optional[str] = None
+    show_policy: Optional[str] = None
+    view_all_action: Optional['ArtistSkeletonViewAllAction'] = None
+    client: Optional['ClientType'] = None
+
+    def __post_init__(self) -> None:
+        self._id_attrs = (self.tabs, self.source, self.title)
+
+    @classmethod
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ArtistSkeletonBlockData']:
+        """Десериализация объекта.
+
+        Args:
+            data (:obj:`dict`): Поля и значения десериализуемого объекта.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.ArtistSkeletonBlockData`: Данные блока скелетона артиста.
+        """
+        if not cls.is_dict_model_data(data):
+            return None
+
+        cls_data = cls.cleanup_data(data, client)
+        from yandex_music.artist.artist_skeleton_source import ArtistSkeletonSource
+        from yandex_music.artist.artist_skeleton_tab import ArtistSkeletonTab
+        from yandex_music.artist.artist_skeleton_view_all_action import ArtistSkeletonViewAllAction
+
+        cls_data['tabs'] = ArtistSkeletonTab.de_list(cls_data.get('tabs'), client)
+        cls_data['source'] = ArtistSkeletonSource.de_json(cls_data.get('source'), client)
+        cls_data['view_all_action'] = ArtistSkeletonViewAllAction.de_json(cls_data.get('view_all_action'), client)
+
+        return cls(client=client, **cls_data)

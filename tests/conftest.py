@@ -11,11 +11,28 @@ from yandex_music import (
     Alert,
     AlertButton,
     Artist,
+    ArtistAbout,
+    ArtistClipData,
+    ArtistClipItem,
+    ArtistClips,
     ArtistConcerts,
+    ArtistDonationData,
+    ArtistDonationGoal,
+    ArtistDonationItem,
+    ArtistDonations,
     ArtistEvent,
+    ArtistInfo,
     ArtistLink,
     ArtistLinks,
     ArtistSimilar,
+    ArtistSkeleton,
+    ArtistSkeletonBlock,
+    ArtistSkeletonBlockData,
+    ArtistSkeletonSource,
+    ArtistSkeletonTab,
+    ArtistSkeletonViewAllAction,
+    ArtistTrailer,
+    ArtistTrailerStatus,
     AutoRenewable,
     Best,
     Block,
@@ -147,9 +164,22 @@ from . import (
     TestAlert,
     TestAlertButton,
     TestArtist,
+    TestArtistAbout,
+    TestArtistClipItem,
     TestArtistConcerts,
+    TestArtistDonationData,
+    TestArtistDonationGoal,
+    TestArtistDonationItem,
     TestArtistEvent,
+    TestArtistInfo,
     TestArtistLink,
+    TestArtistSkeleton,
+    TestArtistSkeletonBlock,
+    TestArtistSkeletonBlockData,
+    TestArtistSkeletonSource,
+    TestArtistSkeletonTab,
+    TestArtistSkeletonViewAllAction,
+    TestArtistTrailerStatus,
     TestAutoRenewable,
     TestBest,
     TestBlock,
@@ -842,7 +872,7 @@ def pager():
 
 
 @pytest.fixture(scope='session')
-def clip(artist):
+def clip(artist, cover, content_restrictions):
     return Clip(
         clip_id=TestClip.clip_id,
         title=TestClip.title,
@@ -856,6 +886,8 @@ def clip(artist):
         artists=[artist],
         disclaimers=TestClip.disclaimers,
         explicit=TestClip.explicit,
+        cover=cover,
+        content_restrictions=content_restrictions,
     )
 
 
@@ -1793,4 +1825,153 @@ def music_history(music_history_tab):
 def music_history_items(music_history_item_track):
     return MusicHistoryItems(
         items=[music_history_item_track],
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_trailer_status():
+    return ArtistTrailerStatus(
+        available=TestArtistTrailerStatus.available,
+    )
+
+
+@pytest.fixture(scope='session')
+def about_artist(artist, stats, artist_link, cover):
+    return ArtistAbout(
+        artist=artist,
+        stats=stats,
+        description=TestArtistAbout.description,
+        links=[artist_link],
+        covers=[cover],
+        artist_type=TestArtistAbout.artist_type,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_clip_data(clip, artist):
+    return ArtistClipData(
+        clip=clip,
+        artists=[artist],
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_clip_item(artist_clip_data):
+    return ArtistClipItem(
+        type=TestArtistClipItem.type,
+        data=artist_clip_data,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_clips(artist_clip_item, pager):
+    return ArtistClips(
+        items=[artist_clip_item],
+        pager=pager,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_info(artist, stats, artist_trailer_status, cover):
+    return ArtistInfo(
+        artist=artist,
+        likes_count=TestArtistInfo.likes_count,
+        stats=stats,
+        trailer=artist_trailer_status,
+        covers=[cover],
+        description=TestArtistInfo.description,
+        artist_type=TestArtistInfo.artist_type,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_trailer(artist, trailer_info):
+    return ArtistTrailer(
+        artist=artist,
+        trailer=trailer_info,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_skeleton_source():
+    return ArtistSkeletonSource(
+        uri=TestArtistSkeletonSource.uri,
+        count_web=TestArtistSkeletonSource.count_web,
+        count=TestArtistSkeletonSource.count,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_skeleton_view_all_action():
+    return ArtistSkeletonViewAllAction(
+        deeplink=TestArtistSkeletonViewAllAction.deeplink,
+        weblink=TestArtistSkeletonViewAllAction.weblink,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_skeleton_block_data(artist_skeleton_source, artist_skeleton_view_all_action):
+    return ArtistSkeletonBlockData(
+        source=artist_skeleton_source,
+        title=TestArtistSkeletonBlockData.title,
+        show_policy=TestArtistSkeletonBlockData.show_policy,
+        view_all_action=artist_skeleton_view_all_action,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_skeleton_block(artist_skeleton_block_data):
+    return ArtistSkeletonBlock(
+        id=TestArtistSkeletonBlock.id,
+        type=TestArtistSkeletonBlock.type,
+        data=artist_skeleton_block_data,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_skeleton_tab(artist_skeleton_block):
+    return ArtistSkeletonTab(
+        id=TestArtistSkeletonTab.id,
+        title=TestArtistSkeletonTab.title,
+        blocks=[artist_skeleton_block],
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_skeleton(artist_skeleton_block):
+    return ArtistSkeleton(
+        id=TestArtistSkeleton.id,
+        title=TestArtistSkeleton.title,
+        blocks=[artist_skeleton_block],
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_donation_goal():
+    return ArtistDonationGoal(
+        title=TestArtistDonationGoal.title,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_donation_data(artist, artist_donation_goal):
+    return ArtistDonationData(
+        tip_url=TestArtistDonationData.tip_url,
+        artist=artist,
+        goal=artist_donation_goal,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_donation_item(artist_donation_data):
+    return ArtistDonationItem(
+        type=TestArtistDonationItem.type,
+        data=artist_donation_data,
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_donations(artist_donation_item):
+    return ArtistDonations(
+        donations=[artist_donation_item],
     )
