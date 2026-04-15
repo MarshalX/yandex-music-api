@@ -13,6 +13,7 @@ from yandex_music._client_async.landing import LandingMixin
 from yandex_music._client_async.likes import LikesMixin
 from yandex_music._client_async.pins import PinsMixin
 from yandex_music._client_async.playlists import PlaylistsMixin
+from yandex_music._client_async.presaves import PresavesMixin
 from yandex_music._client_async.queue import QueueMixin
 from yandex_music._client_async.radio import RadioMixin
 from yandex_music._client_async.search import SearchMixin
@@ -36,6 +37,7 @@ class ClientAsync(
     ArtistsMixin,
     LikesMixin,
     PinsMixin,
+    PresavesMixin,
     QueueMixin,
     BatchMixin,
     YandexMusicObject,

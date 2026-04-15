@@ -87,6 +87,7 @@ from yandex_music import (
     PlaylistId,
     Plus,
     PoetryLoverMatch,
+    Presaves,
     Price,
     Product,
     Promotion,
@@ -1537,6 +1538,14 @@ def pin_playlist(pin_data_playlist):
 def pins_list(pin_artist):
     return PinsList(
         pins=[pin_artist],
+    )
+
+
+@pytest.fixture(scope='session')
+def presaves(album):
+    return Presaves(
+        upcoming_albums=[album],
+        released_albums=[album],
     )
 
 

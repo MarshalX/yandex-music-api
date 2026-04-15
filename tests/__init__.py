@@ -82,6 +82,7 @@ from .test_playlist_absence import TestPlaylistAbsence
 from .test_playlist_id import TestPlaylistId
 from .test_plus import TestPlus
 from .test_poetry_lover_match import TestPoetryLoverMatch
+from .test_presaves import TestPresaves
 from .test_price import TestPrice
 from .test_product import TestProduct
 from .test_promotion import TestPromotion

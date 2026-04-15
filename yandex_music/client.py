@@ -17,6 +17,7 @@ from yandex_music._client.landing import LandingMixin
 from yandex_music._client.likes import LikesMixin
 from yandex_music._client.pins import PinsMixin
 from yandex_music._client.playlists import PlaylistsMixin
+from yandex_music._client.presaves import PresavesMixin
 from yandex_music._client.queue import QueueMixin
 from yandex_music._client.radio import RadioMixin
 from yandex_music._client.search import SearchMixin
@@ -40,6 +41,7 @@ class Client(
     ArtistsMixin,
     LikesMixin,
     PinsMixin,
+    PresavesMixin,
     QueueMixin,
     BatchMixin,
     YandexMusicObject,
