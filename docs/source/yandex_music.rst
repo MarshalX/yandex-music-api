@@ -22,6 +22,7 @@ Subpackages
    yandex_music.landing
    yandex_music.pin
    yandex_music.playlist
+   yandex_music.presave
    yandex_music.queue
    yandex_music.rotor
    yandex_music.search
