@@ -6,6 +6,7 @@ from yandex_music import (
     AdParams,
     Album,
     AlbumEvent,
+    AlbumSimilarEntities,
     AlbumTrailer,
     Alert,
     AlertButton,
@@ -13,6 +14,8 @@ from yandex_music import (
     ArtistConcerts,
     ArtistEvent,
     ArtistLink,
+    ArtistLinks,
+    ArtistSimilar,
     AutoRenewable,
     Best,
     Block,
@@ -40,9 +43,12 @@ from yandex_music import (
     Deactivation,
     Deprecation,
     Description,
+    Disclaimer,
     DiscreteScale,
     Enum,
     Event,
+    Fade,
+    ForeignAgent,
     GeneratedPlaylist,
     Icon,
     Id,
@@ -68,6 +74,7 @@ from yandex_music import (
     PersonalPlaylistsData,
     Pin,
     PinData,
+    PinsList,
     PlayContext,
     PlayContextsData,
     PlayCounter,
@@ -91,6 +98,7 @@ from yandex_music import (
     ShotType,
     SimilarEntityData,
     SimilarEntityItem,
+    SmartPreviewParams,
     Station,
     StationData,
     StationResult,
@@ -100,11 +108,15 @@ from yandex_music import (
     Tag,
     Title,
     Track,
+    TrackCredit,
+    TrackCredits,
+    TrackFullInfo,
     TrackId,
     TrackLyrics,
     TrackPosition,
     TrackShort,
     TrackShortOld,
+    TrackTrailer,
     TrackWithAds,
     TrailerInfo,
     User,
@@ -154,6 +166,8 @@ from . import (
     TestDiscreteScale,
     TestEnum,
     TestEvent,
+    TestFade,
+    TestForeignAgent,
     TestGeneratedPlaylist,
     TestIcon,
     TestId,
@@ -199,6 +213,7 @@ from . import (
     TestShotData,
     TestShotType,
     TestSimilarEntityItem,
+    TestSmartPreviewParams,
     TestStation,
     TestStationData,
     TestStationResult,
@@ -208,11 +223,14 @@ from . import (
     TestTag,
     TestTitle,
     TestTrack,
+    TestTrackCredit,
+    TestTrackFullInfo,
     TestTrackId,
     TestTrackLyrics,
     TestTrackPosition,
     TestTrackShort,
     TestTrackShortOld,
+    TestTrackTrailer,
     TestTrackWithAds,
     TestTrailerInfo,
     TestUser,
@@ -1487,6 +1505,13 @@ def pin_playlist(pin_data_playlist):
 
 
 @pytest.fixture(scope='session')
+def pins_list(pin_artist):
+    return PinsList(
+        pins=[pin_artist],
+    )
+
+
+@pytest.fixture(scope='session')
 def wave():
     return Wave(
         name=TestWave.name,
@@ -1523,6 +1548,13 @@ def similar_entity_item(similar_entity_data):
 
 
 @pytest.fixture(scope='session')
+def album_similar_entities(similar_entity_item):
+    return AlbumSimilarEntities(
+        items=[similar_entity_item],
+    )
+
+
+@pytest.fixture(scope='session')
 def trailer_info(track):
     return TrailerInfo(
         title=TestTrailerInfo.title,
@@ -1540,5 +1572,87 @@ def album_trailer(album, artist, trailer_info):
 
 
 @pytest.fixture(scope='session')
+def foreign_agent():
+    return ForeignAgent(
+        reason=TestForeignAgent.reason,
+        title=TestForeignAgent.title,
+    )
+
+
+@pytest.fixture(scope='session')
+def disclaimer(foreign_agent):
+    return Disclaimer(
+        foreign_agent=foreign_agent,
+    )
+
+
+@pytest.fixture(scope='session')
+def fade():
+    return Fade(
+        in_start=TestFade.in_start,
+        in_stop=TestFade.in_stop,
+        out_start=TestFade.out_start,
+        out_stop=TestFade.out_stop,
+    )
+
+
+@pytest.fixture(scope='session')
+def smart_preview_params(fade):
+    return SmartPreviewParams(
+        duration_ms=TestSmartPreviewParams.duration_ms,
+        fade=fade,
+    )
+
+
+@pytest.fixture(scope='session')
+def track_credit():
+    return TrackCredit(
+        title=TestTrackCredit.title,
+        value=TestTrackCredit.value,
+    )
+
+
+@pytest.fixture(scope='session')
+def track_credits(track_credit):
+    return TrackCredits(
+        credits=[track_credit],
+    )
+
+
+@pytest.fixture(scope='session')
+def track_trailer(track):
+    return TrackTrailer(
+        title=TestTrackTrailer.title,
+        track=track,
+    )
+
+
+@pytest.fixture(scope='session')
+def track_full_info(track, artist):
+    return TrackFullInfo(
+        track=track,
+        similar_tracks=[track],
+        also_in_albums=[track],
+        aliases=TestTrackFullInfo.aliases,
+        artists=[artist],
+    )
+
+
+@pytest.fixture(scope='session')
 def artist_link():
     return ArtistLink(TestArtistLink.title, TestArtistLink.subtitle, TestArtistLink.url, TestArtistLink.img_url)
+
+
+@pytest.fixture(scope='session')
+def artist_links_fixture(artist_link):
+    return ArtistLinks(
+        links=[artist_link],
+    )
+
+
+@pytest.fixture(scope='session')
+def artist_similar(artist):
+    return ArtistSimilar(
+        artist=artist,
+        similar_artists=[artist],
+    )

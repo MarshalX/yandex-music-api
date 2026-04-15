@@ -1,8 +1,8 @@
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
-from yandex_music import Album, AlbumTrailer, SimilarEntityItem
+from yandex_music import Album, AlbumSimilarEntities, AlbumTrailer, Disclaimer
 from yandex_music._client_async import log
-from yandex_music._client_base import ClientBase, is_dict
+from yandex_music._client_base import ClientBase
 
 if TYPE_CHECKING:
     from yandex_music.utils.request_async import Request
@@ -35,7 +35,7 @@ class AlbumsMixin(ClientBase):
         return Album.de_json(result, self)
 
     @log
-    async def albums_disclaimer(self, album_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[str]:
+    async def albums_disclaimer(self, album_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Disclaimer]:
         """Получение дисклеймера альбома.
 
         Args:
@@ -44,7 +44,7 @@ class AlbumsMixin(ClientBase):
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`str` | :obj:`None`: Текст дисклеймера или :obj:`None`.
+            :obj:`yandex_music.Disclaimer` | :obj:`None`: Дисклеймер альбома или :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -53,14 +53,12 @@ class AlbumsMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        if is_dict(result):
-            return result.get('text')
-        return None
+        return Disclaimer.de_json(result, self)
 
     @log
     async def albums_similar_entities(
         self, album_id: Union[str, int], *args: Any, **kwargs: Any
-    ) -> List[SimilarEntityItem]:
+    ) -> Optional[AlbumSimilarEntities]:
         """Получение похожих сущностей для альбома.
 
         Args:
@@ -69,7 +67,7 @@ class AlbumsMixin(ClientBase):
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.SimilarEntityItem`: Список похожих сущностей.
+            :obj:`yandex_music.AlbumSimilarEntities` | :obj:`None`: Похожие сущности или :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -78,9 +76,7 @@ class AlbumsMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        if is_dict(result):
-            return list(SimilarEntityItem.de_list(result.get('items'), self))
-        return []
+        return AlbumSimilarEntities.de_json(result, self)
 
     @log
     async def albums_trailer(self, album_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[AlbumTrailer]:

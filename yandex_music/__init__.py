@@ -26,6 +26,7 @@ from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
 from .album.album import Album
+from .album.album_similar_entities import AlbumSimilarEntities
 from .album.album_trailer import AlbumTrailer
 from .album.label import Label
 from .album.track_position import TrackPosition
@@ -35,6 +36,8 @@ from .album.deprecation import Deprecation
 from .artist.artist import Artist
 from .artist.artist_albums import ArtistAlbums
 from .artist.artist_link import ArtistLink
+from .artist.artist_links import ArtistLinks
+from .artist.artist_similar import ArtistSimilar
 from .artist.artist_tracks import ArtistTracks
 from .artist.brief_info import BriefInfo
 from .artist.counts import Counts
@@ -82,6 +85,12 @@ from .track.track import Track
 from .track.tracks_similar import SimilarTracks
 from .track.r128 import R128
 from .track.lyrics_info import LyricsInfo
+from .track.fade import Fade
+from .track.smart_preview_params import SmartPreviewParams
+from .track.track_credit import TrackCredit
+from .track.track_credits import TrackCredits
+from .track.track_trailer import TrackTrailer
+from .track.track_full_info import TrackFullInfo
 
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
@@ -150,6 +159,8 @@ from .wave.similar_entity_data import SimilarEntityData
 from .wave.similar_entity_item import SimilarEntityItem
 
 from .content_restrictions import ContentRestrictions
+from .disclaimer import Disclaimer
+from .foreign_agent import ForeignAgent
 from .like import Like
 from .pager import Pager
 from .cover import Cover
@@ -159,6 +170,7 @@ from .track_short import TrackShort
 from .icon import Icon
 from .pin.pin_data import PinData
 from .pin.pin import Pin
+from .pin.pins_list import PinsList
 from .client import Client
 from .client_async import ClientAsync
 
@@ -169,6 +181,7 @@ __all__ = [
     'AdParams',
     'Album',
     'AlbumEvent',
+    'AlbumSimilarEntities',
     'AlbumTrailer',
     'Alert',
     'AlertButton',
@@ -177,6 +190,8 @@ __all__ = [
     'ArtistConcerts',
     'ArtistEvent',
     'ArtistLink',
+    'ArtistLinks',
+    'ArtistSimilar',
     'ArtistTracks',
     'AutoRenewable',
     'Best',
@@ -209,12 +224,15 @@ __all__ = [
     'Deactivation',
     'Deprecation',
     'Description',
+    'Disclaimer',
     'DiscreteScale',
     'DownloadInfo',
     'Enum',
     'Event',
     'Experiments',
+    'Fade',
     'Feed',
+    'ForeignAgent',
     'GeneratedPlaylist',
     'Genre',
     'Icon',
@@ -247,6 +265,7 @@ __all__ = [
     'PersonalPlaylistsData',
     'Pin',
     'PinData',
+    'PinsList',
     'PlayContext',
     'PlayContextsData',
     'PlayCounter',
@@ -277,6 +296,7 @@ __all__ = [
     'SimilarEntityData',
     'SimilarEntityItem',
     'SimilarTracks',
+    'SmartPreviewParams',
     'Station',
     'StationData',
     'StationResult',
@@ -290,11 +310,15 @@ __all__ = [
     'TagResult',
     'Title',
     'Track',
+    'TrackCredit',
+    'TrackCredits',
+    'TrackFullInfo',
     'TrackId',
     'TrackLyrics',
     'TrackPosition',
     'TrackShort',
     'TrackShortOld',
+    'TrackTrailer',
     'TrackWithAds',
     'TracksList',
     'TrailerInfo',
