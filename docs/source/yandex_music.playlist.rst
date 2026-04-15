@@ -21,8 +21,12 @@ Submodules
    yandex_music.playlist.play_counter
    yandex_music.playlist.playlist
    yandex_music.playlist.playlist_absence
+   yandex_music.playlist.playlist_availability
    yandex_music.playlist.playlist_id
    yandex_music.playlist.playlist_recommendation
+   yandex_music.playlist.playlist_similar_entities
+   yandex_music.playlist.playlist_trailer
+   yandex_music.playlist.playlists_list
    yandex_music.playlist.tag
    yandex_music.playlist.tag_result
    yandex_music.playlist.user

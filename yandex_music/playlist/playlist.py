@@ -23,6 +23,7 @@ if TYPE_CHECKING:
         TrackShort,
         User,
     )
+    from yandex_music.playlist.playlist_availability import PlaylistAvailability
 
 
 @model
@@ -100,6 +101,11 @@ class Playlist(YandexMusicModel):
         regions: Регион TODO.
         custom_wave (:obj:'yandex_music.CustomWave`, optional): Описание плейлиста. TODO.
         pager (:obj:`yandex_music.Pager`, optional): Пагинатор.
+        has_trailer (:obj:`bool`, optional): Есть ли у плейлиста трейлер.
+        trailer (:obj:`yandex_music.PlaylistAvailability`, optional): Доступность трейлера плейлиста.
+        background_video_url (:obj:`str`, optional): Ссылка на фоновое видео.
+        background_video_id (:obj:`str`, optional): Идентификатор фонового видео.
+        background_image_url (:obj:`str`, optional): Ссылка на фоновое изображение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -160,6 +166,11 @@ class Playlist(YandexMusicModel):
     regions: Any = None
     custom_wave: Optional['CustomWave'] = None
     pager: Optional['Pager'] = None
+    has_trailer: Optional[bool] = None
+    trailer: Optional['PlaylistAvailability'] = None
+    background_video_url: Optional[str] = None
+    background_video_id: Optional[str] = None
+    background_image_url: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -539,6 +550,10 @@ class Playlist(YandexMusicModel):
 
         cls_data['custom_wave'] = CustomWave.de_json(cls_data.get('custom_wave'), client)
         cls_data['pager'] = Pager.de_json(cls_data.get('pager'), client)
+
+        from yandex_music.playlist.playlist_availability import PlaylistAvailability
+
+        cls_data['trailer'] = PlaylistAvailability.de_json(cls_data.get('trailer'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

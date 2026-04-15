@@ -18,12 +18,16 @@ class CustomWave(YandexMusicModel):
         title (:obj:`str`): Название плейлиста.
         animation_url (:obj:`str`): JSON анимация Lottie.
         position (:obj:`str`): Позиция TODO.
+        header (:obj:`str`, optional): Заголовок волны.
+        background_image_url (:obj:`str`, optional): Ссылка на фоновое изображение.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     title: str
     animation_url: str
     position: str
+    header: Optional[str] = None
+    background_image_url: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

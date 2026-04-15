@@ -18,4 +18,3 @@ Submodules
    yandex_music.album.deprecation
    yandex_music.album.label
    yandex_music.album.track_position
-   yandex_music.album.trailer_info

@@ -109,7 +109,11 @@ from yandex_music import (
     PlayCounter,
     Playlist,
     PlaylistAbsence,
+    PlaylistAvailability,
     PlaylistId,
+    PlaylistSimilarEntities,
+    PlaylistsList,
+    PlaylistTrailer,
     Plus,
     PoetryLoverMatch,
     Presaves,
@@ -243,7 +247,9 @@ from . import (
     TestPlayCounter,
     TestPlaylist,
     TestPlaylistAbsence,
+    TestPlaylistAvailability,
     TestPlaylistId,
+    TestPlaylistTrailer,
     TestPlus,
     TestPoetryLoverMatch,
     TestPrice,
@@ -1974,4 +1980,34 @@ def artist_donation_item(artist_donation_data):
 def artist_donations(artist_donation_item):
     return ArtistDonations(
         donations=[artist_donation_item],
+    )
+
+
+@pytest.fixture(scope='session')
+def playlist_availability():
+    return PlaylistAvailability(
+        available=TestPlaylistAvailability.available,
+    )
+
+
+@pytest.fixture(scope='session')
+def playlist_trailer(playlist, trailer_info):
+    return PlaylistTrailer(
+        playlist=playlist,
+        trailer=trailer_info,
+        shareable=TestPlaylistTrailer.shareable,
+    )
+
+
+@pytest.fixture(scope='session')
+def playlist_similar_entities(similar_entity_item):
+    return PlaylistSimilarEntities(
+        items=[similar_entity_item],
+    )
+
+
+@pytest.fixture(scope='session')
+def playlists_list(playlist):
+    return PlaylistsList(
+        playlists=[playlist],
     )

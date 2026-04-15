@@ -6,8 +6,8 @@ from yandex_music.utils import model
 if TYPE_CHECKING:
     from yandex_music import ClientType, JSONType
     from yandex_music.album.album import Album
-    from yandex_music.album.trailer_info import TrailerInfo
     from yandex_music.artist.artist import Artist
+    from yandex_music.trailer_info import TrailerInfo
 
 
 @model
@@ -45,7 +45,7 @@ class AlbumTrailer(YandexMusicModel):
 
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Album, Artist
-        from yandex_music.album.trailer_info import TrailerInfo
+        from yandex_music.trailer_info import TrailerInfo
 
         cls_data['album'] = Album.de_json(cls_data.get('album'), client)
         cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)

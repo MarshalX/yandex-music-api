@@ -30,7 +30,7 @@ from .album.album_similar_entities import AlbumSimilarEntities
 from .album.album_trailer import AlbumTrailer
 from .album.label import Label
 from .album.track_position import TrackPosition
-from .album.trailer_info import TrailerInfo
+from .trailer_info import TrailerInfo
 from .album.deprecation import Deprecation
 
 from .artist.about_artist import ArtistAbout
@@ -85,8 +85,12 @@ from .playlist.playlist_id import PlaylistId
 from .playlist.tag import Tag
 from .playlist.tag_result import TagResult
 from .playlist.playlist_absence import PlaylistAbsence
+from .playlist.playlist_availability import PlaylistAvailability
 from .playlist.playlist import Playlist
 from .playlist.playlist_recommendation import PlaylistRecommendations
+from .playlist.playlist_similar_entities import PlaylistSimilarEntities
+from .playlist.playlist_trailer import PlaylistTrailer
+from .playlist.playlists_list import PlaylistsList
 
 from .shot.shot_type import ShotType
 from .shot.shot_data import ShotData
@@ -331,8 +335,12 @@ __all__ = [
     'PlayCounter',
     'Playlist',
     'PlaylistAbsence',
+    'PlaylistAvailability',
     'PlaylistId',
     'PlaylistRecommendations',
+    'PlaylistSimilarEntities',
+    'PlaylistTrailer',
+    'PlaylistsList',
     'Plus',
     'PoetryLoverMatch',
     'Presaves',
