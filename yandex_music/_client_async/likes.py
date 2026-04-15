@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union, overload
 
 from typing_extensions import Literal
 
-from yandex_music import Like, TracksList
+from yandex_music import Artist, ClipsWillLike, Like, TracksList
 from yandex_music._client_async import log
 from yandex_music._client_base import ClientBase, UserIdType, is_dict
 
@@ -421,6 +421,45 @@ class LikesMixin(ClientBase):
         """
         return await self._get_likes('playlist', user_id, *args, **kwargs)
 
+    async def _get_dislikes(
+        self,
+        object_type: str,
+        user_id: UserIdType = None,
+        params: Optional[Dict[str, Any]] = None,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Union[List[Artist], Optional[TracksList]]:
+        """Получение объектов с отметкой "Не рекомендовать".
+
+        Args:
+            object_type (:obj:`str`): Тип объекта.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            params (:obj:`dict`, optional): Параметры, которые будут переданы в запрос.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Artist` | :obj:`yandex_music.TracksList`: Объекты с отметкой
+                "Не рекомендовать".
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
+
+        url = f'{self.base_url}/users/{user_id}/dislikes/{object_type}s'
+
+        result = await self._request.get(url, params, *args, **kwargs)
+
+        if object_type == 'track':
+            if is_dict(result):
+                return TracksList.de_json(result.get('library'), self)
+            return None
+
+        return list(Artist.de_list(result, self))
+
     @log
     async def users_dislikes_tracks(
         self,
@@ -444,21 +483,13 @@ class LikesMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if user_id is None and self.account_uid is not None:
-            user_id = self.account_uid
-
-        url = f'{self.base_url}/users/{user_id}/dislikes/tracks'
-
-        result = await self._request.get(
-            url, {'if_modified_since_revision': if_modified_since_revision}, *args, **kwargs
+        return await self._get_dislikes(
+            'track', user_id, {'if_modified_since_revision': if_modified_since_revision}, *args, **kwargs
         )
-
-        if is_dict(result):
-            return TracksList.de_json(result.get('library'), self)
-        return None
 
     async def _dislike_action(
         self,
+        object_type: str,
         ids: Union[List[Union[str, int]], str, int],
         remove: bool = False,
         user_id: UserIdType = None,
@@ -467,7 +498,11 @@ class LikesMixin(ClientBase):
     ) -> bool:
         """Действия с отметкой "Не рекомендовать".
 
+        Note:
+            Типы объектов: `track` - трек, `artist` - исполнитель.
+
         Args:
+            object_type (:obj:`str`): Тип объекта.
             ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
                 идентификатор объекта или объектов.
             remove (:obj:`bool`, optional): Если :obj:`True`, то снимает отметку, иначе ставит.
@@ -486,11 +521,14 @@ class LikesMixin(ClientBase):
             user_id = self.account_uid
 
         action = 'remove' if remove else 'add-multiple'
-        url = f'{self.base_url}/users/{user_id}/dislikes/tracks/{action}'
+        url = f'{self.base_url}/users/{user_id}/dislikes/{object_type}s/{action}'
 
-        result = await self._request.post(url, {'track-ids': ids}, *args, **kwargs)
+        result = await self._request.post(url, {f'{object_type}-ids': ids}, *args, **kwargs)
 
-        return is_dict(result) and 'revision' in result
+        if object_type == 'track':
+            return is_dict(result) and 'revision' in result
+
+        return result == 'ok'
 
     @log
     async def users_dislikes_tracks_add(
@@ -518,7 +556,7 @@ class LikesMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return await self._dislike_action(track_ids, remove=False, user_id=user_id, **kwargs)
+        return await self._dislike_action('track', track_ids, remove=False, user_id=user_id, **kwargs)
 
     @log
     async def users_dislikes_tracks_remove(
@@ -543,7 +581,173 @@ class LikesMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        return await self._dislike_action(track_ids, remove=True, user_id=user_id, **kwargs)
+        return await self._dislike_action('track', track_ids, remove=True, user_id=user_id, **kwargs)
+
+    @log
+    async def users_dislikes_artists(
+        self,
+        user_id: UserIdType = None,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Artist]:
+        """Получение исполнителей с отметкой "Не рекомендовать".
+
+        Args:
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Artist`: Исполнители с отметкой "Не рекомендовать".
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return await self._get_dislikes('artist', user_id, *args, **kwargs)
+
+    @log
+    async def users_dislikes_artists_add(
+        self,
+        artist_id: Union[str, int],
+        user_id: UserIdType = None,
+        **kwargs: Any,
+    ) -> bool:
+        """Поставить отметку "Не рекомендовать" исполнителю.
+
+        Note:
+            Так же снимает отметку "Мне нравится" если она есть.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор исполнителя.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return await self._dislike_action('artist', artist_id, remove=False, user_id=user_id, **kwargs)
+
+    @log
+    async def users_dislikes_artists_remove(
+        self,
+        artist_id: Union[str, int],
+        user_id: UserIdType = None,
+        **kwargs: Any,
+    ) -> bool:
+        """Снять отметку "Не рекомендовать" у исполнителя.
+
+        Args:
+            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор исполнителя.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return await self._dislike_action('artist', artist_id, remove=True, user_id=user_id, **kwargs)
+
+    @log
+    async def users_likes_clips(
+        self,
+        user_id: UserIdType = None,
+        page: int = 0,
+        page_size: int = 100,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[ClipsWillLike]:
+        """Получение клипов с отметкой "Мне нравится".
+
+        Args:
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            page (:obj:`int`, optional): Номер страницы.
+            page_size (:obj:`int`, optional): Количество элементов на странице.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ClipsWillLike`: Клипы с отметкой "Мне нравится".
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
+
+        url = f'{self.base_url}/users/{user_id}/likes/clips'
+
+        result = await self._request.get(url, {'page': page, 'pageSize': page_size}, *args, **kwargs)
+
+        return ClipsWillLike.de_json(result, self)
+
+    @log
+    async def users_likes_clips_add(
+        self,
+        clip_id: Union[str, int],
+        user_id: UserIdType = None,
+        **kwargs: Any,
+    ) -> bool:
+        """Поставить отметку "Мне нравится" клипу.
+
+        Args:
+            clip_id (:obj:`str` | :obj:`int`): Уникальный идентификатор клипа.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
+
+        url = f'{self.base_url}/users/{user_id}/likes/clips/add'
+
+        result = await self._request.post(url, params={'clip-id': clip_id}, **kwargs)
+
+        return is_dict(result) or result == 'ok'
+
+    @log
+    async def users_likes_clips_remove(
+        self,
+        clip_id: Union[str, int],
+        user_id: UserIdType = None,
+        **kwargs: Any,
+    ) -> bool:
+        """Снять отметку "Мне нравится" у клипа.
+
+        Args:
+            clip_id (:obj:`str` | :obj:`int`): Уникальный идентификатор клипа.
+            user_id (:obj:`str` | :obj:`int`, optional): Уникальный идентификатор пользователя. Если не указан
+                используется ID текущего пользователя.
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        if user_id is None and self.account_uid is not None:
+            user_id = self.account_uid
+
+        url = f'{self.base_url}/users/{user_id}/likes/clips/{clip_id}/remove'
+
+        result = await self._request.post(url, **kwargs)
+
+        return is_dict(result) or result == 'ok'
 
     # camelCase псевдонимы
 
@@ -577,3 +781,15 @@ class LikesMixin(ClientBase):
     usersDislikesTracksAdd = users_dislikes_tracks_add
     #: Псевдоним для :attr:`users_dislikes_tracks_remove`
     usersDislikesTracksRemove = users_dislikes_tracks_remove
+    #: Псевдоним для :attr:`users_dislikes_artists`
+    usersDislikesArtists = users_dislikes_artists
+    #: Псевдоним для :attr:`users_dislikes_artists_add`
+    usersDislikesArtistsAdd = users_dislikes_artists_add
+    #: Псевдоним для :attr:`users_dislikes_artists_remove`
+    usersDislikesArtistsRemove = users_dislikes_artists_remove
+    #: Псевдоним для :attr:`users_likes_clips`
+    usersLikesClips = users_likes_clips
+    #: Псевдоним для :attr:`users_likes_clips_add`
+    usersLikesClipsAdd = users_likes_clips_add
+    #: Псевдоним для :attr:`users_likes_clips_remove`
+    usersLikesClipsRemove = users_likes_clips_remove
