@@ -28,6 +28,7 @@ Subpackages
    yandex_music.supplement
    yandex_music.track
    yandex_music.utils
+   yandex_music.wave
 
 Submodules
 ----------

@@ -3,6 +3,7 @@ from typing import Optional
 
 from yandex_music import Status, YandexMusicObject, __copyright__, __license__, __version__
 from yandex_music._client_async.account import AccountMixin
+from yandex_music._client_async.albums import AlbumsMixin
 from yandex_music._client_async.artists import ArtistsMixin
 from yandex_music._client_async.batch import BatchMixin
 from yandex_music._client_async.landing import LandingMixin
@@ -20,6 +21,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 class ClientAsync(
     AccountMixin,
+    AlbumsMixin,
     LandingMixin,
     TracksMixin,
     SearchMixin,
