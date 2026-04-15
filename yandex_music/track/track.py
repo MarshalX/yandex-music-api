@@ -11,6 +11,7 @@ if TYPE_CHECKING:
         Album,
         Artist,
         ClientType,
+        CoverDerivedColors,
         DownloadInfo,
         JSONType,
         LyricsInfo,
@@ -22,6 +23,8 @@ if TYPE_CHECKING:
         TrackLyrics,
         User,
     )
+    from yandex_music.track.fade import Fade
+    from yandex_music.track.smart_preview_params import SmartPreviewParams
 
 
 @model
@@ -92,6 +95,11 @@ class Track(YandexMusicModel):
             в соответствии с рекомендацией EBU R 128.
         lyrics_info (:obj:`yandex_music.LyricsInfo`, optional): Данные о наличии текстов трека.
         track_sharing_flag (:obj:`str`, optional): TODO.
+        derived_colors (:obj:`yandex_music.CoverDerivedColors`, optional): Производные цвета обложки трека.
+        fade (:obj:`yandex_music.Fade`, optional): Параметры затухания трека.
+        smart_preview_params (:obj:`yandex_music.SmartPreviewParams`, optional): Параметры умного превью трека.
+        special_audio_resources (:obj:`list` из :obj:`str`, optional): Специальные аудиоресурсы.
+        disclaimers (:obj:`list` из :obj:`str`, optional): Список дисклеймеров.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -138,6 +146,11 @@ class Track(YandexMusicModel):
     r128: Optional['R128'] = None
     lyrics_info: Optional['LyricsInfo'] = None
     track_sharing_flag: Optional[str] = None
+    derived_colors: Optional['CoverDerivedColors'] = None
+    fade: Optional['Fade'] = None
+    smart_preview_params: Optional['SmartPreviewParams'] = None
+    special_audio_resources: Optional[List[str]] = None
+    disclaimers: Optional[List[str]] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -504,7 +517,20 @@ class Track(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        from yandex_music import R128, Album, Artist, LyricsInfo, Major, MetaData, Normalization, PoetryLoverMatch, User
+        from yandex_music import (
+            R128,
+            Album,
+            Artist,
+            CoverDerivedColors,
+            LyricsInfo,
+            Major,
+            MetaData,
+            Normalization,
+            PoetryLoverMatch,
+            User,
+        )
+        from yandex_music.track.fade import Fade
+        from yandex_music.track.smart_preview_params import SmartPreviewParams
 
         cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
         cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
@@ -517,6 +543,9 @@ class Track(YandexMusicModel):
         cls_data['poetry_lover_matches'] = PoetryLoverMatch.de_list(cls_data.get('poetry_lover_matches'), client)
         cls_data['r128'] = R128.de_json(cls_data.get('r128'), client)
         cls_data['lyrics_info'] = LyricsInfo.de_json(cls_data.get('lyrics_info'), client)
+        cls_data['derived_colors'] = CoverDerivedColors.de_json(cls_data.get('derived_colors'), client)
+        cls_data['fade'] = Fade.de_json(cls_data.get('fade'), client)
+        cls_data['smart_preview_params'] = SmartPreviewParams.de_json(cls_data.get('smart_preview_params'), client)
 
         return cls(client=client, **cls_data)  # type: ignore
 

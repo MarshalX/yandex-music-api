@@ -2,6 +2,7 @@ from .test_account import TestAccount
 from .test_ad_params import TestAdParams
 from .test_album import TestAlbum
 from .test_album_event import TestAlbumEvent
+from .test_album_similar_entities import TestAlbumSimilarEntities
 from .test_album_trailer import TestAlbumTrailer
 from .test_alert import TestAlert
 from .test_alert_button import TestAlertButton
@@ -9,6 +10,8 @@ from .test_artist import TestArtist
 from .test_artist_concerts import TestArtistConcerts
 from .test_artist_event import TestArtistEvent
 from .test_artist_link import TestArtistLink
+from .test_artist_links import TestArtistLinks
+from .test_artist_similar import TestArtistSimilar
 from .test_auto_renewable import TestAutoRenewable
 from .test_best import TestBest
 from .test_block import TestBlock
@@ -34,9 +37,12 @@ from .test_day import TestDay
 from .test_deactivation import TestDeactivation
 from .test_deprecation import TestDeprecation
 from .test_description import TestDescription
+from .test_disclaimer import TestDisclaimer
 from .test_discrete_scale import TestDiscreteScale
 from .test_enum import TestEnum
 from .test_event import TestEvent
+from .test_fade import TestFade
+from .test_foreign_agent import TestForeignAgent
 from .test_generated_playlist import TestGeneratedPlaylist
 from .test_genre import TestGenre
 from .test_icon import TestIcon
@@ -63,6 +69,7 @@ from .test_permissions import TestPermissions
 from .test_personal_playlists_data import TestPersonalPlaylistsData
 from .test_pin import TestPin
 from .test_pin_data import TestPinData
+from .test_pins_list import TestPinsList
 from .test_play_context import TestPlayContext
 from .test_play_contexts_data import TestPlayContextsData
 from .test_play_counter import TestPlayCounter
@@ -88,6 +95,7 @@ from .test_shot_data import TestShotData
 from .test_shot_type import TestShotType
 from .test_similar_entity_data import TestSimilarEntityData
 from .test_similar_entity_item import TestSimilarEntityItem
+from .test_smart_preview_params import TestSmartPreviewParams
 from .test_station import TestStation
 from .test_station_data import TestStationData
 from .test_station_result import TestStationResult
@@ -98,11 +106,15 @@ from .test_suggestions import TestSuggestions
 from .test_tag import TestTag
 from .test_title import TestTitle
 from .test_track import TestTrack
+from .test_track_credit import TestTrackCredit
+from .test_track_credits import TestTrackCredits
+from .test_track_full_info import TestTrackFullInfo
 from .test_track_id import TestTrackId
 from .test_track_lyrics import TestTrackLyrics
 from .test_track_position import TestTrackPosition
 from .test_track_short import TestTrackShort
 from .test_track_short_old import TestTrackShortOld
+from .test_track_trailer import TestTrackTrailer
 from .test_track_with_ads import TestTrackWithAds
 from .test_trailer_info import TestTrailerInfo
 from .test_user import TestUser

@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
-from yandex_music import Pin
+from yandex_music import Pin, PinsList
 from yandex_music._client_async import log
 from yandex_music._client_base import ClientBase
 
@@ -14,7 +14,7 @@ class PinsMixin(ClientBase):
     _request: 'Request'
 
     @log
-    async def pins(self, *args: Any, **kwargs: Any) -> List[Pin]:
+    async def pins(self, *args: Any, **kwargs: Any) -> Optional[PinsList]:
         """Получение списка закреплённых элементов.
 
         Args:
@@ -22,7 +22,7 @@ class PinsMixin(ClientBase):
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Pin`: Список закреплённых элементов.
+            :obj:`yandex_music.PinsList` | :obj:`None`: Список закреплённых элементов или :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -31,10 +31,7 @@ class PinsMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        if isinstance(result, dict):
-            return list(Pin.de_list(result.get('pins'), self))
-
-        return []
+        return PinsList.de_json(result, self)
 
     @log
     async def pin_album(self, album_id: Union[str, int], **kwargs: Any) -> Optional[Pin]:

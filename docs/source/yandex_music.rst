@@ -42,9 +42,11 @@ Submodules
    yandex_music.content_restrictions
    yandex_music.cover
    yandex_music.cover_derived_colors
+   yandex_music.disclaimer
    yandex_music.download_info
    yandex_music.exceptions
    yandex_music.experiments
+   yandex_music.foreign_agent
    yandex_music.icon
    yandex_music.invocation_info
    yandex_music.like

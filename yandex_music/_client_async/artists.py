@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import Artist, ArtistAlbums, ArtistConcerts, ArtistLink, ArtistTracks, BriefInfo
+from yandex_music import ArtistAlbums, ArtistConcerts, ArtistLinks, ArtistSimilar, ArtistTracks, BriefInfo
 from yandex_music._client_async import log
-from yandex_music._client_base import ClientBase, is_dict
+from yandex_music._client_base import ClientBase
 
 if TYPE_CHECKING:
     from yandex_music.utils.request_async import Request
@@ -109,7 +109,7 @@ class ArtistsMixin(ClientBase):
         artist_id: Union[str, int],
         *args: Any,
         **kwargs: Any,
-    ) -> List[Artist]:
+    ) -> Optional[ArtistSimilar]:
         """Получение похожих артистов.
 
         Args:
@@ -118,7 +118,7 @@ class ArtistsMixin(ClientBase):
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.Artist`: Список похожих артистов.
+            :obj:`yandex_music.ArtistSimilar` | :obj:`None`: Похожие артисты или :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -127,10 +127,7 @@ class ArtistsMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        if is_dict(result):
-            return list(Artist.de_list(result.get('similar_artists', []), self))
-
-        return []
+        return ArtistSimilar.de_json(result, self)
 
     @log
     async def artists_links(
@@ -138,7 +135,7 @@ class ArtistsMixin(ClientBase):
         artist_id: Union[str, int],
         *args: Any,
         **kwargs: Any,
-    ) -> List[ArtistLink]:
+    ) -> Optional[ArtistLinks]:
         """Получение ссылок на страницы артиста.
 
         Args:
@@ -147,7 +144,7 @@ class ArtistsMixin(ClientBase):
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
         Returns:
-            :obj:`list` из :obj:`yandex_music.ArtistLink`: Список ссылок на страницы артиста.
+            :obj:`yandex_music.ArtistLinks` | :obj:`None`: Ссылки на страницы артиста или :obj:`None`.
 
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
@@ -156,10 +153,7 @@ class ArtistsMixin(ClientBase):
 
         result = await self._request.get(url, *args, **kwargs)
 
-        if is_dict(result):
-            return list(ArtistLink.de_list(result.get('links', []), self))
-
-        return []
+        return ArtistLinks.de_json(result, self)
 
     @log
     async def artists_also_albums(

@@ -5,7 +5,17 @@
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import DownloadInfo, ShotEvent, SimilarTracks, Supplement, TrackLyrics
+from yandex_music import (
+    Disclaimer,
+    DownloadInfo,
+    ShotEvent,
+    SimilarTracks,
+    Supplement,
+    TrackCredits,
+    TrackFullInfo,
+    TrackLyrics,
+    TrackTrailer,
+)
 from yandex_music._client import log
 from yandex_music._client_base import ClientBase, is_dict
 from yandex_music.utils.sign_request import get_sign_request
@@ -262,6 +272,90 @@ class TracksMixin(ClientBase):
             return ShotEvent.de_json(result.get('shotEvent'), self)
         return None
 
+    @log
+    def tracks_credits(self, track_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[TrackCredits]:
+        """Получение информации об участниках создания трека.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.TrackCredits` | :obj:`None`: Участники создания трека или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/tracks/{track_id}/credits'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return TrackCredits.de_json(result, self)
+
+    @log
+    def tracks_disclaimer(self, track_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Disclaimer]:
+        """Получение дисклеймера трека.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.Disclaimer` | :obj:`None`: Дисклеймер трека или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/tracks/{track_id}/disclaimer'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return Disclaimer.de_json(result, self)
+
+    @log
+    def tracks_trailer(self, track_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[TrackTrailer]:
+        """Получение трейлера трека.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.TrackTrailer` | :obj:`None`: Трейлер трека или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/tracks/{track_id}/trailer'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return TrackTrailer.de_json(result, self)
+
+    @log
+    def tracks_full_info(self, track_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[TrackFullInfo]:
+        """Получение полной информации о треке.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.TrackFullInfo` | :obj:`None`: Полная информация о треке или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/tracks/{track_id}/full-info'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return TrackFullInfo.de_json(result, self)
+
     # camelCase псевдонимы
 
     #: Псевдоним для :attr:`tracks_download_info`
@@ -276,3 +370,11 @@ class TracksMixin(ClientBase):
     playAudio = play_audio
     #: Псевдоним для :attr:`after_track`
     afterTrack = after_track
+    #: Псевдоним для :attr:`tracks_credits`
+    tracksCredits = tracks_credits
+    #: Псевдоним для :attr:`tracks_disclaimer`
+    tracksDisclaimer = tracks_disclaimer
+    #: Псевдоним для :attr:`tracks_trailer`
+    tracksTrailer = tracks_trailer
+    #: Псевдоним для :attr:`tracks_full_info`
+    tracksFullInfo = tracks_full_info
