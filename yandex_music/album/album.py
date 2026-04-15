@@ -119,6 +119,7 @@ class Album(YandexMusicModel):
     deprecation: Optional['Deprecation'] = None
     available_regions: Optional[List[str]] = None
     available_for_options: Optional[List[str]] = None
+    listening_finished: Optional[bool] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

@@ -159,6 +159,15 @@ from .wave.wave_agent import WaveAgent
 from .wave.similar_entity_data import SimilarEntityData
 from .wave.similar_entity_item import SimilarEntityItem
 
+from .music_history.music_history_item_id import MusicHistoryItemId
+from .music_history.music_history_context_full_model import MusicHistoryContextFullModel
+from .music_history.music_history_item_data import MusicHistoryItemData
+from .music_history.music_history_item import MusicHistoryItem
+from .music_history.music_history_group import MusicHistoryGroup
+from .music_history.music_history_tab import MusicHistoryTab
+from .music_history.music_history import MusicHistory
+from .music_history.music_history_items import MusicHistoryItems
+
 from .presave.presaves import Presaves
 
 from .content_restrictions import ContentRestrictions
@@ -263,6 +272,14 @@ __all__ = [
     'MapTypeToDeJson',
     'MetaData',
     'MixLink',
+    'MusicHistory',
+    'MusicHistoryContextFullModel',
+    'MusicHistoryGroup',
+    'MusicHistoryItem',
+    'MusicHistoryItemData',
+    'MusicHistoryItemId',
+    'MusicHistoryItems',
+    'MusicHistoryTab',
     'NonAutoRenewable',
     'Normalization',
     'OpenGraphData',

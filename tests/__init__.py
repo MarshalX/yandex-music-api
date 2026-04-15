@@ -63,6 +63,14 @@ from .test_made_for import TestMadeFor
 from .test_major import TestMajor
 from .test_meta_data import TestMetaData
 from .test_mix_link import TestMixLink
+from .test_music_history import TestMusicHistory
+from .test_music_history_context_full_model import TestMusicHistoryContextFullModel
+from .test_music_history_group import TestMusicHistoryGroup
+from .test_music_history_item import TestMusicHistoryItem
+from .test_music_history_item_data import TestMusicHistoryItemData
+from .test_music_history_item_id import TestMusicHistoryItemId
+from .test_music_history_items import TestMusicHistoryItems
+from .test_music_history_tab import TestMusicHistoryTab
 from .test_non_auto_renewable import TestNonAutoRenewable
 from .test_normalization import TestNormalization
 from .test_open_graph_data import TestOpenGraphData

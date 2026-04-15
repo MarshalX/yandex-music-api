@@ -68,6 +68,14 @@ from yandex_music import (
     Major,
     MetaData,
     MixLink,
+    MusicHistory,
+    MusicHistoryContextFullModel,
+    MusicHistoryGroup,
+    MusicHistoryItem,
+    MusicHistoryItemData,
+    MusicHistoryItemId,
+    MusicHistoryItems,
+    MusicHistoryTab,
     NonAutoRenewable,
     Normalization,
     OpenGraphData,
@@ -187,6 +195,10 @@ from . import (
     TestMajor,
     TestMetaData,
     TestMixLink,
+    TestMusicHistoryContextFullModel,
+    TestMusicHistoryItem,
+    TestMusicHistoryItemId,
+    TestMusicHistoryTab,
     TestNonAutoRenewable,
     TestNormalization,
     TestOpenGraphData,
@@ -1693,4 +1705,92 @@ def artist_similar(artist):
     return ArtistSimilar(
         artist=artist,
         similar_artists=[artist],
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_item_id():
+    return MusicHistoryItemId(
+        id=TestMusicHistoryItemId.id,
+        track_id=TestMusicHistoryItemId.track_id,
+        album_id=TestMusicHistoryItemId.album_id,
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_context_full_model_album(album_without_tracks, artist):
+    return MusicHistoryContextFullModel(
+        album=album_without_tracks,
+        artists=[artist],
+        available=TestMusicHistoryContextFullModel.available,
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_context_full_model_artist(artist):
+    return MusicHistoryContextFullModel(
+        artist=artist,
+        available=TestMusicHistoryContextFullModel.available,
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_item_data_track(music_history_item_id, track):
+    return MusicHistoryItemData(
+        item_id=music_history_item_id,
+        full_model=track,
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_item_data_context(music_history_item_id, music_history_context_full_model_album):
+    return MusicHistoryItemData(
+        item_id=music_history_item_id,
+        full_model=music_history_context_full_model_album,
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_item_track(music_history_item_data_track):
+    return MusicHistoryItem(
+        type=TestMusicHistoryItem.type_track,
+        data=music_history_item_data_track,
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_item_album(music_history_item_data_context):
+    return MusicHistoryItem(
+        type=TestMusicHistoryItem.type_album,
+        data=music_history_item_data_context,
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_group(music_history_item_album, music_history_item_track):
+    return MusicHistoryGroup(
+        context=music_history_item_album,
+        tracks=[music_history_item_track],
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_tab(music_history_group):
+    return MusicHistoryTab(
+        date=TestMusicHistoryTab.date,
+        items=[music_history_group],
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history(music_history_tab):
+    return MusicHistory(
+        history_tabs=[music_history_tab],
+    )
+
+
+@pytest.fixture(scope='session')
+def music_history_items(music_history_item_track):
+    return MusicHistoryItems(
+        items=[music_history_item_track],
     )
