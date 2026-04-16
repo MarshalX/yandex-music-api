@@ -17,6 +17,7 @@ from yandex_music._client.disclaimers import DisclaimersMixin
 from yandex_music._client.labels import LabelsMixin
 from yandex_music._client.landing import LandingMixin
 from yandex_music._client.likes import LikesMixin
+from yandex_music._client.metatags import MetatagsMixin
 from yandex_music._client.music_history import MusicHistoryMixin
 from yandex_music._client.pins import PinsMixin
 from yandex_music._client.playlists import PlaylistsMixin
@@ -45,6 +46,7 @@ class Client(
     RadioMixin,
     ArtistsMixin,
     LikesMixin,
+    MetatagsMixin,
     MusicHistoryMixin,
     PinsMixin,
     PresavesMixin,

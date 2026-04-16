@@ -43,6 +43,7 @@ client = Client().init()
    yandex_music._client.labels
    yandex_music._client.landing
    yandex_music._client.likes
+   yandex_music._client.metatags
    yandex_music._client.music_history
    yandex_music._client.pins
    yandex_music._client.playlists

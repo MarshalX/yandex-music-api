@@ -23,6 +23,7 @@ Submodules
    yandex_music._client_async.labels
    yandex_music._client_async.landing
    yandex_music._client_async.likes
+   yandex_music._client_async.metatags
    yandex_music._client_async.music_history
    yandex_music._client_async.pins
    yandex_music._client_async.playlists
