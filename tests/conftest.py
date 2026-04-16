@@ -75,6 +75,9 @@ from yandex_music import (
     DiscreteScale,
     Enum,
     Event,
+    ExperimentDetail,
+    ExperimentDetailValue,
+    ExperimentsDetails,
     Fade,
     ForeignAgent,
     GeneratedPlaylist,
@@ -237,6 +240,8 @@ from . import (
     TestDiscreteScale,
     TestEnum,
     TestEvent,
+    TestExperimentDetail,
+    TestExperimentDetailValue,
     TestFade,
     TestForeignAgent,
     TestGeneratedPlaylist,
@@ -1819,6 +1824,24 @@ def disclaimer(foreign_agent):
     return Disclaimer(
         foreign_agent=foreign_agent,
     )
+
+
+@pytest.fixture(scope='session')
+def experiment_detail_value():
+    value = ExperimentDetailValue(title=TestExperimentDetailValue.title)
+    value.__dict__['enabled'] = TestExperimentDetailValue.enabled
+    value.__dict__['delay'] = TestExperimentDetailValue.delay
+    return value
+
+
+@pytest.fixture(scope='session')
+def experiment_detail(experiment_detail_value):
+    return ExperimentDetail(group=TestExperimentDetail.group, value=experiment_detail_value)
+
+
+@pytest.fixture(scope='session')
+def experiments_details(experiment_detail):
+    return ExperimentsDetails(experiments={'TestExperiment': experiment_detail})
 
 
 @pytest.fixture(scope='session')
