@@ -3,7 +3,7 @@
 
 {% endif -%}
 .. automodule:: {{ qualname }}
-{%- for option in automodule_options %}
+{%- for option in automodule_options if option != 'private-members' %}
    :{{ option }}:
 {%- endfor %}
 

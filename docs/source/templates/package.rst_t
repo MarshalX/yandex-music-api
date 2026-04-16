@@ -1,6 +1,6 @@
 {%- macro automodule(modname, options) -%}
 .. automodule:: {{ modname }}
-{%- for option in options %}
+{%- for option in options if option != 'private-members' %}
    :{{ option }}:
 {%- endfor %}
 {%- endmacro %}

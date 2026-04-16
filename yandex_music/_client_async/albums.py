@@ -9,7 +9,10 @@ if TYPE_CHECKING:
 
 
 class AlbumsMixin(ClientBase):
-    """Миксин для методов, связанных с альбомами."""
+    """Альбомы.
+
+    Миксин для методов, связанных с альбомами.
+    """
 
     _request: 'Request'
 
