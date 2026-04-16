@@ -100,6 +100,8 @@ class Track(YandexMusicModel):
         smart_preview_params (:obj:`yandex_music.SmartPreviewParams`, optional): Параметры умного превью трека.
         special_audio_resources (:obj:`list` из :obj:`str`, optional): Специальные аудиоресурсы.
         disclaimers (:obj:`list` из :obj:`str`, optional): Список дисклеймеров.
+        background_video_id (:obj:`str`, optional): Уникальный идентификатор видеошота.
+        player_id (:obj:`str`, optional): Идентификатор плеера видеошота.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -151,6 +153,8 @@ class Track(YandexMusicModel):
     smart_preview_params: Optional['SmartPreviewParams'] = None
     special_audio_resources: Optional[List[str]] = None
     disclaimers: Optional[List[str]] = None
+    background_video_id: Optional[str] = None
+    player_id: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

@@ -88,6 +88,16 @@ from .test_lyrics_major import TestLyricsMajor
 from .test_made_for import TestMadeFor
 from .test_major import TestMajor
 from .test_meta_data import TestMetaData
+from .test_metatag import TestMetatag
+from .test_metatag_albums import TestMetatagAlbums
+from .test_metatag_artist_entry import TestMetatagArtistEntry
+from .test_metatag_artists import TestMetatagArtists
+from .test_metatag_leaf import TestMetatagLeaf
+from .test_metatag_playlists import TestMetatagPlaylists
+from .test_metatag_sort_by_value import TestMetatagSortByValue
+from .test_metatag_title import TestMetatagTitle
+from .test_metatag_tree import TestMetatagTree
+from .test_metatags import TestMetatags
 from .test_mix_link import TestMixLink
 from .test_music_history import TestMusicHistory
 from .test_music_history_context_full_model import TestMusicHistoryContextFullModel

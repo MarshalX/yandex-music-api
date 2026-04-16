@@ -88,6 +88,17 @@ from .label.label import Label
 from .label.label_albums import LabelAlbums
 from .label.label_artists import LabelArtists
 
+from .metatag.metatag_title import MetatagTitle
+from .metatag.metatag_sort_by_value import MetatagSortByValue
+from .metatag.metatag_leaf import MetatagLeaf
+from .metatag.metatag_tree import MetatagTree
+from .metatag.metatags import Metatags
+from .metatag.metatag import Metatag
+from .metatag.metatag_artist_entry import MetatagArtistEntry
+from .metatag.metatag_artists import MetatagArtists
+from .metatag.metatag_albums import MetatagAlbums
+from .metatag.metatag_playlists import MetatagPlaylists
+
 from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
 from .playlist.user import User
@@ -333,6 +344,16 @@ __all__ = [
     'Major',
     'MapTypeToDeJson',
     'MetaData',
+    'Metatag',
+    'MetatagAlbums',
+    'MetatagArtistEntry',
+    'MetatagArtists',
+    'MetatagLeaf',
+    'MetatagPlaylists',
+    'MetatagSortByValue',
+    'MetatagTitle',
+    'MetatagTree',
+    'Metatags',
     'MixLink',
     'MusicHistory',
     'MusicHistoryContextFullModel',

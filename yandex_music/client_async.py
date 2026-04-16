@@ -13,6 +13,7 @@ from yandex_music._client_async.disclaimers import DisclaimersMixin
 from yandex_music._client_async.labels import LabelsMixin
 from yandex_music._client_async.landing import LandingMixin
 from yandex_music._client_async.likes import LikesMixin
+from yandex_music._client_async.metatags import MetatagsMixin
 from yandex_music._client_async.music_history import MusicHistoryMixin
 from yandex_music._client_async.pins import PinsMixin
 from yandex_music._client_async.playlists import PlaylistsMixin
@@ -41,6 +42,7 @@ class ClientAsync(
     RadioMixin,
     ArtistsMixin,
     LikesMixin,
+    MetatagsMixin,
     MusicHistoryMixin,
     PinsMixin,
     PresavesMixin,

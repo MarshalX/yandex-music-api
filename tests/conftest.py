@@ -91,6 +91,16 @@ from yandex_music import (
     MadeFor,
     Major,
     MetaData,
+    Metatag,
+    MetatagAlbums,
+    MetatagArtistEntry,
+    MetatagArtists,
+    MetatagLeaf,
+    MetatagPlaylists,
+    Metatags,
+    MetatagSortByValue,
+    MetatagTitle,
+    MetatagTree,
     MixLink,
     MusicHistory,
     MusicHistoryContextFullModel,
@@ -242,6 +252,14 @@ from . import (
     TestLyricsMajor,
     TestMajor,
     TestMetaData,
+    TestMetatag,
+    TestMetatagAlbums,
+    TestMetatagArtists,
+    TestMetatagLeaf,
+    TestMetatagPlaylists,
+    TestMetatagSortByValue,
+    TestMetatagTitle,
+    TestMetatagTree,
     TestMixLink,
     TestMusicHistoryContextFullModel,
     TestMusicHistoryItem,
@@ -2139,4 +2157,112 @@ def playlist_similar_entities(similar_entity_item):
 def playlists_list(playlist):
     return PlaylistsList(
         playlists=[playlist],
+    )
+
+
+@pytest.fixture(scope='session')
+def metatag_title():
+    return MetatagTitle(title=TestMetatagTitle.title, full_title=TestMetatagTitle.full_title)
+
+
+@pytest.fixture(scope='session')
+def metatag_sort_by_value():
+    return MetatagSortByValue(
+        value=TestMetatagSortByValue.value,
+        title=TestMetatagSortByValue.title,
+        active=TestMetatagSortByValue.active,
+    )
+
+
+@pytest.fixture(scope='session')
+def metatag_leaf_nested():
+    return MetatagLeaf(tag='Спокойная музыка', title='Спокойное')
+
+
+@pytest.fixture(scope='session')
+def metatag_leaf(metatag_leaf_nested):
+    return MetatagLeaf(
+        tag=TestMetatagLeaf.tag,
+        title=TestMetatagLeaf.title,
+        leaves=[metatag_leaf_nested],
+    )
+
+
+@pytest.fixture(scope='session')
+def metatag_tree(metatag_leaf):
+    return MetatagTree(
+        title=TestMetatagTree.title,
+        navigation_id=TestMetatagTree.navigation_id,
+        leaves=[metatag_leaf],
+    )
+
+
+@pytest.fixture(scope='session')
+def metatags(metatag_tree):
+    return Metatags(trees=[metatag_tree])
+
+
+@pytest.fixture(scope='session')
+def metatag(metatag_title, artist, album, playlist, metatag_sort_by_value):
+    return Metatag(
+        id=TestMetatag.id,
+        cover_uri=TestMetatag.cover_uri,
+        color=TestMetatag.color,
+        title=metatag_title,
+        liked=TestMetatag.liked,
+        station_id=TestMetatag.station_id,
+        custom_wave_animation_url=TestMetatag.custom_wave_animation_url,
+        artists=[artist],
+        albums=[album],
+        playlists=[playlist],
+        tracks_sort_by_values=[metatag_sort_by_value],
+        albums_sort_by_values=[metatag_sort_by_value],
+        playlists_sort_by_values=[metatag_sort_by_value],
+    )
+
+
+@pytest.fixture(scope='session')
+def metatag_artist_entry(artist, track):
+    return MetatagArtistEntry(artist=artist, popular_tracks=[track])
+
+
+@pytest.fixture(scope='session')
+def metatag_artists(metatag_title, metatag_artist_entry, pager, metatag_sort_by_value):
+    return MetatagArtists(
+        id=TestMetatagArtists.id,
+        cover_uri=TestMetatagArtists.cover_uri,
+        color=TestMetatagArtists.color,
+        title=metatag_title,
+        station_id=TestMetatagArtists.station_id,
+        pager=pager,
+        artists=[metatag_artist_entry],
+        sort_by_values=[metatag_sort_by_value],
+    )
+
+
+@pytest.fixture(scope='session')
+def metatag_albums(metatag_title, album, pager, metatag_sort_by_value):
+    return MetatagAlbums(
+        id=TestMetatagAlbums.id,
+        cover_uri=TestMetatagAlbums.cover_uri,
+        color=TestMetatagAlbums.color,
+        title=metatag_title,
+        station_id=TestMetatagAlbums.station_id,
+        pager=pager,
+        albums=[album],
+        sort_by_values=[metatag_sort_by_value],
+    )
+
+
+@pytest.fixture(scope='session')
+def metatag_playlists(metatag_title, playlist, pager, metatag_sort_by_value):
+    return MetatagPlaylists(
+        id=TestMetatagPlaylists.id,
+        cover_uri=TestMetatagPlaylists.cover_uri,
+        color=TestMetatagPlaylists.color,
+        title=metatag_title,
+        station_id=TestMetatagPlaylists.station_id,
+        pager=pager,
+        playlists=[playlist],
+        sort_by_values=[metatag_sort_by_value],
     )
