@@ -1,6 +1,5 @@
-yandex\_music.wave.wave
-=======================
+Wave
+====
 
 .. automodule:: yandex_music.wave.wave
    :members:
-   :show-inheritance:

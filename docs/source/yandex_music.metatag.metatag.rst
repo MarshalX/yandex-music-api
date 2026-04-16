@@ -1,6 +1,5 @@
-yandex\_music.metatag.metatag
-=============================
+Metatag
+=======
 
 .. automodule:: yandex_music.metatag.metatag
    :members:
-   :show-inheritance:

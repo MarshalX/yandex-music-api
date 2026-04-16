@@ -4,6 +4,7 @@
 ```
 
 ```{toctree}
+:caption: Начало
 :maxdepth: 2
 
 readme
@@ -12,12 +13,22 @@ examples
 ```
 
 ```{toctree}
-:caption: Библиотека
+:caption: Клиенты
 :maxdepth: 2
 
 client
 client_async
-module
+```
+
+```{toctree}
+:caption: Справочник
+:maxdepth: 2
+
+models
+yandex_music.exceptions
+yandex_music.utils
+yandex_music.base
+glossary
 ```
 
 ```{toctree}

@@ -1,3 +1,5 @@
+"""Базовые классы."""
+
 import logging
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Tuple, Union, cast
 

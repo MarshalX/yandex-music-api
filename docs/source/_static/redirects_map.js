@@ -213,3 +213,7 @@ window.__YM_REDIRECTS__ = {
   "yandex_music.YandexMusicModel": "yandex_music.base.html#yandex_music.base.YandexMusicModel",
   "yandex_music.YandexMusicObject": "yandex_music.base.html#yandex_music.base.YandexMusicObject"
 };
+window.__YM_PAGE_REDIRECTS__ = {
+  "module.html": "models.html",
+  "yandex_music.html": "models.html"
+};

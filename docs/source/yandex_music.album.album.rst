@@ -1,6 +1,5 @@
-yandex\_music.album.album
-=========================
+Album
+=====
 
 .. automodule:: yandex_music.album.album
    :members:
-   :show-inheritance:

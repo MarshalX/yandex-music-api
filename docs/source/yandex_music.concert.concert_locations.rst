@@ -1,6 +1,5 @@
-yandex\_music.concert.concert\_locations
-========================================
+ConcertLocations
+================
 
 .. automodule:: yandex_music.concert.concert_locations
    :members:
-   :show-inheritance:

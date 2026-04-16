@@ -1,9 +1,9 @@
-yandex\_music.rotor
-===================
+Радио
+=====
 
 .. automodule:: yandex_music.rotor
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

@@ -1,6 +1,5 @@
-yandex\_music.experiments
-=========================
+Experiments
+===========
 
 .. automodule:: yandex_music.experiments
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.disclaimer
-========================
+Disclaimer
+==========
 
 .. automodule:: yandex_music.disclaimer
    :members:
-   :show-inheritance:

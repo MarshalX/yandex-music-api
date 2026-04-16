@@ -1,6 +1,5 @@
-yandex\_music.track.licence\_text\_part
-=======================================
+LicenceTextPart
+===============
 
 .. automodule:: yandex_music.track.licence_text_part
    :members:
-   :show-inheritance:

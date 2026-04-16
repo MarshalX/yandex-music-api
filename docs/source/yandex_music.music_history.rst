@@ -1,9 +1,9 @@
-yandex\_music.music\_history
-============================
+История прослушиваний
+=====================
 
 .. automodule:: yandex_music.music_history
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

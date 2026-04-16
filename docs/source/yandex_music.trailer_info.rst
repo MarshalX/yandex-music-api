@@ -1,6 +1,5 @@
-yandex\_music.trailer\_info
-===========================
+TrailerInfo
+===========
 
 .. automodule:: yandex_music.trailer_info
    :members:
-   :show-inheritance:

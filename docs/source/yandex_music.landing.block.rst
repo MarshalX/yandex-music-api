@@ -1,6 +1,5 @@
-yandex\_music.landing.block
-===========================
+Block
+=====
 
 .. automodule:: yandex_music.landing.block
    :members:
-   :show-inheritance:

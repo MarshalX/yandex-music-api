@@ -1,9 +1,9 @@
-yandex\_music.clip
-==================
+Клипы
+=====
 
 .. automodule:: yandex_music.clip
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

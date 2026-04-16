@@ -1,9 +1,9 @@
-yandex\_music.supplement
-========================
+Доп. информация о треке
+=======================
 
 .. automodule:: yandex_music.supplement
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

@@ -1,6 +1,5 @@
-yandex\_music.concert.concert\_min\_price
-=========================================
+ConcertMinPrice
+===============
 
 .. automodule:: yandex_music.concert.concert_min_price
    :members:
-   :show-inheritance:

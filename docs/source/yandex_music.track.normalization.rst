@@ -1,6 +1,5 @@
-yandex\_music.track.normalization
-=================================
+Normalization
+=============
 
 .. automodule:: yandex_music.track.normalization
    :members:
-   :show-inheritance:

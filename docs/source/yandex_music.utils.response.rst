@@ -1,6 +1,5 @@
-yandex\_music.utils.response
-============================
+Модель ответа API
+=================
 
 .. automodule:: yandex_music.utils.response
    :members:
-   :show-inheritance:

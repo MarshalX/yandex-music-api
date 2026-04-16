@@ -1,9 +1,9 @@
-yandex\_music.playlist
-======================
+Плейлист
+========
 
 .. automodule:: yandex_music.playlist
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

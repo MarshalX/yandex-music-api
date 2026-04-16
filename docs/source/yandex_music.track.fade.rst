@@ -1,6 +1,5 @@
-yandex\_music.track.fade
-========================
+Fade
+====
 
 .. automodule:: yandex_music.track.fade
    :members:
-   :show-inheritance:

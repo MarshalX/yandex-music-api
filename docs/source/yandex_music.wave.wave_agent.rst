@@ -1,6 +1,5 @@
-yandex\_music.wave.wave\_agent
-==============================
+WaveAgent
+=========
 
 .. automodule:: yandex_music.wave.wave_agent
    :members:
-   :show-inheritance:

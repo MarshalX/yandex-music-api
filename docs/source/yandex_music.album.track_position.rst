@@ -1,6 +1,5 @@
-yandex\_music.album.track\_position
-===================================
+TrackPosition
+=============
 
 .. automodule:: yandex_music.album.track_position
    :members:
-   :show-inheritance:

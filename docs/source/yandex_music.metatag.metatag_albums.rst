@@ -1,6 +1,5 @@
-yandex\_music.metatag.metatag\_albums
-=====================================
+MetatagAlbums
+=============
 
 .. automodule:: yandex_music.metatag.metatag_albums
    :members:
-   :show-inheritance:

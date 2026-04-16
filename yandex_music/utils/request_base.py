@@ -1,3 +1,5 @@
+"""Основа HTTP-клиентов: общие таймауты, заголовки, обработка ответов."""
+
 import logging
 from typing import TYPE_CHECKING, Any, Dict, NoReturn, Optional, Union
 

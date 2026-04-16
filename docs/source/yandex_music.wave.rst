@@ -1,9 +1,9 @@
-yandex\_music.wave
-==================
+Волна
+=====
 
 .. automodule:: yandex_music.wave
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

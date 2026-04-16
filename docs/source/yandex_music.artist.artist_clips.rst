@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_clips
-==================================
+ArtistClips
+===========
 
 .. automodule:: yandex_music.artist.artist_clips
    :members:
-   :show-inheritance:

@@ -24,12 +24,139 @@ client = Client().init()
    :show-inheritance:
 ```
 
-<!-- generated-mixins -->
+<!-- generated-methods -->
 
-## Миксины
+## Методы
+
+```{eval-rst}
+.. grid:: 2
+   :gutter: 2
+
+   .. grid-item-card:: Аккаунт
+      :link: yandex_music._client.account
+      :link-type: doc
+
+      ``account_experiments``, ``account_experiments_details``, ``account_settings``, ``account_settings_set``, ``account_status``, ``consume_promo_code``, ``init``, ``permission_alerts``, ``settings``
+
+   .. grid-item-card:: Альбомы
+      :link: yandex_music._client.albums
+      :link-type: doc
+
+      ``albums_similar_entities``, ``albums_trailer``, ``albums_with_tracks``
+
+   .. grid-item-card:: Артисты
+      :link: yandex_music._client.artists
+      :link-type: doc
+
+      ``artists_about``, ``artists_also_albums``, ``artists_brief_info``, ``artists_clips``, ``artists_direct_albums``, ``artists_discography_albums``, ``artists_donation``, ``artists_info``, ``artists_links``, ``artists_safe_direct_albums``, ``artists_similar``, ``artists_skeleton``, ``artists_track_ids``, ``artists_tracks``, ``artists_trailer``
+
+   .. grid-item-card:: Пакетные запросы
+      :link: yandex_music._client.batch
+      :link-type: doc
+
+      ``albums``, ``artists``, ``playlists_list``, ``tracks``
+
+   .. grid-item-card:: Видеоклипы
+      :link: yandex_music._client.clips
+      :link-type: doc
+
+      ``clips``, ``clips_will_like``
+
+   .. grid-item-card:: Концерты
+      :link: yandex_music._client.concerts
+      :link-type: doc
+
+      ``artists_concerts``, ``concert_info``, ``concert_skeleton``, ``concerts_feed``, ``concerts_locations``, ``concerts_tab_config``
+
+   .. grid-item-card:: Авторы контента
+      :link: yandex_music._client.credits
+      :link-type: doc
+
+      ``clips_credits``, ``tracks_credits``
+
+   .. grid-item-card:: Дисклеймеры
+      :link: yandex_music._client.disclaimers
+      :link-type: doc
+
+      ``albums_disclaimer``, ``artists_disclaimer``, ``clips_disclaimer``, ``tracks_disclaimer``
+
+   .. grid-item-card:: Лейблы
+      :link: yandex_music._client.labels
+      :link-type: doc
+
+      ``label``, ``label_albums``, ``label_artists``
+
+   .. grid-item-card:: Лендинг и фид
+      :link: yandex_music._client.landing
+      :link-type: doc
+
+      ``chart``, ``feed``, ``feed_wizard_is_passed``, ``genres``, ``landing``, ``new_playlists``, ``new_releases``, ``podcasts``, ``tags``
+
+   .. grid-item-card:: Лайки и дизлайки
+      :link: yandex_music._client.likes
+      :link-type: doc
+
+      ``users_dislikes_artists``, ``users_dislikes_artists_add``, ``users_dislikes_artists_remove``, ``users_dislikes_tracks``, ``users_dislikes_tracks_add``, ``users_dislikes_tracks_remove``, ``users_likes_albums``, ``users_likes_albums_add``, ``users_likes_albums_remove``, ``users_likes_artists``, ``users_likes_artists_add``, ``users_likes_artists_remove``, ``users_likes_clips``, ``users_likes_clips_add``, ``users_likes_clips_remove``, ``users_likes_playlists``, ``users_likes_playlists_add``, ``users_likes_playlists_remove``, ``users_likes_tracks``, ``users_likes_tracks_add``, ``users_likes_tracks_remove``
+
+   .. grid-item-card:: Метатеги
+      :link: yandex_music._client.metatags
+      :link-type: doc
+
+      ``metatag``, ``metatag_albums``, ``metatag_artists``, ``metatag_playlists``, ``metatags``
+
+   .. grid-item-card:: История прослушивания
+      :link: yandex_music._client.music_history
+      :link-type: doc
+
+      ``music_history``, ``music_history_items``
+
+   .. grid-item-card:: Закреплённые
+      :link: yandex_music._client.pins
+      :link-type: doc
+
+      ``pin_album``, ``pin_artist``, ``pin_playlist``, ``pin_wave``, ``pins``, ``unpin_album``, ``unpin_artist``, ``unpin_playlist``, ``unpin_wave``
+
+   .. grid-item-card:: Плейлисты
+      :link: yandex_music._client.playlists
+      :link-type: doc
+
+      ``playlist``, ``playlist_similar_entities``, ``playlists``, ``playlists_collective_join``, ``playlists_personal``, ``users_playlists``, ``users_playlists_change``, ``users_playlists_create``, ``users_playlists_delete``, ``users_playlists_delete_track``, ``users_playlists_description``, ``users_playlists_insert_track``, ``users_playlists_kinds``, ``users_playlists_list``, ``users_playlists_name``, ``users_playlists_recommendations``, ``users_playlists_trailer``, ``users_playlists_visibility``, ``users_settings``
+
+   .. grid-item-card:: Предсохранения
+      :link: yandex_music._client.presaves
+      :link-type: doc
+
+      ``users_presaves``, ``users_presaves_add``, ``users_presaves_remove``
+
+   .. grid-item-card:: Очередь
+      :link: yandex_music._client.queue
+      :link-type: doc
+
+      ``queue``, ``queue_create``, ``queue_update_position``, ``queues_list``
+
+   .. grid-item-card:: Радио
+      :link: yandex_music._client.radio
+      :link-type: doc
+
+      ``rotor_account_status``, ``rotor_station_feedback``, ``rotor_station_feedback_radio_started``, ``rotor_station_feedback_skip``, ``rotor_station_feedback_track_finished``, ``rotor_station_feedback_track_started``, ``rotor_station_info``, ``rotor_station_settings2``, ``rotor_station_tracks``, ``rotor_stations_dashboard``, ``rotor_stations_list``
+
+   .. grid-item-card:: Поиск
+      :link: yandex_music._client.search
+      :link-type: doc
+
+      ``search``, ``search_suggest``
+
+   .. grid-item-card:: Треки
+      :link: yandex_music._client.tracks
+      :link-type: doc
+
+      ``after_track``, ``play_audio``, ``track_supplement``, ``tracks_download_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
+
+```
 
 ```{eval-rst}
 .. toctree::
+   :hidden:
    :maxdepth: 1
 
    yandex_music._client.account

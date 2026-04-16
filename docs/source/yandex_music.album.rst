@@ -1,9 +1,9 @@
-yandex\_music.album
-===================
+Альбом
+======
 
 .. automodule:: yandex_music.album
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

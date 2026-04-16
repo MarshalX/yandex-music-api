@@ -1,9 +1,9 @@
-yandex\_music.search
-====================
+Поиск
+=====
 
 .. automodule:: yandex_music.search
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

@@ -1,6 +1,5 @@
-yandex\_music.icon
-==================
+Icon
+====
 
 .. automodule:: yandex_music.icon
    :members:
-   :show-inheritance:

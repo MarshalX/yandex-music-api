@@ -1,6 +1,5 @@
-yandex\_music.utils.difference
-==============================
+Операции изменения плейлиста
+============================
 
 .. automodule:: yandex_music.utils.difference
    :members:
-   :show-inheritance:

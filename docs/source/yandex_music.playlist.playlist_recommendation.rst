@@ -1,6 +1,5 @@
-yandex\_music.playlist.playlist\_recommendation
-===============================================
+PlaylistRecommendations
+=======================
 
 .. automodule:: yandex_music.playlist.playlist_recommendation
    :members:
-   :show-inheritance:

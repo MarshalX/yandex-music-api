@@ -1,3 +1,5 @@
+"""Синхронный HTTP-клиент."""
+
 from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from yandex_music.exceptions import NetworkError, TimedOutError

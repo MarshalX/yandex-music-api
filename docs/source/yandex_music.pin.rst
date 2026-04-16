@@ -1,9 +1,9 @@
-yandex\_music.pin
-=================
+Закреплённые элементы
+=====================
 
 .. automodule:: yandex_music.pin
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

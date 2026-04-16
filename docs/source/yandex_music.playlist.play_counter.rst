@@ -1,6 +1,5 @@
-yandex\_music.playlist.play\_counter
-====================================
+PlayCounter
+===========
 
 .. automodule:: yandex_music.playlist.play_counter
    :members:
-   :show-inheritance:

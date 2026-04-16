@@ -4,5 +4,4 @@
 {% endif -%}
 .. automodule:: {{ qualname }}
    :members:
-   :show-inheritance:
 

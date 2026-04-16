@@ -1,6 +1,5 @@
-yandex\_music.shot.shot\_event
-==============================
+ShotEvent
+=========
 
 .. automodule:: yandex_music.shot.shot_event
    :members:
-   :show-inheritance:

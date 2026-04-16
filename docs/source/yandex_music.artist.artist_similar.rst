@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_similar
-====================================
+ArtistSimilar
+=============
 
 .. automodule:: yandex_music.artist.artist_similar
    :members:
-   :show-inheritance:

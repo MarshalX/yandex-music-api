@@ -1,6 +1,5 @@
-yandex\_music.account.subscription
-==================================
+Subscription
+============
 
 .. automodule:: yandex_music.account.subscription
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.landing.chart
-===========================
+Chart
+=====
 
 .. automodule:: yandex_music.landing.chart
    :members:
-   :show-inheritance:

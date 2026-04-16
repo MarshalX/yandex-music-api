@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_clip\_data
-=======================================
+ArtistClipData
+==============
 
 .. automodule:: yandex_music.artist.artist_clip_data
    :members:
-   :show-inheritance:

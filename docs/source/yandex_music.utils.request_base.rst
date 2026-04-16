@@ -1,6 +1,5 @@
-yandex\_music.utils.request\_base
-=================================
+Основа HTTP-клиентов: общие таймауты, заголовки, обработка ответов
+==================================================================
 
 .. automodule:: yandex_music.utils.request_base
    :members:
-   :show-inheritance:

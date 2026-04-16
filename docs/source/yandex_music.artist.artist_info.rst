@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_info
-=================================
+ArtistInfo
+==========
 
 .. automodule:: yandex_music.artist.artist_info
    :members:
-   :show-inheritance:

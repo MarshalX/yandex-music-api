@@ -1,6 +1,5 @@
-yandex\_music.album.album\_similar\_entities
-============================================
+AlbumSimilarEntities
+====================
 
 .. automodule:: yandex_music.album.album_similar_entities
    :members:
-   :show-inheritance:

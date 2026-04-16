@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_albums
-===================================
+ArtistAlbums
+============
 
 .. automodule:: yandex_music.artist.artist_albums
    :members:
-   :show-inheritance:

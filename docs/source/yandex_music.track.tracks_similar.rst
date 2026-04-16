@@ -1,6 +1,5 @@
-yandex\_music.track.tracks\_similar
-===================================
+SimilarTracks
+=============
 
 .. automodule:: yandex_music.track.tracks_similar
    :members:
-   :show-inheritance:

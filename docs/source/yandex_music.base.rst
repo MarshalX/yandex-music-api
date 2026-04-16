@@ -1,6 +1,5 @@
-yandex\_music.base
-==================
+Базовые классы
+==============
 
 .. automodule:: yandex_music.base
    :members:
-   :show-inheritance:

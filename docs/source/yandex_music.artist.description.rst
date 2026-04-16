@@ -1,6 +1,5 @@
-yandex\_music.artist.description
-================================
+Description
+===========
 
 .. automodule:: yandex_music.artist.description
    :members:
-   :show-inheritance:

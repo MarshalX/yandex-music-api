@@ -1,6 +1,5 @@
-yandex\_music.queue.context
-===========================
+Context
+=======
 
 .. automodule:: yandex_music.queue.context
    :members:
-   :show-inheritance:

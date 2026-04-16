@@ -1,6 +1,5 @@
-yandex\_music.rotor.id
-======================
+Id
+==
 
 .. automodule:: yandex_music.rotor.id
    :members:
-   :show-inheritance:

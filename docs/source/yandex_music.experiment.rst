@@ -1,9 +1,9 @@
-yandex\_music.experiment
-========================
+Эксперименты
+============
 
 .. automodule:: yandex_music.experiment
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

@@ -1,6 +1,5 @@
-yandex\_music.playlist.tag\_result
-==================================
+TagResult
+=========
 
 .. automodule:: yandex_music.playlist.tag_result
    :members:
-   :show-inheritance:

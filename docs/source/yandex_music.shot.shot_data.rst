@@ -1,6 +1,5 @@
-yandex\_music.shot.shot\_data
-=============================
+ShotData
+========
 
 .. automodule:: yandex_music.shot.shot_data
    :members:
-   :show-inheritance:

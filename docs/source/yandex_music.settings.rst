@@ -1,6 +1,5 @@
-yandex\_music.settings
-======================
+Settings
+========
 
 .. automodule:: yandex_music.settings
    :members:
-   :show-inheritance:

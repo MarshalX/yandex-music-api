@@ -1,6 +1,5 @@
-yandex\_music.rotor.ad\_params
-==============================
+AdParams
+========
 
 .. automodule:: yandex_music.rotor.ad_params
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.concert.artist\_concerts
-======================================
+ArtistConcerts
+==============
 
 .. automodule:: yandex_music.concert.artist_concerts
    :members:
-   :show-inheritance:

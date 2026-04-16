@@ -1,6 +1,5 @@
-yandex\_music.label.label
-=========================
+Label
+=====
 
 .. automodule:: yandex_music.label.label
    :members:
-   :show-inheritance:

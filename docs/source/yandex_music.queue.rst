@@ -1,9 +1,9 @@
-yandex\_music.queue
-===================
+Очередь воспроизведения
+=======================
 
 .. automodule:: yandex_music.queue
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

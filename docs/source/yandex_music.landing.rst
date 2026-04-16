@@ -1,9 +1,9 @@
-yandex\_music.landing
-=====================
+Лендинг
+=======
 
 .. automodule:: yandex_music.landing
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::
