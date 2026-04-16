@@ -2,9 +2,6 @@ yandex\_music.experiment
 ========================
 
 .. automodule:: yandex_music.experiment
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

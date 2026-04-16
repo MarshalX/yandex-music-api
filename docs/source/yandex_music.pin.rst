@@ -2,9 +2,6 @@ yandex\_music.pin
 =================
 
 .. automodule:: yandex_music.pin
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

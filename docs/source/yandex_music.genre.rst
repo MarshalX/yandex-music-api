@@ -2,9 +2,6 @@ yandex\_music.genre
 ===================
 
 .. automodule:: yandex_music.genre
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

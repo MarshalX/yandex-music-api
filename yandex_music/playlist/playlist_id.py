@@ -30,17 +30,21 @@ class PlaylistId(YandexMusicModel):
         return f'{self.uid}:{self.kind}'
 
     def fetch_playlist(self, *args: Any, **kwargs: Any) -> Optional[Union['Playlist', List['Playlist']]]:
-        """Сокращение для::
+        """Сокращение.
 
-        client.users_playlists(kind, uid, *args, **kwargs)
+        Сокращение для::
+
+            client.users_playlists(kind, uid, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.users_playlists(self.kind, self.uid, *args, **kwargs)
 
     async def fetch_playlist_async(self, *args: Any, **kwargs: Any) -> Optional[Union['Playlist', List['Playlist']]]:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.users_playlists(kind, uid, *args, **kwargs)
+        Сокращение для::
+
+            await client.users_playlists(kind, uid, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.users_playlists(self.kind, self.uid, *args, **kwargs)

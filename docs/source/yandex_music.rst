@@ -1,11 +1,6 @@
 yandex\_music
 =============
 
-.. automodule:: yandex_music
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Subpackages
 -----------
 
@@ -44,8 +39,6 @@ Submodules
    :maxdepth: 4
 
    yandex_music.base
-   yandex_music.client
-   yandex_music.client_async
    yandex_music.content_restrictions
    yandex_music.cover
    yandex_music.cover_derived_colors

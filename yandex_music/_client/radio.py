@@ -124,7 +124,7 @@ class RadioMixin(ClientBase):
             timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Текущее время и дата.
             from_ (:obj:`str`, optional): Откуда начато воспроизведение радио.
             batch_id (:obj:`str`, optional): Уникальный идентификатор партии треков. Возвращается при получении треков.
-            total_played_seconds (:obj:`int` |:obj:`float`, optional): Сколько было проиграно секунд трека
+            total_played_seconds (:obj:`int` | :obj:`float`, optional): Сколько было проиграно секунд трека
                 перед действием.
             track_id (:obj:`int` | :obj:`str`, optional): Уникальной идентификатор трека.
             *args: Произвольные аргументы (будут переданы в запрос).
@@ -169,7 +169,9 @@ class RadioMixin(ClientBase):
         timestamp: TimestampType = None,
         **kwargs: Any,
     ) -> bool:
-        """Сокращение для::
+        """Отправить обратную связь: радио запущено.
+
+        Сокращение для::
 
             client.rotor_station_feedback(station, 'radioStarted', timestamp, from, batch_id, **kwargs)
 
@@ -190,10 +192,13 @@ class RadioMixin(ClientBase):
         timestamp: TimestampType = None,
         **kwargs: Any,
     ) -> bool:
-        """Сокращение для::
+        """Отправить обратную связь: трек запущен.
 
-            client.rotor_station_feedback(station, 'trackStarted', timestamp, track_id=track_id,
-            batch_id=batch_id, **kwargs)
+        Сокращение для::
+
+            client.rotor_station_feedback(
+                station, 'trackStarted', timestamp, track_id=track_id, batch_id=batch_id, **kwargs,
+            )
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -215,10 +220,15 @@ class RadioMixin(ClientBase):
         timestamp: TimestampType = None,
         **kwargs: Any,
     ) -> bool:
-        """Сокращение для::
+        """Отправить обратную связь: трек дослушан.
 
-            client.rotor_station_feedback(station, 'trackFinished', timestamp,
-            track_id=track_id, total_played_seconds=total_played_seconds, batch_id=batch_id, **kwargs)
+        Сокращение для::
+
+            client.rotor_station_feedback(
+                station, 'trackFinished', timestamp,
+                track_id=track_id, total_played_seconds=total_played_seconds,
+                batch_id=batch_id, **kwargs,
+            )
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.
@@ -246,10 +256,15 @@ class RadioMixin(ClientBase):
         timestamp: TimestampType = None,
         **kwargs: Any,
     ) -> bool:
-        """Сокращение для::
+        """Отправить обратную связь: трек пропущен.
 
-            client.rotor_station_feedback(station, 'skip', timestamp, track_id=track_id,
-            total_played_seconds=total_played_seconds, batch_id=batch_id, **kwargs)
+        Сокращение для::
+
+            client.rotor_station_feedback(
+                station, 'skip', timestamp,
+                track_id=track_id, total_played_seconds=total_played_seconds,
+                batch_id=batch_id, **kwargs,
+            )
 
         Returns:
             :obj:`bool`: :obj:`True` при успешном выполнении запроса, иначе :obj:`False`.

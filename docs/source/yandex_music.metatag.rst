@@ -2,9 +2,6 @@ yandex\_music.metatag
 =====================
 
 .. automodule:: yandex_music.metatag
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

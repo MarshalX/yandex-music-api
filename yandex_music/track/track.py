@@ -162,51 +162,63 @@ class Track(YandexMusicModel):
         self._id_attrs = (self.id,)
 
     def get_download_info(self, get_direct_links: bool = False, **kwargs: Any) -> List['DownloadInfo']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.tracks_download_info(self.track_id, get_direct_links)
+        Сокращение для::
+
+            client.tracks_download_info(self.track_id, get_direct_links)
         """
         assert self.valid_client(self.client)
         self.download_info = self.client.tracks_download_info(self.track_id, get_direct_links, **kwargs)
         return self.download_info
 
     async def get_download_info_async(self, get_direct_links: bool = False, **kwargs: Any) -> List['DownloadInfo']:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.tracks_download_info(self.track_id, get_direct_links)
+        Сокращение для::
+
+            await client.tracks_download_info(self.track_id, get_direct_links)
         """
         assert self.valid_async_client(self.client)
         self.download_info = await self.client.tracks_download_info(self.track_id, get_direct_links, **kwargs)
         return self.download_info
 
     def get_supplement(self, *args: Any, **kwargs: Any) -> Optional['Supplement']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.track_supplement(track.id, *args, **kwargs)
+        Сокращение для::
+
+            client.track_supplement(track.id, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.track_supplement(self.id, *args, **kwargs)
 
     async def get_supplement_async(self, *args: Any, **kwargs: Any) -> Optional['Supplement']:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.track_supplement(track.id, *args, **kwargs)
+        Сокращение для::
+
+            await client.track_supplement(track.id, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.track_supplement(self.id, *args, **kwargs)
 
     def get_lyrics(self, *args: Any, **kwargs: Any) -> Optional['TrackLyrics']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.tracks_lyrics(track.id, *args, **kwargs)
+        Сокращение для::
+
+            client.tracks_lyrics(track.id, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.tracks_lyrics(self.id, *args, **kwargs)
 
     async def get_lyrics_async(self, *args: Any, **kwargs: Any) -> Optional['TrackLyrics']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.tracks_lyrics(track.id, *args, **kwargs)
+        Сокращение для::
+
+            client.tracks_lyrics(track.id, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.tracks_lyrics(self.id, *args, **kwargs)
@@ -460,33 +472,41 @@ class Track(YandexMusicModel):
         raise InvalidBitrateError('Unavailable bitrate')
 
     def like(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
+        Сокращение для::
+
+            client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.users_likes_tracks_add(self.track_id, self.client.account_uid, *args, **kwargs)
 
     async def like_async(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
+        Сокращение для::
+
+            await client.users_likes_tracks_add(track.id, user.id, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.users_likes_tracks_add(self.track_id, self.client.account_uid, *args, **kwargs)
 
     def dislike(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
+        Сокращение для::
+
+            client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.users_likes_tracks_remove(self.track_id, self.client.account_uid, *args, **kwargs)
 
     async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
+        Сокращение для::
+
+            await client.users_likes_tracks_remove(track.id, user.id *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.users_likes_tracks_remove(self.track_id, self.client.account_uid, *args, **kwargs)

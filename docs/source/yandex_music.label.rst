@@ -2,9 +2,6 @@ yandex\_music.label
 ===================
 
 .. automodule:: yandex_music.label
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

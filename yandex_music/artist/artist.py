@@ -240,41 +240,51 @@ class Artist(YandexMusicModel):
         return await self.client.request.retrieve(self.get_op_image_url(size))
 
     def like(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        client.users_likes_artists_add(artist.id_required, user.id *args, **kwargs)
+        Сокращение для::
+
+            client.users_likes_artists_add(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.users_likes_artists_add(self.id_required, self.client.account_uid, *args, **kwargs)
 
     async def like_async(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.users_likes_artists_add(artist.id_required, user.id *args, **kwargs)
+        Сокращение для::
+
+            await client.users_likes_artists_add(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.users_likes_artists_add(self.id_required, self.client.account_uid, *args, **kwargs)
 
     def dislike(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        client.users_likes_artists_remove(artist.id_required, user.id *args, **kwargs)
+        Сокращение для::
+
+            client.users_likes_artists_remove(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.users_likes_artists_remove(self.id_required, self.client.account_uid, *args, **kwargs)
 
     async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.users_likes_artists_remove(artist.id_required, user.id *args, **kwargs)
+        Сокращение для::
+
+            await client.users_likes_artists_remove(artist.id_required, user.id *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.users_likes_artists_remove(self.id_required, self.client.account_uid, *args, **kwargs)
 
     def get_tracks(self, page: int = 0, page_size: int = 20, *args: Any, **kwargs: Any) -> Optional['ArtistTracks']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.artists_tracks(artist.id_required, page, page_size, *args, **kwargs)
+        Сокращение для::
+
+            client.artists_tracks(artist.id_required, page, page_size, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.artists_tracks(self.id_required, page, page_size, *args, **kwargs)
@@ -282,9 +292,11 @@ class Artist(YandexMusicModel):
     async def get_tracks_async(
         self, page: int = 0, page_size: int = 20, *args: Any, **kwargs: Any
     ) -> Optional['ArtistTracks']:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.artists_tracks(artist.id_required, page, page_size, *args, **kwargs)
+        Сокращение для::
+
+            await client.artists_tracks(artist.id_required, page, page_size, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.artists_tracks(self.id_required, page, page_size, *args, **kwargs)
@@ -292,9 +304,11 @@ class Artist(YandexMusicModel):
     def get_albums(
         self, page: int = 0, page_size: int = 20, sort_by: str = 'year', *args: Any, **kwargs: Any
     ) -> Optional['ArtistAlbums']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.artists_direct_albums(artist.id_required, page, page_size, sort_by, *args, **kwargs)
+        Сокращение для::
+
+            client.artists_direct_albums(artist.id_required, page, page_size, sort_by, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.artists_direct_albums(self.id_required, page, page_size, sort_by, *args, **kwargs)
@@ -302,9 +316,11 @@ class Artist(YandexMusicModel):
     async def get_albums_async(
         self, page: int = 0, page_size: int = 20, sort_by: str = 'year', *args: Any, **kwargs: Any
     ) -> Optional['ArtistAlbums']:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.artists_direct_albums(artist.id_required, page, page_size, sort_by, *args, **kwargs)
+        Сокращение для::
+
+            await client.artists_direct_albums(artist.id_required, page, page_size, sort_by, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.artists_direct_albums(self.id_required, page, page_size, sort_by, *args, **kwargs)

@@ -2,9 +2,6 @@ yandex\_music.concert
 =====================
 
 .. automodule:: yandex_music.concert
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

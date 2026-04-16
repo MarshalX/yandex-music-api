@@ -2,9 +2,6 @@ yandex\_music.playlist
 ======================
 
 .. automodule:: yandex_music.playlist
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

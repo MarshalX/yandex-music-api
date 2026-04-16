@@ -2,9 +2,6 @@ yandex\_music.skeleton
 ======================
 
 .. automodule:: yandex_music.skeleton
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

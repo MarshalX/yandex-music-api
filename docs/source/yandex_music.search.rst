@@ -2,9 +2,6 @@ yandex\_music.search
 ====================
 
 .. automodule:: yandex_music.search
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------
