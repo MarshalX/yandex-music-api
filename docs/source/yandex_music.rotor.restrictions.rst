@@ -1,6 +1,5 @@
-yandex\_music.rotor.restrictions
-================================
+Restrictions
+============
 
 .. automodule:: yandex_music.rotor.restrictions
    :members:
-   :show-inheritance:

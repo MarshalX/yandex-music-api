@@ -1,6 +1,5 @@
-yandex\_music.playlist.playlist\_trailer
-========================================
+PlaylistTrailer
+===============
 
 .. automodule:: yandex_music.playlist.playlist_trailer
    :members:
-   :show-inheritance:

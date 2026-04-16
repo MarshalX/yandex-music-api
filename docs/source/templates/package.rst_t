@@ -1,6 +1,6 @@
 {%- macro automodule(modname, options) -%}
 .. automodule:: {{ modname }}
-{%- for option in options if option != 'private-members' %}
+{%- for option in options if option != 'private-members' and option != 'show-inheritance' %}
    :{{ option }}:
 {%- endfor %}
 {%- endmacro %}
@@ -32,14 +32,14 @@
 {% endif %}
 
 {%- if subpackages %}
-Subpackages
------------
+Подпакеты
+---------
 
 {{ toctree(subpackages) }}
 {% endif %}
 
 {%- if submodules %}
-Submodules
+Содержимое
 ----------
 {% if separatemodules %}
 {{ toctree(submodules) }}

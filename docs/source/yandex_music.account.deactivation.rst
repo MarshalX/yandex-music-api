@@ -1,6 +1,5 @@
-yandex\_music.account.deactivation
-==================================
+Deactivation
+============
 
 .. automodule:: yandex_music.account.deactivation
    :members:
-   :show-inheritance:

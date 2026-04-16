@@ -1,6 +1,5 @@
-yandex\_music.video
-===================
+Video
+=====
 
 .. automodule:: yandex_music.video
    :members:
-   :show-inheritance:

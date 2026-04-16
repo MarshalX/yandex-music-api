@@ -1,6 +1,5 @@
-yandex\_music.genre.title
-=========================
+Title
+=====
 
 .. automodule:: yandex_music.genre.title
    :members:
-   :show-inheritance:

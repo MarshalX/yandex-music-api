@@ -1,3 +1,5 @@
+"""Утилиты."""
+
 import dataclasses
 from typing import Type, TypeVar
 

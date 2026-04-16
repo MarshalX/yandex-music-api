@@ -1,6 +1,5 @@
-yandex\_music.skeleton.skeleton\_tab
-====================================
+SkeletonTab
+===========
 
 .. automodule:: yandex_music.skeleton.skeleton_tab
    :members:
-   :show-inheritance:

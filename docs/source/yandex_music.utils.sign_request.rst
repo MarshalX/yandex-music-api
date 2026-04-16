@@ -1,6 +1,5 @@
-yandex\_music.utils.sign\_request
-=================================
+Подпись HTTP-запросов
+=====================
 
 .. automodule:: yandex_music.utils.sign_request
    :members:
-   :show-inheritance:

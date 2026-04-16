@@ -1,6 +1,5 @@
-yandex\_music.utils.normalize
-=============================
+Нормализация ключей API-ответов
+===============================
 
 .. automodule:: yandex_music.utils.normalize
    :members:
-   :show-inheritance:

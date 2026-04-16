@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_trailer
-====================================
+ArtistTrailer
+=============
 
 .. automodule:: yandex_music.artist.artist_trailer
    :members:
-   :show-inheritance:

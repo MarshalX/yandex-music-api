@@ -1,9 +1,9 @@
-yandex\_music.utils
-===================
+Утилиты
+=======
 
 .. automodule:: yandex_music.utils
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

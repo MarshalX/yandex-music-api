@@ -1,9 +1,9 @@
-yandex\_music.artist
-====================
+Артист
+======
 
 .. automodule:: yandex_music.artist
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

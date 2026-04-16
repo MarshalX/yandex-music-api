@@ -1,6 +1,5 @@
-yandex\_music.feed.event
-========================
+Event
+=====
 
 .. automodule:: yandex_music.feed.event
    :members:
-   :show-inheritance:

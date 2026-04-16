@@ -1,6 +1,5 @@
-yandex\_music.landing.block\_entity
-===================================
+BlockEntity
+===========
 
 .. automodule:: yandex_music.landing.block_entity
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.playlist.brand
-============================
+Brand
+=====
 
 .. automodule:: yandex_music.playlist.brand
    :members:
-   :show-inheritance:

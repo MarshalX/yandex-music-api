@@ -1,6 +1,5 @@
-yandex\_music.search.best
-=========================
+Best
+====
 
 .. automodule:: yandex_music.search.best
    :members:
-   :show-inheritance:

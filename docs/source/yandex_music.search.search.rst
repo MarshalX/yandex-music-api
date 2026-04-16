@@ -1,6 +1,5 @@
-yandex\_music.search.search
-===========================
+Search
+======
 
 .. automodule:: yandex_music.search.search
    :members:
-   :show-inheritance:

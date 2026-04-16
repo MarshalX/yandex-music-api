@@ -1,3 +1,5 @@
+"""Операции изменения плейлиста."""
+
 from enum import Enum
 from typing import List, Union
 

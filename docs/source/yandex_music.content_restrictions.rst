@@ -1,6 +1,5 @@
-yandex\_music.content\_restrictions
-===================================
+ContentRestrictions
+===================
 
 .. automodule:: yandex_music.content_restrictions
    :members:
-   :show-inheritance:

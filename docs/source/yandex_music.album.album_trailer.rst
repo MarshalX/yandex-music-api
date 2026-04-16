@@ -1,6 +1,5 @@
-yandex\_music.album.album\_trailer
-==================================
+AlbumTrailer
+============
 
 .. automodule:: yandex_music.album.album_trailer
    :members:
-   :show-inheritance:

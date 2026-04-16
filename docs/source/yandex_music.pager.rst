@@ -1,6 +1,5 @@
-yandex\_music.pager
-===================
+Pager
+=====
 
 .. automodule:: yandex_music.pager
    :members:
-   :show-inheritance:

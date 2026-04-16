@@ -1,6 +1,5 @@
-yandex\_music.track.r128
-========================
+R128
+====
 
 .. automodule:: yandex_music.track.r128
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.presave.presaves
-==============================
+Presaves
+========
 
 .. automodule:: yandex_music.presave.presaves
    :members:
-   :show-inheritance:

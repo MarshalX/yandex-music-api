@@ -1,6 +1,5 @@
-yandex\_music.landing.chart\_info\_menu
-=======================================
+ChartInfoMenu
+=============
 
 .. automodule:: yandex_music.landing.chart_info_menu
    :members:
-   :show-inheritance:

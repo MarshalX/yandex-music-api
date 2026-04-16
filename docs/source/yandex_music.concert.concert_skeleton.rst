@@ -1,6 +1,5 @@
-yandex\_music.concert.concert\_skeleton
-=======================================
+ConcertSkeleton
+===============
 
 .. automodule:: yandex_music.concert.concert_skeleton
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.track.major
-=========================
+Major
+=====
 
 .. automodule:: yandex_music.track.major
    :members:
-   :show-inheritance:

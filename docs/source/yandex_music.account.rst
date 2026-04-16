@@ -1,9 +1,9 @@
-yandex\_music.account
-=====================
+Аккаунт
+=======
 
 .. automodule:: yandex_music.account
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

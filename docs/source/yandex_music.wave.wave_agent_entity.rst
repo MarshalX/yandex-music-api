@@ -1,6 +1,5 @@
-yandex\_music.wave.wave\_agent\_entity
-======================================
+WaveAgentEntity
+===============
 
 .. automodule:: yandex_music.wave.wave_agent_entity
    :members:
-   :show-inheritance:

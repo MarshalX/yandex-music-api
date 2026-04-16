@@ -1,9 +1,9 @@
-yandex\_music.skeleton
-======================
+Скелетоны UI
+============
 
 .. automodule:: yandex_music.skeleton
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

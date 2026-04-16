@@ -1,6 +1,5 @@
-yandex\_music.credit
-====================
+Credit
+======
 
 .. automodule:: yandex_music.credit
    :members:
-   :show-inheritance:

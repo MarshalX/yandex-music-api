@@ -1,6 +1,5 @@
-yandex\_music.rotor.enum
-========================
+Enum
+====
 
 .. automodule:: yandex_music.rotor.enum
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.concert.concert\_info
-===================================
+ConcertInfo
+===========
 
 .. automodule:: yandex_music.concert.concert_info
    :members:
-   :show-inheritance:

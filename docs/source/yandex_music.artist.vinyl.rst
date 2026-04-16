@@ -1,6 +1,5 @@
-yandex\_music.artist.vinyl
-==========================
+Vinyl
+=====
 
 .. automodule:: yandex_music.artist.vinyl
    :members:
-   :show-inheritance:

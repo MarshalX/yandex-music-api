@@ -1,9 +1,9 @@
-yandex\_music.metatag
-=====================
+Метатеги
+========
 
 .. automodule:: yandex_music.metatag
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

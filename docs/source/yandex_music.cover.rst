@@ -1,6 +1,5 @@
-yandex\_music.cover
-===================
+Cover
+=====
 
 .. automodule:: yandex_music.cover
    :members:
-   :show-inheritance:

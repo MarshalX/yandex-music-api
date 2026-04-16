@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_donation\_goal
-===========================================
+ArtistDonationGoal
+==================
 
 .. automodule:: yandex_music.artist.artist_donation_goal
    :members:
-   :show-inheritance:

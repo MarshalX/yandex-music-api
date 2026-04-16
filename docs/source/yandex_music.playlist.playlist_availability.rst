@@ -1,6 +1,5 @@
-yandex\_music.playlist.playlist\_availability
-=============================================
+PlaylistAvailability
+====================
 
 .. automodule:: yandex_music.playlist.playlist_availability
    :members:
-   :show-inheritance:

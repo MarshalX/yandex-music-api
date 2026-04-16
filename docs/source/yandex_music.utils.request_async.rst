@@ -1,6 +1,5 @@
-yandex\_music.utils.request\_async
-==================================
+Асинхронный HTTP-клиент
+=======================
 
 .. automodule:: yandex_music.utils.request_async
    :members:
-   :show-inheritance:

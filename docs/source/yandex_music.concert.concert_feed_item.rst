@@ -1,6 +1,5 @@
-yandex\_music.concert.concert\_feed\_item
-=========================================
+ConcertFeedItem
+===============
 
 .. automodule:: yandex_music.concert.concert_feed_item
    :members:
-   :show-inheritance:

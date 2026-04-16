@@ -1,6 +1,5 @@
-yandex\_music.feed.day
-======================
+Day
+===
 
 .. automodule:: yandex_music.feed.day
    :members:
-   :show-inheritance:

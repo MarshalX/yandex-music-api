@@ -1,6 +1,5 @@
-yandex\_music.clip.clip
-=======================
+Clip
+====
 
 .. automodule:: yandex_music.clip.clip
    :members:
-   :show-inheritance:

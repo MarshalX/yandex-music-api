@@ -1,9 +1,9 @@
-yandex\_music.genre
-===================
+Жанры
+=====
 
 .. automodule:: yandex_music.genre
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

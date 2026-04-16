@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_trailer\_status
-============================================
+ArtistTrailerStatus
+===================
 
 .. automodule:: yandex_music.artist.artist_trailer_status
    :members:
-   :show-inheritance:

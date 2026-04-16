@@ -1,6 +1,5 @@
-yandex\_music.account.non\_auto\_renewable
-==========================================
+NonAutoRenewable
+================
 
 .. automodule:: yandex_music.account.non_auto_renewable
    :members:
-   :show-inheritance:

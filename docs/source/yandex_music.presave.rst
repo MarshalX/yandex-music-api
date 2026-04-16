@@ -1,9 +1,9 @@
-yandex\_music.presave
-=====================
+Пресейвы
+========
 
 .. automodule:: yandex_music.presave
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

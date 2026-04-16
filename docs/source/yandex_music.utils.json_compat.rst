@@ -1,6 +1,5 @@
-yandex\_music.utils.json\_compat
-================================
+Совместимость JSON библиотек
+============================
 
 .. automodule:: yandex_music.utils.json_compat
    :members:
-   :show-inheritance:

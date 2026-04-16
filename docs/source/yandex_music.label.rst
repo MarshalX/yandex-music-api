@@ -1,9 +1,9 @@
-yandex\_music.label
-===================
+Лейблы
+======
 
 .. automodule:: yandex_music.label
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

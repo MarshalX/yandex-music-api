@@ -1,6 +1,5 @@
-yandex\_music.pin.pins\_list
-============================
+PinsList
+========
 
 .. automodule:: yandex_music.pin.pins_list
    :members:
-   :show-inheritance:

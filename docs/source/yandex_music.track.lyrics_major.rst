@@ -1,6 +1,5 @@
-yandex\_music.track.lyrics\_major
-=================================
+LyricsMajor
+===========
 
 .. automodule:: yandex_music.track.lyrics_major
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.account.product
-=============================
+Product
+=======
 
 .. automodule:: yandex_music.account.product
    :members:
-   :show-inheritance:

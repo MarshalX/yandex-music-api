@@ -1,9 +1,9 @@
-yandex\_music.shot
-==================
+Шоты
+====
 
 .. automodule:: yandex_music.shot
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

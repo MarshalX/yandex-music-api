@@ -1,6 +1,5 @@
-yandex\_music.concert.concert\_cashback
-=======================================
+ConcertCashback
+===============
 
 .. automodule:: yandex_music.concert.concert_cashback
    :members:
-   :show-inheritance:

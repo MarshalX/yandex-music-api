@@ -1,6 +1,5 @@
-yandex\_music.account.renewable\_remainder
-==========================================
+RenewableRemainder
+==================
 
 .. automodule:: yandex_music.account.renewable_remainder
    :members:
-   :show-inheritance:

@@ -1,9 +1,9 @@
-yandex\_music.feed
-==================
+Лента
+=====
 
 .. automodule:: yandex_music.feed
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

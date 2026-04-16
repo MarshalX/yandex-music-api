@@ -1,6 +1,5 @@
-yandex\_music.artist.artist\_donation\_item
-===========================================
+ArtistDonationItem
+==================
 
 .. automodule:: yandex_music.artist.artist_donation_item
    :members:
-   :show-inheritance:

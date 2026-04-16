@@ -1,6 +1,5 @@
-yandex\_music.genre.images
-==========================
+Images
+======
 
 .. automodule:: yandex_music.genre.images
    :members:
-   :show-inheritance:

@@ -1,6 +1,5 @@
-yandex\_music.foreign\_agent
-============================
+ForeignAgent
+============
 
 .. automodule:: yandex_music.foreign_agent
    :members:
-   :show-inheritance:

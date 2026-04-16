@@ -37,7 +37,13 @@ language = 'en'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx_copybutton', 'myst_parser']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
+    'sphinx_copybutton',
+    'sphinx_design',
+    'myst_parser',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -62,6 +68,14 @@ myst_enable_extensions = ['colon_fence']
 # README.md начинается с H2 — нормально для GitHub, но MyST предупреждает. Глушим.
 suppress_warnings = ['myst.header', 'ref.python']
 # TODO add substitution https://myst-parser.readthedocs.io/en/latest/syntax/optional.html?highlight=header-anchors#substitutions-with-jinja2
+
+# autodoc options
+autodoc_default_options = {
+    'members': True,
+    # show-inheritance намеренно убран — Bases: шумит на каждой модели
+}
+autodoc_member_order = 'bysource'
+autodoc_typehints = 'none'
 
 # -- Options for HTML output -------------------------------------------------
 

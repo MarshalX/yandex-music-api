@@ -1,8 +1,10 @@
+:orphan:
+
 yandex\_music
 =============
 
-Subpackages
------------
+Подпакеты
+---------
 
 .. toctree::
    :maxdepth: 4
@@ -32,7 +34,7 @@ Subpackages
    yandex_music.utils
    yandex_music.wave
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

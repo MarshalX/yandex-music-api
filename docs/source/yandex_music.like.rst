@@ -1,6 +1,5 @@
-yandex\_music.like
-==================
+Like
+====
 
 .. automodule:: yandex_music.like
    :members:
-   :show-inheritance:

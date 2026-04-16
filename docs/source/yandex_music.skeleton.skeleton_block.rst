@@ -1,6 +1,5 @@
-yandex\_music.skeleton.skeleton\_block
-======================================
+SkeletonBlock
+=============
 
 .. automodule:: yandex_music.skeleton.skeleton_block
    :members:
-   :show-inheritance:

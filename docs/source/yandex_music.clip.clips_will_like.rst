@@ -1,6 +1,5 @@
-yandex\_music.clip.clips\_will\_like
-====================================
+ClipsWillLike
+=============
 
 .. automodule:: yandex_music.clip.clips_will_like
    :members:
-   :show-inheritance:

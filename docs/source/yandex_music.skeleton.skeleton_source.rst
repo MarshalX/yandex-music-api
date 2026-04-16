@@ -1,6 +1,5 @@
-yandex\_music.skeleton.skeleton\_source
-=======================================
+SkeletonSource
+==============
 
 .. automodule:: yandex_music.skeleton.skeleton_source
    :members:
-   :show-inheritance:

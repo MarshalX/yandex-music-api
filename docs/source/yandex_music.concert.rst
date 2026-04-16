@@ -1,9 +1,9 @@
-yandex\_music.concert
-=====================
+Концерты
+========
 
 .. automodule:: yandex_music.concert
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::

@@ -1,9 +1,9 @@
-yandex\_music.track
-===================
+Трек
+====
 
 .. automodule:: yandex_music.track
 
-Submodules
+Содержимое
 ----------
 
 .. toctree::
