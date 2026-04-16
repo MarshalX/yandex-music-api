@@ -8,8 +8,8 @@ if TYPE_CHECKING:
 
 
 @model
-class ArtistSkeletonViewAllAction(YandexMusicModel):
-    """Класс, представляющий действие «Показать все» в блоке скелетона артиста.
+class SkeletonViewAllAction(YandexMusicModel):
+    """Класс, представляющий действие «Показать все» в блоке скелетона.
 
     Attributes:
         deeplink (:obj:`str`, optional): Диплинк для мобильного приложения.

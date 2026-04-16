@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType
+    from yandex_music import ClientType, Cover, JSONType
     from yandex_music.concert.concert_cashback import ConcertCashback
     from yandex_music.concert.concert_event_info import ConcertEventInfo
     from yandex_music.concert.concert_min_price import ConcertMinPrice
@@ -16,6 +16,10 @@ class Concert(YandexMusicModel):
 
     Note:
         Известные значения поля event_info.type: concert, festival.
+
+        В зависимости от источника данных ответ может содержать либо поля ``images``, ``image_url``,
+        ``afisha_url``, ``address`` и ``min_price``, либо поля ``cover`` и ``data_session_id``
+        (в последнем случае минимальная цена выносится на уровень выше вместе с концертом).
 
     Attributes:
         id (:obj:`str`, optional): UUID концерта.
@@ -31,6 +35,8 @@ class Concert(YandexMusicModel):
         min_price (:obj:`yandex_music.ConcertMinPrice`, optional): Минимальная цена билета.
         cashback (:obj:`yandex_music.ConcertCashback`, optional): Информация о кешбэке.
         event_info (:obj:`yandex_music.ConcertEventInfo`, optional): Информация о типе события.
+        cover (:obj:`yandex_music.Cover`, optional): Обложка концерта.
+        data_session_id (:obj:`str`, optional): Идентификатор сессии данных, используется Афишей.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -47,6 +53,8 @@ class Concert(YandexMusicModel):
     min_price: Optional['ConcertMinPrice'] = None
     cashback: Optional['ConcertCashback'] = None
     event_info: Optional['ConcertEventInfo'] = None
+    cover: Optional['Cover'] = None
+    data_session_id: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -67,6 +75,7 @@ class Concert(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
+        from yandex_music import Cover
         from yandex_music.concert.concert_cashback import ConcertCashback
         from yandex_music.concert.concert_event_info import ConcertEventInfo
         from yandex_music.concert.concert_min_price import ConcertMinPrice
@@ -74,5 +83,6 @@ class Concert(YandexMusicModel):
         cls_data['min_price'] = ConcertMinPrice.de_json(cls_data.get('min_price'), client)
         cls_data['cashback'] = ConcertCashback.de_json(cls_data.get('cashback'), client)
         cls_data['event_info'] = ConcertEventInfo.de_json(cls_data.get('event_info'), client)
+        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

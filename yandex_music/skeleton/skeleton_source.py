@@ -8,8 +8,8 @@ if TYPE_CHECKING:
 
 
 @model
-class ArtistSkeletonSource(YandexMusicModel):
-    """Класс, представляющий источник данных блока скелетона артиста.
+class SkeletonSource(YandexMusicModel):
+    """Класс, представляющий источник данных блока скелетона.
 
     Attributes:
         uri (:obj:`str`, optional): URI для загрузки данных блока.

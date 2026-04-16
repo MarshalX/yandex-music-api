@@ -8,8 +8,8 @@ if TYPE_CHECKING:
 
 
 @model
-class ArtistSkeleton(YandexMusicModel):
-    """Класс, представляющий скелетон страницы артиста.
+class ConcertSkeleton(YandexMusicModel):
+    """Класс, представляющий скелетон страницы концерта.
 
     Attributes:
         id (:obj:`str`, optional): Идентификатор скелетона.
@@ -27,7 +27,7 @@ class ArtistSkeleton(YandexMusicModel):
         self._id_attrs = (self.id, self.title)
 
     @classmethod
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ArtistSkeleton']:
+    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ConcertSkeleton']:
         """Десериализация объекта.
 
         Args:
@@ -35,7 +35,7 @@ class ArtistSkeleton(YandexMusicModel):
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`yandex_music.ArtistSkeleton`: Скелетон страницы артиста.
+            :obj:`yandex_music.ConcertSkeleton`: Скелетон страницы концерта.
         """
         if not cls.is_dict_model_data(data):
             return None

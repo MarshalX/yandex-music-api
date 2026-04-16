@@ -37,6 +37,7 @@ client = Client().init()
    yandex_music._client.artists
    yandex_music._client.batch
    yandex_music._client.clips
+   yandex_music._client.concerts
    yandex_music._client.credits
    yandex_music._client.disclaimers
    yandex_music._client.landing

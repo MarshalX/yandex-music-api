@@ -8,7 +8,6 @@ from yandex_music import (
     ArtistAbout,
     ArtistAlbums,
     ArtistClips,
-    ArtistConcerts,
     ArtistDonations,
     ArtistInfo,
     ArtistLinks,
@@ -323,32 +322,6 @@ class ArtistsMixin(ClientBase):
         return []
 
     @log
-    def artists_concerts(
-        self,
-        artist_id: Union[str, int],
-        *args: Any,
-        **kwargs: Any,
-    ) -> Optional[ArtistConcerts]:
-        """Получение концертов артиста.
-
-        Args:
-            artist_id (:obj:`str` | :obj:`int`): Уникальный идентификатор артиста.
-            *args: Произвольные аргументы (будут переданы в запрос).
-            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
-
-        Returns:
-            :obj:`yandex_music.ArtistConcerts` | :obj:`None`: Информация о концертах артиста или :obj:`None`.
-
-        Raises:
-            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
-        """
-        url = f'{self.base_url}/artists/{artist_id}/concerts'
-
-        result = self._request.get(url, *args, **kwargs)
-
-        return ArtistConcerts.de_json(result, self)
-
-    @log
     def artists_about(
         self,
         artist_id: Union[str, int],
@@ -526,8 +499,6 @@ class ArtistsMixin(ClientBase):
     artistsSafeDirectAlbums = artists_safe_direct_albums
     #: Псевдоним для :attr:`artists_track_ids`
     artistsTrackIds = artists_track_ids
-    #: Псевдоним для :attr:`artists_concerts`
-    artistsConcerts = artists_concerts
     #: Псевдоним для :attr:`artists_about`
     artistsAbout = artists_about
     #: Псевдоним для :attr:`artists_clips`
