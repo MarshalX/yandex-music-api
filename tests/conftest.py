@@ -5,6 +5,7 @@ from yandex_music import (
     Account,
     AdParams,
     Album,
+    AlbumActionButton,
     AlbumEvent,
     AlbumSimilarEntities,
     AlbumTrailer,
@@ -176,6 +177,7 @@ from . import (
     TestAccount,
     TestAdParams,
     TestAlbum,
+    TestAlbumActionButton,
     TestAlert,
     TestAlertButton,
     TestArtist,
@@ -474,7 +476,16 @@ def track_lyrics(lyrics_major):
 
 
 @pytest.fixture(scope='session')
-def album_factory(label, track_position):
+def album_action_button():
+    return AlbumActionButton(
+        TestAlbumActionButton.text,
+        TestAlbumActionButton.url,
+        TestAlbumActionButton.color,
+    )
+
+
+@pytest.fixture(scope='session')
+def album_factory(label, track_position, album_action_button):
     class AlbumFactory:
         def get(self, artists, volumes, albums=None, deprecation=None):
             return Album(
@@ -524,6 +535,8 @@ def album_factory(label, track_position):
                 deprecation,
                 TestAlbum.available_regions,
                 TestAlbum.available_for_options,
+                disclaimers=TestAlbum.disclaimers,
+                action_button=album_action_button,
             )
 
     return AlbumFactory()
@@ -1320,9 +1333,17 @@ def contest():
 
 
 @pytest.fixture(scope='session', params=[True, False])
-def label(request):
+def label(request, link):
     if request.param:
-        return Label(TestLabel.id, TestLabel.name)
+        return Label(
+            TestLabel.id,
+            TestLabel.name,
+            TestLabel.description,
+            TestLabel.description_formatted,
+            TestLabel.image,
+            [link],
+            TestLabel.type,
+        )
 
     return TestLabel.another_representation_of_label
 
