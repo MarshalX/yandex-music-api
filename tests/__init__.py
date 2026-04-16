@@ -2,6 +2,7 @@ from .test_about_artist import TestArtistAbout
 from .test_account import TestAccount
 from .test_ad_params import TestAdParams
 from .test_album import TestAlbum
+from .test_album_action_button import TestAlbumActionButton
 from .test_album_event import TestAlbumEvent
 from .test_album_similar_entities import TestAlbumSimilarEntities
 from .test_album_trailer import TestAlbumTrailer
@@ -77,6 +78,8 @@ from .test_id import TestId
 from .test_images import TestImages
 from .test_invocation_info import TestInvocationInfo
 from .test_label import TestLabel
+from .test_label_albums import TestLabelAlbums
+from .test_label_artists import TestLabelArtists
 from .test_licence_text_part import TestLicenceTextPart
 from .test_link import TestLink
 from .test_lyrics import TestLyrics

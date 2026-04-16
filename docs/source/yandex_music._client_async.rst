@@ -20,6 +20,7 @@ Submodules
    yandex_music._client_async.concerts
    yandex_music._client_async.credits
    yandex_music._client_async.disclaimers
+   yandex_music._client_async.labels
    yandex_music._client_async.landing
    yandex_music._client_async.likes
    yandex_music._client_async.music_history

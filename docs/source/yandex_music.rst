@@ -19,6 +19,7 @@ Subpackages
    yandex_music.concert
    yandex_music.feed
    yandex_music.genre
+   yandex_music.label
    yandex_music.landing
    yandex_music.music_history
    yandex_music.pin

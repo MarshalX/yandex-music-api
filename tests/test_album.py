@@ -47,6 +47,7 @@ class TestAlbum:
     likes_count = 2
     available_regions = ['kg', 'tm', 'by', 'kz', 'md', 'ru', 'am', 'ge', 'uz', 'tj', 'il', 'az', 'ua']
     available_for_options = ['bookmate']
+    disclaimers = ['explicit', 'exclamationIcon:671a23afcec5646906723a52']
 
     def test_expected_values(
         self,
@@ -57,6 +58,7 @@ class TestAlbum:
         track_without_albums,
         album_without_nested_albums,
         deprecation,
+        album_action_button,
     ):
         assert album.id == self.id
         assert album.error == self.error
@@ -103,6 +105,8 @@ class TestAlbum:
         assert album.deprecation == deprecation
         assert album.available_regions == self.available_regions
         assert album.available_for_options == self.available_for_options
+        assert album.disclaimers == self.disclaimers
+        assert album.action_button == album_action_button
 
     def test_de_json_none(self, client):
         assert Album.de_json({}, client) is None
@@ -114,7 +118,17 @@ class TestAlbum:
         json_dict = {'id': self.id}
         Album.de_json(json_dict, client)
 
-    def test_de_json_all(self, client, artist, label, track_position, track, album_without_nested_albums, deprecation):
+    def test_de_json_all(
+        self,
+        client,
+        artist,
+        label,
+        track_position,
+        track,
+        album_without_nested_albums,
+        deprecation,
+        album_action_button,
+    ):
         labels = [label] if isinstance(label, str) else [label.to_dict()]
         json_dict = {
             'id': self.id,
@@ -163,6 +177,8 @@ class TestAlbum:
             'deprecation': deprecation.to_dict(),
             'available_regions': self.available_regions,
             'available_for_options': self.available_for_options,
+            'disclaimers': self.disclaimers,
+            'action_button': album_action_button.to_dict(),
         }
         album = Album.de_json(json_dict, client)
 
@@ -211,6 +227,8 @@ class TestAlbum:
         assert album.deprecation == deprecation
         assert album.available_regions == self.available_regions
         assert album.available_for_options == self.available_for_options
+        assert album.disclaimers == self.disclaimers
+        assert album.action_button == album_action_button
 
     def test_equality(self, artist, label):
         a = Album(self.id)

@@ -25,10 +25,10 @@ from .account.renewable_remainder import RenewableRemainder
 from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
+from .album.album_action_button import AlbumActionButton
 from .album.album import Album
 from .album.album_similar_entities import AlbumSimilarEntities
 from .album.album_trailer import AlbumTrailer
-from .album.label import Label
 from .album.track_position import TrackPosition
 from .trailer_info import TrailerInfo
 from .album.deprecation import Deprecation
@@ -83,6 +83,10 @@ from .concert.concert_feed_item import ConcertFeedItem
 from .concert.concert_feed import ConcertFeed
 from .concert.concert_info import ConcertInfo
 from .concert.concert_skeleton import ConcertSkeleton
+
+from .label.label import Label
+from .label.label_albums import LabelAlbums
+from .label.label_artists import LabelArtists
 
 from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
@@ -226,6 +230,7 @@ __all__ = [
     'Account',
     'AdParams',
     'Album',
+    'AlbumActionButton',
     'AlbumEvent',
     'AlbumSimilarEntities',
     'AlbumTrailer',
@@ -314,6 +319,8 @@ __all__ = [
     'InvocationInfo',
     'JSONType',
     'Label',
+    'LabelAlbums',
+    'LabelArtists',
     'Landing',
     'LandingList',
     'LicenceTextPart',

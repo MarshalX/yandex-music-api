@@ -5,7 +5,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Artist, ClientType, Deprecation, JSONType, Label, Track, TrackPosition
+    from yandex_music import AlbumActionButton, Artist, ClientType, Deprecation, JSONType, Label, Track, TrackPosition
 
 
 @model
@@ -70,6 +70,8 @@ class Album(YandexMusicModel):
         deprecation (:obj:`yandex_music.Deprecation`, optional): TODO.
         available_regions (:obj:`list` из :obj:`str`, optional): Регионы, где доступен альбом.
         available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для альбома.
+        disclaimers (:obj:`list` из :obj:`str`, optional): Список дисклеймеров альбома.
+        action_button (:obj:`yandex_music.AlbumActionButton`, optional): Кнопка-действие для перехода по ссылке.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -120,6 +122,8 @@ class Album(YandexMusicModel):
     available_regions: Optional[List[str]] = None
     available_for_options: Optional[List[str]] = None
     listening_finished: Optional[bool] = None
+    disclaimers: Optional[List[str]] = None
+    action_button: Optional['AlbumActionButton'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -322,9 +326,10 @@ class Album(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Artist, Deprecation, Label, Track, TrackPosition
+        from yandex_music import AlbumActionButton, Artist, Deprecation, Label, Track, TrackPosition
 
         cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
+        cls_data['action_button'] = AlbumActionButton.de_json(cls_data.get('action_button'), client)
 
         # В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
         labels = cls_data.get('labels')
