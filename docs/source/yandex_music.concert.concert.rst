@@ -3,5 +3,4 @@ yandex\_music.concert.concert
 
 .. automodule:: yandex_music.concert.concert
    :members:
-   :undoc-members:
    :show-inheritance:

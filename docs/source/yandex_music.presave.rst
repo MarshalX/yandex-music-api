@@ -2,9 +2,6 @@ yandex\_music.presave
 =====================
 
 .. automodule:: yandex_music.presave
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

@@ -130,18 +130,22 @@ class Album(YandexMusicModel):
         self._id_attrs = (self.id,)
 
     def with_tracks(self, *args: Any, **kwargs: Any) -> Optional['Album']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.albums_with_tracks(album.id, *args, **kwargs)
+        Сокращение для::
+
+            client.albums_with_tracks(album.id, *args, **kwargs)
         """
         assert isinstance(self.id, int)
         assert self.valid_client(self.client)
         return self.client.albums_with_tracks(self.id, *args, **kwargs)
 
     async def with_tracks_async(self, *args: Any, **kwargs: Any) -> Optional['Album']:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.albums_with_tracks(album.id, *args, **kwargs)
+        Сокращение для::
+
+            await client.albums_with_tracks(album.id, *args, **kwargs)
         """
         assert isinstance(self.id, int)
         assert self.valid_async_client(self.client)
@@ -268,36 +272,44 @@ class Album(YandexMusicModel):
         return await self.client.request.retrieve(self.get_og_image_url(size))
 
     def like(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        client.users_likes_albums_add(album.id, user.id *args, **kwargs)
+        Сокращение для::
+
+            client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
         assert isinstance(self.id, int)
         assert self.valid_client(self.client)
         return self.client.users_likes_albums_add(self.id, self.client.account_uid, *args, **kwargs)
 
     async def like_async(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.users_likes_albums_add(album.id, user.id *args, **kwargs)
+        Сокращение для::
+
+            await client.users_likes_albums_add(album.id, user.id *args, **kwargs)
         """
         assert isinstance(self.id, int)
         assert self.valid_async_client(self.client)
         return await self.client.users_likes_albums_add(self.id, self.client.account_uid, *args, **kwargs)
 
     def dislike(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
+        Сокращение для::
+
+            client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
         """
         assert isinstance(self.id, int)
         assert self.valid_client(self.client)
         return self.client.users_likes_albums_remove(self.id, self.client.account_uid, *args, **kwargs)
 
     async def dislike_async(self, *args: Any, **kwargs: Any) -> bool:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
+        Сокращение для::
+
+            await client.users_likes_albums_remove(album.id, user.id *args, **kwargs)
         """
         assert isinstance(self.id, int)
         assert self.valid_async_client(self.client)

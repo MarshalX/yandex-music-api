@@ -2,9 +2,6 @@ yandex\_music.artist
 ====================
 
 .. automodule:: yandex_music.artist
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

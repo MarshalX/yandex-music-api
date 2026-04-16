@@ -2,9 +2,6 @@ yandex\_music.clip
 ==================
 
 .. automodule:: yandex_music.clip
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

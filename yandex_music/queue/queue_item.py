@@ -27,17 +27,21 @@ class QueueItem(YandexMusicModel):
         self._id_attrs = (self.id,)
 
     def fetch_queue(self, *args: Any, **kwargs: Any) -> Optional['Queue']:
-        """Сокращение для::
+        """Сокращение.
 
-        client.queue(id, *args, **kwargs)
+        Сокращение для::
+
+            client.queue(id, *args, **kwargs)
         """
         assert self.valid_client(self.client)
         return self.client.queue(self.id, *args, **kwargs)
 
     async def fetch_queue_async(self, *args: Any, **kwargs: Any) -> Optional['Queue']:
-        """Сокращение для::
+        """Сокращение.
 
-        await client.queue(id, *args, **kwargs)
+        Сокращение для::
+
+            await client.queue(id, *args, **kwargs)
         """
         assert self.valid_async_client(self.client)
         return await self.client.queue(self.id, *args, **kwargs)

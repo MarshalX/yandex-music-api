@@ -2,9 +2,6 @@ yandex\_music.rotor
 ===================
 
 .. automodule:: yandex_music.rotor
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

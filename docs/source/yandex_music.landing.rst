@@ -2,9 +2,6 @@ yandex\_music.landing
 =====================
 
 .. automodule:: yandex_music.landing
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

@@ -1,6 +1,6 @@
 # makefile for Sphinx documentation
 
-SPHINXOPTS ?=
+SPHINXOPTS ?= -j auto
 SPHINXBUILD ?= sphinx-build
 SPHINXGENERATE ?= sphinx-apidoc
 MODULEPATH = ../yandex_music

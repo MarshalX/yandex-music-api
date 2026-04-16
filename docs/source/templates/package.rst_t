@@ -5,6 +5,10 @@
 {%- endfor %}
 {%- endmacro %}
 
+{%- macro automodule_package(modname) -%}
+.. automodule:: {{ modname }}
+{%- endmacro %}
+
 {%- macro toctree(docnames) -%}
 .. toctree::
    :maxdepth: {{ maxdepth }}
@@ -24,7 +28,7 @@
 {% endif %}
 
 {%- if modulefirst and not is_namespace %}
-{{ automodule(pkgname, automodule_options) }}
+{{ automodule_package(pkgname) }}
 {% endif %}
 
 {%- if subpackages %}
@@ -53,5 +57,5 @@ Submodules
 Module contents
 ---------------
 
-{{ automodule(pkgname, automodule_options) }}
+{{ automodule_package(pkgname) }}
 {% endif %}

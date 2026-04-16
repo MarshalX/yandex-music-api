@@ -2,9 +2,6 @@ yandex\_music.queue
 ===================
 
 .. automodule:: yandex_music.queue
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

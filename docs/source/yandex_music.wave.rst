@@ -2,9 +2,6 @@ yandex\_music.wave
 ==================
 
 .. automodule:: yandex_music.wave
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

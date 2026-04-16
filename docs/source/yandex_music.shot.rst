@@ -2,9 +2,6 @@ yandex\_music.shot
 ==================
 
 .. automodule:: yandex_music.shot
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------
