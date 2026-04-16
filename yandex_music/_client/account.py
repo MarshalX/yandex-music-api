@@ -6,7 +6,15 @@ from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from typing_extensions import Self
 
-from yandex_music import Experiments, PermissionAlerts, PromoCodeStatus, Settings, Status, UserSettings
+from yandex_music import (
+    Experiments,
+    ExperimentsDetails,
+    PermissionAlerts,
+    PromoCodeStatus,
+    Settings,
+    Status,
+    UserSettings,
+)
 from yandex_music._client import log
 from yandex_music._client_base import ClientBase
 
@@ -180,6 +188,31 @@ class AccountMixin(ClientBase):
         return Experiments.de_json(result, self)
 
     @log
+    def account_experiments_details(self, *args: Any, **kwargs: Any) -> Optional[ExperimentsDetails]:
+        """Получение детальной информации об экспериментальных функциях аккаунта.
+
+        Note:
+            В отличие от :meth:`account_experiments`, в ответе для каждого эксперимента
+            возвращается не только выбранная группа, но и её параметры конфигурации.
+
+        Args:
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.ExperimentsDetails` | :obj:`None`: Детальные значения
+                экспериментов или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/account/experiments/details'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return ExperimentsDetails.de_json(result, self)
+
+    @log
     def consume_promo_code(
         self, code: str, language: Optional[str] = None, *args, **kwargs
     ) -> Optional[PromoCodeStatus]:
@@ -221,5 +254,7 @@ class AccountMixin(ClientBase):
     permissionAlerts = permission_alerts
     #: Псевдоним для :attr:`account_experiments`
     accountExperiments = account_experiments
+    #: Псевдоним для :attr:`account_experiments_details`
+    accountExperimentsDetails = account_experiments_details
     #: Псевдоним для :attr:`consume_promo_code`
     consumePromoCode = consume_promo_code

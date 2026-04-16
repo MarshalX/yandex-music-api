@@ -7,6 +7,9 @@ from .base import ClientType, YandexMusicObject, YandexMusicModel, JSONType, Map
 from .settings import Settings
 from .permission_alerts import PermissionAlerts
 from .experiments import Experiments
+from .experiment.experiment_detail_value import ExperimentDetailValue
+from .experiment.experiment_detail import ExperimentDetail
+from .experiment.experiments_details import ExperimentsDetails
 
 from .account.status import Status
 from .account.account import Account
@@ -318,7 +321,10 @@ __all__ = [
     'DownloadInfo',
     'Enum',
     'Event',
+    'ExperimentDetail',
+    'ExperimentDetailValue',
     'Experiments',
+    'ExperimentsDetails',
     'Fade',
     'Feed',
     'ForeignAgent',

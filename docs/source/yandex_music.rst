@@ -17,6 +17,7 @@ Subpackages
    yandex_music.artist
    yandex_music.clip
    yandex_music.concert
+   yandex_music.experiment
    yandex_music.feed
    yandex_music.genre
    yandex_music.label
