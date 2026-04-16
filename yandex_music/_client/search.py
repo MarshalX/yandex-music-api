@@ -14,7 +14,10 @@ if TYPE_CHECKING:
 
 
 class SearchMixin(ClientBase):
-    """Миксин для методов поиска."""
+    """Поиск.
+
+    Миксин для методов поиска.
+    """
 
     _request: 'Request'
 

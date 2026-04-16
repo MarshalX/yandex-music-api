@@ -14,7 +14,8 @@ help:
 .PHONY: help Makefile
 
 gen:
-	@$(SPHINXGENERATE) -f -e -M -o "$(SOURCEDIR)" -t "$(TEMPLATEDIR)" "$(MODULEPATH)" $(O)
+	@$(SPHINXGENERATE) -f -e -M -P -o "$(SOURCEDIR)" -t "$(TEMPLATEDIR)" "$(MODULEPATH)" $(O)
+	@python generate_client_docs.py
 
 .PHONY: gen Makefile
 

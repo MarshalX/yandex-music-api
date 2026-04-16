@@ -23,7 +23,10 @@ if TYPE_CHECKING:
 
 
 class TracksMixin(ClientBase):
-    """Миксин для методов, связанных с треками."""
+    """Треки.
+
+    Миксин для методов, связанных с треками.
+    """
 
     _request: 'Request'
 

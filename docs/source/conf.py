@@ -74,3 +74,20 @@ html_css_files = [
 html_theme_options = {
     'navigation_with_keys': True,
 }
+
+
+def _is_camel_case(name: str) -> bool:
+    """Проверяет, является ли имя camelCase (не snake_case и не UPPER_CASE)."""
+    return name != name.lower() and '_' not in name and not name.startswith('_')
+
+
+def autodoc_skip_member(_app, what, name, _obj, skip, _options) -> bool:  # noqa: ANN001
+    """Скрыть camelCase псевдонимы из документации."""
+    if not skip and what == 'class' and _is_camel_case(name):
+        return True
+    return skip
+
+
+def setup(app) -> None:  # noqa: ANN001
+    """Настройка Sphinx-приложения."""
+    app.connect('autodoc-skip-member', autodoc_skip_member)

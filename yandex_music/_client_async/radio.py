@@ -10,7 +10,10 @@ if TYPE_CHECKING:
 
 
 class RadioMixin(ClientBase):
-    """Миксин для методов, связанных с радио (rotor)."""
+    """Радио.
+
+    Миксин для методов, связанных с радио (rotor).
+    """
 
     _request: 'Request'
 

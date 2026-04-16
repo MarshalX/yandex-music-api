@@ -26,7 +26,10 @@ if TYPE_CHECKING:
 
 
 class ArtistsMixin(ClientBase):
-    """Миксин для методов, связанных с артистами."""
+    """Артисты.
+
+    Миксин для методов, связанных с артистами.
+    """
 
     _request: 'Request'
 

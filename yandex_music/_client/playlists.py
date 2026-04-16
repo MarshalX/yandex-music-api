@@ -22,7 +22,10 @@ if TYPE_CHECKING:
 
 
 class PlaylistsMixin(ClientBase):
-    """Миксин для методов, связанных с плейлистами."""
+    """Плейлисты.
+
+    Миксин для методов, связанных с плейлистами.
+    """
 
     _request: 'Request'
 
