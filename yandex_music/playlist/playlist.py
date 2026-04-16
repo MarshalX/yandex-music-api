@@ -492,7 +492,9 @@ class Playlist(YandexMusicModel):
 
         Сокращение для::
 
-            await client.users_playlists_delete_track(self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs)
+            await client.users_playlists_delete_track(
+                self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs,
+            )
         """
         assert self.owner
         assert isinstance(self.kind, int)

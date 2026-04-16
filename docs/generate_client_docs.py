@@ -202,9 +202,7 @@ def generate_redirects_map() -> None:
 
     out = DOCS_SOURCE / '_static' / 'redirects_map.js'
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(
-        'window.__YM_REDIRECTS__ = ' + json.dumps(mapping, ensure_ascii=False, indent=2) + ';\n'
-    )
+    out.write_text('window.__YM_REDIRECTS__ = ' + json.dumps(mapping, ensure_ascii=False, indent=2) + ';\n')
 
 
 def generate() -> None:
