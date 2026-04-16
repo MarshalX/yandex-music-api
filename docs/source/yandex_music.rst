@@ -28,6 +28,7 @@ Subpackages
    yandex_music.rotor
    yandex_music.search
    yandex_music.shot
+   yandex_music.skeleton
    yandex_music.supplement
    yandex_music.track
    yandex_music.utils

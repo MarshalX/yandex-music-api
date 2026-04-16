@@ -27,11 +27,6 @@ Submodules
    yandex_music.artist.artist_links
    yandex_music.artist.artist_similar
    yandex_music.artist.artist_skeleton
-   yandex_music.artist.artist_skeleton_block
-   yandex_music.artist.artist_skeleton_block_data
-   yandex_music.artist.artist_skeleton_source
-   yandex_music.artist.artist_skeleton_tab
-   yandex_music.artist.artist_skeleton_view_all_action
    yandex_music.artist.artist_tracks
    yandex_music.artist.artist_trailer
    yandex_music.artist.artist_trailer_status

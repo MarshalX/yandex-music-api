@@ -26,11 +26,6 @@ from yandex_music import (
     ArtistLinks,
     ArtistSimilar,
     ArtistSkeleton,
-    ArtistSkeletonBlock,
-    ArtistSkeletonBlockData,
-    ArtistSkeletonSource,
-    ArtistSkeletonTab,
-    ArtistSkeletonViewAllAction,
     ArtistTrailer,
     ArtistTrailerStatus,
     AutoRenewable,
@@ -49,8 +44,19 @@ from yandex_music import (
     ClipsWillLike,
     Concert,
     ConcertCashback,
+    ConcertDescription,
     ConcertEventInfo,
+    ConcertFeed,
+    ConcertFeedItem,
+    ConcertFeedItemData,
+    ConcertInfo,
+    ConcertLocation,
+    ConcertLocations,
     ConcertMinPrice,
+    ConcertSkeleton,
+    ConcertTabConfig,
+    ConcertTabConfigData,
+    ConcertTabRange,
     ContentRestrictions,
     Contest,
     Context,
@@ -132,6 +138,11 @@ from yandex_music import (
     ShotType,
     SimilarEntityData,
     SimilarEntityItem,
+    SkeletonBlock,
+    SkeletonBlockData,
+    SkeletonSource,
+    SkeletonTab,
+    SkeletonViewAllAction,
     SmartPreviewParams,
     Station,
     StationData,
@@ -178,11 +189,6 @@ from . import (
     TestArtistInfo,
     TestArtistLink,
     TestArtistSkeleton,
-    TestArtistSkeletonBlock,
-    TestArtistSkeletonBlockData,
-    TestArtistSkeletonSource,
-    TestArtistSkeletonTab,
-    TestArtistSkeletonViewAllAction,
     TestArtistTrailerStatus,
     TestAutoRenewable,
     TestBest,
@@ -196,8 +202,14 @@ from . import (
     TestClip,
     TestConcert,
     TestConcertCashback,
+    TestConcertDescription,
     TestConcertEventInfo,
+    TestConcertFeedItem,
+    TestConcertInfo,
+    TestConcertLocation,
     TestConcertMinPrice,
+    TestConcertSkeleton,
+    TestConcertTabRange,
     TestContentRestrictions,
     TestContest,
     TestContext,
@@ -266,6 +278,11 @@ from . import (
     TestShotData,
     TestShotType,
     TestSimilarEntityItem,
+    TestSkeletonBlock,
+    TestSkeletonBlockData,
+    TestSkeletonSource,
+    TestSkeletonTab,
+    TestSkeletonViewAllAction,
     TestSmartPreviewParams,
     TestStation,
     TestStationData,
@@ -790,7 +807,7 @@ def concert_event_info():
 
 
 @pytest.fixture(scope='session')
-def concert(concert_min_price, concert_cashback, concert_event_info):
+def concert(concert_min_price, concert_cashback, concert_event_info, cover):
     return Concert(
         TestConcert.id,
         TestConcert.images,
@@ -805,6 +822,8 @@ def concert(concert_min_price, concert_cashback, concert_event_info):
         concert_min_price,
         concert_cashback,
         concert_event_info,
+        cover,
+        TestConcert.data_session_id,
     )
 
 
@@ -813,6 +832,95 @@ def artist_concerts(concert):
     return ArtistConcerts(
         TestArtistConcerts.artist_title,
         [concert],
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_description():
+    return ConcertDescription(
+        TestConcertDescription.text,
+        TestConcertDescription.source,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_location():
+    return ConcertLocation(
+        TestConcertLocation.id,
+        TestConcertLocation.name,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_locations(concert_location):
+    return ConcertLocations(
+        [concert_location],
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_tab_range():
+    return ConcertTabRange(
+        TestConcertTabRange.offset,
+        TestConcertTabRange.limit,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_tab_config_data(concert_tab_range):
+    return ConcertTabConfigData(
+        concert_tab_range,
+        concert_tab_range,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_tab_config(concert_tab_config_data):
+    return ConcertTabConfig(
+        concert_tab_config_data,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_feed_item_data(concert, concert_min_price):
+    return ConcertFeedItemData(
+        concert,
+        concert_min_price,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_feed_item(concert_feed_item_data):
+    return ConcertFeedItem(
+        TestConcertFeedItem.type,
+        concert_feed_item_data,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_feed(concert_feed_item):
+    return ConcertFeed(
+        [concert_feed_item],
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_info(concert, concert_min_price, cover, concert_description):
+    return ConcertInfo(
+        concert,
+        concert_min_price,
+        [cover],
+        concert_description,
+        TestConcertInfo.lead_artist_id,
+    )
+
+
+@pytest.fixture(scope='session')
+def concert_skeleton(skeleton_block):
+    return ConcertSkeleton(
+        TestConcertSkeleton.id,
+        TestConcertSkeleton.title,
+        [skeleton_block],
     )
 
 
@@ -1899,56 +2007,56 @@ def artist_trailer(artist, trailer_info):
 
 
 @pytest.fixture(scope='session')
-def artist_skeleton_source():
-    return ArtistSkeletonSource(
-        uri=TestArtistSkeletonSource.uri,
-        count_web=TestArtistSkeletonSource.count_web,
-        count=TestArtistSkeletonSource.count,
+def skeleton_source():
+    return SkeletonSource(
+        uri=TestSkeletonSource.uri,
+        count_web=TestSkeletonSource.count_web,
+        count=TestSkeletonSource.count,
     )
 
 
 @pytest.fixture(scope='session')
-def artist_skeleton_view_all_action():
-    return ArtistSkeletonViewAllAction(
-        deeplink=TestArtistSkeletonViewAllAction.deeplink,
-        weblink=TestArtistSkeletonViewAllAction.weblink,
+def skeleton_view_all_action():
+    return SkeletonViewAllAction(
+        deeplink=TestSkeletonViewAllAction.deeplink,
+        weblink=TestSkeletonViewAllAction.weblink,
     )
 
 
 @pytest.fixture(scope='session')
-def artist_skeleton_block_data(artist_skeleton_source, artist_skeleton_view_all_action):
-    return ArtistSkeletonBlockData(
-        source=artist_skeleton_source,
-        title=TestArtistSkeletonBlockData.title,
-        show_policy=TestArtistSkeletonBlockData.show_policy,
-        view_all_action=artist_skeleton_view_all_action,
+def skeleton_block_data(skeleton_source, skeleton_view_all_action):
+    return SkeletonBlockData(
+        source=skeleton_source,
+        title=TestSkeletonBlockData.title,
+        show_policy=TestSkeletonBlockData.show_policy,
+        view_all_action=skeleton_view_all_action,
     )
 
 
 @pytest.fixture(scope='session')
-def artist_skeleton_block(artist_skeleton_block_data):
-    return ArtistSkeletonBlock(
-        id=TestArtistSkeletonBlock.id,
-        type=TestArtistSkeletonBlock.type,
-        data=artist_skeleton_block_data,
+def skeleton_block(skeleton_block_data):
+    return SkeletonBlock(
+        id=TestSkeletonBlock.id,
+        type=TestSkeletonBlock.type,
+        data=skeleton_block_data,
     )
 
 
 @pytest.fixture(scope='session')
-def artist_skeleton_tab(artist_skeleton_block):
-    return ArtistSkeletonTab(
-        id=TestArtistSkeletonTab.id,
-        title=TestArtistSkeletonTab.title,
-        blocks=[artist_skeleton_block],
+def skeleton_tab(skeleton_block):
+    return SkeletonTab(
+        id=TestSkeletonTab.id,
+        title=TestSkeletonTab.title,
+        blocks=[skeleton_block],
     )
 
 
 @pytest.fixture(scope='session')
-def artist_skeleton(artist_skeleton_block):
+def artist_skeleton(skeleton_block):
     return ArtistSkeleton(
         id=TestArtistSkeleton.id,
         title=TestArtistSkeleton.title,
-        blocks=[artist_skeleton_block],
+        blocks=[skeleton_block],
     )
 
 

@@ -17,6 +17,7 @@ Submodules
    yandex_music._client_async.artists
    yandex_music._client_async.batch
    yandex_music._client_async.clips
+   yandex_music._client_async.concerts
    yandex_music._client_async.credits
    yandex_music._client_async.disclaimers
    yandex_music._client_async.landing

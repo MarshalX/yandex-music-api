@@ -11,6 +11,7 @@ from yandex_music._client.albums import AlbumsMixin
 from yandex_music._client.artists import ArtistsMixin
 from yandex_music._client.batch import BatchMixin
 from yandex_music._client.clips import ClipsMixin
+from yandex_music._client.concerts import ConcertsMixin
 from yandex_music._client.credits import CreditsMixin
 from yandex_music._client.disclaimers import DisclaimersMixin
 from yandex_music._client.landing import LandingMixin
@@ -32,6 +33,7 @@ class Client(
     AccountMixin,
     AlbumsMixin,
     ClipsMixin,
+    ConcertsMixin,
     CreditsMixin,
     DisclaimersMixin,
     LandingMixin,
