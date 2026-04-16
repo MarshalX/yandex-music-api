@@ -60,7 +60,7 @@ myst_heading_anchors = 4
 # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html?highlight=header-anchors#code-fences-using-colons
 myst_enable_extensions = ['colon_fence']
 # README.md начинается с H2 — нормально для GitHub, но MyST предупреждает. Глушим.
-suppress_warnings = ['myst.header']
+suppress_warnings = ['myst.header', 'ref.python']
 # TODO add substitution https://myst-parser.readthedocs.io/en/latest/syntax/optional.html?highlight=header-anchors#substitutions-with-jinja2
 
 # -- Options for HTML output -------------------------------------------------
