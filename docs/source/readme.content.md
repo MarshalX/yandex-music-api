@@ -8,7 +8,7 @@
 
 ## Доступ к вашим данным Яндекс.Музыка
 
-Задача по получению токена для доступа к данным лежит на плечах разработчиков, использующих данную библиотеку. О том как получить токен читайте в [документации](https://yandex-music.readthedocs.io/en/main/token.html).
+Задача по получению токена для доступа к данным лежит на плечах разработчиков, использующих данную библиотеку. О том как получить токен читайте в [документации](https://ym.marshal.dev/token).
 
 # Установка
 
@@ -70,7 +70,7 @@ from yandex_music import Client
 client = Client('token').init()
 ```
 
-После успешного создания клиента вы вольны в выборе необходимого метода из API. Все они доступны у объекта класса `Client`. Подробнее в методах клиента в [документации](https://yandex-music.readthedocs.io/en/latest/yandex_music.client.html).
+После успешного создания клиента вы вольны в выборе необходимого метода из API. Все они доступны у объекта класса `Client`. Подробнее в методах клиента в [документации](https://ym.marshal.dev/client).
 
 Пример получения первого трека из плейлиста "Мне нравится" и его загрузки:
 
@@ -81,7 +81,7 @@ client = Client('token').init()
 client.users_likes_tracks()[0].fetch_track().download('example.mp3')
 ```
 
-В примере выше клиент получает список треков, которые были отмечены как понравившиеся. API возвращает объект [TracksList](https://yandex-music.readthedocs.io/en/latest/yandex_music.tracks_list.html), в котором содержится список с треками класса [TrackShort](https://yandex-music.readthedocs.io/en/latest/yandex_music.track_short.html). Данный класс содержит наиважнейшую информацию о треке и никаких подробностей, поэтому для получения полной версии трека со всей информацией необходимо обратиться к методу `fetch_track()`. Затем можно скачать трек методом `download()`.
+В примере выше клиент получает список треков, которые были отмечены как понравившиеся. API возвращает объект [TracksList](https://ym.marshal.dev/yandex_music.tracks_list), в котором содержится список с треками класса [TrackShort](https://ym.marshal.dev/yandex_music.track_short). Данный класс содержит наиважнейшую информацию о треке и никаких подробностей, поэтому для получения полной версии трека со всей информацией необходимо обратиться к методу `fetch_track()`. Затем можно скачать трек методом `download()`.
 
 Пример получения треков по ID:
 
@@ -189,7 +189,7 @@ logger.setLevel(logging.DEBUG)
 - Задать вопрос в [Telegram чате](https://t.me/yandex_music_api), где мы помогаем друг другу, присоединяйтесь\!
 - Сообщить о баге можно [создав Bug Report](https://github.com/MarshalX/yandex-music-api/issues/new?assignees=MarshalX&labels=bug&template=bug-report.md&title=).
 - Предложить новую фичу или задать вопрос можно [создав discussion](https://github.com/MarshalX/yandex-music-api/discussions/new).
-- Найти ответ на вопрос в [документации библиотеки](https://yandex-music.readthedocs.io/en/latest/).
+- Найти ответ на вопрос в [документации библиотеки](https://ym.marshal.dev/).
 
 # Список изменений
 
