@@ -439,7 +439,7 @@ def generate_redirects_map() -> None:
         module = inspect.getmodule(obj)
         if module is None or module.__name__ == 'yandex_music':
             continue
-        canonical_page = module.__name__ + '.html'
+        canonical_page = module.__name__
         anchor = f'{module.__name__}.{obj.__name__}'
         anchor_map[f'yandex_music.{obj.__name__}'] = f'{canonical_page}#{anchor}'
 

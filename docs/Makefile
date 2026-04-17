@@ -19,5 +19,11 @@ gen:
 
 .PHONY: gen Makefile
 
+# html → dirhtml: локальная сборка совпадает с production (.readthedocs.yaml: builder: dirhtml).
+html:
+	@$(SPHINXBUILD) -M dirhtml "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+.PHONY: html
+
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
