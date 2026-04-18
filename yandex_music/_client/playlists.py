@@ -14,14 +14,15 @@ from yandex_music import (
     UserSettings,
 )
 from yandex_music._client import log
-from yandex_music._client_base import ClientBase, UserIdType, is_dict
+from yandex_music._client._batch import _BatchMixin
+from yandex_music._client_base import UserIdType, is_dict
 from yandex_music.utils.difference import Difference
 
 if TYPE_CHECKING:
     from yandex_music.utils.request import Request
 
 
-class PlaylistsMixin(ClientBase):
+class PlaylistsMixin(_BatchMixin):
     """Плейлисты.
 
     Миксин для методов, связанных с плейлистами.
@@ -507,6 +508,37 @@ class PlaylistsMixin(ClientBase):
         return PlaylistsList.de_json(result, self)
 
     @log
+    def playlists_list(
+        self, playlist_ids: Union[List[Union[str, int]], int, str], *args: Any, **kwargs: Any
+    ) -> List[Playlist]:
+        """Получение плейлиста/плейлистов.
+
+        Note:
+            Идентификатор плейлиста указывается в формате `owner_id:playlist_id`. Где `playlist_id` - идентификатор
+            плейлиста, `owner_id` - уникальный идентификатор владельца плейлиста.
+
+            Данный метод возвращает сокращенную модель плейлиста для отображения больших список.
+
+        Warning:
+            Данный метод не возвращает список треков у плейлиста! Для получения объекта :obj:`yandex_music.Playlist` c
+            заполненным полем `tracks` используйте метод :func:`yandex_music.Client.users_playlists` или
+            метод :func:`yandex_music.Playlist.fetch_tracks`.
+
+        Args:
+            playlist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
+                идентификатор плейлиста или плейлистов.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Playlist`: Плейлист или плейлисты.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return self._get_list('playlist', playlist_ids, *args, **kwargs)
+
+    @log
     def playlists_personal(self, playlist_id: str, *args: Any, **kwargs: Any) -> Optional[GeneratedPlaylist]:
         """Получение персонального плейлиста.
 
@@ -651,6 +683,8 @@ class PlaylistsMixin(ClientBase):
     usersPlaylistsList = users_playlists_list
     #: Псевдоним для :attr:`playlist_similar_entities`
     playlistSimilarEntities = playlist_similar_entities
+    #: Псевдоним для :attr:`playlists_list`
+    playlistsList = playlists_list
     #: Псевдоним для :attr:`playlists_personal`
     playlistsPersonal = playlists_personal
     #: Псевдоним для :attr:`users_playlists_description`

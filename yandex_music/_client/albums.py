@@ -2,23 +2,41 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/albums.py. DON'T EDIT IT BY HANDS #
 ###############################################################################################
 
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import Album, AlbumSimilarEntities, AlbumTrailer
 from yandex_music._client import log
-from yandex_music._client_base import ClientBase
+from yandex_music._client._batch import _BatchMixin
 
 if TYPE_CHECKING:
     from yandex_music.utils.request import Request
 
 
-class AlbumsMixin(ClientBase):
+class AlbumsMixin(_BatchMixin):
     """Альбомы.
 
     Миксин для методов, связанных с альбомами.
     """
 
     _request: 'Request'
+
+    @log
+    def albums(self, album_ids: Union[List[Union[str, int]], int, str], *args: Any, **kwargs: Any) -> List[Album]:
+        """Получение альбома/альбомов.
+
+        Args:
+            album_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
+                идентификатор альбома или альбомов.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Album`: Альбом или альбомы.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return self._get_list('album', album_ids, *args, **kwargs)
 
     @log
     def albums_with_tracks(self, album_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Album]:

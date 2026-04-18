@@ -66,7 +66,7 @@ def get_mixin_modules(package_dir: Path) -> list[str]:
     """Получить отсортированный список модулей миксинов из директории пакета."""
     modules = []
     for f in sorted(package_dir.iterdir()):
-        if f.suffix == '.py' and f.stem != '__init__':
+        if f.suffix == '.py' and f.stem != '__init__' and not f.stem.startswith('_'):
             modules.append(f.stem)
     return modules
 

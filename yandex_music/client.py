@@ -9,7 +9,6 @@ from yandex_music import Status, YandexMusicObject, __copyright__, __license__, 
 from yandex_music._client.account import AccountMixin
 from yandex_music._client.albums import AlbumsMixin
 from yandex_music._client.artists import ArtistsMixin
-from yandex_music._client.batch import BatchMixin
 from yandex_music._client.clips import ClipsMixin
 from yandex_music._client.concerts import ConcertsMixin
 from yandex_music._client.credits import CreditsMixin
@@ -51,7 +50,6 @@ class Client(
     PinsMixin,
     PresavesMixin,
     QueueMixin,
-    BatchMixin,
     YandexMusicObject,
 ):
     """Класс, представляющий клиент Yandex Music.

@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 from yandex_music import (
+    Artist,
     ArtistAbout,
     ArtistAlbums,
     ArtistClips,
@@ -14,19 +15,39 @@ from yandex_music import (
     BriefInfo,
 )
 from yandex_music._client_async import log
-from yandex_music._client_base import ClientBase
+from yandex_music._client_async._batch import _BatchMixin
 
 if TYPE_CHECKING:
     from yandex_music.utils.request_async import Request
 
 
-class ArtistsMixin(ClientBase):
+class ArtistsMixin(_BatchMixin):
     """Артисты.
 
     Миксин для методов, связанных с артистами.
     """
 
     _request: 'Request'
+
+    @log
+    async def artists(
+        self, artist_ids: Union[List[Union[str, int]], int, str], *args: Any, **kwargs: Any
+    ) -> List[Artist]:
+        """Получение исполнителя/исполнителей.
+
+        Args:
+            artist_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
+                идентификатор исполнителя или исполнителей.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Artist`: Исполнитель или исполнители.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return await self._get_list('artist', artist_ids, *args, **kwargs)
 
     @log
     async def artists_brief_info(self, artist_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[BriefInfo]:
