@@ -284,6 +284,127 @@ def build_models_toctree() -> None:
         print('ВНИМАНИЕ: в models.md нет карточки для:', ', '.join(missing))
 
 
+PACKAGE_INDEX_TEMPLATE = """\
+{heading}
+{underline}
+
+.. automodule:: yandex_music.{pkg}
+
+.. grid:: 2
+   :gutter: 2
+
+{cards}
+
+.. toctree::
+   :hidden:
+   :maxdepth: 1
+
+{toctree}
+"""
+
+
+def _class_card_info(module_path: str) -> tuple[str, str]:
+    """Вернуть (title, description) для карточки модуля на странице пакета.
+
+    title:
+      - имя единственного публичного класса модуля;
+      - иначе PascalCase последнего компонента пути.
+    description:
+      - первая строка docstring'а класса (или модуля), без завершающей точки;
+      - '—' если docstring'а нет.
+    """
+    import importlib
+
+    last = module_path.rsplit('.', 1)[-1]
+    fallback_title = ''.join(p.capitalize() for p in last.split('_'))
+    try:
+        module = importlib.import_module(module_path)
+    except ImportError:
+        return fallback_title, '—'
+
+    public_classes = [
+        (name, obj)
+        for name, obj in inspect.getmembers(module, inspect.isclass)
+        if not name.startswith('_') and getattr(obj, '__module__', None) == module.__name__ and name == obj.__name__
+    ]
+
+    doc: Optional[str] = None
+    if len(public_classes) == 1:
+        title = public_classes[0][0]
+        doc = inspect.getdoc(public_classes[0][1])
+    else:
+        title = fallback_title
+    if not doc:
+        doc = inspect.getdoc(module)
+
+    description = '—'
+    if doc:
+        first_line = doc.strip().splitlines()[0].strip().rstrip('.')
+        if first_line:
+            description = first_line
+    return title, description
+
+
+def _package_child_modules(pkg_dir: Path) -> list[str]:
+    """Дочерние .py-модули пакета (без __init__ и приватных), отсортированные."""
+    return sorted(
+        f.stem
+        for f in pkg_dir.iterdir()
+        if f.is_file() and f.suffix == '.py' and f.stem != '__init__' and not f.stem.startswith('_')
+    )
+
+
+def regenerate_package_indexes() -> None:
+    """Переписать yandex_music.<pkg>.rst как grid-карточки + скрытый toctree.
+
+    Для каждого публичного пакета yandex_music с дочерними .py-модулями:
+    - заголовок берётся из module-docstring (fallback — имя пакета);
+    - на каждый дочерний модуль строится grid-item-card с классом и описанием;
+    - скрытый toctree обеспечивает навигацию.
+
+    Пакеты без дочерних модулей (одиночные __init__.py-пакеты) пропускаются —
+    у них простая автодок-страница, карточки там ни к чему.
+    """
+    for pkg_dir in sorted(YANDEX_MUSIC.iterdir()):
+        if not pkg_dir.is_dir() or pkg_dir.name.startswith('_') or pkg_dir.name == '__pycache__':
+            continue
+        pkg_name = pkg_dir.name
+        if not (pkg_dir / '__init__.py').exists():
+            continue
+
+        rst_file = DOCS_SOURCE / f'yandex_music.{pkg_name}.rst'
+        if not rst_file.exists():
+            continue
+
+        child_modules = _package_child_modules(pkg_dir)
+        if not child_modules:
+            continue
+
+        heading = _package_docstring_first_line(pkg_name) or pkg_name.replace('_', ' ').capitalize()
+
+        cards = []
+        for child in child_modules:
+            module_path = f'yandex_music.{pkg_name}.{child}'
+            title, description = _class_card_info(module_path)
+            cards.append(
+                f'   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` {title}\n'
+                f'      :link: {module_path}\n'
+                f'      :link-type: doc\n'
+                f'\n'
+                f'      {description}\n'
+            )
+
+        toctree = '\n'.join(f'   yandex_music.{pkg_name}.{c}' for c in child_modules)
+        content = PACKAGE_INDEX_TEMPLATE.format(
+            heading=heading,
+            underline='=' * len(heading),
+            pkg=pkg_name,
+            cards='\n'.join(cards),
+            toctree=toctree,
+        )
+        rst_file.write_text(content)
+
+
 def fix_utils_request_rst() -> None:
     """Исключить re-export'ы из yandex_music.utils.request.rst — их каноническая локация в request_base."""
     rst_file = DOCS_SOURCE / 'yandex_music.utils.request.rst'
@@ -472,6 +593,7 @@ def generate() -> None:
     fix_yandex_music_rst()
     fix_package_headings()
     fix_module_headings()
+    regenerate_package_indexes()
     build_models_toctree()
     fix_utils_request_rst()
     generate_redirects_map()
