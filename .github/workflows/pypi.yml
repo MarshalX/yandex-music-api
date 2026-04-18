@@ -24,6 +24,7 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          pip install twine
-          python setup.py sdist
+          pip install build twine
+          python -m build --sdist
+          twine check dist/*
           twine upload dist/*
