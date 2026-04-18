@@ -1,24 +1,92 @@
 # Список изменений
 
+## Версия 3.0.0
+
+**18.04.2026**
+
+**Массовое расширение покрытия API, OAuth Device Flow, переход на миксины**
+
+**Переломные изменения**
+
+- Прекращена поддержка `Python 3.7`.
+- Асинхронные зависимости (`aiohttp`, `aiofiles`) вынесены в опциональный экстра — теперь устанавливаются через `pip install yandex-music[async]`. Синхронный клиент работает без них.
+- Модель `Label` перемещена из подпакета `yandex_music.album` в новый подпакет `yandex_music.label` и расширена полями `description`, `description_formatted`, `image`, `links`, `type`. Публичный импорт `from yandex_music import Label` продолжает работать; сломаются только прямые импорты из подмодуля `yandex_music.album.label`.
+
+**Крупные изменения**
+
+- Добавлена поддержка `Python 3.13` и `Python 3.14`.
+- **Поддержка OAuth Device Flow** для получения токена:
+    - Новый миксин `DeviceAuthMixin` с методами `request_device_code`, `poll_device_token` и блокирующим хелпером `device_auth` (callback для показа кода, `poll_interval`, `timeout`, `should_cancel`).
+    - Новые модели `DeviceCode` и `OAuthToken`, исключение `DeviceAuthError`.
+    - Новый пример `examples/device_auth.py` (sync + async), переписанная страница документации по получению токена.
+- **Массовое расширение покрытия API**. Добавлено более 70 новых методов клиента и около 90 новых моделей в следующих доменных группах:
+    - **Альбомы**: `albums_with_tracks` (перенесён), `albums_disclaimer`, `albums_similar_entities`, `albums_trailer`.
+    - **Артисты**: `artists_similar`, `artists_links`, `artists_also_albums`, `artists_discography_albums`, `artists_safe_direct_albums`, `artists_track_ids`, `artists_about`, `artists_clips`, `artists_donation`, `artists_info`, `artists_skeleton`, `artists_trailer`, `artists_disclaimer`. Новые наиболее значимые модели: `ArtistAbout`, `ArtistInfo`, `ArtistSimilar`, `ArtistLinks`, `ArtistDonations`, `ArtistClips`, `ArtistTrailer`, `ArtistSkeleton`, `ArtistConcerts`.
+    - **Треки**: `tracks_credits`, `tracks_disclaimer`, `tracks_trailer`, `tracks_full_info`. Новые модели: `Credit`, `Credits`, `Disclaimer`, `ForeignAgent`, `TrackTrailer`, `TrackFullInfo`, `Fade`, `SmartPreviewParams`.
+    - **Плейлисты**: `playlist`, `playlist_similar_entities`, `playlists`, `playlists_personal`, `users_playlists_description`, `users_playlists_trailer`, `users_playlists_kinds`. Новые модели: `PlaylistTrailer`, `PlaylistSimilarEntities`, `PlaylistAvailability`, `PlaylistsList`.
+    - **Клипы** (новая сущность): `clips`, `clips_will_like`, `clips_credits`, `clips_disclaimer`. Новые модели: `Clip`, `ClipsWillLike`.
+    - **Концерты**: `concert_info`, `concert_skeleton`, `concerts_feed`, `concerts_locations`, `concerts_tab_config`, `artists_concerts`. Новые модели: `Concert`, `ConcertInfo`, `ConcertFeed`, `ConcertLocations`, `ConcertTabConfig`, `ConcertSkeleton` и ещё около десятка связанных.
+    - **Лейблы** (новая группа): `label`, `label_albums`, `label_artists`. Новые модели: `LabelAlbums`, `LabelArtists`, `AlbumActionButton`.
+    - **Метатеги** (новая группа, подборки лендинга): `metatags`, `metatag`, `metatag_albums`, `metatag_artists`, `metatag_playlists`. Около 10 новых моделей в подпакете `yandex_music.metatag`.
+    - **История прослушивания** (новая группа): `music_history`, `music_history_items`. Новые модели: `MusicHistory`, `MusicHistoryTab`, `MusicHistoryGroup`, `MusicHistoryItem` и другие.
+    - **Предсохранения альбомов** (новая группа): `users_presaves`, `users_presaves_add`, `users_presaves_remove`. Новая модель `Presaves`.
+    - **Закреплённые элементы** (новая группа): `pins`, `pin_album`, `unpin_album`, `pin_artist`, `unpin_artist`, `pin_playlist`, `unpin_playlist`, `pin_wave`, `unpin_wave`. Новые модели: `Pin`, `PinData`, `PinsList`.
+    - **Лайки и дизлайки**: `users_dislikes_artists`, `users_dislikes_artists_add`, `users_dislikes_artists_remove`, `users_likes_clips`, `users_likes_clips_add`, `users_likes_clips_remove`. Все 20 маршрутов лайков/дизлайков теперь покрыты.
+    - **Аккаунт**: `account_experiments_details`. Новые модели: `ExperimentsDetails`, `ExperimentDetail`, `ExperimentDetailValue`.
+    - **Прочее**: `ContentRestrictions`, `CoverDerivedColors`, `Wave`, `WaveAgent`, а также скелетоны страниц (общие модели в `yandex_music.skeleton`).
+    - В существующие модели (`Track`, `Album`, `Artist`, `Playlist`, `Cover`, `Clip`, `Concert` и др.) добавлены десятки новых полей.
+- **Поддержка `orjson`** как опциональной замены `ujson` и стандартного `json` для ускорения сериализации/десериализации.
+- `Request` и `RequestAsync` теперь поддерживают HTTP-методы `PUT` и `DELETE`.
+- Добавлена статистика прослушиваний исполнителя за месяц.
+
+**Ведение проекта**
+
+- Монолитный `client_async.py` разбит на миксины в `_client_async/`, сгруппированные по доменам API (account, landing, tracks, search, playlists, radio, artists, albums, likes, queue, clips, concerts, credits, disclaimers, labels, metatags, music_history, pins, presaves, device_auth). Публичный API клиента остался прежним.
+- Кодогенерация синхронного клиента переведена на `unasync` (вместо собственного генератора). Асинхронная версия теперь первична, синхронная версия автоматически генерируется из `_client_async/`.
+- Оптимизирована десериализация моделей: ленивая нормализация ключей `camelCase → snake_case`, устранение лишних аллокаций, `frozenset` для зарезервированных имён, удаление избыточных `.copy()` в `cleanup_data` и `to_dict`.
+- Общая логика `Request` вынесена в базовый класс.
+- `requests`, `aiohttp` и `aiofiles` импортируются лениво.
+- Переработана документация: смена темы на `sphinxawesome_theme`, интеграция `Algolia DocSearch`, добавлены `sitemap.xml`, `OpenGraph`, плоская навигация, витрина моделей с карточками `sphinx-design`, глоссарий, отдельные страницы для каждого миксина клиента, редиректы для совместимости старых URL.
+
+**Незначительные изменения и/или исправления**
+
+- Исправлены `get_page` и `get_page_async` у класса `Search`.
+- Исправлен тайпхинт в классе `LandingList`.
+- Исправлен метод `de_list` для класса `List`.
+- Исправлена отправка `POST` запроса в методах `rotor_station_*`.
+- Поле `id` класса `Artist` стало опциональным.
+- Поле `uri` класса `Description` стало опциональным.
+- Исправлено форматирование документации у класса `Like`.
+- Методам `.init()` у `Client` и `ClientAsync` добавлена передача `*args, **kwargs`.
+- Добавлена передача `kwargs` в запросы из методов-сокращений скачивания трека.
+- Уточнены аннотации типов в миксинах клиента (`TypeGuard`, `Overload`, корректный тип `account_uid`).
+- Улучшены аннотации типов во всех моделях.
+
 ## Версия 2.2.0
 
 **24.12.2023**
 
-* Добавлена поддержка Python 3.12 by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/628
-* Добавлен fallback до `None` или пустого списка при данных неправильного типа  by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/612
-* Обновлён HTTP заголовок версии приложения by @glebliutsko in https://github.com/MarshalX/yandex-music-api/pull/592 and @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/635
-* Исправлен метод `fetch_lyrics_async` by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/627
-* Исправлен тип поля `items_uri` в классе `Cover` by @Rirusha in https://github.com/MarshalX/yandex-music-api/pull/603
-* Исправлена аннотация типа `de_list` и тесты на пустой список by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/612
+**Крупные изменения**
 
-Ведение проекта:
-* Переезд на `ruff` и `ruff format` by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/625 and https://github.com/MarshalX/yandex-music-api/pull/632
-* Добавлен GitHub Actions Workflow для проверки актуальности генерируемого кода by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/624
-* Упрощены GitHub Actions Workflow by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/623
-* Удалено использование dev ветки by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/622
-* Улучшены аннотации типов by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/626
-* Исправление ошибок в `README` by @json1c in https://github.com/MarshalX/yandex-music-api/pull/599 and @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/629
-* Обновлена структура документации by @MarshalX in https://github.com/MarshalX/yandex-music-api/pull/633
+- Добавлена поддержка `Python 3.12` ([#628](https://github.com/MarshalX/yandex-music-api/pull/628)).
+- Добавлен fallback до `None` или пустого списка при данных неправильного типа ([#612](https://github.com/MarshalX/yandex-music-api/pull/612)).
+- Обновлён HTTP-заголовок версии приложения ([#592](https://github.com/MarshalX/yandex-music-api/pull/592), [#635](https://github.com/MarshalX/yandex-music-api/pull/635)).
+
+**Незначительные изменения и/или исправления**
+
+- Исправлен метод `fetch_lyrics_async` ([#627](https://github.com/MarshalX/yandex-music-api/pull/627)).
+- Исправлен тип поля `items_uri` в классе `Cover` ([#603](https://github.com/MarshalX/yandex-music-api/pull/603)).
+- Исправлена аннотация типа `de_list` и тесты на пустой список ([#612](https://github.com/MarshalX/yandex-music-api/pull/612)).
+
+**Ведение проекта**
+
+- Переезд на `ruff` и `ruff format` ([#625](https://github.com/MarshalX/yandex-music-api/pull/625), [#632](https://github.com/MarshalX/yandex-music-api/pull/632)).
+- Добавлен GitHub Actions Workflow для проверки актуальности генерируемого кода ([#624](https://github.com/MarshalX/yandex-music-api/pull/624)).
+- Упрощены GitHub Actions Workflow ([#623](https://github.com/MarshalX/yandex-music-api/pull/623)).
+- Удалено использование dev ветки ([#622](https://github.com/MarshalX/yandex-music-api/pull/622)).
+- Улучшены аннотации типов ([#626](https://github.com/MarshalX/yandex-music-api/pull/626)).
+- Исправление ошибок в `README` ([#599](https://github.com/MarshalX/yandex-music-api/pull/599), [#629](https://github.com/MarshalX/yandex-music-api/pull/629)).
+- Обновлена структура документации ([#633](https://github.com/MarshalX/yandex-music-api/pull/633)).
 
 ## Версия 2.1.0
 

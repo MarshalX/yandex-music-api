@@ -1,4 +1,4 @@
-__version__ = '2.2.0'
+__version__ = '3.0.0'
 __license__ = 'GNU Lesser General Public License v3 (LGPLv3)'
 __copyright__ = 'Copyright (C) 2019-2026 Ilya (Marshal) <https://github.com/MarshalX>'
 
