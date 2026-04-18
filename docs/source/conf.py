@@ -29,8 +29,8 @@ source_suffix = {
 # -- Project information -----------------------------------------------------
 
 project = 'Yandex Music API'
-copyright = '2019-2026 Ilya (Marshal).'
-author = 'Ilya (Marshal)'
+copyright = '2019-2026 Ilya (Marshal) 🦁'
+author = 'Ilya (Marshal) 🦁'
 
 language = 'en'
 
@@ -130,6 +130,7 @@ html_theme = 'sphinxawesome_theme'
 html_domain_indices = False
 html_copy_source = False
 html_show_sourcelink = False
+html_show_sphinx = False
 html_search_language = 'ru'
 html_permalinks_icon = Icons.permalinks_icon
 
@@ -242,6 +243,13 @@ def autodoc_skip_member(_app, what, name, _obj, skip, _options) -> bool:  # noqa
     return skip
 
 
+def autodoc_process_signature(_app, what, _name, _obj, _options, _signature, return_annotation):  # noqa: ANN001 ANN201
+    """Скрыть сигнатуру dataclass-классов — поля и так перечислены ниже."""
+    if what == 'class':
+        return ('', return_annotation)
+    return None
+
+
 def register_short_aliases(_app, env) -> None:  # noqa: ANN001
     """Зарегистрировать короткие пути вида yandex_music.X как алиасы канонических."""
     import yandex_music
@@ -266,4 +274,5 @@ def register_short_aliases(_app, env) -> None:  # noqa: ANN001
 def setup(app) -> None:  # noqa: ANN001
     """Настройка Sphinx-приложения."""
     app.connect('autodoc-skip-member', autodoc_skip_member)
+    app.connect('autodoc-process-signature', autodoc_process_signature)
     app.connect('env-check-consistency', register_short_aliases)
