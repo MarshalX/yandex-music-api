@@ -3,32 +3,59 @@
 ###############################################################################################
 
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Sequence, Union
 
 from yandex_music import (
     DownloadInfo,
     ShotEvent,
     SimilarTracks,
     Supplement,
+    Track,
     TrackFullInfo,
     TrackLyrics,
     TrackTrailer,
 )
 from yandex_music._client import log
-from yandex_music._client_base import ClientBase, is_dict
+from yandex_music._client._batch import _BatchMixin
+from yandex_music._client_base import is_dict
 from yandex_music.utils.sign_request import get_sign_request
 
 if TYPE_CHECKING:
     from yandex_music.utils.request import Request
 
 
-class TracksMixin(ClientBase):
+class TracksMixin(_BatchMixin):
     """Треки.
 
     Миксин для методов, связанных с треками.
     """
 
     _request: 'Request'
+
+    @log
+    def tracks(
+        self,
+        track_ids: Union[Sequence[Union[str, int]], int, str],
+        with_positions: bool = True,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Track]:
+        """Получение трека/треков.
+
+        Args:
+            track_ids (:obj:`str` | :obj:`int` | :obj:`list` из :obj:`str` | :obj:`list` из :obj:`int`): Уникальный
+                идентификатор трека или треков.
+            with_positions (:obj:`bool`, optional): С позициями TODO.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`list` из :obj:`yandex_music.Track`: Трек или Треки.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        return self._get_list('track', track_ids, {'with-positions': str(with_positions)}, *args, **kwargs)
 
     @log
     def tracks_download_info(

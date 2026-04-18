@@ -42,19 +42,13 @@ client = Client().init()
       :link: yandex_music._client.albums
       :link-type: doc
 
-      ``albums_similar_entities``, ``albums_trailer``, ``albums_with_tracks``
+      ``albums``, ``albums_similar_entities``, ``albums_trailer``, ``albums_with_tracks``
 
    .. grid-item-card:: Артисты
       :link: yandex_music._client.artists
       :link-type: doc
 
-      ``artists_about``, ``artists_also_albums``, ``artists_brief_info``, ``artists_clips``, ``artists_direct_albums``, ``artists_discography_albums``, ``artists_donation``, ``artists_info``, ``artists_links``, ``artists_safe_direct_albums``, ``artists_similar``, ``artists_skeleton``, ``artists_track_ids``, ``artists_tracks``, ``artists_trailer``
-
-   .. grid-item-card:: Пакетные запросы
-      :link: yandex_music._client.batch
-      :link-type: doc
-
-      ``albums``, ``artists``, ``playlists_list``, ``tracks``
+      ``artists``, ``artists_about``, ``artists_also_albums``, ``artists_brief_info``, ``artists_clips``, ``artists_direct_albums``, ``artists_discography_albums``, ``artists_donation``, ``artists_info``, ``artists_links``, ``artists_safe_direct_albums``, ``artists_similar``, ``artists_skeleton``, ``artists_track_ids``, ``artists_tracks``, ``artists_trailer``
 
    .. grid-item-card:: Видеоклипы
       :link: yandex_music._client.clips
@@ -120,7 +114,7 @@ client = Client().init()
       :link: yandex_music._client.playlists
       :link-type: doc
 
-      ``playlist``, ``playlist_similar_entities``, ``playlists``, ``playlists_collective_join``, ``playlists_personal``, ``users_playlists``, ``users_playlists_change``, ``users_playlists_create``, ``users_playlists_delete``, ``users_playlists_delete_track``, ``users_playlists_description``, ``users_playlists_insert_track``, ``users_playlists_kinds``, ``users_playlists_list``, ``users_playlists_name``, ``users_playlists_recommendations``, ``users_playlists_trailer``, ``users_playlists_visibility``, ``users_settings``
+      ``playlist``, ``playlist_similar_entities``, ``playlists``, ``playlists_collective_join``, ``playlists_list``, ``playlists_personal``, ``users_playlists``, ``users_playlists_change``, ``users_playlists_create``, ``users_playlists_delete``, ``users_playlists_delete_track``, ``users_playlists_description``, ``users_playlists_insert_track``, ``users_playlists_kinds``, ``users_playlists_list``, ``users_playlists_name``, ``users_playlists_recommendations``, ``users_playlists_trailer``, ``users_playlists_visibility``, ``users_settings``
 
    .. grid-item-card:: Предсохранения
       :link: yandex_music._client.presaves
@@ -150,7 +144,7 @@ client = Client().init()
       :link: yandex_music._client.tracks
       :link-type: doc
 
-      ``after_track``, ``play_audio``, ``track_supplement``, ``tracks_download_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
+      ``after_track``, ``play_audio``, ``track_supplement``, ``tracks``, ``tracks_download_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
 
 ```
 
@@ -162,7 +156,6 @@ client = Client().init()
    yandex_music._client.account
    yandex_music._client.albums
    yandex_music._client.artists
-   yandex_music._client.batch
    yandex_music._client.clips
    yandex_music._client.concerts
    yandex_music._client.credits
