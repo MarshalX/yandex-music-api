@@ -22,6 +22,10 @@ ADDITIONAL_REPLACEMENTS = {
     'request_async': 'request',
     'de_list_async': 'de_list',
     '_client_async': '_client',
+    # Blanket asyncio->time — currently only `asyncio.sleep` is used in _client_async/.
+    # Any future use of other asyncio primitives (gather, Lock, etc.) will be silently
+    # rewritten to `time.*` and must be handled explicitly.
+    'asyncio': 'time',
 }
 
 # unasync operates on tokens, so replacements inside docstrings/comments

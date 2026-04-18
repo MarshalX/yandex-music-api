@@ -8,6 +8,7 @@ from yandex_music._client_async.artists import ArtistsMixin
 from yandex_music._client_async.clips import ClipsMixin
 from yandex_music._client_async.concerts import ConcertsMixin
 from yandex_music._client_async.credits import CreditsMixin
+from yandex_music._client_async.device_auth import DeviceAuthMixin
 from yandex_music._client_async.disclaimers import DisclaimersMixin
 from yandex_music._client_async.labels import LabelsMixin
 from yandex_music._client_async.landing import LandingMixin
@@ -32,6 +33,7 @@ class ClientAsync(
     ClipsMixin,
     ConcertsMixin,
     CreditsMixin,
+    DeviceAuthMixin,
     DisclaimersMixin,
     LabelsMixin,
     LandingMixin,

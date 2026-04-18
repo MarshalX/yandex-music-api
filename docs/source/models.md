@@ -154,6 +154,12 @@
       :link-type: doc
 
       Легаси-контейнер флагов экспериментальных функций.
+
+   .. grid-item-card:: :octicon:`key;1em;sd-mr-1` OAuth Device Flow
+      :link: yandex_music.device_auth
+      :link-type: doc
+
+      Получение OAuth-токена через Device Flow.
 ```
 
 ## Креатив и агрегаты
@@ -320,6 +326,7 @@
    yandex_music.artist
    yandex_music.clip
    yandex_music.concert
+   yandex_music.device_auth
    yandex_music.experiment
    yandex_music.feed
    yandex_music.genre

@@ -65,6 +65,8 @@ from .test_day import TestDay
 from .test_deactivation import TestDeactivation
 from .test_deprecation import TestDeprecation
 from .test_description import TestDescription
+from .test_device_auth import TestDeviceAuth
+from .test_device_code import TestDeviceCode
 from .test_disclaimer import TestDisclaimer
 from .test_discrete_scale import TestDiscreteScale
 from .test_enum import TestEnum
@@ -112,6 +114,7 @@ from .test_music_history_items import TestMusicHistoryItems
 from .test_music_history_tab import TestMusicHistoryTab
 from .test_non_auto_renewable import TestNonAutoRenewable
 from .test_normalization import TestNormalization
+from .test_oauth_token import TestOAuthToken
 from .test_open_graph_data import TestOpenGraphData
 from .test_operator import TestOperator
 from .test_pager import TestPager
