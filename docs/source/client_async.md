@@ -92,6 +92,12 @@ await full_track.download()
 
       ``clips_credits``, ``tracks_credits``
 
+   .. grid-item-card:: OAuth Device Flow
+      :link: yandex_music._client_async.device_auth
+      :link-type: doc
+
+      ``device_auth``, ``poll_device_token``, ``request_device_code``
+
    .. grid-item-card:: Дисклеймеры
       :link: yandex_music._client_async.disclaimers
       :link-type: doc
@@ -183,6 +189,7 @@ await full_track.download()
    yandex_music._client_async.clips
    yandex_music._client_async.concerts
    yandex_music._client_async.credits
+   yandex_music._client_async.device_auth
    yandex_music._client_async.disclaimers
    yandex_music._client_async.labels
    yandex_music._client_async.landing

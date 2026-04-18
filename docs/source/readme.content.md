@@ -8,7 +8,29 @@
 
 ## Доступ к вашим данным Яндекс.Музыка
 
-Задача по получению токена для доступа к данным лежит на плечах разработчиков, использующих данную библиотеку. О том как получить токен читайте в [документации](https://ym.marshal.dev/token).
+Для большинства аккаунтов токен можно получить прямо из библиотеки через OAuth Device Flow:
+
+``` python
+from yandex_music import Client
+
+
+def on_code(code):
+    print(f'Откройте {code.verification_url} и введите код: {code.user_code}')
+
+
+client = Client()
+token = client.device_auth(on_code=on_code)
+
+# Сохраните токен куда-нибудь (переменная окружения, файл, БД),
+# чтобы не проходить авторизацию при каждом запуске.
+print(f'access_token:  {token.access_token}')
+print(f'refresh_token: {token.refresh_token}')
+print(f'expires_in:    {token.expires_in}')
+
+client.init()
+```
+
+Метод `device_auth` блокирующий: он ждёт, пока вы подтвердите вход на странице Яндекса, и возвращает объект `OAuthToken` с полями `access_token`, `refresh_token`, `expires_in`, `token_type`. **Хранение токена — ответственность вызывающего кода:** библиотека не сохраняет его на диск и не обновляет по истечении `expires_in`. Если Device Flow для вашего аккаунта не работает — смотрите альтернативные способы в [документации](https://ym.marshal.dev/token).
 
 # Установка
 

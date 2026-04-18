@@ -68,6 +68,12 @@ client = Client().init()
 
       ``clips_credits``, ``tracks_credits``
 
+   .. grid-item-card:: OAuth Device Flow
+      :link: yandex_music._client.device_auth
+      :link-type: doc
+
+      ``device_auth``, ``poll_device_token``, ``request_device_code``
+
    .. grid-item-card:: Дисклеймеры
       :link: yandex_music._client.disclaimers
       :link-type: doc
@@ -159,6 +165,7 @@ client = Client().init()
    yandex_music._client.clips
    yandex_music._client.concerts
    yandex_music._client.credits
+   yandex_music._client.device_auth
    yandex_music._client.disclaimers
    yandex_music._client.labels
    yandex_music._client.landing

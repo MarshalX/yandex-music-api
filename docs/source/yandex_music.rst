@@ -14,6 +14,7 @@ yandex\_music
    yandex_music.artist
    yandex_music.clip
    yandex_music.concert
+   yandex_music.device_auth
    yandex_music.experiment
    yandex_music.feed
    yandex_music.genre

@@ -71,6 +71,7 @@ from yandex_music import (
     Deactivation,
     Deprecation,
     Description,
+    DeviceCode,
     Disclaimer,
     DiscreteScale,
     Enum,
@@ -115,6 +116,7 @@ from yandex_music import (
     MusicHistoryTab,
     NonAutoRenewable,
     Normalization,
+    OAuthToken,
     OpenGraphData,
     Operator,
     Pager,
@@ -237,6 +239,7 @@ from . import (
     TestDeactivation,
     TestDeprecation,
     TestDescription,
+    TestDeviceCode,
     TestDiscreteScale,
     TestEnum,
     TestEvent,
@@ -272,6 +275,7 @@ from . import (
     TestMusicHistoryTab,
     TestNonAutoRenewable,
     TestNormalization,
+    TestOAuthToken,
     TestOpenGraphData,
     TestOperator,
     TestPager,
@@ -688,6 +692,27 @@ def generated_playlist(playlist):
 @pytest.fixture(scope='session')
 def client():
     return Client()
+
+
+@pytest.fixture(scope='session')
+def device_code():
+    return DeviceCode(
+        TestDeviceCode.device_code,
+        TestDeviceCode.user_code,
+        TestDeviceCode.verification_url,
+        TestDeviceCode.expires_in,
+        TestDeviceCode.interval,
+    )
+
+
+@pytest.fixture(scope='session')
+def oauth_token():
+    return OAuthToken(
+        TestOAuthToken.access_token,
+        TestOAuthToken.refresh_token,
+        TestOAuthToken.expires_in,
+        TestOAuthToken.token_type,
+    )
 
 
 @pytest.fixture(scope='session')

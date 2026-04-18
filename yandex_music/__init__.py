@@ -223,6 +223,8 @@ from .presave.presaves import Presaves
 from .content_restrictions import ContentRestrictions
 from .credit import Credit
 from .credits import Credits
+from .device_auth.device_code import DeviceCode
+from .device_auth.token import OAuthToken
 from .disclaimer import Disclaimer
 from .foreign_agent import ForeignAgent
 from .like import Like
@@ -316,6 +318,7 @@ __all__ = [
     'Deactivation',
     'Deprecation',
     'Description',
+    'DeviceCode',
     'Disclaimer',
     'DiscreteScale',
     'DownloadInfo',
@@ -371,6 +374,7 @@ __all__ = [
     'MusicHistoryTab',
     'NonAutoRenewable',
     'Normalization',
+    'OAuthToken',
     'OpenGraphData',
     'Operator',
     'Pager',

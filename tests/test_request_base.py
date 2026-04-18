@@ -159,7 +159,7 @@ class TestSetAndReturnClient:
     def test_sets_authorization_when_token_present(self):
         req = RequestBase()
         mock_client = MagicMock()
-        mock_client.token = 'test_token'  # noqa: S105
+        mock_client.token = 'test_token'
         req.set_and_return_client(mock_client)
         assert req.headers['Authorization'] == 'OAuth test_token'
 

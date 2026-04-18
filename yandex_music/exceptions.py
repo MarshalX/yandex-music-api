@@ -37,3 +37,7 @@ class TimedOutError(NetworkError):
 
     def __init__(self) -> None:
         super().__init__('Timed out')
+
+
+class DeviceAuthError(YandexMusicError):
+    """Класс исключения, вызываемого при ошибках OAuth Device Flow (кроме `authorization_pending`)."""
