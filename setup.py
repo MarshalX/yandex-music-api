@@ -67,7 +67,7 @@ setup(
     cmdclass={'test': PyTest},
     tests_require=['pytest'],
     project_urls={
-        'Documentation': 'https://yandex-music.rtfd.io',
+        'Documentation': 'https://ym.marshal.dev/',
         'Changes': 'https://github.com/MarshalX/yandex-music-api/blob/main/CHANGES.md',
         'Tracker': 'https://github.com/MarshalX/yandex-music-api/issues',
         'Telegram chat': 'https://t.me/yandex_music_api',

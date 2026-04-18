@@ -57,18 +57,25 @@ client.init()
 
 ### Установка
 
-Вы можете установить или обновить Yandex Music API с помощью команды:
+Установить или обновить библиотеку:
 
 ``` shell
 pip install -U yandex-music
 ```
 
-Или вы можете установить из исходного кода с помощью команды:
+Этой команды достаточно для работы с синхронным клиентом. Для асинхронного клиента (`ClientAsync`) нужны дополнительные зависимости `aiohttp` и `aiofiles` — они доступны как опциональный экстра `async`:
+
+``` shell
+pip install -U "yandex-music[async]"
+```
+
+Установка из исходного кода:
 
 ``` shell
 git clone https://github.com/MarshalX/yandex-music-api
 cd yandex-music-api
-python setup.py install
+pip install .          # синхронный клиент
+pip install ".[async]" # с поддержкой асинхронного клиента
 ```
 
 ### Начало работы
