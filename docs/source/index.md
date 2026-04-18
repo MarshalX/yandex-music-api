@@ -4,7 +4,7 @@
 ```
 
 ```{toctree}
-:caption: Начало
+:caption: 🚀 Начало
 :maxdepth: 2
 
 readme
@@ -13,7 +13,7 @@ examples
 ```
 
 ```{toctree}
-:caption: Клиенты
+:caption: 🎛 Клиенты
 :maxdepth: 2
 
 client
@@ -21,7 +21,7 @@ client_async
 ```
 
 ```{toctree}
-:caption: Справочник
+:caption: 📖 Справочник
 :maxdepth: 2
 
 models
@@ -33,7 +33,7 @@ glossary
 
 ```{toctree}
 :hidden:
-:caption: Разработка
+:caption: 🛠 Разработка
 
 changes
 contributing
@@ -44,7 +44,7 @@ licence
 
 ```{toctree}
 :hidden:
-:caption: Ссылки проекта
+:caption: 🔗 Ссылки проекта
 
 GitHub <https://github.com/MarshalX/yandex-music-api>
 PyPI <https://pypi.org/project/yandex-music>
