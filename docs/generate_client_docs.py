@@ -97,15 +97,15 @@ def fix_mixin_rst(package_name: str, modules: list[str]) -> None:
         rst_file.write_text(content)
 
 
-def _package_docstring_first_line(package_name: str) -> Optional[str]:
-    """Прочитать первую строку module-docstring пакета yandex_music.<package_name>.
+def _package_docstring_first_line(package_dotted: str) -> Optional[str]:
+    """Прочитать первую строку module-docstring пакета по полному dotted-пути.
 
     Возвращает строку без завершающей точки, либо None, если docstring отсутствует.
     """
     import importlib
 
     try:
-        module = importlib.import_module(f'yandex_music.{package_name}')
+        module = importlib.import_module(package_dotted)
     except ImportError:
         return None
     doc = module.__doc__
@@ -118,22 +118,20 @@ def _package_docstring_first_line(package_name: str) -> Optional[str]:
 
 
 def fix_package_headings() -> None:
-    """Заменить заголовки подпакетных rst-файлов на русские имена из docstring'ов.
+    """Заменить заголовки пакетных rst-файлов на первую строку module-docstring.
 
-    Для каждого yandex_music.<pkg>.rst (без дополнительных точек в имени файла) —
-    если в пакете есть module-docstring, берём первую строку и ставим её как
-    заголовок страницы. Иначе не трогаем (остаётся apidoc-дефолт).
+    Обрабатывает все yandex_music.<...>.rst любой глубины, соответствующие пакетам
+    (директориям с __init__.py). Если у пакета нет docstring — оставляем apidoc-дефолт.
     """
+    base = YANDEX_MUSIC.parent
     for rst_file in sorted(DOCS_SOURCE.glob('yandex_music.*.rst')):
         parts = rst_file.stem.split('.')
-        # только подпакеты: yandex_music.<pkg>.rst (2 части)
-        if len(parts) != 2 or parts[0] != 'yandex_music':
+        if parts[0] != 'yandex_music' or len(parts) < 2:
             continue
-        pkg_name = parts[1]
-        # проверяем, что это пакет (есть директория), а не одиночный модуль
-        if not (YANDEX_MUSIC / pkg_name).is_dir():
+        # это пакет, только если на диске лежит директория с __init__.py
+        if not (base / Path(*parts) / '__init__.py').exists():
             continue
-        heading = _package_docstring_first_line(pkg_name)
+        heading = _package_docstring_first_line('.'.join(parts))
         if not heading:
             continue
         content = rst_file.read_text()
@@ -204,8 +202,9 @@ def fix_module_headings() -> None:
         stem = rst_file.stem
         if not _rst_is_module(stem):
             continue
-        # Пропустить миксины — у них свой fix_mixin_rst
-        if '._client.' in stem or '._client_async.' in stem:
+        # Пропустить основные миксины — у них свой fix_mixin_rst.
+        # Проверяем по префиксу, иначе поймаем вложенные пакеты вроде yandex_music.ynison._client.
+        if stem.startswith(('yandex_music._client.', 'yandex_music._client_async.')):
             continue
         heading = _module_heading(stem)
         if not heading:
@@ -223,7 +222,7 @@ def fix_module_headings() -> None:
 MODELS_MARKER = '<!-- generated-models-toctree -->'
 
 # Пакеты/модули, которые на самостоятельных caption'ах в сайдбаре (не в «Модели»).
-MODELS_EXCLUDED = {'exceptions', 'utils', 'base'}
+MODELS_EXCLUDED = {'exceptions', 'utils', 'base', 'ynison'}
 
 
 def _discover_public_modules() -> tuple[list[str], list[str]]:
@@ -380,7 +379,7 @@ def regenerate_package_indexes() -> None:
         if not child_modules:
             continue
 
-        heading = _package_docstring_first_line(pkg_name) or pkg_name.replace('_', ' ').capitalize()
+        heading = _package_docstring_first_line(f'yandex_music.{pkg_name}') or pkg_name.replace('_', ' ').capitalize()
 
         cards = []
         for child in child_modules:
@@ -403,6 +402,19 @@ def regenerate_package_indexes() -> None:
             toctree=toctree,
         )
         rst_file.write_text(content)
+
+
+def fix_ynison_rst() -> None:
+    """Убрать :private-members: и :show-inheritance: у ynison-страниц.
+
+    apidoc с ключом `-P` добавляет :private-members:, а сам генератор — :show-inheritance:.
+    В публичных доках это шум: рендерятся handshake-хелперы и внутренняя иерархия базовых классов.
+    """
+    for rst in sorted(DOCS_SOURCE.glob('yandex_music.ynison*.rst')):
+        content = rst.read_text()
+        new_content = content.replace('   :private-members:\n', '').replace('   :show-inheritance:\n', '')
+        if new_content != content:
+            rst.write_text(new_content)
 
 
 def fix_utils_request_rst() -> None:
@@ -462,6 +474,13 @@ FIXED_ORPHANS = (
     'yandex_music._client_base.rst',
     'yandex_music.client.rst',
     'yandex_music.client_async.rst',
+    # Приватные внутренности ynison — YnisonClient и YnisonClientAsync документированы
+    # как отдельные страницы (_client.client, _client.client_async), а базовый класс
+    # и низкоуровневый websocket-транспорт не нужны в пользовательских доках.
+    'yandex_music.ynison._client.rst',
+    'yandex_music.ynison._client.base.rst',
+    'yandex_music.ynison._websocket.rst',
+    'yandex_music.ynison._websocket.client.rst',
 )
 
 
@@ -596,6 +615,7 @@ def generate() -> None:
     regenerate_package_indexes()
     build_models_toctree()
     fix_utils_request_rst()
+    fix_ynison_rst()
     generate_redirects_map()
 
     print(f'Сгенерировано client.md ({len(sync_modules)} миксинов)')

@@ -18,6 +18,7 @@ examples
 
 client
 client_async
+ynison
 ```
 
 ```{toctree}

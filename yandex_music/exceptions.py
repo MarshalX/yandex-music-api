@@ -41,3 +41,7 @@ class TimedOutError(NetworkError):
 
 class DeviceAuthError(YandexMusicError):
     """Класс исключения, вызываемого при ошибках OAuth Device Flow (кроме `authorization_pending`)."""
+
+
+class YnisonError(YandexMusicError):
+    """Базовый класс исключений, вызываемых для ошибок, связанных с Ynison."""

@@ -38,6 +38,7 @@ setup(
     install_requires=['requests[socks]', 'typing-extensions'],
     extras_require={
         'async': ['aiohttp', 'aiofiles'],
+        'ynison': ['websockets', 'betterproto'],
     },
     include_package_data=True,
     classifiers=[
