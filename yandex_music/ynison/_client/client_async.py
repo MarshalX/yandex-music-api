@@ -11,8 +11,7 @@ from yandex_music.ynison._client.base import _YnisonClientBase
 from yandex_music.ynison._websocket import AsyncWebsocketClient
 from yandex_music.ynison.models import ynison_state
 
-_SESSION_SETTLE_SEC = 0.3
-_SESSION_CLEANUP_TIMEOUT = 2.0
+_SESSION_CLEANUP_TIMEOUT = 1.0
 
 
 async def _cancel_and_wait(task: 'asyncio.Task[None]') -> None:
@@ -61,6 +60,8 @@ class YnisonClientAsync(_YnisonClientBase):
             subprotocols=self._get_subprotocols(),
         )
         self._state_client: Optional[AsyncWebsocketClient] = None
+        self._redirect_ready = asyncio.Event()
+        self._redirect_task: Optional['asyncio.Task[None]'] = None
 
     def _init_state_client(self) -> None:
         assert self._redirect_response is not None
@@ -73,8 +74,11 @@ class YnisonClientAsync(_YnisonClientBase):
 
     async def _process_redirect_message(self, message: str) -> None:
         self._handle_redirect_frame(message)
-        await self._redirect_client.stop()
         self._init_state_client()
+        # Сигналим connect() до stop(), чтобы поднятие state WS шло
+        # параллельно с close handshake'ом redirect WS.
+        self._redirect_ready.set()
+        await self._redirect_client.stop()
 
     async def _on_state_message(self, message: str) -> None:
         response = self._parse_state_frame(message)
@@ -98,16 +102,28 @@ class YnisonClientAsync(_YnisonClientBase):
             >>> client = YnisonClientAsync(token)
             >>> task = asyncio.create_task(client.connect())
         """
-        await self._redirect_client.start(self._process_redirect_message)
+        self._redirect_task = asyncio.create_task(self._redirect_client.start(self._process_redirect_message))
 
-        # если `disconnect()` вызвали до первого ответа — state_client не инициализирован
+        # Ждём первый фрейм redirect'а, но не ждём его close handshake —
+        # он докатится параллельно поднятию state WS.
+        await self._redirect_ready.wait()
+
         if self._state_client is None:
+            # disconnect() вызвали до получения билета
+            with contextlib.suppress(Exception):
+                await self._redirect_task
             return
 
-        await self._state_client.start(
-            on_message_callback=self._on_state_message,
-            on_connect_callback=self._on_state_client_connect,
-        )
+        try:
+            await self._state_client.start(
+                on_message_callback=self._on_state_message,
+                on_connect_callback=self._on_state_client_connect,
+            )
+        finally:
+            # redirect-таска к этому моменту почти всегда уже завершена (close
+            # handshake отработал параллельно со state WS); await — чистая уборка
+            with contextlib.suppress(Exception):
+                await self._redirect_task
 
     async def disconnect(self) -> None:
         """Останавливает websocket.
@@ -115,6 +131,8 @@ class YnisonClientAsync(_YnisonClientBase):
         Корутина :meth:`connect` завершится в ближайшем receive-цикле.
         Повторный вызов — no-op.
         """
+        # разблокируем connect(), если он ещё висит на ожидании redirect'а
+        self._redirect_ready.set()
         await self._redirect_client.stop()
         if self._state_client is not None:
             await self._state_client.stop()
@@ -163,7 +181,6 @@ class YnisonClientAsync(_YnisonClientBase):
 
         try:
             yield self
-            await asyncio.sleep(_SESSION_SETTLE_SEC)
         finally:
             await self.disconnect()
             try:

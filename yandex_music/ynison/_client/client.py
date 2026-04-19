@@ -2,7 +2,6 @@
 
 import contextlib
 import threading
-import time
 from typing import Iterator, Optional
 
 from yandex_music.exceptions import YnisonError
@@ -11,8 +10,7 @@ from yandex_music.ynison._client.base import _YnisonClientBase
 from yandex_music.ynison._websocket import WebsocketClient
 from yandex_music.ynison.models import ynison_state
 
-_SESSION_SETTLE_SEC = 0.3
-_SESSION_CLEANUP_TIMEOUT = 2.0
+_SESSION_CLEANUP_TIMEOUT = 1.0
 
 
 class YnisonClient(_YnisonClientBase):
@@ -57,6 +55,8 @@ class YnisonClient(_YnisonClientBase):
             subprotocols=self._get_subprotocols(),
         )
         self._state_client: Optional[WebsocketClient] = None
+        self._redirect_ready = threading.Event()
+        self._redirect_thread: Optional[threading.Thread] = None
 
     def _init_state_client(self) -> None:
         assert self._redirect_response is not None
@@ -69,8 +69,11 @@ class YnisonClient(_YnisonClientBase):
 
     def _process_redirect_message(self, message: str) -> None:
         self._handle_redirect_frame(message)
-        self._redirect_client.stop()
         self._init_state_client()
+        # Сигналим готовность до stop(), чтобы поднятие state WS шло
+        # параллельно с close handshake'ом redirect WS.
+        self._redirect_ready.set()
+        self._redirect_client.stop()
 
     def _on_state_client_connect(self) -> None:
         self.send(messages.get_update_full_state_request(self._device_id))
@@ -93,17 +96,30 @@ class YnisonClient(_YnisonClientBase):
             >>> client = YnisonClient(token)
             >>> threading.Thread(target=client.connect, daemon=True).start()
         """
-        # блокируемся до получения билета
-        self._redirect_client.start(self._process_redirect_message)
+        # redirect крутится в отдельном треде, чтобы close handshake не блокировал поднятие state WS
+        self._redirect_thread = threading.Thread(
+            target=self._redirect_client.start,
+            args=(self._process_redirect_message,),
+            daemon=True,
+        )
+        self._redirect_thread.start()
 
-        # если `disconnect()` вызвали до первого ответа — state_client не инициализирован
+        self._redirect_ready.wait()
+
         if self._state_client is None:
+            # disconnect() вызвали до получения билета
+            self._redirect_thread.join(timeout=_SESSION_CLEANUP_TIMEOUT)
             return
 
-        self._state_client.start(
-            on_message_callback=self._on_state_message,
-            on_connect_callback=self._on_state_client_connect,
-        )
+        try:
+            self._state_client.start(
+                on_message_callback=self._on_state_message,
+                on_connect_callback=self._on_state_client_connect,
+            )
+        finally:
+            # redirect-тред к этому моменту почти всегда уже завершён
+            # нужно дождаться закрытия
+            self._redirect_thread.join(timeout=_SESSION_CLEANUP_TIMEOUT)
 
     def disconnect(self) -> None:
         """Останавливает websocket.
@@ -112,6 +128,8 @@ class YnisonClient(_YnisonClientBase):
         Повторный вызов — no-op.
         """
         self._keepalive_stop.set()
+        # разблокируем connect(), если он ещё висит на ожидании redirect'а
+        self._redirect_ready.set()
         self._redirect_client.stop()
         if self._state_client is not None:
             self._state_client.stop()
@@ -159,7 +177,6 @@ class YnisonClient(_YnisonClientBase):
 
         try:
             yield self
-            time.sleep(_SESSION_SETTLE_SEC)  # дать серверу применить последнюю команду
         finally:
             self.disconnect()
             thread.join(timeout=_SESSION_CLEANUP_TIMEOUT)
