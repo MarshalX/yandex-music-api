@@ -110,7 +110,7 @@ threading.Thread(target=client.connect, daemon=True).start()
       :link: yandex_music.ynison.models
       :link-type: doc
 
-      Сгенерированные dataclass-модели: ``Playable``, ``Device``, ``PutYnisonStateRequest``/``Response``, ``PlayingStatus``, ``PlayerQueue`` и т.д.
+      Модели: ``Playable``, ``Device``, ``PutYnisonStateRequest``/``Response``, ``PlayingStatus``, ``PlayerQueue`` и т.д.
 ```
 
 ```{eval-rst}

@@ -5,6 +5,7 @@
 """
 
 import asyncio
+import contextlib
 import random
 import socket
 import threading
@@ -227,6 +228,12 @@ class _WebsocketClient(_WebsocketClientBase):
         if not self._stop_lock.locked():
             self._stop_lock.acquire()
 
+        if self._client is None:
+            return
+
+        with contextlib.suppress(Exception):
+            self._client.close()
+
 
 class _AsyncWebsocketClient(_WebsocketClientBase):
     def __init__(
@@ -325,6 +332,12 @@ class _AsyncWebsocketClient(_WebsocketClientBase):
             :obj:`None`
         """
         self._stop_event.set()
+
+        if self._async_protocol is None:
+            return
+
+        with contextlib.suppress(Exception):
+            await self._async_protocol.close()
 
 
 WebsocketClient = _WebsocketClient
