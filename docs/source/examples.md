@@ -13,12 +13,12 @@
 не беспокоясь об авторских правах.
 
 ```{toctree}
+examples.ynison_remote.md
 examples.chart.md
 examples.daily_playlist_updater.md
 examples.device_auth.md
 examples.get_album_with_tracks.md
 examples.like_and_dislike.md
-examples.lyrics_playing_track.md
 examples.proxy.md
 examples.search.md
 ```
