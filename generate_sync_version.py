@@ -17,11 +17,16 @@ CLIENT_DST = 'yandex_music/client.py'
 MIXINS_SRC_DIR = 'yandex_music/_client_async'
 MIXINS_DST_DIR = 'yandex_music/_client'
 
+YNISON_SIMPLE_SRC = 'yandex_music/ynison/simple_async.py'
+YNISON_SIMPLE_DST = 'yandex_music/ynison/simple.py'
+
 ADDITIONAL_REPLACEMENTS = {
     'ClientAsync': 'Client',
     'request_async': 'request',
     'de_list_async': 'de_list',
     '_client_async': '_client',
+    'simple_async': 'simple',
+    'YnisonClientAsync': 'YnisonClient',
     # Blanket asyncio->time — currently only `asyncio.sleep` is used in _client_async/.
     # Any future use of other asyncio primitives (gather, Lock, etc.) will be silently
     # rewritten to `time.*` and must be handled explicitly.
@@ -32,6 +37,11 @@ ADDITIONAL_REPLACEMENTS = {
 # are not handled. These are applied as plain string replacements after generation.
 STRING_REPLACEMENTS = {
     'ClientAsync': 'Client',
+    'simple_async': 'simple',
+    # Ynison simple_async → simple: заголовки и описания должны отличаться,
+    # иначе sphinx рисует дубликаты пунктов в сайдбаре.
+    'асинхронный интерфейс': 'интерфейс',
+    'Каждая корутина': 'Каждая функция',
 }
 
 
@@ -111,6 +121,18 @@ def gen_client() -> list[str]:
             with open(dst_path, 'w', encoding='UTF-8') as f:
                 f.write(disclaimer + code)
             generated_files.append(dst_path)
+
+    # Generate sync ynison.simple from ynison.simple_async
+    ynison_results = _run_unasync(
+        [YNISON_SIMPLE_SRC],
+        os.path.dirname(YNISON_SIMPLE_SRC),
+        os.path.dirname(YNISON_SIMPLE_DST),
+    )
+    ((_, code),) = ynison_results.items()
+    disclaimer = _make_disclaimer(YNISON_SIMPLE_SRC)
+    with open(YNISON_SIMPLE_DST, 'w', encoding='UTF-8') as f:
+        f.write(disclaimer + code)
+    generated_files.append(YNISON_SIMPLE_DST)
 
     return generated_files
 

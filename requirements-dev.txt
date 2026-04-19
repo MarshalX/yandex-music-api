@@ -2,9 +2,11 @@
 requests
 aiohttp
 aiofiles
+websockets
 typing-extensions
 # rly dev
 ruff==0.15.9
+betterproto[compiler]
 coverage
 pytest
 pytest-cov

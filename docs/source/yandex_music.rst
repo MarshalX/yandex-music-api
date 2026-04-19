@@ -34,6 +34,7 @@ yandex\_music
    yandex_music.track
    yandex_music.utils
    yandex_music.wave
+   yandex_music.ynison
 
 Содержимое
 ----------
