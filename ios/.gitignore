@@ -19,3 +19,7 @@ work/
 base/
 tools/__pycache__/
 .DS_Store
+
+# Native source folder, not the Python fork's downloaded-media directory.
+!MapleMusic/Features/Downloads/
+!MapleMusic/Features/Downloads/*.swift

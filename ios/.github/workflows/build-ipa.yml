@@ -19,8 +19,6 @@ jobs:
     timeout-minutes: 30
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
-      ARCHIVE_PATH: ${{ runner.temp }}/MapleMusic.xcarchive
-      DERIVED_DATA: ${{ runner.temp }}/DerivedData
       YANDEX_CLIENT_ID: ${{ secrets.YANDEX_CLIENT_ID }}
       MUSIC_BACKEND_BASE_URL: ${{ vars.MUSIC_BACKEND_BASE_URL }}
 
@@ -36,6 +34,8 @@ jobs:
           test -d "$DEVELOPER_DIR"
           xcodebuild -version
           swift --version
+          echo "ARCHIVE_PATH=$RUNNER_TEMP/MapleMusic.xcarchive" >> "$GITHUB_ENV"
+          echo "DERIVED_DATA=$RUNNER_TEMP/DerivedData" >> "$GITHUB_ENV"
 
       - name: Install pinned XcodeGen
         env:
