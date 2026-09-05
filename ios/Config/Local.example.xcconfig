@@ -1,0 +1,7 @@
+// Copy this file to Local.xcconfig. Never commit tokens or client secrets.
+// Yandex OAuth with PKCE needs a Client ID, but no embedded client secret.
+YANDEX_CLIENT_ID = your_registered_yandex_oauth_client_id
+
+// Optional, HTTPS-only gateway that implements docs/backend-api.md.
+MUSIC_BACKEND_BASE_URL = https:/$()/music.example.com
+

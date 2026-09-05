@@ -1,0 +1,21 @@
+# Xcode / XcodeGen
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+build/
+.build/
+xtool/
+Packages/
+*.xcarchive/
+*.ipa
+xcuserdata/
+*.xcuserstate
+
+# Local configuration and generated artifacts
+Config/Local.xcconfig
+dist/
+output/
+work/
+base/
+tools/__pycache__/
+.DS_Store

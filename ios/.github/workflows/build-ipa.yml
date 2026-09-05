@@ -1,0 +1,132 @@
+name: Build unsigned IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, 'codex/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unsigned-ipa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      ARCHIVE_PATH: ${{ runner.temp }}/MapleMusic.xcarchive
+      DERIVED_DATA: ${{ runner.temp }}/DerivedData
+      YANDEX_CLIENT_ID: ${{ secrets.YANDEX_CLIENT_ID }}
+      MUSIC_BACKEND_BASE_URL: ${{ vars.MUSIC_BACKEND_BASE_URL }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Verify Xcode
+        run: |
+          set -euo pipefail
+          test -d "$DEVELOPER_DIR"
+          xcodebuild -version
+          swift --version
+
+      - name: Install pinned XcodeGen
+        env:
+          XCODEGEN_VERSION: 2.46.0
+          XCODEGEN_SHA256: 4d9e34b62172d645eed6457cac13fc222569974098ef4ee9c3368bedf0196806
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 5 \
+            "https://github.com/yonaskolb/XcodeGen/releases/download/${XCODEGEN_VERSION}/xcodegen.zip" \
+            --output "$RUNNER_TEMP/xcodegen.zip"
+          echo "${XCODEGEN_SHA256}  $RUNNER_TEMP/xcodegen.zip" | shasum -a 256 -c -
+          mkdir -p "$RUNNER_TEMP/xcodegen"
+          ditto -x -k "$RUNNER_TEMP/xcodegen.zip" "$RUNNER_TEMP/xcodegen"
+          echo "$RUNNER_TEMP/xcodegen/xcodegen/bin" >> "$GITHUB_PATH"
+
+      - name: Generate project
+        run: |
+          set -euo pipefail
+          xcodegen version
+          xcodegen generate --spec project.yml
+          xcodebuild -list -project MapleMusic.xcodeproj
+
+      - name: Run tests
+        run: >-
+          xcodebuild test
+          -project MapleMusic.xcodeproj
+          -scheme MapleMusic
+          -configuration Debug
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5'
+          -resultBundlePath "$RUNNER_TEMP/MapleMusic-tests.xcresult"
+          CODE_SIGNING_ALLOWED=NO
+          YANDEX_CLIENT_ID="$YANDEX_CLIENT_ID"
+          MUSIC_BACKEND_BASE_URL="$MUSIC_BACKEND_BASE_URL"
+
+      - name: Archive device app without signing
+        run: >-
+          xcodebuild archive
+          -project MapleMusic.xcodeproj
+          -scheme MapleMusic
+          -configuration Release
+          -destination 'generic/platform=iOS'
+          -archivePath "$ARCHIVE_PATH"
+          -derivedDataPath "$DERIVED_DATA"
+          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGNING_REQUIRED=NO
+          CODE_SIGN_IDENTITY=
+          DEVELOPMENT_TEAM=
+          PROVISIONING_PROFILE_SPECIFIER=
+          CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER"
+          YANDEX_CLIENT_ID="$YANDEX_CLIENT_ID"
+          MUSIC_BACKEND_BASE_URL="$MUSIC_BACKEND_BASE_URL"
+
+      - name: Package IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          apps=("$ARCHIVE_PATH/Products/Applications/"*.app)
+          if (( ${#apps[@]} != 1 )); then
+            echo "::error::Expected exactly one app in archive, found ${#apps[@]}"
+            find "$ARCHIVE_PATH/Products" -print
+            exit 1
+          fi
+          app="${apps[0]}"
+          test ! -e "$app/embedded.mobileprovision"
+          stage="$RUNNER_TEMP/ipa-stage"
+          ipa="$GITHUB_WORKSPACE/dist/MapleMusic-unsigned.ipa"
+          mkdir -p "$stage/Payload" "$GITHUB_WORKSPACE/dist"
+          ditto "$app" "$stage/Payload/$(basename "$app")"
+          (
+            cd "$stage"
+            ditto -c -k --sequesterRsrc --keepParent Payload "$ipa"
+          )
+          unzip -tq "$ipa"
+          unzip -Z1 "$ipa" | grep -Eq '^Payload/[^/]+\.app/Info\.plist$'
+          shasum -a 256 "$ipa"
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v7
+        with:
+          name: MapleMusic-unsigned-ipa
+          path: dist/MapleMusic-unsigned.ipa
+          archive: false
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: MapleMusic-test-results
+          path: ${{ runner.temp }}/MapleMusic-tests.xcresult
+          if-no-files-found: ignore
+          retention-days: 7

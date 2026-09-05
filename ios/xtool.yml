@@ -1,0 +1,8 @@
+version: 1
+bundleID: app.maplemusic.client
+product: MapleMusic
+infoPath: MapleMusic/Resources/XTool-Info.plist
+iconPath: MapleMusic/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-ios-marketing-1024x1024@1x.png
+resources:
+- MapleMusic/Resources/PrivacyInfo.xcprivacy
+

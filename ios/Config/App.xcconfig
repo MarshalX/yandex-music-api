@@ -1,0 +1,6 @@
+// Public build configuration. Put machine-specific values in Local.xcconfig.
+YANDEX_CLIENT_ID =
+MUSIC_BACKEND_BASE_URL =
+
+#include? "Local.xcconfig"
+
