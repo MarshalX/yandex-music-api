@@ -48,6 +48,8 @@ class TestAlbum:
     available_regions = ['kg', 'tm', 'by', 'kz', 'md', 'ru', 'am', 'ge', 'uz', 'tj', 'il', 'az', 'ua']
     available_for_options = ['bookmate']
     disclaimers = ['explicit', 'exclamationIcon:671a23afcec5646906723a52']
+    meta_tag_id = 'fake-meta-tag-id'
+    child_content = False
 
     def test_expected_values(
         self,
@@ -59,6 +61,8 @@ class TestAlbum:
         album_without_nested_albums,
         deprecation,
         album_action_button,
+        cover,
+        cover_derived_colors,
     ):
         assert album.id == self.id
         assert album.error == self.error
@@ -107,6 +111,10 @@ class TestAlbum:
         assert album.available_for_options == self.available_for_options
         assert album.disclaimers == self.disclaimers
         assert album.action_button == album_action_button
+        assert album.cover == cover
+        assert album.derived_colors == cover_derived_colors
+        assert album.meta_tag_id == self.meta_tag_id
+        assert album.child_content == self.child_content
 
     def test_de_json_none(self, client):
         assert Album.de_json({}, client) is None
@@ -128,6 +136,8 @@ class TestAlbum:
         album_without_nested_albums,
         deprecation,
         album_action_button,
+        cover,
+        cover_derived_colors,
     ):
         labels = [label] if isinstance(label, str) else [label.to_dict()]
         json_dict = {
@@ -179,6 +189,10 @@ class TestAlbum:
             'available_for_options': self.available_for_options,
             'disclaimers': self.disclaimers,
             'action_button': album_action_button.to_dict(),
+            'cover': cover.to_dict(),
+            'derivedColors': cover_derived_colors.to_dict(),
+            'metaTagId': self.meta_tag_id,
+            'childContent': self.child_content,
         }
         album = Album.de_json(json_dict, client)
 
@@ -229,6 +243,10 @@ class TestAlbum:
         assert album.available_for_options == self.available_for_options
         assert album.disclaimers == self.disclaimers
         assert album.action_button == album_action_button
+        assert album.cover == cover
+        assert album.derived_colors == cover_derived_colors
+        assert album.meta_tag_id == self.meta_tag_id
+        assert album.child_content == self.child_content
 
     def test_equality(self, artist, label):
         a = Album(self.id)

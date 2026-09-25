@@ -24,8 +24,10 @@ from yandex_music._client.playlists import PlaylistsMixin
 from yandex_music._client.presaves import PresavesMixin
 from yandex_music._client.queue import QueueMixin
 from yandex_music._client.radio import RadioMixin
+from yandex_music._client.rotor_sessions import RotorSessionsMixin
 from yandex_music._client.search import SearchMixin
 from yandex_music._client.tracks import TracksMixin
+from yandex_music._client.wave import WaveMixin
 from yandex_music.utils.request import Request
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -45,6 +47,8 @@ class Client(
     SearchMixin,
     PlaylistsMixin,
     RadioMixin,
+    RotorSessionsMixin,
+    WaveMixin,
     ArtistsMixin,
     LikesMixin,
     MetatagsMixin,

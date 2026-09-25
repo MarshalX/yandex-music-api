@@ -138,7 +138,13 @@ client = Client().init()
       :link: yandex_music._client.radio
       :link-type: doc
 
-      ``rotor_account_status``, ``rotor_station_feedback``, ``rotor_station_feedback_radio_started``, ``rotor_station_feedback_skip``, ``rotor_station_feedback_track_finished``, ``rotor_station_feedback_track_started``, ``rotor_station_info``, ``rotor_station_settings2``, ``rotor_station_tracks``, ``rotor_stations_dashboard``, ``rotor_stations_list``
+      ``rotor_account_status``, ``rotor_station_feedback``, ``rotor_station_feedback_radio_started``, ``rotor_station_feedback_skip``, ``rotor_station_feedback_track_finished``, ``rotor_station_feedback_track_started``, ``rotor_station_info``, ``rotor_station_settings2``, ``rotor_station_stream``, ``rotor_station_stream_feedback``, ``rotor_station_tracks``, ``rotor_stations_dashboard``, ``rotor_stations_list``
+
+   .. grid-item-card:: Сессии радио
+      :link: yandex_music._client.rotor_sessions
+      :link-type: doc
+
+      ``rotor_combined_session_landing``, ``rotor_combined_session_new``, ``rotor_combined_session_next``, ``rotor_session_clone``, ``rotor_session_feedback``, ``rotor_session_feedback_radio_started``, ``rotor_session_feedback_skip``, ``rotor_session_feedback_track_finished``, ``rotor_session_feedback_track_started``, ``rotor_session_feedbacks``, ``rotor_session_new``, ``rotor_session_tracks``, ``rotor_sessions_feedbacks``
 
    .. grid-item-card:: Поиск
       :link: yandex_music._client.search
@@ -151,6 +157,12 @@ client = Client().init()
       :link-type: doc
 
       ``after_track``, ``play_audio``, ``track_supplement``, ``tracks``, ``tracks_download_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
+
+   .. grid-item-card:: Волна
+      :link: yandex_music._client.wave
+      :link-type: doc
+
+      ``rotor_wave_last``, ``rotor_wave_last_reset``, ``rotor_wave_settings``
 
 ```
 
@@ -177,6 +189,8 @@ client = Client().init()
    yandex_music._client.presaves
    yandex_music._client.queue
    yandex_music._client.radio
+   yandex_music._client.rotor_sessions
    yandex_music._client.search
    yandex_music._client.tracks
+   yandex_music._client.wave
 ```

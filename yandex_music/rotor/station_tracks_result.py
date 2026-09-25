@@ -16,6 +16,7 @@ class StationTracksResult(YandexMusicModel):
         sequence (:obj:`list` из :obj:`yandex_music.Sequence`): Последовательность треков.
         batch_id (:obj:`str`): Уникальный идентификатор партии (последовательности).
         pumpkin (:obj:`bool`): Хэллоуин.
+        radio_session_id (:obj:`str`, optional): Уникальный идентификатор сессии радио, в рамках которой выданы треки.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -23,6 +24,7 @@ class StationTracksResult(YandexMusicModel):
     sequence: List['Sequence']
     batch_id: str
     pumpkin: bool
+    radio_session_id: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

@@ -13,6 +13,7 @@ class TestStatus:
     experiment = 109
     pretrial_active = False
     userhash = '2a1d970ce4dadc3333280aa8727d1c41a380a7622521ecef67928cd4213adb8f'
+    has_options = ['bookmate']
 
     def test_expected_values(self, status, account, permissions, subscription, plus, alert):
         assert status.account == account
@@ -31,6 +32,7 @@ class TestStatus:
         assert status.experiment == self.experiment
         assert status.pretrial_active == self.pretrial_active
         assert status.userhash == self.userhash
+        assert status.has_options == self.has_options
 
     def test_de_json_none(self, client):
         assert Status.de_json({}, client) is None
@@ -60,6 +62,7 @@ class TestStatus:
             'experiment': self.experiment,
             'pretrial_active': self.pretrial_active,
             'userhash': self.userhash,
+            'hasOptions': self.has_options,
         }
         status = Status.de_json(json_dict, client)
 
@@ -79,6 +82,7 @@ class TestStatus:
         assert status.experiment == self.experiment
         assert status.pretrial_active == self.pretrial_active
         assert status.userhash == self.userhash
+        assert status.has_options == self.has_options
 
     def test_equality(self, account, permissions, subscription):
         a = Status(account, permissions)

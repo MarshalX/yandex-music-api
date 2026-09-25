@@ -4,7 +4,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType, Track
+    from yandex_music import ClientType, JSONType, Track, TrackParameters
 
 
 @model
@@ -18,12 +18,14 @@ class Sequence(YandexMusicModel):
         type (:obj:`str`): Тип звена.
         track (:obj:`yandex_music.Track` | :obj:`None`): Трек.
         liked (:obj:`bool`): Связанное ли.
+        track_parameters (:obj:`yandex_music.TrackParameters`, optional): Параметры трека в радио.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     type: str
     track: Optional['Track']
     liked: bool
+    track_parameters: Optional['TrackParameters'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -44,8 +46,9 @@ class Sequence(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Track
+        from yandex_music import Track, TrackParameters
 
         cls_data['track'] = Track.de_json(cls_data.get('track'), client)
+        cls_data['track_parameters'] = TrackParameters.de_json(cls_data.get('track_parameters'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

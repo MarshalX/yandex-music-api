@@ -36,6 +36,24 @@
 
       Класс, представляющий сущность агента волны
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` WaveDefaultStation
+      :link: yandex_music.wave.wave_default_station
+      :link-type: doc
+
+      Класс, представляющий станцию волны по умолчанию
+
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` WaveSettings
+      :link: yandex_music.wave.wave_settings
+      :link-type: doc
+
+      Класс, представляющий настройки волны
+
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` WaveSettingsBlock
+      :link: yandex_music.wave.wave_settings_block
+      :link-type: doc
+
+      Класс, представляющий блок настроек волны
+
 
 .. toctree::
    :hidden:
@@ -46,3 +64,6 @@
    yandex_music.wave.wave
    yandex_music.wave.wave_agent
    yandex_music.wave.wave_agent_entity
+   yandex_music.wave.wave_default_station
+   yandex_music.wave.wave_settings
+   yandex_music.wave.wave_settings_block

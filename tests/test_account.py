@@ -16,6 +16,8 @@ class TestAccount:
     registered_at = '2018-06-10T09:34:22+00:00'
     has_info_for_app_metrica = False
     child = False
+    region_code = 'ru'
+    non_owner_family_member = False
 
     def test_expected_values(self, account, passport_phone):
         assert account.now == self.now
@@ -33,6 +35,8 @@ class TestAccount:
         assert account.registered_at == self.registered_at
         assert account.has_info_for_app_metrica == self.has_info_for_app_metrica
         assert account.child == self.child
+        assert account.region_code == self.region_code
+        assert account.non_owner_family_member == self.non_owner_family_member
 
     def test_de_json_none(self, client):
         assert Account.de_json({}, client) is None
@@ -62,6 +66,8 @@ class TestAccount:
             'registered_at': self.registered_at,
             'has_info_for_app_metrica': self.has_info_for_app_metrica,
             'child': self.child,
+            'regionCode': self.region_code,
+            'nonOwnerFamilyMember': self.non_owner_family_member,
         }
         account = Account.de_json(json_dict, client)
 
@@ -80,6 +86,8 @@ class TestAccount:
         assert account.registered_at == self.registered_at
         assert account.has_info_for_app_metrica == self.has_info_for_app_metrica
         assert account.child == self.child
+        assert account.region_code == self.region_code
+        assert account.non_owner_family_member == self.non_owner_family_member
 
     def test_equality(self, user):
         a = Account(self.now, self.service_available, self.child)

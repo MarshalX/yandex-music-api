@@ -5,11 +5,17 @@ class TestWave:
     name = 'Test Wave'
     description = 'Моя волна по альбому'
     seeds = ['album:12345']
+    station_id = 'album:12345'
+    id_for_from = 'album-12345'
+    type = 'DEFAULT'
 
     def test_expected_values(self, wave):
         assert wave.name == self.name
         assert wave.description == self.description
         assert wave.seeds == self.seeds
+        assert wave.station_id == self.station_id
+        assert wave.id_for_from == self.id_for_from
+        assert wave.type == self.type
 
     def test_de_json_none(self, client):
         assert Wave.de_json({}, client) is None
@@ -19,12 +25,18 @@ class TestWave:
             'name': self.name,
             'description': self.description,
             'seeds': self.seeds,
+            'stationId': self.station_id,
+            'idForFrom': self.id_for_from,
+            'type': self.type,
         }
         wave = Wave.de_json(json_dict, client)
 
         assert wave.name == self.name
         assert wave.description == self.description
         assert wave.seeds == self.seeds
+        assert wave.station_id == self.station_id
+        assert wave.id_for_from == self.id_for_from
+        assert wave.type == self.type
 
     def test_equality(self):
         a = Wave(name=self.name, seeds=self.seeds)

@@ -102,6 +102,7 @@ class Track(YandexMusicModel):
         disclaimers (:obj:`list` из :obj:`str`, optional): Список дисклеймеров.
         background_video_id (:obj:`str`, optional): Уникальный идентификатор видеошота.
         player_id (:obj:`str`, optional): Идентификатор плеера видеошота.
+        mix_fade (:obj:`yandex_music.Fade`, optional): Параметры затухания трека при сведении в радио.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -155,6 +156,7 @@ class Track(YandexMusicModel):
     disclaimers: Optional[List[str]] = None
     background_video_id: Optional[str] = None
     player_id: Optional[str] = None
+    mix_fade: Optional['Fade'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -569,6 +571,7 @@ class Track(YandexMusicModel):
         cls_data['lyrics_info'] = LyricsInfo.de_json(cls_data.get('lyrics_info'), client)
         cls_data['derived_colors'] = CoverDerivedColors.de_json(cls_data.get('derived_colors'), client)
         cls_data['fade'] = Fade.de_json(cls_data.get('fade'), client)
+        cls_data['mix_fade'] = Fade.de_json(cls_data.get('mix_fade'), client)
         cls_data['smart_preview_params'] = SmartPreviewParams.de_json(cls_data.get('smart_preview_params'), client)
 
         return cls(client=client, **cls_data)  # type: ignore

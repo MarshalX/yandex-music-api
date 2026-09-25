@@ -5,10 +5,11 @@ class TestSequence:
     type = 'track'
     liked = False
 
-    def test_expected_values(self, sequence, track):
+    def test_expected_values(self, sequence, track, track_parameters):
         assert sequence.type == self.type
         assert sequence.track == track
         assert sequence.liked == self.liked
+        assert sequence.track_parameters == track_parameters
 
     def test_de_json_none(self, client):
         assert Sequence.de_json({}, client) is None
@@ -24,13 +25,19 @@ class TestSequence:
         assert sequence.track == track
         assert sequence.liked == self.liked
 
-    def test_de_json_all(self, client, track):
-        json_dict = {'type': self.type, 'track': track.to_dict(), 'liked': self.liked}
+    def test_de_json_all(self, client, track, track_parameters):
+        json_dict = {
+            'type': self.type,
+            'track': track.to_dict(),
+            'liked': self.liked,
+            'trackParameters': track_parameters.to_dict(),
+        }
         sequence = Sequence.de_json(json_dict, client)
 
         assert sequence.type == self.type
         assert sequence.track == track
         assert sequence.liked == self.liked
+        assert sequence.track_parameters == track_parameters
 
     def test_equality(self, track):
         a = Sequence(self.type, track, self.liked)

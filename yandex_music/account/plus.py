@@ -14,11 +14,13 @@ class Plus(YandexMusicModel):
     Attributes:
         has_plus (:obj:`bool`): Наличие.
         is_tutorial_completed (:obj:`bool`): Закончено ли руководство.
+        migrated (:obj:`bool`, optional): TODO. Приходит в статусе аккаунта радио.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     has_plus: bool
     is_tutorial_completed: bool
+    migrated: Optional[bool] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

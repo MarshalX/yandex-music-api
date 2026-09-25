@@ -194,6 +194,22 @@ from .rotor.station import Station
 from .rotor.station_tracks_result import StationTracksResult
 from .rotor.station_result import StationResult
 from .rotor.dashboard import Dashboard
+from .rotor.track_parameters import TrackParameters
+from .rotor.rotor_seed import RotorSeed
+from .rotor.rotor_session import RotorSession
+from .rotor.rotor_session_tracks import RotorSessionTracks
+from .rotor.session_playable import SessionPlayable
+from .rotor.session_event import SessionEvent
+from .rotor.session_feedback import SessionFeedback
+from .rotor.session_feedbacks import SessionFeedbacks
+from .rotor.combined_session_item import CombinedSessionItem
+from .rotor.combined_session import CombinedSession
+from .rotor.combined_session_landing import CombinedSessionLanding
+from .rotor.combined_session_queue_item import CombinedSessionQueueItem
+from .rotor.generative_stream_info import GenerativeStreamInfo
+from .rotor.generative_stream_data import GenerativeStreamData
+from .rotor.generative_stream import GenerativeStream
+from .rotor.generative_stream_feedback import GenerativeStreamFeedback
 
 from .supplement.supplement import Supplement
 from .supplement.lyrics import Lyrics
@@ -208,6 +224,9 @@ from .wave.wave_agent_entity import WaveAgentEntity
 from .wave.wave_agent import WaveAgent
 from .wave.similar_entity_data import SimilarEntityData
 from .wave.similar_entity_item import SimilarEntityItem
+from .wave.wave_default_station import WaveDefaultStation
+from .wave.wave_settings_block import WaveSettingsBlock
+from .wave.wave_settings import WaveSettings
 
 from .music_history.music_history_item_id import MusicHistoryItemId
 from .music_history.music_history_context_full_model import MusicHistoryContextFullModel
@@ -289,6 +308,10 @@ __all__ = [
     'ClientType',
     'Clip',
     'ClipsWillLike',
+    'CombinedSession',
+    'CombinedSessionItem',
+    'CombinedSessionLanding',
+    'CombinedSessionQueueItem',
     'Concert',
     'ConcertCashback',
     'ConcertDescription',
@@ -332,6 +355,10 @@ __all__ = [
     'Feed',
     'ForeignAgent',
     'GeneratedPlaylist',
+    'GenerativeStream',
+    'GenerativeStreamData',
+    'GenerativeStreamFeedback',
+    'GenerativeStreamInfo',
     'Genre',
     'Icon',
     'Id',
@@ -408,10 +435,17 @@ __all__ = [
     'Ratings',
     'RenewableRemainder',
     'Restrictions',
+    'RotorSeed',
+    'RotorSession',
+    'RotorSessionTracks',
     'RotorSettings',
     'Search',
     'SearchResult',
     'Sequence',
+    'SessionEvent',
+    'SessionFeedback',
+    'SessionFeedbacks',
+    'SessionPlayable',
     'Settings',
     'Shot',
     'ShotData',
@@ -442,6 +476,7 @@ __all__ = [
     'TrackFullInfo',
     'TrackId',
     'TrackLyrics',
+    'TrackParameters',
     'TrackPosition',
     'TrackShort',
     'TrackShortOld',
@@ -458,6 +493,9 @@ __all__ = [
     'Wave',
     'WaveAgent',
     'WaveAgentEntity',
+    'WaveDefaultStation',
+    'WaveSettings',
+    'WaveSettingsBlock',
     'YandexMusicModel',
     'YandexMusicObject',
     '__copyright__',
