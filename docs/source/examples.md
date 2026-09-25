@@ -13,6 +13,7 @@
 не беспокоясь об авторских правах.
 
 ```{toctree}
+examples.wave_radio.md
 examples.ynison_remote.md
 examples.chart.md
 examples.daily_playlist_updater.md

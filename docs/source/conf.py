@@ -14,6 +14,7 @@ documentation root, use os.path.abspath to make it absolute, like shown here.
 import inspect
 import os
 import sys
+from pathlib import Path
 
 from sphinxawesome_theme.postprocess import Icons
 
@@ -271,8 +272,27 @@ def register_short_aliases(_app, env) -> None:  # noqa: ANN001
             py_objects[short] = entry.__class__(entry.docname, entry.node_id, entry.objtype, aliased=True)
 
 
+def scope_pygments_to_theme(app, exception) -> None:  # noqa: ANN001
+    """Перезаписывает стили Pygments, чтобы обе палитры следовали переключателю темы."""
+    if exception is not None or app.builder.name not in ('html', 'dirhtml'):
+        return
+
+    from pygments.formatters import HtmlFormatter
+
+    blocks = []
+    for style, selector in (
+        (app.config.pygments_style, 'html:not(.dark) .highlight'),
+        (app.config.pygments_style_dark, 'html.dark .highlight'),
+    ):
+        defs = HtmlFormatter(style=style).get_style_defs(selector)
+        blocks.append('\n'.join(line for line in defs.splitlines() if not line.startswith(f'{selector} {{')))
+
+    (Path(app.outdir) / '_static' / 'pygments.css').write_text('\n'.join(blocks), encoding='UTF-8')
+
+
 def setup(app) -> None:  # noqa: ANN001
     """Настройка Sphinx-приложения."""
+    app.connect('build-finished', scope_pygments_to_theme)
     app.connect('autodoc-skip-member', autodoc_skip_member)
     app.connect('autodoc-process-signature', autodoc_process_signature)
     app.connect('env-check-consistency', register_short_aliases)
