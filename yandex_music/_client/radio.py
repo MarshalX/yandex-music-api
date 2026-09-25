@@ -156,7 +156,7 @@ class RadioMixin(ClientBase):
         if total_played_seconds:
             data.update({'totalPlayedSeconds': total_played_seconds})
 
-        result = self._request.post(url, params=params, data=data, **kwargs)
+        result = self._request.post(url, params=params, json=data, **kwargs)
 
         return result == 'ok'
 
