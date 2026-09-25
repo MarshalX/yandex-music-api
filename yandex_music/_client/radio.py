@@ -121,7 +121,8 @@ class RadioMixin(ClientBase):
         Args:
             station (:obj:`str`): Станция.
             type_ (:obj:`str`): Тип отправляемого отзыва.
-            timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Текущее время и дата.
+            timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Текущее время и дата: Unix-время числом
+                или строка в формате ISO 8601. Unix-время строкой (`'1700000000'`) API не принимает.
             from_ (:obj:`str`, optional): Откуда начато воспроизведение радио.
             batch_id (:obj:`str`, optional): Уникальный идентификатор партии треков. Возвращается при получении треков.
             total_played_seconds (:obj:`int` | :obj:`float`, optional): Сколько было проиграно секунд трека
@@ -348,7 +349,7 @@ class RadioMixin(ClientBase):
         if language:
             data.update({'language': language})
 
-        result = self._request.post(url, data=data, **kwargs)
+        result = self._request.post(url, json=data, **kwargs)
 
         return result == 'ok'
 
