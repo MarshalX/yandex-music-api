@@ -27,7 +27,7 @@ ADDITIONAL_REPLACEMENTS = {
     '_client_async': '_client',
     'simple_async': 'simple',
     'YnisonClientAsync': 'YnisonClient',
-    # Blanket asyncio->time — currently only `asyncio.sleep` is used in _client_async/.
+    # Blanket asyncio->time: currently only `asyncio.sleep` is used in _client_async/.
     # Any future use of other asyncio primitives (gather, Lock, etc.) will be silently
     # rewritten to `time.*` and must be handled explicitly.
     'asyncio': 'time',
@@ -51,7 +51,12 @@ def _make_disclaimer(source: str) -> str:
     return f'{"#" * len(text)}\n{text}\n{"#" * len(text)}\n\n'
 
 
-def _run_unasync(src_files: list[str], src_dir: str, dst_dir: str) -> dict[str, str]:
+def _run_unasync(
+    src_files: list[str],
+    src_dir: str,
+    dst_dir: str,
+    extra_replacements: 'dict[str, str] | None' = None,
+) -> dict[str, str]:
     """Run unasync on source files and return mapping of dst_path -> generated code."""
     results = {}
 
@@ -70,7 +75,7 @@ def _run_unasync(src_files: list[str], src_dir: str, dst_dir: str) -> dict[str, 
             unasync.Rule(
                 fromdir=async_dir,
                 todir=sync_dir,
-                additional_replacements=ADDITIONAL_REPLACEMENTS,
+                additional_replacements={**ADDITIONAL_REPLACEMENTS, **(extra_replacements or {})},
             ),
         ]
 
@@ -127,6 +132,8 @@ def gen_client() -> list[str]:
         [YNISON_SIMPLE_SRC],
         os.path.dirname(YNISON_SIMPLE_SRC),
         os.path.dirname(YNISON_SIMPLE_DST),
+        # только для ynison, чтобы не задеть основной клиент
+        extra_replacements={'client_async': 'client'},
     )
     ((_, code),) = ynison_results.items()
     disclaimer = _make_disclaimer(YNISON_SIMPLE_SRC)

@@ -5,7 +5,7 @@
 обратную связь сессии и подбирает следующие треки с их учётом.
 
 Управление во время воспроизведения:
-    Enter — следующий трек, l — нравится, d — не нравится (и дальше), q — выход.
+    Enter: следующий трек, l: нравится, d: не нравится (и дальше), q: выход.
 
 Треки воспроизводятся установленным в системе плеером (afplay, mpv, ffplay
 или cvlc). Свой плеер можно указать в переменной окружения PLAYER, например:
@@ -49,7 +49,7 @@ def find_player():
 
 def choose(title, options):
     """Показывает нумерованный список и возвращает выбранное значение."""
-    print(f'\n{title} (Enter — {options[0][0]})')
+    print(f'\n{title} (Enter: {options[0][0]})')
     for number, (name, _) in enumerate(options, 1):
         print(f'  {number}. {name}')
 
@@ -69,7 +69,7 @@ def choose_seeds(client):
         for station in block.items:
             waves.append((station.name, f'{station.id.type}:{station.id.tag}'))
 
-    # Характер «Любое» (unspecified) ставим первым — он будет выбран по умолчанию
+    # «Любое» (unspecified) первым, чтобы оно выбиралось по умолчанию
     values = sorted(settings.setting_restrictions.diversity.possible_values, key=lambda value: not value.unspecified)
     characters = [(value.name, value.serialized_seed) for value in values]
 
@@ -87,7 +87,7 @@ def play(client, session, track, player, keys):
     """Проигрывает трек и отправляет обратную связь. Возвращает команду, которой он закончился."""
     session_id, batch_id = session.radio_session_id, session.batch_id
 
-    print(f'\n♪ {", ".join(track.artists_name())} — {track.title}')
+    print(f'\n♪ {", ".join(track.artists_name())} - {track.title}')
     path = os.path.join(tempfile.gettempdir(), 'wave_radio.mp3')
     track.download(path, timeout=30)  # на медленной сети загрузка может надолго замирать
 
@@ -128,7 +128,7 @@ def main():
     session = client.rotor_session_new(seeds)
     client.rotor_session_feedback_radio_started(session.radio_session_id, session.batch_id)
 
-    print('\nEnter — следующий трек, l — нравится, d — не нравится, q — выход')
+    print('\nEnter: следующий трек, l: нравится, d: не нравится, q: выход')
     keys = queue.Queue()
     threading.Thread(target=read_keys, args=(keys,), daemon=True).start()
 
@@ -136,7 +136,7 @@ def main():
     while True:
         try:
             if not session.sequence:
-                # Треки текущей партии закончились: просим следующую, передав уже сыгранные
+                # партия закончилась, просим следующую с уже сыгранными треками
                 more = client.rotor_session_tracks(session.radio_session_id, queue=played_ids)
                 session.sequence, session.batch_id = more.sequence, more.batch_id
 
@@ -145,7 +145,7 @@ def main():
             if play(client, session, track, player, keys) == 'q':
                 break
         except NetworkError as error:
-            # Сбой сети не должен останавливать радио: сообщаем и переходим к следующему треку
+            # при сбое сети переходим к следующему треку
             print(f'  ошибка сети: {error or type(error).__name__}, пробуем дальше')
             time.sleep(1)
 

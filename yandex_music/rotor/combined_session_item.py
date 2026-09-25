@@ -13,7 +13,7 @@ class CombinedSessionItem(YandexMusicModel):
 
     Note:
         В зависимости от поля `type`, в поле `data` будет объект соответствующего типа:
-        `CLIP` — :class:`yandex_music.Clip`, `TRACK` — :class:`yandex_music.Track`.
+        `CLIP`: :class:`yandex_music.Clip`, `TRACK`: :class:`yandex_music.Track`.
 
     Attributes:
         type (:obj:`str`, optional): Тип элемента.

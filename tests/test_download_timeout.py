@@ -62,7 +62,7 @@ class TestDownloadTimeout:
         assert track.download_bytes(timeout=30) == FILE
 
         assert _timeouts(request.get) == [30]
-        # Первый запрос — XML с прямой ссылкой, второй — сам файл
+        # первый запрос возвращает XML с прямой ссылкой, второй сам файл
         assert _timeouts(request.retrieve) == [30, 30]
 
     def test_download_async_passes_timeout_to_every_request(self):

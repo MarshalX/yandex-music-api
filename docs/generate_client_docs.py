@@ -203,7 +203,7 @@ def fix_module_headings() -> None:
         if not _rst_is_module(stem):
             continue
         # Пропустить основные миксины — у них свой fix_mixin_rst.
-        # Проверяем по префиксу, иначе поймаем вложенные пакеты вроде yandex_music.ynison._client.
+        # Проверяем по префиксу, иначе поймаем модули вложенных пакетов (например, yandex_music.ynison.client).
         if stem.startswith(('yandex_music._client.', 'yandex_music._client_async.')):
             continue
         heading = _module_heading(stem)
@@ -474,13 +474,11 @@ FIXED_ORPHANS = (
     'yandex_music._client_base.rst',
     'yandex_music.client.rst',
     'yandex_music.client_async.rst',
-    # Приватные внутренности ynison — YnisonClient и YnisonClientAsync документированы
-    # как отдельные страницы (_client.client, _client.client_async), а базовый класс
-    # и низкоуровневый websocket-транспорт не нужны в пользовательских доках.
-    'yandex_music.ynison._client.rst',
-    'yandex_music.ynison._client.base.rst',
-    'yandex_music.ynison._websocket.rst',
-    'yandex_music.ynison._websocket.client.rst',
+    # Приватные внутренности ynison — базовый класс клиентов и websocket-транспорт
+    # не нужны в пользовательских доках. YnisonClient и YnisonClientAsync документированы
+    # на страницах yandex_music.ynison.client и yandex_music.ynison.client_async.
+    'yandex_music.ynison._base.rst',
+    'yandex_music.ynison._transport.rst',
 )
 
 
