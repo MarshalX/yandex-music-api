@@ -19,6 +19,7 @@ examples
 client
 client_async
 ynison
+radio
 ```
 
 ```{toctree}
