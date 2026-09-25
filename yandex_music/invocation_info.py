@@ -15,12 +15,14 @@ class InvocationInfo(YandexMusicModel):
         hostname (:obj:`str`): Имя удалённого сервера.
         req_id (:obj:`str`): Номер запроса.
         exec_duration_millis (:obj:`str`, optional): Время выполнения в миллисекундах.
+        app_name (:obj:`str`, optional): Название сервиса, обработавшего запрос (например, `music-wave`).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     hostname: str
     req_id: str
     exec_duration_millis: Optional[int] = None
+    app_name: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

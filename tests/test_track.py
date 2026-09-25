@@ -215,6 +215,12 @@ class TestTrack:
         assert track.lyrics_info == lyrics_info
         assert track.track_sharing_flag == self.track_sharing_flag
 
+    def test_de_json_mix_fade(self, client, fade):
+        track = Track.de_json({'id': self.id, 'fade': fade.to_dict(), 'mixFade': fade.to_dict()}, client)
+
+        assert track.fade == fade
+        assert track.mix_fade == fade
+
     def test_equality(self):
         a = Track(self.id)
         b = Track(10)

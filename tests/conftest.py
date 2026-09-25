@@ -43,6 +43,10 @@ from yandex_music import (
     Client,
     Clip,
     ClipsWillLike,
+    CombinedSession,
+    CombinedSessionItem,
+    CombinedSessionLanding,
+    CombinedSessionQueueItem,
     Concert,
     ConcertCashback,
     ConcertDescription,
@@ -82,6 +86,10 @@ from yandex_music import (
     Fade,
     ForeignAgent,
     GeneratedPlaylist,
+    GenerativeStream,
+    GenerativeStreamData,
+    GenerativeStreamFeedback,
+    GenerativeStreamInfo,
     Icon,
     Id,
     Images,
@@ -145,9 +153,16 @@ from yandex_music import (
     Ratings,
     RenewableRemainder,
     Restrictions,
+    RotorSeed,
+    RotorSession,
+    RotorSessionTracks,
     RotorSettings,
     SearchResult,
     Sequence,
+    SessionEvent,
+    SessionFeedback,
+    SessionFeedbacks,
+    SessionPlayable,
     Settings,
     Shot,
     ShotData,
@@ -172,6 +187,7 @@ from yandex_music import (
     TrackFullInfo,
     TrackId,
     TrackLyrics,
+    TrackParameters,
     TrackPosition,
     TrackShort,
     TrackShortOld,
@@ -186,6 +202,9 @@ from yandex_music import (
     Wave,
     WaveAgent,
     WaveAgentEntity,
+    WaveDefaultStation,
+    WaveSettings,
+    WaveSettingsBlock,
 )
 
 from . import (
@@ -217,6 +236,10 @@ from . import (
     TestChartInfo,
     TestChartInfoMenuItem,
     TestClip,
+    TestCombinedSession,
+    TestCombinedSessionItem,
+    TestCombinedSessionLanding,
+    TestCombinedSessionQueueItem,
     TestConcert,
     TestConcertCashback,
     TestConcertDescription,
@@ -248,6 +271,10 @@ from . import (
     TestFade,
     TestForeignAgent,
     TestGeneratedPlaylist,
+    TestGenerativeStream,
+    TestGenerativeStreamData,
+    TestGenerativeStreamFeedback,
+    TestGenerativeStreamInfo,
     TestIcon,
     TestId,
     TestImages,
@@ -299,9 +326,16 @@ from . import (
     TestR128,
     TestRatings,
     TestRenewableRemainder,
+    TestRotorSeed,
+    TestRotorSession,
+    TestRotorSessionTracks,
     TestRotorSettings,
     TestSearchResult,
     TestSequence,
+    TestSessionEvent,
+    TestSessionFeedback,
+    TestSessionFeedbacks,
+    TestSessionPlayable,
     TestSettings,
     TestShot,
     TestShotData,
@@ -325,6 +359,7 @@ from . import (
     TestTrackFullInfo,
     TestTrackId,
     TestTrackLyrics,
+    TestTrackParameters,
     TestTrackPosition,
     TestTrackShort,
     TestTrackShortOld,
@@ -339,6 +374,8 @@ from . import (
     TestWave,
     TestWaveAgent,
     TestWaveAgentEntity,
+    TestWaveDefaultStation,
+    TestWaveSettingsBlock,
 )
 
 
@@ -512,7 +549,7 @@ def album_action_button():
 
 
 @pytest.fixture(scope='session')
-def album_factory(label, track_position, album_action_button):
+def album_factory(label, track_position, album_action_button, cover, cover_derived_colors):
     class AlbumFactory:
         def get(self, artists, volumes, albums=None, deprecation=None):
             return Album(
@@ -564,6 +601,10 @@ def album_factory(label, track_position, album_action_button):
                 TestAlbum.available_for_options,
                 disclaimers=TestAlbum.disclaimers,
                 action_button=album_action_button,
+                cover=cover,
+                derived_colors=cover_derived_colors,
+                meta_tag_id=TestAlbum.meta_tag_id,
+                child_content=TestAlbum.child_content,
             )
 
     return AlbumFactory()
@@ -1017,7 +1058,10 @@ def link():
 @pytest.fixture(scope='session')
 def invocation_info():
     return InvocationInfo(
-        TestInvocationInfo.hostname, TestInvocationInfo.req_id, TestInvocationInfo.exec_duration_millis
+        TestInvocationInfo.hostname,
+        TestInvocationInfo.req_id,
+        TestInvocationInfo.exec_duration_millis,
+        TestInvocationInfo.app_name,
     )
 
 
@@ -1272,12 +1316,14 @@ def account(passport_phone):
         TestAccount.registered_at,
         TestAccount.has_info_for_app_metrica,
         TestAccount.child,
+        TestAccount.region_code,
+        TestAccount.non_owner_family_member,
     )
 
 
 @pytest.fixture(scope='session')
 def plus():
-    return Plus(TestPlus.has_plus, TestPlus.is_tutorial_completed)
+    return Plus(TestPlus.has_plus, TestPlus.is_tutorial_completed, TestPlus.migrated)
 
 
 @pytest.fixture(scope='session')
@@ -1421,6 +1467,7 @@ def status(account, permissions, subscription, plus, station_data, alert):
         TestStatus.experiment,
         TestStatus.pretrial_active,
         TestStatus.userhash,
+        TestStatus.has_options,
     )
 
 
@@ -1501,7 +1548,7 @@ def track_id():
 
 @pytest.fixture(scope='session')
 def value():
-    return Value(TestValue.value, TestValue.name)
+    return Value(TestValue.value, TestValue.name, TestValue.image_url, TestValue.serialized_seed, TestValue.unspecified)
 
 
 @pytest.fixture(scope='session')
@@ -1510,8 +1557,8 @@ def id_():
 
 
 @pytest.fixture(scope='session')
-def sequence(track):
-    return Sequence(TestSequence.type, track, TestSequence.liked)
+def sequence(track, track_parameters):
+    return Sequence(TestSequence.type, track, TestSequence.liked, track_parameters)
 
 
 @pytest.fixture(scope='session')
@@ -1528,6 +1575,12 @@ def station(id_, icon, restrictions):
         TestStation.full_image_url,
         TestStation.mts_full_image_url,
         id_,
+        TestStation.special_context,
+        TestStation.listeners,
+        TestStation.login,
+        TestStation.full_name,
+        TestStation.display_name,
+        TestStation.visibility,
     )
 
 
@@ -1702,7 +1755,7 @@ def custom_wave():
 
 @pytest.fixture(scope='session')
 def r_128():
-    return R128(TestR128.i, TestR128.tp)
+    return R128(TestR128.i, TestR128.tp, TestR128.important_secs)
 
 
 @pytest.fixture(scope='session')
@@ -1782,6 +1835,9 @@ def wave():
         name=TestWave.name,
         description=TestWave.description,
         seeds=TestWave.seeds,
+        station_id=TestWave.station_id,
+        id_for_from=TestWave.id_for_from,
+        type=TestWave.type,
     )
 
 
@@ -2314,3 +2370,151 @@ def metatag_playlists(metatag_title, playlist, pager, metatag_sort_by_value):
         playlists=[playlist],
         sort_by_values=[metatag_sort_by_value],
     )
+
+
+@pytest.fixture(scope='session')
+def rotor_seed():
+    return RotorSeed(TestRotorSeed.type, TestRotorSeed.tag, TestRotorSeed.value)
+
+
+@pytest.fixture(scope='session')
+def track_parameters(fade):
+    return TrackParameters(
+        TestTrackParameters.bpm,
+        TestTrackParameters.energy,
+        TestTrackParameters.hue,
+        TestTrackParameters.user_collection_hue,
+        fade,
+    )
+
+
+@pytest.fixture(scope='session')
+def rotor_session(sequence, rotor_seed, wave):
+    return RotorSession(
+        TestRotorSession.radio_session_id,
+        TestRotorSession.batch_id,
+        TestRotorSession.pumpkin,
+        [sequence],
+        [rotor_seed],
+        rotor_seed,
+        TestRotorSession.terminated,
+        wave,
+        TestRotorSession.offline_recommender_data,
+        TestRotorSession.interactive,
+    )
+
+
+@pytest.fixture(scope='session')
+def rotor_session_tracks(sequence):
+    return RotorSessionTracks(
+        TestRotorSessionTracks.batch_id,
+        TestRotorSessionTracks.pumpkin,
+        [sequence],
+        TestRotorSessionTracks.terminated,
+        TestRotorSessionTracks.unknown_session,
+        TestRotorSessionTracks.offline_recommender_data,
+    )
+
+
+@pytest.fixture(scope='session')
+def session_playable():
+    return SessionPlayable(TestSessionPlayable.type, TestSessionPlayable.track_id, TestSessionPlayable.id)
+
+
+@pytest.fixture(scope='session')
+def session_event(session_playable):
+    return SessionEvent(
+        TestSessionEvent.type,
+        TestSessionEvent.timestamp,
+        TestSessionEvent.track_id,
+        TestSessionEvent.total_played_seconds,
+        session_playable,
+    )
+
+
+@pytest.fixture(scope='session')
+def session_feedback(session_event):
+    return SessionFeedback(session_event, TestSessionFeedback.batch_id, TestSessionFeedback.from_)
+
+
+@pytest.fixture(scope='session')
+def session_feedbacks(session_feedback):
+    return SessionFeedbacks(TestSessionFeedbacks.session_id, [session_feedback])
+
+
+@pytest.fixture(scope='session')
+def combined_session_item(clip):
+    return CombinedSessionItem(TestCombinedSessionItem.type, clip)
+
+
+@pytest.fixture(scope='session')
+def combined_session(combined_session_item):
+    return CombinedSession(
+        TestCombinedSession.session_id,
+        TestCombinedSession.batch_id,
+        TestCombinedSession.pumpkin,
+        [combined_session_item],
+    )
+
+
+@pytest.fixture(scope='session')
+def combined_session_landing(combined_session_item):
+    return CombinedSessionLanding(
+        TestCombinedSessionLanding.title,
+        TestCombinedSessionLanding.description,
+        TestCombinedSessionLanding.button,
+        [combined_session_item],
+    )
+
+
+@pytest.fixture(scope='session')
+def combined_session_queue_item():
+    return CombinedSessionQueueItem(TestCombinedSessionQueueItem.type, TestCombinedSessionQueueItem.id)
+
+
+@pytest.fixture(scope='session')
+def generative_stream_info():
+    return GenerativeStreamInfo(TestGenerativeStreamInfo.id, TestGenerativeStreamInfo.url)
+
+
+@pytest.fixture(scope='session')
+def generative_stream_data(cover_derived_colors):
+    return GenerativeStreamData(
+        TestGenerativeStreamData.title,
+        TestGenerativeStreamData.subtitle,
+        TestGenerativeStreamData.background_color,
+        cover_derived_colors,
+        TestGenerativeStreamData.image_url,
+        TestGenerativeStreamData.video_cover_uri,
+        TestGenerativeStreamData.explanations,
+    )
+
+
+@pytest.fixture(scope='session')
+def generative_stream(generative_stream_data, generative_stream_info):
+    return GenerativeStream(generative_stream_data, TestGenerativeStream.version, generative_stream_info)
+
+
+@pytest.fixture(scope='session')
+def generative_stream_feedback():
+    return GenerativeStreamFeedback(TestGenerativeStreamFeedback.reload_stream, TestGenerativeStreamFeedback.not_paused)
+
+
+@pytest.fixture(scope='session')
+def wave_default_station():
+    return WaveDefaultStation(
+        TestWaveDefaultStation.station_id,
+        TestWaveDefaultStation.title,
+        TestWaveDefaultStation.rup_title,
+        TestWaveDefaultStation.rup_description,
+    )
+
+
+@pytest.fixture(scope='session')
+def wave_settings_block(station):
+    return WaveSettingsBlock(TestWaveSettingsBlock.type, [station])
+
+
+@pytest.fixture(scope='session')
+def wave_settings(wave_default_station, wave_settings_block, restrictions):
+    return WaveSettings(wave_default_station, [wave_settings_block], restrictions)

@@ -29,6 +29,8 @@ class Account(YandexMusicModel):
         has_info_for_app_metrica (:obj:`bool`, optional): Наличие информации для App Metrica.
         child (:obj:`bool`): Дочерний / детский аккаунт (скорее детский, позволяет ограничить
             доступный контент ребенку на Кинопоиске).
+        region_code (:obj:`str`, optional): Код региона пользователя (например, `ru`).
+        non_owner_family_member (:obj:`bool`, optional): Является ли пользователь участником семьи, но не её владельцем.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         **kwargs: Произвольные ключевые аргументы полученные от API.
     """
@@ -48,6 +50,8 @@ class Account(YandexMusicModel):
     registered_at: Optional[str] = None
     has_info_for_app_metrica: Optional[bool] = None
     child: Optional[bool] = None
+    region_code: Optional[str] = None
+    non_owner_family_member: Optional[bool] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

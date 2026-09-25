@@ -13,7 +13,7 @@ class Subscription(YandexMusicModel):
     """Класс, представляющий информацию о подписках пользователя.
 
     Attributes:
-        non_auto_renewable_remainder (:obj:`yandex_music.RenewableRemainder`): Напоминание о продлении.
+        non_auto_renewable_remainder (:obj:`yandex_music.RenewableRemainder` | :obj:`None`): Напоминание о продлении.
         auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`, optional): Автопродление.
         family_auto_renewable (:obj:`list` из :obj:`yandex_music.AutoRenewable`): Автопродление семейной подписки.
         operator (:obj:`list` из :obj:`yandex_music.Operator`, optional): Услуги сотового оператора.
@@ -21,14 +21,15 @@ class Subscription(YandexMusicModel):
         can_start_trial (:obj:`bool`, optional): Есть ли возможность начать пробный период.
         mcdonalds (:obj:`bool`, optional): mcdonalds TODO.
         end (:obj:`str`, optional): Дата окончания.
-        had_any_subscription (:obj:'bool'): Наличие какой-либо подписки в прошлом.
+        had_any_subscription (:obj:`bool`, optional): Наличие какой-либо подписки в прошлом. Не приходит
+            в статусе аккаунта радио (:func:`yandex_music.Client.rotor_account_status`).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    non_auto_renewable_remainder: 'RenewableRemainder'
+    non_auto_renewable_remainder: Optional['RenewableRemainder']
     auto_renewable: List['AutoRenewable']
     family_auto_renewable: List['AutoRenewable']
-    had_any_subscription: bool
+    had_any_subscription: Optional[bool] = None
     operator: List['Operator'] = field(default_factory=list)
     non_auto_renewable: Optional['NonAutoRenewable'] = None
     can_start_trial: Optional[bool] = None

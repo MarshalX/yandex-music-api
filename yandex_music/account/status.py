@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -29,6 +29,7 @@ class Status(YandexMusicModel):
         experiment (:obj:`int`, optional): Включенная новая фича на аккаунте (её ID) TODO.
         pretrial_active (:obj:`bool`, optional): TODO.
         userhash (:obj:`str`, optional): Хэш-код идентификатора пользователя.
+        has_options (:obj:`list` из :obj:`str`, optional): Подключённые опции (например, `bookmate`).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -49,6 +50,7 @@ class Status(YandexMusicModel):
     experiment: Optional[int] = None
     pretrial_active: Optional[bool] = None
     userhash: Optional[str] = None
+    has_options: Optional[List[str]] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

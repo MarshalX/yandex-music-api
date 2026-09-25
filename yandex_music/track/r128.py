@@ -16,11 +16,13 @@ class R128(YandexMusicModel):
         tp (:obj:`float`): True Peak. Реконструкция пикового уровня сигнала между выборками
             (пикового уровня, генерируемого между двумя выборками ), рассчитанного с помощью
             передискретизации.
+        important_secs (:obj:`int`, optional): Количество значимых секунд трека.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     i: float
     tp: float
+    important_secs: Optional[int] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

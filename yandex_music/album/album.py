@@ -5,7 +5,18 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AlbumActionButton, Artist, ClientType, Deprecation, JSONType, Label, Track, TrackPosition
+    from yandex_music import (
+        AlbumActionButton,
+        Artist,
+        ClientType,
+        Cover,
+        CoverDerivedColors,
+        Deprecation,
+        JSONType,
+        Label,
+        Track,
+        TrackPosition,
+    )
 
 
 @model
@@ -72,6 +83,10 @@ class Album(YandexMusicModel):
         available_for_options (:obj:`list` из :obj:`str`, optional): Возможные опции для альбома.
         disclaimers (:obj:`list` из :obj:`str`, optional): Список дисклеймеров альбома.
         action_button (:obj:`yandex_music.AlbumActionButton`, optional): Кнопка-действие для перехода по ссылке.
+        cover (:obj:`yandex_music.Cover`, optional): Обложка альбома.
+        derived_colors (:obj:`yandex_music.CoverDerivedColors`, optional): Производные цвета обложки альбома.
+        meta_tag_id (:obj:`str`, optional): Идентификатор метатега альбома.
+        child_content (:obj:`bool`, optional): Является ли альбом детским контентом.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -124,6 +139,10 @@ class Album(YandexMusicModel):
     listening_finished: Optional[bool] = None
     disclaimers: Optional[List[str]] = None
     action_button: Optional['AlbumActionButton'] = None
+    cover: Optional['Cover'] = None
+    derived_colors: Optional['CoverDerivedColors'] = None
+    meta_tag_id: Optional[str] = None
+    child_content: Optional[bool] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
@@ -338,10 +357,21 @@ class Album(YandexMusicModel):
             return None
 
         cls_data = cls.cleanup_data(data, client)
-        from yandex_music import AlbumActionButton, Artist, Deprecation, Label, Track, TrackPosition
+        from yandex_music import (
+            AlbumActionButton,
+            Artist,
+            Cover,
+            CoverDerivedColors,
+            Deprecation,
+            Label,
+            Track,
+            TrackPosition,
+        )
 
         cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
         cls_data['action_button'] = AlbumActionButton.de_json(cls_data.get('action_button'), client)
+        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
+        cls_data['derived_colors'] = CoverDerivedColors.de_json(cls_data.get('derived_colors'), client)
 
         # В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
         labels = cls_data.get('labels')

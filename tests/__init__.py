@@ -37,6 +37,10 @@ from .test_chart_info_menu import TestChartInfoMenu
 from .test_chart_info_menu_item import TestChartInfoMenuItem
 from .test_clip import TestClip
 from .test_clips_will_like import TestClipsWillLike
+from .test_combined_session import TestCombinedSession
+from .test_combined_session_item import TestCombinedSessionItem
+from .test_combined_session_landing import TestCombinedSessionLanding
+from .test_combined_session_queue_item import TestCombinedSessionQueueItem
 from .test_concert import TestConcert
 from .test_concert_cashback import TestConcertCashback
 from .test_concert_description import TestConcertDescription
@@ -77,6 +81,10 @@ from .test_experiments_details import TestExperimentsDetails
 from .test_fade import TestFade
 from .test_foreign_agent import TestForeignAgent
 from .test_generated_playlist import TestGeneratedPlaylist
+from .test_generative_stream import TestGenerativeStream
+from .test_generative_stream_data import TestGenerativeStreamData
+from .test_generative_stream_feedback import TestGenerativeStreamFeedback
+from .test_generative_stream_info import TestGenerativeStreamInfo
 from .test_genre import TestGenre
 from .test_icon import TestIcon
 from .test_id import TestId
@@ -145,9 +153,16 @@ from .test_r128 import TestR128
 from .test_ratings import TestRatings
 from .test_renewable_remainder import TestRenewableRemainder
 from .test_restrictions import TestRestrictions
+from .test_rotor_seed import TestRotorSeed
+from .test_rotor_session import TestRotorSession
+from .test_rotor_session_tracks import TestRotorSessionTracks
 from .test_rotor_settings import TestRotorSettings
 from .test_search_result import TestSearchResult
 from .test_sequence import TestSequence
+from .test_session_event import TestSessionEvent
+from .test_session_feedback import TestSessionFeedback
+from .test_session_feedbacks import TestSessionFeedbacks
+from .test_session_playable import TestSessionPlayable
 from .test_settings import TestSettings
 from .test_shot import TestShot
 from .test_shot_data import TestShotData
@@ -173,6 +188,7 @@ from .test_track import TestTrack
 from .test_track_full_info import TestTrackFullInfo
 from .test_track_id import TestTrackId
 from .test_track_lyrics import TestTrackLyrics
+from .test_track_parameters import TestTrackParameters
 from .test_track_position import TestTrackPosition
 from .test_track_short import TestTrackShort
 from .test_track_short_old import TestTrackShortOld
@@ -187,3 +203,6 @@ from .test_vinyl import TestVinyl
 from .test_wave import TestWave
 from .test_wave_agent import TestWaveAgent
 from .test_wave_agent_entity import TestWaveAgentEntity
+from .test_wave_default_station import TestWaveDefaultStation
+from .test_wave_settings import TestWaveSettings
+from .test_wave_settings_block import TestWaveSettingsBlock

@@ -59,6 +59,15 @@ class TestSubscription:
         assert subscription.end == self.end
         assert subscription.had_any_subscription == self.had_any_subscription
 
+    def test_de_json_only_end(self, client):
+        # Статус аккаунта радио возвращает подписку только с датой окончания
+        subscription = Subscription.de_json({'end': '2024-01-01T00:00:00+03:00'}, client)
+
+        assert subscription.end == '2024-01-01T00:00:00+03:00'
+        assert subscription.had_any_subscription is None
+        assert subscription.non_auto_renewable_remainder is None
+        assert subscription.auto_renewable == []
+
     def test_equality(self, renewable_remainder, auto_renewable):
         a = Subscription(renewable_remainder, [auto_renewable], [auto_renewable], self.had_any_subscription)
         b = Subscription(renewable_remainder, [], [auto_renewable], self.had_any_subscription)

@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime, timezone
 from typing import Dict, Optional, Union
 
 from typing_extensions import TypeGuard
@@ -21,6 +22,11 @@ TimestampType = Optional[Union[str, float, int]]
 def is_dict(data: Optional[JSONType]) -> TypeGuard[Dict[str, JSONType]]:
     """TypeGuard для сужения JSONType до словаря."""
     return isinstance(data, dict)
+
+
+def utc_now_iso() -> str:
+    """Текущее время в UTC в формате ISO 8601 с миллисекундами (например, `2024-01-01T12:00:00.000Z`)."""
+    return datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
 
 
 class ClientBase(YandexMusicObject):

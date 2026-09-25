@@ -20,8 +20,10 @@ from yandex_music._client_async.playlists import PlaylistsMixin
 from yandex_music._client_async.presaves import PresavesMixin
 from yandex_music._client_async.queue import QueueMixin
 from yandex_music._client_async.radio import RadioMixin
+from yandex_music._client_async.rotor_sessions import RotorSessionsMixin
 from yandex_music._client_async.search import SearchMixin
 from yandex_music._client_async.tracks import TracksMixin
+from yandex_music._client_async.wave import WaveMixin
 from yandex_music.utils.request_async import Request
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -41,6 +43,8 @@ class ClientAsync(
     SearchMixin,
     PlaylistsMixin,
     RadioMixin,
+    RotorSessionsMixin,
+    WaveMixin,
     ArtistsMixin,
     LikesMixin,
     MetatagsMixin,

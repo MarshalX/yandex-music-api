@@ -2,12 +2,18 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/radio.py. DON'T EDIT IT BY HANDS #
 ##############################################################################################
 
-from datetime import datetime
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from yandex_music import Dashboard, StationResult, StationTracksResult, Status
+from yandex_music import (
+    Dashboard,
+    GenerativeStream,
+    GenerativeStreamFeedback,
+    StationResult,
+    StationTracksResult,
+    Status,
+)
 from yandex_music._client import log
-from yandex_music._client_base import ClientBase, TimestampType
+from yandex_music._client_base import ClientBase, TimestampType, utc_now_iso
 
 if TYPE_CHECKING:
     from yandex_music.utils.request import Request
@@ -105,6 +111,7 @@ class RadioMixin(ClientBase):
         batch_id: Optional[str] = None,
         total_played_seconds: Optional[Union[int, float]] = None,
         track_id: Optional[Union[str, int]] = None,
+        stream_id: Optional[str] = None,
         **kwargs: Any,
     ) -> bool:
         """Отправка обратной связи на действия при прослушивании радио.
@@ -121,13 +128,15 @@ class RadioMixin(ClientBase):
         Args:
             station (:obj:`str`): Станция.
             type_ (:obj:`str`): Тип отправляемого отзыва.
-            timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Текущее время и дата: Unix-время числом
-                или строка в формате ISO 8601. Unix-время строкой (`'1700000000'`) API не принимает.
+            timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Время события: строка в формате ISO 8601
+                или Unix-время в миллисекундах числом. По умолчанию текущее.
             from_ (:obj:`str`, optional): Откуда начато воспроизведение радио.
             batch_id (:obj:`str`, optional): Уникальный идентификатор партии треков. Возвращается при получении треков.
             total_played_seconds (:obj:`int` | :obj:`float`, optional): Сколько было проиграно секунд трека
                 перед действием.
             track_id (:obj:`int` | :obj:`str`, optional): Уникальной идентификатор трека.
+            stream_id (:obj:`str`, optional): Уникальный идентификатор потока генеративной станции
+                (:attr:`yandex_music.GenerativeStreamInfo.id`).
             *args: Произвольные аргументы (будут переданы в запрос).
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
 
@@ -138,7 +147,7 @@ class RadioMixin(ClientBase):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         if timestamp is None:
-            timestamp = datetime.now().timestamp()
+            timestamp = utc_now_iso()
 
         url = f'{self.base_url}/rotor/station/{station}/feedback'
 
@@ -146,7 +155,10 @@ class RadioMixin(ClientBase):
         data = {'type': type_, 'timestamp': timestamp}
 
         if batch_id:
-            params = {'batch-id': batch_id}
+            params['batch-id'] = batch_id
+
+        if stream_id:
+            params['streamId'] = stream_id
 
         if track_id:
             data.update({'trackId': track_id})
@@ -305,6 +317,74 @@ class RadioMixin(ClientBase):
         return list(StationResult.de_list(result, self))
 
     @log
+    def rotor_station_stream(self, station: str, *args: Any, **kwargs: Any) -> Optional[GenerativeStream]:
+        """Получение информации о генеративной станции и её потока.
+
+        Note:
+            Доступно только для генеративных станций, например, `generative:focus`, `generative:energy`,
+            `generative:calm`, `generative:relax`. Для остальных станций API возвращает ошибку.
+
+        Args:
+            station (:obj:`str`): Генеративная станция.
+            *args: Произвольные аргументы (будут переданы в запрос).
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.GenerativeStream` | :obj:`None`: Информация о генеративной станции или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/rotor/station/{station}/stream'
+
+        result = self._request.get(url, *args, **kwargs)
+
+        return GenerativeStream.de_json(result, self)
+
+    @log
+    def rotor_station_stream_feedback(
+        self,
+        station: str,
+        type_: str,
+        stream_id: Optional[str] = None,
+        timestamp: TimestampType = None,
+        **kwargs: Any,
+    ) -> Optional[GenerativeStreamFeedback]:
+        """Отправка обратной связи генеративной станции.
+
+        Note:
+            Известные типы обратной связи: `streamStarted`, `streamPlay`, `streamPause`.
+
+            Обычные типы (`radioStarted`, `trackStarted` и т.д.) генеративные станции не принимают.
+
+        Args:
+            station (:obj:`str`): Генеративная станция (например, `generative:focus`).
+            type_ (:obj:`str`): Тип отправляемого отзыва.
+            stream_id (:obj:`str`, optional): Уникальный идентификатор потока
+                (:attr:`yandex_music.GenerativeStreamInfo.id`).
+            timestamp (:obj:`str` | :obj:`float` | :obj:`int`, optional): Время события: строка в формате ISO 8601
+                или Unix-время в миллисекундах числом. По умолчанию текущее.
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.GenerativeStreamFeedback` | :obj:`None`: Состояние потока или :obj:`None`.
+
+        Raises:
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/rotor/station/{station}/feedback'
+
+        params = {}
+        if stream_id:
+            params['streamId'] = stream_id
+
+        data = {'type': type_, 'timestamp': timestamp if timestamp is not None else utc_now_iso()}
+
+        result = self._request.post(url, params=params, json=data, **kwargs)
+
+        return GenerativeStreamFeedback.de_json(result, self)
+
+    @log
     def rotor_station_settings2(
         self,
         station: str,
@@ -425,6 +505,10 @@ class RadioMixin(ClientBase):
     rotorStationFeedbackSkip = rotor_station_feedback_skip
     #: Псевдоним для :attr:`rotor_station_info`
     rotorStationInfo = rotor_station_info
+    #: Псевдоним для :attr:`rotor_station_stream`
+    rotorStationStream = rotor_station_stream
+    #: Псевдоним для :attr:`rotor_station_stream_feedback`
+    rotorStationStreamFeedback = rotor_station_stream_feedback
     #: Псевдоним для :attr:`rotor_station_settings2`
     rotorStationSettings2 = rotor_station_settings2
     #: Псевдоним для :attr:`rotor_station_tracks`
