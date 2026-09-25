@@ -4,11 +4,13 @@ from typing import TYPE_CHECKING, Any, List, Optional
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
+from yandex_music.utils.request_base import default_timeout
 
 if TYPE_CHECKING:
     from xml.dom.minicompat import NodeList
 
     from yandex_music import ClientType, JSONType
+    from yandex_music.utils.request_base import TimeoutType
 
 SIGN_SALT = 'XGRlBW9FXlekgbPrRHuSiA'
 
@@ -60,12 +62,15 @@ class DownloadInfo(YandexMusicModel):
 
         return f'https://{host}/get-mp3/{sign}/{ts}{path}'
 
-    def get_direct_link(self, **kwargs: Any) -> str:
+    def get_direct_link(self, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> str:
         """Получение прямой ссылки на загрузку из XML ответа.
 
         Метод доступен только одну минуту с момента получения информации о загрузке, иначе 410 ошибка!
 
         Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания ответа сервера в секундах для каждого
+                запроса загрузки. Ограничивает ожидание соединения и каждой порции данных, а не всю загрузку.
+                По умолчанию используется значение клиента.
             **kwargs: Произвольные ключевые аргументы для `requests.request`.
 
         Returns:
@@ -73,18 +78,21 @@ class DownloadInfo(YandexMusicModel):
 
         """
         assert self.valid_client(self.client)
-        result = self.client.request.retrieve(self.download_info_url, **kwargs)
+        result = self.client.request.retrieve(self.download_info_url, timeout=timeout, **kwargs)
 
         self.direct_link = self.__build_direct_link(result)
 
         return self.direct_link
 
-    async def get_direct_link_async(self, **kwargs: Any) -> str:
+    async def get_direct_link_async(self, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> str:
         """Получение прямой ссылки на загрузку из XML ответа.
 
         Метод доступен только одну минуту с момента получения информации о загрузке, иначе 410 ошибка!
 
         Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания в секундах для каждого запроса загрузки.
+                Ограничивает всё время запроса целиком, включая загрузку файла. По умолчанию используется
+                значение клиента.
             **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
 
         Returns:
@@ -92,61 +100,77 @@ class DownloadInfo(YandexMusicModel):
 
         """
         assert self.valid_async_client(self.client)
-        result = await self.client.request.retrieve(self.download_info_url, **kwargs)
+        result = await self.client.request.retrieve(self.download_info_url, timeout=timeout, **kwargs)
 
         self.direct_link = self.__build_direct_link(result)
 
         return self.direct_link
 
-    def download(self, filename: str, **kwargs: Any) -> None:
+    def download(self, filename: str, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> None:
         """Загрузка трека.
 
         Args:
             filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
-            **kwargs: Произвольные ключевые аргументы для `requests.request`.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания ответа сервера в секундах для каждого
+                запроса загрузки. Ограничивает ожидание соединения и каждой порции данных, а не всю загрузку.
+                По умолчанию используется значение клиента.
+            **kwargs: Произвольные ключевые аргументы для `requests.request` запроса XML с прямой ссылкой.
         """
         if self.direct_link is None:
-            self.direct_link = self.get_direct_link(**kwargs)
+            self.direct_link = self.get_direct_link(timeout, **kwargs)
 
         assert self.valid_client(self.client)
-        self.client.request.download(self.direct_link, filename)
+        self.client.request.download(self.direct_link, filename, timeout=timeout)
 
-    async def download_async(self, filename: str, **kwargs: Any) -> None:
+    async def download_async(self, filename: str, timeout: 'TimeoutType' = default_timeout, **kwargs: Any) -> None:
         """Загрузка трека.
 
         Args:
             filename (:obj:`str`): Путь и(или) название файла вместе с расширением.
-            **kwargs: Произвольные ключевые аргументы для `aiohttp.request`.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания в секундах для каждого запроса загрузки.
+                Ограничивает всё время запроса целиком, включая загрузку файла. По умолчанию используется
+                значение клиента.
+            **kwargs: Произвольные ключевые аргументы для `aiohttp.request` запроса XML с прямой ссылкой.
         """
         if self.direct_link is None:
-            self.direct_link = await self.get_direct_link_async(**kwargs)
+            self.direct_link = await self.get_direct_link_async(timeout, **kwargs)
 
         assert self.valid_async_client(self.client)
-        await self.client.request.download(self.direct_link, filename)
+        await self.client.request.download(self.direct_link, filename, timeout=timeout)
 
-    def download_bytes(self) -> bytes:
+    def download_bytes(self, timeout: 'TimeoutType' = default_timeout) -> bytes:
         """Загрузка трека и возврат в виде байтов.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания ответа сервера в секундах для каждого
+                запроса загрузки. Ограничивает ожидание соединения и каждой порции данных, а не всю загрузку.
+                По умолчанию используется значение клиента.
 
         Returns:
             :obj:`bytes`: Трек в виде байтов.
         """
         if self.direct_link is None:
-            self.direct_link = self.get_direct_link()
+            self.direct_link = self.get_direct_link(timeout)
 
         assert self.valid_client(self.client)
-        return self.client.request.retrieve(self.direct_link)
+        return self.client.request.retrieve(self.direct_link, timeout=timeout)
 
-    async def download_bytes_async(self) -> bytes:
+    async def download_bytes_async(self, timeout: 'TimeoutType' = default_timeout) -> bytes:
         """Загрузка трека и возврат в виде байтов.
+
+        Args:
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания в секундах для каждого запроса загрузки.
+                Ограничивает всё время запроса целиком, включая загрузку файла. По умолчанию используется
+                значение клиента.
 
         Returns:
             :obj:`bytes`: Трек в виде байтов.
         """
         if self.direct_link is None:
-            self.direct_link = await self.get_direct_link_async()
+            self.direct_link = await self.get_direct_link_async(timeout)
 
         assert self.valid_async_client(self.client)
-        return await self.client.request.retrieve(self.direct_link)
+        return await self.client.request.retrieve(self.direct_link, timeout=timeout)
 
     @classmethod
     def de_list(cls, data: 'JSONType', client: 'ClientType', get_direct_links: bool = False) -> List['DownloadInfo']:
