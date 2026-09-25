@@ -257,17 +257,17 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
             ping_interval=ping_interval,
             ping_timeout=ping_timeout,
         )
-        async with connection:
+        try:
             if stop.is_set():
                 return
             self._connection = connection
-            try:
-                await connection.send(self._full_state_request().to_json())
-                async for message in connection:
-                    if isinstance(message, str):
-                        await self._dispatch(message)
-            finally:
-                self._connection = None
+            await connection.send(self._full_state_request().to_json())
+            async for message in connection:
+                if isinstance(message, str):
+                    await self._dispatch(message)
+        finally:
+            self._connection = None
+            await connection.close()
 
     async def _dispatch(self, message: str) -> None:
         try:

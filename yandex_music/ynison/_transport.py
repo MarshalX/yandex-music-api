@@ -1,7 +1,7 @@
 """Тонкая обёртка над websockets для Ynison.
 
-Используются современные реализации `websockets.sync` и `websockets.asyncio`
-(websockets >= 13). Логика переподключения живёт в клиентах, а не здесь.
+Используются реализации `websockets.sync` и `websockets.asyncio` (websockets >= 13).
+Логика переподключения живёт в клиентах, а не здесь.
 """
 
 import inspect
@@ -11,10 +11,18 @@ from typing import Dict, List, Optional
 
 from websockets.asyncio.client import ClientConnection as AsyncConnection
 from websockets.asyncio.client import connect as _async_connect
-from websockets.exceptions import ConnectionClosed, InvalidStatus, WebSocketException
+from websockets.exceptions import ConnectionClosed, InvalidHandshake, InvalidStatus, WebSocketException
 from websockets.protocol import State
 from websockets.sync.client import ClientConnection as SyncConnection
 from websockets.sync.client import connect as _sync_connect
+from websockets.version import version as _websockets_version
+
+# asyncio-реализация websockets 13.x на Python 3.8 теряет фрейм, пришедший сразу после handshake,
+# а сервис редиректа Ynison отвечает именно так. Legacy-реализация в 13.x работает корректно
+# и ещё не помечена устаревшей. websockets >= 14 на Python 3.8 не устанавливается.
+USE_LEGACY_ASYNC = int(_websockets_version.split('.')[0]) < 14
+if USE_LEGACY_ASYNC:
+    from websockets.legacy.client import connect as _legacy_async_connect
 
 __all__ = [
     'AsyncConnection',
@@ -38,7 +46,10 @@ SYNC_KEEPALIVE_SUPPORTED = 'ping_interval' in inspect.signature(_sync_connect).p
 
 def is_auth_failure(exc: BaseException) -> bool:
     """Проверяет, что handshake отклонён из-за аутентификации (HTTP 401/403)."""
-    return isinstance(exc, InvalidStatus) and exc.response.status_code in (401, 403)
+    if isinstance(exc, InvalidStatus):
+        return exc.response.status_code in (401, 403)
+    # legacy InvalidStatusCode
+    return isinstance(exc, InvalidHandshake) and getattr(exc, 'status_code', None) in (401, 403)
 
 
 def open_sync(
@@ -75,6 +86,18 @@ async def open_async(
     ping_timeout: Optional[float] = None,
 ) -> AsyncConnection:
     """Открывает асинхронное websocket-соединение."""
+    if USE_LEGACY_ASYNC:
+        return await _legacy_async_connect(
+            uri,
+            extra_headers=headers,
+            subprotocols=subprotocols,
+            open_timeout=_OPEN_TIMEOUT,
+            close_timeout=_CLOSE_TIMEOUT,
+            max_size=_MAX_FRAME_SIZE,
+            ping_interval=ping_interval,
+            ping_timeout=ping_timeout,
+        )
+
     return await _async_connect(
         uri,
         additional_headers=headers,

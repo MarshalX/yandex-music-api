@@ -275,7 +275,7 @@ class TestReconnect:
 
         async def main():
             async with client.session(timeout=5):
-                await asyncio.to_thread(server.push, DISPLACED_FRAME)
+                await asyncio.get_running_loop().run_in_executor(None, server.push, DISPLACED_FRAME)
                 await wait_until(lambda: not client.is_running)
 
                 with pytest.raises(YnisonConnectionClosedError) as exc_info:
