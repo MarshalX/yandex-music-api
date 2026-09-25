@@ -38,7 +38,12 @@ setup(
     install_requires=['requests[socks]', 'typing-extensions'],
     extras_require={
         'async': ['aiohttp', 'aiofiles'],
-        'ynison': ['websockets', 'betterproto'],
+        'ynison': [
+            # websockets.asyncio и websockets.sync с нужным API появились в 13.0;
+            # 13.1 это последняя версия с поддержкой Python 3.8
+            'websockets>=13.0',
+            'betterproto>=1.2.5,<3',
+        ],
     },
     include_package_data=True,
     classifiers=[

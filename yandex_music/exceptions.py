@@ -1,5 +1,7 @@
 """Исключения."""
 
+import typing
+
 
 class YandexMusicError(Exception):
     """Базовый класс, представляющий исключения общего характера."""
@@ -45,3 +47,63 @@ class DeviceAuthError(YandexMusicError):
 
 class YnisonError(YandexMusicError):
     """Базовый класс исключений, вызываемых для ошибок, связанных с Ynison."""
+
+
+class YnisonTimeoutError(YnisonError):
+    """Класс исключения, вызываемого при истечении времени ожидания ответа от Ynison."""
+
+
+class YnisonConnectionClosedError(YnisonError):
+    """Класс исключения, вызываемого при отправке в закрытое или потерянное соединение Ynison."""
+
+
+class YnisonNoActiveDeviceError(YnisonError):
+    """Класс исключения, вызываемого, когда для команды нет активного (играющего) устройства."""
+
+
+class YnisonQueueBoundaryError(YnisonError):
+    """Класс исключения, вызываемого при попытке переключить трек за пределы очереди."""
+
+
+class YnisonServerError(YnisonError):
+    """Класс исключения, представляющего ошибку, присланную сервером Ynison.
+
+    Attributes:
+        message (:obj:`str`): Текст ошибки от сервера.
+        grpc_code (:obj:`int` | :obj:`None`): gRPC-код ошибки.
+        http_code (:obj:`int` | :obj:`None`): HTTP-код ошибки.
+        error_code (:obj:`str` | :obj:`None`): Внутренний код ошибки Ynison (`ynison-error-code`).
+        backoff_ms (:obj:`list` из :obj:`int`): Рекомендуемая сервером лестница задержек
+            перед повторными подключениями, в миллисекундах.
+        go_away_seconds (:obj:`int` | :obj:`None`): Время, в течение которого сервер просит
+            не переподключаться, в секундах.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        grpc_code: typing.Optional[int] = None,
+        http_code: typing.Optional[int] = None,
+        error_code: typing.Optional[str] = None,
+        backoff_ms: typing.Optional[typing.List[int]] = None,
+        go_away_seconds: typing.Optional[int] = None,
+    ) -> None:
+        super().__init__(message)
+        self.message = message
+        self.grpc_code = grpc_code
+        self.http_code = http_code
+        self.error_code = error_code
+        self.backoff_ms = backoff_ms or []
+        self.go_away_seconds = go_away_seconds
+
+
+class YnisonUnauthorizedError(YnisonServerError):
+    """Класс исключения, вызываемого при ошибке аутентификации в Ynison (неверный или истёкший токен)."""
+
+
+class YnisonDeviceDisplacedError(YnisonServerError):
+    """Класс исключения, вызываемого, когда соединение вытеснено другим клиентом с тем же `device_id`.
+
+    Сервер закрывает старое соединение, если подключается новое с тем же идентификатором
+    устройства. Один `device_id` может использоваться только одним живым подключением.
+    """

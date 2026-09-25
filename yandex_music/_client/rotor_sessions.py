@@ -51,7 +51,7 @@ class RotorSessionsMixin(ClientBase):
     Миксин для методов, связанных с сессиями радио (rotor session) и комбинированными сессиями (треки и клипы).
 
     Note:
-        Сессия — актуальный способ слушать радио: создаётся по сидам, выдаёт партии треков и принимает
+        Сессия является актуальным способом слушать радио: она создаётся по сидам, выдаёт партии треков и принимает
         обратную связь о прослушивании.
     """
 
@@ -85,7 +85,7 @@ class RotorSessionsMixin(ClientBase):
             queue (:obj:`list` из :obj:`str`, optional): Уже проигранные треки, чтобы не получить их повторно.
             track_to_start_from (:obj:`str`, optional): Трек, с которого начать сессию.
             include_tracks_in_response (:obj:`bool`, optional): Возвращать ли треки в ответе. По умолчанию
-                на стороне API — да.
+                на стороне API да.
             include_wave_model (:obj:`bool`, optional): Возвращать ли модель волны (:attr:`RotorSession.wave`).
             interactive (:obj:`bool`, optional): Интерактивная ли сессия.
             incognito (:obj:`bool`, optional): Не учитывать прослушивания в рекомендациях.

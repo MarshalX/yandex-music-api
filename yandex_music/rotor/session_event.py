@@ -18,7 +18,7 @@ class SessionEvent(YandexMusicModel):
         `playableItemUndislike`, `combinedQueueStarted`, `ad`.
 
         Поле `timestamp` обязательно для всех событий. Событиям `trackStarted`, `trackFinished`, `skip`, `like`,
-        `unlike`, `dislike`, `undislike` нужен `track_id`; событиям `playableItem*` — `playable`.
+        `unlike`, `dislike`, `undislike` нужен `track_id`; событиям `playableItem*` нужен `playable`.
         Событиям `trackFinished`, `skip`, `dislike`, `playableItemFinished`, `playableItemSkip`,
         `playableItemDislike` нужен `total_played_seconds`.
 

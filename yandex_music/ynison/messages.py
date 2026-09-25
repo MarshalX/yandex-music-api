@@ -2,28 +2,43 @@
 
 Набор функций для конструирования :class:`PutYnisonStateRequest` под типичные
 действия: инициализация подключения, пауза/возобновление, переключение трека,
-изменение громкости. Используется как долгоживущими клиентами
-(:class:`yandex_music.ynison.YnisonClient`, :class:`yandex_music.ynison.YnisonClientAsync`),
-так и простыми интерфейсами из :mod:`yandex_music.ynison.simple` /
-:mod:`yandex_music.ynison.simple_async`.
+изменение громкости. Используется клиентами
+(:class:`yandex_music.ynison.YnisonClient`, :class:`yandex_music.ynison.YnisonClientAsync`)
+в их методах управления (``pause``, ``next_track`` и т.д.). Вызывать билдеры напрямую
+нужно только для собственных сценариев через ``client.send(request)``.
 """
 
 import dataclasses
+import hashlib
 import time
 from random import random
-from typing import Any
+from typing import Any, Optional
 from uuid import uuid4
 
+from yandex_music.exceptions import YnisonQueueBoundaryError
+from yandex_music.ynison import utils
 from yandex_music.ynison.models import ynison_state
 
+DEFAULT_DEVICE_TITLE = 'Python SDK'
+DEFAULT_APP_NAME = 'yandex-music'
 
-def generate_device_id() -> str:
-    """Генерирует случайный идентификатор устройства.
+
+def generate_device_id(seed: Optional[str] = None) -> str:
+    """Генерирует идентификатор устройства.
+
+    Без `seed` случайный. С `seed` детерминированный: один и тот же `seed`
+    всегда даёт один и тот же идентификатор, поэтому повторные запуски не плодят
+    новые устройства в Ynison-сессии.
+
+    Args:
+        seed: Произвольная строка для детерминированной генерации.
 
     Returns:
-        :obj:`str`: Идентификатор в hex-представлении (без префикса `0x`).
+        :obj:`str`: Идентификатор из 12 hex-символов.
     """
-    return hex(int(10**16 * random()))[2:]  # noqa: S311
+    if seed is None:
+        return f'{int(2**48 * random()):012x}'  # noqa: S311
+    return hashlib.sha256(seed.encode('UTF-8')).hexdigest()[:12]
 
 
 def get_timestamp() -> int:
@@ -61,7 +76,11 @@ def _wrap_request(**oneof: Any) -> ynison_state.PutYnisonStateRequest:
     )
 
 
-def get_update_full_state_request(device_id: str) -> ynison_state.PutYnisonStateRequest:
+def build_full_state_request(
+    device_id: str,
+    title: str = DEFAULT_DEVICE_TITLE,
+    app_name: str = DEFAULT_APP_NAME,
+) -> ynison_state.PutYnisonStateRequest:
     """Собирает начальный запрос регистрации устройства как remote control.
 
     Отправляется сразу после подключения state websocket'а. Регистрирует
@@ -70,6 +89,8 @@ def get_update_full_state_request(device_id: str) -> ynison_state.PutYnisonState
 
     Args:
         device_id: Идентификатор этого устройства.
+        title: Название устройства, которое увидят другие клиенты в списке устройств.
+        app_name: Название приложения.
 
     Returns:
         :obj:`yandex_music.ynison.models.ynison_state.PutYnisonStateRequest`:
@@ -109,8 +130,8 @@ def get_update_full_state_request(device_id: str) -> ynison_state.PutYnisonState
                 info=ynison_state.DeviceInfo(
                     device_id=device_id,
                     type=ynison_state.DeviceType.WEB,
-                    title='Python SDK',
-                    app_name='yandex-music',
+                    title=title,
+                    app_name=app_name,
                 ),
                 volume_info=ynison_state.DeviceVolume(
                     volume=0,
@@ -124,69 +145,28 @@ def get_update_full_state_request(device_id: str) -> ynison_state.PutYnisonState
     )
 
 
-def get_update_player_state_request(device_id: str) -> ynison_state.PutYnisonStateRequest:
-    """Собирает запрос с пустым состоянием плеера.
-
-    Args:
-        device_id: Идентификатор устройства, инициировавшего изменение.
-
-    Returns:
-        :obj:`yandex_music.ynison.models.ynison_state.PutYnisonStateRequest`:
-            Запрос `UpdatePlayerState` с пустой очередью.
-    """
-    return ynison_state.PutYnisonStateRequest(
-        update_player_state=ynison_state.UpdatePlayerState(
-            player_state=ynison_state.PlayerState(
-                player_queue=ynison_state.PlayerQueue(
-                    current_playable_index=-1,
-                    options=ynison_state.PlayerStateOptions(
-                        repeat_mode=ynison_state.PlayerStateOptionsRepeatMode.NONE,
-                    ),
-                    version=ynison_state.UpdateVersion(
-                        device_id=device_id,
-                    ),
-                    entity_id='',
-                    entity_type=ynison_state.PlayerQueueEntityType.VARIOUS,
-                    entity_context=ynison_state.PlayerQueueEntityContext.BASED_ON_ENTITY_BY_DEFAULT,
-                    from_optional='',
-                ),
-                status=ynison_state.PlayingStatus(
-                    paused=True,
-                    playback_speed=1,
-                    version=ynison_state.UpdateVersion(
-                        device_id=device_id,
-                        timestamp_ms=0,
-                    ),
-                ),
-            ),
-        ),
-        rid=generate_request_id(),
-        player_action_timestamp_ms=get_timestamp(),
-        activity_interception_type=ynison_state.PutYnisonStateRequestActivityInterceptionType.DO_NOT_INTERCEPT_BY_DEFAULT,
-    )
-
-
-def get_set_paused_request(
+def build_set_paused_request(
     device_id: str,
     current_status: ynison_state.PlayingStatus,
     paused: bool,
 ) -> ynison_state.PutYnisonStateRequest:
     """Собирает запрос паузы или возобновления воспроизведения.
 
-    Клонирует текущий `PlayingStatus`, меняя только флаг `paused` и обновляя версию.
-    Прочие поля (`progress_ms`, `duration_ms`, `playback_speed`) сохраняются.
+    Клонирует текущий `PlayingStatus`, меняя флаг `paused` и обновляя версию.
+    Прогресс пересчитывается на текущий момент (см. :func:`yandex_music.ynison.utils.get_current_progress_ms`),
+    иначе пауза откатила бы трек к позиции из последнего фрейма.
 
     Args:
         device_id: Идентификатор устройства, инициировавшего изменение.
         current_status: Текущий статус воспроизведения с сервера.
-        paused: `True` — поставить на паузу, `False` — продолжить.
+        paused: `True`, чтобы поставить на паузу, `False`, чтобы продолжить.
 
     Returns:
         :obj:`yandex_music.ynison.models.ynison_state.PutYnisonStateRequest`:
             Запрос `UpdatePlayingStatus` с подменённым флагом `paused`.
     """
     new_status = ynison_state.PlayingStatus(
-        progress_ms=current_status.progress_ms,
+        progress_ms=utils.get_current_progress_ms(current_status),
         duration_ms=current_status.duration_ms,
         paused=paused,
         playback_speed=current_status.playback_speed or 1.0,
@@ -197,7 +177,7 @@ def get_set_paused_request(
     )
 
 
-def get_change_track_request(
+def build_change_track_request(
     device_id: str,
     current_state: ynison_state.PlayerState,
     delta: int,
@@ -205,21 +185,31 @@ def get_change_track_request(
     """Собирает запрос перехода на соседний трек в очереди.
 
     Клонирует текущий :class:`PlayerQueue`, меняя только `current_playable_index`
-    и версию. Статус воспроизведения сбрасывается на нулевой прогресс
-    с сохранением флага паузы.
+    и версию. Сдвиг считается в порядке воспроизведения, то есть с учётом
+    перемешивания. Статус воспроизведения сбрасывается на нулевой прогресс
+    с сохранением флага паузы; длительность нового трека в очереди неизвестна
+    и выставляется в `0`, её заполнит устройство-плеер.
 
     Args:
         device_id: Идентификатор устройства, инициировавшего изменение.
         current_state: Текущее состояние плеера с сервера.
-        delta: Сдвиг индекса; `1` — следующий трек, `-1` — предыдущий.
+        delta: Сдвиг в порядке воспроизведения; `1` для следующего трека, `-1` для предыдущего.
 
     Returns:
         :obj:`yandex_music.ynison.models.ynison_state.PutYnisonStateRequest`:
             Запрос `UpdatePlayerState` с обновлённым индексом и версией.
+
+    Raises:
+        :class:`yandex_music.exceptions.YnisonQueueBoundaryError`: Если сдвиг выходит
+            за пределы очереди (например, `next` на последнем треке).
     """
     queue = current_state.player_queue
-    total = len(queue.playable_list)
-    new_index = max(0, min(queue.current_playable_index + delta, total - 1)) if total else -1
+    new_index = utils.get_neighbour_index(queue, delta)
+    if new_index is None:
+        raise YnisonQueueBoundaryError(
+            f'Нельзя сдвинуться на {delta:+d} от трека {queue.current_playable_index} '
+            f'в очереди из {len(queue.playable_list)} треков'
+        )
 
     new_queue = dataclasses.replace(
         queue,
@@ -240,7 +230,7 @@ def get_change_track_request(
     )
 
 
-def get_next_track_request(
+def build_next_track_request(
     device_id: str,
     current_state: ynison_state.PlayerState,
 ) -> ynison_state.PutYnisonStateRequest:
@@ -252,12 +242,15 @@ def get_next_track_request(
 
     Returns:
         :obj:`yandex_music.ynison.models.ynison_state.PutYnisonStateRequest`:
-            Запрос `UpdatePlayerState` с индексом, увеличенным на 1.
+            Запрос `UpdatePlayerState` со следующим индексом.
+
+    Raises:
+        :class:`yandex_music.exceptions.YnisonQueueBoundaryError`: Если текущий трек последний.
     """
-    return get_change_track_request(device_id, current_state, delta=1)
+    return build_change_track_request(device_id, current_state, delta=1)
 
 
-def get_prev_track_request(
+def build_previous_track_request(
     device_id: str,
     current_state: ynison_state.PlayerState,
 ) -> ynison_state.PutYnisonStateRequest:
@@ -269,12 +262,15 @@ def get_prev_track_request(
 
     Returns:
         :obj:`yandex_music.ynison.models.ynison_state.PutYnisonStateRequest`:
-            Запрос `UpdatePlayerState` с индексом, уменьшенным на 1.
+            Запрос `UpdatePlayerState` с предыдущим индексом.
+
+    Raises:
+        :class:`yandex_music.exceptions.YnisonQueueBoundaryError`: Если текущий трек первый.
     """
-    return get_change_track_request(device_id, current_state, delta=-1)
+    return build_change_track_request(device_id, current_state, delta=-1)
 
 
-def get_set_volume_request(
+def build_set_volume_request(
     device_id: str,
     target_device_id: str,
     volume: float,
@@ -284,7 +280,7 @@ def get_set_volume_request(
     Args:
         device_id: Идентификатор устройства, инициировавшего изменение.
         target_device_id: Идентификатор устройства, на котором меняется громкость.
-        volume: Новая громкость в диапазоне [0.0; 1.0]; вне диапазона — клампится.
+        volume: Новая громкость в диапазоне [0.0; 1.0]; значения вне диапазона обрезаются.
 
     Returns:
         :obj:`yandex_music.ynison.models.ynison_state.PutYnisonStateRequest`:

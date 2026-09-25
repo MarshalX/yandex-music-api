@@ -330,7 +330,7 @@ class PlayerQueueQueue(betterproto.Message):
     Каждому виду очередей соответствует один из типов :class:`PlayablePlayableType`.
     Каждому playable'у с типом ``TRACK`` соответствует сущность из таблицы сущностей
     (см. :class:`PlayerQueueQueueWaveQueueEntityOptions`). Очереди не имеют универсального
-    идентификатора — каждая сама решает, что её идентифицирует (см. :attr:`type`).
+    идентификатора: каждая сама решает, что её идентифицирует (см. :attr:`type`).
 
     Attributes:
         wave_queue (:obj:`yandex_music.ynison.models.ynison_state.PlayerQueueQueueWaveQueue`):
@@ -382,7 +382,7 @@ class PlayerQueueQueueWaveQueue(betterproto.Message):
             «с рекомендательными треками»; индекс потенциального рекомендательного трека
             в состоянии «без рекомендательных треков». Возможны значения ``[current_playable_index,
             playable_list.size)`` в первом состоянии и ``playable_list.size`` во втором.
-            Значение ``-1`` — пустая очередь.
+            Значение ``-1`` означает пустую очередь.
         entity_options (:obj:`yandex_music.ynison.models.ynison_state.PlayerQueueQueueWaveQueueEntityOptions`):
             Параметры сущностей для смешанной трековой очереди.
         navigation_id_optional (:obj:`str`, optional): Хеш очереди для аналитики новых фромов,
@@ -502,7 +502,7 @@ class PlayerQueueQueueWaveQueueEntityOptionsPlaylistId(betterproto.Message):
     Attributes:
         id (:obj:`str`): Идентификатор плейлиста. Строковый из-за процесса отказа от ``owner:kind``.
         filter_optional (:obj:`str`, optional): Идентификатор фильтра для плейлиста.
-            Если запущены все треки плейлиста — :obj:`None`; иначе — ``filter_id``, откуда
+            Если запущены все треки плейлиста, :obj:`None`; иначе ``filter_id``, откуда
             были запущены треки.
     """
 
@@ -704,8 +704,8 @@ class DeviceCapabilities(betterproto.Message):
         can_be_player (:obj:`bool`): Может ли устройство быть активным и проигрывать сущности.
         can_be_remote_controller (:obj:`bool`): Может ли устройство быть пультом.
         volume_granularity (:obj:`int`): Максимальное количество делений на шкале громкости
-            для управления этим устройством. ``0`` — устройство не поддерживает удалённый
-            контроль громкости; ``N`` — поддерживает. Допустимы значения ``[0, 1000]``.
+            для управления этим устройством. ``0``: устройство не поддерживает удалённый
+            контроль громкости; ``N``: поддерживает. Допустимы значения ``[0, 1000]``.
     """
 
     can_be_player: bool = betterproto.bool_field(1)
@@ -975,7 +975,7 @@ class UpdateFullState(betterproto.Message):
             Информация об устройстве.
         sync_state_from_eov_optional (:obj:`yandex_music.ynison.models.ynison_state.SyncStateFromEOV`):
             Запрос синхронизации с сервисом ЕОВ во время обработки ``UpdateFullState``.
-            Если не передан — синхронизация будет вызвана только для сценариев холодного старта.
+            Если не передан, синхронизация будет вызвана только для сценариев холодного старта.
     """
 
     player_state: 'PlayerState' = betterproto.message_field(1)
@@ -1033,14 +1033,14 @@ class SyncStateFromEOV(betterproto.Message):
     2. Если устройство не является активным после шага 1, команда тихо игнорируется.
     3. Бэкенд получает список очередей из ЕОВ.
     4. Если id последней очереди в списке совпадает с ``actual_queue_id``, обновление не
-       произойдёт — переход к пункту 6.
+       произойдёт, переход к пункту 6.
     5. Пробуем обновить стейт на основании ЕОВ. Новое состояние плеера будет содержать
        ``[UpdateVersion#device_id]``, отличный от id устройства-отправителя.
-    6. Если стейт был обновлён или сменилось активное устройство — рассылаем эвент всем
+    6. Если стейт был обновлён или сменилось активное устройство, рассылаем эвент всем
        устройствам. Иначе выходим без событий и ошибок.
 
     Attributes:
-        actual_queue_id (:obj:`str`): Идентификатор очереди устройства в ЕОВ. Пустая строка —
+        actual_queue_id (:obj:`str`): Идентификатор очереди устройства в ЕОВ. Пустая строка:
             допустимое значение, если клиент не имеет информации о синхронизации очередей.
     """
 

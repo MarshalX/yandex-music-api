@@ -1,5 +1,5 @@
 Асинхронный клиент Ynison
 =========================
 
-.. automodule:: yandex_music.ynison._client.client_async
+.. automodule:: yandex_music.ynison.client_async
    :members:

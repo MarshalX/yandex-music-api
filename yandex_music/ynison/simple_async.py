@@ -2,20 +2,29 @@
 
 Каждая корутина открывает свежее websocket-соединение, выполняет одно действие
 и корректно закрывается. Для долгоживущих подключений или собственных payload'ов
-используйте :class:`yandex_music.ynison.YnisonClientAsync` напрямую вместе с билдерами
-запросов из :mod:`yandex_music.ynison.messages`.
+используйте :class:`yandex_music.ynison.YnisonClientAsync` напрямую.
+
+Note:
+    По умолчанию все функции используют один детерминированный `device_id`,
+    вычисленный из токена. Параллельные вызовы с одним `device_id` вытесняют
+    друг друга (:class:`yandex_music.exceptions.YnisonDeviceDisplacedError`).
 
 Синхронный аналог :mod:`yandex_music.ynison.simple`.
 """
 
 from typing import List, Optional
 
-from yandex_music.exceptions import YnisonError
-from yandex_music.ynison import messages
-from yandex_music.ynison._client import YnisonClientAsync
+from yandex_music.ynison import messages, utils
+from yandex_music.ynison.client_async import YnisonClientAsync
 from yandex_music.ynison.models import ynison_state
 
 _DEFAULT_TIMEOUT = 10.0
+
+
+def _client(token: str, device_id: Optional[str]) -> YnisonClientAsync:
+    # свой device_id, чтобы не вытеснять долгоживущий клиент с дефолтным id
+    default_device_id = messages.generate_device_id(seed=f'yandex-music-ynison-simple:{token}')
+    return YnisonClientAsync(token, device_id or default_device_id)
 
 
 async def get_state(
@@ -28,7 +37,7 @@ async def get_state(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Returns:
@@ -36,10 +45,11 @@ async def get_state(
             Последний полученный фрейм состояния.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        return client._require_state()
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        return client.state
 
 
 async def get_current_track(
@@ -52,7 +62,7 @@ async def get_current_track(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Returns:
@@ -61,14 +71,11 @@ async def get_current_track(
             (пустая очередь или незавершённый старт).
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        queue = client._require_state().player_state.player_queue
-        idx = queue.current_playable_index
-        if 0 <= idx < len(queue.playable_list):
-            return queue.playable_list[idx]
-        return None
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        return utils.get_current_playable(client.state)
 
 
 async def get_devices(
@@ -81,7 +88,7 @@ async def get_devices(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Returns:
@@ -89,10 +96,11 @@ async def get_devices(
             Все известные устройства, включая оффлайн.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        return list(client._require_state().devices)
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        return list(client.state.devices)
 
 
 async def get_active_device(
@@ -105,7 +113,7 @@ async def get_active_device(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Returns:
@@ -114,14 +122,11 @@ async def get_active_device(
             не играет прямо сейчас.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        state = client._require_state()
-        active_id = state.active_device_id_optional
-        if not active_id:
-            return None
-        return next((d for d in state.devices if d.info.device_id == active_id), None)
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        return utils.get_active_device(client.state)
 
 
 async def pause(
@@ -134,15 +139,16 @@ async def pause(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
+        :class:`yandex_music.exceptions.YnisonNoActiveDeviceError`: Если нет активного устройства.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        status = client._require_state().player_state.status
-        await client.send(messages.get_set_paused_request(client.device_id, status, paused=True))
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        await client.pause()
 
 
 async def resume(
@@ -155,15 +161,16 @@ async def resume(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
+        :class:`yandex_music.exceptions.YnisonNoActiveDeviceError`: Если нет активного устройства.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        status = client._require_state().player_state.status
-        await client.send(messages.get_set_paused_request(client.device_id, status, paused=False))
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        await client.resume()
 
 
 async def next_track(
@@ -176,15 +183,16 @@ async def next_track(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
+        :class:`yandex_music.exceptions.YnisonQueueBoundaryError`: Если текущий трек последний.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        state = client._require_state().player_state
-        await client.send(messages.get_next_track_request(client.device_id, state))
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        await client.next_track()
 
 
 async def previous_track(
@@ -197,15 +205,16 @@ async def previous_track(
     Args:
         token: OAuth-токен Yandex Music.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
+        :class:`yandex_music.exceptions.YnisonQueueBoundaryError`: Если текущий трек первый.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        state = client._require_state().player_state
-        await client.send(messages.get_prev_track_request(client.device_id, state))
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        await client.previous_track()
 
 
 async def set_volume(
@@ -219,21 +228,18 @@ async def set_volume(
 
     Args:
         token: OAuth-токен Yandex Music.
-        volume: Громкость в диапазоне [0.0; 1.0]; вне диапазона — клампится билдером.
+        volume: Громкость в диапазоне [0.0; 1.0]; значения вне диапазона обрезаются.
         target_device_id: Идентификатор устройства, на котором меняется громкость.
-            Если :obj:`None` — берётся активное устройство из текущего состояния.
+            Если :obj:`None`, берётся активное устройство из текущего состояния.
         device_id: Идентификатор этого клиента в Ynison-сессии.
-            По умолчанию — случайный.
+            По умолчанию детерминированный, вычисленный из токена.
         timeout: Максимальное время ожидания начального фрейма, в секундах.
 
     Raises:
-        :class:`yandex_music.exceptions.YnisonError`: Если не удалось определить
-            целевое устройство (нет активного и не передан `target_device_id`)
-            или начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonNoActiveDeviceError`: Если не удалось определить
+            целевое устройство (нет активного и не передан `target_device_id`).
+        :class:`yandex_music.exceptions.YnisonTimeoutError`: Если начальный фрейм не пришёл за `timeout` секунд.
+        :class:`yandex_music.exceptions.YnisonUnauthorizedError`: Неверный или истёкший токен.
     """
-    async with YnisonClientAsync(token, device_id).session(timeout=timeout) as client:
-        state = client._require_state()
-        target = target_device_id or state.active_device_id_optional
-        if not target or target == client.device_id:
-            raise YnisonError('Нет активного устройства для изменения громкости; укажите target_device_id явно')
-        await client.send(messages.get_set_volume_request(client.device_id, target, volume))
+    async with _client(token, device_id).session(timeout=timeout) as client:
+        await client.set_volume(volume, target_device_id)

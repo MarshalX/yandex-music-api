@@ -14,7 +14,7 @@ class SessionPlayable(YandexMusicModel):
     Note:
         Используется в событиях `playableItem*` (:class:`yandex_music.SessionEvent`).
 
-        Для `type` = `track` заполняется `track_id`, для `type` = `clip` — `id`.
+        Для `type` = `track` заполняется `track_id`, для `type` = `clip` заполняется `id`.
 
     Attributes:
         type (:obj:`str`): Тип объекта: `track` или `clip`.
