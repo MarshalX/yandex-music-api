@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, List, Optional, Union
 from yandex_music import YandexMusicModel
 from yandex_music.exceptions import InvalidBitrateError
 from yandex_music.utils import model
+from yandex_music.utils.request_base import default_timeout
 
 if TYPE_CHECKING:
     from yandex_music import (
@@ -25,6 +26,7 @@ if TYPE_CHECKING:
     )
     from yandex_music.track.fade import Fade
     from yandex_music.track.smart_preview_params import SmartPreviewParams
+    from yandex_music.utils.request_base import TimeoutType
 
 
 @model
@@ -345,43 +347,53 @@ class Track(YandexMusicModel):
         assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.get_og_image_url(size))
 
-    def get_specific_download_info(self, codec: str, bitrate_in_kbps: int) -> Optional['DownloadInfo']:
+    def get_specific_download_info(
+        self, codec: str, bitrate_in_kbps: int, timeout: 'TimeoutType' = default_timeout
+    ) -> Optional['DownloadInfo']:
         """Возвращает вариант загрузки по критериям.
 
         Args:
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания ответа сервера в секундах, если информацию
+                о загрузке нужно запросить. По умолчанию используется значение клиента.
 
         Returns:
             :obj:`yandex_music.DownloadInfo` | :obj:`None`: Вариант загрузки трека или :obj:`None`.
         """
         if self.download_info is None:
-            self.download_info = self.get_download_info()
+            self.download_info = self.get_download_info(timeout=timeout)
 
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
                 return info
         return None
 
-    async def get_specific_download_info_async(self, codec: str, bitrate_in_kbps: int) -> Optional['DownloadInfo']:
+    async def get_specific_download_info_async(
+        self, codec: str, bitrate_in_kbps: int, timeout: 'TimeoutType' = default_timeout
+    ) -> Optional['DownloadInfo']:
         """Возвращает вариант загрузки по критериям.
 
         Args:
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания ответа сервера в секундах, если информацию
+                о загрузке нужно запросить. По умолчанию используется значение клиента.
 
         Returns:
             :obj:`yandex_music.DownloadInfo` | :obj:`None`: Вариант загрузки трека или :obj:`None`.
         """
         if self.download_info is None:
-            self.download_info = await self.get_download_info_async()
+            self.download_info = await self.get_download_info_async(timeout=timeout)
 
         for info in self.download_info:
             if info.codec == codec and info.bitrate_in_kbps == bitrate_in_kbps:
                 return info
         return None
 
-    def download(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
+    def download(
+        self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192, timeout: 'TimeoutType' = default_timeout
+    ) -> None:
         """Загрузка трека.
 
         Note:
@@ -393,17 +405,22 @@ class Track(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания ответа сервера в секундах для каждого
+                запроса загрузки (информация о загрузке, XML с прямой ссылкой, сам файл). Ограничивает ожидание
+                соединения и каждой порции данных, а не всю загрузку. По умолчанию используется значение клиента.
 
         Raises:
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
-        info = self.get_specific_download_info(codec, bitrate_in_kbps)
+        info = self.get_specific_download_info(codec, bitrate_in_kbps, timeout)
         if info:
-            info.download(filename)
+            info.download(filename, timeout)
         else:
             raise InvalidBitrateError('Unavailable bitrate')
 
-    async def download_async(self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> None:
+    async def download_async(
+        self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192, timeout: 'TimeoutType' = default_timeout
+    ) -> None:
         """Загрузка трека.
 
         Note:
@@ -415,17 +432,22 @@ class Track(YandexMusicModel):
             filename (:obj:`str`): Путь для сохранения файла с названием и расширением.
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания в секундах для каждого запроса загрузки
+                (информация о загрузке, XML с прямой ссылкой, сам файл). Ограничивает всё время запроса целиком,
+                включая загрузку файла. По умолчанию используется значение клиента.
 
         Raises:
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
-        info = await self.get_specific_download_info_async(codec, bitrate_in_kbps)
+        info = await self.get_specific_download_info_async(codec, bitrate_in_kbps, timeout)
         if info:
-            await info.download_async(filename)
+            await info.download_async(filename, timeout)
         else:
             raise InvalidBitrateError('Unavailable bitrate')
 
-    def download_bytes(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
+    def download_bytes(
+        self, codec: str = 'mp3', bitrate_in_kbps: int = 192, timeout: 'TimeoutType' = default_timeout
+    ) -> bytes:
         """Загрузка трека и возврат в виде байтов.
 
         Note:
@@ -436,6 +458,9 @@ class Track(YandexMusicModel):
         Args:
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания ответа сервера в секундах для каждого
+                запроса загрузки (информация о загрузке, XML с прямой ссылкой, сам файл). Ограничивает ожидание
+                соединения и каждой порции данных, а не всю загрузку. По умолчанию используется значение клиента.
 
         Raises:
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
@@ -443,13 +468,15 @@ class Track(YandexMusicModel):
         Returns:
             :obj:`bytes`: Трек в виде байтов.
         """
-        info = self.get_specific_download_info(codec, bitrate_in_kbps)
+        info = self.get_specific_download_info(codec, bitrate_in_kbps, timeout)
         if info:
-            return info.download_bytes()
+            return info.download_bytes(timeout)
 
         raise InvalidBitrateError('Unavailable bitrate')
 
-    async def download_bytes_async(self, codec: str = 'mp3', bitrate_in_kbps: int = 192) -> bytes:
+    async def download_bytes_async(
+        self, codec: str = 'mp3', bitrate_in_kbps: int = 192, timeout: 'TimeoutType' = default_timeout
+    ) -> bytes:
         """Загрузка трека и возврат в виде байтов.
 
         Note:
@@ -460,6 +487,9 @@ class Track(YandexMusicModel):
         Args:
             codec (:obj:`str`, optional): Кодек из доступных в `self.download_info`.
             bitrate_in_kbps (:obj:`int`, optional): Битрейт из доступных в `self.download_info` для данного кодека.
+            timeout (:obj:`int` | :obj:`float`, optional): Время ожидания в секундах для каждого запроса загрузки
+                (информация о загрузке, XML с прямой ссылкой, сам файл). Ограничивает всё время запроса целиком,
+                включая загрузку файла. По умолчанию используется значение клиента.
 
         Raises:
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
@@ -467,9 +497,9 @@ class Track(YandexMusicModel):
         Returns:
             :obj:`bytes`: Трек в виде байтов.
         """
-        info = await self.get_specific_download_info_async(codec, bitrate_in_kbps)
+        info = await self.get_specific_download_info_async(codec, bitrate_in_kbps, timeout)
         if info:
-            return await info.download_bytes_async()
+            return await info.download_bytes_async(timeout)
 
         raise InvalidBitrateError('Unavailable bitrate')
 
