@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   pytest:
     runs-on: ubuntu-latest
@@ -13,19 +16,23 @@ jobs:
       - name: Checkout repository.
         uses: actions/checkout@v6
 
-      - name: Setup Python.
-        uses: actions/setup-python@v6
+      - name: Setup uv.
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: 3.8
+          python-version: "3.13"
+          enable-cache: true
 
       - name: Install dependencies.
-        run: pip install -r requirements-dev.txt
+        run: uv sync --locked --all-extras --no-default-groups --group test
 
       - name: Test with pytest and generate coverage.
-        run: pytest -v --cov=yandex_music
+        run: uv run --no-sync pytest -v --cov=yandex_music --cov-report=xml
 
       - name: Submit coverage.
         if: github.ref == 'refs/heads/main' && github.repository == 'MarshalX/yandex-music-api'
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: codecov -F github -t $CODECOV_TOKEN --name "GHA"
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          flags: github
+          name: GHA

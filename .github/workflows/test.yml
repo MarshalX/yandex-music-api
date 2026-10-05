@@ -4,6 +4,10 @@ on:
   pull_request:
     branches:
       - main
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
   unit_tests:
@@ -12,19 +16,20 @@ jobs:
     strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
-        python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12", "3.13", "3.14" ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14" ]
 
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v6
 
-      - name: Setup Python ${{ matrix.python-version }}.
-        uses: actions/setup-python@v6
+      - name: Setup uv and Python ${{ matrix.python-version }}.
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
+          enable-cache: true
 
       - name: Install dependencies.
-        run: pip install -r requirements-dev.txt
+        run: uv sync --locked --all-extras --no-default-groups --group test
 
       - name: Test with pytest.
-        run: pytest -vv
+        run: uv run --no-sync pytest -vv

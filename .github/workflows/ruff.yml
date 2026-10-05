@@ -1,6 +1,8 @@
 name: Linter and code style check
 
-on: [ pull_request ]
+on:
+  pull_request:
+  workflow_call:
 
 permissions:
   contents: read
@@ -12,18 +14,17 @@ jobs:
       - name: Checkout repository.
         uses: actions/checkout@v6
 
-      - name: Setup Python.
-        uses: actions/setup-python@v6
+      - name: Setup uv.
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: 3.8
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Install dependencies.
+        run: uv sync --locked --only-group lint
 
       - name: Run linter check.
-        uses: astral-sh/ruff-action@v3
-        with:
-          version: 0.15.9
+        run: uv run --no-sync ruff check --output-format=github .
 
       - name: Run code style check.
-        uses: astral-sh/ruff-action@v3
-        with:
-          version: 0.15.9
-          args: format --check
+        run: uv run --no-sync ruff format --check .
