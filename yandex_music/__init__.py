@@ -142,6 +142,8 @@ from .track.fade import Fade
 from .track.smart_preview_params import SmartPreviewParams
 from .track.track_trailer import TrackTrailer
 from .track.track_full_info import TrackFullInfo
+from .track.file_download_info import FileDownloadInfo
+from .track.file_info import FileInfo
 
 from .feed.generated_playlist import GeneratedPlaylist
 from .feed.album_event import AlbumEvent
@@ -353,6 +355,8 @@ __all__ = [
     'ExperimentsDetails',
     'Fade',
     'Feed',
+    'FileDownloadInfo',
+    'FileInfo',
     'ForeignAgent',
     'GeneratedPlaylist',
     'GenerativeStream',

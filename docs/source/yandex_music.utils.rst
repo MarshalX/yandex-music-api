@@ -12,6 +12,12 @@
 
       Преобразование идентификаторов треков
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` Decrypt
+      :link: yandex_music.utils.decrypt
+      :link-type: doc
+
+      Расшифровка аудиофайлов
+
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` Difference
       :link: yandex_music.utils.difference
       :link-type: doc
@@ -66,6 +72,7 @@
    :maxdepth: 1
 
    yandex_music.utils.convert_track_id
+   yandex_music.utils.decrypt
    yandex_music.utils.difference
    yandex_music.utils.json_compat
    yandex_music.utils.normalize

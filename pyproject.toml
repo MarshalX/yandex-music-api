@@ -42,6 +42,9 @@ async = [
     "aiohttp",
     "aiofiles",
 ]
+crypto = [
+    "cryptography",
+]
 ynison = [
     # websockets.asyncio и websockets.sync с нужным API появились в 13.0;
     # 13.1 это последняя версия с поддержкой Python 3.8

@@ -84,6 +84,8 @@ from yandex_music import (
     ExperimentDetailValue,
     ExperimentsDetails,
     Fade,
+    FileDownloadInfo,
+    FileInfo,
     ForeignAgent,
     GeneratedPlaylist,
     GenerativeStream,
@@ -269,6 +271,7 @@ from . import (
     TestExperimentDetail,
     TestExperimentDetailValue,
     TestFade,
+    TestFileDownloadInfo,
     TestForeignAgent,
     TestGeneratedPlaylist,
     TestGenerativeStream,
@@ -1956,6 +1959,27 @@ def credits_(credit):
     return Credits(
         credits=[credit],
     )
+
+
+@pytest.fixture(scope='session')
+def file_download_info():
+    return FileDownloadInfo(
+        track_id=TestFileDownloadInfo.track_id,
+        quality=TestFileDownloadInfo.quality,
+        codec=TestFileDownloadInfo.codec,
+        bitrate=TestFileDownloadInfo.bitrate,
+        transport=TestFileDownloadInfo.transport,
+        url=TestFileDownloadInfo.url,
+        urls=TestFileDownloadInfo.urls,
+        real_id=TestFileDownloadInfo.real_id,
+        gain=TestFileDownloadInfo.gain,
+        key=TestFileDownloadInfo.key,
+    )
+
+
+@pytest.fixture(scope='session')
+def file_info(file_download_info):
+    return FileInfo(download_info=file_download_info)
 
 
 @pytest.fixture(scope='session')

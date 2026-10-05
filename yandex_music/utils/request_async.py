@@ -116,8 +116,9 @@ class Request(RequestBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
+        headers = {**self.headers, **kwargs.pop('headers', {})}
         result = await self._request_wrapper(
-            'GET', url, params=params, headers=self.headers, proxy=self.proxy_url, timeout=timeout, **kwargs
+            'GET', url, params=params, headers=headers, proxy=self.proxy_url, timeout=timeout, **kwargs
         )
         response = self._parse(result)
         if response:

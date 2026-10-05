@@ -156,7 +156,7 @@ client = Client().init()
       :link: yandex_music._client.tracks
       :link-type: doc
 
-      ``after_track``, ``play_audio``, ``track_supplement``, ``tracks``, ``tracks_download_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
+      ``after_track``, ``play_audio``, ``track_supplement``, ``tracks``, ``tracks_download_info``, ``tracks_file_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
 
    .. grid-item-card:: Волна
       :link: yandex_music._client.wave

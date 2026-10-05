@@ -14,6 +14,7 @@ if TYPE_CHECKING:
         ClientType,
         CoverDerivedColors,
         DownloadInfo,
+        FileInfo,
         JSONType,
         LyricsInfo,
         Major,
@@ -186,6 +187,30 @@ class Track(YandexMusicModel):
         assert self.valid_async_client(self.client)
         self.download_info = await self.client.tracks_download_info(self.track_id, get_direct_links, **kwargs)
         return self.download_info
+
+    def get_file_info(
+        self, quality: str = 'lossless', codecs: Optional[List[str]] = None, transport: str = 'raw', **kwargs: Any
+    ) -> Optional['FileInfo']:
+        """Сокращение.
+
+        Сокращение для::
+
+            client.tracks_file_info(self.track_id, quality, codecs, transport, **kwargs)
+        """
+        assert self.valid_client(self.client)
+        return self.client.tracks_file_info(self.track_id, quality, codecs, transport, **kwargs)
+
+    async def get_file_info_async(
+        self, quality: str = 'lossless', codecs: Optional[List[str]] = None, transport: str = 'raw', **kwargs: Any
+    ) -> Optional['FileInfo']:
+        """Сокращение.
+
+        Сокращение для::
+
+            await client.tracks_file_info(self.track_id, quality, codecs, transport, **kwargs)
+        """
+        assert self.valid_async_client(self.client)
+        return await self.client.tracks_file_info(self.track_id, quality, codecs, transport, **kwargs)
 
     def get_supplement(self, *args: Any, **kwargs: Any) -> Optional['Supplement']:
         """Сокращение.
@@ -612,6 +637,10 @@ class Track(YandexMusicModel):
     getDownloadInfo = get_download_info
     #: Псевдоним для :attr:`get_download_info_async`
     getDownloadInfoAsync = get_download_info_async
+    #: Псевдоним для :attr:`get_file_info`
+    getFileInfo = get_file_info
+    #: Псевдоним для :attr:`get_file_info_async`
+    getFileInfoAsync = get_file_info_async
     #: Псевдоним для :attr:`get_supplement`
     getSupplement = get_supplement
     #: Псевдоним для :attr:`get_supplement_async`
