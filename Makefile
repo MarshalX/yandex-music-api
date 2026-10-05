@@ -1,16 +1,21 @@
 # makefile for Yandex Music project
 
+RUN ?= uv run
+
 ruff:
-	ruff check . --fix
+	$(RUN) ruff check . --fix
 
 ruff_format:
-	ruff format .
+	$(RUN) ruff format .
 
 gen_sync:
-	python generate_sync_version.py
+	$(RUN) python generate_sync_version.py
 
 gen_alias:
-	python generate_camel_case_aliases.py
+	$(RUN) python generate_camel_case_aliases.py
+
+test:
+	$(RUN) pytest
 
 gen:
 	make gen_sync && make gen_alias

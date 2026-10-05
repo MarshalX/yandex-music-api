@@ -1,5 +1,43 @@
 # Список изменений
 
+## Версия 3.1.0
+
+**05.10.2026**
+
+**Поддержка Ynison, сессий радио и генеративных станций**
+
+**Крупные изменения**
+
+- **Поддержка Ynison**: новый модуль `yandex_music.ynison` синхронизирует состояние плеера между устройствами и управляет воспроизведением удалённо. Зависимости устанавливаются через `pip install yandex-music[ynison]` ([#716](https://github.com/MarshalX/yandex-music-api/pull/716), [#717](https://github.com/MarshalX/yandex-music-api/pull/717), [#726](https://github.com/MarshalX/yandex-music-api/pull/726)):
+    - Простые интерфейсы `simple` и `simple_async` для разовых действий: `get_state`, `get_current_track`, `get_devices`, `get_active_device`, `pause`, `resume`, `next_track`, `previous_track`, `set_volume`.
+    - Долгоживущие клиенты `YnisonClient` и `YnisonClientAsync` на постоянном соединении: методы `pause`, `resume`, `next_track`, `previous_track`, `set_volume(volume, target_device_id=None)`, свойства `state`, `latest_state`, `current_playable`, `active_device`, `device_id`, `is_running`, подписки `on_state`, `on_error` и `remove_listener`.
+    - Параметры клиентов `device_title` (название устройства для других клиентов) и `max_reconnect_attempts`. Идентификатор устройства по умолчанию вычисляется из токена, поэтому повторные запуски не создают новые устройства в сессии.
+    - Автоматическое переподключение при обрыве соединения с паузами по рекомендациям сервера и keepalive-пингами по его параметрам.
+    - Переключение треков учитывает перемешивание очереди, позиция трека при паузе и продолжении сохраняется.
+    - Модуль `yandex_music.ynison.utils` с хелперами `get_current_playable`, `get_active_device`, `get_playback_order`, `get_neighbour_index`, `get_current_progress_ms`. Короткое имя `YnisonState` для полного состояния.
+    - Исключения `YnisonTimeoutError`, `YnisonConnectionClosedError`, `YnisonNoActiveDeviceError`, `YnisonQueueBoundaryError`, `YnisonServerError` (с атрибутами `message`, `grpc_code`, `http_code`, `error_code`, `backoff_ms`, `go_away_seconds`) и его наследники `YnisonUnauthorizedError`, `YnisonDeviceDisplacedError`.
+- **Сессии радио, волны и генеративные станции** ([#722](https://github.com/MarshalX/yandex-music-api/pull/722)):
+    - Новый миксин `RotorSessionsMixin`: `rotor_session_new`, `rotor_session_clone`, `rotor_session_tracks`, `rotor_session_feedback` и хелперы `rotor_session_feedback_radio_started`, `rotor_session_feedback_track_started`, `rotor_session_feedback_track_finished`, `rotor_session_feedback_skip`, а также `rotor_session_feedbacks`, `rotor_sessions_feedbacks`, `rotor_combined_session_new`, `rotor_combined_session_next`, `rotor_combined_session_landing`.
+    - Новый миксин `WaveMixin`: `rotor_wave_last`, `rotor_wave_last_reset`, `rotor_wave_settings`.
+    - Генеративные станции в `RadioMixin`: `rotor_station_stream`, `rotor_station_stream_feedback`.
+    - Новые модели: `RotorSeed`, `RotorSession`, `RotorSessionTracks`, `TrackParameters`, `SessionEvent`, `SessionPlayable`, `SessionFeedback`, `SessionFeedbacks`, `CombinedSession`, `CombinedSessionItem`, `CombinedSessionLanding`, `CombinedSessionQueueItem`, `GenerativeStream`, `GenerativeStreamData`, `GenerativeStreamInfo`, `GenerativeStreamFeedback`, `WaveSettings`, `WaveSettingsBlock`, `WaveDefaultStation`.
+    - Новые поля в существующих моделях: `Track.mix_fade`; `Album.cover`, `derived_colors`, `meta_tag_id`, `child_content`; `Sequence.track_parameters`; `Station.special_context`, `listeners`, `login`, `full_name`, `display_name`, `visibility`; `Value.image_url`, `serialized_seed`, `unspecified`; `Wave.station_id`, `id_for_from`, `type`; `R128.important_secs`; `StationTracksResult.radio_session_id`; `InvocationInfo.app_name`; `Status.has_options`; `Account.region_code`, `non_owner_family_member`; `Plus.migrated`.
+- Параметр `timeout` у методов загрузки треков: `Track.download`, `download_bytes`, `get_specific_download_info` и `DownloadInfo.get_direct_link`, `download`, `download_bytes` с асинхронными версиями ([#723](https://github.com/MarshalX/yandex-music-api/pull/723)).
+- Новые примеры: консольное радио «Моя волна» `examples/wave_radio.py` ([#723](https://github.com/MarshalX/yandex-music-api/pull/723)) и удалённый пульт плеера через Ynison `examples/ynison_remote.py` ([#718](https://github.com/MarshalX/yandex-music-api/pull/718)).
+
+**Незначительные изменения и/или исправления**
+
+- Исправлена отправка обратной связи радио: `rotor_station_feedback` отправляет данные в JSON ([#720](https://github.com/MarshalX/yandex-music-api/pull/720)).
+- Исправлена отправка настроек радиостанции: `rotor_station_settings2` отправляет данные в JSON ([#721](https://github.com/MarshalX/yandex-music-api/pull/721)).
+- `rotor_station_feedback` принимает `stream_id`, время по умолчанию передаётся в формате ISO 8601 ([#722](https://github.com/MarshalX/yandex-music-api/pull/722)).
+- Исправлено падение `rotor_account_status`: поле `Subscription.had_any_subscription` стало необязательным ([#722](https://github.com/MarshalX/yandex-music-api/pull/722)).
+- В документацию добавлены страницы «Ynison» и «Радио», исправлена подсветка кода в светлой теме ([#725](https://github.com/MarshalX/yandex-music-api/pull/725)).
+
+**Ведение проекта**
+
+- Сборка пакета переведена с `setup.py` на `pyproject.toml`, зависимости разработки разбиты на группы, проект управляется через uv с lock-файлом `uv.lock`.
+- Публикация в PyPI переведена на Trusted Publishing (OIDC) с аттестациями.
+
 ## Версия 3.0.0
 
 **18.04.2026**

@@ -1,0 +1,142 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.guard.outputs.version }}
+      prerelease: ${{ steps.guard.outputs.prerelease }}
+
+    steps:
+      - name: Refuse a release off main.
+        if: github.ref != 'refs/heads/main' || github.repository != 'MarshalX/yandex-music-api'
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          echo "::error::запущено на $REF, релиз выпускается только с main"
+          exit 1
+
+      - name: Checkout repository.
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup uv.
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.13'
+
+      - name: Check version, tags and changelog.
+        id: guard
+        run: git tag --list 'v*' | uv run --no-project --with packaging python release_guard.py
+
+      - name: Upload release notes.
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-notes
+          path: RELEASE_NOTES.md
+
+  ruff:
+    needs: guard
+    uses: ./.github/workflows/ruff.yml
+
+  codegen:
+    needs: guard
+    uses: ./.github/workflows/codegen.yml
+
+  tests:
+    needs: guard
+    uses: ./.github/workflows/test.yml
+
+  build:
+    needs: [ guard, ruff, codegen, tests ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v6
+
+      - name: Setup uv.
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.13'
+
+      - name: Build sdist and wheel.
+        run: |
+          uv build
+          uvx twine check --strict dist/*
+
+      - name: Upload distributions.
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  pypi:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/project/yandex-music/
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download distributions.
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI.
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  github_release:
+    needs: [ guard, pypi ]
+    runs-on: ubuntu-latest
+
+    environment:
+      name: release
+      url: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ needs.guard.outputs.version }}
+
+    steps:
+      - name: Download distributions.
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Download release notes.
+        uses: actions/download-artifact@v8
+        with:
+          name: release-notes
+
+      - name: Create GitHub release.
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.guard.outputs.version }}
+          PRERELEASE: ${{ needs.guard.outputs.prerelease }}
+          TARGET: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          flags=()
+          if [ "$PRERELEASE" = "true" ]; then
+            flags+=(--prerelease)
+          fi
+
+          gh release create "v$VERSION" dist/* \
+            --target "$TARGET" \
+            --title "v$VERSION" \
+            --notes-file RELEASE_NOTES.md \
+            "${flags[@]}"

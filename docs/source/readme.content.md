@@ -6,6 +6,8 @@
 
 В дополнение к реализации чистого API данная библиотека имеет ряд классов-обёрток — объектов высокого уровня, дабы сделать разработку клиентов и скриптов простой и понятной. Вся документация была написана с нуля исходя из логического анализа в ходе обратной разработки (reverse engineering) API.
 
+Помимо HTTP API библиотека поддерживает [Ynison](https://ym.marshal.dev/ynison), протокол синхронизации плеера между устройствами: текущий трек, очередь, список устройств и удалённое управление воспроизведением. Также доступны [сессии радио](https://ym.marshal.dev/radio): «Моя волна», волны по занятиям и генеративные станции с обратной связью о прослушиваниях.
+
 ## Доступ к вашим данным Яндекс.Музыка
 
 Для большинства аккаунтов токен можно получить прямо из библиотеки через OAuth Device Flow:
@@ -46,13 +48,21 @@ pip install -U yandex-music
 pip install -U "yandex-music[async]"
 ```
 
+Для [Ynison](https://ym.marshal.dev/ynison) нужны `websockets` и `betterproto`, они доступны как опциональный экстра `ynison`. Экстры можно комбинировать:
+
+``` shell
+pip install -U "yandex-music[ynison]"
+pip install -U "yandex-music[async,ynison]"
+```
+
 Установка из исходного кода:
 
 ``` shell
 git clone https://github.com/MarshalX/yandex-music-api
 cd yandex-music-api
-pip install .          # синхронный клиент
-pip install ".[async]" # с поддержкой асинхронного клиента
+pip install .           # синхронный клиент
+pip install ".[async]"  # с поддержкой асинхронного клиента
+pip install ".[ynison]" # с поддержкой Ynison
 ```
 
 # Начало работы
