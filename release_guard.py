@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Проверка версии перед релизом и подготовка текста GitHub-релиза. Используется в CI/CD.
 
-Ожидает версию в переменной окружения VERSION и список git-тегов на stdin.
+Версия берётся из __version__ в yandex_music/__init__.py, список git-тегов ожидается на stdin.
 """
 
 import os
@@ -34,6 +34,16 @@ def set_output(name: str, value: str) -> None:
 
     with open(github_output, 'a', encoding='UTF-8') as f:
         f.write(f'{name}={value}\n')
+
+
+def write_summary(text: str) -> None:
+    """Добавить текст в сводку запуска через $GITHUB_STEP_SUMMARY."""
+    github_summary = os.environ.get('GITHUB_STEP_SUMMARY')
+    if not github_summary:
+        return
+
+    with open(github_summary, 'a', encoding='UTF-8') as f:
+        f.write(text)
 
 
 def parse_tags(lines: list) -> list:
@@ -76,10 +86,14 @@ def build_notes(section: str) -> str:
 
 
 def main() -> None:
-    """Проверить версию, тег, __version__ и CHANGES.md, записать RELEASE_NOTES.md."""
-    raw = os.environ.get('VERSION', '').strip()
+    """Проверить __version__, теги и CHANGES.md, записать RELEASE_NOTES.md."""
+    init_match = INIT_VERSION_RE.search(INIT_PATH.read_text(encoding='UTF-8'))
+    if not init_match:
+        fail(f'В {INIT_PATH} не найден __version__')
+
+    raw = init_match.group(1)
     if not VERSION_RE.fullmatch(raw):
-        fail(f'"{raw}" не похоже на версию вида 3.1.0 или 3.1.0b3')
+        fail(f'__version__ "{raw}" не похоже на версию вида 3.1.0 или 3.1.0b3')
 
     version = Version(raw)
 
@@ -90,11 +104,6 @@ def main() -> None:
     latest = max(released) if released else None
     if latest is not None and version < latest:
         fail(f'{raw} не новее последнего релиза {latest}')
-
-    init_match = INIT_VERSION_RE.search(INIT_PATH.read_text(encoding='UTF-8'))
-    init_version = init_match.group(1) if init_match else None
-    if init_version != raw:
-        fail(f'__version__ в {INIT_PATH} равен {init_version}, а выпускается {raw}')
 
     section = find_section(CHANGES_PATH.read_text(encoding='UTF-8'), version.base_version)
     if version.is_prerelease:
@@ -110,6 +119,8 @@ def main() -> None:
 
     set_output('version', raw)
     set_output('prerelease', 'true' if version.is_prerelease else 'false')
+    prerelease = 'да' if version.is_prerelease else 'нет'
+    write_summary(f'## Выпускается {raw}\n\nПредварительная: {prerelease}. Предыдущий релиз: {latest or "нет"}.\n')
     sys.stdout.write(f'Выпускается {raw} поверх {latest or "ничего"}\n')
 
 

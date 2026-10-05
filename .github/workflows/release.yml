@@ -2,11 +2,6 @@ name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Версия, например 3.1.0 или 3.1.0b3. Должна совпадать с __version__.'
-        required: true
-        type: string
 
 permissions:
   contents: read
@@ -40,8 +35,6 @@ jobs:
 
       - name: Check version, tags and changelog.
         id: guard
-        env:
-          VERSION: ${{ inputs.version }}
         run: git tag --list 'v*' | uv run --no-project --with packaging python release_guard.py
 
       - name: Upload release notes.
