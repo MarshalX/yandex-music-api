@@ -92,7 +92,7 @@
       :link: yandex_music.rotor
       :link-type: doc
 
-      Rotor: станции, дашборд, настройки, последовательности.
+      Rotor: станции, сессии радио, генеративные потоки, дашборд, настройки.
 
    .. grid-item-card:: :octicon:`pulse;1em;sd-mr-1` Волна
       :link: yandex_music.wave
