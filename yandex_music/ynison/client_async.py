@@ -3,7 +3,7 @@
 import asyncio
 import contextlib
 import inspect
-from typing import AsyncGenerator, Awaitable, Callable, Optional, Set, Union
+from typing import AsyncGenerator, Awaitable, Callable, Optional, Set, TypeVar
 
 from typing_extensions import override
 
@@ -17,9 +17,20 @@ from yandex_music.ynison._base import _YnisonClientBase, is_terminal_error, logg
 from yandex_music.ynison.models import ynison_state
 from yandex_music.ynison.models.ynison_redirect import RedirectResponse
 
-AsyncStateListener = Callable[[ynison_state.PutYnisonStateResponse], Union[None, Awaitable[None]]]
+AsyncStateListener = Callable[[ynison_state.PutYnisonStateResponse], Optional[Awaitable[None]]]
 
 _SESSION_CLEANUP_TIMEOUT = 2.0
+
+_PayloadT = TypeVar('_PayloadT')
+
+
+async def _invoke_listener(listener: Callable[[_PayloadT], object], payload: _PayloadT, kind: str) -> None:
+    try:
+        result = listener(payload)
+        if inspect.isawaitable(result):
+            await result
+    except Exception:  # noqa: BLE001
+        logger.exception('Ynison: исключение в %s listener %r', kind, listener)
 
 
 async def _close_connection(connection: _transport.AsyncConnection) -> None:
@@ -81,7 +92,7 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
         self._stop: Optional[asyncio.Event] = None
         self._connection: Optional[_transport.AsyncConnection] = None
         self._redirect_connection: Optional[_transport.AsyncConnection] = None
-        self._background_tasks: Set['asyncio.Task[None]'] = set()
+        self._background_tasks: Set[asyncio.Task[None]] = set()
 
     @override
     def on_state(self, listener: AsyncStateListener) -> AsyncStateListener:
@@ -283,21 +294,11 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
             return
 
         for listener in list(self._state_listeners):
-            try:
-                result = listener(state)
-                if inspect.isawaitable(result):
-                    await result
-            except Exception:  # noqa: BLE001
-                logger.exception('Ynison: исключение в state listener %r', listener)
+            await _invoke_listener(listener, state, 'state')
 
     async def _emit_error(self, error: YnisonError) -> None:
         for listener in list(self._error_listeners):
-            try:
-                result = listener(error)
-                if inspect.isawaitable(result):
-                    await result
-            except Exception:  # noqa: BLE001
-                logger.exception('Ynison: исключение в error listener %r', listener)
+            await _invoke_listener(listener, error, 'error')
 
     async def send(self, request: ynison_state.PutYnisonStateRequest) -> None:
         """Отправляет произвольный запрос по state websocket'у.

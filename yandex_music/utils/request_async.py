@@ -1,6 +1,7 @@
 """Асинхронный HTTP-клиент."""
 
 import asyncio
+from http import HTTPStatus
 from typing import TYPE_CHECKING, Any, Dict, Optional, Union, cast
 
 from typing_extensions import override
@@ -96,7 +97,7 @@ class Request(RequestBase):
         except aiohttp.ClientError as e:
             raise NetworkError(e) from e
 
-        if not 200 <= resp.status <= 299:
+        if not HTTPStatus.OK <= resp.status < HTTPStatus.MULTIPLE_CHOICES:
             self._handle_error_response(resp.status, content)
 
         return content

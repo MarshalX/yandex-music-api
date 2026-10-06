@@ -39,7 +39,7 @@ class TestRestrictions:
         assert restrictions.energy == discrete_scale
         assert restrictions.mood_energy == enum
 
-    def test_equality(self, enum: Enum, discrete_scale: DiscreteScale) -> None:
+    def test_equality(self, enum: Enum) -> None:
         a = Restrictions(enum, enum)
         b = Restrictions(enum, None)
         c = Restrictions(enum, enum)

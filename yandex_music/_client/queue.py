@@ -128,7 +128,7 @@ class QueueMixin(ClientBase):
             device = self.device
 
         if isinstance(queue, Queue):
-            queue = queue.to_json(True)
+            queue = queue.to_json(for_request=True)
 
         url = f'{self.base_url}/queues'
 

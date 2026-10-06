@@ -158,7 +158,7 @@ class RadioMixin(ClientBase):
         if stream_id is not None and stream_id != '':
             params['streamId'] = stream_id
 
-        if track_id is not None and track_id != '' and track_id != 0:
+        if track_id is not None and track_id not in {'', 0}:
             data.update({'trackId': track_id})
 
         if from_ is not None and from_ != '':
@@ -481,7 +481,7 @@ class RadioMixin(ClientBase):
         if settings2:
             params = {'settings2': str(True)}
 
-        if queue is not None and queue != '' and queue != 0:
+        if queue is not None and queue not in {'', 0}:
             params = {'queue': queue}
 
         result = await self._request.get(url, params, *args, **kwargs)

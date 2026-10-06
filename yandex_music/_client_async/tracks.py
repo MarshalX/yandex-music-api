@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import TYPE_CHECKING, Any, List, Optional, Sequence, Union
 
 from yandex_music import (
@@ -14,7 +13,7 @@ from yandex_music import (
 )
 from yandex_music._client_async import log
 from yandex_music._client_async._batch import _BatchMixin
-from yandex_music._client_base import is_dict
+from yandex_music._client_base import is_dict, utc_now_iso
 from yandex_music.utils.sign_request import DESKTOP_CLIENT, get_file_info_sign, get_sign_request
 
 FILE_INFO_CODECS = ['flac', 'flac-mp4', 'aac-mp4', 'he-aac-mp4', 'aac', 'he-aac', 'mp3']
@@ -277,10 +276,10 @@ class TracksMixin(_BatchMixin):
         url = f'{self.base_url}/play-audio'
 
         if timestamp is None or timestamp == '':
-            timestamp = f'{datetime.now().isoformat()}Z'
+            timestamp = utc_now_iso()
 
         if client_now is None or client_now == '':
-            client_now = f'{datetime.now().isoformat()}Z'
+            client_now = utc_now_iso()
 
         data = {
             'track-id': track_id,
@@ -356,7 +355,7 @@ class TracksMixin(_BatchMixin):
 
         result = await self._request.get(url, params, *args, **kwargs)
 
-        # TODO (MarshalX) судя по всему ручка ещё возвращает рекламу после треков для пользователей без подписки.
+        # TODO(MarshalX): судя по всему ручка ещё возвращает рекламу после треков для пользователей без подписки.
         #  https://github.com/MarshalX/yandex-music-api/issues/557
         if is_dict(result):
             return ShotEvent.de_json(result.get('shotEvent'), self)

@@ -11,7 +11,7 @@ class UnauthorizedError(YandexMusicError):
     """Класс исключения, вызываемого для случаев ошибок аутентификации и авторизации."""
 
 
-# TODO (MarshalX) На самом деле поиск еще происходит по кодеку
+# TODO(MarshalX): На самом деле поиск еще происходит по кодеку
 #  https://github.com/MarshalX/yandex-music-api/issues/552
 class InvalidBitrateError(YandexMusicError):
     """Класс исключения, вызываемого при попытке загрузки трека с недоступным битрейтом."""

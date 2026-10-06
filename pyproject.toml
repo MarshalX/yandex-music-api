@@ -61,7 +61,7 @@ test = [
     "orjson",
 ]
 lint = [
-    "ruff==0.15.9",
+    "ruff==0.16.10",
     "pyrefly==1.3.2",
     "types-requests",
     "types-aiofiles",
@@ -203,60 +203,36 @@ line-length = 120
 target-version = "py38"
 
 [tool.ruff.lint]
-extend-select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # Pyflakes
-    "I",  # isort
-    "D",  # pydocstyle
-    "C90",  # flake8-comprehensions
-    "B",  # flake8-bugbear
-    "Q",  # flake8-quotes
-    "S",  # flake8-bandit
-    "ASYNC", # flake8-async
-    "ANN", # flake8-annotations
-    "C",
-    "BLE",
-    "ERA",
-    "ICN",
-    "INP",
-    "ISC",
-    "NPY",
-    "PGH",
-    "PIE",
-    "RET",
-    "RSE",
-    "RUF",
-    "SIM",
-    "T20",
-    "TC",
-    "TID",
-    "YTT",
-]
+select = ["ALL"]
 ignore = [
-    "PGH003", "PGH004", # use specific rule code with noqa; works bad with JetBrains IDE Warnings
-    "ANN401", # t.Any in **kwargs
-    "ANN002", # Missing type annotation for `*args`
-    "ANN003", # Missing type annotation for `**kwargs
+    "FA", # we are using typing.Optional/Union instead of `from __future__ import annotations`
+    "CPY001", # no copyright header in each file
+    "COM812", "ISC001", # conflicts with format
+    "RUF001", "RUF002", "RUF003", # cyrillic
     "D203", "D413", # we are not using too many blank lines
     "D213", # we are using the first line for summary
     "D406", "D407", # we are using google style docstring
+    "ANN401", # t.Any in **kwargs and JSON payloads
     "S101", # allow asserting; we are using it for type checks
-    "ISC001", # conflicts with format
-    "RUF001", "RUF002", "RUF003", # cyrillic
+    "PLC0415", # local imports break circular dependencies between models
+    "FBT001", "FBT002", # public API has positional boolean arguments
+    "PLR0913", "PLR0917", # public API methods mirror request parameters
+    "TRY003", "EM101", "EM102", # exception messages are written inline
+    "FIX002", "TD003", # TODOs are allowed and do not require links
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "yandex_music/*.py" = [
     "D105", "D104", "D100", "D107", "D103", "D415", # missing docstring
     "D400", # first line should end with a period. TODO(MarshalX): We are using strange docsting style for methods-shortcuts
+    "N815", # camelCase aliases
 ]
 "yandex_music/__init__.py" = ["I001"] # Import sort
 "yandex_music/client*.py" = ["T201"] # print
 "yandex_music/_client/*.py" = ["T201"] # print (generated)
 "yandex_music/_client_async/*.py" = ["T201"] # print
 "yandex_music/ynison/models/ynison_*.py" = ["RUF009", "E501"]
-"tests/*.py" = ["S101", "S105", "S106", "ANN", "D", "RUF012"]
+"tests/*.py" = ["S105", "S106", "ANN", "D", "RUF012", "SLF001", "PLR2004", "PLR0915", "FBT003"]
 "tests/__init__.py" = ["F401"] # Unused import
 "test.py" = ["S101", "ERA001", "T201", "E501", "F401", "F841"]
 "docs/source/conf.py" = ["INP001"]

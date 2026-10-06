@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import TYPE_CHECKING, List, Optional
 
 from yandex_music import YandexMusicModel
@@ -106,8 +107,7 @@ class FileDownloadInfo(YandexMusicModel):
                 клиента.
         """
         data = self.download_bytes(timeout)
-        with open(filename, 'wb') as f:
-            _ = f.write(data)
+        _ = Path(filename).write_bytes(data)
 
     async def download_async(self, filename: str, timeout: 'TimeoutType' = default_timeout) -> None:
         """Загрузка трека.

@@ -81,7 +81,7 @@ class LandingMixin(ClientBase):
         params: Dict[str, Any] = {'blocks': blocks, 'eitherUserId': '10254713668400548221'}
 
         result = await self._request.get(url, params, *args, **kwargs)
-        # TODO (MarshalX) что тут делает константа с чьим-то User ID
+        # TODO(MarshalX): что тут делает константа с чьим-то User ID
         #  https://github.com/MarshalX/yandex-music-api/issues/553
 
         return Landing.de_json(result, self)

@@ -12,9 +12,9 @@ def metatag_artists_factory(
     metatag_title: MetatagTitle,
     metatag_sort_by_value: MetatagSortByValue,
 ) -> Callable[..., MetatagArtists]:
-    def factory(id: str = TestMetatagArtists.id) -> MetatagArtists:
+    def factory(id_: str = TestMetatagArtists.id) -> MetatagArtists:
         return MetatagArtists(
-            id=id,
+            id=id_,
             cover_uri=TestMetatagArtists.cover_uri,
             color=TestMetatagArtists.color,
             title=metatag_title,
@@ -85,7 +85,7 @@ class TestMetatagArtists:
 
     def test_equality(self, metatag_artists_factory: Callable[..., MetatagArtists]) -> None:
         a = metatag_artists_factory()
-        b = metatag_artists_factory(id='other')
+        b = metatag_artists_factory(id_='other')
         c = metatag_artists_factory()
 
         assert a != b

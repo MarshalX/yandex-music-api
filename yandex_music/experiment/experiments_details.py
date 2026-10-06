@@ -47,7 +47,7 @@ class ExperimentsDetails(YandexMusicModel):
 
         from yandex_music import ExperimentDetail
 
-        experiments: Dict[str, 'ExperimentDetail'] = {}
+        experiments: Dict[str, ExperimentDetail] = {}
         for name, entry in data.items():
             detail = ExperimentDetail.de_json(entry, client)
             if detail is not None:

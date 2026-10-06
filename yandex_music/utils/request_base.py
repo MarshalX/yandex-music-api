@@ -1,6 +1,7 @@
 """Основа HTTP-клиентов: общие таймауты, заголовки, обработка ответов."""
 
 import logging
+from http import HTTPStatus
 from typing import TYPE_CHECKING, Dict, NoReturn, Optional, TypeVar, Union, cast
 
 from yandex_music.exceptions import (
@@ -201,16 +202,16 @@ class RequestBase:
         except YandexMusicError:
             message = 'Unknown HTTPError'
 
-        if status_code in (401, 403):
+        if status_code in (HTTPStatus.UNAUTHORIZED, HTTPStatus.FORBIDDEN):
             raise UnauthorizedError(message)
-        if status_code == 400:
+        if status_code == HTTPStatus.BAD_REQUEST:
             raise BadRequestError(message)
-        if status_code == 404:
+        if status_code == HTTPStatus.NOT_FOUND:
             raise NotFoundError(message)
-        if status_code in (409, 413):
+        if status_code in (HTTPStatus.CONFLICT, HTTPStatus.REQUEST_ENTITY_TOO_LARGE):
             raise NetworkError(message)
 
-        if status_code == 502:
+        if status_code == HTTPStatus.BAD_GATEWAY:
             raise NetworkError('Bad Gateway')
 
         raise NetworkError(f'{message} ({status_code}): {content}')

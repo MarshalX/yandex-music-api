@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Iterable, List, Optional
+from typing import TYPE_CHECKING, Iterator, List, Optional
 
 from typing_extensions import override
 
@@ -30,7 +30,7 @@ class Suggestions(YandexMusicModel):
     def __getitem__(self, item: int) -> str:
         return self.suggestions[item]
 
-    def __iter__(self) -> Iterable[str]:
+    def __iter__(self) -> Iterator[str]:
         return iter(self.suggestions)
 
     @classmethod

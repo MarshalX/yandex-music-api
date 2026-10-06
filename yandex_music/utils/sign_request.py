@@ -44,7 +44,7 @@ def get_sign_request(track_id: Union[int, str], key: str = DEFAULT_SIGN_KEY) -> 
     """
     track_id = convert_track_id_to_number(track_id)
 
-    timestamp = int(datetime.datetime.now().timestamp())
+    timestamp = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
     message = f'{track_id}{timestamp}'
 
     hmac_sign = hmac.new(key.encode('UTF-8'), message.encode('UTF-8'), hashlib.sha256).digest()
@@ -75,7 +75,7 @@ def get_file_info_sign(
     Returns:
         :obj:`Sign`: Подпись.
     """
-    timestamp = int(datetime.datetime.now().timestamp())
+    timestamp = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
     message = f'{timestamp}{track_id}{quality}{"".join(codecs)}{transport}'
 
     hmac_sign = hmac.new(key.encode('UTF-8'), message.encode('UTF-8'), hashlib.sha256).digest()

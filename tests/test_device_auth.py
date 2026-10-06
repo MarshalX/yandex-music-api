@@ -171,7 +171,7 @@ class TestDeviceAuth:
         monkeypatch.setattr('time.sleep', _noop)
 
         with pytest.raises(DeviceAuthError, match='timed out'):
-            _ = client.device_auth(on_code=lambda code: None)
+            _ = client.device_auth(on_code=lambda _: None)
 
     def test_device_auth_cancel(self, monkeypatch: pytest.MonkeyPatch) -> None:
         from yandex_music.exceptions import DeviceAuthError
@@ -196,4 +196,4 @@ class TestDeviceAuth:
             return calls['n'] >= 3
 
         with pytest.raises(DeviceAuthError, match='cancelled'):
-            _ = client.device_auth(on_code=lambda code: None, should_cancel=should_cancel)
+            _ = client.device_auth(on_code=lambda _: None, should_cancel=should_cancel)

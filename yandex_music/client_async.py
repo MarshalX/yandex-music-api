@@ -118,7 +118,7 @@ class ClientAsync(
             'os=Python; os_version=; manufacturer=Marshal; model=Yandex Music API; clid=; device_id=random; uuid=random'
         )
 
-        self.me: Optional['Status'] = None
+        self.me: Optional[Status] = None
         self.account_uid: Optional[int] = None
 
     @property

@@ -23,6 +23,7 @@ import sys
 import tempfile
 import threading
 import time
+from pathlib import Path
 from typing import List, Optional, Tuple, TypeVar
 
 from yandex_music import Client, Sequence, Track
@@ -72,9 +73,11 @@ def choose_seeds(client: Client) -> List[str]:
 
     waves = [('Моя волна', 'user:onyourwave')]
     for block in settings.blocks if settings.blocks is not None else []:
-        for station in block.items if block.items is not None else []:
-            if station.id is not None:
-                waves.append((station.name, f'{station.id.type}:{station.id.tag}'))
+        waves.extend(
+            (station.name, f'{station.id.type}:{station.id.tag}')
+            for station in (block.items if block.items is not None else [])
+            if station.id is not None
+        )
 
     seeds = [choose('Какую волну включить?', waves)]
 
@@ -105,7 +108,7 @@ def play(
 ) -> str:
     """Проигрывает трек и отправляет обратную связь. Возвращает команду, которой он закончился."""
     print(f'\n♪ {", ".join(track.artists_name())} - {track.title}')
-    path = os.path.join(tempfile.gettempdir(), 'wave_radio.mp3')
+    path = str(Path(tempfile.gettempdir(), 'wave_radio.mp3'))
     track.download(path, timeout=30)  # на медленной сети загрузка может надолго замирать
 
     _ = client.rotor_session_feedback_track_started(session_id, track.id, batch_id)
@@ -152,7 +155,7 @@ def main() -> None:
     _ = client.rotor_session_feedback_radio_started(session_id, batch_id)
 
     print('\nEnter: следующий трек, l: нравится, d: не нравится, q: выход')
-    keys: 'queue.Queue[str]' = queue.Queue()
+    keys: queue.Queue[str] = queue.Queue()
     threading.Thread(target=read_keys, args=(keys,), daemon=True).start()
 
     played_ids: List[str] = []

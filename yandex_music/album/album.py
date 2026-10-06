@@ -392,7 +392,7 @@ class Album(YandexMusicModel):
         cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
         cls_data['deprecation'] = Deprecation.de_json(cls_data.get('deprecation'), client)
 
-        volumes: 'JSONType' = cls_data.get('volumes')
+        volumes: JSONType = cls_data.get('volumes')
         if isinstance(volumes, list):
             cls_data['volumes'] = [Track.de_list(volume, client) for volume in volumes]
 

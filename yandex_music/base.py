@@ -48,10 +48,11 @@ class YandexMusicModel(YandexMusicObject):
     def report_unknown_fields_callback(klass: type, unknown_fields: 'set[str]') -> None:
         """Обратный вызов для обработки неизвестных полей."""
         logger.warning(
-            f'Found unknown fields received from API! Please copy warn message '
-            f'and send to {new_issue_by_template_url} (GitHub issue), thank you!'
+            'Found unknown fields received from API! Please copy warn message '
+            'and send to %s (GitHub issue), thank you!',
+            new_issue_by_template_url,
         )
-        logger.warning(f'Type: {klass.__module__}.{klass.__name__}; fields: {unknown_fields}')
+        logger.warning('Type: %s.%s; fields: %s', klass.__module__, klass.__name__, unknown_fields)
 
     @staticmethod
     def is_dict_model_data(data: JSONType) -> TypeGuard[Dict[str, JSONType]]:
@@ -250,7 +251,7 @@ class YandexMusicModel(YandexMusicObject):
         """
         return cast('Tuple[object, ...]', getattr(self, '_id_attrs', ()))
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Проверка на равенство двух объектов.
 
         Note:
@@ -261,7 +262,7 @@ class YandexMusicModel(YandexMusicObject):
         """
         if isinstance(other, self.__class__):
             return self._get_id_attrs() == other._get_id_attrs()
-        return super(YandexMusicModel, self).__eq__(other)
+        return super().__eq__(other)
 
     def __hash__(self) -> int:
         """Реализация хеш-функции на основе ключевых атрибутов.
@@ -274,7 +275,7 @@ class YandexMusicModel(YandexMusicObject):
         """
         id_attrs = self._get_id_attrs()
         if len(id_attrs) == 0:
-            return super(YandexMusicModel, self).__hash__()
+            return super().__hash__()
 
         frozen_attrs = tuple(frozenset(attr) if isinstance(attr, list) else attr for attr in id_attrs)
         return hash((self.__class__, frozen_attrs))

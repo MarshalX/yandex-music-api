@@ -49,5 +49,5 @@ class TagResult(YandexMusicModel):
 
         return cls(client=client, **cls_data)
 
-    # TODO (MarshalX) add fetch_playlists shortcut?
+    # TODO(MarshalX): add fetch_playlists shortcut?
     #  https://github.com/MarshalX/yandex-music-api/issues/551

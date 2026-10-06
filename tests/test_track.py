@@ -120,7 +120,7 @@ class TestTrack:
     def test_de_list_none(self, client: Client) -> None:
         assert Track.de_list([], client) == []
 
-    def test_de_json_required(self, client: Client, artist: Artist, album: Album) -> None:
+    def test_de_json_required(self, client: Client) -> None:
         json_dict: Dict[str, JSONType] = {'id': self.id}
         track = Track.de_json(json_dict, client)
         assert track is not None

@@ -215,7 +215,7 @@ class FakeYnisonServer:
             self.requests.append(request)
             self._cond.notify_all()
 
-    def _process_request(self, connection: ServerConnection, request: Request) -> Optional[Response]:
+    def _process_request(self, connection: ServerConnection, _request: Request) -> Optional[Response]:
         if self.reject_http_status is not None:
             with self._cond:
                 self.redirect_count += 1

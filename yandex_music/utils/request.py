@@ -1,5 +1,7 @@
 """Синхронный HTTP-клиент."""
 
+from http import HTTPStatus
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from yandex_music.exceptions import NetworkError, TimedOutError
@@ -71,7 +73,7 @@ class Request(RequestBase):
         except requests.RequestException as e:
             raise NetworkError(e) from e
 
-        if not 200 <= resp.status_code <= 299:
+        if not HTTPStatus.OK <= resp.status_code < HTTPStatus.MULTIPLE_CHOICES:
             self._handle_error_response(resp.status_code, resp.content)
 
         return resp.content
@@ -228,5 +230,4 @@ class Request(RequestBase):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         result = self.retrieve(url, timeout=timeout, **kwargs)
-        with open(filename, 'wb') as f:
-            _ = f.write(result)
+        _ = Path(filename).write_bytes(result)

@@ -30,5 +30,5 @@ class Tag(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.id,)
 
-    # TODO (MarshalX) add download_og_image shortcut?
+    # TODO(MarshalX): add download_og_image shortcut?
     #  https://github.com/MarshalX/yandex-music-api/issues/556

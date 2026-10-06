@@ -37,7 +37,7 @@ class TestWithOrjson:
         assert result == {'a': {'b': [1, 2, 3]}}
 
     def test_loads_unicode(self) -> None:
-        result = json_compat.loads('{"key": "значение"}'.encode('UTF-8'))
+        result = json_compat.loads('{"key": "значение"}'.encode())
         assert result == {'key': 'значение'}
 
     def test_dumps_returns_str(self) -> None:
@@ -87,7 +87,7 @@ class TestWithoutOrjson:
         assert result == {'a': {'b': [1, 2, 3]}}
 
     def test_loads_unicode(self) -> None:
-        result = json_compat.loads('{"key": "значение"}'.encode('UTF-8'))
+        result = json_compat.loads('{"key": "значение"}'.encode())
         assert result == {'key': 'значение'}
 
     def test_dumps_returns_str(self) -> None:
