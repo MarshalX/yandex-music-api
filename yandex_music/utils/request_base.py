@@ -11,7 +11,7 @@ from yandex_music.exceptions import (
     UnauthorizedError,
     YandexMusicError,
 )
-from yandex_music.utils.json_compat import loads as _json_loads
+from yandex_music.utils.json_backend import JsonBackend, get_default_json_backend
 from yandex_music.utils.normalize import _convert_camel_to_snake
 from yandex_music.utils.response import Response
 
@@ -47,6 +47,8 @@ class RequestBase:
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         headers (:obj:`dict`, optional): Заголовки передаваемые с каждым запросом.
         proxy_url (:obj:`str`, optional): Прокси.
+        json_backend (:obj:`yandex_music.utils.json_backend.JsonBackend`, optional): JSON библиотека.
+            По умолчанию используется глобальная, см. :func:`yandex_music.utils.json_backend.get_default_json_backend`.
     """
 
     def __init__(
@@ -55,7 +57,9 @@ class RequestBase:
         headers: Optional[Dict[str, str]] = None,
         proxy_url: Optional[str] = None,
         timeout: 'TimeoutType' = default_timeout,
+        json_backend: Optional[JsonBackend] = None,
     ) -> None:
+        self._json_backend = json_backend
         self.headers = headers if headers is not None and len(headers) > 0 else HEADERS.copy()
 
         self._timeout: Union[int, float] = DEFAULT_TIMEOUT
@@ -69,6 +73,17 @@ class RequestBase:
 
         # requests
         self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url is not None and proxy_url != '' else None
+
+    @property
+    def json_backend(self) -> JsonBackend:
+        """:obj:`yandex_music.utils.json_backend.JsonBackend`: JSON библиотека для запросов и ответов."""
+        if self._json_backend is not None:
+            return self._json_backend
+        return get_default_json_backend()
+
+    @json_backend.setter
+    def json_backend(self, backend: Optional[JsonBackend]) -> None:
+        self._json_backend = backend
 
     def set_language(self, lang: str) -> None:
         """Добавляет заголовок языка для каждого запроса.
@@ -151,7 +166,7 @@ class RequestBase:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         try:
-            data = _json_loads(json_data)
+            data = self.json_backend.loads(json_data)
         except UnicodeDecodeError as e:
             logging.getLogger(__name__).debug('Logging raw invalid UTF-8 response:\n%r', json_data)
             raise YandexMusicError('Server response could not be decoded using UTF-8') from e
@@ -166,6 +181,9 @@ class RequestBase:
     def _prepare_kwargs(self, kwargs: _KwargsT) -> _KwargsT:
         """Подготовка аргументов для запроса.
 
+        Note:
+            Тело из ``json`` сериализуется через :attr:`json_backend` и передаётся в ``data``.
+
         Args:
             kwargs: Ключевые аргументы запроса.
 
@@ -178,6 +196,13 @@ class RequestBase:
 
         if isinstance(kwargs['timeout'], DefaultTimeout):
             kwargs['timeout'] = self._timeout
+
+        body = kwargs.pop('json', None)
+        if body is not None:
+            if kwargs.get('data') is not None:
+                raise ValueError('data and json parameters can not be used at the same time')
+            kwargs['data'] = self.json_backend.dumps(body).encode('UTF-8')
+            kwargs['headers'] = {**headers, 'Content-Type': 'application/json'}
 
         return kwargs
 

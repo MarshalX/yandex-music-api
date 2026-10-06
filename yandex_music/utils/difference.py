@@ -1,9 +1,9 @@
 """Операции изменения плейлиста."""
 
 from enum import Enum
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
-from yandex_music.utils.json_compat import dumps as _json_dumps
+from yandex_music.utils.json_backend import JsonBackend, get_default_json_backend
 
 TrackIdData = Dict[str, Union[str, int]]
 OperationData = Dict[str, Union[str, int, List[TrackIdData]]]
@@ -35,13 +35,18 @@ class Difference:
     def __init__(self) -> None:
         self.operations: List[OperationData] = []
 
-    def to_json(self) -> str:
+    def to_json(self, json_backend: Optional[JsonBackend] = None) -> str:
         """Сериализация всех операций над плейлистом.
+
+        Args:
+            json_backend (:obj:`yandex_music.utils.json_backend.JsonBackend`, optional): JSON библиотека.
+                По умолчанию используется глобальная.
 
         Returns:
             :obj:`str`: Сформированное тело для запроса.
         """
-        return _json_dumps(self.operations)
+        backend = json_backend if json_backend is not None else get_default_json_backend()
+        return backend.dumps(self.operations)
 
     def add_delete(self, from_: int, to: int) -> 'Difference':
         """Добавление операции удаления.

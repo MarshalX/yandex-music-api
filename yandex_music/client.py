@@ -28,6 +28,7 @@ from yandex_music._client.rotor_sessions import RotorSessionsMixin
 from yandex_music._client.search import SearchMixin
 from yandex_music._client.tracks import TracksMixin
 from yandex_music._client.wave import WaveMixin
+from yandex_music.utils.json_backend import JsonBackend
 from yandex_music.utils.request import Request
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -82,6 +83,8 @@ class Client(
         language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API. По умолчанию русский.
         report_unknown_fields (:obj:`bool`, optional): Включить предупреждения о неизвестных полях от API,
             которых нет в библиотеке.
+        json_backend (:obj:`yandex_music.utils.json_backend.JsonBackend`, optional): JSON библиотека.
+            Если передан вместе с `request`, заменяет его JSON библиотеку. По умолчанию используется глобальная.
     """
 
     __notice_displayed = True  # больше не используется
@@ -93,6 +96,7 @@ class Client(
         request: Optional[Request] = None,
         language: str = 'ru',
         report_unknown_fields: bool = False,
+        json_backend: Optional[JsonBackend] = None,
     ) -> None:
         if not Client.__notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
@@ -114,6 +118,9 @@ class Client(
             _ = self._request.set_and_return_client(self)
         else:
             self._request = Request(self)
+
+        if json_backend is not None:
+            self._request.json_backend = json_backend
 
         self.language = language
         self._request.set_language(self.language)

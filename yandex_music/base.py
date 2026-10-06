@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from yandex_music import Client, ClientAsync
     from yandex_music._client_base import ClientBase
 
-from yandex_music.utils.json_compat import dumps as _json_dumps
+from yandex_music.utils.json_backend import get_default_json_backend
 
 logger = logging.getLogger(__name__)
 new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
@@ -330,10 +330,16 @@ class YandexMusicModel(YandexMusicObject):
         Args:
             for_request (:obj:`bool`): Подготовить ли объект для отправки в теле запроса.
 
+        Note:
+            Используется JSON библиотека клиента объекта, а при его отсутствии глобальная.
+
         Returns:
             :obj:`str`: Сериализованный в JSON объект.
         """
-        return _json_dumps(self.to_dict(for_request))
+        client = getattr(self, 'client', None)
+        if self.valid_client(client) or self.valid_async_client(client):
+            return client.request.json_backend.dumps(self.to_dict(for_request))
+        return get_default_json_backend().dumps(self.to_dict(for_request))
 
     def to_dict(self, for_request: bool = False) -> JSONType:
         """Рекурсивная сериализация объекта.

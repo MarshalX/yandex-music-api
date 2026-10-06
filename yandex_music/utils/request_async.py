@@ -42,6 +42,7 @@ class Request(RequestBase):
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
         headers (:obj:`dict`, optional): Заголовки передаваемые с каждым запросом.
         proxy_url (:obj:`str`, optional): Прокси.
+        json_backend (:obj:`yandex_music.utils.json_backend.JsonBackend`, optional): JSON библиотека.
     """
 
     @override

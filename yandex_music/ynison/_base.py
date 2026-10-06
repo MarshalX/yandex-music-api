@@ -17,7 +17,7 @@ from yandex_music.exceptions import (
     YnisonServerError,
     YnisonUnauthorizedError,
 )
-from yandex_music.utils import json_compat
+from yandex_music.utils.json_backend import JsonBackend, get_default_json_backend
 from yandex_music.ynison import _transport, messages, utils
 from yandex_music.ynison.models import ynison_state
 from yandex_music.ynison.models.ynison_redirect import RedirectResponse
@@ -115,6 +115,7 @@ class _YnisonClientBase(Generic[ListenerT]):
         device_id: Optional[str] = None,
         device_title: str = messages.DEFAULT_DEVICE_TITLE,
         max_reconnect_attempts: Optional[int] = None,
+        json_backend: Optional[JsonBackend] = None,
     ) -> None:
         """Инициализация базового клиента.
 
@@ -125,6 +126,7 @@ class _YnisonClientBase(Generic[ListenerT]):
             device_title: Название устройства, которое увидят другие клиенты.
             max_reconnect_attempts: Сколько подряд неудачных переподключений допускается,
                 прежде чем :meth:`connect` завершится ошибкой. :obj:`None` означает без ограничения.
+            json_backend: JSON библиотека. По умолчанию используется глобальная.
         """
         self._token = token
         self._device_id = (
@@ -134,6 +136,7 @@ class _YnisonClientBase(Generic[ListenerT]):
         )
         self._device_title = device_title
         self._max_reconnect_attempts = max_reconnect_attempts
+        self._json_backend = json_backend
 
         self._redirect_response: Optional[RedirectResponse] = None
         self._latest_state: Optional[ynison_state.PutYnisonStateResponse] = None
@@ -160,6 +163,13 @@ class _YnisonClientBase(Generic[ListenerT]):
         if self._latest_state is None:
             raise YnisonError('Состояние ещё не получено; дождитесь первого фрейма от сервера')
         return self._latest_state
+
+    @property
+    def json_backend(self) -> JsonBackend:
+        """JSON библиотека для фреймов и handshake-заголовков."""
+        if self._json_backend is not None:
+            return self._json_backend
+        return get_default_json_backend()
 
     @property
     def device_id(self) -> str:
@@ -228,12 +238,12 @@ class _YnisonClientBase(Generic[ListenerT]):
         device_info = {
             'Ynison-Device-Id': self._device_id,
             # да, они реально тут хотят вложенный json.dumps иначе не работает
-            'Ynison-Device-Info': json_compat.dumps({'app_name': self._device_title, 'type': '1'}),  # 1: браузеры
+            'Ynison-Device-Info': self.json_backend.dumps({'app_name': self._device_title, 'type': '1'}),  # 1: браузеры
         }
         if redirect is not None:
             device_info['Ynison-Redirect-Ticket'] = redirect.redirect_ticket
             device_info['Ynison-Session-Id'] = str(redirect.session_id)
-        return json_compat.dumps(device_info)
+        return self.json_backend.dumps(device_info)
 
     def _get_subprotocols(self, redirect: Optional[RedirectResponse] = None) -> List[str]:
         return ['Bearer', 'v2', urllib.parse.quote(self._get_device_info(redirect))]
@@ -262,10 +272,12 @@ class _YnisonClientBase(Generic[ListenerT]):
     def _full_state_request(self) -> ynison_state.PutYnisonStateRequest:
         return messages.build_full_state_request(self._device_id, title=self._device_title)
 
-    @staticmethod
-    def _load_frame(message: str) -> Dict[str, object]:
+    def _dump_request(self, request: ynison_state.PutYnisonStateRequest) -> str:
+        return self.json_backend.dumps(request.to_dict())
+
+    def _load_frame(self, message: str) -> Dict[str, object]:
         try:
-            data = json_compat.loads(message)
+            data = self.json_backend.loads(message)
         except ValueError as e:
             raise YnisonError(f'Некорректный фрейм от сервера: {message[:200]!r}') from e
         if not isinstance(data, dict):
