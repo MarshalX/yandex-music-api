@@ -16,6 +16,7 @@ help:
 gen:
 	@$(SPHINXGENERATE) -f -e -M -P -o "$(SOURCEDIR)" -t "$(TEMPLATEDIR)" "$(MODULEPATH)" $(O)
 	@python generate_client_docs.py
+	@python generate_openapi.py
 
 .PHONY: gen Makefile
 
