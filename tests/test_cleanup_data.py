@@ -1,9 +1,10 @@
 from dataclasses import field
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional
 from unittest.mock import MagicMock
 
 import pytest
 
+from yandex_music import base
 from yandex_music.base import JSONType, YandexMusicModel
 from yandex_music.utils import model
 
@@ -48,41 +49,38 @@ class TestCleanupData:
         result = SampleModel.cleanup_data(data, None)
         assert result == {}
 
-    def test_report_unknown_fields_callback(self) -> None:
+    def test_collects_unknown_fields(self) -> None:
         client = MagicMock()
         client.report_unknown_fields = True
 
-        with pytest.MonkeyPatch.context() as mp:
-            callback = MagicMock()
-            mp.setattr(SampleModel, 'report_unknown_fields_callback', callback)
+        result = SampleModel.cleanup_data({'name': 'test', 'unknown': 1, 'extra': 2}, client)
 
-            _ = SampleModel.cleanup_data({'name': 'test', 'unknown': 1, 'extra': 2}, client)
+        assert result == {'name': 'test'}
+        assert result.unknown_fields == {'extra', 'unknown'}
 
-            callback.assert_called_once()
-            args: Tuple[object, ...] = callback.call_args[0]
-            assert args[0] is SampleModel
-            assert args[1] == {'extra', 'unknown'}
-
-    def test_no_report_when_disabled(self) -> None:
+    def test_no_unknown_fields_when_disabled(self) -> None:
         client = MagicMock()
         client.report_unknown_fields = False
 
-        with pytest.MonkeyPatch.context() as mp:
-            callback = MagicMock()
-            mp.setattr(SampleModel, 'report_unknown_fields_callback', callback)
+        result = SampleModel.cleanup_data({'name': 'test', 'unknown': 1}, client)
+        assert result.unknown_fields == frozenset()
 
-            _ = SampleModel.cleanup_data({'name': 'test', 'unknown': 1}, client)
-            callback.assert_not_called()
+    def test_no_unknown_fields_when_all_known(self) -> None:
+        client = MagicMock()
+        client.report_unknown_fields = True
 
-    def test_no_report_when_no_unknown(self) -> None:
+        result = SampleModel.cleanup_data({'name': 'test', 'value': 1}, client)
+        assert result.unknown_fields == frozenset()
+
+    def test_cleanup_data_does_not_report(self) -> None:
         client = MagicMock()
         client.report_unknown_fields = True
 
         with pytest.MonkeyPatch.context() as mp:
             callback = MagicMock()
-            mp.setattr(SampleModel, 'report_unknown_fields_callback', callback)
+            mp.setattr(base, 'report_schema_mismatch', callback)
 
-            _ = SampleModel.cleanup_data({'name': 'test', 'value': 1}, client)
+            _ = SampleModel.cleanup_data({'name': 'test', 'unknown': 1}, client)
             callback.assert_not_called()
 
     def test_normalizes_camel_case_keys(self) -> None:

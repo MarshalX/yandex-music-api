@@ -68,4 +68,4 @@ class Block(YandexMusicModel):
         elif block_type == 'play-contexts':
             cls_data['data'] = PlayContextsData.de_json(cls_data.get('data'), client)
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)

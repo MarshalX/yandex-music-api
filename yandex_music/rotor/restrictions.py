@@ -59,4 +59,4 @@ class Restrictions(YandexMusicModel):
                 de_json = _TYPE_TO_DE_JSON_DEF[type_]
                 cls_data[nk] = de_json(value, client)
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)

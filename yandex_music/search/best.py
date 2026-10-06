@@ -63,4 +63,4 @@ class Best(YandexMusicModel):
             de_json = _TYPE_TO_DE_JSON_DEF[type_]
             cls_data['result'] = de_json(cls_data.get('result'), client)
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)

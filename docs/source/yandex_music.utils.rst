@@ -66,6 +66,12 @@
 
       Класс, представляющий ответ API
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` SchemaMismatch
+      :link: yandex_music.utils.schema_mismatch
+      :link-type: doc
+
+      Отчёты о расхождении моделей с ответами API
+
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` Sign
       :link: yandex_music.utils.sign_request
       :link-type: doc
@@ -87,4 +93,5 @@
    yandex_music.utils.request_async
    yandex_music.utils.request_base
    yandex_music.utils.response
+   yandex_music.utils.schema_mismatch
    yandex_music.utils.sign_request

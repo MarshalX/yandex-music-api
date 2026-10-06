@@ -235,6 +235,31 @@ logger.setLevel(logging.INFO)
 logger.setLevel(logging.DEBUG)
 ```
 
+## Расхождения с API
+
+Ответы API со временем меняются. Если в ответе нет обязательного поля модели или оно равно `null`, библиотека не падает: поле получает значение `None`, а в лог пишется предупреждение. Оно выводится один раз на модель и набор полей и содержит тип модели, поля, запрос без идентификаторов, версию библиотеки и ссылку на заполненный issue. Пожалуйста, отправьте его, это помогает быстрее обновлять модели.
+
+Поведение настраивается параметрами клиента:
+
+- `report_unknown_fields=True` добавляет в отчёт новые поля из ответа, которых нет в моделях.
+- `strict=True` вызывает `SchemaMismatchError` вместо предупреждения. Подходит для тестов.
+- `on_schema_mismatch` принимает функцию, которая получает отчёт `SchemaMismatch` вместо записи в лог. Например, для отправки в Sentry.
+
+``` python
+from yandex_music import Client
+from yandex_music.utils.schema_mismatch import SchemaMismatch
+
+
+def handle(mismatch: SchemaMismatch) -> None:
+    print(mismatch.describe())
+    print(mismatch.issue_url())
+
+
+client = Client(report_unknown_fields=True, on_schema_mismatch=handle)
+```
+
+Подробнее в [документации](https://ym.marshal.dev/yandex_music.utils.schema_mismatch).
+
 # Получение помощи
 
 Получить помощь можно несколькими путями:

@@ -1,0 +1,24 @@
+name: Расхождение модели с API
+description: Отчёт из предупреждения библиотеки о новых или отсутствующих полях в ответе API
+title: 'Расхождение модели с API'
+labels: ['schema-mismatch']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Обычно эту форму заполняет ссылка из предупреждения библиотеки. Если вы открыли её вручную, скопируйте текст предупреждения в поле ниже.
+  - type: textarea
+    id: report
+    attributes:
+      label: Отчёт
+      description: Тип модели, поля, запрос и версия библиотеки. Значения полей и данные аккаунта не нужны.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Дополнительная информация
+      description: Какой метод клиента вызывался, если это известно.
+    validations:
+      required: false

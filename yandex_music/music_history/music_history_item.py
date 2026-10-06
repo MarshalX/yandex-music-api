@@ -51,4 +51,4 @@ class MusicHistoryItem(YandexMusicModel):
         item_type = cls_data.get('type')
         cls_data['data'] = MusicHistoryItemData.de_json(cls_data.get('data'), client, item_type=item_type)
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)

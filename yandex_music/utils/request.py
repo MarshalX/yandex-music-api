@@ -14,6 +14,7 @@ from yandex_music.utils.request_base import (
     TimeoutType,
     default_timeout,
 )
+from yandex_music.utils.schema_mismatch import set_current_endpoint
 
 if TYPE_CHECKING:
     from yandex_music import JSONType
@@ -65,6 +66,7 @@ class Request(RequestBase):
         """
         import requests
 
+        set_current_endpoint(*args[:2])
         kwargs = self._prepare_kwargs(kwargs)
 
         try:

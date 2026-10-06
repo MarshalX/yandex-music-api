@@ -5,6 +5,7 @@ from typing import Dict, Optional, Union
 from typing_extensions import TypeGuard
 
 from yandex_music import Album, Artist, JSONType, Playlist, Status, Track, YandexMusicObject
+from yandex_music.utils.schema_mismatch import SchemaMismatchHandler
 
 de_list = {
     'artist': Artist.de_list,
@@ -40,6 +41,8 @@ class ClientBase(YandexMusicObject):
     token: Optional[str]
     base_url: str
     report_unknown_fields: bool
+    strict: bool
+    on_schema_mismatch: Optional[SchemaMismatchHandler]
     language: str
     device: str
     me: Optional[Status] = None
