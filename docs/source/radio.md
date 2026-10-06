@@ -65,9 +65,7 @@ event = SessionEvent('like', '2024-01-01T12:00:00.000Z', track_id='12345')
 client.rotor_session_feedback(session.radio_session_id, event, session.batch_id)
 
 # События playableItem* описывают проигрываемый объект: трек или клип
-event = SessionEvent(
-    'playableItemStarted', '2024-01-01T12:00:00.000Z', playable=SessionPlayable('clip', id='12345')
-)
+event = SessionEvent('playableItemStarted', '2024-01-01T12:00:00.000Z', playable=SessionPlayable('clip', id='12345'))
 client.rotor_session_feedback(session.radio_session_id, event)
 ```
 
