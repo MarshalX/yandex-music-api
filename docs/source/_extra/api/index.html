@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yandex Music API Reference</title>
+  <meta name="description" content="Неофициальное описание API Яндекс Музыки в формате OpenAPI, сгенерированное из Python-библиотеки yandex-music от Ilya (Marshal).">
+  <meta name="author" content="Ilya (Marshal)">
+  <link rel="icon" href="../_static/img/favicon-128x128.png">
+  <style>
+    :root {
+      --scalar-custom-header-height: 56px;
+    }
+
+    .ym-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: var(--scalar-custom-header-height);
+      padding: 0 16px;
+      box-sizing: border-box;
+      background: var(--scalar-background-1);
+      border-bottom: 1px solid var(--scalar-border-color);
+      font-family: var(--scalar-font);
+      font-size: 14px;
+    }
+
+    .ym-header a {
+      color: var(--scalar-color-2);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .ym-header a:hover {
+      color: var(--scalar-color-1);
+    }
+
+    .ym-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+
+    .ym-header a.ym-brand {
+      color: var(--scalar-color-1);
+    }
+
+    .ym-brand img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .ym-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .ym-author {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+      color: var(--scalar-color-3);
+    }
+
+    .ym-header a.ym-author-name {
+      color: var(--scalar-color-1);
+      font-weight: 600;
+    }
+
+    .ym-header a.ym-star {
+      padding: 6px 12px;
+      border: 1px solid var(--scalar-border-color);
+      border-radius: 8px;
+      color: var(--scalar-color-1);
+    }
+
+    .ym-header a.ym-star:hover {
+      background: var(--scalar-background-2);
+    }
+
+    @media (max-width: 900px) {
+      .ym-nav,
+      .ym-author-label {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ym-author-name {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="ym-header">
+    <a class="ym-brand" href="../">
+      <img src="../_static/img/logo.png" alt="">
+      <span>Yandex Music API</span>
+    </a>
+    <nav class="ym-nav">
+      <a href="../">Документация</a>
+      <a href="https://github.com/MarshalX/yandex-music-api">GitHub</a>
+      <a href="https://pypi.org/project/yandex-music">PyPI</a>
+      <a href="https://t.me/yandex_music_api">Telegram</a>
+    </nav>
+    <div class="ym-author">
+      <span><span class="ym-author-label">автор </span><a class="ym-author-name" href="https://github.com/MarshalX">Ilya (Marshal) 🦁</a></span>
+      <a class="ym-star" href="https://github.com/MarshalX/yandex-music-api">⭐ Поставить звезду</a>
+    </div>
+  </header>
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.73.0"></script>
+  <script>
+    Scalar.createApiReference('#app', {
+      url: 'openapi.json',
+      localization: {locale: 'ru'},
+      hideTestRequestButton: true,
+      hideClientButton: true,
+      hiddenClients: true,
+      documentDownloadType: 'json',
+      showDeveloperTools: 'never',
+      agent: {disabled: true},
+      mcp: {disabled: true},
+      telemetry: false,
+    })
+  </script>
+</body>
+</html>

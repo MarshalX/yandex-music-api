@@ -126,7 +126,7 @@ html_static_path = ['_static']
 html_title = project
 html_baseurl = 'https://ym.marshal.dev/'
 html_favicon = '_static/img/favicon-128x128.png'
-html_extra_path = ['robots.txt']
+html_extra_path = ['robots.txt', '_extra']
 html_theme = 'sphinxawesome_theme'
 html_domain_indices = False
 html_copy_source = False
@@ -153,6 +153,7 @@ html_theme_options = {
         'Начало': 'readme',
         'Примеры': 'examples',
         'Клиент': 'client',
+        'API': 'api',
         'Глоссарий': 'glossary',
         'Список изменений': 'changes',
     },

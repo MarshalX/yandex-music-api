@@ -143,7 +143,11 @@ strict-callable-subtyping = true
 infer-with-first-use = false
 permissive-ignores = false
 search-path = [".", "examples/radio_example"]
-project-includes = ["yandex_music", "tests", "examples", "docs/generate_client_docs.py", "generate_sync_version.py", "generate_camel_case_aliases.py", "release_guard.py"]
+project-includes = ["yandex_music", "tests", "examples", "docs/generate_client_docs.py", "docs/generate_openapi.py", "generate_sync_version.py", "generate_camel_case_aliases.py", "release_guard.py"]
+
+[[tool.pyrefly.sub-config]]
+matches = "docs/generate_openapi.py"
+errors = { explicit-any = false }
 
 [[tool.pyrefly.sub-config]]
 matches = "yandex_music/base.py"
@@ -252,6 +256,7 @@ ignore = [
 "test.py" = ["S101", "ERA001", "T201", "E501", "F401", "F841"]
 "docs/source/conf.py" = ["INP001"]
 "docs/generate_client_docs.py" = ["INP001", "T201"]
+"docs/generate_openapi.py" = ["INP001", "T201"]
 "examples/*.py" = ["T201", "S311", "ERA001", "INP001", "S106", "BLE001", "S603", "ANN", "D"]
 
 [tool.ruff.lint.flake8-quotes]
