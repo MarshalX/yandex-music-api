@@ -1,9 +1,24 @@
 """Базовые классы."""
 
 import logging
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Set, Tuple, Union, cast
+import sys
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Collection,
+    Dict,
+    List,
+    Optional,
+    Sequence,
+    Set,
+    Tuple,
+    Union,
+    cast,
+    get_type_hints,
+)
 
-from typing_extensions import Self, TypeGuard
+from typing_extensions import Self, TypeGuard, get_args, get_origin
 
 from yandex_music.utils import model
 from yandex_music.utils.normalize import RESERVED_NAMES, _normalize_key
@@ -25,6 +40,74 @@ ModelFieldType = Union[
 ]
 ModelFieldMap = Dict[str, 'ModelFieldType']
 MapTypeToDeJson = Dict[str, Callable[['JSONType', 'ClientType'], Optional['YandexMusicModel']]]
+NestedConverter = Callable[[Any, 'ClientType'], Any]
+
+_nested_plans: Dict[type, List[Tuple[str, NestedConverter]]] = {}
+_annotations_namespace: Dict[str, Any] = {}
+
+
+def _get_annotations_namespace() -> Dict[str, Any]:
+    if len(_annotations_namespace) == 0:
+        import yandex_music
+        from yandex_music._client_base import ClientBase
+
+        _annotations_namespace.update(vars(yandex_music))
+        _annotations_namespace['ClientBase'] = ClientBase
+
+    return _annotations_namespace
+
+
+def _unwrap_optional(type_: Any) -> Any:
+    if get_origin(type_) is Union:
+        args = [arg for arg in get_args(type_) if arg is not type(None)]
+        return args[0] if len(args) == 1 else None
+
+    return type_
+
+
+def _de_nested_list(converter: NestedConverter) -> NestedConverter:
+    def convert(value: Any, client: 'ClientType') -> List[Any]:
+        if not isinstance(value, list):
+            return []
+        return [converter(item, client) for item in cast('List[Any]', value)]
+
+    return convert
+
+
+def _de_nested_dict(converter: NestedConverter) -> NestedConverter:
+    def convert(value: Any, client: 'ClientType') -> Dict[str, Any]:
+        if not isinstance(value, dict):
+            return {}
+        result: Dict[str, Any] = {}
+        for key, item in cast('Dict[str, Any]', value).items():
+            converted = converter(item, client)
+            if converted is not None:
+                result[key] = converted
+        return result
+
+    return convert
+
+
+def _build_nested_converter(type_: Any) -> Optional[NestedConverter]:
+    type_ = _unwrap_optional(type_)
+    if isinstance(type_, type) and issubclass(type_, YandexMusicModel):
+        return type_.de_json
+
+    origin = get_origin(type_)
+    if origin is list:
+        (item_type,) = get_args(type_)
+        item_type = _unwrap_optional(item_type)
+        if isinstance(item_type, type) and issubclass(item_type, YandexMusicModel):
+            return item_type.de_list
+        item_converter = _build_nested_converter(item_type)
+        return _de_nested_list(item_converter) if item_converter is not None else None
+
+    if origin is dict:
+        _, value_type = get_args(type_)
+        value_converter = _build_nested_converter(value_type)
+        return _de_nested_dict(value_converter) if value_converter is not None else None
+
+    return None
 
 
 class YandexMusicObject:
@@ -143,11 +226,62 @@ class YandexMusicModel(YandexMusicObject):
         return result
 
     @classmethod
+    def nested_plan(cls) -> List[Tuple[str, NestedConverter]]:
+        """Построение плана десериализации вложенных объектов по аннотациям полей.
+
+        Note:
+            Учитываются поля вида ``Model``, ``List[Model]``, ``Dict[str, Model]`` и их вложенные
+            комбинации, обёрнутые в ``Optional``. Остальные поля (примитивы, ``Union`` нескольких
+            типов, ``Any``) остаются без изменений. План строится один раз на класс и кешируется.
+
+        Returns:
+            :obj:`list` из :obj:`tuple`: Пары из имени поля и функции его десериализации.
+        """
+        cached = _nested_plans.get(cls)
+        if cached is not None:
+            return cached
+
+        hints = get_type_hints(cls, vars(sys.modules[cls.__module__]), _get_annotations_namespace())
+        plan: List[Tuple[str, NestedConverter]] = []
+        for name in cls.__dataclass_fields__:
+            if name == 'client':
+                continue
+            converter = _build_nested_converter(hints.get(name))
+            if converter is not None:
+                plan.append((name, converter))
+
+        _nested_plans[cls] = plan
+        return plan
+
+    @classmethod
+    def de_nested(cls, cls_data: Dict[str, Any], client: 'ClientType', exclude: Collection[str] = ()) -> Dict[str, Any]:
+        """Десериализация вложенных объектов в очищенных данных.
+
+        Note:
+            Используется в переопределённом :meth:`de_json`, когда часть полей требует особой обработки.
+            Такие поля передаются в ``exclude`` и обрабатываются вручную.
+
+        Args:
+            cls_data (:obj:`dict`): Данные после :meth:`cleanup_data`.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+            exclude (:obj:`Collection` из :obj:`str`, optional): Поля, которые не нужно обрабатывать.
+
+        Returns:
+            :obj:`dict`: Те же данные с десериализованными вложенными объектами.
+        """
+        for name, converter in cls.nested_plan():
+            if name not in exclude:
+                cls_data[name] = converter(cls_data.get(name), client)
+
+        return cls_data
+
+    @classmethod
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional[Self]:
         """Десериализация объекта.
 
         Note:
-            Переопределяется в дочерних классах когда есть вложенные объекты.
+            Вложенные объекты десериализуются автоматически по аннотациям полей (см. :meth:`nested_plan`).
+            Переопределяется в дочерних классах только для полей с особой логикой.
 
         Args:
             data (:obj:`JSONType`): Поля и значения десериализуемого объекта.
@@ -159,7 +293,7 @@ class YandexMusicModel(YandexMusicObject):
         if not cls.is_dict_model_data(data):
             return None
 
-        kwargs = cls.cleanup_data(data, client)
+        kwargs = cls.de_nested(cls.cleanup_data(data, client), client)
         kwargs['client'] = client
         return cls(**kwargs)
 

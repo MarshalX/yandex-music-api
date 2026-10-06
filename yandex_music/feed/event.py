@@ -1,13 +1,11 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AlbumEvent, ArtistEvent, ClientType, JSONType, Track
+    from yandex_music import AlbumEvent, ArtistEvent, ClientType, Track
 
 
 @model
@@ -54,27 +52,3 @@ class Event(YandexMusicModel):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Event']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Event`: Событие фида.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import AlbumEvent, ArtistEvent, Track
-
-        cls_data['tracks'] = Track.de_list(cls_data.get('tracks'), client)
-        cls_data['albums'] = AlbumEvent.de_list(cls_data.get('albums'), client)
-        cls_data['artists'] = ArtistEvent.de_list(cls_data.get('artists'), client)
-
-        return cls(client=client, **cls_data)

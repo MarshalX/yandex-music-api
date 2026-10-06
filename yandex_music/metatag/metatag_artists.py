@@ -9,7 +9,6 @@ from yandex_music.utils import model
 if TYPE_CHECKING:
     from yandex_music import (
         ClientType,
-        JSONType,
         MetatagArtistEntry,
         MetatagSortByValue,
         MetatagTitle,
@@ -56,28 +55,3 @@ class MetatagArtists(YandexMusicModel):
 
     def __len__(self) -> int:
         return len(self.artists)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['MetatagArtists']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.MetatagArtists`: Страница списка артистов метатега.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import MetatagArtistEntry, MetatagSortByValue, MetatagTitle, Pager
-
-        cls_data['title'] = MetatagTitle.de_json(cls_data.get('title'), client)
-        cls_data['pager'] = Pager.de_json(cls_data.get('pager'), client)
-        cls_data['artists'] = MetatagArtistEntry.de_list(cls_data.get('artists'), client)
-        cls_data['sort_by_values'] = MetatagSortByValue.de_list(cls_data.get('sort_by_values'), client)
-
-        return cls(client=client, **cls_data)

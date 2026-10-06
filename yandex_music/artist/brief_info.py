@@ -1,8 +1,6 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -81,37 +79,3 @@ class BriefInfo(YandexMusicModel):
             self.has_promotions,
             self.playlist_ids,
         )
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['BriefInfo']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.BriefInfo`: Информация об артисте.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Album, Artist, Chart, Cover, Playlist, PlaylistId, Stats, Track, Video, Vinyl
-
-        cls_data['playlists'] = Playlist.de_list(cls_data.get('playlists'), client)
-        cls_data['artist'] = Artist.de_json(cls_data.get('artist'), client)
-        cls_data['similar_artists'] = Artist.de_list(cls_data.get('similar_artists'), client)
-        cls_data['popular_tracks'] = Track.de_list(cls_data.get('popular_tracks'), client)
-        cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
-        cls_data['also_albums'] = Album.de_list(cls_data.get('also_albums'), client)
-        cls_data['last_releases'] = Album.de_list(cls_data.get('last_releases'), client)
-        cls_data['all_covers'] = Cover.de_list(cls_data.get('all_covers'), client)
-        cls_data['playlist_ids'] = PlaylistId.de_list(cls_data.get('playlist_ids'), client)
-        cls_data['videos'] = Video.de_list(cls_data.get('videos'), client)
-        cls_data['tracks_in_chart'] = Chart.de_list(cls_data.get('tracks_in_chart'), client)
-        cls_data['vinyls'] = Vinyl.de_list(cls_data.get('vinyls'), client)
-        cls_data['stats'] = Stats.de_json(cls_data.get('stats'), client)
-
-        return cls(client=client, **cls_data)

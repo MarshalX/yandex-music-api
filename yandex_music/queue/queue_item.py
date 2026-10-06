@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING, Any, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Context, JSONType, Queue
+    from yandex_music import ClientType, Context, Queue
 
 
 @model
@@ -47,28 +45,6 @@ class QueueItem(YandexMusicModel):
         """
         assert self.valid_async_client(self.client)
         return await self.client.queue(self.id, *args, **kwargs)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['QueueItem']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.QueueItem`: Очередь в списке.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        from yandex_music import Context
-
-        cls_data = cls.cleanup_data(data, client)
-        cls_data['context'] = Context.de_json(cls_data.get('context'), client)
-
-        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

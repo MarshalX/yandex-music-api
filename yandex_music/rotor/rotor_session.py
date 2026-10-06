@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType, RotorSeed, Sequence, Wave
+    from yandex_music import ClientType, RotorSeed, Sequence, Wave
 
 
 @model
@@ -44,28 +42,3 @@ class RotorSession(YandexMusicModel):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.radio_session_id, self.batch_id)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['RotorSession']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.RotorSession`: Сессия радио.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import RotorSeed, Sequence, Wave
-
-        cls_data['sequence'] = Sequence.de_list(cls_data.get('sequence'), client)
-        cls_data['accepted_seeds'] = RotorSeed.de_list(cls_data.get('accepted_seeds'), client)
-        cls_data['description_seed'] = RotorSeed.de_json(cls_data.get('description_seed'), client)
-        cls_data['wave'] = Wave.de_json(cls_data.get('wave'), client)
-
-        return cls(client=client, **cls_data)

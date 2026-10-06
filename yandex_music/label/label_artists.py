@@ -6,7 +6,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Artist, ClientType, JSONType, Pager
+    from yandex_music import Artist, ClientType, Pager
 
 
 @model
@@ -35,26 +35,3 @@ class LabelArtists(YandexMusicModel):
 
     def __len__(self) -> int:
         return len(self.artists)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['LabelArtists']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.LabelArtists`: Страница списка артистов лейбла.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Artist, Pager
-
-        cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
-        cls_data['pager'] = Pager.de_json(cls_data.get('pager'), client)
-
-        return cls(client=client, **cls_data)

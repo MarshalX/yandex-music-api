@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING, List, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType, LyricsMajor
+    from yandex_music import ClientType, LyricsMajor
 
 
 @model
@@ -52,28 +50,6 @@ class TrackLyrics(YandexMusicModel):
         """
         assert self.valid_async_client(self.client)
         return (await self.client.request.retrieve(self.download_url)).decode('UTF-8')
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['TrackLyrics']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.TrackLyrics`: Текст трека.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import LyricsMajor
-
-        cls_data['major'] = LyricsMajor.de_json(cls_data.get('major'), client)
-
-        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

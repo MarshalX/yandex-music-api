@@ -1,13 +1,11 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import AutoRenewable, ClientType, JSONType, NonAutoRenewable, Operator, RenewableRemainder
+    from yandex_music import AutoRenewable, ClientType, NonAutoRenewable, Operator, RenewableRemainder
 
 
 @model
@@ -41,31 +39,3 @@ class Subscription(YandexMusicModel):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.non_auto_renewable_remainder, self.auto_renewable, self.family_auto_renewable)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Subscription']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Subscription`: Информация о подписках пользователя.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import AutoRenewable, NonAutoRenewable, Operator, RenewableRemainder
-
-        cls_data['auto_renewable'] = AutoRenewable.de_list(cls_data.get('auto_renewable'), client)
-        cls_data['family_auto_renewable'] = AutoRenewable.de_list(cls_data.get('family_auto_renewable'), client)
-        cls_data['non_auto_renewable_remainder'] = RenewableRemainder.de_json(
-            cls_data.get('non_auto_renewable_remainder'), client
-        )
-        cls_data['non_auto_renewable'] = NonAutoRenewable.de_json(cls_data.get('non_auto_renewable'), client)
-        cls_data['operator'] = Operator.de_list(cls_data.get('operator'), client)
-
-        return cls(client=client, **cls_data)

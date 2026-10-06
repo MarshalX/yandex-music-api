@@ -545,43 +545,10 @@ class Playlist(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import (
-            Artist,
-            Brand,
-            Contest,
-            Cover,
-            CustomWave,
-            MadeFor,
-            OpenGraphData,
-            Pager,
-            PlayCounter,
-            PlaylistAbsence,
-            TrackId,
-            TrackShort,
-            User,
-        )
+        cls_data = cls.de_nested(cls.cleanup_data(data, client), client)
 
-        cls_data['owner'] = User.de_json(cls_data.get('owner'), client)
-        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
-        cls_data['cover_without_text'] = Cover.de_json(cls_data.get('cover_without_text'), client)
-        cls_data['made_for'] = MadeFor.de_json(cls_data.get('made_for'), client)
-        cls_data['tracks'] = TrackShort.de_list(cls_data.get('tracks'), client)
-        cls_data['recent_tracks'] = TrackId.de_list(cls_data.get('recent_tracks'), client)
-        cls_data['play_counter'] = PlayCounter.de_json(cls_data.get('play_counter'), client)
-        cls_data['top_artist'] = Artist.de_list(cls_data.get('top_artist'), client)
-        cls_data['contest'] = Contest.de_json(cls_data.get('contest'), client)
-        cls_data['og_data'] = OpenGraphData.de_json(cls_data.get('og_data'), client)
-        cls_data['dummy_cover'] = Cover.de_json(cls_data.get('dummy_cover'), client)
-        cls_data['dummy_rollover_cover'] = Cover.de_json(cls_data.get('dummy_rollover_cover'), client)
-        cls_data['branding'] = Brand.de_json(cls_data.get('branding'), client)
+        from yandex_music import PlaylistAbsence
 
-        cls_data['similar_playlists'] = Playlist.de_list(cls_data.get('similar_playlists'), client)
-        cls_data['last_owner_playlists'] = Playlist.de_list(cls_data.get('last_owner_playlists'), client)
-
-        cls_data['playlist_absence'] = PlaylistAbsence.de_json(
-            cls_data.get('playlist_absence'), client
-        )  # на случай фикса
         # Yandex API typo: sends "playlistAbsense" instead of "playlistAbsence".
         # The typo normalizes to 'playlist_absense' which isn't a known field,
         # so cleanup_data drops it. Check raw data for the original key.
@@ -590,13 +557,6 @@ class Playlist(YandexMusicModel):
             if bool(_typo_val):
                 cls_data['playlist_absence'] = PlaylistAbsence.de_json(_typo_val, client)
                 break
-
-        cls_data['custom_wave'] = CustomWave.de_json(cls_data.get('custom_wave'), client)
-        cls_data['pager'] = Pager.de_json(cls_data.get('pager'), client)
-
-        from yandex_music.playlist.playlist_availability import PlaylistAvailability
-
-        cls_data['trailer'] = PlaylistAvailability.de_json(cls_data.get('trailer'), client)
 
         return cls(client=client, **cls_data)
 

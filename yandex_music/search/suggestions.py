@@ -6,7 +6,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Best, ClientType, JSONType
+    from yandex_music import Best, ClientType
 
 
 @model
@@ -32,25 +32,3 @@ class Suggestions(YandexMusicModel):
 
     def __iter__(self) -> Iterator[str]:
         return iter(self.suggestions)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Suggestions']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Suggestions`: Подсказки при поиске.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Best
-
-        cls_data['best'] = Best.de_json(cls_data.get('best'), client)
-
-        return cls(client=client, **cls_data)

@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING, Optional, Union
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType, SessionPlayable
+    from yandex_music import ClientType, SessionPlayable
 
 
 @model
@@ -45,25 +43,3 @@ class SessionEvent(YandexMusicModel):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.type, self.timestamp, self.track_id, self.playable)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['SessionEvent']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.SessionEvent`: Событие обратной связи сессии радио.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import SessionPlayable
-
-        cls_data['playable'] = SessionPlayable.de_json(cls_data.get('playable'), client)
-
-        return cls(client=client, **cls_data)

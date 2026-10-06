@@ -60,10 +60,7 @@ class Response(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        cls_data = cls.cleanup_data(data, client)
+        cls_data = cls.de_nested(cls.cleanup_data(data, client), client)
         cls_data['data'] = data
-        from yandex_music import InvocationInfo
-
-        cls_data['invocation_info'] = InvocationInfo.de_json(cls_data.get('invocation_info'), client)
 
         return cls(client=client, **cls_data)

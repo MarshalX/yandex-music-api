@@ -59,10 +59,8 @@ class Block(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import BlockEntity, PersonalPlaylistsData, PlayContextsData
-
-        cls_data['entities'] = BlockEntity.de_list(cls_data.get('entities'), client)
+        cls_data = cls.de_nested(cls.cleanup_data(data, client), client)
+        from yandex_music import PersonalPlaylistsData, PlayContextsData
 
         block_type = cls_data.get('type')
         if block_type == 'personal-playlists':
