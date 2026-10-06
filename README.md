@@ -78,6 +78,12 @@ pip install -U "yandex-music[ynison]"
 pip install -U "yandex-music[async,ynison]"
 ```
 
+Для расшифровки треков, полученных со способом доставки `encraw` (например, lossless через `tracks_file_info`), нужен `cryptography`, он доступен как опциональный экстра `crypto`:
+
+``` shell
+pip install -U "yandex-music[crypto]"
+```
+
 Установка из исходного кода:
 
 ``` shell
@@ -86,6 +92,7 @@ cd yandex-music-api
 pip install .           # синхронный клиент
 pip install ".[async]"  # с поддержкой асинхронного клиента
 pip install ".[ynison]" # с поддержкой Ynison
+pip install ".[crypto]" # с расшифровкой encraw
 ```
 
 ### Начало работы

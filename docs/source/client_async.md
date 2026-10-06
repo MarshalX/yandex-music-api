@@ -180,7 +180,7 @@ await full_track.download()
       :link: yandex_music._client_async.tracks
       :link-type: doc
 
-      ``after_track``, ``play_audio``, ``track_supplement``, ``tracks``, ``tracks_download_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
+      ``after_track``, ``play_audio``, ``track_supplement``, ``tracks``, ``tracks_download_info``, ``tracks_file_info``, ``tracks_full_info``, ``tracks_lyrics``, ``tracks_similar``, ``tracks_trailer``
 
    .. grid-item-card:: Волна
       :link: yandex_music._client_async.wave

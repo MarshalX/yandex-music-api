@@ -79,6 +79,8 @@ from .test_experiment_detail import TestExperimentDetail
 from .test_experiment_detail_value import TestExperimentDetailValue
 from .test_experiments_details import TestExperimentsDetails
 from .test_fade import TestFade
+from .test_file_download_info import TestFileDownloadInfo
+from .test_file_info import TestFileInfo
 from .test_foreign_agent import TestForeignAgent
 from .test_generated_playlist import TestGeneratedPlaylist
 from .test_generative_stream import TestGenerativeStream

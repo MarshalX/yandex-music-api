@@ -89,6 +89,8 @@ window.__YM_REDIRECTS__ = {
   "yandex_music.ExperimentsDetails": "yandex_music.experiment.experiments_details#yandex_music.experiment.experiments_details.ExperimentsDetails",
   "yandex_music.Fade": "yandex_music.track.fade#yandex_music.track.fade.Fade",
   "yandex_music.Feed": "yandex_music.feed.feed#yandex_music.feed.feed.Feed",
+  "yandex_music.FileDownloadInfo": "yandex_music.track.file_download_info#yandex_music.track.file_download_info.FileDownloadInfo",
+  "yandex_music.FileInfo": "yandex_music.track.file_info#yandex_music.track.file_info.FileInfo",
   "yandex_music.ForeignAgent": "yandex_music.foreign_agent#yandex_music.foreign_agent.ForeignAgent",
   "yandex_music.GeneratedPlaylist": "yandex_music.feed.generated_playlist#yandex_music.feed.generated_playlist.GeneratedPlaylist",
   "yandex_music.GenerativeStream": "yandex_music.rotor.generative_stream#yandex_music.rotor.generative_stream.GenerativeStream",

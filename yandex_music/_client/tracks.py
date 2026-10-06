@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any, List, Optional, Sequence, Union
 
 from yandex_music import (
     DownloadInfo,
+    FileInfo,
     ShotEvent,
     SimilarTracks,
     Supplement,
@@ -18,7 +19,9 @@ from yandex_music import (
 from yandex_music._client import log
 from yandex_music._client._batch import _BatchMixin
 from yandex_music._client_base import is_dict
-from yandex_music.utils.sign_request import get_sign_request
+from yandex_music.utils.sign_request import DESKTOP_CLIENT, get_file_info_sign, get_sign_request
+
+FILE_INFO_CODECS = ['flac', 'flac-mp4', 'aac-mp4', 'he-aac-mp4', 'aac', 'he-aac', 'mp3']
 
 if TYPE_CHECKING:
     from yandex_music.utils.request import Request
@@ -84,6 +87,61 @@ class TracksMixin(_BatchMixin):
         result = self._request.get(url, *args, **kwargs)
 
         return DownloadInfo.de_list(result, self, get_direct_links)
+
+    @log
+    def tracks_file_info(
+        self,
+        track_id: Union[str, int],
+        quality: str = 'lossless',
+        codecs: Optional[List[str]] = None,
+        transport: str = 'raw',
+        **kwargs: Any,
+    ) -> Optional[FileInfo]:
+        """Получение информации о файле трека, в том числе в lossless качестве.
+
+        Note:
+            Для работы с методом необходима авторизация. Для `lossless` нужна подписка.
+
+            Известные значения для аргумента `quality`: `lossless`, `hq`, `nq`.
+
+            Известные значения для аргумента `transport`: `raw`, `encraw`. Файл в `encraw` расшифровывается при
+            загрузке через :class:`yandex_music.FileDownloadInfo`, для этого нужен пакет `cryptography`.
+
+            Сервер сам выбирает кодек из переданных, отдавая предпочтение `quality`. Если трек недоступен в
+            запрошенном качестве, вернётся лучший доступный вариант.
+
+        Args:
+            track_id (:obj:`str` | :obj:`int`): Уникальный идентификатор трека.
+            quality (:obj:`str`, optional): Качество.
+            codecs (:obj:`list` из :obj:`str`, optional): Допустимые кодеки. По умолчанию все известные.
+            transport (:obj:`str`, optional): Способ доставки файла.
+            **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
+
+        Returns:
+            :obj:`yandex_music.FileInfo` | :obj:`None`: Информация о файле трека.
+
+        Raises:
+            :class:`yandex_music.exceptions.UnauthorizedError`: Метод вызван без авторизации или подпись неверна.
+            :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
+        """
+        url = f'{self.base_url}/get-file-info'
+
+        if codecs is None:
+            codecs = FILE_INFO_CODECS
+
+        sign = get_file_info_sign(track_id, quality, codecs, transport)
+        params = {
+            'ts': sign.timestamp,
+            'trackId': track_id,
+            'quality': quality,
+            'codecs': ','.join(codecs),
+            'transports': transport,
+            'sign': sign.value,
+        }
+
+        result = self._request.get(url, params=params, headers={'X-Yandex-Music-Client': DESKTOP_CLIENT}, **kwargs)
+
+        return FileInfo.de_json(result, self)
 
     @log
     def track_supplement(self, track_id: Union[str, int], *args: Any, **kwargs: Any) -> Optional[Supplement]:
@@ -346,6 +404,8 @@ class TracksMixin(_BatchMixin):
 
     #: Псевдоним для :attr:`tracks_download_info`
     tracksDownloadInfo = tracks_download_info
+    #: Псевдоним для :attr:`tracks_file_info`
+    tracksFileInfo = tracks_file_info
     #: Псевдоним для :attr:`track_supplement`
     trackSupplement = track_supplement
     #: Псевдоним для :attr:`tracks_lyrics`

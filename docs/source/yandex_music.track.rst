@@ -12,6 +12,18 @@
 
       Класс, представляющий параметры затухания трека
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` FileDownloadInfo
+      :link: yandex_music.track.file_download_info
+      :link-type: doc
+
+      Класс, представляющий информацию о файле трека для загрузки
+
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` FileInfo
+      :link: yandex_music.track.file_info
+      :link-type: doc
+
+      Класс, представляющий информацию о файле трека
+
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` LicenceTextPart
       :link: yandex_music.track.licence_text_part
       :link-type: doc
@@ -102,6 +114,8 @@
    :maxdepth: 1
 
    yandex_music.track.fade
+   yandex_music.track.file_download_info
+   yandex_music.track.file_info
    yandex_music.track.licence_text_part
    yandex_music.track.lyrics_info
    yandex_music.track.lyrics_major
