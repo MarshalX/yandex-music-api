@@ -359,22 +359,8 @@ class Album(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import (
-            AlbumActionButton,
-            Artist,
-            Cover,
-            CoverDerivedColors,
-            Deprecation,
-            Label,
-            Track,
-            TrackPosition,
-        )
-
-        cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
-        cls_data['action_button'] = AlbumActionButton.de_json(cls_data.get('action_button'), client)
-        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
-        cls_data['derived_colors'] = CoverDerivedColors.de_json(cls_data.get('derived_colors'), client)
+        cls_data = cls.de_nested(cls.cleanup_data(data, client), client, exclude=('volumes',))
+        from yandex_music import Label, Track
 
         # В зависимости от запроса содержимое лейблов может быть списком объектом или списком строк.
         labels = cls_data.get('labels')
@@ -386,11 +372,6 @@ class Album(YandexMusicModel):
             # Поддержка формата. Все листы [] по умолчанию вместо None даже если данных нет.
             empty_labels: List[str] = []
             cls_data['labels'] = empty_labels
-
-        cls_data['track_position'] = TrackPosition.de_json(cls_data.get('track_position'), client)
-        cls_data['duplicates'] = Album.de_list(cls_data.get('duplicates'), client)
-        cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
-        cls_data['deprecation'] = Deprecation.de_json(cls_data.get('deprecation'), client)
 
         volumes: JSONType = cls_data.get('volumes')
         if isinstance(volumes, list):

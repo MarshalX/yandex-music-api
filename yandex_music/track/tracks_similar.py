@@ -6,7 +6,7 @@ from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType, Track
+    from yandex_music import ClientType, Track
 
 
 @model
@@ -35,26 +35,3 @@ class SimilarTracks(YandexMusicModel):
 
     def __len__(self) -> int:
         return len(self.similar_tracks)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['SimilarTracks']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.SimilarTracks`: Список похожих треков на другой трек.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Track
-
-        cls_data['track'] = Track.de_json(cls_data.get('track'), client)
-        cls_data['similar_tracks'] = Track.de_list(cls_data.get('similar_tracks'), client)
-
-        return cls(client=client, **cls_data)

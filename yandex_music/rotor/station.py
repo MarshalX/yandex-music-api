@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, Icon, Id, JSONType, Restrictions
+    from yandex_music import ClientType, Icon, Id, Restrictions
 
 
 @model
@@ -68,31 +66,3 @@ class Station(YandexMusicModel):
             self.restrictions,
             self.restrictions2,
         )
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Station']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Station`: Станция.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Icon, Id, Restrictions
-
-        cls_data['id'] = Id.de_json(cls_data.get('id'), client)
-        cls_data['parent_id'] = Id.de_json(cls_data.get('parent_id'), client)
-        cls_data['icon'] = Icon.de_json(cls_data.get('icon'), client)
-        cls_data['mts_icon'] = Icon.de_json(cls_data.get('mts_icon'), client)
-        cls_data['geocell_icon'] = Icon.de_json(cls_data.get('geocell_icon'), client)
-        cls_data['restrictions'] = Restrictions.de_json(cls_data.get('restrictions'), client)
-        cls_data['restrictions2'] = Restrictions.de_json(cls_data.get('restrictions2'), client)
-
-        return cls(client=client, **cls_data)

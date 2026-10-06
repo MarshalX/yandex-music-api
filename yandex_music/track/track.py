@@ -1,8 +1,6 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.exceptions import InvalidBitrateError
 from yandex_music.utils import model
@@ -17,7 +15,6 @@ if TYPE_CHECKING:
         CoverDerivedColors,
         DownloadInfo,
         FileInfo,
-        JSONType,
         LyricsInfo,
         Major,
         MetaData,
@@ -584,55 +581,6 @@ class Track(YandexMusicModel):
         if len(self.albums) > 0:
             return f'{self.id}:{self.albums[0].id}'
         return f'{self.id}'
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Track']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Track`: Трек.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import (
-            R128,
-            Album,
-            Artist,
-            CoverDerivedColors,
-            LyricsInfo,
-            Major,
-            MetaData,
-            Normalization,
-            PoetryLoverMatch,
-            User,
-        )
-        from yandex_music.track.fade import Fade
-        from yandex_music.track.smart_preview_params import SmartPreviewParams
-
-        cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
-        cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
-        cls_data['normalization'] = Normalization.de_json(cls_data.get('normalization'), client)
-        cls_data['major'] = Major.de_json(cls_data.get('major'), client)
-        cls_data['substituted'] = Track.de_json(cls_data.get('substituted'), client)
-        cls_data['matched_track'] = Track.de_json(cls_data.get('matched_track'), client)
-        cls_data['user_info'] = User.de_json(cls_data.get('user_info'), client)
-        cls_data['meta_data'] = MetaData.de_json(cls_data.get('meta_data'), client)
-        cls_data['poetry_lover_matches'] = PoetryLoverMatch.de_list(cls_data.get('poetry_lover_matches'), client)
-        cls_data['r128'] = R128.de_json(cls_data.get('r128'), client)
-        cls_data['lyrics_info'] = LyricsInfo.de_json(cls_data.get('lyrics_info'), client)
-        cls_data['derived_colors'] = CoverDerivedColors.de_json(cls_data.get('derived_colors'), client)
-        cls_data['fade'] = Fade.de_json(cls_data.get('fade'), client)
-        cls_data['mix_fade'] = Fade.de_json(cls_data.get('mix_fade'), client)
-        cls_data['smart_preview_params'] = SmartPreviewParams.de_json(cls_data.get('smart_preview_params'), client)
-
-        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

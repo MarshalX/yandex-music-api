@@ -153,15 +153,13 @@ class Search(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Best, SearchResult
+        cls_data = cls.de_nested(cls.cleanup_data(data, client), client)
+        from yandex_music import SearchResult
 
         # в ОЧЕНЬ редких случаях сервер творит дичь и может вернуть результат плейлистов в поле artists
         # или вернуть в поле users результаты с плейлистами
 
         # очень редких это около 10 запросов за 3 месяца работы стороннего клиента
-
-        cls_data['best'] = Best.de_json(cls_data.get('best'), client)
         cls_data['albums'] = SearchResult.de_json(cls_data.get('albums'), client, 'album')
         cls_data['artists'] = SearchResult.de_json(cls_data.get('artists'), client, 'artist')
         cls_data['playlists'] = SearchResult.de_json(cls_data.get('playlists'), client, 'playlist')

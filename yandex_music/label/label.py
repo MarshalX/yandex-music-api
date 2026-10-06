@@ -39,28 +39,6 @@ class Label(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.name)
 
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Label']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Label`: Лейбл.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Link
-
-        cls_data['links'] = Link.de_list(cls_data.get('links'), client)
-
-        return cls(client=client, **cls_data)
-
     @overload
     @classmethod
     def de_list(cls, data: List[str], client: 'ClientType') -> List[str]: ...

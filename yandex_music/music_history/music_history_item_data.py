@@ -58,9 +58,8 @@ class MusicHistoryItemData(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Track
         from yandex_music.music_history.music_history_context_full_model import MusicHistoryContextFullModel
-        from yandex_music.music_history.music_history_item_id import MusicHistoryItemId
 
-        cls_data['item_id'] = MusicHistoryItemId.de_json(cls_data.get('item_id'), client)
+        cls_data = cls.de_nested(cls_data, client)
 
         if item_type == 'track':
             cls_data['full_model'] = Track.de_json(cls_data.get('full_model'), client)

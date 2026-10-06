@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType, ShotType
+    from yandex_music import ClientType, ShotType
 
 
 @model
@@ -120,28 +118,6 @@ class ShotData(YandexMusicModel):
         """
         assert self.valid_async_client(self.client)
         return await self.client.request.retrieve(self.mds_url)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ShotData']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.ShotData`: Основная информация о шоте.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import ShotType
-
-        cls_data['shot_type'] = ShotType.de_json(cls_data.get('shot_type'), client)
-
-        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

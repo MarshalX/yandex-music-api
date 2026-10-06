@@ -342,17 +342,7 @@ class Artist(YandexMusicModel):
         if not cls.is_dict_model_data(data):
             return None
 
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import ContentRestrictions, Counts, Cover, Description, Link, Ratings, Track
-
-        cls_data['cover'] = Cover.de_json(cls_data.get('cover'), client)
-        cls_data['cutout_cover'] = Cover.de_json(cls_data.get('cutout_cover'), client)
-        cls_data['ratings'] = Ratings.de_json(cls_data.get('ratings'), client)
-        cls_data['counts'] = Counts.de_json(cls_data.get('counts'), client)
-        cls_data['links'] = Link.de_list(cls_data.get('links'), client)
-        cls_data['popular_tracks'] = Track.de_list(cls_data.get('popular_tracks'), client)
-        cls_data['description'] = Description.de_json(cls_data.get('description'), client)
-        cls_data['content_restrictions'] = ContentRestrictions.de_json(cls_data.get('content_restrictions'), client)
+        cls_data = cls.de_nested(cls.cleanup_data(data, client), client)
 
         # Мне всё равно как в яндухе на клиентах солвят свой бэковский костыль
         decomposed = cls_data.get('decomposed')

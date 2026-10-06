@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import ClientType, JSONType, Status
+    from yandex_music import ClientType, Status
 
 
 @model
@@ -27,25 +25,3 @@ class PromoCodeStatus(YandexMusicModel):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.status, self.status_desc, self.account_status)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['PromoCodeStatus']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.PromoCodeStatus`: Статус активации промо-кода.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Status
-
-        cls_data['account_status'] = Status.de_json(cls_data.get('account_status'), client)
-
-        return cls(client=client, **cls_data)

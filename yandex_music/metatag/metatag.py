@@ -1,8 +1,6 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
-from typing_extensions import override
-
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -11,7 +9,6 @@ if TYPE_CHECKING:
         Album,
         Artist,
         ClientType,
-        JSONType,
         MetatagSortByValue,
         MetatagTitle,
         Playlist,
@@ -70,33 +67,3 @@ class Metatag(YandexMusicModel):
 
     def __post_init__(self) -> None:
         self._id_attrs = (self.id,)
-
-    @classmethod
-    @override
-    def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Metatag']:
-        """Десериализация объекта.
-
-        Args:
-            data (:obj:`dict`): Поля и значения десериализуемого объекта.
-            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
-
-        Returns:
-            :obj:`yandex_music.Metatag`: Метатег.
-        """
-        if not cls.is_dict_model_data(data):
-            return None
-
-        cls_data = cls.cleanup_data(data, client)
-        from yandex_music import Album, Artist, MetatagSortByValue, MetatagTitle, Playlist
-
-        cls_data['title'] = MetatagTitle.de_json(cls_data.get('title'), client)
-        cls_data['artists'] = Artist.de_list(cls_data.get('artists'), client)
-        cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
-        cls_data['playlists'] = Playlist.de_list(cls_data.get('playlists'), client)
-        cls_data['tracks_sort_by_values'] = MetatagSortByValue.de_list(cls_data.get('tracks_sort_by_values'), client)
-        cls_data['albums_sort_by_values'] = MetatagSortByValue.de_list(cls_data.get('albums_sort_by_values'), client)
-        cls_data['playlists_sort_by_values'] = MetatagSortByValue.de_list(
-            cls_data.get('playlists_sort_by_values'), client
-        )
-
-        return cls(client=client, **cls_data)
