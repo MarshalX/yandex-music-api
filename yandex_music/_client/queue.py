@@ -41,7 +41,7 @@ class QueueMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if not device:
+        if device is None or device == '':
             device = self.device
 
         url = f'{self.base_url}/queues'
@@ -75,7 +75,9 @@ class QueueMixin(ClientBase):
         return Queue.de_json(result, self)
 
     @log
-    def queue_update_position(self, queue_id: str, current_index: int, device: Optional[str] = None, **kwargs) -> bool:
+    def queue_update_position(
+        self, queue_id: str, current_index: int, device: Optional[str] = None, **kwargs: Any
+    ) -> bool:
         """Установка текущего индекса проигрываемого трека в очереди треков.
 
         Note:
@@ -94,7 +96,7 @@ class QueueMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if not device:
+        if device is None or device == '':
             device = self.device
 
         url = f'{self.base_url}/queues/{queue_id}/update-position'
@@ -122,7 +124,7 @@ class QueueMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        if not device:
+        if device is None or device == '':
             device = self.device
 
         if isinstance(queue, Queue):

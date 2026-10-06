@@ -1,11 +1,13 @@
-from yandex_music import Product
+from typing import Dict, List, Optional
+
+from yandex_music import Client, JSONType, LicenceTextPart, Price, Product
 
 
 class TestProduct:
     product_id = 'ru.yandex.mobile.music.1month.autorenewable.native.web.notrial.restricted.cache.99'
     type = 'subscription'
     common_period_duration = 'P1M'
-    description = None
+    description: Optional[str] = None
     duration = 30
     trial_duration = 0
     feature = 'basic-music'
@@ -18,17 +20,17 @@ class TestProduct:
     fb_name = 'kinopoisk-plus'
     family = False
     features = ['basic-music']
-    available = None
-    trial_available = None
+    available: Optional[bool] = None
+    trial_available: Optional[bool] = None
     trial_period_duration = 'P1M'
     intro_period_duration = 'P1Y'
     start_period_duration = 'P1M'
-    vendor_trial_available = None
-    button_text = None
-    button_additional_text = None
-    payment_method_types = None
+    vendor_trial_available: Optional[bool] = None
+    button_text: Optional[str] = None
+    button_additional_text: Optional[str] = None
+    payment_method_types: Optional[List[str]] = None
 
-    def test_expected_values(self, product, price, licence_text_part):
+    def test_expected_values(self, product: Product, price: Price, licence_text_part: LicenceTextPart) -> None:
         assert product.product_id == self.product_id
         assert product.type == self.type
         assert product.common_period_duration == self.common_period_duration
@@ -59,14 +61,14 @@ class TestProduct:
         assert product.button_additional_text == self.button_additional_text
         assert product.payment_method_types == self.payment_method_types
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Product.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Product.de_list([], client) == []
 
-    def test_de_json_required(self, client, price):
-        json_dict = {
+    def test_de_json_required(self, client: Client, price: Price) -> None:
+        json_dict: Dict[str, JSONType] = {
             'product_id': self.product_id,
             'type': self.type,
             'duration': self.duration,
@@ -77,6 +79,7 @@ class TestProduct:
             'plus': self.plus,
         }
         product = Product.de_json(json_dict, client)
+        assert product is not None
 
         assert product.product_id == self.product_id
         assert product.type == self.type
@@ -87,8 +90,8 @@ class TestProduct:
         assert product.debug == self.debug
         assert product.plus == self.plus
 
-    def test_de_json_all(self, client, price, licence_text_part):
-        json_dict = {
+    def test_de_json_all(self, client: Client, price: Price, licence_text_part: LicenceTextPart) -> None:
+        json_dict: Dict[str, JSONType] = {
             'product_id': self.product_id,
             'type': self.type,
             'common_period_duration': self.common_period_duration,
@@ -120,6 +123,7 @@ class TestProduct:
             'licence_text_parts': [licence_text_part.to_dict()],
         }
         product = Product.de_json(json_dict, client)
+        assert product is not None
 
         assert product.product_id == self.product_id
         assert product.type == self.type
@@ -151,36 +155,36 @@ class TestProduct:
         assert product.button_additional_text == self.button_additional_text
         assert product.payment_method_types == self.payment_method_types
 
-    def test_equality(self, price):
+    def test_equality(self, price: Price) -> None:
         a = Product(
             self.product_id,
             self.type,
             self.duration,
             self.trial_duration,
-            price,
             self.feature,
             self.debug,
             self.plus,
+            price,
         )
         b = Product(
             '',
             self.type,
             self.duration,
             self.trial_duration,
-            price,
             self.feature,
             self.debug,
             self.plus,
+            price,
         )
         c = Product(
             self.product_id,
             self.type,
             self.duration,
             self.trial_duration,
-            price,
             self.feature,
             self.debug,
             self.plus,
+            price,
         )
 
         assert a != b

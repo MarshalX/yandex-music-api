@@ -1,4 +1,6 @@
-from yandex_music import RotorSessionTracks
+from typing import Dict
+
+from yandex_music import Client, JSONType, RotorSessionTracks, Sequence
 
 
 class TestRotorSessionTracks:
@@ -8,7 +10,7 @@ class TestRotorSessionTracks:
     unknown_session = False
     offline_recommender_data = [1]
 
-    def test_expected_values(self, rotor_session_tracks, sequence):
+    def test_expected_values(self, rotor_session_tracks: RotorSessionTracks, sequence: Sequence) -> None:
         assert rotor_session_tracks.batch_id == self.batch_id
         assert rotor_session_tracks.pumpkin == self.pumpkin
         assert rotor_session_tracks.sequence == [sequence]
@@ -16,11 +18,11 @@ class TestRotorSessionTracks:
         assert rotor_session_tracks.unknown_session == self.unknown_session
         assert rotor_session_tracks.offline_recommender_data == self.offline_recommender_data
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert RotorSessionTracks.de_json({}, client) is None
 
-    def test_de_json_all(self, client, sequence):
-        json_dict = {
+    def test_de_json_all(self, client: Client, sequence: Sequence) -> None:
+        json_dict: Dict[str, JSONType] = {
             'batchId': self.batch_id,
             'pumpkin': self.pumpkin,
             'sequence': [sequence.to_dict()],
@@ -29,6 +31,7 @@ class TestRotorSessionTracks:
             'offlineRecommenderData': self.offline_recommender_data,
         }
         rotor_session_tracks = RotorSessionTracks.de_json(json_dict, client)
+        assert rotor_session_tracks is not None
 
         assert rotor_session_tracks.batch_id == self.batch_id
         assert rotor_session_tracks.pumpkin == self.pumpkin
@@ -37,7 +40,7 @@ class TestRotorSessionTracks:
         assert rotor_session_tracks.unknown_session == self.unknown_session
         assert rotor_session_tracks.offline_recommender_data == self.offline_recommender_data
 
-    def test_equality(self, sequence):
+    def test_equality(self, sequence: Sequence) -> None:
         a = RotorSessionTracks(self.batch_id, sequence=[sequence])
         b = RotorSessionTracks('other-batch-id', sequence=[sequence])
         c = RotorSessionTracks(self.batch_id, sequence=[sequence])

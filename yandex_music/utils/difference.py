@@ -1,9 +1,12 @@
 """Операции изменения плейлиста."""
 
 from enum import Enum
-from typing import List, Union
+from typing import Dict, List, Union
 
 from yandex_music.utils.json_compat import dumps as _json_dumps
+
+TrackIdData = Dict[str, Union[str, int]]
+OperationData = Dict[str, Union[str, int, List[TrackIdData]]]
 
 
 class Operation(Enum):
@@ -30,7 +33,7 @@ class Difference:
     """
 
     def __init__(self) -> None:
-        self.operations = []
+        self.operations: List[OperationData] = []
 
     def to_json(self) -> str:
         """Сериализация всех операций над плейлистом.
@@ -53,12 +56,12 @@ class Difference:
         Returns:
             :obj:`yandex_music.utils.difference.Difference`: Набор операций над плейлистом.
         """
-        operation = {'op': Operation.DELETE.value, 'from': from_, 'to': to}
+        operation: OperationData = {'op': Operation.DELETE.value, 'from': from_, 'to': to}
 
         self.operations.append(operation)
         return self
 
-    def add_insert(self, at: int, tracks: Union[dict, List[dict]]) -> 'Difference':
+    def add_insert(self, at: int, tracks: Union[TrackIdData, List[TrackIdData]]) -> 'Difference':
         """Добавление операции вставки.
 
         Note:
@@ -77,14 +80,13 @@ class Difference:
         if not isinstance(tracks, list):
             tracks = [tracks]
 
-        operation = {'op': Operation.INSERT.value, 'at': at, 'tracks': []}
+        operation_tracks: List[TrackIdData] = []
+        operation: OperationData = {'op': Operation.INSERT.value, 'at': at, 'tracks': operation_tracks}
 
         for track in tracks:
             # TODO (MarshalX) replace to normal TrackId object
             #  https://github.com/MarshalX/yandex-music-api/issues/558
-            track = type('TrackId', (), track)
-
-            operation['tracks'].append({'id': track.id, 'albumId': track.album_id})
+            operation_tracks.append({'id': track['id'], 'albumId': track['album_id']})
 
         self.operations.append(operation)
         return self

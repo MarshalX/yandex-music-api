@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -40,6 +42,7 @@ class Feed(YandexMusicModel):
         self._id_attrs = (self.can_get_more_events, self.generated_playlists, self.headlines, self.today, self.days)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Feed']:
         """Десериализация объекта.
 
@@ -59,4 +62,4 @@ class Feed(YandexMusicModel):
         cls_data['generated_playlists'] = GeneratedPlaylist.de_list(cls_data.get('generated_playlists'), client)
         cls_data['days'] = Day.de_list(cls_data.get('days'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

@@ -1,4 +1,6 @@
-from yandex_music import MetaData
+from typing import Dict
+
+from yandex_music import Client, JSONType, MetaData
 
 
 class TestMetaData:
@@ -42,7 +44,7 @@ class TestMetaData:
     version = 'Provided to YouTube by Pias UK Limited'
     composer = 'oXEfhutXNHU'
 
-    def test_expected_values(self, meta_data):
+    def test_expected_values(self, meta_data: MetaData) -> None:
         assert meta_data.album == self.album
         assert meta_data.volume == self.volume
         assert meta_data.year == self.year
@@ -52,14 +54,14 @@ class TestMetaData:
         assert meta_data.version == self.version
         assert meta_data.composer == self.composer
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert MetaData.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        MetaData.de_json({}, client)
+    def test_de_json_required(self, client: Client) -> None:
+        _ = MetaData.de_json({}, client)
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'album': self.album,
             'volume': self.volume,
             'year': self.year,
@@ -70,6 +72,7 @@ class TestMetaData:
             'composer': self.composer,
         }
         meta_data = MetaData.de_json(json_dict, client)
+        assert meta_data is not None
 
         assert meta_data.album == self.album
         assert meta_data.volume == self.volume
@@ -80,7 +83,7 @@ class TestMetaData:
         assert meta_data.version == self.version
         assert meta_data.composer == self.composer
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = MetaData(self.album, self.volume, self.year)
         b = MetaData(self.album, 0, 2016)
         c = MetaData(self.album, self.volume, self.year)

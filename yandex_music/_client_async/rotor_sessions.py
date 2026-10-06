@@ -17,6 +17,12 @@ if TYPE_CHECKING:
     from yandex_music.utils.request_async import Request
 
 
+def _timestamp_or_now(timestamp: TimestampType) -> Union[str, float, int]:
+    if timestamp is None or timestamp == '' or timestamp == 0:
+        return utc_now_iso()
+    return timestamp
+
+
 def _session_body(
     queue: Optional[List[str]],
     track_to_start_from: Optional[str],
@@ -194,8 +200,8 @@ class RotorSessionsMixin(ClientBase):
         """
         url = f'{self.base_url}/rotor/session/{radio_session_id}/tracks'
 
-        body: Dict[str, Any] = {'queue': queue or []}
-        if feedbacks:
+        body: Dict[str, Any] = {'queue': queue if queue is not None else []}
+        if feedbacks is not None and len(feedbacks) > 0:
             body['feedbacks'] = [feedback.to_dict(for_request=True) for feedback in feedbacks]
 
         result = await self._request.post(url, json=body, **kwargs)
@@ -266,7 +272,7 @@ class RotorSessionsMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        event = SessionEvent('radioStarted', timestamp or utc_now_iso())
+        event = SessionEvent('radioStarted', _timestamp_or_now(timestamp))
 
         return await self.rotor_session_feedback(radio_session_id, event, batch_id, from_, **kwargs)
 
@@ -295,7 +301,7 @@ class RotorSessionsMixin(ClientBase):
         Raises:
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
-        event = SessionEvent('trackStarted', timestamp or utc_now_iso(), track_id=str(track_id))
+        event = SessionEvent('trackStarted', _timestamp_or_now(timestamp), track_id=str(track_id))
 
         return await self.rotor_session_feedback(radio_session_id, event, batch_id, **kwargs)
 
@@ -328,7 +334,7 @@ class RotorSessionsMixin(ClientBase):
         """
         event = SessionEvent(
             'trackFinished',
-            timestamp or utc_now_iso(),
+            _timestamp_or_now(timestamp),
             track_id=str(track_id),
             total_played_seconds=total_played_seconds,
         )
@@ -363,7 +369,7 @@ class RotorSessionsMixin(ClientBase):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         event = SessionEvent(
-            'skip', timestamp or utc_now_iso(), track_id=str(track_id), total_played_seconds=total_played_seconds
+            'skip', _timestamp_or_now(timestamp), track_id=str(track_id), total_played_seconds=total_played_seconds
         )
 
         return await self.rotor_session_feedback(radio_session_id, event, batch_id, **kwargs)
@@ -475,7 +481,7 @@ class RotorSessionsMixin(ClientBase):
         """
         url = f'{self.base_url}/rotor/combined/session/{session_id}/next'
 
-        body = {'queue': [item.to_dict(for_request=True) for item in queue or []]}
+        body = {'queue': [item.to_dict(for_request=True) for item in (queue if queue is not None else [])]}
 
         result = await self._request.post(url, json=body, **kwargs)
 

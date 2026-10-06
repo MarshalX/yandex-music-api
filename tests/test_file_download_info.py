@@ -1,8 +1,9 @@
 import sys
+from typing import Dict
 
 import pytest
 
-from yandex_music import FileDownloadInfo
+from yandex_music import Client, FileDownloadInfo, JSONType
 from yandex_music.exceptions import YandexMusicError
 
 
@@ -18,7 +19,7 @@ class TestFileDownloadInfo:
     gain = False
     key = '000102030405060708090a0b0c0d0e0f'
 
-    def test_expected_values(self, file_download_info):
+    def test_expected_values(self, file_download_info: FileDownloadInfo) -> None:
         assert file_download_info.track_id == self.track_id
         assert file_download_info.quality == self.quality
         assert file_download_info.codec == self.codec
@@ -30,11 +31,11 @@ class TestFileDownloadInfo:
         assert file_download_info.gain == self.gain
         assert file_download_info.key == self.key
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert FileDownloadInfo.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'trackId': self.track_id,
             'quality': self.quality,
             'codec': self.codec,
@@ -44,14 +45,15 @@ class TestFileDownloadInfo:
             'urls': self.urls,
         }
         file_download_info = FileDownloadInfo.de_json(json_dict, client)
+        assert file_download_info is not None
 
         assert file_download_info.track_id == self.track_id
         assert file_download_info.codec == self.codec
         assert file_download_info.urls == self.urls
         assert file_download_info.key is None
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'trackId': self.track_id,
             'quality': self.quality,
             'codec': self.codec,
@@ -64,6 +66,7 @@ class TestFileDownloadInfo:
             'key': self.key,
         }
         file_download_info = FileDownloadInfo.de_json(json_dict, client)
+        assert file_download_info is not None
 
         assert file_download_info.track_id == self.track_id
         assert file_download_info.quality == self.quality
@@ -76,32 +79,33 @@ class TestFileDownloadInfo:
         assert file_download_info.gain == self.gain
         assert file_download_info.key == self.key
 
-    def test_decrypt_encraw(self, file_download_info):
-        cryptography = pytest.importorskip('cryptography.hazmat.primitives.ciphers')
+    def test_decrypt_encraw(self, file_download_info: FileDownloadInfo) -> None:
+        _ = pytest.importorskip('cryptography.hazmat.primitives.ciphers')
+        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
         plain = b'fLaC fake audio payload' * 10
-        cipher = cryptography.Cipher(
-            cryptography.algorithms.AES(bytes.fromhex(self.key)), cryptography.modes.CTR(bytes(16))
-        ).encryptor()
+        cipher = Cipher(algorithms.AES(bytes.fromhex(self.key)), modes.CTR(bytes(16))).encryptor()
         encrypted = cipher.update(plain) + cipher.finalize()
 
         assert encrypted != plain
         assert file_download_info._decrypt(encrypted) == plain
 
-    def test_decrypt_without_cryptography(self, file_download_info, monkeypatch):
+    def test_decrypt_without_cryptography(
+        self, file_download_info: FileDownloadInfo, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         monkeypatch.setitem(sys.modules, 'cryptography.hazmat.primitives.ciphers', None)
 
         with pytest.raises(YandexMusicError, match=r'yandex-music\[crypto\]'):
-            file_download_info._decrypt(b'payload')
+            _ = file_download_info._decrypt(b'payload')
 
-    def test_decrypt_raw(self):
+    def test_decrypt_raw(self) -> None:
         info = FileDownloadInfo(
             self.track_id, self.quality, self.codec, self.bitrate, 'raw', self.url, self.urls, key=self.key
         )
 
         assert info._decrypt(b'payload') == b'payload'
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = FileDownloadInfo(self.track_id, self.quality, self.codec, self.bitrate, self.transport, self.url, self.urls)
         b = FileDownloadInfo(self.track_id, 'hq', 'aac-mp4', 256, self.transport, self.url, self.urls)
         c = FileDownloadInfo(self.track_id, self.quality, self.codec, self.bitrate, self.transport, self.url, self.urls)

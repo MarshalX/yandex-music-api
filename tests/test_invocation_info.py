@@ -1,4 +1,6 @@
-from yandex_music import InvocationInfo
+from typing import Dict
+
+from yandex_music import Client, InvocationInfo, JSONType
 
 
 class TestInvocationInfo:
@@ -7,37 +9,39 @@ class TestInvocationInfo:
     exec_duration_millis = 0
     app_name = 'music-wave'
 
-    def test_expected_values(self, invocation_info):
+    def test_expected_values(self, invocation_info: InvocationInfo) -> None:
         assert invocation_info.hostname == self.hostname
         assert invocation_info.req_id == self.req_id
         assert invocation_info.exec_duration_millis == self.exec_duration_millis
         assert invocation_info.app_name == self.app_name
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert InvocationInfo.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'hostname': self.hostname, 'req_id': self.req_id}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'hostname': self.hostname, 'req_id': self.req_id}
         invocation_info = InvocationInfo.de_json(json_dict, client)
+        assert invocation_info is not None
 
         assert invocation_info.hostname == self.hostname
         assert invocation_info.req_id == self.req_id
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'hostname': self.hostname,
             'req_id': self.req_id,
             'exec_duration_millis': self.exec_duration_millis,
             'app-name': self.app_name,
         }
         invocation_info = InvocationInfo.de_json(json_dict, client)
+        assert invocation_info is not None
 
         assert invocation_info.hostname == self.hostname
         assert invocation_info.req_id == self.req_id
         assert invocation_info.exec_duration_millis == self.exec_duration_millis
         assert invocation_info.app_name == self.app_name
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = InvocationInfo(self.hostname, self.req_id)
         b = InvocationInfo('', self.req_id, 0)
         c = InvocationInfo(self.hostname, self.req_id, 20)

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -25,6 +27,7 @@ class MadeFor(YandexMusicModel):
         self._id_attrs = (self.user_info, self.case_forms)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['MadeFor']:
         """Десериализация объекта.
 
@@ -44,4 +47,4 @@ class MadeFor(YandexMusicModel):
         cls_data['user_info'] = User.de_json(cls_data.get('user_info'), client)
         cls_data['case_forms'] = CaseForms.de_json(cls_data.get('case_forms'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

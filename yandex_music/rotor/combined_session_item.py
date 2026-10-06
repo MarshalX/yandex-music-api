@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -29,6 +31,7 @@ class CombinedSessionItem(YandexMusicModel):
         self._id_attrs = (self.type, self.data)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['CombinedSessionItem']:
         """Десериализация объекта.
 
@@ -45,7 +48,8 @@ class CombinedSessionItem(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         from yandex_music import Clip, Track
 
-        item_type = str(cls_data.get('type') or '').upper()
+        raw_type = cls_data.get('type')
+        item_type = str(raw_type).upper() if raw_type is not None else ''
         if item_type == 'CLIP':
             cls_data['data'] = Clip.de_json(cls_data.get('data'), client)
         elif item_type == 'TRACK':

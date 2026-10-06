@@ -1,4 +1,6 @@
-from yandex_music import User
+from typing import Dict
+
+from yandex_music import Client, JSONType, User
 
 
 class TestUser:
@@ -11,7 +13,7 @@ class TestUser:
     verified = False
     regions = ['RUSSIA_PREMIUM', 'RUSSIA']
 
-    def test_expected_values(self, user):
+    def test_expected_values(self, user: User) -> None:
         assert user.uid == self.uid
         assert user.login == self.login
         assert user.name == self.name
@@ -21,21 +23,22 @@ class TestUser:
         assert user.verified == self.verified
         assert user.regions == self.regions
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert User.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert User.de_list([], client) == []
 
-    def test_de_json_required(self, client):
-        json_dict = {'uid': self.uid}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'uid': self.uid}
         user = User.de_json(json_dict, client)
+        assert user is not None
 
         assert user.uid == self.uid
         assert user.login is None
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'uid': self.uid,
             'login': self.login,
             'name': self.name,
@@ -46,6 +49,7 @@ class TestUser:
             'regions': self.regions,
         }
         user = User.de_json(json_dict, client)
+        assert user is not None
 
         assert user.uid == self.uid
         assert user.login == self.login
@@ -56,7 +60,7 @@ class TestUser:
         assert user.verified == self.verified
         assert user.regions == self.regions
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = User(self.uid, self.login)
         b = User(1, self.login)
         c = User(self.uid)

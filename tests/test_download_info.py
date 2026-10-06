@@ -1,10 +1,12 @@
+from typing import Dict
+
 import pytest
 
-from yandex_music import DownloadInfo
+from yandex_music import Client, DownloadInfo, JSONType
 
 
 @pytest.fixture(scope='class')
-def download_info():
+def download_info() -> DownloadInfo:
     return DownloadInfo(
         TestDownloadInfo.codec,
         TestDownloadInfo.bitrate_in_kbps,
@@ -26,7 +28,7 @@ class TestDownloadInfo:
     )
     direct = False
 
-    def test_expected_values(self, download_info):
+    def test_expected_values(self, download_info: DownloadInfo) -> None:
         assert download_info.codec == self.codec
         assert download_info.bitrate_in_kbps == self.bitrate_in_kbps
         assert download_info.gain == self.gain
@@ -34,14 +36,14 @@ class TestDownloadInfo:
         assert download_info.download_info_url == self.download_info_url
         assert download_info.direct == self.direct
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert DownloadInfo.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert DownloadInfo.de_list([], client) == []
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'codec': self.codec,
             'bitrate_in_kbps': self.bitrate_in_kbps,
             'gain': self.gain,
@@ -50,6 +52,7 @@ class TestDownloadInfo:
             'direct': self.direct,
         }
         download_info = DownloadInfo.de_json(json_dict, client)
+        assert download_info is not None
 
         assert download_info.codec == self.codec
         assert download_info.bitrate_in_kbps == self.bitrate_in_kbps
@@ -58,8 +61,8 @@ class TestDownloadInfo:
         assert download_info.download_info_url == self.download_info_url
         assert download_info.direct == self.direct
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'codec': self.codec,
             'bitrate_in_kbps': self.bitrate_in_kbps,
             'gain': self.gain,
@@ -68,6 +71,7 @@ class TestDownloadInfo:
             'direct': self.direct,
         }
         download_info = DownloadInfo.de_json(json_dict, client)
+        assert download_info is not None
 
         assert download_info.codec == self.codec
         assert download_info.bitrate_in_kbps == self.bitrate_in_kbps
@@ -76,7 +80,7 @@ class TestDownloadInfo:
         assert download_info.download_info_url == self.download_info_url
         assert download_info.direct == self.direct
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = DownloadInfo(self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url, self.direct)
         b = DownloadInfo(self.codec, 128, self.gain, True, self.download_info_url, True)
         c = DownloadInfo(self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url, self.direct)

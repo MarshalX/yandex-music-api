@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -55,10 +57,11 @@ class Account(YandexMusicModel):
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
-        if self.uid:
+        if self.uid is not None and self.uid != 0:
             self._id_attrs = (self.uid,)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Account']:
         """Десериализация объекта.
 
@@ -77,4 +80,4 @@ class Account(YandexMusicModel):
 
         cls_data['passport_phones'] = PassportPhone.de_list(cls_data.get('passport_phones'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -47,6 +49,7 @@ class MusicHistoryContextFullModel(YandexMusicModel):
         self._id_attrs = (self.album, self.artist, self.playlist, self.wave)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['MusicHistoryContextFullModel']:
         """Десериализация объекта.
 

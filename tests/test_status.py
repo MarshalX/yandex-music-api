@@ -1,4 +1,6 @@
-from yandex_music import Status
+from typing import Dict, Optional
+
+from yandex_music import Account, Alert, Client, JSONType, Permissions, Plus, Status, Subscription
 
 
 class TestStatus:
@@ -7,15 +9,23 @@ class TestStatus:
     subeditor = False
     subeditor_level = 0
     default_email = 'yandex_music@yandex.com'
-    skips_per_hour = None
-    station_exists = None
-    premium_region = None
+    skips_per_hour: Optional[int] = None
+    station_exists: Optional[bool] = None
+    premium_region: Optional[int] = None
     experiment = 109
     pretrial_active = False
     userhash = '2a1d970ce4dadc3333280aa8727d1c41a380a7622521ecef67928cd4213adb8f'
     has_options = ['bookmate']
 
-    def test_expected_values(self, status, account, permissions, subscription, plus, alert):
+    def test_expected_values(
+        self,
+        status: Status,
+        account: Account,
+        permissions: Permissions,
+        subscription: Subscription,
+        plus: Plus,
+        alert: Alert,
+    ) -> None:
         assert status.account == account
         assert status.permissions == permissions
         assert status.subscription == subscription
@@ -34,18 +44,27 @@ class TestStatus:
         assert status.userhash == self.userhash
         assert status.has_options == self.has_options
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Status.de_json({}, client) is None
 
-    def test_de_json_required(self, client, account, permissions):
-        json_dict = {'account': account.to_dict(), 'permissions': permissions.to_dict()}
+    def test_de_json_required(self, client: Client, account: Account, permissions: Permissions) -> None:
+        json_dict: Dict[str, JSONType] = {'account': account.to_dict(), 'permissions': permissions.to_dict()}
         status = Status.de_json(json_dict, client)
+        assert status is not None
 
         assert status.account == account
         assert status.permissions == permissions
 
-    def test_de_json_all(self, client, account, permissions, subscription, plus, alert):
-        json_dict = {
+    def test_de_json_all(
+        self,
+        client: Client,
+        account: Account,
+        permissions: Permissions,
+        subscription: Subscription,
+        plus: Plus,
+        alert: Alert,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'account': account.to_dict(),
             'permissions': permissions.to_dict(),
             'subscription': subscription.to_dict(),
@@ -65,6 +84,7 @@ class TestStatus:
             'hasOptions': self.has_options,
         }
         status = Status.de_json(json_dict, client)
+        assert status is not None
 
         assert status.account == account
         assert status.permissions == permissions
@@ -84,7 +104,7 @@ class TestStatus:
         assert status.userhash == self.userhash
         assert status.has_options == self.has_options
 
-    def test_equality(self, account, permissions, subscription):
+    def test_equality(self, account: Account, permissions: Permissions, subscription: Subscription) -> None:
         a = Status(account, permissions)
         b = Status(None, permissions)
         c = Status(account, permissions)

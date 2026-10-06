@@ -1,4 +1,6 @@
-from yandex_music import ArtistInfo
+from typing import Dict
+
+from yandex_music import Artist, ArtistInfo, ArtistTrailerStatus, Client, Cover, JSONType, Stats
 
 
 class TestArtistInfo:
@@ -6,7 +8,14 @@ class TestArtistInfo:
     description = 'Fake artist description'
     artist_type = 'artist'
 
-    def test_expected_value(self, artist_info, artist, stats, artist_trailer_status, cover):
+    def test_expected_value(
+        self,
+        artist_info: ArtistInfo,
+        artist: Artist,
+        stats: Stats,
+        artist_trailer_status: ArtistTrailerStatus,
+        cover: Cover,
+    ) -> None:
         assert artist_info.artist == artist
         assert artist_info.likes_count == self.likes_count
         assert artist_info.stats == stats
@@ -15,11 +24,13 @@ class TestArtistInfo:
         assert artist_info.description == self.description
         assert artist_info.artist_type == self.artist_type
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert ArtistInfo.de_json({}, client) is None
 
-    def test_de_json_all(self, client, artist, stats, artist_trailer_status, cover):
-        json_dict = {
+    def test_de_json_all(
+        self, client: Client, artist: Artist, stats: Stats, artist_trailer_status: ArtistTrailerStatus, cover: Cover
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'artist': artist.to_dict(),
             'likesCount': self.likes_count,
             'stats': stats.to_dict(),
@@ -29,12 +40,13 @@ class TestArtistInfo:
             'artistType': self.artist_type,
         }
         obj = ArtistInfo.de_json(json_dict, client)
+        assert obj is not None
 
         assert obj.artist == artist
         assert obj.likes_count == self.likes_count
         assert obj.description == self.description
 
-    def test_equality(self, artist):
+    def test_equality(self, artist: Artist) -> None:
         a = ArtistInfo(artist=artist)
         b = ArtistInfo(artist=None)
         c = ArtistInfo(artist=artist)

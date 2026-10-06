@@ -1,4 +1,6 @@
-from yandex_music import AdParams
+from typing import Dict, Optional
+
+from yandex_music import AdParams, Client, JSONType
 
 
 class TestAdParams:
@@ -8,10 +10,10 @@ class TestAdParams:
     target_ref = 'http://music.yandex.ru'
     other_params = 'user:561231028'
     ad_volume = -15
-    genre_id = None
-    genre_name = None
+    genre_id: Optional[str] = None
+    genre_name: Optional[str] = None
 
-    def test_expected_values(self, ad_params):
+    def test_expected_values(self, ad_params: AdParams) -> None:
         assert ad_params.partner_id == self.partner_id
         assert ad_params.category_id == self.category_id
         assert ad_params.page_ref == self.page_ref
@@ -21,11 +23,11 @@ class TestAdParams:
         assert ad_params.genre_id == self.genre_id
         assert ad_params.genre_name == self.genre_name
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert AdParams.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'partner_id': self.partner_id,
             'category_id': self.category_id,
             'page_ref': self.page_ref,
@@ -34,6 +36,7 @@ class TestAdParams:
             'ad_volume': self.ad_volume,
         }
         ad_params = AdParams.de_json(json_dict, client)
+        assert ad_params is not None
 
         assert ad_params.partner_id == self.partner_id
         assert ad_params.category_id == self.category_id
@@ -42,8 +45,8 @@ class TestAdParams:
         assert ad_params.other_params == self.other_params
         assert ad_params.ad_volume == self.ad_volume
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'partner_id': self.partner_id,
             'category_id': self.category_id,
             'page_ref': self.page_ref,
@@ -54,6 +57,7 @@ class TestAdParams:
             'genre_name': self.genre_name,
         }
         ad_params = AdParams.de_json(json_dict, client)
+        assert ad_params is not None
 
         assert ad_params.partner_id == self.partner_id
         assert ad_params.category_id == self.category_id
@@ -64,7 +68,7 @@ class TestAdParams:
         assert ad_params.genre_id == self.genre_id
         assert ad_params.genre_name == self.genre_name
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = AdParams(
             self.partner_id, self.category_id, self.page_ref, self.target_ref, self.other_params, self.ad_volume
         )

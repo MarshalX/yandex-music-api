@@ -1,10 +1,12 @@
 import importlib
 import json
 import sys
+from typing import Iterator, List
 from unittest.mock import patch
 
 import pytest
 
+from yandex_music import JSONType
 from yandex_music.utils import json_compat
 
 
@@ -12,47 +14,47 @@ class TestWithOrjson:
     """Тесты json_compat при наличии orjson."""
 
     @pytest.fixture(autouse=True)
-    def _reload_with_orjson(self):
+    def _reload_with_orjson(self) -> None:
         """Перезагрузка модуля с orjson."""
-        importlib.reload(json_compat)
+        _ = importlib.reload(json_compat)
         if not json_compat.accepts_bytes:
             pytest.skip('orjson not installed')
 
-    def test_accepts_bytes_true(self):
+    def test_accepts_bytes_true(self) -> None:
         assert json_compat.accepts_bytes is True
 
-    def test_loads_bytes(self):
+    def test_loads_bytes(self) -> None:
         result = json_compat.loads(b'{"key": "value"}')
         assert result == {'key': 'value'}
 
-    def test_loads_str(self):
+    def test_loads_str(self) -> None:
         result = json_compat.loads('{"key": "value"}')
         assert result == {'key': 'value'}
 
-    def test_loads_nested(self):
+    def test_loads_nested(self) -> None:
         data = b'{"a": {"b": [1, 2, 3]}}'
         result = json_compat.loads(data)
         assert result == {'a': {'b': [1, 2, 3]}}
 
-    def test_loads_unicode(self):
+    def test_loads_unicode(self) -> None:
         result = json_compat.loads('{"key": "значение"}'.encode('UTF-8'))
         assert result == {'key': 'значение'}
 
-    def test_dumps_returns_str(self):
+    def test_dumps_returns_str(self) -> None:
         result = json_compat.dumps({'key': 'value'})
         assert isinstance(result, str)
 
-    def test_dumps_unicode_not_escaped(self):
+    def test_dumps_unicode_not_escaped(self) -> None:
         result = json_compat.dumps({'key': 'значение'})
         assert 'значение' in result
         assert '\\u' not in result
 
-    def test_dumps_roundtrip(self):
+    def test_dumps_roundtrip(self) -> None:
         original = {'a': 1, 'b': [2, 3], 'c': 'text'}
         result = json_compat.loads(json_compat.dumps(original))
         assert result == original
 
-    def test_loads_invalid_json(self):
+    def test_loads_invalid_json(self) -> None:
         with pytest.raises((json.JSONDecodeError, ValueError)):
             json_compat.loads(b'not json')
 
@@ -61,52 +63,52 @@ class TestWithoutOrjson:
     """Тесты json_compat при отсутствии orjson (stdlib json fallback)."""
 
     @pytest.fixture(autouse=True)
-    def _reload_without_orjson(self):
+    def _reload_without_orjson(self) -> Iterator[None]:
         """Перезагрузка модуля без orjson."""
         with patch.dict(sys.modules, {'orjson': None}):
-            importlib.reload(json_compat)
+            _ = importlib.reload(json_compat)
             yield
-        importlib.reload(json_compat)
+        _ = importlib.reload(json_compat)
 
-    def test_accepts_bytes_false(self):
+    def test_accepts_bytes_false(self) -> None:
         assert json_compat.accepts_bytes is False
 
-    def test_loads_bytes(self):
+    def test_loads_bytes(self) -> None:
         result = json_compat.loads(b'{"key": "value"}')
         assert result == {'key': 'value'}
 
-    def test_loads_str(self):
+    def test_loads_str(self) -> None:
         result = json_compat.loads('{"key": "value"}')
         assert result == {'key': 'value'}
 
-    def test_loads_nested(self):
+    def test_loads_nested(self) -> None:
         data = b'{"a": {"b": [1, 2, 3]}}'
         result = json_compat.loads(data)
         assert result == {'a': {'b': [1, 2, 3]}}
 
-    def test_loads_unicode(self):
+    def test_loads_unicode(self) -> None:
         result = json_compat.loads('{"key": "значение"}'.encode('UTF-8'))
         assert result == {'key': 'значение'}
 
-    def test_dumps_returns_str(self):
+    def test_dumps_returns_str(self) -> None:
         result = json_compat.dumps({'key': 'value'})
         assert isinstance(result, str)
 
-    def test_dumps_unicode_not_escaped(self):
+    def test_dumps_unicode_not_escaped(self) -> None:
         result = json_compat.dumps({'key': 'значение'})
         assert 'значение' in result
         assert '\\u' not in result
 
-    def test_dumps_roundtrip(self):
+    def test_dumps_roundtrip(self) -> None:
         original = {'a': 1, 'b': [2, 3], 'c': 'text'}
         result = json_compat.loads(json_compat.dumps(original))
         assert result == original
 
-    def test_loads_invalid_json(self):
+    def test_loads_invalid_json(self) -> None:
         with pytest.raises((json.JSONDecodeError, ValueError)):
             json_compat.loads(b'not json')
 
-    def test_loads_invalid_utf8(self):
+    def test_loads_invalid_utf8(self) -> None:
         with pytest.raises(UnicodeDecodeError):
             json_compat.loads(b'\xff\xfe')
 
@@ -114,7 +116,7 @@ class TestWithoutOrjson:
 class TestConsistency:
     """Оба бэкенда должны давать одинаковый результат."""
 
-    TEST_DATA = [
+    TEST_DATA: List[JSONType] = [
         {'simple': 'dict'},
         {'nested': {'key': [1, 2, 3]}},
         {'unicode': 'кириллица'},
@@ -123,21 +125,21 @@ class TestConsistency:
     ]
 
     @pytest.mark.parametrize('data', TEST_DATA)
-    def test_dumps_loads_roundtrip(self, data):
+    def test_dumps_loads_roundtrip(self, data: JSONType) -> None:
         serialized = json_compat.dumps(data)
         assert isinstance(serialized, str)
         deserialized = json_compat.loads(serialized)
         assert deserialized == data
 
     @pytest.mark.parametrize('data', TEST_DATA)
-    def test_loads_from_stdlib_json(self, data):
+    def test_loads_from_stdlib_json(self, data: JSONType) -> None:
         """json_compat.loads should parse stdlib json.dumps output."""
         stdlib_json = json.dumps(data, ensure_ascii=False)
         result = json_compat.loads(stdlib_json)
         assert result == data
 
     @pytest.mark.parametrize('data', TEST_DATA)
-    def test_loads_bytes_from_stdlib_json(self, data):
+    def test_loads_bytes_from_stdlib_json(self, data: JSONType) -> None:
         """json_compat.loads should parse stdlib json.dumps output as bytes."""
         stdlib_bytes = json.dumps(data, ensure_ascii=False).encode('UTF-8')
         result = json_compat.loads(stdlib_bytes)

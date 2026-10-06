@@ -1,10 +1,12 @@
+from typing import Dict
+
 import pytest
 
-from yandex_music import LandingList
+from yandex_music import Client, JSONType, LandingList, PlaylistId
 
 
 @pytest.fixture(scope='class')
-def landing_list(playlist_id):
+def landing_list(playlist_id: PlaylistId) -> LandingList:
     return LandingList(
         TestLandingList.type,
         TestLandingList.type_for_from,
@@ -24,7 +26,7 @@ class TestLandingList:
     new_releases = [10704986, 10527291, 9479589]
     podcasts = [10532030, 8693523, 10509632]
 
-    def test_expected_values(self, landing_list, playlist_id):
+    def test_expected_values(self, landing_list: LandingList, playlist_id: PlaylistId) -> None:
         assert landing_list.id == self.id
         assert landing_list.title == self.title
         assert landing_list.type == self.type
@@ -33,19 +35,20 @@ class TestLandingList:
         assert landing_list.podcasts == self.podcasts
         assert landing_list.new_playlists == [playlist_id]
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert LandingList.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'title': self.title, 'type': self.type, 'type_for_from': self.type_for_from}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'title': self.title, 'type': self.type, 'type_for_from': self.type_for_from}
         landing_list = LandingList.de_json(json_dict, client)
+        assert landing_list is not None
 
         assert landing_list.title == self.title
         assert landing_list.type == self.type
         assert landing_list.type_for_from == self.type_for_from
 
-    def test_de_json_all(self, client, playlist_id):
-        json_dict = {
+    def test_de_json_all(self, client: Client, playlist_id: PlaylistId) -> None:
+        json_dict: Dict[str, JSONType] = {
             'title': self.title,
             'type': self.type,
             'type_for_from': self.type_for_from,
@@ -55,6 +58,7 @@ class TestLandingList:
             'new_playlists': [playlist_id.to_dict()],
         }
         landing_list = LandingList.de_json(json_dict, client)
+        assert landing_list is not None
 
         assert landing_list.id == self.id
         assert landing_list.title == self.title
@@ -64,7 +68,7 @@ class TestLandingList:
         assert landing_list.podcasts == self.podcasts
         assert landing_list.new_playlists == [playlist_id]
 
-    def test_equality(self, playlist_id):
+    def test_equality(self, playlist_id: PlaylistId) -> None:
         a = LandingList(self.type, self.type_for_from, self.title, self.id, self.new_releases, [playlist_id], [])
         b = LandingList(self.type, self.type_for_from, self.title, self.id, self.new_releases, [], [])
         c = LandingList(self.type, self.type_for_from, self.title, '', self.new_releases, [playlist_id], [])

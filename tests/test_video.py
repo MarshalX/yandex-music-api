@@ -1,4 +1,6 @@
-from yandex_music import Video
+from typing import Dict, List, Optional
+
+from yandex_music import Client, JSONType, Video
 
 
 class TestVideo:
@@ -7,14 +9,14 @@ class TestVideo:
     embed_url = 'https://frontend.vh.yandex.ru/player/10413967802532191922?no_ad=true&from=ya-music'
     provider = 'yandex'
     provider_video_id = '10413967802532191922'
-    youtube_url = None
-    thumbnail_url = None
-    duration = None
-    text = None
-    html_auto_play_video_player = None
-    regions = None
+    youtube_url: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+    duration: Optional[int] = None
+    text: Optional[str] = None
+    html_auto_play_video_player: Optional[str] = None
+    regions: Optional[List[str]] = None
 
-    def test_expected_values(self, video):
+    def test_expected_values(self, video: Video) -> None:
         assert video.title == self.title
         assert video.cover == self.cover
         assert video.embed_url == self.embed_url
@@ -27,20 +29,21 @@ class TestVideo:
         assert video.html_auto_play_video_player == self.html_auto_play_video_player
         assert video.regions == self.regions
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Video.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Video.de_list([], client) == []
 
-    def test_de_json_required(self, client):
-        json_dict = {'title': self.title}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'title': self.title}
         video = Video.de_json(json_dict, client)
+        assert video is not None
 
         assert video.title == self.title
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'title': self.title,
             'cover': self.cover,
             'embed_url': self.embed_url,
@@ -54,6 +57,7 @@ class TestVideo:
             'regions': self.regions,
         }
         video = Video.de_json(json_dict, client)
+        assert video is not None
 
         assert video.title == self.title
         assert video.cover == self.cover
@@ -67,7 +71,7 @@ class TestVideo:
         assert video.html_auto_play_video_player == self.html_auto_play_video_player
         assert video.regions == self.regions
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Video(self.title, '', provider_video_id=self.provider_video_id)
         b = Video('', self.cover, self.embed_url)
         c = Video(self.title, provider_video_id=self.provider_video_id)

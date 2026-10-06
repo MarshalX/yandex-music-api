@@ -1,28 +1,31 @@
-from yandex_music import ConcertTabRange
+from typing import Dict
+
+from yandex_music import Client, ConcertTabRange, JSONType
 
 
 class TestConcertTabRange:
     offset = 0
     limit = 5
 
-    def test_expected_value(self, concert_tab_range):
+    def test_expected_value(self, concert_tab_range: ConcertTabRange) -> None:
         assert concert_tab_range.offset == self.offset
         assert concert_tab_range.limit == self.limit
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert ConcertTabRange.de_json({}, client) is None
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'offset': self.offset,
             'limit': self.limit,
         }
         concert_tab_range = ConcertTabRange.de_json(json_dict, client)
+        assert concert_tab_range is not None
 
         assert concert_tab_range.offset == self.offset
         assert concert_tab_range.limit == self.limit
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = ConcertTabRange(offset=self.offset, limit=self.limit)
         b = ConcertTabRange(offset=5, limit=-1)
         c = ConcertTabRange(offset=self.offset, limit=self.limit)

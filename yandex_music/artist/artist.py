@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.exceptions import IdMissingError
 from yandex_music.utils import model
@@ -326,6 +328,7 @@ class Artist(YandexMusicModel):
         return await self.client.artists_direct_albums(self.id_required, page, page_size, sort_by, *args, **kwargs)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Artist']:
         """Десериализация объекта.
 
@@ -360,12 +363,12 @@ class Artist(YandexMusicModel):
                     decomposed_items.append(part)
                 elif isinstance(part, dict):
                     artist = Artist.de_json(part, client)
-                    if artist:
+                    if artist is not None:
                         decomposed_items.append(artist)
 
             cls_data['decomposed'] = decomposed_items
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

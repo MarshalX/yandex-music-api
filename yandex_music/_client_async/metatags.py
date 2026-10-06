@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from yandex_music import (
     Metatag,
@@ -145,7 +145,7 @@ class MetatagsMixin(ClientBase):
         """
         url = f'{self.base_url}/metatags/{metatag_id}/albums'
 
-        params: dict = {'offset': offset, 'limit': limit}
+        params: Dict[str, Union[int, str]] = {'offset': offset, 'limit': limit}
         if period is not None:
             params['period'] = period
         if sort_by is not None:
@@ -192,7 +192,7 @@ class MetatagsMixin(ClientBase):
         """
         url = f'{self.base_url}/metatags/{metatag_id}/artists'
 
-        params: dict = {'period': period, 'offset': offset, 'limit': limit}
+        params: Dict[str, Union[int, str]] = {'period': period, 'offset': offset, 'limit': limit}
         if sort_by is not None:
             params['sortBy'] = sort_by
         if tracks_per_artist is not None:
@@ -235,7 +235,7 @@ class MetatagsMixin(ClientBase):
         """
         url = f'{self.base_url}/metatags/{metatag_id}/playlists'
 
-        params: dict = {'offset': offset, 'limit': limit}
+        params: Dict[str, Union[int, str]] = {'offset': offset, 'limit': limit}
         if sort_by is not None:
             params['sortBy'] = sort_by
         if with_likes_count is not None:

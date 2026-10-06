@@ -1,4 +1,6 @@
-from yandex_music import Brand
+from typing import Dict
+
+from yandex_music import Brand, Client, JSONType
 
 
 class TestBrand:
@@ -13,7 +15,7 @@ class TestBrand:
     playlist_theme = ''
     button = 'Больше подкастов'
 
-    def test_expected_values(self, brand):
+    def test_expected_values(self, brand: Brand) -> None:
         assert brand.image == self.image
         assert brand.background == self.background
         assert brand.reference == self.reference
@@ -22,11 +24,11 @@ class TestBrand:
         assert brand.playlist_theme == self.playlist_theme
         assert brand.button == self.button
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Brand.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'image': self.image,
             'background': self.background,
             'reference': self.reference,
@@ -36,6 +38,7 @@ class TestBrand:
             'button': self.button,
         }
         brand = Brand.de_json(json_dict, client)
+        assert brand is not None
 
         assert brand.image == self.image
         assert brand.background == self.background
@@ -45,8 +48,8 @@ class TestBrand:
         assert brand.playlist_theme == self.playlist_theme
         assert brand.button == self.button
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'image': self.image,
             'background': self.background,
             'reference': self.reference,
@@ -56,6 +59,7 @@ class TestBrand:
             'button': self.button,
         }
         brand = Brand.de_json(json_dict, client)
+        assert brand is not None
 
         assert brand.image == self.image
         assert brand.background == self.background
@@ -65,7 +69,7 @@ class TestBrand:
         assert brand.playlist_theme == self.playlist_theme
         assert brand.button == self.button
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Brand(
             self.image, self.background, self.reference, self.pixels, self.theme, self.playlist_theme, self.button
         )

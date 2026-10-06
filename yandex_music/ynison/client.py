@@ -3,7 +3,9 @@
 import contextlib
 import inspect
 import threading
-from typing import Callable, Iterator, List, Optional
+from typing import Callable, Generator, List, Optional
+
+from typing_extensions import override
 
 from yandex_music.exceptions import (
     YnisonConnectionClosedError,
@@ -67,6 +69,7 @@ class YnisonClient(_YnisonClientBase[StateListener]):
         self._connection: Optional[_transport.SyncConnection] = None
         self._redirect_connection: Optional[_transport.SyncConnection] = None
 
+    @override
     def on_state(self, listener: StateListener) -> StateListener:
         """Регистрирует listener, вызываемый на каждый фрейм состояния.
 
@@ -142,7 +145,7 @@ class YnisonClient(_YnisonClientBase[StateListener]):
                     connection.close()
 
     @contextlib.contextmanager
-    def session(self, timeout: float = 10.0) -> Iterator['YnisonClient']:
+    def session(self, timeout: float = 10.0) -> Generator['YnisonClient', None, None]:
         """Контекстный менеджер для подключения на время блока.
 
         Запускает :meth:`connect` в фоновом потоке, ждёт первый фрейм состояния
@@ -185,7 +188,7 @@ class YnisonClient(_YnisonClientBase[StateListener]):
                 raise YnisonTimeoutError(f'Превышено время ожидания начального состояния ({timeout}с)') from (
                     self._last_error
                 )
-            if failures:
+            if len(failures) > 0:
                 raise failures[0]
             if self._latest_state is None:
                 raise YnisonConnectionClosedError('Соединение закрыто до получения начального состояния')
@@ -281,7 +284,7 @@ class YnisonClient(_YnisonClientBase[StateListener]):
     def _emit_error(self, error: YnisonError) -> None:
         for listener in list(self._error_listeners):
             try:
-                listener(error)
+                _ = listener(error)
             except Exception:  # noqa: BLE001
                 logger.exception('Ynison: исключение в error listener %r', listener)
 

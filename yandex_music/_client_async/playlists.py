@@ -650,7 +650,7 @@ class PlaylistsMixin(_BatchMixin):
         result = await self._request.get(url, *args, **kwargs)
 
         if isinstance(result, list):
-            return result
+            return [kind for kind in result if isinstance(kind, int)]
         return []
 
     # camelCase псевдонимы

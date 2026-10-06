@@ -1,4 +1,6 @@
-from yandex_music import RotorSession
+from typing import Dict
+
+from yandex_music import Client, JSONType, RotorSeed, RotorSession, Sequence, Wave
 
 
 class TestRotorSession:
@@ -9,7 +11,9 @@ class TestRotorSession:
     offline_recommender_data = [1, 2, 3]
     interactive = True
 
-    def test_expected_values(self, rotor_session, sequence, rotor_seed, wave):
+    def test_expected_values(
+        self, rotor_session: RotorSession, sequence: Sequence, rotor_seed: RotorSeed, wave: Wave
+    ) -> None:
         assert rotor_session.radio_session_id == self.radio_session_id
         assert rotor_session.batch_id == self.batch_id
         assert rotor_session.pumpkin == self.pumpkin
@@ -21,11 +25,11 @@ class TestRotorSession:
         assert rotor_session.offline_recommender_data == self.offline_recommender_data
         assert rotor_session.interactive == self.interactive
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert RotorSession.de_json({}, client) is None
 
-    def test_de_json_all(self, client, sequence, rotor_seed, wave):
-        json_dict = {
+    def test_de_json_all(self, client: Client, sequence: Sequence, rotor_seed: RotorSeed, wave: Wave) -> None:
+        json_dict: Dict[str, JSONType] = {
             'radioSessionId': self.radio_session_id,
             'batchId': self.batch_id,
             'pumpkin': self.pumpkin,
@@ -38,6 +42,7 @@ class TestRotorSession:
             'interactive': self.interactive,
         }
         rotor_session = RotorSession.de_json(json_dict, client)
+        assert rotor_session is not None
 
         assert rotor_session.radio_session_id == self.radio_session_id
         assert rotor_session.batch_id == self.batch_id
@@ -50,7 +55,7 @@ class TestRotorSession:
         assert rotor_session.offline_recommender_data == self.offline_recommender_data
         assert rotor_session.interactive == self.interactive
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = RotorSession(self.radio_session_id, self.batch_id)
         b = RotorSession('other-session-id', self.batch_id)
         c = RotorSession(self.radio_session_id, self.batch_id)

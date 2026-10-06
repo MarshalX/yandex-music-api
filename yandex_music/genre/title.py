@@ -41,7 +41,7 @@ class Title(YandexMusicModel):
         titles: Dict[str, 'Title'] = {}
         for lang, raw_title in data.items():
             title = cls.de_json(raw_title, client)
-            if title:
+            if title is not None:
                 titles.update({lang: title})
 
         return titles

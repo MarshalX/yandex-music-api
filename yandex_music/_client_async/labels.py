@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 from yandex_music import Label, LabelAlbums, LabelArtists
 from yandex_music._client_async import log
@@ -71,7 +71,7 @@ class LabelsMixin(ClientBase):
         """
         url = f'{self.base_url}/labels/{label_id}/albums'
 
-        params: dict = {'page': page, 'pageSize': page_size}
+        params: Dict[str, Union[int, str]] = {'page': page, 'pageSize': page_size}
         if sort_by is not None:
             params['sortBy'] = sort_by
         if sort_order is not None:

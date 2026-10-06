@@ -37,7 +37,7 @@ class TrackId(YandexMusicModel):
     def track_full_id(self) -> str:
         """:obj:`str`: ID трека состоящий из его номера и номера альбома."""
         track_id = self.id
-        if self.track_id:
+        if self.track_id is not None and self.track_id != 0:
             track_id = self.track_id
 
         return f'{track_id}:{self.album_id}'

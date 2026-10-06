@@ -1,4 +1,6 @@
-from yandex_music import Clip
+from typing import Dict
+
+from yandex_music import Artist, Client, Clip, JSONType
 
 
 class TestClip:
@@ -14,7 +16,7 @@ class TestClip:
     disclaimers = ['explicit']
     explicit = True
 
-    def test_expected_value(self, clip):
+    def test_expected_value(self, clip: Clip) -> None:
         assert clip.clip_id == self.clip_id
         assert clip.title == self.title
         assert clip.version == self.version
@@ -27,11 +29,11 @@ class TestClip:
         assert clip.disclaimers == self.disclaimers
         assert clip.explicit == self.explicit
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Clip.de_json({}, client) is None
 
-    def test_de_json_all(self, client, artist):
-        json_dict = {
+    def test_de_json_all(self, client: Client, artist: Artist) -> None:
+        json_dict: Dict[str, JSONType] = {
             'clipId': self.clip_id,
             'title': self.title,
             'version': self.version,
@@ -46,6 +48,7 @@ class TestClip:
             'explicit': self.explicit,
         }
         clip = Clip.de_json(json_dict, client)
+        assert clip is not None
 
         assert clip.clip_id == self.clip_id
         assert clip.title == self.title
@@ -60,7 +63,7 @@ class TestClip:
         assert clip.disclaimers == self.disclaimers
         assert clip.explicit == self.explicit
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Clip(clip_id=self.clip_id)
         b = Clip(clip_id=99999)
         c = Clip(clip_id=self.clip_id)

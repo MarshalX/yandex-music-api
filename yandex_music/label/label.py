@@ -1,4 +1,6 @@
-from typing import TYPE_CHECKING, List, Optional, Union, cast
+from typing import TYPE_CHECKING, List, Optional, Sequence, Union, cast, overload
+
+from typing_extensions import Self, override
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -38,6 +40,7 @@ class Label(YandexMusicModel):
         self._id_attrs = (self.id, self.name)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Label']:
         """Десериализация объекта.
 
@@ -58,8 +61,17 @@ class Label(YandexMusicModel):
 
         return cls(client=client, **cls_data)
 
+    @overload
     @classmethod
-    def de_list(cls, data: 'JSONType', client: 'ClientType') -> Union[List['Label'], List[str]]:
+    def de_list(cls, data: List[str], client: 'ClientType') -> List[str]: ...
+
+    @overload
+    @classmethod
+    def de_list(cls, data: 'JSONType', client: 'ClientType') -> Sequence[Self]: ...
+
+    @classmethod
+    @override
+    def de_list(cls, data: 'JSONType', client: 'ClientType') -> Union[Sequence[Self], List[str]]:
         """Десериализация списка объектов.
 
         Args:

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -28,6 +30,7 @@ class WaveAgent(YandexMusicModel):
         self._id_attrs = (self.animation_uri, self.cover)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['WaveAgent']:
         """Десериализация объекта.
 

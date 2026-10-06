@@ -8,11 +8,16 @@
 import json
 import threading
 import time
-from typing import Any, Callable, Dict, List, Optional
+from typing import Callable, Dict, List, Optional, TypeVar
 
 from websockets.exceptions import ConnectionClosed
+from websockets.http11 import Request, Response
 from websockets.sync.server import ServerConnection, serve
+from websockets.typing import Data
 
+from yandex_music import JSONType
+from yandex_music.ynison.client import YnisonClient
+from yandex_music.ynison.client_async import YnisonClientAsync
 from yandex_music.ynison.models import ynison_state
 from yandex_music.ynison.models.ynison_redirect import KeepAliveParams, RedirectResponse
 
@@ -107,8 +112,8 @@ def make_state(
     """Собирает фрейм состояния; `seq` кладётся в `timestamp_ms`, чтобы различать фреймы."""
     return ynison_state.PutYnisonStateResponse(
         player_state=ynison_state.PlayerState(
-            status=status or make_playing_status(),
-            player_queue=queue or make_queue(),
+            status=status if status is not None else make_playing_status(),
+            player_queue=queue if queue is not None else make_queue(),
         ),
         devices=[
             ynison_state.Device(
@@ -128,6 +133,7 @@ def make_state(
 
 
 StateScript = Callable[[ServerConnection, 'FakeYnisonServer'], None]
+ClientT = TypeVar('ClientT', YnisonClient, YnisonClientAsync)
 
 
 class FakeYnisonServer:
@@ -142,14 +148,15 @@ class FakeYnisonServer:
 
         self.redirect_count = 0
         self.state_count = 0
-        self.received: List[Dict[str, Any]] = []
+        self.received: List[Dict[str, JSONType]] = []
+        self.requests: List[ynison_state.PutYnisonStateRequest] = []
         self.subprotocol_headers: List[str] = []
 
         self._cond = threading.Condition()
         self._connections: List[ServerConnection] = []
         self._state_connections: List[ServerConnection] = []
         self._server = serve(self._handler, '127.0.0.1', 0, process_request=self._process_request, close_timeout=0.1)
-        self.port = self._server.socket.getsockname()[1]
+        self.port: int = self._server.socket.getsockname()[1]
         self._thread = threading.Thread(target=self._server.serve_forever, name='fake-ynison', daemon=True)
         self._thread.start()
 
@@ -165,7 +172,7 @@ class FakeYnisonServer:
             keep_alive_params=KeepAliveParams(keep_alive_time_seconds=60, keep_alive_timeout_seconds=30),
         ).to_json()
 
-    def patch_client(self, client: Any) -> Any:
+    def patch_client(self, client: ClientT) -> ClientT:
         """Направляет клиента на этот сервер вместо настоящего Ynison."""
         client._redirect_uri = lambda: self.redirect_uri
         client._state_uri = lambda redirect: f'ws://{redirect.host}/state'
@@ -176,16 +183,22 @@ class FakeYnisonServer:
             if not self._cond.wait_for(predicate, timeout=timeout):
                 raise AssertionError('Не дождались условия на фейковом сервере')
 
-    def wait_received(self, key: str, timeout: float = 5.0) -> Dict[str, Any]:
+    def wait_received(self, key: str, timeout: float = 5.0) -> Dict[str, JSONType]:
         """Ждёт запрос с ключом `key` (например, `updatePlayingStatus`) и возвращает его."""
+        return self.received[self._wait_index(key, timeout)]
 
-        def find() -> Optional[Dict[str, Any]]:
-            return next((item for item in self.received if key in item), None)
+    def wait_request(self, key: str, timeout: float = 5.0) -> ynison_state.PutYnisonStateRequest:
+        """Ждёт запрос с ключом `key` (например, `updatePlayingStatus`) и возвращает его модель."""
+        return self.requests[self._wait_index(key, timeout)]
+
+    def _wait_index(self, key: str, timeout: float) -> int:
+        def find() -> Optional[int]:
+            return next((index for index, item in enumerate(self.received) if key in item), None)
 
         self.wait_for(lambda: find() is not None, timeout)
-        result = find()
-        assert result is not None
-        return result
+        index = find()
+        assert index is not None
+        return index
 
     def push(self, frame: str) -> None:
         """Отправляет фрейм в последнее state-соединение."""
@@ -193,12 +206,16 @@ class FakeYnisonServer:
             ws = self._state_connections[-1]
         ws.send(frame)
 
-    def record(self, message: Any) -> None:
+    def record(self, message: Data) -> None:
+        data: JSONType = json.loads(message)
+        assert isinstance(data, dict)
+        request = ynison_state.PutYnisonStateRequest().from_json(message)
         with self._cond:
-            self.received.append(json.loads(message))
+            self.received.append(data)
+            self.requests.append(request)
             self._cond.notify_all()
 
-    def _process_request(self, connection: ServerConnection, request: Any) -> Any:
+    def _process_request(self, connection: ServerConnection, request: Request) -> Optional[Response]:
         if self.reject_http_status is not None:
             with self._cond:
                 self.redirect_count += 1
@@ -207,23 +224,25 @@ class FakeYnisonServer:
         return None
 
     def _handler(self, ws: ServerConnection) -> None:
+        request = ws.request
+        assert request is not None
         with self._cond:
             self._connections.append(ws)
-            self.subprotocol_headers.append(ws.request.headers.get('Sec-WebSocket-Protocol', ''))
+            self.subprotocol_headers.append(request.headers.get('Sec-WebSocket-Protocol', ''))
         try:
-            if ws.request.path == '/redirect':
+            if request.path == '/redirect':
                 with self._cond:
                     self.redirect_count += 1
-                    frame = self.redirect_frames.pop(0) if self.redirect_frames else self.redirect_json()
+                    frame = self.redirect_frames.pop(0) if len(self.redirect_frames) > 0 else self.redirect_json()
                     self._cond.notify_all()
                 ws.send(frame)
                 # сервис редиректа закрывает соединение сам
                 ws.close()
-            elif ws.request.path == '/state':
+            elif request.path == '/state':
                 with self._cond:
                     self.state_count += 1
                     self._state_connections.append(ws)
-                    script = self.state_scripts.pop(0) if self.state_scripts else self.default_state_script
+                    script = self.state_scripts.pop(0) if len(self.state_scripts) > 0 else self.default_state_script
                     self._cond.notify_all()
                 script(ws, self)
         except ConnectionClosed:

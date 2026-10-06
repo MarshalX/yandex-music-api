@@ -12,7 +12,7 @@ import dataclasses
 import hashlib
 import time
 from random import random
-from typing import Any, Optional
+from typing import Optional
 from uuid import uuid4
 
 from yandex_music.exceptions import YnisonQueueBoundaryError
@@ -67,13 +67,13 @@ def _new_version(device_id: str) -> ynison_state.UpdateVersion:
     )
 
 
-def _wrap_request(**oneof: Any) -> ynison_state.PutYnisonStateRequest:
-    return ynison_state.PutYnisonStateRequest(
-        rid=generate_request_id(),
-        player_action_timestamp_ms=get_timestamp(),
-        activity_interception_type=ynison_state.PutYnisonStateRequestActivityInterceptionType.DO_NOT_INTERCEPT_BY_DEFAULT,
-        **oneof,
+def _wrap_request(request: ynison_state.PutYnisonStateRequest) -> ynison_state.PutYnisonStateRequest:
+    request.rid = generate_request_id()
+    request.player_action_timestamp_ms = get_timestamp()
+    request.activity_interception_type = (
+        ynison_state.PutYnisonStateRequestActivityInterceptionType.DO_NOT_INTERCEPT_BY_DEFAULT
     )
+    return request
 
 
 def build_full_state_request(
@@ -169,11 +169,13 @@ def build_set_paused_request(
         progress_ms=utils.get_current_progress_ms(current_status),
         duration_ms=current_status.duration_ms,
         paused=paused,
-        playback_speed=current_status.playback_speed or 1.0,
+        playback_speed=current_status.playback_speed if current_status.playback_speed != 0 else 1.0,
         version=_new_version(device_id),
     )
     return _wrap_request(
-        update_playing_status=ynison_state.UpdatePlayingStatus(playing_status=new_status),
+        ynison_state.PutYnisonStateRequest(
+            update_playing_status=ynison_state.UpdatePlayingStatus(playing_status=new_status),
+        )
     )
 
 
@@ -220,13 +222,15 @@ def build_change_track_request(
         progress_ms=0,
         duration_ms=0,
         paused=current_state.status.paused,
-        playback_speed=current_state.status.playback_speed or 1.0,
+        playback_speed=(current_state.status.playback_speed if current_state.status.playback_speed != 0 else 1.0),
         version=_new_version(device_id),
     )
     return _wrap_request(
-        update_player_state=ynison_state.UpdatePlayerState(
-            player_state=ynison_state.PlayerState(player_queue=new_queue, status=new_status),
-        ),
+        ynison_state.PutYnisonStateRequest(
+            update_player_state=ynison_state.UpdatePlayerState(
+                player_state=ynison_state.PlayerState(player_queue=new_queue, status=new_status),
+            ),
+        )
     )
 
 
@@ -288,11 +292,13 @@ def build_set_volume_request(
     """
     volume = max(0.0, min(1.0, volume))
     return _wrap_request(
-        update_volume_info=ynison_state.UpdateVolumeInfo(
-            device_id=target_device_id,
-            volume_info=ynison_state.DeviceVolume(
-                volume=volume,
-                version=_new_version(device_id),
+        ynison_state.PutYnisonStateRequest(
+            update_volume_info=ynison_state.UpdateVolumeInfo(
+                device_id=target_device_id,
+                volume_info=ynison_state.DeviceVolume(
+                    volume=volume,
+                    version=_new_version(device_id),
+                ),
             ),
-        ),
+        )
     )

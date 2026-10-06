@@ -8,6 +8,7 @@ import os
 import re
 import sys
 from pathlib import Path
+from typing import List, NoReturn
 
 from packaging.version import InvalidVersion, Version
 
@@ -20,35 +21,35 @@ CHANGES_PATH = Path('CHANGES.md')
 NOTES_PATH = Path('RELEASE_NOTES.md')
 
 
-def fail(message: str) -> None:
+def fail(message: str) -> NoReturn:
     """Вывести ошибку в формате аннотации GitHub Actions и завершить работу."""
-    sys.stdout.write(f'::error::{message}\n')
+    _ = sys.stdout.write(f'::error::{message}\n')
     sys.exit(1)
 
 
 def set_output(name: str, value: str) -> None:
     """Передать значение следующим шагам через $GITHUB_OUTPUT."""
     github_output = os.environ.get('GITHUB_OUTPUT')
-    if not github_output:
+    if github_output is None or github_output == '':
         return
 
     with open(github_output, 'a', encoding='UTF-8') as f:
-        f.write(f'{name}={value}\n')
+        _ = f.write(f'{name}={value}\n')
 
 
 def write_summary(text: str) -> None:
     """Добавить текст в сводку запуска через $GITHUB_STEP_SUMMARY."""
     github_summary = os.environ.get('GITHUB_STEP_SUMMARY')
-    if not github_summary:
+    if github_summary is None or github_summary == '':
         return
 
     with open(github_summary, 'a', encoding='UTF-8') as f:
-        f.write(text)
+        _ = f.write(text)
 
 
-def parse_tags(lines: list) -> list:
+def parse_tags(lines: List[str]) -> List[Version]:
     """Разобрать теги вида vX.Y.Z, пропуская не являющиеся версиями."""
-    versions = []
+    versions: List[Version] = []
     for line in lines:
         tag = line.strip()
         if not tag.startswith('v'):
@@ -79,7 +80,7 @@ def find_section(changes: str, version: str) -> str:
 def build_notes(section: str) -> str:
     """Убрать строку с датой из раздела CHANGES.md."""
     lines = section.split('\n')
-    if lines and DATE_RE.fullmatch(lines[0].strip()):
+    if len(lines) > 0 and DATE_RE.fullmatch(lines[0].strip()) is not None:
         lines = lines[1:]
 
     return '\n'.join(lines).strip() + '\n'
@@ -88,11 +89,11 @@ def build_notes(section: str) -> str:
 def main() -> None:
     """Проверить __version__, теги и CHANGES.md, записать RELEASE_NOTES.md."""
     init_match = INIT_VERSION_RE.search(INIT_PATH.read_text(encoding='UTF-8'))
-    if not init_match:
+    if init_match is None:
         fail(f'В {INIT_PATH} не найден __version__')
 
     raw = init_match.group(1)
-    if not VERSION_RE.fullmatch(raw):
+    if VERSION_RE.fullmatch(raw) is None:
         fail(f'__version__ "{raw}" не похоже на версию вида 3.1.0 или 3.1.0b3')
 
     version = Version(raw)
@@ -101,27 +102,28 @@ def main() -> None:
     if version in released:
         fail(f'Тег для {raw} уже существует, опубликованный релиз неизменяем')
 
-    latest = max(released) if released else None
+    latest = max(released) if len(released) > 0 else None
     if latest is not None and version < latest:
         fail(f'{raw} не новее последнего релиза {latest}')
 
     section = find_section(CHANGES_PATH.read_text(encoding='UTF-8'), version.base_version)
     if version.is_prerelease:
-        notes = build_notes(section) if section else f'Предварительная версия {raw}.\n'
+        notes = build_notes(section) if section != '' else f'Предварительная версия {raw}.\n'
     else:
-        if not section:
+        if section == '':
             fail(f'В {CHANGES_PATH} нет раздела "## Версия {raw}"')
-        if not DATE_RE.fullmatch(section.split('\n')[0].strip()):
+        if DATE_RE.fullmatch(section.split('\n')[0].strip()) is None:
             fail(f'У раздела "## Версия {raw}" в {CHANGES_PATH} не проставлена дата вида **ДД.ММ.ГГГГ**')
         notes = build_notes(section)
 
-    NOTES_PATH.write_text(notes, encoding='UTF-8')
+    _ = NOTES_PATH.write_text(notes, encoding='UTF-8')
 
     set_output('version', raw)
     set_output('prerelease', 'true' if version.is_prerelease else 'false')
     prerelease = 'да' if version.is_prerelease else 'нет'
-    write_summary(f'## Выпускается {raw}\n\nПредварительная: {prerelease}. Предыдущий релиз: {latest or "нет"}.\n')
-    sys.stdout.write(f'Выпускается {raw} поверх {latest or "ничего"}\n')
+    latest_text = str(latest) if latest is not None else 'нет'
+    write_summary(f'## Выпускается {raw}\n\nПредварительная: {prerelease}. Предыдущий релиз: {latest_text}.\n')
+    _ = sys.stdout.write(f'Выпускается {raw} поверх {latest if latest is not None else "ничего"}\n')
 
 
 if __name__ == '__main__':

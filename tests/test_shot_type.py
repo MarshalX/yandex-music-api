@@ -1,32 +1,36 @@
-from yandex_music import ShotType
+from typing import Dict
+
+from yandex_music import Client, JSONType, ShotType
 
 
 class TestShotType:
     id = 'alice'
     title = 'Шот от Алисы'
 
-    def test_expected_values(self, shot_type):
+    def test_expected_values(self, shot_type: ShotType) -> None:
         assert shot_type.id == self.id
         assert shot_type.title == self.title
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert ShotType.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'id': self.id, 'title': self.title}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'id': self.id, 'title': self.title}
         shot_type = ShotType.de_json(json_dict, client)
+        assert shot_type is not None
 
         assert shot_type.id == self.id
         assert shot_type.title == self.title
 
-    def test_de_json_all(self, client):
-        json_dict = {'id': self.id, 'title': self.title}
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'id': self.id, 'title': self.title}
         shot_type = ShotType.de_json(json_dict, client)
+        assert shot_type is not None
 
         assert shot_type.id == self.id
         assert shot_type.title == self.title
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = ShotType(self.id, self.title)
         b = ShotType('', self.title)
         c = ShotType(self.id, '')

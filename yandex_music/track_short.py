@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -60,12 +62,13 @@ class TrackShort(YandexMusicModel):
     @property
     def track_id(self) -> str:
         """:obj:`str`: Уникальный идентификатор трека состоящий из его номера и номера альбома или просто из номера."""
-        if self.album_id:
+        if self.album_id is not None and self.album_id != '':
             return f'{self.id}:{self.album_id}'
 
         return f'{self.id}'
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['TrackShort']:
         """Десериализация объекта.
 
@@ -85,7 +88,7 @@ class TrackShort(YandexMusicModel):
         cls_data['track'] = Track.de_json(cls_data.get('track'), client)
         cls_data['chart'] = Chart.de_json(cls_data.get('chart'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

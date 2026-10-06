@@ -2,6 +2,8 @@
 
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -37,13 +39,14 @@ class Response(YandexMusicModel):
 
     def get_error(self) -> str:
         """:obj:`str`: Код ошибки вместе с описанием"""
-        return f'{self.error} {self.error_description if self.error_description else ""}'
+        return f'{self.error} {self.error_description if self.error_description is not None else ""}'
 
     def get_result(self) -> 'JSONType':
         """:obj:`dict`: Результат выполнения запроса. Данный для распаковки."""
         return self.data if self.result is None else self.result
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Response']:
         """Десериализация объекта.
 
@@ -63,4 +66,4 @@ class Response(YandexMusicModel):
 
         cls_data['invocation_info'] = InvocationInfo.de_json(cls_data.get('invocation_info'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

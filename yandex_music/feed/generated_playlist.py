@@ -1,4 +1,6 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
+
+from typing_extensions import override
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -29,7 +31,7 @@ class GeneratedPlaylist(YandexMusicModel):
     ready: bool
     notify: bool
     data: Optional['Playlist']
-    description: Optional[list] = None
+    description: Optional[List['JSONType']] = None
     preview_description: Optional[str] = None
     client: Optional['ClientType'] = None
 
@@ -37,6 +39,7 @@ class GeneratedPlaylist(YandexMusicModel):
         self._id_attrs = (self.type, self.ready, self.notify, self.data)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['GeneratedPlaylist']:
         """Десериализация объекта.
 
@@ -55,4 +58,4 @@ class GeneratedPlaylist(YandexMusicModel):
 
         cls_data['data'] = Playlist.de_json(cls_data.get('data'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

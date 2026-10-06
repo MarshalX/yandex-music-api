@@ -1,5 +1,5 @@
 import re
-from typing import Any, Tuple
+from typing import Tuple
 from unittest.mock import MagicMock
 
 from yandex_music import (
@@ -19,7 +19,7 @@ BASE = 'https://api.music.yandex.net/rotor'
 ISO_UTC = r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z'
 
 
-def _make_client(result: Any) -> Tuple[Client, MagicMock]:
+def _make_client(result: object) -> Tuple[Client, MagicMock]:
     post = MagicMock(return_value=result)
     client = Client()
     client._request = MagicMock(post=post)
@@ -27,7 +27,7 @@ def _make_client(result: Any) -> Tuple[Client, MagicMock]:
 
 
 class TestRotorSessions:
-    def test_rotor_session_new_minimal(self):
+    def test_rotor_session_new_minimal(self) -> None:
         client, post = _make_client({'radioSessionId': 'session-1', 'batchId': 'batch-1'})
 
         result = client.rotor_session_new('user:onyourwave')
@@ -38,10 +38,10 @@ class TestRotorSessions:
         assert args[0] == f'{BASE}/session/new'
         assert kwargs['json'] == {'seeds': ['user:onyourwave']}
 
-    def test_rotor_session_new_all(self):
+    def test_rotor_session_new_all(self) -> None:
         client, post = _make_client({})
 
-        client.rotor_session_new(
+        _ = client.rotor_session_new(
             ['genre:rock', 'settingDiversity:discover'],
             queue=['12345:678'],
             track_to_start_from='12345',
@@ -66,7 +66,7 @@ class TestRotorSessions:
             'allowExplicit': False,
         }
 
-    def test_rotor_session_clone_sends_empty_json_body(self):
+    def test_rotor_session_clone_sends_empty_json_body(self) -> None:
         client, post = _make_client({'radioSessionId': 'session-2'})
 
         result = client.rotor_session_clone('session-1')
@@ -77,7 +77,7 @@ class TestRotorSessions:
         # Без JSON тела API отвечает 415
         assert kwargs['json'] == {}
 
-    def test_rotor_session_tracks(self):
+    def test_rotor_session_tracks(self) -> None:
         client, post = _make_client({'batchId': 'batch-2', 'unknownSession': False})
         feedback = SessionFeedback(SessionEvent('skip', '2024-01-01T12:00:00.000Z', '12345', 3), 'batch-1')
 
@@ -103,15 +103,15 @@ class TestRotorSessions:
             ],
         }
 
-    def test_rotor_session_tracks_without_queue(self):
+    def test_rotor_session_tracks_without_queue(self) -> None:
         client, post = _make_client({})
 
-        client.rotor_session_tracks('session-1')
+        _ = client.rotor_session_tracks('session-1')
 
         _, kwargs = post.call_args
         assert kwargs['json'] == {'queue': []}
 
-    def test_rotor_session_feedback(self):
+    def test_rotor_session_feedback(self) -> None:
         client, post = _make_client({})
         event = SessionEvent(
             'playableItemStarted', '2024-01-01T12:00:00.000Z', playable=SessionPlayable('clip', id='1')
@@ -132,30 +132,34 @@ class TestRotorSessions:
             'from': 'radio-web',
         }
 
-    def test_rotor_session_feedback_radio_started(self):
+    def test_rotor_session_feedback_radio_started(self) -> None:
         client, post = _make_client({})
 
         assert client.rotor_session_feedback_radio_started('session-1', 'batch-1', 'radio-web') is True
         _, kwargs = post.call_args
         assert kwargs['json']['event']['type'] == 'radioStarted'
-        assert re.fullmatch(ISO_UTC, kwargs['json']['event']['timestamp'])
+        timestamp: object = kwargs['json']['event']['timestamp']
+        assert isinstance(timestamp, str)
+        assert re.fullmatch(ISO_UTC, timestamp) is not None
         assert kwargs['json']['batchId'] == 'batch-1'
         assert kwargs['json']['from'] == 'radio-web'
 
-    def test_rotor_session_feedback_track_started(self):
+    def test_rotor_session_feedback_track_started(self) -> None:
         client, post = _make_client({})
 
-        client.rotor_session_feedback_track_started('session-1', 12345, 'batch-1')
+        _ = client.rotor_session_feedback_track_started('session-1', 12345, 'batch-1')
 
         _, kwargs = post.call_args
         assert kwargs['json']['event']['type'] == 'trackStarted'
         assert kwargs['json']['event']['trackId'] == '12345'
         assert kwargs['json']['batchId'] == 'batch-1'
 
-    def test_rotor_session_feedback_track_finished(self):
+    def test_rotor_session_feedback_track_finished(self) -> None:
         client, post = _make_client({})
 
-        client.rotor_session_feedback_track_finished('session-1', '12345', 180.5, timestamp='2024-01-01T12:00:00.000Z')
+        _ = client.rotor_session_feedback_track_finished(
+            'session-1', '12345', 180.5, timestamp='2024-01-01T12:00:00.000Z'
+        )
 
         _, kwargs = post.call_args
         assert kwargs['json']['event'] == {
@@ -166,16 +170,16 @@ class TestRotorSessions:
             'playable': None,
         }
 
-    def test_rotor_session_feedback_skip(self):
+    def test_rotor_session_feedback_skip(self) -> None:
         client, post = _make_client({})
 
-        client.rotor_session_feedback_skip('session-1', '12345', 7)
+        _ = client.rotor_session_feedback_skip('session-1', '12345', 7)
 
         _, kwargs = post.call_args
         assert kwargs['json']['event']['type'] == 'skip'
         assert kwargs['json']['event']['totalPlayedSeconds'] == 7
 
-    def test_rotor_session_feedbacks(self):
+    def test_rotor_session_feedbacks(self) -> None:
         client, post = _make_client({})
         feedback = SessionFeedback(SessionEvent('radioStarted', '2024-01-01T12:00:00.000Z'))
 
@@ -184,7 +188,7 @@ class TestRotorSessions:
         assert args[0] == f'{BASE}/session/session-1/feedbacks'
         assert kwargs['json'] == {'feedbacks': [feedback.to_dict(for_request=True)]}
 
-    def test_rotor_sessions_feedbacks(self):
+    def test_rotor_sessions_feedbacks(self) -> None:
         client, post = _make_client({})
         feedback = SessionFeedback(SessionEvent('radioStarted', '2024-01-01T12:00:00.000Z'))
         sessions = [SessionFeedbacks('session-1', [feedback])]
@@ -196,7 +200,7 @@ class TestRotorSessions:
             'sessions': [{'sessionId': 'session-1', 'feedbacks': [feedback.to_dict(for_request=True)]}]
         }
 
-    def test_rotor_combined_session_new(self):
+    def test_rotor_combined_session_new(self) -> None:
         client, post = _make_client({'sessionId': 'combined-1', 'list': []})
 
         result = client.rotor_combined_session_new(
@@ -214,7 +218,7 @@ class TestRotorSessions:
             'allowExplicit': True,
         }
 
-    def test_rotor_combined_session_next(self):
+    def test_rotor_combined_session_next(self) -> None:
         client, post = _make_client({'batchId': 'batch-3', 'list': []})
 
         result = client.rotor_combined_session_next('combined-1')
@@ -225,7 +229,7 @@ class TestRotorSessions:
         # Без JSON тела API отвечает 415
         assert kwargs['json'] == {'queue': []}
 
-    def test_rotor_combined_session_landing(self):
+    def test_rotor_combined_session_landing(self) -> None:
         client, post = _make_client({'title': 'Время клипов', 'list': []})
 
         result = client.rotor_combined_session_landing(['CLIP'])

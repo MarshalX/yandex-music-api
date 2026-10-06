@@ -1,4 +1,6 @@
-from yandex_music import Station
+from typing import Dict
+
+from yandex_music import Client, Icon, Id, JSONType, Restrictions, Station
 
 
 class TestStation:
@@ -13,7 +15,7 @@ class TestStation:
     display_name = 'fake-display-name'
     visibility = 'public'
 
-    def test_expected_values(self, station, id_, icon, restrictions):
+    def test_expected_values(self, station: Station, id_: Id, icon: Icon, restrictions: Restrictions) -> None:
         assert station.id == id_
         assert station.name == self.name
         assert station.icon == icon
@@ -32,11 +34,11 @@ class TestStation:
         assert station.display_name == self.display_name
         assert station.visibility == self.visibility
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Station.de_json({}, client) is None
 
-    def test_de_json_required(self, client, id_, icon, restrictions):
-        json_dict = {
+    def test_de_json_required(self, client: Client, id_: Id, icon: Icon, restrictions: Restrictions) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': id_.to_dict(),
             'name': self.name,
             'icon': icon.to_dict(),
@@ -47,6 +49,7 @@ class TestStation:
             'restrictions2': restrictions.to_dict(),
         }
         station = Station.de_json(json_dict, client)
+        assert station is not None
 
         assert station.id == id_
         assert station.name == self.name
@@ -57,8 +60,8 @@ class TestStation:
         assert station.restrictions == restrictions
         assert station.restrictions2 == restrictions
 
-    def test_de_json_all(self, client, id_, icon, restrictions):
-        json_dict = {
+    def test_de_json_all(self, client: Client, id_: Id, icon: Icon, restrictions: Restrictions) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': id_.to_dict(),
             'name': self.name,
             'icon': icon.to_dict(),
@@ -78,6 +81,7 @@ class TestStation:
             'visibility': self.visibility,
         }
         station = Station.de_json(json_dict, client)
+        assert station is not None
 
         assert station.id == id_
         assert station.name == self.name
@@ -97,8 +101,10 @@ class TestStation:
         assert station.display_name == self.display_name
         assert station.visibility == self.visibility
 
-    def test_de_json_without_geocell_icon(self, client, id_, icon, restrictions):
-        json_dict = {
+    def test_de_json_without_geocell_icon(
+        self, client: Client, id_: Id, icon: Icon, restrictions: Restrictions
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': id_.to_dict(),
             'name': self.name,
             'icon': icon.to_dict(),
@@ -109,13 +115,14 @@ class TestStation:
             'specialContext': self.special_context,
         }
         station = Station.de_json(json_dict, client)
+        assert station is not None
 
         assert station.geocell_icon is None
         assert station.special_context == self.special_context
 
-    def test_equality(self, id_, icon, restrictions):
+    def test_equality(self, id_: Id, icon: Icon, restrictions: Restrictions) -> None:
         a = Station(id_, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
-        b = Station(id_, self.name, None, icon, icon, self.id_for_from, restrictions, restrictions)
+        b = Station(id_, self.name, icon, icon, None, self.id_for_from, restrictions, restrictions)
         c = Station(id_, '', icon, icon, icon, self.id_for_from, restrictions, restrictions)
         d = Station(id_, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
 

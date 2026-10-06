@@ -1,4 +1,6 @@
-from yandex_music import AutoRenewable
+from typing import Dict
+
+from yandex_music import AutoRenewable, Client, JSONType, Product, User
 
 
 class TestAutoRenewable:
@@ -9,7 +11,7 @@ class TestAutoRenewable:
     finished = False
     order_id = 39385401
 
-    def test_expected_values(self, auto_renewable, product, user):
+    def test_expected_values(self, auto_renewable: AutoRenewable, product: Product, user: User) -> None:
         assert auto_renewable.expires == self.expires
         assert auto_renewable.vendor == self.vendor
         assert auto_renewable.vendor_help_url == self.vendor_help_url
@@ -19,14 +21,14 @@ class TestAutoRenewable:
         assert auto_renewable.master_info == user
         assert auto_renewable.order_id == self.order_id
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert AutoRenewable.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert AutoRenewable.de_list([], client) == []
 
-    def test_de_json_required(self, client, product):
-        json_dict = {
+    def test_de_json_required(self, client: Client, product: Product) -> None:
+        json_dict: Dict[str, JSONType] = {
             'expires': self.expires,
             'vendor': self.vendor,
             'vendor_help_url': self.vendor_help_url,
@@ -34,6 +36,7 @@ class TestAutoRenewable:
             'finished': self.finished,
         }
         auto_renewable = AutoRenewable.de_json(json_dict, client)
+        assert auto_renewable is not None
 
         assert auto_renewable.expires == self.expires
         assert auto_renewable.vendor == self.vendor
@@ -41,8 +44,8 @@ class TestAutoRenewable:
         assert auto_renewable.product == product
         assert auto_renewable.finished == self.finished
 
-    def test_de_json_all(self, client, product, user):
-        json_dict = {
+    def test_de_json_all(self, client: Client, product: Product, user: User) -> None:
+        json_dict: Dict[str, JSONType] = {
             'expires': self.expires,
             'vendor': self.vendor,
             'vendor_help_url': self.vendor_help_url,
@@ -53,6 +56,7 @@ class TestAutoRenewable:
             'master_info': user.to_dict(),
         }
         auto_renewable = AutoRenewable.de_json(json_dict, client)
+        assert auto_renewable is not None
 
         assert auto_renewable.expires == self.expires
         assert auto_renewable.vendor == self.vendor
@@ -63,7 +67,7 @@ class TestAutoRenewable:
         assert auto_renewable.master_info == user
         assert auto_renewable.order_id == self.order_id
 
-    def test_equality(self, product):
+    def test_equality(self, product: Product) -> None:
         a = AutoRenewable(self.expires, self.vendor, self.vendor_help_url, product, self.finished)
         b = AutoRenewable(self.expires, '', self.vendor_help_url, None, self.finished)
         c = AutoRenewable(self.expires, self.vendor, self.vendor_help_url, product, self.finished)

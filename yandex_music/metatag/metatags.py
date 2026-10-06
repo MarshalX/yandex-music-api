@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, Iterator, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -23,6 +25,7 @@ class Metatags(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.trees,)
 
+    @override
     def __getitem__(self, item: int) -> 'MetatagTree':
         return self.trees[item]
 
@@ -33,6 +36,7 @@ class Metatags(YandexMusicModel):
         return len(self.trees)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Metatags']:
         """Десериализация объекта.
 

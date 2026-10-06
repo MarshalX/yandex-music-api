@@ -24,7 +24,7 @@ _DEFAULT_TIMEOUT = 10.0
 def _client(token: str, device_id: Optional[str]) -> YnisonClientAsync:
     # свой device_id, чтобы не вытеснять долгоживущий клиент с дефолтным id
     default_device_id = messages.generate_device_id(seed=f'yandex-music-ynison-simple:{token}')
-    return YnisonClientAsync(token, device_id or default_device_id)
+    return YnisonClientAsync(token, device_id if device_id is not None and device_id != '' else default_device_id)
 
 
 async def get_state(

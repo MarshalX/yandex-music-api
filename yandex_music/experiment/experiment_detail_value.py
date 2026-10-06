@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 from yandex_music.utils.normalize import _normalize_key
@@ -34,6 +36,7 @@ class ExperimentDetailValue(YandexMusicModel):
         self._id_attrs = (self.title,)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ExperimentDetailValue']:
         """Десериализация объекта.
 

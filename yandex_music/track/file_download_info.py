@@ -55,7 +55,7 @@ class FileDownloadInfo(YandexMusicModel):
         self._id_attrs = (self.track_id, self.quality, self.codec, self.transport, self.url)
 
     def _decrypt(self, data: bytes) -> bytes:
-        if self.transport == 'encraw' and self.key:
+        if self.transport == 'encraw' and self.key is not None and self.key != '':
             return decrypt_track(data, self.key)
 
         return data
@@ -107,7 +107,7 @@ class FileDownloadInfo(YandexMusicModel):
         """
         data = self.download_bytes(timeout)
         with open(filename, 'wb') as f:
-            f.write(data)
+            _ = f.write(data)
 
     async def download_async(self, filename: str, timeout: 'TimeoutType' = default_timeout) -> None:
         """Загрузка трека.

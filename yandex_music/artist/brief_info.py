@@ -1,5 +1,7 @@
 from dataclasses import field
-from typing import TYPE_CHECKING, Any, List, Optional
+from typing import TYPE_CHECKING, List, Optional
+
+from typing_extensions import override
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -54,7 +56,7 @@ class BriefInfo(YandexMusicModel):
     popular_tracks: List['Track']
     similar_artists: List['Artist']
     all_covers: List['Cover']
-    concerts: Any
+    concerts: 'JSONType'
     videos: List['Video']
     vinyls: List['Vinyl']
     has_promotions: bool
@@ -81,6 +83,7 @@ class BriefInfo(YandexMusicModel):
         )
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['BriefInfo']:
         """Десериализация объекта.
 
@@ -111,4 +114,4 @@ class BriefInfo(YandexMusicModel):
         cls_data['vinyls'] = Vinyl.de_list(cls_data.get('vinyls'), client)
         cls_data['stats'] = Stats.de_json(cls_data.get('stats'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

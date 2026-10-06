@@ -1,4 +1,23 @@
-from yandex_music import Playlist
+from typing import Dict, List, Optional
+
+from yandex_music import (
+    Artist,
+    Brand,
+    Client,
+    Contest,
+    Cover,
+    CustomWave,
+    JSONType,
+    MadeFor,
+    OpenGraphData,
+    Pager,
+    PlayCounter,
+    Playlist,
+    PlaylistAbsence,
+    TrackId,
+    TrackShort,
+    User,
+)
 
 
 class TestPlaylist:
@@ -6,7 +25,7 @@ class TestPlaylist:
     kind = 69814820
     title = 'Плейлист дня'
     track_count = 57
-    tags = []
+    tags: List[Dict[str, str]] = []
     revision = 0
     snapshot = 1
     visibility = 'public'
@@ -31,7 +50,7 @@ class TestPlaylist:
     )
     metrika_id = 666666
     coauthors = [1130000003905541]
-    prerolls = []
+    prerolls: List[JSONType] = []
     likes_count = 1
     generated_playlist_type = 'playlistOfTheDay'
     animated_cover_uri = 'avatars.yandex.net/get-music-user-playlist/30088/q0ahjvoZK5FT4A/%%'
@@ -41,27 +60,27 @@ class TestPlaylist:
     playlist_uuid = '5d06568a-9430-1df3-e066-6a32cf34d639'
     type = 'missedLikes'
     ready = True
-    is_for_from = None
-    regions = None
+    is_for_from: JSONType = None
+    regions: Optional[List[str]] = None
 
     def test_expected_values(
         self,
-        playlist,
-        user,
-        cover,
-        made_for,
-        track_short,
-        play_counter,
-        playlist_absence,
-        playlist_without_nested_playlists,
-        artist,
-        track_id,
-        contest,
-        open_graph_data,
-        brand,
-        custom_wave,
-        pager,
-    ):
+        playlist: Playlist,
+        user: User,
+        cover: Cover,
+        made_for: MadeFor,
+        track_short: TrackShort,
+        play_counter: PlayCounter,
+        playlist_absence: PlaylistAbsence,
+        playlist_without_nested_playlists: Playlist,
+        artist: Artist,
+        track_id: TrackId,
+        contest: Contest,
+        open_graph_data: OpenGraphData,
+        brand: Brand,
+        custom_wave: CustomWave,
+        pager: Pager,
+    ) -> None:
         assert playlist.owner == user
         assert playlist.uid == self.uid
         assert playlist.kind == self.kind
@@ -120,14 +139,22 @@ class TestPlaylist:
         assert playlist.custom_wave == custom_wave
         assert playlist.pager == pager
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Playlist.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Playlist.de_list([], client) == []
 
-    def test_de_json_required(self, client, user, cover, made_for, play_counter, playlist_absence):
-        json_dict = {
+    def test_de_json_required(
+        self,
+        client: Client,
+        user: User,
+        cover: Cover,
+        made_for: MadeFor,
+        play_counter: PlayCounter,
+        playlist_absence: PlaylistAbsence,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'owner': user.to_dict(),
             'cover': cover.to_dict(),
             'made_for': made_for.to_dict(),
@@ -135,6 +162,7 @@ class TestPlaylist:
             'playlist_absence': playlist_absence.to_dict(),
         }
         playlist = Playlist.de_json(json_dict, client)
+        assert playlist is not None
 
         assert playlist.owner == user
         assert playlist.cover == cover
@@ -144,23 +172,23 @@ class TestPlaylist:
 
     def test_de_json_all(
         self,
-        client,
-        user,
-        cover,
-        made_for,
-        track_short,
-        play_counter,
-        playlist_absence,
-        playlist_without_nested_playlists,
-        artist,
-        track_id,
-        contest,
-        open_graph_data,
-        brand,
-        custom_wave,
-        pager,
-    ):
-        json_dict = {
+        client: Client,
+        user: User,
+        cover: Cover,
+        made_for: MadeFor,
+        track_short: TrackShort,
+        play_counter: PlayCounter,
+        playlist_absence: PlaylistAbsence,
+        playlist_without_nested_playlists: Playlist,
+        artist: Artist,
+        track_id: TrackId,
+        contest: Contest,
+        open_graph_data: OpenGraphData,
+        brand: Brand,
+        custom_wave: CustomWave,
+        pager: Pager,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'owner': user.to_dict(),
             'uid': self.uid,
             'kind': self.kind,
@@ -170,7 +198,7 @@ class TestPlaylist:
             'made_for': made_for.to_dict(),
             'play_counter': play_counter.to_dict(),
             'playlist_absence': playlist_absence.to_dict(),
-            'tags': self.tags,
+            'tags': [dict(tag) for tag in self.tags],
             'revision': self.revision,
             'snapshot': self.snapshot,
             'visibility': self.visibility,
@@ -220,6 +248,7 @@ class TestPlaylist:
             'pager': pager.to_dict(),
         }
         playlist = Playlist.de_json(json_dict, client)
+        assert playlist is not None
 
         assert playlist.owner == user
         assert playlist.uid == self.uid
@@ -279,7 +308,14 @@ class TestPlaylist:
         assert playlist.custom_wave == custom_wave
         assert playlist.pager == pager
 
-    def test_equality(self, user, cover, made_for, play_counter, playlist_absence):
+    def test_equality(
+        self,
+        user: User,
+        cover: Cover,
+        made_for: MadeFor,
+        play_counter: PlayCounter,
+        playlist_absence: PlaylistAbsence,
+    ) -> None:
         a = Playlist(user, cover, made_for, play_counter, playlist_absence)
         b = Playlist(user, cover, made_for, play_counter, None)
         c = Playlist(user, None, made_for, play_counter, playlist_absence)

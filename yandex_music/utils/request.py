@@ -71,11 +71,10 @@ class Request(RequestBase):
         except requests.RequestException as e:
             raise NetworkError(e) from e
 
-        if 200 <= resp.status_code <= 299:
-            return resp.content
+        if not 200 <= resp.status_code <= 299:
+            self._handle_error_response(resp.status_code, resp.content)
 
-        self._handle_error_response(resp.status_code, resp.content)
-        return None
+        return resp.content
 
     def get(
         self, url: str, params: Optional[Dict[str, Any]] = None, timeout: 'TimeoutType' = default_timeout, **kwargs: Any
@@ -100,7 +99,7 @@ class Request(RequestBase):
             'GET', url, params=params, headers=headers, proxies=self.proxies, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None
@@ -131,7 +130,7 @@ class Request(RequestBase):
             'POST', url, headers=self.headers, proxies=self.proxies, data=data, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None
@@ -162,7 +161,7 @@ class Request(RequestBase):
             'PUT', url, headers=self.headers, proxies=self.proxies, json=json, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None
@@ -193,7 +192,7 @@ class Request(RequestBase):
             'DELETE', url, headers=self.headers, proxies=self.proxies, json=json, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None
@@ -230,4 +229,4 @@ class Request(RequestBase):
         """
         result = self.retrieve(url, timeout=timeout, **kwargs)
         with open(filename, 'wb') as f:
-            f.write(result)
+            _ = f.write(result)

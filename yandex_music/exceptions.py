@@ -93,7 +93,7 @@ class YnisonServerError(YnisonError):
         self.grpc_code = grpc_code
         self.http_code = http_code
         self.error_code = error_code
-        self.backoff_ms = backoff_ms or []
+        self.backoff_ms = backoff_ms if backoff_ms is not None else []
         self.go_away_seconds = go_away_seconds
 
 

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Dict, Generic, List, Optional, Type, TypeVar, Union
 
+from typing_extensions import override
+
 from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
@@ -49,6 +51,7 @@ class SearchResult(YandexMusicModel, Generic[T]):
         self._id_attrs = (self.total, self.per_page, self.order, self.results)
 
     @classmethod
+    @override
     def de_json(
         cls, data: 'JSONType', client: 'ClientType', type_: Optional[str] = None
     ) -> Optional['SearchResult[T]']:
@@ -68,8 +71,8 @@ class SearchResult(YandexMusicModel, Generic[T]):
         cls_data = cls.cleanup_data(data, client)
         cls_data['type'] = type_
 
-        if type_ and type_ in _TYPE_TO_CLASS:
+        if type_ is not None and type_ in _TYPE_TO_CLASS:
             klass = _TYPE_TO_CLASS[type_]
             cls_data['results'] = klass.de_list(cls_data.get('results'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

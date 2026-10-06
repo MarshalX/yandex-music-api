@@ -2,7 +2,7 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/wave.py. DON'T EDIT IT BY HANDS #
 #############################################################################################
 
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from yandex_music import Wave, WaveSettings
 from yandex_music._client import log
@@ -78,8 +78,8 @@ class WaveMixin(ClientBase):
         """
         url = f'{self.base_url}/rotor/wave/settings'
 
-        params = {}
-        if seeds:
+        params: Dict[str, str] = {}
+        if seeds is not None and len(seeds) > 0:
             params['seeds'] = seeds if isinstance(seeds, str) else ','.join(seeds)
 
         result = self._request.get(url, params, *args, **kwargs)

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -30,6 +32,7 @@ class AlbumTrailer(YandexMusicModel):
         self._id_attrs = (self.album, self.trailer)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['AlbumTrailer']:
         """Десериализация объекта.
 

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Iterable, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -24,6 +26,7 @@ class Suggestions(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.best, self.suggestions)
 
+    @override
     def __getitem__(self, item: int) -> str:
         return self.suggestions[item]
 
@@ -31,6 +34,7 @@ class Suggestions(YandexMusicModel):
         return iter(self.suggestions)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Suggestions']:
         """Десериализация объекта.
 
@@ -49,4 +53,4 @@ class Suggestions(YandexMusicModel):
 
         cls_data['best'] = Best.de_json(cls_data.get('best'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

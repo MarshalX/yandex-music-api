@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -31,6 +33,7 @@ class Settings(YandexMusicModel):
         self._id_attrs = (self.in_app_products, self.native_products, self.web_payment_url, self.promo_codes_enabled)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Settings']:
         """Десериализация объекта.
 
@@ -53,4 +56,4 @@ class Settings(YandexMusicModel):
             cls_data.get('web_payment_month_product_price'), client
         )
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

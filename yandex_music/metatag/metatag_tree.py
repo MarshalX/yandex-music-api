@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -31,6 +33,7 @@ class MetatagTree(YandexMusicModel):
         self._id_attrs = (self.navigation_id, self.title)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['MetatagTree']:
         """Десериализация объекта.
 

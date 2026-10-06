@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -27,6 +29,7 @@ class OpenGraphData(YandexMusicModel):
         self._id_attrs = (self.title, self.description, self.image)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['OpenGraphData']:
         """Десериализация объекта.
 
@@ -45,4 +48,4 @@ class OpenGraphData(YandexMusicModel):
 
         cls_data['image'] = Cover.de_json(cls_data.get('image'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

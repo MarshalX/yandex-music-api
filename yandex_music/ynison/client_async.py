@@ -3,7 +3,9 @@
 import asyncio
 import contextlib
 import inspect
-from typing import AsyncIterator, Awaitable, Callable, Optional, Set, Union
+from typing import AsyncGenerator, Awaitable, Callable, Optional, Set, Union
+
+from typing_extensions import override
 
 from yandex_music.exceptions import (
     YnisonConnectionClosedError,
@@ -81,6 +83,7 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
         self._redirect_connection: Optional[_transport.AsyncConnection] = None
         self._background_tasks: Set['asyncio.Task[None]'] = set()
 
+    @override
     def on_state(self, listener: AsyncStateListener) -> AsyncStateListener:
         """Регистрирует listener, вызываемый на каждый фрейм состояния.
 
@@ -108,7 +111,7 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
         self._running = False
         self._connection = None
         self._redirect_connection = None
-        if self._background_tasks:
+        if len(self._background_tasks) > 0:
             await asyncio.gather(*self._background_tasks, return_exceptions=True)
 
     async def connect(self) -> None:
@@ -149,7 +152,7 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
                     await connection.close()
 
     @contextlib.asynccontextmanager
-    async def session(self, timeout: float = 10.0) -> AsyncIterator['YnisonClientAsync']:
+    async def session(self, timeout: float = 10.0) -> AsyncGenerator['YnisonClientAsync', None]:
         """Асинхронный контекстный менеджер для подключения на время блока.
 
         Запускает :meth:`connect` как :class:`asyncio.Task`, ждёт первый фрейм
@@ -185,25 +188,25 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
 
         try:
             done, _ = await asyncio.wait({task, waiter}, timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
-            if not done:
+            if len(done) == 0:
                 raise YnisonTimeoutError(f'Превышено время ожидания начального состояния ({timeout}с)') from (
                     self._last_error
                 )
             if task in done:
-                task.result()  # пробрасывает терминальную ошибку подключения
+                _ = task.result()  # пробрасывает терминальную ошибку подключения
                 if self._latest_state is None:
                     raise YnisonConnectionClosedError('Соединение закрыто до получения начального состояния')
 
             yield self
         finally:
-            waiter.cancel()
+            _ = waiter.cancel()
             with contextlib.suppress(asyncio.CancelledError):
                 await waiter
             self.remove_listener(on_first_state)
             await self.disconnect()
             _, pending = await asyncio.wait({task}, timeout=_SESSION_CLEANUP_TIMEOUT)
             for leftover in pending:
-                leftover.cancel()
+                _ = leftover.cancel()
             with contextlib.suppress(asyncio.CancelledError, Exception):
                 await task
 

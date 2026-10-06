@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, Dict, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -29,6 +31,7 @@ class ExperimentsDetails(YandexMusicModel):
     client: Optional['ClientType'] = None
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ExperimentsDetails']:
         """Десериализация объекта.
 

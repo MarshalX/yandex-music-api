@@ -1,4 +1,6 @@
-from yandex_music import CoverDerivedColors
+from typing import Dict
+
+from yandex_music import Client, CoverDerivedColors, JSONType
 
 
 class TestCoverDerivedColors:
@@ -7,30 +9,31 @@ class TestCoverDerivedColors:
     mini_player = '#b6b6b8'
     accent = '#97989a'
 
-    def test_expected_values(self, cover_derived_colors):
+    def test_expected_values(self, cover_derived_colors: CoverDerivedColors) -> None:
         assert cover_derived_colors.average == self.average
         assert cover_derived_colors.wave_text == self.wave_text
         assert cover_derived_colors.mini_player == self.mini_player
         assert cover_derived_colors.accent == self.accent
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert CoverDerivedColors.de_json({}, client) is None
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'average': self.average,
             'waveText': self.wave_text,
             'miniPlayer': self.mini_player,
             'accent': self.accent,
         }
         cover_derived_colors = CoverDerivedColors.de_json(json_dict, client)
+        assert cover_derived_colors is not None
 
         assert cover_derived_colors.average == self.average
         assert cover_derived_colors.wave_text == self.wave_text
         assert cover_derived_colors.mini_player == self.mini_player
         assert cover_derived_colors.accent == self.accent
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = CoverDerivedColors(average=self.average, wave_text=self.wave_text)
         b = CoverDerivedColors(average='#000000', wave_text='#ffffff')
         c = CoverDerivedColors(average=self.average, wave_text=self.wave_text)

@@ -21,6 +21,7 @@ class Experiments(YandexMusicModel):
     """
 
     def __init__(self, client: Optional['ClientType'] = None, **kwargs: Any) -> None:
+        super().__init__()
         self.__dict__.update(kwargs)
 
         self.client = client

@@ -1,4 +1,6 @@
-from yandex_music import Alert
+from typing import Dict
+
+from yandex_music import Alert, AlertButton, Client, JSONType
 
 
 class TestAlert:
@@ -9,7 +11,7 @@ class TestAlert:
     alert_type = 'Churn_SubscriptionEnd_Music'
     close_button = False
 
-    def test_expected_values(self, alert, alert_button):
+    def test_expected_values(self, alert: Alert, alert_button: AlertButton) -> None:
         assert alert.alert_id == self.alert_id
         assert alert.text == self.text
         assert alert.bg_color == self.bg_color
@@ -18,11 +20,11 @@ class TestAlert:
         assert alert.button == alert_button
         assert alert.close_button == self.close_button
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Alert.de_json({}, client) is None
 
-    def test_de_json_required(self, client, alert_button):
-        json_dict = {
+    def test_de_json_required(self, client: Client, alert_button: AlertButton) -> None:
+        json_dict: Dict[str, JSONType] = {
             'alert_id': self.alert_id,
             'text': self.text,
             'bg_color': self.bg_color,
@@ -32,6 +34,7 @@ class TestAlert:
             'close_button': self.close_button,
         }
         alert = Alert.de_json(json_dict, client)
+        assert alert is not None
 
         assert alert.alert_id == self.alert_id
         assert alert.text == self.text
@@ -41,8 +44,8 @@ class TestAlert:
         assert alert.button == alert_button
         assert alert.close_button == self.close_button
 
-    def test_de_json_all(self, client, alert_button):
-        json_dict = {
+    def test_de_json_all(self, client: Client, alert_button: AlertButton) -> None:
+        json_dict: Dict[str, JSONType] = {
             'alert_id': self.alert_id,
             'text': self.text,
             'bg_color': self.bg_color,
@@ -52,6 +55,7 @@ class TestAlert:
             'close_button': self.close_button,
         }
         alert = Alert.de_json(json_dict, client)
+        assert alert is not None
 
         assert alert.alert_id == self.alert_id
         assert alert.text == self.text
@@ -61,7 +65,7 @@ class TestAlert:
         assert alert.button == alert_button
         assert alert.close_button == self.close_button
 
-    def test_equality(self, alert_button):
+    def test_equality(self, alert_button: AlertButton) -> None:
         a = Alert(
             self.alert_id, self.text, self.bg_color, self.text_color, self.alert_type, alert_button, self.close_button
         )

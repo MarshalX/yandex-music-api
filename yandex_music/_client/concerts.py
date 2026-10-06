@@ -2,7 +2,7 @@
 # THIS IS AUTO GENERATED COPY OF yandex_music/_client_async/concerts.py. DON'T EDIT IT BY HANDS #
 #################################################################################################
 
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from yandex_music import (
     ArtistConcerts,
@@ -125,8 +125,8 @@ class ConcertsMixin(ClientBase):
         """
         url = f'{self.base_url}/concerts/feed'
 
-        params = {}
-        if locations:
+        params: Dict[str, str] = {}
+        if locations is not None and len(locations) > 0:
             params['locations'] = ','.join(str(location) for location in locations)
 
         result = self._request.get(url, params, *args, **kwargs)

@@ -61,7 +61,7 @@ class _BatchMixin(ClientBase):
         params: Optional[Dict[str, Any]] = None,
         *args: Any,
         **kwargs: Any,
-    ) -> list:
+    ) -> Sequence[Union[Artist, Album, Track, Playlist]]:
         """Получение объекта/объектов.
 
         Args:

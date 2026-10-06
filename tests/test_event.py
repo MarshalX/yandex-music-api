@@ -1,4 +1,6 @@
-from yandex_music import Event
+from typing import Dict, Optional
+
+from yandex_music import AlbumEvent, ArtistEvent, Client, Event, JSONType, Track
 
 
 class TestEvent:
@@ -6,12 +8,14 @@ class TestEvent:
     type = 'tracks'
     type_for_from = 'tracks-by-genre'
     title = 'Нравится электроника? Попробуйте послушать это'
-    message = None
-    device = None
-    tracks_count = None
+    message: Optional[str] = None
+    device: Optional[str] = None
+    tracks_count: Optional[int] = None
     genre = 'electronics'
 
-    def test_expected_values(self, event, track, artist_event, album_event):
+    def test_expected_values(
+        self, event: Event, track: Track, artist_event: ArtistEvent, album_event: AlbumEvent
+    ) -> None:
         assert event.id == self.id
         assert event.type == self.type
         assert event.type_for_from == self.type_for_from
@@ -24,21 +28,24 @@ class TestEvent:
         assert event.tracks_count == self.tracks_count
         assert event.genre == self.genre
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Event.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Event.de_list([], client) == []
 
-    def test_de_json_required(self, client):
-        json_dict = {'id': self.id, 'type': self.type}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'id': self.id, 'type': self.type}
         event = Event.de_json(json_dict, client)
+        assert event is not None
 
         assert event.id == self.id
         assert event.type == self.type
 
-    def test_de_json_all(self, client, track, artist_event, album_event):
-        json_dict = {
+    def test_de_json_all(
+        self, client: Client, track: Track, artist_event: ArtistEvent, album_event: AlbumEvent
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'type': self.type,
             'type_for_from': self.type_for_from,
@@ -52,6 +59,7 @@ class TestEvent:
             'genre': self.genre,
         }
         event = Event.de_json(json_dict, client)
+        assert event is not None
 
         assert event.id == self.id
         assert event.type == self.type
@@ -65,7 +73,7 @@ class TestEvent:
         assert event.tracks_count == self.tracks_count
         assert event.genre == self.genre
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Event(self.id, self.type)
         b = Event(self.id, '')
         c = Event(self.id, self.type, self.type_for_from)

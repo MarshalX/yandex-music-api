@@ -2,6 +2,10 @@ import base64
 import datetime
 import hashlib
 import hmac
+from typing import Optional
+
+import pytest
+from typing_extensions import Self, override
 
 from yandex_music.utils.sign_request import get_file_info_sign, get_sign_request
 
@@ -13,11 +17,12 @@ class TestSignRequest:
 
     sign_value = 'vssEEweZhgv2Aud0rdH9maOXUC03ZkZ/hlo6bSRN8Qg='
 
-    def test_sign_request(self, monkeypatch):
+    def test_sign_request(self, monkeypatch: pytest.MonkeyPatch) -> None:
         class FakeDatetime(datetime.datetime):
             @classmethod
-            def now(cls):
-                return datetime.datetime.fromtimestamp(self.timestamp)
+            @override
+            def now(cls, tz: Optional[datetime.tzinfo] = None) -> Self:
+                return cls.fromtimestamp(self.timestamp, tz)
 
         monkeypatch.setattr('datetime.datetime', FakeDatetime)
         sign = get_sign_request(self.track_id, self.key)
@@ -34,11 +39,12 @@ class TestFileInfoSign:
     transport = 'encraw'
     key = 'SUPER_SECRET_KEY'
 
-    def test_file_info_sign(self, monkeypatch):
+    def test_file_info_sign(self, monkeypatch: pytest.MonkeyPatch) -> None:
         class FakeDatetime(datetime.datetime):
             @classmethod
-            def now(cls):
-                return datetime.datetime.fromtimestamp(self.timestamp)
+            @override
+            def now(cls, tz: Optional[datetime.tzinfo] = None) -> Self:
+                return cls.fromtimestamp(self.timestamp, tz)
 
         monkeypatch.setattr('datetime.datetime', FakeDatetime)
         sign = get_file_info_sign(self.track_id, self.quality, self.codecs, self.transport, self.key)

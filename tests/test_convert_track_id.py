@@ -5,10 +5,10 @@ class TestConvertTrackId:
     track_id = 37696396
     album_id = 4784420
 
-    def test_convert_from_str(self):
+    def test_convert_from_str(self) -> None:
         assert convert_track_id_to_number(f'{self.track_id}:{self.album_id}') == self.track_id
         assert convert_track_id_to_number(f'{self.track_id}:') == self.track_id
         assert convert_track_id_to_number(f'{self.track_id}') == self.track_id
 
-    def test_convert_from_int(self):
+    def test_convert_from_int(self) -> None:
         assert convert_track_id_to_number(self.track_id) == self.track_id

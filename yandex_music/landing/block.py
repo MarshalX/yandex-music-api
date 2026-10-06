@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -38,10 +40,12 @@ class Block(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.type, self.type_for_from, self.title, self.entities)
 
+    @override
     def __getitem__(self, item: int) -> 'BlockEntity':
         return self.entities[item]
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Block']:
         """Десериализация объекта.
 
@@ -66,4 +70,4 @@ class Block(YandexMusicModel):
         elif block_type == 'play-contexts':
             cls_data['data'] = PlayContextsData.de_json(cls_data.get('data'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

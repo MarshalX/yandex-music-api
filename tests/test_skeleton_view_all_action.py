@@ -1,28 +1,31 @@
-from yandex_music import SkeletonViewAllAction
+from typing import Dict
+
+from yandex_music import Client, JSONType, SkeletonViewAllAction
 
 
 class TestSkeletonViewAllAction:
     deeplink = 'yandexmusic://artist/12345/all/albums'
     weblink = '/artist/12345/albums'
 
-    def test_expected_value(self, skeleton_view_all_action):
+    def test_expected_value(self, skeleton_view_all_action: SkeletonViewAllAction) -> None:
         assert skeleton_view_all_action.deeplink == self.deeplink
         assert skeleton_view_all_action.weblink == self.weblink
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert SkeletonViewAllAction.de_json({}, client) is None
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'deeplink': self.deeplink,
             'weblink': self.weblink,
         }
         obj = SkeletonViewAllAction.de_json(json_dict, client)
+        assert obj is not None
 
         assert obj.deeplink == self.deeplink
         assert obj.weblink == self.weblink
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = SkeletonViewAllAction(deeplink=self.deeplink, weblink=self.weblink)
         b = SkeletonViewAllAction(deeplink='other', weblink='other')
         c = SkeletonViewAllAction(deeplink=self.deeplink, weblink=self.weblink)

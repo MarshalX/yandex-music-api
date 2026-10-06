@@ -1,4 +1,6 @@
-from yandex_music import Vinyl
+from typing import Dict
+
+from yandex_music import Client, JSONType, Vinyl
 
 
 class TestVinyl:
@@ -11,7 +13,7 @@ class TestVinyl:
     offer_id = 28640019
     artist_ids = [4, 24326, 618511, 2643503]
 
-    def test_expected_values(self, vinyl):
+    def test_expected_values(self, vinyl: Vinyl) -> None:
         assert vinyl.url == self.url
         assert vinyl.picture == self.picture
         assert vinyl.title == self.title
@@ -21,14 +23,14 @@ class TestVinyl:
         assert vinyl.offer_id == self.offer_id
         assert vinyl.artist_ids == self.artist_ids
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Vinyl.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Vinyl.de_list([], client) == []
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'url': self.url,
             'title': self.title,
             'year': self.year,
@@ -38,6 +40,7 @@ class TestVinyl:
             'artist_ids': self.artist_ids,
         }
         vinyl = Vinyl.de_json(json_dict, client)
+        assert vinyl is not None
 
         assert vinyl.url == self.url
         assert vinyl.title == self.title
@@ -47,8 +50,8 @@ class TestVinyl:
         assert vinyl.offer_id == self.offer_id
         assert vinyl.artist_ids == self.artist_ids
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'url': self.url,
             'picture': self.picture,
             'title': self.title,
@@ -59,6 +62,7 @@ class TestVinyl:
             'artist_ids': self.artist_ids,
         }
         vinyl = Vinyl.de_json(json_dict, client)
+        assert vinyl is not None
 
         assert vinyl.url == self.url
         assert vinyl.picture == self.picture
@@ -69,7 +73,7 @@ class TestVinyl:
         assert vinyl.offer_id == self.offer_id
         assert vinyl.artist_ids == self.artist_ids
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Vinyl(self.url, self.title, 2020, 200, self.media, self.offer_id, [10])
         b = Vinyl(self.url, self.title, self.year, self.price, self.media, self.offer_id, self.artist_ids)
         c = Vinyl(self.url, self.title, self.year, self.price, self.media, self.offer_id, self.artist_ids)

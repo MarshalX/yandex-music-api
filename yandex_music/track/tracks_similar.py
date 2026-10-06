@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Iterator, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -24,6 +26,7 @@ class SimilarTracks(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.track, self.similar_tracks)
 
+    @override
     def __getitem__(self, item: int) -> 'Track':
         return self.similar_tracks[item]
 
@@ -34,6 +37,7 @@ class SimilarTracks(YandexMusicModel):
         return len(self.similar_tracks)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['SimilarTracks']:
         """Десериализация объекта.
 
@@ -53,4 +57,4 @@ class SimilarTracks(YandexMusicModel):
         cls_data['track'] = Track.de_json(cls_data.get('track'), client)
         cls_data['similar_tracks'] = Track.de_list(cls_data.get('similar_tracks'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

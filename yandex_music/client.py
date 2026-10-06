@@ -109,9 +109,9 @@ class Client(
 
         self.report_unknown_fields = report_unknown_fields
 
-        if request:
+        if request is not None:
             self._request = request
-            self._request.set_and_return_client(self)
+            _ = self._request.set_and_return_client(self)
         else:
             self._request = Request(self)
 

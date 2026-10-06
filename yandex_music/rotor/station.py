@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -68,6 +70,7 @@ class Station(YandexMusicModel):
         )
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Station']:
         """Десериализация объекта.
 
@@ -92,4 +95,4 @@ class Station(YandexMusicModel):
         cls_data['restrictions'] = Restrictions.de_json(cls_data.get('restrictions'), client)
         cls_data['restrictions2'] = Restrictions.de_json(cls_data.get('restrictions2'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

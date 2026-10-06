@@ -65,9 +65,9 @@ class DeviceAuthMixin(ClientBase):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         data = {
-            'client_id': client_id or _DEFAULT_CLIENT_ID,
-            'device_id': device_id or _rand_device_id(),
-            'device_name': device_name or _DEFAULT_DEVICE_NAME,
+            'client_id': client_id if client_id is not None and client_id != '' else _DEFAULT_CLIENT_ID,
+            'device_id': device_id if device_id is not None and device_id != '' else _rand_device_id(),
+            'device_name': device_name if device_name is not None and device_name != '' else _DEFAULT_DEVICE_NAME,
         }
         result = self._request.post(f'{_OAUTH_BASE_URL}/device/code', data)
         code = DeviceCode.de_json(result, self)
@@ -106,8 +106,10 @@ class DeviceAuthMixin(ClientBase):
         data = {
             'grant_type': 'device_code',
             'code': device_code,
-            'client_id': client_id or _DEFAULT_CLIENT_ID,
-            'client_secret': client_secret or _DEFAULT_CLIENT_SECRET,
+            'client_id': client_id if client_id is not None and client_id != '' else _DEFAULT_CLIENT_ID,
+            'client_secret': (
+                client_secret if client_secret is not None and client_secret != '' else _DEFAULT_CLIENT_SECRET
+            ),
         }
         try:
             result = self._request.post(f'{_OAUTH_BASE_URL}/token', data)

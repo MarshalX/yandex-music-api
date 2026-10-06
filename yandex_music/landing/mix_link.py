@@ -70,7 +70,7 @@ class MixLink(YandexMusicModel):
         Returns:
             :obj:`str`: URL обложки.
         """
-        if not self.cover_white:
+        if self.cover_white is None or self.cover_white == '':
             raise YandexMusicError("You can't get cover white because it's None.")
 
         return f'https://{self.cover_white.replace("%%", size)}'

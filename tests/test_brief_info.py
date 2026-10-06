@@ -1,10 +1,37 @@
+from typing import Dict
+
 import pytest
 
-from yandex_music import BriefInfo
+from yandex_music import (
+    Album,
+    Artist,
+    BriefInfo,
+    Chart,
+    Client,
+    Cover,
+    JSONType,
+    Playlist,
+    PlaylistId,
+    Stats,
+    Track,
+    Video,
+    Vinyl,
+)
 
 
 @pytest.fixture(scope='class')
-def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart, vinyl, stats):
+def brief_info(
+    artist: Artist,
+    track: Track,
+    album: Album,
+    playlist: Playlist,
+    cover: Cover,
+    playlist_id: PlaylistId,
+    video: Video,
+    chart: Chart,
+    vinyl: Vinyl,
+    stats: Stats,
+) -> BriefInfo:
     return BriefInfo(
         artist,
         [album],
@@ -27,12 +54,23 @@ def brief_info(artist, track, album, playlist, cover, playlist_id, video, chart,
 
 class TestBriefInfo:
     last_release_ids = [8501194, 8302547, 8302836, 8302450]
-    concerts = None
+    concerts: JSONType = None
     has_promotions = False
 
     def test_expected_values(
-        self, brief_info, artist, track, album, playlist, cover, playlist_id, video, chart, vinyl, stats
-    ):
+        self,
+        brief_info: BriefInfo,
+        artist: Artist,
+        track: Track,
+        album: Album,
+        playlist: Playlist,
+        cover: Cover,
+        playlist_id: PlaylistId,
+        video: Video,
+        chart: Chart,
+        vinyl: Vinyl,
+        stats: Stats,
+    ) -> None:
         assert brief_info.artist == artist
         assert brief_info.albums == [album]
         assert brief_info.playlists == [playlist]
@@ -50,11 +88,22 @@ class TestBriefInfo:
         assert brief_info.stats == stats
         assert brief_info.tracks_in_chart == [chart]
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert BriefInfo.de_json({}, client) is None
 
-    def test_de_json_required(self, client, artist, track, album, playlist, cover, playlist_id, video, vinyl):
-        json_dict = {
+    def test_de_json_required(
+        self,
+        client: Client,
+        artist: Artist,
+        track: Track,
+        album: Album,
+        playlist: Playlist,
+        cover: Cover,
+        playlist_id: PlaylistId,
+        video: Video,
+        vinyl: Vinyl,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'artist': artist.to_dict(),
             'albums': [album.to_dict()],
             'also_albums': [album.to_dict()],
@@ -71,6 +120,7 @@ class TestBriefInfo:
             'playlists': [playlist.to_dict()],
         }
         brief_info = BriefInfo.de_json(json_dict, client)
+        assert brief_info is not None
 
         assert brief_info.artist == artist
         assert brief_info.albums == [album]
@@ -87,8 +137,21 @@ class TestBriefInfo:
         assert brief_info.has_promotions == self.has_promotions
         assert brief_info.playlist_ids == [playlist_id]
 
-    def test_de_json_all(self, client, artist, track, album, playlist, cover, playlist_id, video, chart, vinyl, stats):
-        json_dict = {
+    def test_de_json_all(
+        self,
+        client: Client,
+        artist: Artist,
+        track: Track,
+        album: Album,
+        playlist: Playlist,
+        cover: Cover,
+        playlist_id: PlaylistId,
+        video: Video,
+        chart: Chart,
+        vinyl: Vinyl,
+        stats: Stats,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'artist': artist.to_dict(),
             'albums': [album.to_dict()],
             'also_albums': [album.to_dict()],
@@ -107,6 +170,7 @@ class TestBriefInfo:
             'stats': stats.to_dict(),
         }
         brief_info = BriefInfo.de_json(json_dict, client)
+        assert brief_info is not None
 
         assert brief_info.artist == artist
         assert brief_info.albums == [album]
@@ -125,7 +189,18 @@ class TestBriefInfo:
         assert brief_info.stats == stats
         assert brief_info.tracks_in_chart == [chart]
 
-    def test_equality(self, artist, track, album, playlist, cover, playlist_id, video, vinyl, stats):
+    def test_equality(
+        self,
+        artist: Artist,
+        track: Track,
+        album: Album,
+        playlist: Playlist,
+        cover: Cover,
+        playlist_id: PlaylistId,
+        video: Video,
+        vinyl: Vinyl,
+        stats: Stats,
+    ) -> None:
         a = BriefInfo(
             artist,
             [album],

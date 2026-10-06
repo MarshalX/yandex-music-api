@@ -5,6 +5,9 @@ RUN ?= uv run
 ruff:
 	$(RUN) ruff check . --fix
 
+pyrefly:
+	$(RUN) pyrefly check
+
 ruff_format:
 	$(RUN) ruff format .
 
