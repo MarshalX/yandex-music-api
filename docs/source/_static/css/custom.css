@@ -1,4 +1,97 @@
-.sidebar-container {
-    box-sizing: border-box;
-    width: unset;
+/* Card titles are long single words; let them wrap instead of overflowing. */
+.sd-card-title {
+    overflow-wrap: anywhere;
+}
+
+/* Fully qualified model paths are long enough to run under the right sidebar. */
+dl.py > dt,
+dl.py > dt .sig-name,
+dl.py > dt .sig-prename {
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+/* Same for the "On this page" entries, which repeat the qualified name. */
+#right-sidebar a code,
+#right-sidebar a {
+    overflow-wrap: anywhere;
+}
+
+/* API signatures. */
+:root {
+    --sig-accent: #b3123c;
+    --sig-keyword: #64748b;
+    --sig-link: #0550ae;
+    --sig-type: #475569;
+    --sig-rule: #e2e8f0;
+    --sig-badge-fg: #475569;
+    --sig-badge-bg: #f1f5f9;
+}
+
+html.dark {
+    --sig-accent: #fb7185;
+    --sig-keyword: #94a3b8;
+    --sig-link: #79c0ff;
+    --sig-type: #a8b5c6;
+    --sig-rule: #334155;
+    --sig-badge-fg: #a8b5c6;
+    --sig-badge-bg: rgba(148, 163, 184, 0.15);
+}
+
+dl.py > dt .sig-prename,
+dl.py > dt .sig-name {
+    color: var(--sig-accent);
+}
+
+dl.py > dt .sig-name {
+    font-weight: 700;
+}
+
+dl.py > dt > .property:first-child {
+    color: var(--sig-keyword);
+}
+
+dl.py > dt .property {
+    font-weight: 400;
+    color: var(--sig-type);
+}
+
+dl.py a.reference,
+dl.py a.reference .pre {
+    color: var(--sig-link);
+}
+
+/* Types moved into the signature keep their inline code markup; drop its pill. */
+dl.py > dt code.literal {
+    padding: 0;
+    font-size: inherit;
+    background: none;
+}
+
+dl.py > dt .sig-prename {
+    font-size: 0.85em;
+    font-weight: 400;
+    opacity: 0.6;
+}
+
+dl.py > dt .property.sig-badge {
+    display: inline-block;
+    margin-left: 0.4em;
+    padding: 0 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.78em;
+    font-weight: 600;
+    color: var(--sig-badge-fg);
+    background: var(--sig-badge-bg);
+}
+
+dl.py.class > dd {
+    border-left: 2px solid var(--sig-rule);
+    padding-left: 1.15rem;
+}
+
+main table.docutils {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
 }
