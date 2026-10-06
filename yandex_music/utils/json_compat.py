@@ -1,40 +1,27 @@
 """Совместимость JSON библиотек.
 
-Использует orjson (если установлен) как быстрый drop-in replacement для стандартного json.
-Приоритет: orjson > json.
-
 Note:
-    orjson — опциональная зависимость. Для установки: ``pip install orjson``.
-    Поддерживаемая версия: orjson<=3.10.15 (последняя с поддержкой Python 3.8).
+    Устарело и будет удалено в следующей мажорной версии. Используйте :mod:`yandex_music.utils.json_backend`.
 
 """
 
+import warnings
 from typing import Any, Union
 
-try:
-    import orjson
+from yandex_music.utils.json_backend import get_default_json_backend
 
-    def loads(data: Union[bytes, str]) -> Any:
-        """Десериализация JSON. Принимает bytes напрямую (без decode)."""
-        return orjson.loads(data)
+warnings.warn(
+    'yandex_music.utils.json_compat is deprecated, use yandex_music.utils.json_backend instead',
+    DeprecationWarning,
+    stacklevel=2,
+)
 
-    def dumps(obj: Any) -> str:
-        """Сериализация в JSON строку (UTF-8, без ensure_ascii)."""
-        return orjson.dumps(obj).decode('UTF-8')
 
-    accepts_bytes = True
+def loads(data: Union[bytes, str]) -> Any:
+    """Десериализация JSON глобальным бэкендом."""
+    return get_default_json_backend().loads(data)
 
-except ImportError:
-    import json
 
-    def loads(data: Union[bytes, str]) -> Any:
-        """Десериализация JSON."""
-        if isinstance(data, bytes):
-            data = data.decode('UTF-8')
-        return json.loads(data)
-
-    def dumps(obj: Any) -> str:
-        """Сериализация в JSON строку (UTF-8, без экранирования не-ASCII символов)."""
-        return json.dumps(obj, ensure_ascii=False)
-
-    accepts_bytes = False
+def dumps(obj: Any) -> str:
+    """Сериализация в JSON строку глобальным бэкендом."""
+    return get_default_json_backend().dumps(obj)

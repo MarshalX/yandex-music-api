@@ -46,6 +46,15 @@ async = [
 crypto = [
     "cryptography",
 ]
+orjson = [
+    "orjson",
+]
+pydantic-core = [
+    "pydantic-core",
+]
+ujson = [
+    "ujson",
+]
 ynison = [
     # websockets.asyncio и websockets.sync с нужным API появились в 13.0;
     # 13.1 это последняя версия с поддержкой Python 3.8
@@ -59,6 +68,8 @@ test = [
     "pytest-cov",
     "coverage",
     "orjson",
+    "pydantic-core",
+    "ujson",
 ]
 lint = [
     "ruff==0.16.10",
@@ -137,6 +148,10 @@ project-includes = ["yandex_music", "tests", "examples", "docs/generate_client_d
 [[tool.pyrefly.sub-config]]
 matches = "yandex_music/base.py"
 errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/utils/json_backend.py"
+errors = { explicit-any = false, missing-source = false }
 
 [[tool.pyrefly.sub-config]]
 matches = "yandex_music/utils/json_compat.py"

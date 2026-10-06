@@ -336,7 +336,9 @@ class PlaylistsMixin(_BatchMixin):
 
         diff = Difference().add_insert(at, {'id': track_id, 'album_id': album_id})
 
-        return await self.users_playlists_change(kind, diff.to_json(), revision, user_id, *args, **kwargs)
+        return await self.users_playlists_change(
+            kind, diff.to_json(self._request.json_backend), revision, user_id, *args, **kwargs
+        )
 
     @log
     async def users_playlists_delete_track(
@@ -374,7 +376,9 @@ class PlaylistsMixin(_BatchMixin):
 
         diff = Difference().add_delete(from_, to)
 
-        return await self.users_playlists_change(kind, diff.to_json(), revision, user_id, *args, **kwargs)
+        return await self.users_playlists_change(
+            kind, diff.to_json(self._request.json_backend), revision, user_id, *args, **kwargs
+        )
 
     @log
     async def playlists_collective_join(self, user_id: int, token: str, **kwargs: Any) -> bool:

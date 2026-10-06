@@ -84,6 +84,14 @@ pip install -U "yandex-music[async,ynison]"
 pip install -U "yandex-music[crypto]"
 ```
 
+JSON обрабатывается самой быстрой из установленных библиотек: `orjson`, `pydantic-core`, `ujson` или стандартный `json`. Ускоренные библиотеки доступны как опциональные экстры `orjson`, `pydantic-core` и `ujson`:
+
+``` shell
+pip install -U "yandex-music[orjson]"
+```
+
+Библиотеку можно выбрать явно или подключить свою, подробнее в [документации](https://ym.marshal.dev/yandex_music.utils.json_backend).
+
 Установка из исходного кода:
 
 ``` shell

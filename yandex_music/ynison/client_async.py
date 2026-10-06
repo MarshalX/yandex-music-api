@@ -12,6 +12,7 @@ from yandex_music.exceptions import (
     YnisonError,
     YnisonTimeoutError,
 )
+from yandex_music.utils.json_backend import JsonBackend
 from yandex_music.ynison import _transport, messages
 from yandex_music.ynison._base import _YnisonClientBase, is_terminal_error, logger
 from yandex_music.ynison.models import ynison_state
@@ -73,6 +74,7 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
         device_id: Optional[str] = None,
         device_title: str = messages.DEFAULT_DEVICE_TITLE,
         max_reconnect_attempts: Optional[int] = None,
+        json_backend: Optional[JsonBackend] = None,
     ) -> None:
         """Создаёт клиента. Подключение выполняется await'ом :meth:`connect` или через :meth:`session`.
 
@@ -87,8 +89,10 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
             device_title: Название устройства, которое увидят другие клиенты.
             max_reconnect_attempts: Сколько подряд неудачных переподключений допускается,
                 прежде чем :meth:`connect` завершится ошибкой. :obj:`None` означает без ограничения.
+            json_backend: JSON библиотека. По умолчанию используется глобальная,
+                см. :func:`yandex_music.utils.json_backend.set_default_json_backend`.
         """
-        super().__init__(token, device_id, device_title, max_reconnect_attempts)
+        super().__init__(token, device_id, device_title, max_reconnect_attempts, json_backend)
         self._stop: Optional[asyncio.Event] = None
         self._connection: Optional[_transport.AsyncConnection] = None
         self._redirect_connection: Optional[_transport.AsyncConnection] = None
@@ -275,7 +279,7 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
             if stop.is_set():
                 return
             self._connection = connection
-            await connection.send(self._full_state_request().to_json())
+            await connection.send(self._dump_request(self._full_state_request()))
             async for message in connection:
                 if isinstance(message, str):
                     await self._dispatch(message)
@@ -314,7 +318,7 @@ class YnisonClientAsync(_YnisonClientBase[AsyncStateListener]):
         if connection is None:
             raise self._no_connection_error()
         try:
-            await connection.send(request.to_json())
+            await connection.send(self._dump_request(request))
         except _transport.ConnectionClosed as e:
             raise YnisonConnectionClosedError(f'Соединение с Ynison закрыто: {e}') from e
 
