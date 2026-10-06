@@ -17,13 +17,13 @@ class User(YandexMusicModel):
         `full_name`.
 
         При наличии экземпляра класса в `user_info` у `Track` (у самозагруженных треков) доступны только `uid`,
-        '`login`, 'display_name` и `full_name`.
+        `login`, `display_name` и `full_name`.
 
         Поле `regions` есть только при возвращении пользователей в результатах поисках.
 
     Attributes:
         uid (:obj:`int`): Идентификатор пользователя.
-        login (:obj:`str`): Логин пользователя.
+        login (:obj:`str`, optional): Логин пользователя.
         name (:obj:`str`, optional): Имя пользователя.
         display_name (:obj:`str`, optional): Отображаемое пользователя.
         full_name (:obj:`str`, optional): Полное имя пользователя.
@@ -34,7 +34,7 @@ class User(YandexMusicModel):
     """
 
     uid: int
-    login: str
+    login: Optional[str] = None
     name: Optional[str] = None
     display_name: Optional[str] = None
     full_name: Optional[str] = None
@@ -44,4 +44,4 @@ class User(YandexMusicModel):
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
-        self._id_attrs = (self.uid, self.login)
+        self._id_attrs = (self.uid,)

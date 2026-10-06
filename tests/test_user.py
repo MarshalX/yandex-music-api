@@ -28,11 +28,11 @@ class TestUser:
         assert User.de_list([], client) == []
 
     def test_de_json_required(self, client):
-        json_dict = {'uid': self.uid, 'login': self.login}
+        json_dict = {'uid': self.uid}
         user = User.de_json(json_dict, client)
 
         assert user.uid == self.uid
-        assert user.login == self.login
+        assert user.login is None
 
     def test_de_json_all(self, client):
         json_dict = {
@@ -59,7 +59,7 @@ class TestUser:
     def test_equality(self):
         a = User(self.uid, self.login)
         b = User(1, self.login)
-        c = User(self.uid, self.login)
+        c = User(self.uid)
 
         assert a != b
         assert hash(a) != hash(b)
