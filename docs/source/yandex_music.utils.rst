@@ -30,6 +30,12 @@
 
       Подключаемые JSON библиотеки
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` JsonCompat
+      :link: yandex_music.utils.json_compat
+      :link-type: doc
+
+      Совместимость JSON библиотек
+
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` Normalize
       :link: yandex_music.utils.normalize
       :link-type: doc
@@ -75,6 +81,7 @@
    yandex_music.utils.decrypt
    yandex_music.utils.difference
    yandex_music.utils.json_backend
+   yandex_music.utils.json_compat
    yandex_music.utils.normalize
    yandex_music.utils.request
    yandex_music.utils.request_async
