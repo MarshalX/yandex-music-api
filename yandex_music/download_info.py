@@ -1,6 +1,6 @@
-import xml.dom.minidom as minidom
 from hashlib import md5
 from typing import TYPE_CHECKING, Any, List, Optional
+from xml.dom import minidom
 
 from typing_extensions import override
 
@@ -230,7 +230,7 @@ class DownloadInfo(YandexMusicModel):
 
         if get_direct_links:
             for info in download_infos:
-                # FIXME (MarshalX): gather or something?
+                # TODO(MarshalX): gather or something?
                 await info.get_direct_link_async()
 
         return download_infos

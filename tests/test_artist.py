@@ -86,7 +86,7 @@ class TestArtist:
     def test_de_list_none(self, client: Client) -> None:
         assert Artist.de_list([], client) == []
 
-    def test_de_json_required(self, client: Client, cover: Cover) -> None:
+    def test_de_json_required(self, client: Client) -> None:
         # We don't have any required fields anymore,
         #   so just make sure we don't throw any errors.
         _ = Artist.de_json({}, client)
@@ -180,7 +180,7 @@ class TestArtist:
         assert artist.disclaimers == self.disclaimers
         assert artist.content_restrictions == content_restrictions
 
-    def test_equality(self, cover: Cover) -> None:
+    def test_equality(self) -> None:
         a = Artist(self.id)
         b = Artist(10)
         c = Artist(self.id)

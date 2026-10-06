@@ -17,6 +17,7 @@ from typing import Dict, List, Optional, Tuple
 
 DOCS_SOURCE = Path(__file__).parent / 'source'
 YANDEX_MUSIC = Path(__file__).parent.parent / 'yandex_music'
+MIN_PACKAGE_PARTS = 2
 
 sys.path.insert(0, str(YANDEX_MUSIC.parent))
 
@@ -64,11 +65,11 @@ def extract_mixin_title(module_path: Path) -> str:
 
 def get_mixin_modules(package_dir: Path) -> List[str]:
     """Получить отсортированный список модулей миксинов из директории пакета."""
-    modules: List[str] = []
-    for f in sorted(package_dir.iterdir()):
-        if f.suffix == '.py' and f.stem != '__init__' and not f.stem.startswith('_'):
-            modules.append(f.stem)
-    return modules
+    return [
+        f.stem
+        for f in sorted(package_dir.iterdir())
+        if f.suffix == '.py' and f.stem != '__init__' and not f.stem.startswith('_')
+    ]
 
 
 def fix_mixin_rst(package_name: str, modules: List[str]) -> None:
@@ -126,7 +127,7 @@ def fix_package_headings() -> None:
     base = YANDEX_MUSIC.parent
     for rst_file in sorted(DOCS_SOURCE.glob('yandex_music.*.rst')):
         parts = rst_file.stem.split('.')
-        if parts[0] != 'yandex_music' or len(parts) < 2:
+        if parts[0] != 'yandex_music' or len(parts) < MIN_PACKAGE_PARTS:
             continue
         # это пакет, только если на диске лежит директория с __init__.py
         if not (base / Path(*parts) / '__init__.py').exists():

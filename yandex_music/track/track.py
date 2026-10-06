@@ -165,7 +165,7 @@ class Track(YandexMusicModel):
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
-        self.download_info: Optional[List['DownloadInfo']] = None
+        self.download_info: Optional[List[DownloadInfo]] = None
         self._id_attrs = (self.id,)
 
     def get_download_info(self, get_direct_links: bool = False, **kwargs: Any) -> List['DownloadInfo']:

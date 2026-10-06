@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Проверка версии перед релизом и подготовка текста GitHub-релиза. Используется в CI/CD.
 
 Версия берётся из __version__ в yandex_music/__init__.py, список git-тегов ожидается на stdin.
@@ -33,7 +32,7 @@ def set_output(name: str, value: str) -> None:
     if github_output is None or github_output == '':
         return
 
-    with open(github_output, 'a', encoding='UTF-8') as f:
+    with Path(github_output).open('a', encoding='UTF-8') as f:
         _ = f.write(f'{name}={value}\n')
 
 
@@ -43,7 +42,7 @@ def write_summary(text: str) -> None:
     if github_summary is None or github_summary == '':
         return
 
-    with open(github_summary, 'a', encoding='UTF-8') as f:
+    with Path(github_summary).open('a', encoding='UTF-8') as f:
         _ = f.write(text)
 
 

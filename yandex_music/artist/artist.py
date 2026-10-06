@@ -357,7 +357,7 @@ class Artist(YandexMusicModel):
         # Мне всё равно как в яндухе на клиентах солвят свой бэковский костыль
         decomposed = cls_data.get('decomposed')
         if isinstance(decomposed, list):
-            decomposed_items: List[Union[str, 'Artist']] = []
+            decomposed_items: List[Union[str, Artist]] = []
             for part in decomposed:
                 if isinstance(part, str):
                     decomposed_items.append(part)

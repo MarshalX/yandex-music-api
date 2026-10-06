@@ -2,11 +2,11 @@ from typing import Dict, Optional
 
 import pytest
 
-from yandex_music import Client, JSONType, Shot, UserSettings
+from yandex_music import Client, JSONType, UserSettings
 
 
 @pytest.fixture(scope='class')
-def user_settings(shot: Shot) -> UserSettings:
+def user_settings() -> UserSettings:
     return UserSettings(
         TestUserSettings.uid,
         TestUserSettings.last_fm_scrobbling_enabled,

@@ -233,10 +233,8 @@ await full_track.download()
 
 ``` python
 import logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ```
 
 Вы также можете использовать логирование в вашем приложении, вызвав `logging.getLogger()` и установить уровень какой вы хотите:

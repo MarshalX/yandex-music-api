@@ -83,12 +83,12 @@ class TestBlockEntity:
         assert block_entity.data == data
 
     def test_equality(self, block_entity_data_with_type: Tuple[BlockEntityData, str]) -> None:
-        data, type = block_entity_data_with_type
+        data, type_ = block_entity_data_with_type
 
-        a = BlockEntity(self.id, type, data)
+        a = BlockEntity(self.id, type_, data)
         b = BlockEntity(self.id, '', data)
-        c = BlockEntity('', type, data)
-        d = BlockEntity(self.id, type, data)
+        c = BlockEntity('', type_, data)
+        d = BlockEntity(self.id, type_, data)
 
         assert a != b != c
         assert hash(a) != hash(b) != hash(c)

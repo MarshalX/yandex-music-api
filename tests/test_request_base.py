@@ -23,7 +23,7 @@ from yandex_music.utils.request_base import (
 
 class TestConvertCamelToSnake:
     @pytest.mark.parametrize(
-        'input_, expected',
+        ('input_', 'expected'),
         [
             ('camelCase', 'camel_case'),
             ('CamelCase', 'camel_case'),
@@ -54,7 +54,7 @@ class TestConvertCamelToSnake:
 
 class TestNormalizeKey:
     @pytest.mark.parametrize(
-        'input_, expected',
+        ('input_', 'expected'),
         [
             ('camelCase', 'camel_case'),
             ('some-key', 'some_key'),
@@ -75,7 +75,7 @@ class TestNormalizeKey:
         assert _normalize_key('ClientType') == 'client_type'
 
     @pytest.mark.parametrize(
-        'input_, expected',
+        ('input_', 'expected'),
         [
             ('1bad', '_1bad'),
             ('2things', '_2things'),

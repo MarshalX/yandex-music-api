@@ -367,7 +367,7 @@ class _YnisonClientBase(Generic[ListenerT]):
         if target is None:
             active = utils.get_active_device(self.state)
             target = active.info.device_id if active is not None else None
-        if target is None or target == '' or target == self._device_id:
+        if target is None or target in {'', self._device_id}:
             raise YnisonNoActiveDeviceError(
                 'Нет активного устройства для изменения громкости; укажите target_device_id явно'
             )

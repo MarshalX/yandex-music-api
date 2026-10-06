@@ -6,7 +6,7 @@ import inspect
 import secrets
 import string
 import time
-from typing import TYPE_CHECKING, Awaitable, Callable, Optional, Union
+from typing import TYPE_CHECKING, Awaitable, Callable, Optional
 
 from yandex_music import DeviceCode, OAuthToken
 from yandex_music._client import log
@@ -29,7 +29,7 @@ def _rand_device_id() -> str:
     return ''.join(secrets.choice(alphanum) for _ in range(10))
 
 
-OnCodeCallback = Callable[[DeviceCode], Union[None, Awaitable[None]]]
+OnCodeCallback = Callable[[DeviceCode], Optional[Awaitable[None]]]
 
 
 class DeviceAuthMixin(ClientBase):
@@ -169,7 +169,7 @@ class DeviceAuthMixin(ClientBase):
 
         cb_result = on_code(code)
         if inspect.isawaitable(cb_result):
-            cb_result = cb_result
+            _ = cb_result
 
         interval = poll_interval if poll_interval is not None else code.interval
         total = timeout if timeout is not None else code.expires_in

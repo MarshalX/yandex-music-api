@@ -263,7 +263,7 @@ class TestAlbum:
         assert album.meta_tag_id == self.meta_tag_id
         assert album.child_content == self.child_content
 
-    def test_equality(self, artist: Artist, label: Union[Label, str]) -> None:
+    def test_equality(self) -> None:
         a = Album(self.id)
         b = Album(10)
         c = Album(self.id)

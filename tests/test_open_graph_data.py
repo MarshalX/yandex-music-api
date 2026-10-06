@@ -10,7 +10,7 @@ class TestOpenGraphData:
         'чуточку поближе. Заходите на Музыку и слушайте больше!'
     )
 
-    def test_expected_values(self, open_graph_data: OpenGraphData, cover: Cover) -> None:
+    def test_expected_values(self, open_graph_data: OpenGraphData) -> None:
         assert open_graph_data.title == self.title
         assert open_graph_data.description == self.description
 

@@ -7,17 +7,17 @@ from yandex_music.utils.request import Request
 yandex_music_token = os.environ.get('YANDEX_MUSIC_TOKEN')
 proxied_request = Request(proxy_url=os.environ.get('PROXY_URL'))
 
-try:
-    if yandex_music_token is None or yandex_music_token == '':
-        raise YandexMusicError
+# без токена или при проблемах с авторизацией, токеном или чем-либо еще инициализируем клиент без авторизации,
+# так как сервисом можно пользоваться будучи гостем, но со своими ограничениями
+client = Client(request=proxied_request)
 
-    # подключаемся без прокси для получения информации об аккаунте (доступно из других стран)
-    client = Client(yandex_music_token, request=Request()).init()
-    # проверяем отсутствие подписки у пользователя
-    if client.me is not None and client.me.plus is not None and not client.me.plus.has_plus:
-        # если подписки нет - пересоздаем клиент с использованием прокси
-        client = Client(yandex_music_token, request=proxied_request).init()
-except YandexMusicError:
-    # если есть проблемы с авторизацией, токеном или чем-либо еще, то инициализируем клиент без авторизации
-    # так как сервисом можно пользоваться будучи гостем, но со своими ограничениями
-    client = Client(request=proxied_request)
+if yandex_music_token is not None and yandex_music_token != '':
+    try:
+        # подключаемся без прокси для получения информации об аккаунте (доступно из других стран)
+        client = Client(yandex_music_token, request=Request()).init()
+        # проверяем отсутствие подписки у пользователя
+        if client.me is not None and client.me.plus is not None and not client.me.plus.has_plus:
+            # если подписки нет - пересоздаем клиент с использованием прокси
+            client = Client(yandex_music_token, request=proxied_request).init()
+    except YandexMusicError:
+        client = Client(request=proxied_request)

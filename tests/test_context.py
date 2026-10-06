@@ -1,6 +1,6 @@
 from typing import Dict
 
-from yandex_music import Client, Context, JSONType, TrackId
+from yandex_music import Client, Context, JSONType
 
 
 class TestContext:
@@ -23,7 +23,7 @@ class TestContext:
 
         assert context.type == self.type_
 
-    def test_de_json_all(self, client: Client, track_id: TrackId) -> None:
+    def test_de_json_all(self, client: Client) -> None:
         json_dict: Dict[str, JSONType] = {'type': self.type_, 'id': self.id_, 'description': self.description}
         context = Context.de_json(json_dict, client)
         assert context is not None

@@ -118,4 +118,4 @@ class Radio:
 
     @staticmethod
     def __generate_play_id() -> str:
-        return '%s-%s-%s' % (int(random() * 1000), int(random() * 1000), int(random() * 1000))
+        return f'{int(random() * 1000)}-{int(random() * 1000)}-{int(random() * 1000)}'

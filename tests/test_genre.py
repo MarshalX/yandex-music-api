@@ -26,7 +26,7 @@ def genre(title: Title, images: Images, icon: Icon, genre_without_sub_genre: Gen
 
 
 @pytest.fixture(scope='class')
-def genre_without_sub_genre(title: Title, images: Images, icon: Icon) -> Genre:
+def genre_without_sub_genre(title: Title, images: Images) -> Genre:
     return Genre(
         TestGenre.id,
         TestGenre.weight,

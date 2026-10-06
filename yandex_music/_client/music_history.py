@@ -23,17 +23,21 @@ def _build_history_items(
     playlist_ids: Optional[List[Tuple[Union[str, int], Union[str, int]]]] = None,
     wave_seeds: Optional[List[List[str]]] = None,
 ) -> List[Dict[str, Any]]:
-    items: List[Dict[str, Any]] = []
-    for track_id, album_id in track_ids if track_ids is not None else []:
-        items.append(_make_item('track', {'trackId': str(track_id), 'albumId': str(album_id)}))
-    for album_id in album_ids if album_ids is not None else []:
-        items.append(_make_item('album', {'id': str(album_id)}))
-    for artist_id in artist_ids if artist_ids is not None else []:
-        items.append(_make_item('artist', {'id': str(artist_id)}))
-    for uid, kind in playlist_ids if playlist_ids is not None else []:
-        items.append(_make_item('playlist', {'uid': int(uid), 'kind': int(kind)}))
-    for seeds in wave_seeds if wave_seeds is not None else []:
-        items.append(_make_item('wave', {'seeds': seeds}))
+    items = [
+        _make_item('track', {'trackId': str(track_id), 'albumId': str(album_id)})
+        for track_id, album_id in (track_ids if track_ids is not None else [])
+    ]
+    items.extend(
+        _make_item('album', {'id': str(album_id)}) for album_id in (album_ids if album_ids is not None else [])
+    )
+    items.extend(
+        _make_item('artist', {'id': str(artist_id)}) for artist_id in (artist_ids if artist_ids is not None else [])
+    )
+    items.extend(
+        _make_item('playlist', {'uid': int(uid), 'kind': int(kind)})
+        for uid, kind in (playlist_ids if playlist_ids is not None else [])
+    )
+    items.extend(_make_item('wave', {'seeds': seeds}) for seeds in (wave_seeds if wave_seeds is not None else []))
     return items
 
 

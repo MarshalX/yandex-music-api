@@ -18,7 +18,7 @@ from pathlib import Path
 
 from sphinxawesome_theme.postprocess import Icons
 
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, str(Path('../..').resolve()))
 
 master_doc = 'index'
 
@@ -30,7 +30,7 @@ source_suffix = {
 # -- Project information -----------------------------------------------------
 
 project = 'Yandex Music API'
-copyright = '2019-2026 Ilya (Marshal) 🦁'
+copyright = '2019-2026 Ilya (Marshal) 🦁'  # noqa: A001
 author = 'Ilya (Marshal) 🦁'
 
 language = 'en'
@@ -91,7 +91,7 @@ myst_heading_anchors = 4
 myst_enable_extensions = ['colon_fence', 'deflist']
 # README.md начинается с H2 — нормально для GitHub, но MyST предупреждает. Глушим.
 suppress_warnings = ['myst.header', 'ref.python']
-# TODO add substitution https://myst-parser.readthedocs.io/en/latest/syntax/optional.html?highlight=header-anchors#substitutions-with-jinja2
+# TODO(MarshalX): add substitution https://myst-parser.readthedocs.io/en/latest/syntax/optional.html?highlight=header-anchors#substitutions-with-jinja2
 
 # pygments
 pygments_style = 'friendly'

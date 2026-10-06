@@ -28,9 +28,11 @@ simple.next_track(token)
 import asyncio
 from yandex_music.ynison import simple_async
 
+
 async def main():
     track = await simple_async.get_current_track(token)
     await simple_async.pause(token)
+
 
 asyncio.run(main())
 ```
@@ -74,10 +76,12 @@ with YnisonClient(token).session() as client:
 import asyncio
 from yandex_music.ynison import YnisonClientAsync
 
+
 async def main():
     async with YnisonClientAsync(token).session() as client:
         print(client.current_playable.title)
         await client.resume()
+
 
 asyncio.run(main())
 ```
@@ -111,14 +115,17 @@ from yandex_music.ynison import YnisonClient
 
 client = YnisonClient(token)
 
+
 @client.on_state
 def log(state):
     track = client.current_playable
     print('сейчас играет:', track.title if track else '-')
 
+
 @client.on_error
 def log_error(error):
     print('ошибка Ynison:', error)
+
 
 threading.Thread(target=client.connect, daemon=True).start()
 # ... client.pause(), client.next_track() и т.д. ...

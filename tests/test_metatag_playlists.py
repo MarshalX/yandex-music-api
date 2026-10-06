@@ -9,9 +9,9 @@ from yandex_music import Client, JSONType, MetatagPlaylists, MetatagSortByValue,
 def metatag_playlists_factory(
     playlist: Playlist, pager: Pager, metatag_title: MetatagTitle, metatag_sort_by_value: MetatagSortByValue
 ) -> Callable[..., MetatagPlaylists]:
-    def factory(id: str = TestMetatagPlaylists.id) -> MetatagPlaylists:
+    def factory(id_: str = TestMetatagPlaylists.id) -> MetatagPlaylists:
         return MetatagPlaylists(
-            id=id,
+            id=id_,
             cover_uri=TestMetatagPlaylists.cover_uri,
             color=TestMetatagPlaylists.color,
             title=metatag_title,
@@ -82,7 +82,7 @@ class TestMetatagPlaylists:
 
     def test_equality(self, metatag_playlists_factory: Callable[..., MetatagPlaylists]) -> None:
         a = metatag_playlists_factory()
-        b = metatag_playlists_factory(id='other')
+        b = metatag_playlists_factory(id_='other')
         c = metatag_playlists_factory()
 
         assert a != b

@@ -3,6 +3,7 @@
 
 import ast
 import os
+from pathlib import Path
 from typing import List
 
 SOURCE_FOLDER = 'yandex_music'
@@ -44,47 +45,43 @@ def _generate_code(function_name: str, intent: int = 0) -> str:
     return '\n'.join(code_lines)
 
 
-def _process_file(file: str) -> None:
-    with open(file, 'r', encoding='UTF-8') as f:
-        count_of_class_def = 0
-        file_aliases_code_fragments: List[str] = []
-        tree = ast.parse(f.read())
-        for node in ast.walk(tree):
-            if isinstance(node, ast.ClassDef):
-                count_of_class_def += 1
+def _process_file(file: Path) -> None:
+    code = file.read_text(encoding='UTF-8')
+    count_of_class_def = 0
+    file_aliases_code_fragments: List[str] = []
+    tree = ast.parse(code)
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef):
+            count_of_class_def += 1
 
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and _validate_function_name(node.name):
-                alias_code = _generate_code(node.name, node.col_offset)
-                file_aliases_code_fragments.append(alias_code)
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and _validate_function_name(node.name):
+            alias_code = _generate_code(node.name, node.col_offset)
+            file_aliases_code_fragments.append(alias_code)
 
-        # there are no such cases in data models yet
-        # only in yandex_music/exceptions.py and yandex_music/utils/difference.py
-        if count_of_class_def != 1:
-            return
+    # there are no such cases in data models yet
+    # only in yandex_music/exceptions.py and yandex_music/utils/difference.py
+    if count_of_class_def != 1:
+        return
 
-        _ = f.seek(0)
-        file_code_lines = f.read().splitlines()
+    file_code_lines = code.splitlines()
 
-        marker_lineno = None
-        for lineno, code_line in enumerate(file_code_lines):
-            if code_line == ALIAS_SECTION_MARKER:
-                marker_lineno = lineno
-                break
+    marker_lineno = None
+    for lineno, code_line in enumerate(file_code_lines):
+        if code_line == ALIAS_SECTION_MARKER:
+            marker_lineno = lineno
+            break
 
-        # we can't process files without markers now
-        if marker_lineno is None:
-            return
+    # we can't process files without markers now
+    if marker_lineno is None:
+        return
 
-        # remove prev aliases
-        file_code_lines = file_code_lines[: marker_lineno + 1]
-        file_code_lines.append('')
-        file_code_lines.extend(file_aliases_code_fragments)
-        file_code_lines.append('')
+    # remove prev aliases
+    file_code_lines = file_code_lines[: marker_lineno + 1]
+    file_code_lines.append('')
+    file_code_lines.extend(file_aliases_code_fragments)
+    file_code_lines.append('')
 
-        new_file_code = '\n'.join(file_code_lines)
-
-    with open(file, 'w', encoding='UTF-8') as f:
-        _ = f.write(new_file_code)
+    _ = file.write_text('\n'.join(file_code_lines), encoding='UTF-8')
 
 
 def main() -> None:
@@ -93,8 +90,7 @@ def main() -> None:
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
         for file in files:
             if file.endswith('.py') and file != '__init__.py':
-                filepath = os.path.join(root, file)
-                _process_file(filepath)
+                _process_file(Path(root, file))
 
 
 if __name__ == '__main__':

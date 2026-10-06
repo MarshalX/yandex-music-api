@@ -104,7 +104,7 @@ class TestStatus:
         assert status.userhash == self.userhash
         assert status.has_options == self.has_options
 
-    def test_equality(self, account: Account, permissions: Permissions, subscription: Subscription) -> None:
+    def test_equality(self, account: Account, permissions: Permissions) -> None:
         a = Status(account, permissions)
         b = Status(None, permissions)
         c = Status(account, permissions)

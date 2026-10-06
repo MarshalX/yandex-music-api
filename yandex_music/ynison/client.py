@@ -3,7 +3,7 @@
 import contextlib
 import inspect
 import threading
-from typing import Callable, Generator, List, Optional
+from typing import Callable, Generator, List, Optional, TypeVar
 
 from typing_extensions import override
 
@@ -20,6 +20,15 @@ from yandex_music.ynison.models.ynison_redirect import RedirectResponse
 StateListener = Callable[[ynison_state.PutYnisonStateResponse], None]
 
 _SESSION_CLEANUP_TIMEOUT = 2.0
+
+_PayloadT = TypeVar('_PayloadT')
+
+
+def _invoke_listener(listener: Callable[[_PayloadT], object], payload: _PayloadT, kind: str) -> None:
+    try:
+        _ = listener(payload)
+    except Exception:  # noqa: BLE001
+        logger.exception('Ynison: исключение в %s listener %r', kind, listener)
 
 
 class YnisonClient(_YnisonClientBase[StateListener]):
@@ -276,17 +285,11 @@ class YnisonClient(_YnisonClientBase[StateListener]):
             return
 
         for listener in list(self._state_listeners):
-            try:
-                listener(state)
-            except Exception:  # noqa: BLE001
-                logger.exception('Ynison: исключение в state listener %r', listener)
+            _invoke_listener(listener, state, 'state')
 
     def _emit_error(self, error: YnisonError) -> None:
         for listener in list(self._error_listeners):
-            try:
-                _ = listener(error)
-            except Exception:  # noqa: BLE001
-                logger.exception('Ynison: исключение в error listener %r', listener)
+            _invoke_listener(listener, error, 'error')
 
     def send(self, request: ynison_state.PutYnisonStateRequest) -> None:
         """Отправляет произвольный запрос по state websocket'у.

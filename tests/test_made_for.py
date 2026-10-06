@@ -30,5 +30,6 @@ class TestMadeFor:
     def test_equality(self, user: User, case_forms: CaseForms) -> None:
         a = MadeFor(user, case_forms)
 
-        assert a != user and a != case_forms
+        assert a != user
+        assert a != case_forms
         assert hash(a) != hash(user) != hash(case_forms)

@@ -24,7 +24,8 @@ if TYPE_CHECKING:
 # asyncio-реализация websockets 13.x на Python 3.8 теряет фрейм, пришедший сразу после handshake,
 # а сервис редиректа Ynison отвечает именно так. Legacy-реализация в 13.x работает корректно
 # и ещё не помечена устаревшей. websockets >= 14 на Python 3.8 не устанавливается.
-USE_LEGACY_ASYNC = int(_websockets_version.split('.')[0]) < 14
+_WEBSOCKETS_ASYNCIO_MIN_MAJOR = 14
+USE_LEGACY_ASYNC = int(_websockets_version.split('.')[0]) < _WEBSOCKETS_ASYNCIO_MIN_MAJOR
 if USE_LEGACY_ASYNC:
     from websockets.legacy.client import connect as _legacy_async_connect
 

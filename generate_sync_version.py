@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
 """Generate sync version of async client code using unasync."""
 
-import glob
-import os
 import shutil
 import subprocess
 import tempfile
+from pathlib import Path
 from typing import Dict, List, Optional
 
 import unasync
@@ -62,20 +60,19 @@ def _run_unasync(
     results: Dict[str, str] = {}
 
     with tempfile.TemporaryDirectory() as tmp:
-        async_dir = os.path.join(tmp, '_async')
-        sync_dir = os.path.join(tmp, '_sync')
-        os.makedirs(async_dir)
+        async_dir = Path(tmp, '_async')
+        sync_dir = Path(tmp, '_sync')
+        async_dir.mkdir(parents=True)
 
         for src_file in src_files:
-            rel_path = os.path.relpath(src_file, src_dir)
-            tmp_src = os.path.join(async_dir, rel_path)
-            os.makedirs(os.path.dirname(tmp_src), exist_ok=True)
+            tmp_src = async_dir / Path(src_file).relative_to(src_dir)
+            tmp_src.parent.mkdir(parents=True, exist_ok=True)
             _ = shutil.copy2(src_file, tmp_src)
 
         rules = [
             unasync.Rule(
-                fromdir=async_dir,
-                todir=sync_dir,
+                fromdir=str(async_dir),
+                todir=str(sync_dir),
                 additional_replacements={
                     **ADDITIONAL_REPLACEMENTS,
                     **(extra_replacements if extra_replacements is not None else {}),
@@ -83,19 +80,17 @@ def _run_unasync(
             ),
         ]
 
-        tmp_files = [os.path.join(async_dir, os.path.relpath(f, src_dir)) for f in src_files]
+        tmp_files = [str(async_dir / Path(f).relative_to(src_dir)) for f in src_files]
         unasync.unasync_files(tmp_files, rules)
 
         for src_file in src_files:
-            rel_path = os.path.relpath(src_file, src_dir)
-            generated = os.path.join(sync_dir, rel_path)
-            with open(generated, 'r', encoding='UTF-8') as f:
-                code = f.read()
+            rel_path = Path(src_file).relative_to(src_dir)
+            code = (sync_dir / rel_path).read_text(encoding='UTF-8')
 
             for old, new in STRING_REPLACEMENTS.items():
                 code = code.replace(old, new)
 
-            results[os.path.join(dst_dir, rel_path)] = code
+            results[(Path(dst_dir) / rel_path).as_posix()] = code
 
     return results
 
@@ -107,42 +102,37 @@ def gen_client() -> List[str]:
     # Generate sync client.py from client_async.py
     client_results = _run_unasync(
         [CLIENT_SRC],
-        os.path.dirname(CLIENT_SRC),
-        os.path.dirname(CLIENT_DST),
+        Path(CLIENT_SRC).parent.as_posix(),
+        Path(CLIENT_DST).parent.as_posix(),
     )
     ((_, code),) = client_results.items()
     disclaimer = _make_disclaimer(CLIENT_SRC)
-    with open(CLIENT_DST, 'w', encoding='UTF-8') as f:
-        _ = f.write(disclaimer + code)
+    _ = Path(CLIENT_DST).write_text(disclaimer + code, encoding='UTF-8')
     generated_files.append(CLIENT_DST)
 
     # Generate sync mixin files from _client_async/ to _client/
-    mixin_files = sorted(glob.glob(os.path.join(MIXINS_SRC_DIR, '*.py')))
+    mixin_files = sorted(p.as_posix() for p in Path(MIXINS_SRC_DIR).glob('*.py'))
     if len(mixin_files) > 0:
         mixin_results = _run_unasync(mixin_files, MIXINS_SRC_DIR, MIXINS_DST_DIR)
-        os.makedirs(MIXINS_DST_DIR, exist_ok=True)
+        Path(MIXINS_DST_DIR).mkdir(parents=True, exist_ok=True)
 
         for dst_path, code in mixin_results.items():
-            src_rel = os.path.relpath(
-                os.path.join(MIXINS_SRC_DIR, os.path.relpath(dst_path, MIXINS_DST_DIR)),
-            )
+            src_rel = (Path(MIXINS_SRC_DIR) / Path(dst_path).relative_to(MIXINS_DST_DIR)).as_posix()
             disclaimer = _make_disclaimer(src_rel)
-            with open(dst_path, 'w', encoding='UTF-8') as f:
-                _ = f.write(disclaimer + code)
+            _ = Path(dst_path).write_text(disclaimer + code, encoding='UTF-8')
             generated_files.append(dst_path)
 
     # Generate sync ynison.simple from ynison.simple_async
     ynison_results = _run_unasync(
         [YNISON_SIMPLE_SRC],
-        os.path.dirname(YNISON_SIMPLE_SRC),
-        os.path.dirname(YNISON_SIMPLE_DST),
+        Path(YNISON_SIMPLE_SRC).parent.as_posix(),
+        Path(YNISON_SIMPLE_DST).parent.as_posix(),
         # только для ynison, чтобы не задеть основной клиент
         extra_replacements={'client_async': 'client'},
     )
     ((_, code),) = ynison_results.items()
     disclaimer = _make_disclaimer(YNISON_SIMPLE_SRC)
-    with open(YNISON_SIMPLE_DST, 'w', encoding='UTF-8') as f:
-        _ = f.write(disclaimer + code)
+    _ = Path(YNISON_SIMPLE_DST).write_text(disclaimer + code, encoding='UTF-8')
     generated_files.append(YNISON_SIMPLE_DST)
 
     return generated_files
@@ -152,6 +142,6 @@ if __name__ == '__main__':
     files = gen_client()
 
     for file in files:
-        _ = subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
-        _ = subprocess.run(['ruff', 'check', '--quiet', '--fix', file])  # noqa: S603, S607
-        _ = subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
+        _ = subprocess.run(['ruff', 'format', '--quiet', file], check=False)  # noqa: S603, S607
+        _ = subprocess.run(['ruff', 'check', '--quiet', '--fix', file], check=False)  # noqa: S603, S607
+        _ = subprocess.run(['ruff', 'format', '--quiet', file], check=False)  # noqa: S603, S607

@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 
 def _timestamp_or_now(timestamp: TimestampType) -> Union[str, float, int]:
-    if timestamp is None or timestamp == '' or timestamp == 0:
+    if timestamp is None or timestamp in {'', 0}:
         return utc_now_iso()
     return timestamp
 
@@ -314,7 +314,7 @@ class RotorSessionsMixin(ClientBase):
         self,
         radio_session_id: str,
         track_id: Union[str, int],
-        total_played_seconds: Union[int, float],
+        total_played_seconds: float,
         batch_id: Optional[str] = None,
         timestamp: TimestampType = None,
         **kwargs: Any,
@@ -350,7 +350,7 @@ class RotorSessionsMixin(ClientBase):
         self,
         radio_session_id: str,
         track_id: Union[str, int],
-        total_played_seconds: Union[int, float],
+        total_played_seconds: float,
         batch_id: Optional[str] = None,
         timestamp: TimestampType = None,
         **kwargs: Any,
