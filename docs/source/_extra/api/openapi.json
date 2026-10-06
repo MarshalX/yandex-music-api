@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Yandex Music API",
-    "version": "3.1.0",
+    "version": "3.2.0",
     "description": "Неофициальное описание API Яндекс Музыки, сгенерированное автоматически из Python-библиотеки\n**[yandex-music](https://github.com/MarshalX/yandex-music-api)**. Все методы ниже уже реализованы в библиотеке: синхронный\nи асинхронный клиенты, типизированные модели ответов, [Ynison](https://ym.marshal.dev/ynison) и [сессии радио](https://ym.marshal.dev/radio).\n\n```bash\npip install yandex-music\n```\n\n```python\nfrom yandex_music import Client\n\nclient = Client('TOKEN').init()\nclient.users_likes_tracks()[0].fetch_track().download('example.mp3')\n```\n\n- 📖 [Документация библиотеки](https://ym.marshal.dev)\n- ⭐ [Исходный код на GitHub](https://github.com/MarshalX/yandex-music-api)\n- 📦 [Пакет на PyPI](https://pypi.org/project/yandex-music)\n- 💬 [Telegram-чат сообщества](https://t.me/yandex_music_api)\n\n## Ограничения\n\nОписание построено автоматически по коду библиотеки, поэтому возможны неточности:\n\n- Имена полей ответов приведены к camelCase. Часть ключей API на самом деле в kebab-case, например `bar-below`.\n- Поля тела запроса описаны как строки, без точных типов.\n- В примерах кода вместо значений аргументов указано `...`.\n- Если один эндпоинт используют несколько методов библиотеки, он описан один раз,\n  а остальные методы перечислены в поле `x-library-methods`.\n- Отправка запросов прямо со страницы отключена, для вызовов используйте библиотеку.\n\nНашли ошибку? Создайте [issue на GitHub](https://github.com/MarshalX/yandex-music-api/issues).\n\nАвтор: [Ilya (Marshal)](https://github.com/MarshalX) 🦁\n\nЕсли библиотека или это описание пригодились, поставьте ⭐ [репозиторию на GitHub](https://github.com/MarshalX/yandex-music-api).\n",
     "contact": {
       "name": "Ilya (Marshal)",
@@ -148,6 +148,14 @@
         "tags": [
           "Аккаунт"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -209,6 +217,14 @@
         "tags": [
           "Аккаунт"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -250,6 +266,14 @@
         "description": "Метод библиотеки: [`Client.account_experiments_details`](https://ym.marshal.dev/yandex_music._client.account/#yandex_music._client.account.AccountMixin.account_experiments_details)",
         "tags": [
           "Аккаунт"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -293,6 +317,14 @@
         "tags": [
           "Аккаунт"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -332,6 +364,14 @@
         "description": "Метод библиотеки: [`Client.account_settings_set`](https://ym.marshal.dev/yandex_music._client.account/#yandex_music._client.account.AccountMixin.account_settings_set)",
         "tags": [
           "Аккаунт"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -374,6 +414,14 @@
         "description": "Метод библиотеки: [`Client.account_status`](https://ym.marshal.dev/yandex_music._client.account/#yandex_music._client.account.AccountMixin.account_status)",
         "tags": [
           "Аккаунт"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -418,6 +466,12 @@
           "Треки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "from",
             "in": "query",
@@ -521,6 +575,14 @@
         "tags": [
           "Альбомы"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -583,6 +645,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "album_id",
             "in": "path",
             "required": true,
@@ -638,6 +706,12 @@
           "Альбомы"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "album_id",
             "in": "path",
@@ -695,6 +769,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "album_id",
             "in": "path",
             "required": true,
@@ -751,6 +831,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "album_id",
             "in": "path",
             "required": true,
@@ -804,6 +890,14 @@
         "description": "Метод библиотеки: [`Client.artists`](https://ym.marshal.dev/yandex_music._client.artists/#yandex_music._client.artists.ArtistsMixin.artists)",
         "tags": [
           "Артисты"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -867,6 +961,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -922,6 +1022,12 @@
           "Артисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "artist_id",
             "in": "path",
@@ -1006,6 +1112,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1061,6 +1173,12 @@
           "Артисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "artist_id",
             "in": "path",
@@ -1118,6 +1236,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1173,6 +1297,12 @@
           "Артисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "artist_id",
             "in": "path",
@@ -1230,6 +1360,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1285,6 +1421,12 @@
           "Артисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "artist_id",
             "in": "path",
@@ -1369,6 +1511,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1424,6 +1572,12 @@
           "Артисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "artist_id",
             "in": "path",
@@ -1508,6 +1662,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1563,6 +1723,12 @@
           "Артисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "artist_id",
             "in": "path",
@@ -1647,6 +1813,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1703,6 +1875,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1758,6 +1936,12 @@
           "Артисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "artist_id",
             "in": "path",
@@ -1836,6 +2020,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1910,6 +2100,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "artist_id",
             "in": "path",
             "required": true,
@@ -1966,6 +2162,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "clipIds",
             "in": "query",
             "required": false,
@@ -2021,6 +2223,12 @@
           "Видеоклипы"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "page",
             "in": "query",
@@ -2084,6 +2292,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "clip_id",
             "in": "path",
             "required": true,
@@ -2139,6 +2353,12 @@
           "Дисклеймеры"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "clip_id",
             "in": "path",
@@ -2196,6 +2416,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "locations",
             "in": "query",
             "required": false,
@@ -2247,6 +2473,14 @@
         "tags": [
           "Концерты"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -2288,6 +2522,14 @@
         "description": "Метод библиотеки: [`Client.concerts_tab_config`](https://ym.marshal.dev/yandex_music._client.concerts/#yandex_music._client.concerts.ConcertsMixin.concerts_tab_config)",
         "tags": [
           "Концерты"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -2332,6 +2574,12 @@
           "Концерты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "concert_id",
             "in": "path",
@@ -2385,6 +2633,12 @@
           "Концерты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "concert_id",
             "in": "path",
@@ -2508,6 +2762,14 @@
         "tags": [
           "Лендинг и фид"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -2550,6 +2812,14 @@
         "tags": [
           "Лендинг и фид"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -2591,6 +2861,14 @@
         "description": "Метод библиотеки: [`Client.genres`](https://ym.marshal.dev/yandex_music._client.landing/#yandex_music._client.landing.LandingMixin.genres)",
         "tags": [
           "Лендинг и фид"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -2638,6 +2916,12 @@
           "Треки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "ts",
             "in": "query",
@@ -2740,6 +3024,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "label_id",
             "in": "path",
             "required": true,
@@ -2795,6 +3085,12 @@
           "Лейблы"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "label_id",
             "in": "path",
@@ -2888,6 +3184,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "label_id",
             "in": "path",
             "required": true,
@@ -2962,6 +3264,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "blocks",
             "in": "query",
             "required": false,
@@ -3022,6 +3330,14 @@
         "tags": [
           "Лендинг и фид"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -3063,6 +3379,14 @@
         "description": "Метод библиотеки: [`Client.metatags`](https://ym.marshal.dev/yandex_music._client.metatags/#yandex_music._client.metatags.MetatagsMixin.metatags)",
         "tags": [
           "Метатеги"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -3106,6 +3430,14 @@
         "tags": [
           "Лендинг и фид"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -3148,6 +3480,14 @@
         "tags": [
           "Лендинг и фид"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -3189,6 +3529,14 @@
         "description": "Метод библиотеки: [`Client.podcasts`](https://ym.marshal.dev/yandex_music._client.landing/#yandex_music._client.landing.LandingMixin.podcasts)",
         "tags": [
           "Лендинг и фид"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -3233,6 +3581,12 @@
           "Метатеги"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "metatag_id",
             "in": "path",
@@ -3386,6 +3740,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "metatag_id",
             "in": "path",
             "required": true,
@@ -3474,6 +3834,12 @@
           "Метатеги"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "metatag_id",
             "in": "path",
@@ -3573,6 +3939,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "metatag_id",
             "in": "path",
             "required": true,
@@ -3662,6 +4034,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "fullModelsCount",
             "in": "query",
             "required": false,
@@ -3713,6 +4091,14 @@
         "tags": [
           "История прослушивания"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -3755,6 +4141,14 @@
         "tags": [
           "Аккаунт"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -3796,6 +4190,14 @@
         "description": "Метод библиотеки: [`Client.pin_album`](https://ym.marshal.dev/yandex_music._client.pins/#yandex_music._client.pins.PinsMixin.pin_album)",
         "tags": [
           "Закреплённые"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -3851,6 +4253,14 @@
         "description": "Метод библиотеки: [`Client.unpin_album`](https://ym.marshal.dev/yandex_music._client.pins/#yandex_music._client.pins.PinsMixin.unpin_album)",
         "tags": [
           "Закреплённые"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -3909,6 +4319,14 @@
         "tags": [
           "Закреплённые"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3963,6 +4381,14 @@
         "description": "Метод библиотеки: [`Client.unpin_artist`](https://ym.marshal.dev/yandex_music._client.pins/#yandex_music._client.pins.PinsMixin.unpin_artist)",
         "tags": [
           "Закреплённые"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -4020,6 +4446,14 @@
         "description": "Метод библиотеки: [`Client.pin_playlist`](https://ym.marshal.dev/yandex_music._client.pins/#yandex_music._client.pins.PinsMixin.pin_playlist)",
         "tags": [
           "Закреплённые"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -4079,6 +4513,14 @@
         "description": "Метод библиотеки: [`Client.unpin_playlist`](https://ym.marshal.dev/yandex_music._client.pins/#yandex_music._client.pins.PinsMixin.unpin_playlist)",
         "tags": [
           "Закреплённые"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -4141,6 +4583,14 @@
         "tags": [
           "Закреплённые"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -4195,6 +4645,14 @@
         "description": "Метод библиотеки: [`Client.unpin_wave`](https://ym.marshal.dev/yandex_music._client.pins/#yandex_music._client.pins.PinsMixin.unpin_wave)",
         "tags": [
           "Закреплённые"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -4253,6 +4711,14 @@
         "tags": [
           "Закреплённые"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -4294,6 +4760,14 @@
         "description": "Метод библиотеки: [`Client.play_audio`](https://ym.marshal.dev/yandex_music._client.tracks/#yandex_music._client.tracks.TracksMixin.play_audio)",
         "tags": [
           "Треки"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -4398,6 +4872,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "playlist_uuid",
             "in": "path",
             "required": true,
@@ -4450,6 +4930,12 @@
           "Плейлисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "playlist_uuid",
             "in": "path",
@@ -4504,6 +4990,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "playlistIds",
             "in": "query",
             "required": false,
@@ -4556,6 +5048,12 @@
           "Плейлисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "uid",
             "in": "query",
@@ -4616,6 +5114,14 @@
         "description": "Метод библиотеки: [`Client.playlists_list`](https://ym.marshal.dev/yandex_music._client.playlists/#yandex_music._client.playlists.PlaylistsMixin.playlists_list)",
         "tags": [
           "Плейлисты"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "requestBody": {
           "content": {
@@ -4679,6 +5185,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "playlist_id",
             "in": "path",
             "required": true,
@@ -4730,6 +5242,14 @@
         "tags": [
           "Очередь"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -4769,6 +5289,14 @@
         "description": "Метод библиотеки: [`Client.queues_list`](https://ym.marshal.dev/yandex_music._client.queue/#yandex_music._client.queue.QueueMixin.queues_list)",
         "tags": [
           "Очередь"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -4816,6 +5344,12 @@
           "Очередь"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "queue_id",
             "in": "path",
@@ -4869,6 +5403,12 @@
           "Очередь"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "queue_id",
             "in": "path",
@@ -4945,6 +5485,14 @@
         "tags": [
           "Радио"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -4987,6 +5535,14 @@
         "tags": [
           "Сессии радио"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -5028,6 +5584,14 @@
         "description": "Метод библиотеки: [`Client.rotor_combined_session_new`](https://ym.marshal.dev/yandex_music._client.rotor_sessions/#yandex_music._client.rotor_sessions.RotorSessionsMixin.rotor_combined_session_new)",
         "tags": [
           "Сессии радио"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -5072,6 +5636,12 @@
           "Сессии радио"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "session_id",
             "in": "path",
@@ -5124,6 +5694,14 @@
         "tags": [
           "Сессии радио"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -5167,6 +5745,12 @@
           "Сессии радио"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "radio_session_id",
             "in": "path",
@@ -5220,6 +5804,12 @@
           "Сессии радио"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "radio_session_id",
             "in": "path",
@@ -5280,6 +5870,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "radio_session_id",
             "in": "path",
             "required": true,
@@ -5333,6 +5929,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "radio_session_id",
             "in": "path",
             "required": true,
@@ -5384,6 +5986,14 @@
         "tags": [
           "Сессии радио"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -5427,6 +6037,12 @@
           "Радио"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "station",
             "in": "path",
@@ -5506,6 +6122,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "station",
             "in": "path",
             "required": true,
@@ -5562,6 +6184,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "station",
             "in": "path",
             "required": true,
@@ -5615,6 +6243,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "station",
             "in": "path",
             "required": true,
@@ -5667,6 +6301,12 @@
           "Радио"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "station",
             "in": "path",
@@ -5731,6 +6371,14 @@
         "tags": [
           "Радио"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -5774,6 +6422,12 @@
           "Радио"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "language",
             "in": "query",
@@ -5829,6 +6483,14 @@
         "tags": [
           "Волна"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -5870,6 +6532,14 @@
         "description": "Метод библиотеки: [`Client.rotor_wave_last_reset`](https://ym.marshal.dev/yandex_music._client.wave/#yandex_music._client.wave.WaveMixin.rotor_wave_last_reset)",
         "tags": [
           "Волна"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
         ],
         "responses": {
           "200": {
@@ -5914,6 +6584,12 @@
           "Волна"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "seeds",
             "in": "query",
@@ -5967,6 +6643,12 @@
           "Поиск"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "text",
             "in": "query",
@@ -6057,6 +6739,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "part",
             "in": "query",
             "required": false,
@@ -6108,6 +6796,14 @@
         "tags": [
           "Аккаунт"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Успешный ответ.",
@@ -6151,6 +6847,12 @@
           "Лендинг и фид"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "tag_id",
             "in": "path",
@@ -6278,6 +6980,14 @@
         "tags": [
           "Треки"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -6344,6 +7054,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "track_id",
             "in": "path",
             "required": true,
@@ -6400,6 +7116,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "track_id",
             "in": "path",
             "required": true,
@@ -6455,6 +7177,12 @@
           "Треки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "track_id",
             "in": "path",
@@ -6515,6 +7243,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "track_id",
             "in": "path",
             "required": true,
@@ -6570,6 +7304,12 @@
           "Треки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "track_id",
             "in": "path",
@@ -6654,6 +7394,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "track_id",
             "in": "path",
             "required": true,
@@ -6709,6 +7455,12 @@
           "Треки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "track_id",
             "in": "path",
@@ -6766,6 +7518,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "track_id",
             "in": "path",
             "required": true,
@@ -6821,6 +7579,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -6880,6 +7644,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -6952,6 +7722,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7023,6 +7799,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7087,6 +7869,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -7159,6 +7947,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7230,6 +8024,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7297,6 +8097,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -7369,6 +8175,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7440,6 +8252,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7507,6 +8325,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -7579,6 +8403,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7649,6 +8479,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -7724,6 +8560,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7788,6 +8630,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -7857,6 +8705,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -7915,6 +8769,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -7987,6 +8847,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8058,6 +8924,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8122,6 +8994,12 @@
           "Лайки и дизлайки"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -8194,6 +9072,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8264,6 +9148,12 @@
           "Плейлисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -8346,6 +9236,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8421,6 +9317,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8480,6 +9382,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8538,6 +9446,12 @@
           "Плейлисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -8634,6 +9548,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8701,6 +9621,12 @@
           "Плейлисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -8785,6 +9711,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8868,6 +9800,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -8936,6 +9874,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -9003,6 +9947,12 @@
           "Плейлисты"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -9087,6 +10037,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -9160,6 +10116,12 @@
           "Предсохранения"
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -9236,6 +10198,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -9307,6 +10275,12 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/X-Yandex-Music-Client"
+          },
+          {
+            "$ref": "#/components/parameters/Accept-Language"
+          },
+          {
             "name": "user_id",
             "in": "path",
             "required": true,
@@ -9361,6 +10335,28 @@
         "in": "header",
         "name": "Authorization",
         "description": "Значение вида `OAuth <token>`."
+      }
+    },
+    "parameters": {
+      "X-Yandex-Music-Client": {
+        "name": "X-Yandex-Music-Client",
+        "in": "header",
+        "required": true,
+        "description": "Заголовок, который библиотека отправляет в каждом запросе.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "YandexMusicAndroid/24023621"
+      },
+      "Accept-Language": {
+        "name": "Accept-Language",
+        "in": "header",
+        "required": true,
+        "description": "Заголовок, который библиотека отправляет в каждом запросе.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "ru"
       }
     },
     "schemas": {

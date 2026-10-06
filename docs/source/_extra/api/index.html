@@ -83,6 +83,10 @@
       background: var(--scalar-background-2);
     }
 
+    .scalar-reference-intro-clients {
+      display: none !important;
+    }
+
     @media (max-width: 900px) {
       .ym-nav,
       .ym-author-label {
@@ -122,7 +126,17 @@
       localization: {locale: 'ru'},
       hideTestRequestButton: true,
       hideClientButton: true,
-      hiddenClients: true,
+      hiddenClients: {
+        c: true, clojure: true, csharp: true, dart: true, fsharp: true, go: true, http: true, java: true,
+        js: true, julia: true, kotlin: true, objc: true, ocaml: true, php: true, powershell: true,
+        python: true, r: true, ruby: true, rust: true, swift: true,
+        node: ['axios', 'ofetch', 'undici'],
+        shell: ['httpie', 'wget'],
+      },
+      authentication: {
+        preferredSecurityScheme: 'OAuth',
+        securitySchemes: {OAuth: {value: 'OAuth TOKEN'}},
+      },
       documentDownloadType: 'json',
       showDeveloperTools: 'never',
       agent: {disabled: true},

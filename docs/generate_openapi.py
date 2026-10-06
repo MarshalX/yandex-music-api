@@ -28,6 +28,7 @@ import yandex_music
 from yandex_music import ClientAsync, YandexMusicModel
 from yandex_music._client_base import ClientBase
 from yandex_music.utils.request_async import Request
+from yandex_music.utils.request_base import HEADERS
 
 OUTPUT = Path(__file__).parent / 'source' / '_extra' / 'api' / 'openapi.json'
 BASE_URL = 'https://api.music.yandex.net'
@@ -264,6 +265,23 @@ def code_samples(name: str, required: List[str]) -> List[JSONSchema]:
     ]
 
 
+def library_headers() -> Dict[str, JSONSchema]:
+    """Заголовки, которые библиотека отправляет в каждом запросе к API, кроме авторизации."""
+    language = inspect.signature(ClientAsync.__init__).parameters['language'].default
+    headers = {**HEADERS, 'Accept-Language': str(language)}
+    return {
+        name: {
+            'name': name,
+            'in': 'header',
+            'required': True,
+            'description': 'Заголовок, который библиотека отправляет в каждом запросе.',
+            'schema': {'type': 'string'},
+            'example': value,
+        }
+        for name, value in headers.items()
+    }
+
+
 def method_docs_url(func: Callable[..., Any]) -> str:
     """Ссылка на документацию метода синхронного клиента."""
     module = func.__module__.replace('._client_async.', '._client.')
@@ -431,7 +449,10 @@ class SpecBuilder:
         """Описание операции OpenAPI."""
         summary, description = split_docstring(method.func.__doc__)
         docs_link = f'Метод библиотеки: [`Client.{method.name}`]({method_docs_url(method.func)})'
-        parameters = [self.parameter(method, key, 'path') for key in re.findall(r'{(\w+)}', path)]
+        parameters: List[JSONSchema] = []
+        if server == BASE_URL:
+            parameters += [{'$ref': f'#/components/parameters/{name}'} for name in library_headers()]
+        parameters += [self.parameter(method, key, 'path') for key in re.findall(r'{(\w+)}', path)]
         parameters += [self.parameter(method, key, 'query') for key in call.params]
         required = [
             name
@@ -518,6 +539,7 @@ class SpecBuilder:
                         'description': 'Значение вида `OAuth <token>`.',
                     }
                 },
+                'parameters': library_headers(),
                 'schemas': dict(sorted(self.schemas.schemas.items())),
             },
         }

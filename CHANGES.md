@@ -1,5 +1,44 @@
 # Список изменений
 
+## Версия 3.2.0
+
+**06.10.2026**
+
+**Справочник API в формате OpenAPI, lossless, выбор JSON библиотеки и отчёты о расхождениях с API**
+
+**Крупные изменения**
+
+- **Справочник API Яндекс Музыки в формате OpenAPI**: [ym.marshal.dev/api](https://ym.marshal.dev/api/) ([#739](https://github.com/MarshalX/yandex-music-api/pull/739)):
+    - Открытое описание неофициального API Яндекс Музыки: 150 методов на 144 эндпоинтах и более 220 схем моделей ответов.
+    - Интерактивная страница с поиском, описанием параметров, тел запросов и ответов, а также примерами вызова через библиотеку и curl.
+    - Каждый метод ссылается на соответствующий метод `Client` в документации библиотеки. Описаны заголовки, которые библиотека отправляет в каждом запросе.
+    - Спецификация доступна файлом [openapi.json](https://ym.marshal.dev/api/openapi.json): её можно импортировать в Postman, Insomnia или Bruno и генерировать по ней клиенты на других языках.
+    - Спецификация собирается автоматически из кода библиотеки скриптом `docs/generate_openapi.py` и обновляется вместе с ней.
+- **Треки в lossless качестве** ([#731](https://github.com/MarshalX/yandex-music-api/pull/731)):
+    - Новый метод клиента `tracks_file_info` (качество `lossless`, `hq`, `nq`, выбор кодеков и способа доставки `raw` или `encraw`) и сокращения `Track.get_file_info`, `get_file_info_async`.
+    - Новые модели `FileInfo` и `FileDownloadInfo` с методами `download`, `download_bytes` и их асинхронными версиями.
+    - Файлы в `encraw` расшифровываются при загрузке через `yandex_music.utils.decrypt`. Зависимость устанавливается через `pip install yandex-music[crypto]`.
+- **Выбор JSON библиотеки** ([#738](https://github.com/MarshalX/yandex-music-api/pull/738)):
+    - Вся сериализация и десериализация (ответы API, тела запросов, `to_json` моделей, фреймы Ynison) идёт через протокол `JsonBackend` из модуля `yandex_music.utils.json_backend`.
+    - Из коробки поддерживаются `orjson`, `pydantic-core`, `ujson` и стандартный `json`. По умолчанию выбирается самая быстрая из установленных. Экстры `orjson`, `pydantic-core` и `ujson`.
+    - Библиотеку можно задать для клиента параметром `json_backend` или глобально через `set_default_json_backend`, а также подключить свою, реализовав `loads` и `dumps`.
+- **Отчёты о расхождениях моделей с API** ([#740](https://github.com/MarshalX/yandex-music-api/pull/740)):
+    - Отсутствующее или равное `null` обязательное поле больше не вызывает ошибку: поле получает `None`, а в лог один раз на модель и набор полей пишется предупреждение со ссылкой на заполненный issue.
+    - Новые параметры клиента `strict` (вызывать `SchemaMismatchError` вместо предупреждения) и `on_schema_mismatch` (свой обработчик отчёта `SchemaMismatch`). `report_unknown_fields=True` добавляет в отчёт неизвестные поля.
+    - Новый модуль `yandex_music.utils.schema_mismatch`, исключение `SchemaMismatchError`, новый шаблон issue.
+- Пакет помечен как типизированный (`py.typed`, PEP 561), аннотации типов во всей библиотеке проверяются в строгом режиме ([#734](https://github.com/MarshalX/yandex-music-api/pull/734)).
+- Вложенные модели десериализуются автоматически по аннотациям полей, ручные переопределения `de_json` удалены ([#736](https://github.com/MarshalX/yandex-music-api/pull/736)).
+
+**Незначительные изменения и/или исправления**
+
+- Поле `User.login` стало необязательным, сравнение пользователей идёт только по `uid` ([#733](https://github.com/MarshalX/yandex-music-api/pull/733)).
+- Улучшено отображение моделей в документации ([#737](https://github.com/MarshalX/yandex-music-api/pull/737)).
+
+**Ведение проекта**
+
+- Добавлена строгая проверка типов `pyrefly` в CI ([#734](https://github.com/MarshalX/yandex-music-api/pull/734)).
+- Обновлён Ruff, включены все правила линтера ([#735](https://github.com/MarshalX/yandex-music-api/pull/735)).
+
 ## Версия 3.1.0
 
 **05.10.2026**
