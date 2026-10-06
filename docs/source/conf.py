@@ -272,6 +272,44 @@ def register_short_aliases(_app, env) -> None:  # noqa: ANN001
             py_objects[short] = entry.__class__(entry.docname, entry.node_id, entry.objtype, aliased=True)
 
 
+def inline_attribute_type(_app, domain, objtype, content_node) -> None:  # noqa: ANN001
+    """Перенести тип атрибута из поля «Type» в сигнатуру, ``optional`` показать бейджем.
+
+    Napoleon пишет тип поля из секции Attributes отдельным полем ``:type:`` в теле,
+    а не опцией директивы: типы описаны прозой (``list из Artist``) и как аннотация не разбираются.
+    """
+    if domain != 'py' or objtype != 'attribute':
+        return
+
+    from docutils import nodes
+    from sphinx import addnodes
+
+    for field_list in content_node.findall(nodes.field_list):
+        for field in field_list.children:
+            if field[0].astext() != 'type' or len(field[1]) != 1 or not isinstance(field[1][0], nodes.paragraph):
+                continue
+
+            type_nodes = list(field[1][0].children)
+            optional = False
+            last = type_nodes[-1] if type_nodes else None
+            if isinstance(last, nodes.Text) and last.astext().endswith(', optional'):
+                optional = True
+                rest = last.astext().removesuffix(', optional')
+                type_nodes[-1:] = [nodes.Text(rest)] if rest else []
+
+            signature = content_node.parent[0]
+            signature += addnodes.desc_annotation(
+                '', '', addnodes.desc_sig_punctuation('', ':'), addnodes.desc_sig_space(), *type_nodes
+            )
+            if optional:
+                signature += addnodes.desc_annotation('optional', 'optional', classes=['sig-badge'])
+
+            field_list.remove(field)
+            if not field_list.children:
+                field_list.parent.remove(field_list)
+            return
+
+
 def scope_pygments_to_theme(app, exception) -> None:  # noqa: ANN001
     """Перезаписывает стили Pygments, чтобы обе палитры следовали переключателю темы."""
     if exception is not None or app.builder.name not in ('html', 'dirhtml'):
@@ -293,6 +331,7 @@ def scope_pygments_to_theme(app, exception) -> None:  # noqa: ANN001
 def setup(app) -> None:  # noqa: ANN001
     """Настройка Sphinx-приложения."""
     app.connect('build-finished', scope_pygments_to_theme)
+    app.connect('object-description-transform', inline_attribute_type)
     app.connect('autodoc-skip-member', autodoc_skip_member)
     app.connect('autodoc-process-signature', autodoc_process_signature)
     app.connect('env-check-consistency', register_short_aliases)
