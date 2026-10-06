@@ -1,23 +1,37 @@
-from yandex_music import MusicHistoryItem
+from typing import Dict
+
+from yandex_music import (
+    Client,
+    JSONType,
+    MusicHistoryContextFullModel,
+    MusicHistoryItem,
+    MusicHistoryItemData,
+    MusicHistoryItemId,
+    Track,
+)
 
 
 class TestMusicHistoryItem:
     type_track = 'track'
     type_album = 'album'
 
-    def test_expected_value_track(self, music_history_item_track, music_history_item_data_track):
+    def test_expected_value_track(
+        self, music_history_item_track: MusicHistoryItem, music_history_item_data_track: MusicHistoryItemData
+    ) -> None:
         assert music_history_item_track.type == self.type_track
         assert music_history_item_track.data == music_history_item_data_track
 
-    def test_expected_value_album(self, music_history_item_album, music_history_item_data_context):
+    def test_expected_value_album(
+        self, music_history_item_album: MusicHistoryItem, music_history_item_data_context: MusicHistoryItemData
+    ) -> None:
         assert music_history_item_album.type == self.type_album
         assert music_history_item_album.data == music_history_item_data_context
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert MusicHistoryItem.de_json({}, client) is None
 
-    def test_de_json_track(self, client, music_history_item_id, track):
-        json_dict = {
+    def test_de_json_track(self, client: Client, music_history_item_id: MusicHistoryItemId, track: Track) -> None:
+        json_dict: Dict[str, JSONType] = {
             'type': self.type_track,
             'data': {
                 'itemId': music_history_item_id.to_dict(),
@@ -25,12 +39,19 @@ class TestMusicHistoryItem:
             },
         }
         obj = MusicHistoryItem.de_json(json_dict, client)
+        assert obj is not None
+        assert obj.data is not None
         assert obj.type == self.type_track
         assert obj.data.item_id == music_history_item_id
         assert obj.data.full_model == track
 
-    def test_de_json_album(self, client, music_history_item_id, music_history_context_full_model_album):
-        json_dict = {
+    def test_de_json_album(
+        self,
+        client: Client,
+        music_history_item_id: MusicHistoryItemId,
+        music_history_context_full_model_album: MusicHistoryContextFullModel,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'type': self.type_album,
             'data': {
                 'itemId': music_history_item_id.to_dict(),
@@ -38,14 +59,16 @@ class TestMusicHistoryItem:
             },
         }
         obj = MusicHistoryItem.de_json(json_dict, client)
+        assert obj is not None
+        assert obj.data is not None
         assert obj.type == self.type_album
         assert obj.data.item_id == music_history_item_id
         assert obj.data.full_model == music_history_context_full_model_album
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert MusicHistoryItem.de_list([], client) == []
 
-    def test_equality(self, music_history_item_data_track):
+    def test_equality(self, music_history_item_data_track: MusicHistoryItemData) -> None:
         a = MusicHistoryItem(type=self.type_track, data=music_history_item_data_track)
         b = MusicHistoryItem(type=self.type_album, data=music_history_item_data_track)
         c = MusicHistoryItem(type=self.type_track, data=music_history_item_data_track)

@@ -1,7 +1,7 @@
 """Основа HTTP-клиентов: общие таймауты, заголовки, обработка ответов."""
 
 import logging
-from typing import TYPE_CHECKING, Any, Dict, NoReturn, Optional, Union
+from typing import TYPE_CHECKING, Dict, NoReturn, Optional, TypeVar, Union, cast
 
 from yandex_music.exceptions import (
     BadRequestError,
@@ -33,6 +33,7 @@ class DefaultTimeout:
 
 default_timeout = DefaultTimeout()
 TimeoutType = Union[int, float, DefaultTimeout]
+_KwargsT = TypeVar('_KwargsT', bound=Dict[str, object])
 
 
 class RequestBase:
@@ -54,19 +55,19 @@ class RequestBase:
         proxy_url: Optional[str] = None,
         timeout: 'TimeoutType' = default_timeout,
     ) -> None:
-        self.headers = headers or HEADERS.copy()
+        self.headers = headers if headers is not None and len(headers) > 0 else HEADERS.copy()
 
-        self._timeout = DEFAULT_TIMEOUT
+        self._timeout: Union[int, float] = DEFAULT_TIMEOUT
         self.set_timeout(timeout)
 
-        if client:
+        if client is not None:
             self.client = self.set_and_return_client(client)
 
         # aiohttp
         self.proxy_url = proxy_url
 
         # requests
-        self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
+        self.proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url is not None and proxy_url != '' else None
 
     def set_language(self, lang: str) -> None:
         """Добавляет заголовок языка для каждого запроса.
@@ -79,15 +80,16 @@ class RequestBase:
         """
         self.headers.update({'Accept-Language': lang})
 
-    def set_timeout(self, timeout: Union[int, float, object] = default_timeout) -> None:
+    def set_timeout(self, timeout: 'TimeoutType' = default_timeout) -> None:
         """Устанавливает время ожидания для всех запросов.
 
         Args:
             timeout (:obj:`int` | :obj:`float`): Время ожидания от сервера.
         """
-        self._timeout = timeout
         if isinstance(timeout, DefaultTimeout):
             self._timeout = DEFAULT_TIMEOUT
+        else:
+            self._timeout = timeout
 
     def set_authorization(self, token: str) -> None:
         """Добавляет заголовок авторизации для каждого запроса.
@@ -111,7 +113,7 @@ class RequestBase:
         """
         self.client = client
 
-        if self.client and self.client.token:
+        if self.client is not None and self.client.token is not None and self.client.token != '':
             self.set_authorization(self.client.token)
 
         return self.client
@@ -160,7 +162,7 @@ class RequestBase:
 
         return Response.de_json(data, self.client)
 
-    def _prepare_kwargs(self, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+    def _prepare_kwargs(self, kwargs: _KwargsT) -> _KwargsT:
         """Подготовка аргументов для запроса.
 
         Args:
@@ -169,10 +171,9 @@ class RequestBase:
         Returns:
             :obj:`dict`: Подготовленные аргументы.
         """
-        if 'headers' not in kwargs:
-            kwargs['headers'] = {}
-
-        kwargs['headers']['User-Agent'] = USER_AGENT
+        default_headers: Dict[str, str] = {}
+        headers = cast('Dict[str, str]', kwargs.setdefault('headers', default_headers))
+        headers['User-Agent'] = USER_AGENT
 
         if isinstance(kwargs['timeout'], DefaultTimeout):
             kwargs['timeout'] = self._timeout
@@ -195,7 +196,7 @@ class RequestBase:
         message = 'Unknown error'
         try:
             parse = self._parse(content)
-            if parse:
+            if parse is not None:
                 message = parse.get_error()
         except YandexMusicError:
             message = 'Unknown HTTPError'

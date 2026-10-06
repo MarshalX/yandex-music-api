@@ -1,10 +1,12 @@
+from typing import Dict, Optional
+
 import pytest
 
-from yandex_music import UserSettings
+from yandex_music import Client, JSONType, Shot, UserSettings
 
 
 @pytest.fixture(scope='class')
-def user_settings(shot):
+def user_settings(shot: Shot) -> UserSettings:
     return UserSettings(
         TestUserSettings.uid,
         TestUserSettings.last_fm_scrobbling_enabled,
@@ -41,11 +43,11 @@ class TestUserSettings:
     promos_disabled = True
     auto_play_radio = True
     sync_queue_enabled = True
-    ads_disabled = None
+    ads_disabled: Optional[bool] = None
     disk_enabled = False
     show_disk_tracks_in_library = False
 
-    def test_expected_values(self, user_settings):
+    def test_expected_values(self, user_settings: UserSettings) -> None:
         assert user_settings.uid == self.uid
         assert user_settings.last_fm_scrobbling_enabled == self.last_fm_scrobbling_enabled
         assert user_settings.shuffle_enabled == self.shuffle_enabled
@@ -64,11 +66,11 @@ class TestUserSettings:
         assert user_settings.disk_enabled == self.disk_enabled
         assert user_settings.show_disk_tracks_in_library == self.show_disk_tracks_in_library
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert UserSettings.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'uid': self.uid,
             'last_fm_scrobbling_enabled': self.last_fm_scrobbling_enabled,
             'shuffle_enabled': self.shuffle_enabled,
@@ -85,6 +87,7 @@ class TestUserSettings:
             'sync_queue_enabled': self.sync_queue_enabled,
         }
         user_settings = UserSettings.de_json(json_dict, client)
+        assert user_settings is not None
 
         assert user_settings.uid == self.uid
         assert user_settings.last_fm_scrobbling_enabled == self.last_fm_scrobbling_enabled
@@ -101,8 +104,8 @@ class TestUserSettings:
         assert user_settings.auto_play_radio == self.auto_play_radio
         assert user_settings.sync_queue_enabled == self.sync_queue_enabled
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'uid': self.uid,
             'last_fm_scrobbling_enabled': self.last_fm_scrobbling_enabled,
             'shuffle_enabled': self.shuffle_enabled,
@@ -122,6 +125,7 @@ class TestUserSettings:
             'show_disk_tracks_in_library': self.show_disk_tracks_in_library,
         }
         user_settings = UserSettings.de_json(json_dict, client)
+        assert user_settings is not None
 
         assert user_settings.uid == self.uid
         assert user_settings.last_fm_scrobbling_enabled == self.last_fm_scrobbling_enabled
@@ -141,7 +145,7 @@ class TestUserSettings:
         assert user_settings.disk_enabled == self.disk_enabled
         assert user_settings.show_disk_tracks_in_library == self.show_disk_tracks_in_library
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = UserSettings(
             self.uid,
             self.last_fm_scrobbling_enabled,

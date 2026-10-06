@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -32,6 +34,7 @@ class MusicHistoryItemData(YandexMusicModel):
         self._id_attrs = (self.item_id,)
 
     @classmethod
+    @override
     def de_json(
         cls,
         data: 'JSONType',

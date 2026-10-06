@@ -52,7 +52,7 @@ def _normalize_key(key: str) -> str:
     if key in RESERVED_NAMES:
         key += '_'
 
-    if key and key[0].isdigit():
+    if len(key) > 0 and key[0].isdigit():
         key = '_' + key
 
     return key

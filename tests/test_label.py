@@ -1,4 +1,6 @@
-from yandex_music import Label
+from typing import Dict, Union
+
+from yandex_music import Client, JSONType, Label, Link
 
 
 class TestLabel:
@@ -11,7 +13,7 @@ class TestLabel:
 
     another_representation_of_label = 'NoCopyrightSounds'
 
-    def test_expected_values(self, label, link):
+    def test_expected_values(self, label: Union[Label, str], link: Link) -> None:
         if isinstance(label, str):
             assert label == self.another_representation_of_label
         else:
@@ -23,19 +25,20 @@ class TestLabel:
             assert label.links == [link]
             assert label.type == self.type
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Label.de_list([], client) == []
 
-    def test_de_list_strings(self, client):
+    def test_de_list_strings(self, client: Client) -> None:
         data = ['First', 'Second']
         assert Label.de_list(data, client) == data
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Label.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'id': self.id, 'name': self.name}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'id': self.id, 'name': self.name}
         label = Label.de_json(json_dict, client)
+        assert label is not None
 
         assert label.id == self.id
         assert label.name == self.name
@@ -45,8 +48,8 @@ class TestLabel:
         assert label.links == []
         assert label.type is None
 
-    def test_de_json_all(self, client, link):
-        json_dict = {
+    def test_de_json_all(self, client: Client, link: Link) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'name': self.name,
             'description': self.description,
@@ -56,6 +59,7 @@ class TestLabel:
             'type': self.type,
         }
         label = Label.de_json(json_dict, client)
+        assert label is not None
 
         assert label.id == self.id
         assert label.name == self.name
@@ -65,7 +69,7 @@ class TestLabel:
         assert label.links == [link]
         assert label.type == self.type
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Label(self.id, self.name)
         b = Label(10, self.name)
         c = Label(self.id, '')

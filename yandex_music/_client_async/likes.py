@@ -424,6 +424,26 @@ class LikesMixin(ClientBase):
         """
         return await self._get_likes('playlist', user_id, *args, **kwargs)
 
+    @overload
+    async def _get_dislikes(
+        self,
+        object_type: Literal['track'],
+        user_id: UserIdType = ...,
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Optional[TracksList]: ...
+
+    @overload
+    async def _get_dislikes(
+        self,
+        object_type: Literal['artist'],
+        user_id: UserIdType = ...,
+        params: Optional[Dict[str, Any]] = ...,
+        *args: Any,
+        **kwargs: Any,
+    ) -> List[Artist]: ...
+
     async def _get_dislikes(
         self,
         object_type: str,

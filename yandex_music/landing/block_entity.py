@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import (
     Album,
     ChartItem,
@@ -54,6 +56,7 @@ class BlockEntity(YandexMusicModel):
         self._id_attrs = (self.id, self.type, self.data)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['BlockEntity']:
         """Десериализация объекта.
 
@@ -74,4 +77,4 @@ class BlockEntity(YandexMusicModel):
             de_json_def = _TYPE_TO_DE_JSON_DEF[type_]
             cls_data['data'] = de_json_def(cls_data.get('data'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional, Union, cast
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -46,7 +48,7 @@ class Album(YandexMusicModel):
         version (:obj:`str`, optional): Дополнительная информация об альбоме.
         cover_uri (:obj:`str`, optional): Ссылка на обложку.
         content_warning (:obj:`str`, optional): Предупреждение о содержимом альбома.
-        original_release_year: TODO.
+        original_release_year (:obj:`int`, optional): Год оригинального релиза.
         genre (:obj:`str`, optional): Жанр музыки.
         text_color (:obj:`str`, optional): Цвет текста описания.
         short_description (:obj:`str`, optional): Короткое описание.
@@ -101,7 +103,7 @@ class Album(YandexMusicModel):
     version: Optional[str] = None
     cover_uri: Optional[str] = None
     content_warning: Optional[str] = None
-    original_release_year: Any = None
+    original_release_year: Optional[int] = None
     genre: Optional[str] = None
     text_color: Optional[str] = None
     short_description: Optional[str] = None
@@ -111,14 +113,14 @@ class Album(YandexMusicModel):
     meta_type: Optional[str] = None
     storage_dir: Optional[str] = None
     og_image: Optional[str] = None
-    buy: Optional[list] = None
+    buy: Optional[List['JSONType']] = None
     recent: Optional[bool] = None
     very_important: Optional[bool] = None
     available_for_mobile: Optional[bool] = None
     available_partially: Optional[bool] = None
     bests: Optional[List[int]] = None
     duplicates: List['Album'] = field(default_factory=list)
-    prerolls: Optional[list] = None
+    prerolls: Optional[List['JSONType']] = None
     volumes: Optional[List[List['Track']]] = None
     year: Optional[int] = None
     release_date: Optional[str] = None
@@ -340,9 +342,10 @@ class Album(YandexMusicModel):
         Returns:
               :obj:`list` из :obj:`str`: Имена исполнителей.
         """
-        return [i.name for i in self.artists if i.name]
+        return [i.name for i in self.artists if i.name is not None and i.name != '']
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Album']:
         """Десериализация объекта.
 
@@ -381,18 +384,19 @@ class Album(YandexMusicModel):
             cls_data['labels'] = cast('List[str]', labels)
         else:
             # Поддержка формата. Все листы [] по умолчанию вместо None даже если данных нет.
-            cls_data['labels'] = []
+            empty_labels: List[str] = []
+            cls_data['labels'] = empty_labels
 
         cls_data['track_position'] = TrackPosition.de_json(cls_data.get('track_position'), client)
         cls_data['duplicates'] = Album.de_list(cls_data.get('duplicates'), client)
         cls_data['albums'] = Album.de_list(cls_data.get('albums'), client)
         cls_data['deprecation'] = Deprecation.de_json(cls_data.get('deprecation'), client)
 
-        volumes = cls_data.get('volumes')
+        volumes: 'JSONType' = cls_data.get('volumes')
         if isinstance(volumes, list):
             cls_data['volumes'] = [Track.de_list(volume, client) for volume in volumes]
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

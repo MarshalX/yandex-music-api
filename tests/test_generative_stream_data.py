@@ -1,4 +1,6 @@
-from yandex_music import GenerativeStreamData
+from typing import Dict
+
+from yandex_music import Client, CoverDerivedColors, GenerativeStreamData, JSONType
 
 
 class TestGenerativeStreamData:
@@ -9,7 +11,9 @@ class TestGenerativeStreamData:
     video_cover_uri = 'https://example.com/generative/focus.mp4'
     explanations = 'Музыка, которая поможет сфокусироваться'
 
-    def test_expected_values(self, generative_stream_data, cover_derived_colors):
+    def test_expected_values(
+        self, generative_stream_data: GenerativeStreamData, cover_derived_colors: CoverDerivedColors
+    ) -> None:
         assert generative_stream_data.title == self.title
         assert generative_stream_data.subtitle == self.subtitle
         assert generative_stream_data.background_color == self.background_color
@@ -18,11 +22,11 @@ class TestGenerativeStreamData:
         assert generative_stream_data.video_cover_uri == self.video_cover_uri
         assert generative_stream_data.explanations == self.explanations
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert GenerativeStreamData.de_json({}, client) is None
 
-    def test_de_json_all(self, client, cover_derived_colors):
-        json_dict = {
+    def test_de_json_all(self, client: Client, cover_derived_colors: CoverDerivedColors) -> None:
+        json_dict: Dict[str, JSONType] = {
             'title': self.title,
             'subtitle': self.subtitle,
             'backgroundColor': self.background_color,
@@ -32,6 +36,7 @@ class TestGenerativeStreamData:
             'explanations': self.explanations,
         }
         generative_stream_data = GenerativeStreamData.de_json(json_dict, client)
+        assert generative_stream_data is not None
 
         assert generative_stream_data.title == self.title
         assert generative_stream_data.subtitle == self.subtitle
@@ -41,7 +46,7 @@ class TestGenerativeStreamData:
         assert generative_stream_data.video_cover_uri == self.video_cover_uri
         assert generative_stream_data.explanations == self.explanations
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = GenerativeStreamData(self.title, image_url=self.image_url)
         b = GenerativeStreamData('Бодрость', image_url=self.image_url)
         c = GenerativeStreamData(self.title, image_url=self.image_url)

@@ -1,4 +1,6 @@
-from yandex_music import RotorSeed
+from typing import Dict
+
+from yandex_music import Client, JSONType, RotorSeed
 
 
 class TestRotorSeed:
@@ -6,26 +8,27 @@ class TestRotorSeed:
     tag = 'rock'
     value = 'rock'
 
-    def test_expected_values(self, rotor_seed):
+    def test_expected_values(self, rotor_seed: RotorSeed) -> None:
         assert rotor_seed.type == self.type
         assert rotor_seed.tag == self.tag
         assert rotor_seed.value == self.value
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert RotorSeed.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert RotorSeed.de_list([], client) == []
 
-    def test_de_json_all(self, client):
-        json_dict = {'type': self.type, 'tag': self.tag, 'value': self.value}
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'type': self.type, 'tag': self.tag, 'value': self.value}
         rotor_seed = RotorSeed.de_json(json_dict, client)
+        assert rotor_seed is not None
 
         assert rotor_seed.type == self.type
         assert rotor_seed.tag == self.tag
         assert rotor_seed.value == self.value
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = RotorSeed(self.type, self.tag, self.value)
         b = RotorSeed('user', 'onyourwave', 'onyourwave')
         c = RotorSeed(self.type, self.tag, self.value)

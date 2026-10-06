@@ -6,6 +6,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+from typing import Dict, List, Optional
 
 import unasync
 
@@ -52,13 +53,13 @@ def _make_disclaimer(source: str) -> str:
 
 
 def _run_unasync(
-    src_files: list[str],
+    src_files: List[str],
     src_dir: str,
     dst_dir: str,
-    extra_replacements: 'dict[str, str] | None' = None,
-) -> dict[str, str]:
+    extra_replacements: Optional[Dict[str, str]] = None,
+) -> Dict[str, str]:
     """Run unasync on source files and return mapping of dst_path -> generated code."""
-    results = {}
+    results: Dict[str, str] = {}
 
     with tempfile.TemporaryDirectory() as tmp:
         async_dir = os.path.join(tmp, '_async')
@@ -69,13 +70,16 @@ def _run_unasync(
             rel_path = os.path.relpath(src_file, src_dir)
             tmp_src = os.path.join(async_dir, rel_path)
             os.makedirs(os.path.dirname(tmp_src), exist_ok=True)
-            shutil.copy2(src_file, tmp_src)
+            _ = shutil.copy2(src_file, tmp_src)
 
         rules = [
             unasync.Rule(
                 fromdir=async_dir,
                 todir=sync_dir,
-                additional_replacements={**ADDITIONAL_REPLACEMENTS, **(extra_replacements or {})},
+                additional_replacements={
+                    **ADDITIONAL_REPLACEMENTS,
+                    **(extra_replacements if extra_replacements is not None else {}),
+                },
             ),
         ]
 
@@ -96,9 +100,9 @@ def _run_unasync(
     return results
 
 
-def gen_client() -> list[str]:
+def gen_client() -> List[str]:
     """Generate sync version of all async client files."""
-    generated_files = []
+    generated_files: List[str] = []
 
     # Generate sync client.py from client_async.py
     client_results = _run_unasync(
@@ -109,12 +113,12 @@ def gen_client() -> list[str]:
     ((_, code),) = client_results.items()
     disclaimer = _make_disclaimer(CLIENT_SRC)
     with open(CLIENT_DST, 'w', encoding='UTF-8') as f:
-        f.write(disclaimer + code)
+        _ = f.write(disclaimer + code)
     generated_files.append(CLIENT_DST)
 
     # Generate sync mixin files from _client_async/ to _client/
     mixin_files = sorted(glob.glob(os.path.join(MIXINS_SRC_DIR, '*.py')))
-    if mixin_files:
+    if len(mixin_files) > 0:
         mixin_results = _run_unasync(mixin_files, MIXINS_SRC_DIR, MIXINS_DST_DIR)
         os.makedirs(MIXINS_DST_DIR, exist_ok=True)
 
@@ -124,7 +128,7 @@ def gen_client() -> list[str]:
             )
             disclaimer = _make_disclaimer(src_rel)
             with open(dst_path, 'w', encoding='UTF-8') as f:
-                f.write(disclaimer + code)
+                _ = f.write(disclaimer + code)
             generated_files.append(dst_path)
 
     # Generate sync ynison.simple from ynison.simple_async
@@ -138,7 +142,7 @@ def gen_client() -> list[str]:
     ((_, code),) = ynison_results.items()
     disclaimer = _make_disclaimer(YNISON_SIMPLE_SRC)
     with open(YNISON_SIMPLE_DST, 'w', encoding='UTF-8') as f:
-        f.write(disclaimer + code)
+        _ = f.write(disclaimer + code)
     generated_files.append(YNISON_SIMPLE_DST)
 
     return generated_files
@@ -148,6 +152,6 @@ if __name__ == '__main__':
     files = gen_client()
 
     for file in files:
-        subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
-        subprocess.run(['ruff', 'check', '--quiet', '--fix', file])  # noqa: S603, S607
-        subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
+        _ = subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607
+        _ = subprocess.run(['ruff', 'check', '--quiet', '--fix', file])  # noqa: S603, S607
+        _ = subprocess.run(['ruff', 'format', '--quiet', file])  # noqa: S603, S607

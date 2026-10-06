@@ -13,7 +13,7 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Dict, List, Optional, Tuple
 
 DOCS_SOURCE = Path(__file__).parent / 'source'
 YANDEX_MUSIC = Path(__file__).parent.parent / 'yandex_music'
@@ -57,21 +57,21 @@ def extract_mixin_title(module_path: Path) -> str:
     """
     content = module_path.read_text()
     match = re.search(r'class \w+Mixin\([^)]*\):\s*"""(.+?)[\.]?\s*$', content, re.MULTILINE)
-    if match:
+    if match is not None:
         return match.group(1).strip()
     return module_path.stem.replace('_', ' ').title()
 
 
-def get_mixin_modules(package_dir: Path) -> list[str]:
+def get_mixin_modules(package_dir: Path) -> List[str]:
     """Получить отсортированный список модулей миксинов из директории пакета."""
-    modules = []
+    modules: List[str] = []
     for f in sorted(package_dir.iterdir()):
         if f.suffix == '.py' and f.stem != '__init__' and not f.stem.startswith('_'):
             modules.append(f.stem)
     return modules
 
 
-def fix_mixin_rst(package_name: str, modules: list[str]) -> None:
+def fix_mixin_rst(package_name: str, modules: List[str]) -> None:
     """Обновить RST-файлы миксинов: читаемые заголовки, скрыть наследование."""
     # Заголовки берём из async-миксинов (они — источник истины)
     async_package = '_client_async'
@@ -94,7 +94,7 @@ def fix_mixin_rst(package_name: str, modules: list[str]) -> None:
         # Скрыть "Bases: ClientBase" — детали реализации
         content = content.replace('   :show-inheritance:\n', '')
 
-        rst_file.write_text(content)
+        _ = rst_file.write_text(content)
 
 
 def _package_docstring_first_line(package_dotted: str) -> Optional[str]:
@@ -109,12 +109,12 @@ def _package_docstring_first_line(package_dotted: str) -> Optional[str]:
     except ImportError:
         return None
     doc = module.__doc__
-    if not doc:
+    if doc is None or doc == '':
         return None
     first_line = doc.strip().splitlines()[0].strip()
     if first_line.endswith('.'):
         first_line = first_line[:-1]
-    return first_line or None
+    return first_line if first_line != '' else None
 
 
 def fix_package_headings() -> None:
@@ -132,7 +132,7 @@ def fix_package_headings() -> None:
         if not (base / Path(*parts) / '__init__.py').exists():
             continue
         heading = _package_docstring_first_line('.'.join(parts))
-        if not heading:
+        if heading is None or heading == '':
             continue
         content = rst_file.read_text()
         content = re.sub(
@@ -141,7 +141,7 @@ def fix_package_headings() -> None:
             content,
             count=1,
         )
-        rst_file.write_text(content)
+        _ = rst_file.write_text(content)
 
 
 def _module_heading(module_path: str) -> Optional[str]:
@@ -160,11 +160,11 @@ def _module_heading(module_path: str) -> Optional[str]:
         return None
     # Правило 1: module-docstring
     doc = module.__doc__
-    if doc:
+    if doc is not None and doc != '':
         first_line = doc.strip().splitlines()[0].strip()
         if first_line.endswith('.'):
             first_line = first_line[:-1]
-        if first_line:
+        if first_line != '':
             return first_line
     # Правила 2 и 3: классы
     public_classes = [
@@ -207,7 +207,7 @@ def fix_module_headings() -> None:
         if stem.startswith(('yandex_music._client.', 'yandex_music._client_async.')):
             continue
         heading = _module_heading(stem)
-        if not heading:
+        if heading is None or heading == '':
             continue
         content = rst_file.read_text()
         content = re.sub(
@@ -216,7 +216,7 @@ def fix_module_headings() -> None:
             content,
             count=1,
         )
-        rst_file.write_text(content)
+        _ = rst_file.write_text(content)
 
 
 MODELS_MARKER = '<!-- generated-models-toctree -->'
@@ -225,14 +225,14 @@ MODELS_MARKER = '<!-- generated-models-toctree -->'
 MODELS_EXCLUDED = {'exceptions', 'utils', 'base', 'ynison'}
 
 
-def _discover_public_modules() -> tuple[list[str], list[str]]:
+def _discover_public_modules() -> Tuple[List[str], List[str]]:
     """Вернуть (packages, single_modules) публичной поверхности yandex_music.
 
     packages — директории с __init__.py (без приватных _*, без исключённых).
     single_modules — .py-файлы в корне пакета (без приватных и исключённых).
     """
-    packages = []
-    single_modules = []
+    packages: List[str] = []
+    single_modules: List[str] = []
     for entry in sorted(YANDEX_MUSIC.iterdir()):
         name = entry.name
         if name.startswith('_') or name == '__pycache__':
@@ -275,11 +275,11 @@ def build_models_toctree() -> None:
     head = content.split(MODELS_MARKER)[0] + MODELS_MARKER + '\n\n'
     toctree_lines = '\n'.join(f'   {d}' for d in all_docnames)
     block = f'```{{eval-rst}}\n.. toctree::\n   :hidden:\n   :maxdepth: 2\n\n{toctree_lines}\n```\n'
-    models_md.write_text(head + block)
+    _ = models_md.write_text(head + block)
 
     # Sanity-check: предупредим про непокрытые карточками подпакеты/модули.
     missing = [d for d in all_docnames if f':link: {d}' not in head]
-    if missing:
+    if len(missing) > 0:
         print('ВНИМАНИЕ: в models.md нет карточки для:', ', '.join(missing))
 
 
@@ -302,7 +302,7 @@ PACKAGE_INDEX_TEMPLATE = """\
 """
 
 
-def _class_card_info(module_path: str) -> tuple[str, str]:
+def _class_card_info(module_path: str) -> Tuple[str, str]:
     """Вернуть (title, description) для карточки модуля на странице пакета.
 
     title:
@@ -333,18 +333,18 @@ def _class_card_info(module_path: str) -> tuple[str, str]:
         doc = inspect.getdoc(public_classes[0][1])
     else:
         title = fallback_title
-    if not doc:
+    if doc is None or doc == '':
         doc = inspect.getdoc(module)
 
     description = '—'
-    if doc:
+    if doc is not None and doc != '':
         first_line = doc.strip().splitlines()[0].strip().rstrip('.')
-        if first_line:
+        if first_line != '':
             description = first_line
     return title, description
 
 
-def _package_child_modules(pkg_dir: Path) -> list[str]:
+def _package_child_modules(pkg_dir: Path) -> List[str]:
     """Дочерние .py-модули пакета (без __init__ и приватных), отсортированные."""
     return sorted(
         f.stem
@@ -376,12 +376,14 @@ def regenerate_package_indexes() -> None:
             continue
 
         child_modules = _package_child_modules(pkg_dir)
-        if not child_modules:
+        if len(child_modules) == 0:
             continue
 
-        heading = _package_docstring_first_line(f'yandex_music.{pkg_name}') or pkg_name.replace('_', ' ').capitalize()
+        heading = _package_docstring_first_line(f'yandex_music.{pkg_name}')
+        if heading is None or heading == '':
+            heading = pkg_name.replace('_', ' ').capitalize()
 
-        cards = []
+        cards: List[str] = []
         for child in child_modules:
             module_path = f'yandex_music.{pkg_name}.{child}'
             title, description = _class_card_info(module_path)
@@ -401,7 +403,7 @@ def regenerate_package_indexes() -> None:
             cards='\n'.join(cards),
             toctree=toctree,
         )
-        rst_file.write_text(content)
+        _ = rst_file.write_text(content)
 
 
 def fix_ynison_rst() -> None:
@@ -414,7 +416,7 @@ def fix_ynison_rst() -> None:
         content = rst.read_text()
         new_content = content.replace('   :private-members:\n', '').replace('   :show-inheritance:\n', '')
         if new_content != content:
-            rst.write_text(new_content)
+            _ = rst.write_text(new_content)
 
 
 def fix_utils_request_rst() -> None:
@@ -432,7 +434,7 @@ def fix_utils_request_rst() -> None:
         f'   :members:\n   :exclude-members: {reexports}\n',
         1,
     )
-    rst_file.write_text(content)
+    _ = rst_file.write_text(content)
 
 
 def fix_yandex_music_rst() -> None:
@@ -462,7 +464,7 @@ def fix_yandex_music_rst() -> None:
     if not content.startswith(':orphan:'):
         content = ':orphan:\n\n' + content
 
-    rst_file.write_text(content)
+    _ = rst_file.write_text(content)
 
 
 # Файлы, которые apidoc всегда генерирует, но они не нужны в навигации.
@@ -507,7 +509,7 @@ def remove_stale_rst() -> None:
             rst_file.unlink()
 
 
-def _mixin_method_names(package_name: str, module: str) -> list[str]:
+def _mixin_method_names(package_name: str, module: str) -> List[str]:
     """Получить список публичных методов миксина через интроспекцию класса."""
     import importlib
 
@@ -535,7 +537,7 @@ def _mixin_card(package_name: str, module: str) -> str:
     """Сгенерировать grid-item-card для миксина с названием и списком методов."""
     title = extract_mixin_title(YANDEX_MUSIC / '_client_async' / f'{module}.py')
     methods = _mixin_method_names(package_name, module)
-    methods_line = ', '.join(f'``{m}``' for m in methods) if methods else '—'
+    methods_line = ', '.join(f'``{m}``' for m in methods) if len(methods) > 0 else '—'
     return (
         f'   .. grid-item-card:: {title}\n'
         f'      :link: yandex_music.{package_name}.{module}\n'
@@ -545,7 +547,7 @@ def _mixin_card(package_name: str, module: str) -> str:
     )
 
 
-def update_client_md(md_file: Path, package_name: str, modules: list[str]) -> None:
+def update_client_md(md_file: Path, package_name: str, modules: List[str]) -> None:
     """Обновить md-файл клиента: заменить всё после маркера на карточки миксинов + скрытый toctree."""
     content = md_file.read_text()
 
@@ -555,7 +557,7 @@ def update_client_md(md_file: Path, package_name: str, modules: list[str]) -> No
     header = content.split(MARKER)[0] + MARKER + '\n\n'
     cards = '\n'.join(_mixin_card(package_name, m) for m in modules)
     toctree = '\n'.join(f'   yandex_music.{package_name}.{m}' for m in modules)
-    md_file.write_text(header + SECTION_TEMPLATE.format(cards=cards, toctree=toctree))
+    _ = md_file.write_text(header + SECTION_TEMPLATE.format(cards=cards, toctree=toctree))
 
 
 def generate_redirects_map() -> None:
@@ -567,7 +569,7 @@ def generate_redirects_map() -> None:
     """
     import yandex_music
 
-    anchor_map: dict[str, str] = {}
+    anchor_map: Dict[str, str] = {}
     for name in dir(yandex_music):
         if name.startswith('_'):
             continue
@@ -581,7 +583,7 @@ def generate_redirects_map() -> None:
         anchor = f'{module.__name__}.{obj.__name__}'
         anchor_map[f'yandex_music.{obj.__name__}'] = f'{canonical_page}#{anchor}'
 
-    page_map: dict[str, str] = {
+    page_map: Dict[str, str] = {
         'module.html': 'models.html',
         'yandex_music.html': 'models.html',
     }
@@ -592,7 +594,7 @@ def generate_redirects_map() -> None:
         'window.__YM_REDIRECTS__ = ' + json.dumps(anchor_map, ensure_ascii=False, indent=2) + ';\n'
         'window.__YM_PAGE_REDIRECTS__ = ' + json.dumps(page_map, ensure_ascii=False, indent=2) + ';\n'
     )
-    out.write_text(body)
+    _ = out.write_text(body)
 
 
 def generate() -> None:

@@ -1,4 +1,6 @@
-from yandex_music import Lyrics
+from typing import Dict
+
+from yandex_music import Client, JSONType, Lyrics
 
 
 class TestLyrics:
@@ -27,7 +29,7 @@ class TestLyrics:
     show_translation = True
     url = 'https://genius.com/Babyface-dont-take-it-so-personal-lyrics'
 
-    def test_expected_values(self, lyrics):
+    def test_expected_values(self, lyrics: Lyrics) -> None:
         assert lyrics.id == self.id
         assert lyrics.lyrics == self.lyrics
         assert lyrics.full_lyrics == self.full_lyrics
@@ -36,11 +38,11 @@ class TestLyrics:
         assert lyrics.show_translation == self.show_translation
         assert lyrics.url == self.url
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Lyrics.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'lyrics': self.lyrics,
             'full_lyrics': self.full_lyrics,
@@ -48,6 +50,7 @@ class TestLyrics:
             'show_translation': self.show_translation,
         }
         lyrics = Lyrics.de_json(json_dict, client)
+        assert lyrics is not None
 
         assert lyrics.id == self.id
         assert lyrics.lyrics == self.lyrics
@@ -55,8 +58,8 @@ class TestLyrics:
         assert lyrics.has_rights == self.has_rights
         assert lyrics.show_translation == self.show_translation
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'lyrics': self.lyrics,
             'full_lyrics': self.full_lyrics,
@@ -66,6 +69,7 @@ class TestLyrics:
             'url': self.url,
         }
         lyrics = Lyrics.de_json(json_dict, client)
+        assert lyrics is not None
 
         assert lyrics.id == self.id
         assert lyrics.lyrics == self.lyrics
@@ -75,11 +79,11 @@ class TestLyrics:
         assert lyrics.show_translation == self.show_translation
         assert lyrics.url == self.url
 
-    def test_equality(self):
-        a = Lyrics(self.id, self.lyrics, self.full_lyrics, self.has_rights, self.text_language, self.show_translation)
-        b = Lyrics(self.id, self.lyrics, '', self.has_rights, self.text_language, False)
-        c = Lyrics(10, self.lyrics, self.full_lyrics, self.has_rights, '', self.show_translation)
-        d = Lyrics(self.id, self.lyrics, self.full_lyrics, self.has_rights, self.text_language, self.show_translation)
+    def test_equality(self) -> None:
+        a = Lyrics(self.id, self.lyrics, self.full_lyrics, self.has_rights, self.show_translation, self.text_language)
+        b = Lyrics(self.id, self.lyrics, '', self.has_rights, False, self.text_language)
+        c = Lyrics(10, self.lyrics, self.full_lyrics, self.has_rights, self.show_translation, '')
+        d = Lyrics(self.id, self.lyrics, self.full_lyrics, self.has_rights, self.show_translation, self.text_language)
 
         assert a != b != c
         assert hash(a) != hash(b) != hash(c)

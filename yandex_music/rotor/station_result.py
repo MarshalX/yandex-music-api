@@ -1,4 +1,6 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
+
+from typing_extensions import override
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -33,7 +35,7 @@ class StationResult(YandexMusicModel):
     settings2: Optional['RotorSettings']
     ad_params: Optional['AdParams']
     explanation: Optional[str] = None
-    prerolls: Optional[list] = None
+    prerolls: Optional[List[str]] = None
     rup_title: Optional[str] = None
     rup_description: Optional[str] = None
     custom_name: Optional[str] = None
@@ -43,6 +45,7 @@ class StationResult(YandexMusicModel):
         self._id_attrs = (self.station, self.settings, self.settings2, self.ad_params)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['StationResult']:
         """Десериализация объекта.
 
@@ -64,4 +67,4 @@ class StationResult(YandexMusicModel):
         cls_data['settings2'] = RotorSettings.de_json(cls_data.get('settings2'), client)
         cls_data['ad_params'] = AdParams.de_json(cls_data.get('ad_params'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

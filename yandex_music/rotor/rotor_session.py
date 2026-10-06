@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -44,6 +46,7 @@ class RotorSession(YandexMusicModel):
         self._id_attrs = (self.radio_session_id, self.batch_id)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['RotorSession']:
         """Десериализация объекта.
 

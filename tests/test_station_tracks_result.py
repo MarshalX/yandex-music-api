@@ -1,10 +1,12 @@
+from typing import Dict
+
 import pytest
 
-from yandex_music import StationTracksResult
+from yandex_music import Client, Id, JSONType, Sequence, StationTracksResult
 
 
 @pytest.fixture(scope='class')
-def station_tracks_result(id_, sequence):
+def station_tracks_result(id_: Id, sequence: Sequence) -> StationTracksResult:
     return StationTracksResult(
         id_,
         [sequence],
@@ -19,32 +21,33 @@ class TestStationTracksResult:
     pumpkin = False
     radio_session_id = 'fake-radio-session-id'
 
-    def test_expected_values(self, station_tracks_result, id_, sequence):
+    def test_expected_values(self, station_tracks_result: StationTracksResult, id_: Id, sequence: Sequence) -> None:
         assert station_tracks_result.id == id_
         assert station_tracks_result.sequence == [sequence]
         assert station_tracks_result.batch_id == self.batch_id
         assert station_tracks_result.pumpkin == self.pumpkin
         assert station_tracks_result.radio_session_id == self.radio_session_id
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert StationTracksResult.de_json({}, client) is None
 
-    def test_de_json_required(self, client, id_, sequence):
-        json_dict = {
+    def test_de_json_required(self, client: Client, id_: Id, sequence: Sequence) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': id_.to_dict(),
             'sequence': [sequence.to_dict()],
             'batch_id': self.batch_id,
             'pumpkin': self.pumpkin,
         }
         station_tracks_result = StationTracksResult.de_json(json_dict, client)
+        assert station_tracks_result is not None
 
         assert station_tracks_result.id == id_
         assert station_tracks_result.sequence == [sequence]
         assert station_tracks_result.batch_id == self.batch_id
         assert station_tracks_result.pumpkin == self.pumpkin
 
-    def test_de_json_all(self, client, id_, sequence):
-        json_dict = {
+    def test_de_json_all(self, client: Client, id_: Id, sequence: Sequence) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': id_.to_dict(),
             'sequence': [sequence.to_dict()],
             'batch_id': self.batch_id,
@@ -52,6 +55,7 @@ class TestStationTracksResult:
             'radioSessionId': self.radio_session_id,
         }
         station_tracks_result = StationTracksResult.de_json(json_dict, client)
+        assert station_tracks_result is not None
 
         assert station_tracks_result.id == id_
         assert station_tracks_result.sequence == [sequence]
@@ -59,10 +63,10 @@ class TestStationTracksResult:
         assert station_tracks_result.pumpkin == self.pumpkin
         assert station_tracks_result.radio_session_id == self.radio_session_id
 
-    def test_equality(self, id_, sequence):
-        a = StationTracksResult(id_, sequence, self.batch_id, self.pumpkin)
-        b = StationTracksResult(id_, sequence, '', False)
-        c = StationTracksResult(id_, sequence, self.batch_id, self.pumpkin)
+    def test_equality(self, id_: Id, sequence: Sequence) -> None:
+        a = StationTracksResult(id_, [sequence], self.batch_id, self.pumpkin)
+        b = StationTracksResult(id_, [sequence], '', False)
+        c = StationTracksResult(id_, [sequence], self.batch_id, self.pumpkin)
 
         assert a != b
         assert hash(a) != hash(b)

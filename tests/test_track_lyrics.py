@@ -1,4 +1,6 @@
-from yandex_music import TrackLyrics
+from typing import Dict
+
+from yandex_music import Client, JSONType, LyricsMajor, TrackLyrics
 
 
 class TestTrackLyrics:
@@ -7,18 +9,18 @@ class TestTrackLyrics:
     external_lyric_id = '8638863'
     writer = ['Mother Mother']
 
-    def test_expected_values(self, track_lyrics, lyrics_major):
+    def test_expected_values(self, track_lyrics: TrackLyrics, lyrics_major: LyricsMajor) -> None:
         assert track_lyrics.download_url == self.download_url
         assert track_lyrics.lyric_id == self.lyric_id
         assert track_lyrics.external_lyric_id == self.external_lyric_id
         assert track_lyrics.writers == self.writer
         assert track_lyrics.major == lyrics_major
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert TrackLyrics.de_json({}, client) is None
 
-    def test_de_json_required(self, client, lyrics_major):
-        json_dict = {
+    def test_de_json_required(self, client: Client, lyrics_major: LyricsMajor) -> None:
+        json_dict: Dict[str, JSONType] = {
             'download_url': self.download_url,
             'lyric_id': self.lyric_id,
             'external_lyric_id': self.external_lyric_id,
@@ -27,14 +29,15 @@ class TestTrackLyrics:
         }
 
         track_lyrics = TrackLyrics.de_json(json_dict, client)
+        assert track_lyrics is not None
         assert track_lyrics.download_url == self.download_url
         assert track_lyrics.lyric_id == self.lyric_id
         assert track_lyrics.external_lyric_id == self.external_lyric_id
         assert track_lyrics.writers == self.writer
         assert track_lyrics.major == lyrics_major
 
-    def test_de_json_all(self, client, lyrics_major):
-        json_dict = {
+    def test_de_json_all(self, client: Client, lyrics_major: LyricsMajor) -> None:
+        json_dict: Dict[str, JSONType] = {
             'download_url': self.download_url,
             'lyric_id': self.lyric_id,
             'external_lyric_id': self.external_lyric_id,
@@ -43,13 +46,14 @@ class TestTrackLyrics:
         }
 
         track_lyrics = TrackLyrics.de_json(json_dict, client)
+        assert track_lyrics is not None
         assert track_lyrics.download_url == self.download_url
         assert track_lyrics.lyric_id == self.lyric_id
         assert track_lyrics.external_lyric_id == self.external_lyric_id
         assert track_lyrics.writers == self.writer
         assert track_lyrics.major == lyrics_major
 
-    def test_equality(self, lyrics_major):
+    def test_equality(self, lyrics_major: LyricsMajor) -> None:
         a = TrackLyrics(self.download_url, self.lyric_id, self.external_lyric_id, self.writer, lyrics_major)
         b = TrackLyrics(self.download_url, 50, self.external_lyric_id, self.writer, lyrics_major)
         c = TrackLyrics(self.download_url, self.lyric_id, self.external_lyric_id, self.writer, lyrics_major)

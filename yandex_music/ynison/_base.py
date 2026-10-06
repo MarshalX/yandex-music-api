@@ -7,7 +7,7 @@ Handshake-заголовки, разбор фреймов (включая error-
 import logging
 import random
 import urllib.parse
-from typing import Any, Callable, Dict, Generic, List, Optional, Tuple, TypeVar
+from typing import Callable, Dict, Generic, List, Optional, Tuple, Type, TypeVar
 
 from yandex_music.exceptions import (
     YnisonConnectionClosedError,
@@ -25,8 +25,8 @@ from yandex_music.ynison.models.ynison_redirect import RedirectResponse
 logger = logging.getLogger('yandex_music.ynison')
 logger.addHandler(logging.NullHandler())
 
-ErrorListener = Callable[[YnisonError], Any]
-ListenerT = TypeVar('ListenerT', bound=Callable[..., Any])
+ErrorListener = Callable[[YnisonError], object]
+ListenerT = TypeVar('ListenerT', bound=Callable[..., object])
 
 _GRPC_UNAUTHENTICATED = 16
 _GRPC_PERMISSION_DENIED = 7
@@ -37,21 +37,23 @@ _DEFAULT_PING_INTERVAL = 20.0
 _DEFAULT_PING_TIMEOUT = 20.0
 
 
-def _parse_int(value: Any) -> Optional[int]:
+def _parse_int(value: object) -> Optional[int]:
+    if not isinstance(value, (str, bytes, int, float)):
+        return None
     try:
         return int(value)
     except (TypeError, ValueError):
         return None
 
 
-def _parse_backoff(value: Any) -> List[int]:
+def _parse_backoff(value: object) -> List[int]:
     if not isinstance(value, str):
         return []
     result = [_parse_int(part) for part in value.split(':')]
     return [part for part in result if part is not None]
 
 
-def parse_server_error(payload: Dict[str, Any]) -> YnisonServerError:
+def parse_server_error(payload: Dict[str, object]) -> YnisonServerError:
     """Превращает error-фрейм сервера в исключение подходящего класса.
 
     Args:
@@ -60,24 +62,32 @@ def parse_server_error(payload: Dict[str, Any]) -> YnisonServerError:
     Returns:
         :class:`yandex_music.exceptions.YnisonServerError`: Исключение (не выброшенное).
     """
-    details = payload.get('details') or payload.get('extra_headers') or {}
-    if not isinstance(details, dict):
-        details = {}
+    raw_details = payload.get('details')
+    if not bool(raw_details):
+        raw_details = payload.get('extra_headers')
+    details: Dict[str, object] = raw_details if isinstance(raw_details, dict) else {}
 
-    kwargs = {
-        'message': str(payload.get('message') or 'Неизвестная ошибка Ynison'),
-        'grpc_code': _parse_int(payload.get('grpc_code')),
-        'http_code': _parse_int(payload.get('http_code')),
-        'error_code': details.get('ynison-error-code'),
-        'backoff_ms': _parse_backoff(details.get('ynison-backoff-millis')),
-        'go_away_seconds': _parse_int(details.get('ynison-go-away-for-seconds')),
-    }
+    raw_message = payload.get('message')
+    message = str(raw_message) if bool(raw_message) else 'Неизвестная ошибка Ynison'
+    grpc_code = _parse_int(payload.get('grpc_code'))
+    http_code = _parse_int(payload.get('http_code'))
+    raw_error_code = details.get('ynison-error-code')
+    error_code = raw_error_code if isinstance(raw_error_code, str) else None
 
-    if kwargs['grpc_code'] in (_GRPC_UNAUTHENTICATED, _GRPC_PERMISSION_DENIED) or kwargs['http_code'] in (401, 403):
-        return YnisonUnauthorizedError(**kwargs)
-    if kwargs['error_code'] == _ERROR_CODE_DEVICE_DISPLACED:
-        return YnisonDeviceDisplacedError(**kwargs)
-    return YnisonServerError(**kwargs)
+    error_class: Type[YnisonServerError] = YnisonServerError
+    if grpc_code in (_GRPC_UNAUTHENTICATED, _GRPC_PERMISSION_DENIED) or http_code in (401, 403):
+        error_class = YnisonUnauthorizedError
+    elif error_code == _ERROR_CODE_DEVICE_DISPLACED:
+        error_class = YnisonDeviceDisplacedError
+
+    return error_class(
+        message=message,
+        grpc_code=grpc_code,
+        http_code=http_code,
+        error_code=error_code,
+        backoff_ms=_parse_backoff(details.get('ynison-backoff-millis')),
+        go_away_seconds=_parse_int(details.get('ynison-go-away-for-seconds')),
+    )
 
 
 def is_terminal_error(error: YnisonError) -> bool:
@@ -117,7 +127,11 @@ class _YnisonClientBase(Generic[ListenerT]):
                 прежде чем :meth:`connect` завершится ошибкой. :obj:`None` означает без ограничения.
         """
         self._token = token
-        self._device_id = device_id or messages.generate_device_id(seed=f'yandex-music-ynison:{token}')
+        self._device_id = (
+            device_id
+            if device_id is not None and device_id != ''
+            else messages.generate_device_id(seed=f'yandex-music-ynison:{token}')
+        )
         self._device_title = device_title
         self._max_reconnect_attempts = max_reconnect_attempts
 
@@ -160,12 +174,14 @@ class _YnisonClientBase(Generic[ListenerT]):
     @property
     def current_playable(self) -> Optional[ynison_state.Playable]:
         """Текущий трек очереди из последнего состояния или :obj:`None`."""
-        return utils.get_current_playable(self._latest_state) if self._latest_state else None
+        state = self._latest_state
+        return utils.get_current_playable(state) if state is not None and bool(state) else None
 
     @property
     def active_device(self) -> Optional[ynison_state.Device]:
         """Активное устройство из последнего состояния или :obj:`None`."""
-        return utils.get_active_device(self._latest_state) if self._latest_state else None
+        state = self._latest_state
+        return utils.get_active_device(state) if state is not None and bool(state) else None
 
     def on_state(self, listener: ListenerT) -> ListenerT:
         """Регистрирует listener, вызываемый на каждый фрейм состояния.
@@ -200,7 +216,7 @@ class _YnisonClientBase(Generic[ListenerT]):
         self._error_listeners.append(listener)
         return listener
 
-    def remove_listener(self, listener: Callable[..., Any]) -> None:
+    def remove_listener(self, listener: Callable[..., object]) -> None:
         """Удаляет listener, зарегистрированный через :meth:`on_state` или :meth:`on_error`.
 
         Если listener не зарегистрирован, вызов игнорируется.
@@ -236,29 +252,33 @@ class _YnisonClientBase(Generic[ListenerT]):
 
     def _ping_params(self, redirect: RedirectResponse) -> Tuple[float, float]:
         params = redirect.keep_alive_params
-        interval = float(params.keep_alive_time_seconds) if params else 0.0
-        timeout = float(params.keep_alive_timeout_seconds) if params else 0.0
-        return interval or _DEFAULT_PING_INTERVAL, timeout or _DEFAULT_PING_TIMEOUT
+        interval = float(params.keep_alive_time_seconds) if bool(params) else 0.0
+        timeout = float(params.keep_alive_timeout_seconds) if bool(params) else 0.0
+        return (
+            interval if interval != 0 else _DEFAULT_PING_INTERVAL,
+            timeout if timeout != 0 else _DEFAULT_PING_TIMEOUT,
+        )
 
     def _full_state_request(self) -> ynison_state.PutYnisonStateRequest:
         return messages.build_full_state_request(self._device_id, title=self._device_title)
 
     @staticmethod
-    def _load_frame(message: str) -> Dict[str, Any]:
+    def _load_frame(message: str) -> Dict[str, object]:
         try:
             data = json_compat.loads(message)
         except ValueError as e:
             raise YnisonError(f'Некорректный фрейм от сервера: {message[:200]!r}') from e
         if not isinstance(data, dict):
             raise YnisonError(f'Некорректный фрейм от сервера: {message[:200]!r}')
-        if isinstance(data.get('error'), dict):
-            raise parse_server_error(data['error'])
+        error = data.get('error')
+        if isinstance(error, dict):
+            raise parse_server_error(error)
         return data
 
     def _parse_redirect_frame(self, message: str) -> RedirectResponse:
         data = self._load_frame(message)
         response = RedirectResponse().from_dict(data)
-        if not (response.redirect_ticket and response.session_id and response.host):
+        if response.redirect_ticket == '' or response.session_id == 0 or response.host == '':
             raise YnisonError(f'Неполный ответ сервиса редиректа: {message[:200]!r}')
         self._redirect_response = response
         return response
@@ -272,7 +292,7 @@ class _YnisonClientBase(Generic[ListenerT]):
 
     def _remember_error(self, error: YnisonError) -> None:
         self._last_error = error
-        if isinstance(error, YnisonServerError) and error.backoff_ms:
+        if isinstance(error, YnisonServerError) and len(error.backoff_ms) > 0:
             self._backoff_ms = error.backoff_ms
 
     def _to_reconnectable_error(self, exc: BaseException) -> YnisonError:
@@ -305,10 +325,14 @@ class _YnisonClientBase(Generic[ListenerT]):
         """
         self._reconnect_attempt += 1
         if self._max_reconnect_attempts is not None and self._reconnect_attempt > self._max_reconnect_attempts:
-            error = self._last_error or YnisonError('Не удалось переподключиться к Ynison')
+            error = (
+                self._last_error
+                if self._last_error is not None
+                else YnisonError('Не удалось переподключиться к Ynison')
+            )
             raise error
 
-        schedule = self._backoff_ms or _DEFAULT_BACKOFF_MS
+        schedule = self._backoff_ms if len(self._backoff_ms) > 0 else _DEFAULT_BACKOFF_MS
         base_ms = schedule[min(self._reconnect_attempt - 1, len(schedule) - 1)]
         jitter_ms = random.uniform(0, 250)  # noqa: S311
         return (base_ms + jitter_ms) / 1000
@@ -343,7 +367,7 @@ class _YnisonClientBase(Generic[ListenerT]):
         if target is None:
             active = utils.get_active_device(self.state)
             target = active.info.device_id if active is not None else None
-        if not target or target == self._device_id:
+        if target is None or target == '' or target == self._device_id:
             raise YnisonNoActiveDeviceError(
                 'Нет активного устройства для изменения громкости; укажите target_device_id явно'
             )

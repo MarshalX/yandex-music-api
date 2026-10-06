@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
@@ -26,13 +28,13 @@ class Best(YandexMusicModel):
     Attributes:
         type (:obj:`str`): Тип лучшего результата.
         result (:obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
-            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Лучший результат.
+            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video` | :obj:`yandex_music.User`): Лучший результат.
         text (:obj:`str`, optional): TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     type: str
-    result: Optional[Union[Track, Artist, Album, Playlist, Video]]
+    result: Optional[Union[Track, Artist, Album, Playlist, Video, User]]
     text: Optional[str] = None
     client: Optional['ClientType'] = None
 
@@ -40,6 +42,7 @@ class Best(YandexMusicModel):
         self._id_attrs = (self.type, self.result)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Best']:
         """Десериализация объекта.
 
@@ -56,8 +59,8 @@ class Best(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
 
         type_ = cls_data.get('type')
-        if type_ and type_ in _TYPE_TO_DE_JSON_DEF:
+        if isinstance(type_, str) and type_ in _TYPE_TO_DE_JSON_DEF:
             de_json = _TYPE_TO_DE_JSON_DEF[type_]
             cls_data['result'] = de_json(cls_data.get('result'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

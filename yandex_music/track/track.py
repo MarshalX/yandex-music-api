@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.exceptions import InvalidBitrateError
 from yandex_music.utils import model
@@ -163,7 +165,7 @@ class Track(YandexMusicModel):
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
-        self.download_info = None
+        self.download_info: Optional[List['DownloadInfo']] = None
         self._id_attrs = (self.id,)
 
     def get_download_info(self, get_direct_links: bool = False, **kwargs: Any) -> List['DownloadInfo']:
@@ -438,7 +440,7 @@ class Track(YandexMusicModel):
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
         info = self.get_specific_download_info(codec, bitrate_in_kbps, timeout)
-        if info:
+        if info is not None:
             info.download(filename, timeout)
         else:
             raise InvalidBitrateError('Unavailable bitrate')
@@ -465,7 +467,7 @@ class Track(YandexMusicModel):
             :class:`yandex_music.exceptions.InvalidBitrateError`: Если в `self.download_info` не найден подходящий трек.
         """
         info = await self.get_specific_download_info_async(codec, bitrate_in_kbps, timeout)
-        if info:
+        if info is not None:
             await info.download_async(filename, timeout)
         else:
             raise InvalidBitrateError('Unavailable bitrate')
@@ -494,7 +496,7 @@ class Track(YandexMusicModel):
             :obj:`bytes`: Трек в виде байтов.
         """
         info = self.get_specific_download_info(codec, bitrate_in_kbps, timeout)
-        if info:
+        if info is not None:
             return info.download_bytes(timeout)
 
         raise InvalidBitrateError('Unavailable bitrate')
@@ -523,7 +525,7 @@ class Track(YandexMusicModel):
             :obj:`bytes`: Трек в виде байтов.
         """
         info = await self.get_specific_download_info_async(codec, bitrate_in_kbps, timeout)
-        if info:
+        if info is not None:
             return await info.download_bytes_async(timeout)
 
         raise InvalidBitrateError('Unavailable bitrate')
@@ -574,16 +576,17 @@ class Track(YandexMusicModel):
         Returns:
               :obj:`list` из :obj:`str`: Имена исполнителей.
         """
-        return [i.name for i in self.artists if i.name]
+        return [i.name for i in self.artists if i.name is not None and i.name != '']
 
     @property
     def track_id(self) -> str:
         """:obj:`str`: Уникальный идентификатор трека состоящий из его номера и номера альбома или просто из номера."""
-        if self.albums:
+        if len(self.albums) > 0:
             return f'{self.id}:{self.albums[0].id}'
         return f'{self.id}'
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Track']:
         """Десериализация объекта.
 
@@ -629,7 +632,7 @@ class Track(YandexMusicModel):
         cls_data['mix_fade'] = Fade.de_json(cls_data.get('mix_fade'), client)
         cls_data['smart_preview_params'] = SmartPreviewParams.de_json(cls_data.get('smart_preview_params'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

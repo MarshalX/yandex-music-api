@@ -1,4 +1,6 @@
-from yandex_music import Counts
+from typing import Dict
+
+from yandex_music import Client, Counts, JSONType
 
 
 class TestCounts:
@@ -7,44 +9,46 @@ class TestCounts:
     also_albums = 0
     also_tracks = 0
 
-    def test_expected_values(self, counts):
+    def test_expected_values(self, counts: Counts) -> None:
         assert counts.tracks == self.tracks
         assert counts.direct_albums == self.direct_albums
         assert counts.also_albums == self.also_albums
         assert counts.also_tracks == self.also_tracks
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Counts.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'tracks': self.tracks,
             'direct_albums': self.direct_albums,
             'also_albums': self.also_albums,
             'also_tracks': self.also_tracks,
         }
         counts = Counts.de_json(json_dict, client)
+        assert counts is not None
 
         assert counts.tracks == self.tracks
         assert counts.direct_albums == self.direct_albums
         assert counts.also_albums == self.also_albums
         assert counts.also_tracks == self.also_tracks
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'tracks': self.tracks,
             'direct_albums': self.direct_albums,
             'also_albums': self.also_albums,
             'also_tracks': self.also_tracks,
         }
         counts = Counts.de_json(json_dict, client)
+        assert counts is not None
 
         assert counts.tracks == self.tracks
         assert counts.direct_albums == self.direct_albums
         assert counts.also_albums == self.also_albums
         assert counts.also_tracks == self.also_tracks
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Counts(self.tracks, self.direct_albums, self.also_albums, self.also_tracks)
         b = Counts(40, self.direct_albums, 30, self.also_tracks)
         c = Counts(self.tracks, self.direct_albums, 10, 10)

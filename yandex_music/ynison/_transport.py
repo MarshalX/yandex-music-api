@@ -7,15 +7,19 @@
 import inspect
 import threading
 import time
-from typing import Dict, List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
-from websockets.asyncio.client import ClientConnection as AsyncConnection
+from websockets.asyncio.client import ClientConnection as AsyncClientConnection
 from websockets.asyncio.client import connect as _async_connect
 from websockets.exceptions import ConnectionClosed, InvalidHandshake, InvalidStatus, WebSocketException
 from websockets.protocol import State
 from websockets.sync.client import ClientConnection as SyncConnection
 from websockets.sync.client import connect as _sync_connect
+from websockets.typing import Subprotocol
 from websockets.version import version as _websockets_version
+
+if TYPE_CHECKING:
+    from websockets.legacy.client import WebSocketClientProtocol
 
 # asyncio-реализация websockets 13.x на Python 3.8 теряет фрейм, пришедший сразу после handshake,
 # а сервис редиректа Ynison отвечает именно так. Legacy-реализация в 13.x работает корректно
@@ -23,6 +27,8 @@ from websockets.version import version as _websockets_version
 USE_LEGACY_ASYNC = int(_websockets_version.split('.')[0]) < 14
 if USE_LEGACY_ASYNC:
     from websockets.legacy.client import connect as _legacy_async_connect
+
+AsyncConnection = Union[AsyncClientConnection, 'WebSocketClientProtocol']
 
 __all__ = [
     'AsyncConnection',
@@ -60,22 +66,31 @@ def open_sync(
     ping_timeout: Optional[float] = None,
 ) -> SyncConnection:
     """Открывает синхронное websocket-соединение."""
-    kwargs = {}
+    protocols = [Subprotocol(item) for item in subprotocols]
     if SYNC_KEEPALIVE_SUPPORTED:
-        kwargs = {'ping_interval': ping_interval, 'ping_timeout': ping_timeout}
-
-    manager = _sync_connect(
-        uri,
-        additional_headers=headers,
-        subprotocols=subprotocols,
-        open_timeout=_OPEN_TIMEOUT,
-        close_timeout=_CLOSE_TIMEOUT,
-        max_size=_MAX_FRAME_SIZE,
-        **kwargs,
-    )
+        manager = _sync_connect(
+            uri,
+            additional_headers=headers,
+            subprotocols=protocols,
+            open_timeout=_OPEN_TIMEOUT,
+            close_timeout=_CLOSE_TIMEOUT,
+            max_size=_MAX_FRAME_SIZE,
+            ping_interval=ping_interval,
+            ping_timeout=ping_timeout,
+        )
+    else:
+        manager = _sync_connect(
+            uri,
+            additional_headers=headers,
+            subprotocols=protocols,
+            open_timeout=_OPEN_TIMEOUT,
+            close_timeout=_CLOSE_TIMEOUT,
+            max_size=_MAX_FRAME_SIZE,
+        )
     # websockets >= 17.1 без контекстного менеджера выдаёт DeprecationWarning.
-    # Закрытие остаётся за клиентом через close().
-    return manager.__enter__()
+    # Закрытие остаётся за клиентом через close(); __enter__ возвращает само соединение.
+    _ = manager.__enter__()
+    return manager
 
 
 async def open_async(
@@ -86,11 +101,12 @@ async def open_async(
     ping_timeout: Optional[float] = None,
 ) -> AsyncConnection:
     """Открывает асинхронное websocket-соединение."""
+    protocols = [Subprotocol(item) for item in subprotocols]
     if USE_LEGACY_ASYNC:
         return await _legacy_async_connect(
             uri,
             extra_headers=headers,
-            subprotocols=subprotocols,
+            subprotocols=protocols,
             open_timeout=_OPEN_TIMEOUT,
             close_timeout=_CLOSE_TIMEOUT,
             max_size=_MAX_FRAME_SIZE,
@@ -101,7 +117,7 @@ async def open_async(
     return await _async_connect(
         uri,
         additional_headers=headers,
-        subprotocols=subprotocols,
+        subprotocols=protocols,
         open_timeout=_OPEN_TIMEOUT,
         close_timeout=_CLOSE_TIMEOUT,
         max_size=_MAX_FRAME_SIZE,
@@ -116,7 +132,7 @@ def start_sync_keepalive(connection: SyncConnection, interval: float, timeout: f
     Поток завершается вместе с соединением. Если pong не пришёл за `timeout`,
     соединение закрывается, и receive-loop клиента уйдёт на переподключение.
     """
-    if SYNC_KEEPALIVE_SUPPORTED or not interval:
+    if SYNC_KEEPALIVE_SUPPORTED or interval == 0:
         return
 
     def worker() -> None:

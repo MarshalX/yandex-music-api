@@ -1,4 +1,6 @@
-from yandex_music import DeviceCode
+from typing import Dict
+
+from yandex_music import Client, DeviceCode, JSONType
 
 
 class TestDeviceCode:
@@ -8,18 +10,18 @@ class TestDeviceCode:
     expires_in = 300
     interval = 5
 
-    def test_expected_values(self, device_code):
+    def test_expected_values(self, device_code: DeviceCode) -> None:
         assert device_code.device_code == self.device_code
         assert device_code.user_code == self.user_code
         assert device_code.verification_url == self.verification_url
         assert device_code.expires_in == self.expires_in
         assert device_code.interval == self.interval
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert DeviceCode.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'device_code': self.device_code,
             'user_code': self.user_code,
             'verification_url': self.verification_url,
@@ -27,6 +29,7 @@ class TestDeviceCode:
             'interval': self.interval,
         }
         code = DeviceCode.de_json(json_dict, client)
+        assert code is not None
 
         assert code.device_code == self.device_code
         assert code.user_code == self.user_code
@@ -34,7 +37,7 @@ class TestDeviceCode:
         assert code.expires_in == self.expires_in
         assert code.interval == self.interval
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = DeviceCode('a', 'U1', 'https://x', 100, 5)
         b = DeviceCode('b', 'U2', 'https://y', 200, 10)
         c = DeviceCode('a', 'U1', 'https://x', 100, 5)

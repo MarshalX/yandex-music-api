@@ -1,4 +1,6 @@
-from yandex_music import Tag
+from typing import Dict
+
+from yandex_music import Client, JSONType, Tag
 
 
 class TestTag:
@@ -8,27 +10,33 @@ class TestTag:
     og_description = ''
     og_image = 'https://avatars.yandex.net/get-music-misc/2419084/PlaylistTag.5ea7e04c71ca3b6c946af177.ru.og/orig'
 
-    def test_expected_values(self, tag):
+    def test_expected_values(self, tag: Tag) -> None:
         assert tag.id == self.id_
         assert tag.value == self.value
         assert tag.name == self.name
         assert tag.og_description == self.og_description
         assert tag.og_image == self.og_image
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Tag.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'id': self.id_, 'value': self.value, 'name': self.name, 'og_description': self.og_description}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
+            'id': self.id_,
+            'value': self.value,
+            'name': self.name,
+            'og_description': self.og_description,
+        }
         tag = Tag.de_json(json_dict, client)
+        assert tag is not None
 
         assert tag.id == self.id_
         assert tag.value == self.value
         assert tag.name == self.name
         assert tag.og_description == self.og_description
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id_,
             'value': self.value,
             'name': self.name,
@@ -36,6 +44,7 @@ class TestTag:
             'og_image': self.og_image,
         }
         tag = Tag.de_json(json_dict, client)
+        assert tag is not None
 
         assert tag.id == self.id_
         assert tag.value == self.value
@@ -43,7 +52,7 @@ class TestTag:
         assert tag.og_description == self.og_description
         assert tag.og_image == self.og_image
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Tag(self.id_, self.value, self.name, self.og_description)
         b = Tag('10b300', self.value, self.name, self.og_description)
         c = Tag(self.id_, self.value, '', self.og_description)

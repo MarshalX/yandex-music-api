@@ -1,4 +1,6 @@
-from yandex_music import R128
+from typing import Dict
+
+from yandex_music import R128, Client, JSONType
 
 
 class TestR128:
@@ -6,30 +8,32 @@ class TestR128:
     tp = 0.63
     important_secs = 303
 
-    def test_expected_values(self, r_128):
+    def test_expected_values(self, r_128: R128) -> None:
         assert r_128.i == self.i
         assert r_128.tp == self.tp
         assert r_128.important_secs == self.important_secs
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert R128.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'i': self.i, 'tp': self.tp}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'i': self.i, 'tp': self.tp}
         r128 = R128.de_json(json_dict, client)
+        assert r128 is not None
 
         assert r128.i == self.i
         assert r128.tp == self.tp
 
-    def test_de_json_all(self, client):
-        json_dict = {'i': self.i, 'tp': self.tp, 'importantSecs': self.important_secs}
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'i': self.i, 'tp': self.tp, 'importantSecs': self.important_secs}
         r128 = R128.de_json(json_dict, client)
+        assert r128 is not None
 
         assert r128.i == self.i
         assert r128.tp == self.tp
         assert r128.important_secs == self.important_secs
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = R128(self.i, self.tp)
         b = R128(-8.98, self.tp)
         c = R128(self.i, self.tp)

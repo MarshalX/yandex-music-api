@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Any, Optional
 
+from typing_extensions import override
+
 from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
@@ -137,6 +139,7 @@ class Search(YandexMusicModel):
         return await self.get_page_async(self.page - 1, *args, **kwargs)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Search']:
         """Десериализация объекта.
 
@@ -168,7 +171,7 @@ class Search(YandexMusicModel):
         cls_data['podcasts'] = SearchResult.de_json(cls_data.get('podcasts'), client, 'podcast')
         cls_data['podcast_episodes'] = SearchResult.de_json(cls_data.get('podcast_episodes'), client, 'podcast_episode')
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

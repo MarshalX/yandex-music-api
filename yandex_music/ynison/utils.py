@@ -39,7 +39,7 @@ def get_active_device(state: ynison_state.PutYnisonStateResponse) -> Optional[yn
             или :obj:`None`, если ни одно устройство не активно.
     """
     active_id = state.active_device_id_optional
-    if not active_id:
+    if active_id is None or active_id == '':
         return None
     return next((d for d in state.devices if d.info.device_id == active_id), None)
 
@@ -58,8 +58,8 @@ def get_playback_order(queue: ynison_state.PlayerQueue) -> List[int]:
     """
     total = len(queue.playable_list)
     shuffle = queue.shuffle_optional
-    indices = list(shuffle.playable_indices) if shuffle is not None else []
-    if indices and len(indices) == total:
+    indices: List[int] = list(shuffle.playable_indices) if shuffle is not None else []
+    if len(indices) > 0 and len(indices) == total:
         return indices
     return list(range(total))
 
@@ -106,7 +106,7 @@ def get_current_progress_ms(status: ynison_state.PlayingStatus, now_ms: Optional
         if now_ms is None:
             now_ms = int(time.time() * 1000)
         elapsed = max(0, now_ms - timestamp)
-        progress += int(elapsed * (status.playback_speed or 1.0))
+        progress += int(elapsed * (status.playback_speed if status.playback_speed != 0 else 1.0))
 
     if status.duration_ms > 0:
         progress = min(progress, status.duration_ms)

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -27,6 +29,7 @@ class PromoCodeStatus(YandexMusicModel):
         self._id_attrs = (self.status, self.status_desc, self.account_status)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['PromoCodeStatus']:
         """Десериализация объекта.
 
@@ -45,4 +48,4 @@ class PromoCodeStatus(YandexMusicModel):
 
         cls_data['account_status'] = Status.de_json(cls_data.get('account_status'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

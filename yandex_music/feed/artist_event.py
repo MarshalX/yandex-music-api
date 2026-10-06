@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -29,6 +31,7 @@ class ArtistEvent(YandexMusicModel):
         self._id_attrs = (self.artist, self.tracks, self.similar_to_artists_from_history)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ArtistEvent']:
         """Десериализация объекта.
 
@@ -51,4 +54,4 @@ class ArtistEvent(YandexMusicModel):
             cls_data.get('similar_to_artists_from_history'), client
         )
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

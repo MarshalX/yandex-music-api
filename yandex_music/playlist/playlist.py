@@ -1,5 +1,7 @@
 from dataclasses import field
-from typing import TYPE_CHECKING, Any, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
+
+from typing_extensions import override
 
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
@@ -52,7 +54,7 @@ class Playlist(YandexMusicModel):
         kind (:obj:`int`, optional): Идентификатор плейлиста.
         title (:obj:`str`, optional): Название плейлиста.
         track_count (:obj:`int`, optional): Количество треков.
-        tags (:obj:`list`, optional): Список тегов плейлиста.
+        tags (:obj:`list` из :obj:`dict`, optional): Список тегов плейлиста.
         revision (:obj:`int`, optional): Актуальность данных TODO.
         snapshot (:obj:`int`, optional): Версия плейлиста. Увеличивается на 1 при каждом изменении.
         visibility (:obj:`str`, optional): Видимость плейлиста.
@@ -118,7 +120,7 @@ class Playlist(YandexMusicModel):
     kind: Optional[int] = None
     title: Optional[str] = None
     track_count: Optional[int] = None
-    tags: Optional[list] = None
+    tags: Optional[List[Dict[str, str]]] = None
     revision: Optional[int] = None
     snapshot: Optional[int] = None
     visibility: Optional[str] = None
@@ -150,7 +152,7 @@ class Playlist(YandexMusicModel):
     top_artist: List['Artist'] = field(default_factory=list)
     recent_tracks: List['TrackId'] = field(default_factory=list)
     tracks: List['TrackShort'] = field(default_factory=list)
-    prerolls: Optional[list] = None
+    prerolls: Optional[List['JSONType']] = None
     likes_count: Optional[int] = None
     similar_playlists: List['Playlist'] = field(default_factory=list)
     last_owner_playlists: List['Playlist'] = field(default_factory=list)
@@ -179,14 +181,14 @@ class Playlist(YandexMusicModel):
     @property
     def is_mine(self) -> bool:
         """Является ли плейлист моим."""
-        if not self.owner or not self.client:
+        if self.owner is None or self.client is None:
             return False
         return str(self.owner.uid) == self.client.account_uid
 
     @property
     def playlist_id(self) -> str:
         """Полный ID плейлиста."""
-        if self.owner:
+        if self.owner is not None:
             return f'{self.owner.uid}:{self.kind}'
         return str(self.kind)
 
@@ -197,7 +199,7 @@ class Playlist(YandexMusicModel):
 
             client.users_playlists_recommendations(playlist.kind, playlist.owner.uid, *args, **kwargs)
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert self.valid_client(self.client)
         return self.client.users_playlists_recommendations(self.kind, self.owner.uid, *args, **kwargs)
@@ -209,7 +211,7 @@ class Playlist(YandexMusicModel):
 
             await client.users_playlists_recommendations(playlist.kind, playlist.owner.uid, *args, **kwargs)
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert self.valid_async_client(self.client)
         return await self.client.users_playlists_recommendations(self.kind, self.owner.uid, *args, **kwargs)
@@ -411,7 +413,7 @@ class Playlist(YandexMusicModel):
 
             client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert self.valid_client(self.client)
 
@@ -426,7 +428,7 @@ class Playlist(YandexMusicModel):
 
             await client.users_playlists(playlist.kind, playlist.owner.id, *args, **kwargs).tracks
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert self.valid_async_client(self.client)
 
@@ -445,7 +447,7 @@ class Playlist(YandexMusicModel):
                 *args, **kwargs,
             )
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert isinstance(self.revision, int)
         assert self.valid_client(self.client)
@@ -464,7 +466,7 @@ class Playlist(YandexMusicModel):
                 *args, **kwargs,
             )
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert isinstance(self.revision, int)
         assert self.valid_async_client(self.client)
@@ -479,7 +481,7 @@ class Playlist(YandexMusicModel):
 
             client.users_playlists_delete_track(self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs)
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert isinstance(self.revision, int)
         assert self.valid_client(self.client)
@@ -496,7 +498,7 @@ class Playlist(YandexMusicModel):
                 self.kind, from_, to, self.revision, self.owner.uid, *args, **kwargs,
             )
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert isinstance(self.revision, int)
         assert self.valid_async_client(self.client)
@@ -511,7 +513,7 @@ class Playlist(YandexMusicModel):
 
             client.users_playlists_delete(self.kind, self.owner.uid)
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert self.valid_client(self.client)
         return self.client.users_playlists_delete(self.kind, self.owner.uid, *args, **kwargs)
@@ -523,12 +525,13 @@ class Playlist(YandexMusicModel):
 
             await client.users_playlists_delete(self.kind, self.owner.uid)
         """
-        assert self.owner
+        assert self.owner is not None
         assert isinstance(self.kind, int)
         assert self.valid_async_client(self.client)
         return await self.client.users_playlists_delete(self.kind, self.owner.uid, *args, **kwargs)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Playlist']:
         """Десериализация объекта.
 
@@ -584,7 +587,7 @@ class Playlist(YandexMusicModel):
         # so cleanup_data drops it. Check raw data for the original key.
         for _typo_key in ('playlistAbsense', 'playlist_absense'):
             _typo_val = data.get(_typo_key)
-            if _typo_val:
+            if bool(_typo_val):
                 cls_data['playlist_absence'] = PlaylistAbsence.de_json(_typo_val, client)
                 break
 
@@ -595,7 +598,7 @@ class Playlist(YandexMusicModel):
 
         cls_data['trailer'] = PlaylistAvailability.de_json(cls_data.get('trailer'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

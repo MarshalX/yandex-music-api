@@ -111,7 +111,7 @@ class LandingMixin(ClientBase):
         """
         url = f'{self.base_url}/landing3/chart'
 
-        if chart_option:
+        if chart_option != '':
             url = f'{url}/{chart_option}'
 
         result = self._request.get(url, *args, **kwargs)

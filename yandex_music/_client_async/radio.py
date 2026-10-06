@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from yandex_music import (
     Dashboard,
@@ -92,7 +92,7 @@ class RadioMixin(ClientBase):
         """
         url = f'{self.base_url}/rotor/stations/list'
 
-        if not language:
+        if language is None or language == '':
             language = self.language
 
         result = await self._request.get(url, {'language': language}, *args, **kwargs)
@@ -149,22 +149,22 @@ class RadioMixin(ClientBase):
 
         url = f'{self.base_url}/rotor/station/{station}/feedback'
 
-        params = {}
-        data = {'type': type_, 'timestamp': timestamp}
+        params: Dict[str, str] = {}
+        data: Dict[str, Union[str, int, float]] = {'type': type_, 'timestamp': timestamp}
 
-        if batch_id:
+        if batch_id is not None and batch_id != '':
             params['batch-id'] = batch_id
 
-        if stream_id:
+        if stream_id is not None and stream_id != '':
             params['streamId'] = stream_id
 
-        if track_id:
+        if track_id is not None and track_id != '' and track_id != 0:
             data.update({'trackId': track_id})
 
-        if from_:
+        if from_ is not None and from_ != '':
             data.update({'from': from_})
 
-        if total_played_seconds:
+        if total_played_seconds is not None and total_played_seconds != 0:
             data.update({'totalPlayedSeconds': total_played_seconds})
 
         result = await self._request.post(url, params=params, json=data, **kwargs)
@@ -374,11 +374,14 @@ class RadioMixin(ClientBase):
         """
         url = f'{self.base_url}/rotor/station/{station}/feedback'
 
-        params = {}
-        if stream_id:
+        params: Dict[str, str] = {}
+        if stream_id is not None and stream_id != '':
             params['streamId'] = stream_id
 
-        data = {'type': type_, 'timestamp': timestamp if timestamp is not None else utc_now_iso()}
+        data: Dict[str, Union[str, int, float]] = {
+            'type': type_,
+            'timestamp': timestamp if timestamp is not None else utc_now_iso(),
+        }
 
         result = await self._request.post(url, params=params, json=data, **kwargs)
 
@@ -426,7 +429,7 @@ class RadioMixin(ClientBase):
 
         data = {'moodEnergy': mood_energy, 'diversity': diversity, 'type': type_}
 
-        if language:
+        if language != '':
             data.update({'language': language})
 
         result = await self._request.post(url, json=data, **kwargs)
@@ -474,11 +477,11 @@ class RadioMixin(ClientBase):
         """
         url = f'{self.base_url}/rotor/station/{station}/tracks'
 
-        params = {}
+        params: Dict[str, Union[str, int]] = {}
         if settings2:
             params = {'settings2': str(True)}
 
-        if queue:
+        if queue is not None and queue != '' and queue != 0:
             params = {'queue': queue}
 
         result = await self._request.get(url, params, *args, **kwargs)

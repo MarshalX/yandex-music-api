@@ -28,3 +28,21 @@ jobs:
 
       - name: Run code style check.
         run: uv run --no-sync ruff format --check .
+
+  pyrefly:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v6
+
+      - name: Setup uv.
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Install dependencies.
+        run: uv sync --locked --all-extras
+
+      - name: Run type check.
+        run: uv run --no-sync pyrefly check --output-format=full-text-with-github

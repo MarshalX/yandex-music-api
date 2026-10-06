@@ -1,4 +1,6 @@
-from yandex_music import MixLink
+from typing import Dict
+
+from yandex_music import Client, JSONType, MixLink
 
 
 class TestMixLink:
@@ -13,7 +15,7 @@ class TestMixLink:
     cover_white = 'avatars.yandex.net/get-music-misc/28052/mix.5cf0bd5e58ea3a1e70caa07b.cover-white.1559281049219/%%'
     cover_uri = 'avatars.yandex.net/get-music-misc/34161/mix.57c6d15a2d3213a86ac653d2.cover.1555818786846/%%'
 
-    def test_expected_values(self, mix_link):
+    def test_expected_values(self, mix_link: MixLink) -> None:
         assert mix_link.title == self.title
         assert mix_link.url == self.url
         assert mix_link.url_scheme == self.url_scheme
@@ -23,14 +25,14 @@ class TestMixLink:
         assert mix_link.cover_white == self.cover_white
         assert mix_link.cover_uri == self.cover_uri
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert MixLink.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert MixLink.de_list([], client) == []
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'title': self.title,
             'url': self.url,
             'url_scheme': self.url_scheme,
@@ -39,6 +41,7 @@ class TestMixLink:
             'background_image_uri': self.background_image_uri,
         }
         mix_link = MixLink.de_json(json_dict, client)
+        assert mix_link is not None
 
         assert mix_link.title == self.title
         assert mix_link.url == self.url
@@ -47,8 +50,8 @@ class TestMixLink:
         assert mix_link.background_color == self.background_color
         assert mix_link.background_image_uri == self.background_image_uri
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'title': self.title,
             'url': self.url,
             'url_scheme': self.url_scheme,
@@ -59,6 +62,7 @@ class TestMixLink:
             'cover_uri': self.cover_uri,
         }
         mix_link = MixLink.de_json(json_dict, client)
+        assert mix_link is not None
 
         assert mix_link.title == self.title
         assert mix_link.url == self.url
@@ -69,7 +73,7 @@ class TestMixLink:
         assert mix_link.cover_white == self.cover_white
         assert mix_link.cover_uri == self.cover_uri
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = MixLink(
             self.title,
             self.url,

@@ -2,12 +2,15 @@ import xml.dom.minidom as minidom
 from hashlib import md5
 from typing import TYPE_CHECKING, Any, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 from yandex_music.utils.request_base import default_timeout
 
 if TYPE_CHECKING:
     from xml.dom.minicompat import NodeList
+    from xml.dom.minidom import Element
 
     from yandex_music import ClientType, JSONType
     from yandex_music.utils.request_base import TimeoutType
@@ -38,16 +41,16 @@ class DownloadInfo(YandexMusicModel):
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:
-        self.direct_link = None
+        self.direct_link: Optional[str] = None
         self._id_attrs = (self.codec, self.bitrate_in_kbps, self.gain, self.preview, self.download_info_url)
 
     @staticmethod
-    def _get_text_node_data(elements: 'NodeList') -> Optional[str]:
+    def _get_text_node_data(elements: 'NodeList[Element]') -> Optional[str]:
         """:obj:`str`: Получение текстовой информации из узлов XML элемента."""
         for element in elements:
             nodes = element.childNodes
             for node in nodes:
-                if node.nodeType == node.TEXT_NODE:
+                if node.nodeType == node.TEXT_NODE and isinstance(node, minidom.Text):
                     return node.data
 
         return None
@@ -58,6 +61,8 @@ class DownloadInfo(YandexMusicModel):
         path = self._get_text_node_data(doc.getElementsByTagName('path'))
         ts = self._get_text_node_data(doc.getElementsByTagName('ts'))
         s = self._get_text_node_data(doc.getElementsByTagName('s'))
+        assert path is not None
+        assert s is not None
         sign = md5((SIGN_SALT + path[1::] + s).encode('UTF-8')).hexdigest()  # noqa: S324
 
         return f'https://{host}/get-mp3/{sign}/{ts}{path}'
@@ -173,6 +178,7 @@ class DownloadInfo(YandexMusicModel):
         return await self.client.request.retrieve(self.direct_link, timeout=timeout)
 
     @classmethod
+    @override
     def de_list(cls, data: 'JSONType', client: 'ClientType', get_direct_links: bool = False) -> List['DownloadInfo']:
         """Десериализация списка объектов.
 
@@ -190,12 +196,12 @@ class DownloadInfo(YandexMusicModel):
         download_infos: List[DownloadInfo] = []
         for raw_download_info in data:
             download_info = cls.de_json(raw_download_info, client)
-            if download_info:
+            if download_info is not None:
                 download_infos.append(download_info)
 
         if get_direct_links:
             for info in download_infos:
-                info.get_direct_link()
+                _ = info.get_direct_link()
 
         return download_infos
 
@@ -219,7 +225,7 @@ class DownloadInfo(YandexMusicModel):
         download_infos: List[DownloadInfo] = []
         for raw_download_info in data:
             download_info = cls.de_json(raw_download_info, client)
-            if download_info:
+            if download_info is not None:
                 download_infos.append(download_info)
 
         if get_direct_links:

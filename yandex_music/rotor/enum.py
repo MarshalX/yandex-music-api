@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -28,6 +30,7 @@ class Enum(YandexMusicModel):
         self._id_attrs = (self.type, self.name, self.possible_values)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Enum']:
         """Десериализация объекта.
 
@@ -46,4 +49,4 @@ class Enum(YandexMusicModel):
 
         cls_data['possible_values'] = Value.de_list(cls_data.get('possible_values'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

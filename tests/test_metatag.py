@@ -1,4 +1,6 @@
-from yandex_music import Metatag
+from typing import Dict
+
+from yandex_music import Album, Artist, Client, JSONType, Metatag, MetatagSortByValue, MetatagTitle, Playlist
 
 
 class TestMetatag:
@@ -11,13 +13,13 @@ class TestMetatag:
 
     def test_expected_values(
         self,
-        metatag,
-        metatag_title,
-        artist,
-        album,
-        playlist,
-        metatag_sort_by_value,
-    ):
+        metatag: Metatag,
+        metatag_title: MetatagTitle,
+        artist: Artist,
+        album: Album,
+        playlist: Playlist,
+        metatag_sort_by_value: MetatagSortByValue,
+    ) -> None:
         assert metatag.id == self.id
         assert metatag.cover_uri == self.cover_uri
         assert metatag.color == self.color
@@ -32,12 +34,13 @@ class TestMetatag:
         assert metatag.albums_sort_by_values == [metatag_sort_by_value]
         assert metatag.playlists_sort_by_values == [metatag_sort_by_value]
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Metatag.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'id': self.id}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'id': self.id}
         metatag = Metatag.de_json(json_dict, client)
+        assert metatag is not None
 
         assert metatag.id == self.id
         assert metatag.title is None
@@ -47,14 +50,14 @@ class TestMetatag:
 
     def test_de_json_all(
         self,
-        client,
-        metatag_title,
-        artist,
-        album,
-        playlist,
-        metatag_sort_by_value,
-    ):
-        json_dict = {
+        client: Client,
+        metatag_title: MetatagTitle,
+        artist: Artist,
+        album: Album,
+        playlist: Playlist,
+        metatag_sort_by_value: MetatagSortByValue,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'coverUri': self.cover_uri,
             'color': self.color,
@@ -70,6 +73,7 @@ class TestMetatag:
             'playlistsSortByValues': [metatag_sort_by_value.to_dict()],
         }
         metatag = Metatag.de_json(json_dict, client)
+        assert metatag is not None
 
         assert metatag.id == self.id
         assert metatag.cover_uri == self.cover_uri
@@ -85,7 +89,7 @@ class TestMetatag:
         assert metatag.albums_sort_by_values == [metatag_sort_by_value]
         assert metatag.playlists_sort_by_values == [metatag_sort_by_value]
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Metatag(id=self.id)
         b = Metatag(id='other')
         c = Metatag(id=self.id)

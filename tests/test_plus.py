@@ -1,4 +1,6 @@
-from yandex_music import Plus
+from typing import Dict
+
+from yandex_music import Client, JSONType, Plus
 
 
 class TestPlus:
@@ -6,34 +8,39 @@ class TestPlus:
     is_tutorial_completed = True
     migrated = False
 
-    def test_expected_values(self, plus):
+    def test_expected_values(self, plus: Plus) -> None:
         assert plus.has_plus == self.has_plus
         assert plus.is_tutorial_completed == self.is_tutorial_completed
         assert plus.migrated == self.migrated
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Plus.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'has_plus': self.has_plus, 'is_tutorial_completed': self.is_tutorial_completed}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
+            'has_plus': self.has_plus,
+            'is_tutorial_completed': self.is_tutorial_completed,
+        }
         plus = Plus.de_json(json_dict, client)
+        assert plus is not None
 
         assert plus.has_plus == self.has_plus
         assert plus.is_tutorial_completed == self.is_tutorial_completed
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'has_plus': self.has_plus,
             'is_tutorial_completed': self.is_tutorial_completed,
             'migrated': self.migrated,
         }
         plus = Plus.de_json(json_dict, client)
+        assert plus is not None
 
         assert plus.has_plus == self.has_plus
         assert plus.is_tutorial_completed == self.is_tutorial_completed
         assert plus.migrated == self.migrated
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Plus(self.has_plus, self.is_tutorial_completed)
         b = Plus(self.has_plus, False)
         c = Plus(self.has_plus, self.is_tutorial_completed)

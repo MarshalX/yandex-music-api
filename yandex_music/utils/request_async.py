@@ -1,7 +1,9 @@
 """Асинхронный HTTP-клиент."""
 
 import asyncio
-from typing import TYPE_CHECKING, Any, Dict, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union, cast
+
+from typing_extensions import override
 
 from yandex_music.exceptions import NetworkError, TimedOutError
 from yandex_music.utils.request_base import (
@@ -11,6 +13,7 @@ from yandex_music.utils.request_base import (
     DefaultTimeout,
     RequestBase,
     TimeoutType,
+    _KwargsT,
     default_timeout,
 )
 
@@ -40,7 +43,8 @@ class Request(RequestBase):
         proxy_url (:obj:`str`, optional): Прокси.
     """
 
-    def _prepare_kwargs(self, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+    @override
+    def _prepare_kwargs(self, kwargs: _KwargsT) -> _KwargsT:
         """Подготовка аргументов для запроса.
 
         Note:
@@ -55,7 +59,7 @@ class Request(RequestBase):
         import aiohttp
 
         kwargs = super()._prepare_kwargs(kwargs)
-        kwargs['timeout'] = aiohttp.ClientTimeout(total=kwargs['timeout'])
+        kwargs['timeout'] = aiohttp.ClientTimeout(total=cast('Optional[float]', kwargs['timeout']))
         return kwargs
 
     async def _request_wrapper(self, *args: Any, **kwargs: Any) -> bytes:
@@ -92,11 +96,10 @@ class Request(RequestBase):
         except aiohttp.ClientError as e:
             raise NetworkError(e) from e
 
-        if 200 <= resp.status <= 299:
-            return content
+        if not 200 <= resp.status <= 299:
+            self._handle_error_response(resp.status, content)
 
-        self._handle_error_response(resp.status, content)
-        return None
+        return content
 
     async def get(
         self, url: str, params: Optional[Dict[str, Any]] = None, timeout: 'TimeoutType' = default_timeout, **kwargs: Any
@@ -121,7 +124,7 @@ class Request(RequestBase):
             'GET', url, params=params, headers=headers, proxy=self.proxy_url, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None
@@ -152,7 +155,7 @@ class Request(RequestBase):
             'POST', url, headers=self.headers, proxy=self.proxy_url, data=data, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None
@@ -183,7 +186,7 @@ class Request(RequestBase):
             'PUT', url, headers=self.headers, proxy=self.proxy_url, json=json, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None
@@ -214,7 +217,7 @@ class Request(RequestBase):
             'DELETE', url, headers=self.headers, proxy=self.proxy_url, json=json, timeout=timeout, **kwargs
         )
         response = self._parse(result)
-        if response:
+        if response is not None:
             return response.get_result()
 
         return None

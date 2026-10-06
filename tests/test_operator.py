@@ -1,4 +1,6 @@
-from yandex_music import Operator
+from typing import Dict
+
+from yandex_music import Client, Deactivation, JSONType, Operator
 
 
 class TestOperator:
@@ -8,7 +10,7 @@ class TestOperator:
     title = 'Maxsus taklif!'
     suspended = False
 
-    def test_expected_values(self, operator, deactivation):
+    def test_expected_values(self, operator: Operator, deactivation: Deactivation) -> None:
         assert operator.product_id == self.product_id
         assert operator.phone == self.phone
         assert operator.payment_regularity == self.payment_regularity
@@ -16,14 +18,14 @@ class TestOperator:
         assert operator.title == self.title
         assert operator.suspended == self.suspended
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Operator.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Operator.de_list([], client) == []
 
-    def test_de_json_required(self, client, deactivation):
-        json_dict = {
+    def test_de_json_required(self, client: Client, deactivation: Deactivation) -> None:
+        json_dict: Dict[str, JSONType] = {
             'product_id': self.product_id,
             'phone': self.phone,
             'payment_regularity': self.payment_regularity,
@@ -32,6 +34,7 @@ class TestOperator:
             'suspended': self.suspended,
         }
         operator = Operator.de_json(json_dict, client)
+        assert operator is not None
 
         assert operator.product_id == self.product_id
         assert operator.phone == self.phone
@@ -40,8 +43,8 @@ class TestOperator:
         assert operator.title == self.title
         assert operator.suspended == self.suspended
 
-    def test_de_json_all(self, client, deactivation):
-        json_dict = {
+    def test_de_json_all(self, client: Client, deactivation: Deactivation) -> None:
+        json_dict: Dict[str, JSONType] = {
             'product_id': self.product_id,
             'phone': self.phone,
             'payment_regularity': self.payment_regularity,
@@ -50,6 +53,7 @@ class TestOperator:
             'suspended': self.suspended,
         }
         operator = Operator.de_json(json_dict, client)
+        assert operator is not None
 
         assert operator.product_id == self.product_id
         assert operator.phone == self.phone
@@ -58,7 +62,7 @@ class TestOperator:
         assert operator.title == self.title
         assert operator.suspended == self.suspended
 
-    def test_equality(self, deactivation):
+    def test_equality(self, deactivation: Deactivation) -> None:
         a = Operator(self.product_id, self.phone, self.payment_regularity, [deactivation], self.title, self.suspended)
         b = Operator('', self.phone, self.payment_regularity, [deactivation], self.title, self.suspended)
         c = Operator(self.product_id, self.phone, self.payment_regularity, [deactivation], self.title, self.suspended)

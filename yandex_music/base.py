@@ -1,7 +1,7 @@
 """Базовые классы."""
 
 import logging
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Tuple, Union, cast
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Set, Tuple, Union, cast
 
 from typing_extensions import Self, TypeGuard
 
@@ -41,7 +41,7 @@ class YandexMusicModel(YandexMusicObject):
     def __repr__(self) -> str:
         return str(self)
 
-    def __getitem__(self, item: str) -> Any:
+    def __getitem__(self, item: Any) -> Any:
         return self.__dict__[item]
 
     @staticmethod
@@ -126,8 +126,8 @@ class YandexMusicModel(YandexMusicObject):
 
         known = cls.__dataclass_fields__
         result: Dict[str, Any] = {}
-        report = client and client.report_unknown_fields
-        unknown_keys = set() if report else None
+        report = client is not None and client.report_unknown_fields
+        unknown_keys: Optional[Set[str]] = set() if report else None
 
         for k, v in data.items():
             nk = _normalize_key(k)
@@ -136,7 +136,7 @@ class YandexMusicModel(YandexMusicObject):
             elif unknown_keys is not None:
                 unknown_keys.add(nk)
 
-        if unknown_keys:
+        if unknown_keys is not None and len(unknown_keys) > 0:
             cls.report_unknown_fields_callback(cls, unknown_keys)
 
         return result
@@ -158,7 +158,9 @@ class YandexMusicModel(YandexMusicObject):
         if not cls.is_dict_model_data(data):
             return None
 
-        return cls(client=client, **cls.cleanup_data(data, client))
+        kwargs = cls.cleanup_data(data, client)
+        kwargs['client'] = client
+        return cls(**kwargs)
 
     @classmethod
     def de_list(cls, data: JSONType, client: 'ClientType') -> Sequence[Self]:
@@ -176,10 +178,10 @@ class YandexMusicModel(YandexMusicObject):
         Returns:
             :obj:`list` из :obj:`yandex_music.YandexMusicModel`: Список десериализованных объектов.
         """
-        if not data or not isinstance(data, list):
+        if not isinstance(data, list) or len(data) == 0:
             return []
 
-        result = []
+        result: List[Self] = []
         for item in data:
             if isinstance(item, dict):
                 obj = cls.de_json(item, client)
@@ -213,7 +215,7 @@ class YandexMusicModel(YandexMusicObject):
             :obj:`dict`: Сериализованный в dict объект.
         """
 
-        def parse(val: Union['YandexMusicModel', JSONType]) -> Any:
+        def parse(val: Union['YandexMusicModel', JSONType]) -> JSONType:
             if isinstance(val, YandexMusicModel):
                 return val.to_dict(for_request)
             if isinstance(val, list):
@@ -227,7 +229,7 @@ class YandexMusicModel(YandexMusicObject):
         data.pop('_id_attrs', None)
 
         if for_request:
-            new_data = {}
+            new_data: Dict[str, Any] = {}
             for k, v in data.items():
                 camel_case = ''.join(word.title() for word in k.split('_'))
                 camel_case = camel_case[0].lower() + camel_case[1:]
@@ -240,13 +242,13 @@ class YandexMusicModel(YandexMusicObject):
 
         return parse(data)
 
-    def _get_id_attrs(self) -> Tuple[str]:
+    def _get_id_attrs(self) -> Tuple[object, ...]:
         """Получение ключевых атрибутов объекта.
 
         Returns:
             :obj:`tuple`: Ключевые атрибуты объекта для сравнения.
         """
-        return cast('Tuple[str]', getattr(self, '_id_attrs', ()))
+        return cast('Tuple[object, ...]', getattr(self, '_id_attrs', ()))
 
     def __eq__(self, other: Any) -> bool:
         """Проверка на равенство двух объектов.
@@ -271,7 +273,7 @@ class YandexMusicModel(YandexMusicObject):
             :obj:`int`: Хеш объекта.
         """
         id_attrs = self._get_id_attrs()
-        if not id_attrs:
+        if len(id_attrs) == 0:
             return super(YandexMusicModel, self).__hash__()
 
         frozen_attrs = tuple(frozenset(attr) if isinstance(attr, list) else attr for attr in id_attrs)

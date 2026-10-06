@@ -29,7 +29,7 @@ class User(YandexMusicModel):
         full_name (:obj:`str`, optional): Полное имя пользователя.
         sex (:obj:`str`, optional): Пол пользователя.
         verified (:obj:`bool`, optional): Участвует ли пользователь в генерации плейлистов дня и т.д., и т.п.
-        regions (:obj:`list` из :obj:`int`, optional): Список регионов TODO.
+        regions (:obj:`list` из :obj:`str`, optional): Список регионов TODO.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -40,7 +40,7 @@ class User(YandexMusicModel):
     full_name: Optional[str] = None
     sex: Optional[str] = None
     verified: Optional[bool] = None
-    regions: List[int] = field(default_factory=list)
+    regions: List[str] = field(default_factory=list)
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

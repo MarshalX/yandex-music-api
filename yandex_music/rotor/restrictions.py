@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import DiscreteScale, Enum, YandexMusicModel
 from yandex_music.utils import model
 from yandex_music.utils.normalize import _normalize_key
@@ -34,6 +36,7 @@ class Restrictions(YandexMusicModel):
         self._id_attrs = (self.language, self.diversity)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Restrictions']:
         """Десериализация объекта.
 
@@ -56,4 +59,4 @@ class Restrictions(YandexMusicModel):
                 de_json = _TYPE_TO_DE_JSON_DEF[type_]
                 cls_data[nk] = de_json(value, client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

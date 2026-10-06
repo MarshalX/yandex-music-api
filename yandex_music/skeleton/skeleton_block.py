@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -36,6 +38,7 @@ class SkeletonBlock(YandexMusicModel):
         self._id_attrs = (self.id, self.type)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['SkeletonBlock']:
         """Десериализация объекта.
 

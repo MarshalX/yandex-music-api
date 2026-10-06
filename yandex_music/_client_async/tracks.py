@@ -241,8 +241,8 @@ class TracksMixin(_BatchMixin):
         uid: Optional[int] = None,
         timestamp: Optional[str] = None,
         track_length_seconds: int = 0,
-        total_played_seconds: int = 0,
-        end_position_seconds: int = 0,
+        total_played_seconds: float = 0,
+        end_position_seconds: float = 0,
         client_now: Optional[str] = None,
         *args: Any,
         **kwargs: Any,
@@ -259,8 +259,8 @@ class TracksMixin(_BatchMixin):
             uid (:obj:`int`, optional): Уникальный идентификатор пользователя.
             timestamp (:obj:`str`, optional): Текущая дата и время в ISO.
             track_length_seconds (:obj:`int`, optional): Продолжительность трека в секундах.
-            total_played_seconds (:obj:`int`, optional): Сколько было всего воспроизведено трека в секундах.
-            end_position_seconds (:obj:`int`, optional): Окончательное значение воспроизведенных секунд.
+            total_played_seconds (:obj:`float`, optional): Сколько было всего воспроизведено трека в секундах.
+            end_position_seconds (:obj:`float`, optional): Окончательное значение воспроизведенных секунд.
             client_now (:obj:`str`, optional): Текущая дата и время клиента в ISO.
             *args: Произвольные аргументы (будут переданы в запрос).
             **kwargs: Произвольные именованные аргументы (будут переданы в запрос).
@@ -276,19 +276,25 @@ class TracksMixin(_BatchMixin):
 
         url = f'{self.base_url}/play-audio'
 
+        if timestamp is None or timestamp == '':
+            timestamp = f'{datetime.now().isoformat()}Z'
+
+        if client_now is None or client_now == '':
+            client_now = f'{datetime.now().isoformat()}Z'
+
         data = {
             'track-id': track_id,
             'from-cache': str(from_cache),
             'from': from_,
-            'play-id': play_id or '',
+            'play-id': play_id if play_id is not None else '',
             'uid': uid,
-            'timestamp': timestamp or f'{datetime.now().isoformat()}Z',
+            'timestamp': timestamp,
             'track-length-seconds': track_length_seconds,
             'total-played-seconds': total_played_seconds,
             'end-position-seconds': end_position_seconds,
             'album-id': album_id,
             'playlist-id': playlist_id,
-            'client-now': client_now or f'{datetime.now().isoformat()}Z',
+            'client-now': client_now,
         }
 
         result = await self._request.post(url, data, *args, **kwargs)

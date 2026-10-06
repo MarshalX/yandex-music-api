@@ -1,7 +1,7 @@
 import logging
 import threading
 import time
-from typing import Any, Dict, List, Tuple
+from typing import Callable, Dict, Iterator, List, Optional, Tuple, cast
 
 import pytest
 
@@ -20,6 +20,7 @@ from yandex_music.exceptions import (
 )
 from yandex_music.ynison import _base, messages
 from yandex_music.ynison.client import YnisonClient
+from yandex_music.ynison.models.ynison_state import PutYnisonStateResponse
 
 from .ynison_fake_server import (
     BAD_REQUEST_FRAME,
@@ -39,20 +40,24 @@ JOIN_TIMEOUT = 5.0
 
 
 @pytest.fixture(autouse=True)
-def fast_backoff(monkeypatch):
+def fast_backoff(monkeypatch: pytest.MonkeyPatch) -> None:
+    def uniform(_a: float, _b: float) -> float:
+        return 0
+
     monkeypatch.setattr(_base, '_DEFAULT_BACKOFF_MS', [0, 10])
-    monkeypatch.setattr(_base.random, 'uniform', lambda _a, _b: 0)
+    monkeypatch.setattr(_base.random, 'uniform', uniform)
 
 
 @pytest.fixture
-def server():
+def server() -> Iterator[FakeYnisonServer]:
     fake = FakeYnisonServer()
     yield fake
     fake.close()
 
 
-def make_client(server: FakeYnisonServer, **kwargs: Any) -> YnisonClient:
-    return server.patch_client(YnisonClient('fake-token', device_id=CLIENT_DEVICE_ID, **kwargs))
+def make_client(server: FakeYnisonServer, max_reconnect_attempts: Optional[int] = None) -> YnisonClient:
+    client = YnisonClient('fake-token', device_id=CLIENT_DEVICE_ID, max_reconnect_attempts=max_reconnect_attempts)
+    return server.patch_client(client)
 
 
 class Recorder:
@@ -62,11 +67,11 @@ class Recorder:
         self.client = client
         self.states: List[int] = []
         # (ошибка, timestamp_ms последнего состояния на момент ошибки)
-        self.errors: List[Tuple[YnisonError, Any]] = []
-        client.on_state(self._on_state)
-        client.on_error(self._on_error)
+        self.errors: List[Tuple[YnisonError, Optional[int]]] = []
+        _ = client.on_state(self._on_state)
+        _ = client.on_error(self._on_error)
 
-    def _on_state(self, state: Any) -> None:
+    def _on_state(self, state: PutYnisonStateResponse) -> None:
         self.states.append(state.timestamp_ms)
 
     def _on_error(self, error: YnisonError) -> None:
@@ -95,7 +100,7 @@ def stop(client: YnisonClient, thread: threading.Thread) -> None:
 
 
 class TestSession:
-    def test_session_populates_state(self, server):
+    def test_session_populates_state(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
         with client.session(timeout=5) as session_client:
@@ -112,13 +117,13 @@ class TestSession:
         assert server.redirect_count == 1
         assert server.state_count == 1
 
-        full_state = server.received[0]['updateFullState']
-        assert full_state['device']['info']['deviceId'] == CLIENT_DEVICE_ID
+        full_state = server.requests[0].update_full_state
+        assert full_state.device.info.device_id == CLIENT_DEVICE_ID
         # state-сокет открыт с тикетом из редиректа
         assert 'fake-ticket' in server.subprotocol_headers[1]
         assert 'fake-ticket' not in server.subprotocol_headers[0]
 
-    def test_unauthorized_redirect_frame(self, server):
+    def test_unauthorized_redirect_frame(self, server: FakeYnisonServer) -> None:
         server.redirect_frames = [UNAUTHORIZED_FRAME]
         client = make_client(server)
 
@@ -132,7 +137,7 @@ class TestSession:
         assert server.state_count == 0
         assert not client.is_running
 
-    def test_unauthorized_redirect_frame_connect(self, server):
+    def test_unauthorized_redirect_frame_connect(self, server: FakeYnisonServer) -> None:
         server.redirect_frames = [UNAUTHORIZED_FRAME]
         client = make_client(server)
         recorder = Recorder(client)
@@ -146,7 +151,7 @@ class TestSession:
         assert server.redirect_count == 1
         assert not client.is_running
 
-    def test_unauthorized_http_status(self, server):
+    def test_unauthorized_http_status(self, server: FakeYnisonServer) -> None:
         server.reject_http_status = 401
         client = make_client(server)
 
@@ -155,7 +160,7 @@ class TestSession:
 
         assert server.redirect_count == 1
 
-    def test_timeout(self, server, monkeypatch):
+    def test_timeout(self, server: FakeYnisonServer, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setattr(_base, '_DEFAULT_BACKOFF_MS', [5000])
         server.default_state_script = send_frames_then_close()
         client = make_client(server)
@@ -167,7 +172,7 @@ class TestSession:
         assert time.monotonic() - started < 3
         assert not client.is_running
 
-    def test_reuse(self, server):
+    def test_reuse(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
         for seq in (1, 2, 3):
@@ -181,7 +186,7 @@ class TestSession:
         assert server.redirect_count == 3
         assert server.state_count == 3
 
-    def test_connect_while_running(self, server):
+    def test_connect_while_running(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
         with client.session(timeout=5):
@@ -192,19 +197,19 @@ class TestSession:
             assert client.is_running
             assert client.latest_state is not None
 
-    def test_on_state_async_listener_rejected(self, server):
+    def test_on_state_async_listener_rejected(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
-        async def listener(_state):
+        async def listener(_state: PutYnisonStateResponse) -> None:
             pass
 
         with pytest.raises(TypeError):
-            client.on_state(listener)
+            _ = client.on_state(cast('Callable[[PutYnisonStateResponse], None]', listener))
         assert client._state_listeners == []
 
 
 class TestReconnect:
-    def test_state_error_frame(self, server):
+    def test_state_error_frame(self, server: FakeYnisonServer) -> None:
         server.state_scripts = [send_frames_then_close(make_state(seq=1).to_json(), BAD_REQUEST_FRAME)]
         server.state_json = make_state(seq=2).to_json()
         client = make_client(server)
@@ -227,7 +232,7 @@ class TestReconnect:
         assert server.redirect_count == 2
         assert server.state_count == 2
 
-    def test_state_error_frame_keeps_connection(self, server):
+    def test_state_error_frame_keeps_connection(self, server: FakeYnisonServer) -> None:
         # сервер прислал ошибку, но соединение не закрыл, клиент продолжает работу
         server.state_scripts = [send_frames_then_wait(make_state(seq=1).to_json(), BAD_REQUEST_FRAME)]
         client = make_client(server)
@@ -237,11 +242,11 @@ class TestReconnect:
             wait_until(lambda: len(recorder.errors) == 1)
             assert client.state.timestamp_ms == 1
             client.pause()
-            server.wait_received('updatePlayingStatus')
+            _ = server.wait_received('updatePlayingStatus')
 
         assert server.redirect_count == 1
 
-    def test_displaced(self, server):
+    def test_displaced(self, server: FakeYnisonServer) -> None:
         server.state_scripts = [send_frames_then_wait(make_state(seq=1).to_json(), DISPLACED_FRAME)]
         client = make_client(server)
         recorder = Recorder(client)
@@ -258,7 +263,7 @@ class TestReconnect:
         assert server.redirect_count == 1
         assert not client.is_running
 
-    def test_displaced_inside_session(self, server):
+    def test_displaced_inside_session(self, server: FakeYnisonServer) -> None:
         server.state_scripts = [send_frames_then_wait(make_state(seq=1).to_json())]
         client = make_client(server)
 
@@ -274,7 +279,7 @@ class TestReconnect:
 
         assert server.redirect_count == 1
 
-    def test_server_closes_without_error(self, server):
+    def test_server_closes_without_error(self, server: FakeYnisonServer) -> None:
         server.state_scripts = [send_frames_then_close(make_state(seq=1).to_json())]
         server.state_json = make_state(seq=2).to_json()
         client = make_client(server)
@@ -289,7 +294,7 @@ class TestReconnect:
         assert recorder.errors[0][1] == 1
         assert server.redirect_count == 2
 
-    def test_max_reconnect_attempts(self, server):
+    def test_max_reconnect_attempts(self, server: FakeYnisonServer) -> None:
         server.default_state_script = send_frames_then_close()
         client = make_client(server, max_reconnect_attempts=2)
         recorder = Recorder(client)
@@ -303,7 +308,7 @@ class TestReconnect:
         assert server.redirect_count == 3
         assert not client.is_running
 
-    def test_max_reconnect_attempts_session(self, server):
+    def test_max_reconnect_attempts_session(self, server: FakeYnisonServer) -> None:
         server.default_state_script = send_frames_then_close()
         client = make_client(server, max_reconnect_attempts=1)
 
@@ -312,7 +317,7 @@ class TestReconnect:
 
         assert server.redirect_count == 2
 
-    def test_successful_frame_resets_attempts(self, server):
+    def test_successful_frame_resets_attempts(self, server: FakeYnisonServer) -> None:
         # каждое соединение отдаёт состояние и закрывается: счётчик сбрасывается, лимит не достигается
         server.default_state_script = send_frames_then_close(make_state(seq=1).to_json())
         client = make_client(server, max_reconnect_attempts=1)
@@ -324,7 +329,7 @@ class TestReconnect:
 
         assert 'error' not in result
 
-    def test_disconnect_during_backoff(self, server, monkeypatch):
+    def test_disconnect_during_backoff(self, server: FakeYnisonServer, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setattr(_base, '_DEFAULT_BACKOFF_MS', [5000])
         server.default_state_script = send_frames_then_close()
         client = make_client(server)
@@ -341,7 +346,7 @@ class TestReconnect:
         assert server.redirect_count == 1
         assert not client.is_running
 
-    def test_disconnect_is_idempotent(self, server):
+    def test_disconnect_is_idempotent(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
         client.disconnect()
 
@@ -352,7 +357,7 @@ class TestReconnect:
 
 
 class TestCommands:
-    def test_send_without_connection(self, server):
+    def test_send_without_connection(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
         with pytest.raises(YnisonConnectionClosedError):
@@ -364,7 +369,7 @@ class TestCommands:
         with pytest.raises(YnisonConnectionClosedError):
             client.pause()
 
-    def test_no_active_device(self, server):
+    def test_no_active_device(self, server: FakeYnisonServer) -> None:
         server.state_json = make_state(active=False).to_json()
         client = make_client(server)
 
@@ -379,7 +384,7 @@ class TestCommands:
 
         assert len(server.received) == 1
 
-    def test_pause(self, server):
+    def test_pause(self, server: FakeYnisonServer) -> None:
         server.state_json = make_state(
             status=make_playing_status(progress_ms=1000, paused=False, timestamp_ms=messages.get_timestamp())
         ).to_json()
@@ -387,57 +392,57 @@ class TestCommands:
 
         with client.session(timeout=5):
             client.pause()
-            request = server.wait_received('updatePlayingStatus')
+            request = server.wait_request('updatePlayingStatus')
 
-        status = request['updatePlayingStatus']['playingStatus']
-        assert status['paused'] is True
-        assert int(status['progressMs']) >= 1000
-        assert status['version']['deviceId'] == CLIENT_DEVICE_ID
+        status = request.update_playing_status.playing_status
+        assert status.paused is True
+        assert status.progress_ms >= 1000
+        assert status.version.device_id == CLIENT_DEVICE_ID
 
-    def test_resume(self, server):
+    def test_resume(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
         with client.session(timeout=5):
             client.resume()
-            request = server.wait_received('updatePlayingStatus')
+            request = server.wait_request('updatePlayingStatus')
 
-        assert not request['updatePlayingStatus']['playingStatus'].get('paused', False)
+        assert not request.update_playing_status.playing_status.paused
 
-    def test_next_and_previous_track(self, server):
+    def test_next_and_previous_track(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
         with client.session(timeout=5):
             with pytest.raises(YnisonQueueBoundaryError):
                 client.previous_track()
             client.next_track()
-            request = server.wait_received('updatePlayerState')
+            request = server.wait_request('updatePlayerState')
 
-        queue = request['updatePlayerState']['playerState']['playerQueue']
-        assert queue['currentPlayableIndex'] == 1
-        assert queue['entityId'] == 'fake-entity'
+        queue = request.update_player_state.player_state.player_queue
+        assert queue.current_playable_index == 1
+        assert queue.entity_id == 'fake-entity'
 
-    def test_set_volume(self, server):
+    def test_set_volume(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
 
         with client.session(timeout=5):
             client.set_volume(1.7)
-            request = server.wait_received('updateVolumeInfo')
+            request = server.wait_request('updateVolumeInfo')
 
-        assert request['updateVolumeInfo']['deviceId'] == PLAYER_DEVICE_ID
-        assert request['updateVolumeInfo']['volumeInfo']['volume'] == 1.0
+        assert request.update_volume_info.device_id == PLAYER_DEVICE_ID
+        assert request.update_volume_info.volume_info.volume == 1.0
 
 
 class TestListeners:
-    def test_listener_exception_is_logged(self, server, caplog):
+    def test_listener_exception_is_logged(self, server: FakeYnisonServer, caplog: pytest.LogCaptureFixture) -> None:
         caplog.set_level(logging.ERROR, logger='yandex_music.ynison')
         client = make_client(server)
 
         @client.on_state
-        def broken(_state):
+        def broken(_state: PutYnisonStateResponse) -> None:
             raise RuntimeError('listener failure')
 
         @client.on_error
-        def broken_error(_error):
+        def broken_error(_error: YnisonError) -> None:
             raise RuntimeError('error listener failure')
 
         recorder = Recorder(client)
@@ -450,24 +455,26 @@ class TestListeners:
         assert 'исключение в state listener' in caplog.text
         assert 'listener failure' in caplog.text
 
-    def test_error_listener_exception_is_logged(self, server, caplog):
+    def test_error_listener_exception_is_logged(
+        self, server: FakeYnisonServer, caplog: pytest.LogCaptureFixture
+    ) -> None:
         caplog.set_level(logging.ERROR, logger='yandex_music.ynison')
         server.state_scripts = [send_frames_then_wait(make_state(seq=1).to_json(), BAD_REQUEST_FRAME)]
         client = make_client(server)
         received: List[YnisonError] = []
 
         @client.on_error
-        def broken(_error):
+        def broken(_error: YnisonError) -> None:
             raise RuntimeError('error listener failure')
 
-        client.on_error(received.append)
+        _ = client.on_error(received.append)
 
         with client.session(timeout=5):
             wait_until(lambda: len(received) == 1)
 
         assert 'исключение в error listener' in caplog.text
 
-    def test_remove_listener(self, server):
+    def test_remove_listener(self, server: FakeYnisonServer) -> None:
         client = make_client(server)
         recorder = Recorder(client)
         client.remove_listener(recorder._on_state)

@@ -1,20 +1,23 @@
-from yandex_music import Metatags
+from typing import Dict
+
+from yandex_music import Client, JSONType, Metatags, MetatagTree
 
 
 class TestMetatags:
-    def test_expected_values(self, metatags, metatag_tree):
+    def test_expected_values(self, metatags: Metatags, metatag_tree: MetatagTree) -> None:
         assert metatags.trees == [metatag_tree]
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Metatags.de_json({}, client) is None
 
-    def test_de_json_all(self, client, metatag_tree):
-        json_dict = {'trees': [metatag_tree.to_dict()]}
+    def test_de_json_all(self, client: Client, metatag_tree: MetatagTree) -> None:
+        json_dict: Dict[str, JSONType] = {'trees': [metatag_tree.to_dict()]}
         metatags = Metatags.de_json(json_dict, client)
+        assert metatags is not None
 
         assert metatags.trees == [metatag_tree]
 
-    def test_equality(self, metatag_tree):
+    def test_equality(self, metatag_tree: MetatagTree) -> None:
         a = Metatags(trees=[metatag_tree])
         b = Metatags(trees=[])
         c = Metatags(trees=[metatag_tree])
@@ -25,11 +28,11 @@ class TestMetatags:
 
         assert a == c
 
-    def test_len(self, metatags):
+    def test_len(self, metatags: Metatags) -> None:
         assert len(metatags) == len(metatags.trees)
 
-    def test_getitem(self, metatags):
+    def test_getitem(self, metatags: Metatags) -> None:
         assert metatags[0] == metatags.trees[0]
 
-    def test_iter(self, metatags):
+    def test_iter(self, metatags: Metatags) -> None:
         assert list(metatags) == metatags.trees

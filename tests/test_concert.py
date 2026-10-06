@@ -1,4 +1,6 @@
-from yandex_music import Concert
+from typing import Dict
+
+from yandex_music import Client, Concert, ConcertCashback, ConcertEventInfo, ConcertMinPrice, Cover, JSONType
 
 
 class TestConcert:
@@ -17,7 +19,14 @@ class TestConcert:
     content_rating = '16+'
     data_session_id = 'ZmFrZS1kYXRhLXNlc3Npb24taWQ='
 
-    def test_expected_value(self, concert, concert_min_price, concert_cashback, concert_event_info, cover):
+    def test_expected_value(
+        self,
+        concert: Concert,
+        concert_min_price: ConcertMinPrice,
+        concert_cashback: ConcertCashback,
+        concert_event_info: ConcertEventInfo,
+        cover: Cover,
+    ) -> None:
         assert concert.id == self.id
         assert concert.images == self.images
         assert concert.image_url == self.image_url
@@ -34,11 +43,18 @@ class TestConcert:
         assert concert.cover == cover
         assert concert.data_session_id == self.data_session_id
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Concert.de_json({}, client) is None
 
-    def test_de_json_all(self, client, concert_min_price, concert_cashback, concert_event_info, cover):
-        json_dict = {
+    def test_de_json_all(
+        self,
+        client: Client,
+        concert_min_price: ConcertMinPrice,
+        concert_cashback: ConcertCashback,
+        concert_event_info: ConcertEventInfo,
+        cover: Cover,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'images': self.images,
             'image_url': self.image_url,
@@ -56,6 +72,7 @@ class TestConcert:
             'data_session_id': self.data_session_id,
         }
         concert = Concert.de_json(json_dict, client)
+        assert concert is not None
 
         assert concert.id == self.id
         assert concert.images == self.images
@@ -73,7 +90,7 @@ class TestConcert:
         assert concert.cover == cover
         assert concert.data_session_id == self.data_session_id
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Concert(id=self.id)
         b = Concert(id='different-uuid-here')
         c = Concert(id=self.id)

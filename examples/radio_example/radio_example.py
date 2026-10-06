@@ -13,6 +13,8 @@ client = Client(token='YOUR_TOKEN_HERE')
 _stations = client.rotor_stations_list()
 _station_random_index = floor(len(_stations) * random())
 _station = _stations[_station_random_index].station
+assert _station is not None
+assert _station.id is not None
 _station_id = f'{_station.id.type}:{_station.id.tag}'
 _station_from = _station.id_for_from
 

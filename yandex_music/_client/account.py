@@ -31,7 +31,7 @@ class AccountMixin(ClientBase):
     _request: 'Request'
 
     @log
-    def init(self, *args, **kwargs) -> Self:
+    def init(self, *args: Any, **kwargs: Any) -> Self:
         """Получение информации об аккаунте, использующейся в других запросах.
 
         Args:
@@ -45,7 +45,7 @@ class AccountMixin(ClientBase):
             :class:`yandex_music.exceptions.YandexMusicError`: Базовое исключение библиотеки.
         """
         self.me = self.account_status(*args, **kwargs)
-        if self.me and self.me.account:
+        if self.me is not None and self.me.account is not None:
             self.account_uid = self.me.account.uid
         return self
 
@@ -119,7 +119,7 @@ class AccountMixin(ClientBase):
         """
         url = f'{self.base_url}/account/settings'
 
-        if not data and param:
+        if (data is None or len(data) == 0) and param is not None and param != '':
             data = {param: str(value)}
 
         result = self._request.post(url, data, *args, **kwargs)
@@ -214,7 +214,7 @@ class AccountMixin(ClientBase):
 
     @log
     def consume_promo_code(
-        self, code: str, language: Optional[str] = None, *args, **kwargs
+        self, code: str, language: Optional[str] = None, *args: Any, **kwargs: Any
     ) -> Optional[PromoCodeStatus]:
         """Активация промо-кода.
 
@@ -235,7 +235,7 @@ class AccountMixin(ClientBase):
         """
         url = f'{self.base_url}/account/consume-promo-code'
 
-        if not language:
+        if language is None or language == '':
             language = self.language
 
         result = self._request.post(url, {'code': code, 'language': language}, *args, **kwargs)

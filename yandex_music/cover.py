@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -49,6 +51,7 @@ class Cover(YandexMusicModel):
         self._id_attrs = (self.prefix, self.version, self.uri, self.items_uri)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Cover']:
         """Десериализация объекта.
 
@@ -80,7 +83,7 @@ class Cover(YandexMusicModel):
             :obj:`str`: URL адрес.
         """
         uri = self.uri
-        if not uri:
+        if uri is None or uri == '':
             assert isinstance(self.items_uri, list)
             uri = self.items_uri[index]
 

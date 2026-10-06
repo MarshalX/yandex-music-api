@@ -1,4 +1,6 @@
-from yandex_music import Account
+from typing import Dict
+
+from yandex_music import Account, Client, JSONType, PassportPhone, User
 
 
 class TestAccount:
@@ -19,7 +21,7 @@ class TestAccount:
     region_code = 'ru'
     non_owner_family_member = False
 
-    def test_expected_values(self, account, passport_phone):
+    def test_expected_values(self, account: Account, passport_phone: PassportPhone) -> None:
         assert account.now == self.now
         assert account.region == self.region
         assert account.service_available == self.service_available
@@ -38,19 +40,24 @@ class TestAccount:
         assert account.region_code == self.region_code
         assert account.non_owner_family_member == self.non_owner_family_member
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Account.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {'now': self.now, 'service_available': self.service_available, 'child': self.child}
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
+            'now': self.now,
+            'service_available': self.service_available,
+            'child': self.child,
+        }
         account = Account.de_json(json_dict, client)
+        assert account is not None
 
         assert account.now == self.now
         assert account.service_available == self.service_available
         assert account.child == self.child
 
-    def test_de_json_all(self, client, passport_phone):
-        json_dict = {
+    def test_de_json_all(self, client: Client, passport_phone: PassportPhone) -> None:
+        json_dict: Dict[str, JSONType] = {
             'now': self.now,
             'region': self.region,
             'service_available': self.service_available,
@@ -70,6 +77,7 @@ class TestAccount:
             'nonOwnerFamilyMember': self.non_owner_family_member,
         }
         account = Account.de_json(json_dict, client)
+        assert account is not None
 
         assert account.now == self.now
         assert account.region == self.region
@@ -89,7 +97,7 @@ class TestAccount:
         assert account.region_code == self.region_code
         assert account.non_owner_family_member == self.non_owner_family_member
 
-    def test_equality(self, user):
+    def test_equality(self, user: User) -> None:
         a = Account(self.now, self.service_available, self.child)
 
         assert a != user

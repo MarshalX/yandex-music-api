@@ -336,7 +336,7 @@ class ArtistsMixin(_BatchMixin):
         result = self._request.get(url, params, *args, **kwargs)
 
         if isinstance(result, list):
-            return result
+            return [track_id for track_id in result if isinstance(track_id, str)]
 
         return []
 

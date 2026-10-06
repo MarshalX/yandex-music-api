@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -36,6 +38,7 @@ class PlayContext(YandexMusicModel):
         self._id_attrs = (self.client_, self.context_item, self.context_item, self.tracks)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['PlayContext']:
         """Десериализация объекта.
 
@@ -54,4 +57,4 @@ class PlayContext(YandexMusicModel):
 
         cls_data['tracks'] = TrackShortOld.de_list(cls_data.get('tracks'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

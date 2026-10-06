@@ -5,7 +5,9 @@
 Ynison не нужен, могут не устанавливать эти зависимости.
 """
 
-_missing_ynison_deps = []
+from typing import List
+
+_missing_ynison_deps: List[str] = []
 try:
     import betterproto  # noqa: F401
 except ImportError:
@@ -16,7 +18,7 @@ try:
 except ImportError:
     _missing_ynison_deps.append('websockets>=13')
 
-if _missing_ynison_deps:
+if len(_missing_ynison_deps) > 0:
     raise ImportError(
         'Для работы Ynison нужны дополнительные зависимости: '
         f'{", ".join(_missing_ynison_deps)}. '

@@ -1,4 +1,6 @@
-from yandex_music import Wave
+from typing import Dict
+
+from yandex_music import Client, JSONType, Wave
 
 
 class TestWave:
@@ -9,7 +11,7 @@ class TestWave:
     id_for_from = 'album-12345'
     type = 'DEFAULT'
 
-    def test_expected_values(self, wave):
+    def test_expected_values(self, wave: Wave) -> None:
         assert wave.name == self.name
         assert wave.description == self.description
         assert wave.seeds == self.seeds
@@ -17,11 +19,11 @@ class TestWave:
         assert wave.id_for_from == self.id_for_from
         assert wave.type == self.type
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Wave.de_json({}, client) is None
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'name': self.name,
             'description': self.description,
             'seeds': self.seeds,
@@ -30,6 +32,7 @@ class TestWave:
             'type': self.type,
         }
         wave = Wave.de_json(json_dict, client)
+        assert wave is not None
 
         assert wave.name == self.name
         assert wave.description == self.description
@@ -38,7 +41,7 @@ class TestWave:
         assert wave.id_for_from == self.id_for_from
         assert wave.type == self.type
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Wave(name=self.name, seeds=self.seeds)
         b = Wave(name='Other', seeds=['artist:999'])
         c = Wave(name=self.name, seeds=self.seeds)

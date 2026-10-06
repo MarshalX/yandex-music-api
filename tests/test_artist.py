@@ -1,6 +1,8 @@
+from typing import Dict, List, Optional, Union
+
 import pytest
 
-from yandex_music import Artist
+from yandex_music import Artist, Client, ContentRestrictions, Counts, Cover, Description, JSONType, Link, Ratings, Track
 from yandex_music.exceptions import IdMissingError
 
 
@@ -10,41 +12,41 @@ class TestArtist:
     reason = 'not-found'
     name = 'Elvis Presley'
     various = False
-    composer = None
-    genres = None
+    composer: Optional[bool] = None
+    genres: Optional[List[str]] = None
     og_image = ''
-    op_image = None
-    no_pictures_from_search = None
-    available = None
+    op_image: Optional[str] = None
+    no_pictures_from_search: Optional[bool] = None
+    available: Optional[bool] = None
     tickets_available = False
     likes_count = 657469
-    regions = None
-    full_names = None
+    regions: Optional[List[str]] = None
+    full_names: Optional[List[str]] = None
     hand_made_description = (
         'Одна из самых популярных советских рок-групп 1980-х годов. Лидером, '
         'автором практически всех текстов и музыки неизменно оставался Виктор Цой.'
     )
-    countries = None
-    en_wikipedia_link = None
-    db_aliases = None
-    aliases = None
+    countries: Optional[List[str]] = None
+    en_wikipedia_link: Optional[str] = None
+    db_aliases: Optional[List[str]] = None
+    aliases: Optional[List[str]] = None
     init_date = '1935-01-08'
-    end_date = None
+    end_date: Optional[str] = None
     ya_money_id = '4100170623944'
     disclaimers = ['foreignAgent']
 
     def test_expected_values(
         self,
-        artist,
-        cover,
-        counts,
-        ratings,
-        link,
-        track_without_artists_and_albums,
-        description,
-        artist_decomposed,
-        content_restrictions,
-    ):
+        artist: Artist,
+        cover: Cover,
+        counts: Counts,
+        ratings: Ratings,
+        link: Link,
+        track_without_artists_and_albums: Track,
+        description: Description,
+        artist_decomposed: List[Union[str, Artist]],
+        content_restrictions: ContentRestrictions,
+    ) -> None:
         assert artist.id == self.id
         assert artist.error == self.error
         assert artist.reason == self.reason
@@ -78,36 +80,37 @@ class TestArtist:
         assert artist.disclaimers == self.disclaimers
         assert artist.content_restrictions == content_restrictions
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Artist.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Artist.de_list([], client) == []
 
-    def test_de_json_required(self, client, cover):
+    def test_de_json_required(self, client: Client, cover: Cover) -> None:
         # We don't have any required fields anymore,
         #   so just make sure we don't throw any errors.
-        Artist.de_json({}, client)
+        _ = Artist.de_json({}, client)
 
-    def test_de_json_ugc(self, client):
+    def test_de_json_ugc(self, client: Client) -> None:
         # An example of UGC artist from #663
         artist = Artist.de_json({'name': self.name}, client)
+        assert artist is not None
         assert artist.name == self.name
 
     def test_de_json_all(
         self,
-        client,
-        cover,
-        counts,
-        ratings,
-        link,
-        track_without_artists,
-        description,
-        artist_decomposed,
-        content_restrictions,
-    ):
+        client: Client,
+        cover: Cover,
+        counts: Counts,
+        ratings: Ratings,
+        link: Link,
+        track_without_artists: Track,
+        description: Description,
+        artist_decomposed: List[Union[str, Artist]],
+        content_restrictions: ContentRestrictions,
+    ) -> None:
         artist_decomposed_dict = [item if isinstance(item, str) else item.to_dict() for item in artist_decomposed]
-        json_dict = {
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'reason': self.reason,
             'error': self.error,
@@ -142,6 +145,7 @@ class TestArtist:
             'contentRestrictions': content_restrictions.to_dict(),
         }
         artist = Artist.de_json(json_dict, client)
+        assert artist is not None
 
         assert artist.id == self.id
         assert artist.error == self.error
@@ -176,7 +180,7 @@ class TestArtist:
         assert artist.disclaimers == self.disclaimers
         assert artist.content_restrictions == content_restrictions
 
-    def test_equality(self, cover):
+    def test_equality(self, cover: Cover) -> None:
         a = Artist(self.id)
         b = Artist(10)
         c = Artist(self.id)
@@ -187,8 +191,9 @@ class TestArtist:
 
         assert a == c
 
-    def test_id_required(self, client):
+    def test_id_required(self, client: Client) -> None:
         artist = Artist.de_json({'name': self.name}, client)
+        assert artist is not None
 
         # Make sure we throw an error if we try to access the id_required property when id is None
         with pytest.raises(IdMissingError):

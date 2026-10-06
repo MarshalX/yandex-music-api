@@ -1,10 +1,14 @@
+from typing import Dict, Optional, Tuple, Union
+
 import pytest
 
-from yandex_music import Block
+from yandex_music import Block, BlockEntity, Client, JSONType, PersonalPlaylistsData, PlayContextsData
+
+BlockData = Union[PersonalPlaylistsData, PlayContextsData]
 
 
 @pytest.fixture(scope='class')
-def block_with_entity_and_data(block_entity, data):
+def block_with_entity_and_data(block_entity: BlockEntity, data: BlockData) -> Tuple[Block, BlockEntity, BlockData]:
     return (
         Block(
             TestBlock.id,
@@ -25,9 +29,9 @@ class TestBlock:
     type = 'personal-playlists'
     type_for_from = 'personal-playlists'
     title = 'Собрано на основе ваших предпочтений'
-    description = None
+    description: Optional[str] = None
 
-    def test_expected_values(self, block_with_entity_and_data):
+    def test_expected_values(self, block_with_entity_and_data: Tuple[Block, BlockEntity, BlockData]) -> None:
         block, block_entity, data = block_with_entity_and_data
 
         assert block.id == self.id
@@ -38,14 +42,14 @@ class TestBlock:
         assert block.description == self.description
         assert block.data == data
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Block.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Block.de_list([], client) == []
 
-    def test_de_json_required(self, client, block_entity):
-        json_dict = {
+    def test_de_json_required(self, client: Client, block_entity: BlockEntity) -> None:
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'type': self.type,
             'type_for_from': self.type_for_from,
@@ -53,6 +57,7 @@ class TestBlock:
             'entities': [block_entity.to_dict()],
         }
         block = Block.de_json(json_dict, client)
+        assert block is not None
 
         assert block.id == self.id
         assert block.type == self.type
@@ -60,10 +65,12 @@ class TestBlock:
         assert block.title == self.title
         assert block.entities == [block_entity]
 
-    def test_de_json_all(self, client, block_entity, data_with_type):
+    def test_de_json_all(
+        self, client: Client, block_entity: BlockEntity, data_with_type: Tuple[BlockData, str]
+    ) -> None:
         data, type_ = data_with_type
 
-        json_dict = {
+        json_dict: Dict[str, JSONType] = {
             'id': self.id,
             'type': type_,
             'type_for_from': self.type_for_from,
@@ -73,6 +80,7 @@ class TestBlock:
             'data': data.to_dict(),
         }
         block = Block.de_json(json_dict, client)
+        assert block is not None
 
         assert block.id == self.id
         assert block.type == type_
@@ -82,7 +90,7 @@ class TestBlock:
         assert block.description == self.description
         assert block.data == data
 
-    def test_equality(self, block_entity):
+    def test_equality(self, block_entity: BlockEntity) -> None:
         a = Block(self.id, self.type, self.type_for_from, self.title, [block_entity])
         b = Block('', self.type, self.type_for_from, self.title, [])
         c = Block(self.id, self.type, self.type_for_from, self.title, [block_entity])

@@ -1,4 +1,6 @@
-from yandex_music import Promotion
+from typing import Dict
+
+from yandex_music import Client, JSONType, Promotion
 
 
 class TestPromotion:
@@ -12,7 +14,7 @@ class TestPromotion:
     gradient = ''
     image = 'avatars.yandex.net/get-music-feed-promotion/69892/5db861cfa6245a2c8c63445d-landing.image/%%'
 
-    def test_expected_values(self, promotion):
+    def test_expected_values(self, promotion: Promotion) -> None:
         assert promotion.promo_id == self.promo_id
         assert promotion.title == self.title
         assert promotion.subtitle == self.subtitle
@@ -23,14 +25,14 @@ class TestPromotion:
         assert promotion.gradient == self.gradient
         assert promotion.image == self.image
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Promotion.de_list([], client) == []
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Promotion.de_json({}, client) is None
 
-    def test_de_json_required(self, client):
-        json_dict = {
+    def test_de_json_required(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'promo_id': self.promo_id,
             'title': self.title,
             'subtitle': self.subtitle,
@@ -42,6 +44,7 @@ class TestPromotion:
             'image': self.image,
         }
         promotion = Promotion.de_json(json_dict, client)
+        assert promotion is not None
 
         assert promotion.promo_id == self.promo_id
         assert promotion.title == self.title
@@ -53,8 +56,8 @@ class TestPromotion:
         assert promotion.gradient == self.gradient
         assert promotion.image == self.image
 
-    def test_de_json_all(self, client):
-        json_dict = {
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {
             'promo_id': self.promo_id,
             'title': self.title,
             'subtitle': self.subtitle,
@@ -66,6 +69,7 @@ class TestPromotion:
             'image': self.image,
         }
         promotion = Promotion.de_json(json_dict, client)
+        assert promotion is not None
 
         assert promotion.promo_id == self.promo_id
         assert promotion.title == self.title
@@ -77,7 +81,7 @@ class TestPromotion:
         assert promotion.gradient == self.gradient
         assert promotion.image == self.image
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = Promotion(
             self.promo_id,
             self.title,

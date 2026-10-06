@@ -20,6 +20,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Typing :: Typed",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -34,7 +35,7 @@ classifiers = [
 ]
 dependencies = [
     "requests[socks]",
-    "typing-extensions",
+    "typing-extensions>=4.4.0",
 ]
 
 [project.optional-dependencies]
@@ -61,6 +62,9 @@ test = [
 ]
 lint = [
     "ruff==0.15.9",
+    "pyrefly==1.3.2",
+    "types-requests",
+    "types-aiofiles",
 ]
 codegen = [
     "unasync",
@@ -118,6 +122,81 @@ include = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.pyrefly]
+required-version = ">=1.3.2"
+preset = "all"
+python-version = "3.8"
+python-platform = "all"
+strict-callable-subtyping = true
+infer-with-first-use = false
+permissive-ignores = false
+search-path = [".", "examples/radio_example"]
+project-includes = ["yandex_music", "tests", "examples", "docs/generate_client_docs.py", "generate_sync_version.py", "generate_camel_case_aliases.py", "release_guard.py"]
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/base.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/utils/json_compat.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/_client_async/*"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/_client/*"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/utils/request.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/utils/request_async.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/album/album.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/artist/artist.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/download_info.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/experiments.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/landing/track_id.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/playlist/playlist_id.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/playlist/playlist.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/queue/queue_item.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/search/search.py"
+errors = { explicit-any = false }
+
+[[tool.pyrefly.sub-config]]
+matches = "yandex_music/track/track.py"
+errors = { explicit-any = false }
 
 [tool.ruff]
 line-length = 120

@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Iterator, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -24,6 +26,7 @@ class LabelAlbums(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.pager, self.albums)
 
+    @override
     def __getitem__(self, item: int) -> 'Album':
         return self.albums[item]
 
@@ -34,6 +37,7 @@ class LabelAlbums(YandexMusicModel):
         return len(self.albums)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['LabelAlbums']:
         """Десериализация объекта.
 

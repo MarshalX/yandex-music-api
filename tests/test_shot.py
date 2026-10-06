@@ -1,4 +1,6 @@
-from yandex_music import Shot
+from typing import Dict
+
+from yandex_music import Client, JSONType, Shot, ShotData
 
 
 class TestShot:
@@ -7,21 +9,21 @@ class TestShot:
     shot_id = '1036797'
     status = 'ready'
 
-    def test_expected_values(self, shot, shot_data):
+    def test_expected_values(self, shot: Shot, shot_data: ShotData) -> None:
         assert shot.order == self.order
         assert shot.played == self.played
         assert shot.shot_id == self.shot_id
         assert shot.status == self.status
         assert shot.shot_data == shot_data
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Shot.de_json({}, client) is None
 
-    def test_de_list_none(self, client):
+    def test_de_list_none(self, client: Client) -> None:
         assert Shot.de_list([], client) == []
 
-    def test_de_json_required(self, client, shot_data):
-        json_dict = {
+    def test_de_json_required(self, client: Client, shot_data: ShotData) -> None:
+        json_dict: Dict[str, JSONType] = {
             'order': self.order,
             'played': self.played,
             'shot_id': self.shot_id,
@@ -29,6 +31,7 @@ class TestShot:
             'shot_data': shot_data.to_dict(),
         }
         shot = Shot.de_json(json_dict, client)
+        assert shot is not None
 
         assert shot.order == self.order
         assert shot.played == self.played
@@ -36,8 +39,8 @@ class TestShot:
         assert shot.status == self.status
         assert shot.shot_data == shot_data
 
-    def test_de_json_all(self, client, shot_data):
-        json_dict = {
+    def test_de_json_all(self, client: Client, shot_data: ShotData) -> None:
+        json_dict: Dict[str, JSONType] = {
             'order': self.order,
             'played': self.played,
             'shot_id': self.shot_id,
@@ -45,6 +48,7 @@ class TestShot:
             'shot_data': shot_data.to_dict(),
         }
         shot = Shot.de_json(json_dict, client)
+        assert shot is not None
 
         assert shot.order == self.order
         assert shot.played == self.played
@@ -52,7 +56,7 @@ class TestShot:
         assert shot.status == self.status
         assert shot.shot_data == shot_data
 
-    def test_equality(self, shot_data):
+    def test_equality(self, shot_data: ShotData) -> None:
         a = Shot(self.order, self.played, shot_data, self.shot_id, self.status)
         b = Shot(self.order, True, shot_data, self.shot_id, self.status)
         c = Shot(self.order, self.played, shot_data, '10', self.status)

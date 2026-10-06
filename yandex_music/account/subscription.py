@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -41,6 +43,7 @@ class Subscription(YandexMusicModel):
         self._id_attrs = (self.non_auto_renewable_remainder, self.auto_renewable, self.family_auto_renewable)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Subscription']:
         """Десериализация объекта.
 
@@ -65,4 +68,4 @@ class Subscription(YandexMusicModel):
         cls_data['non_auto_renewable'] = NonAutoRenewable.de_json(cls_data.get('non_auto_renewable'), client)
         cls_data['operator'] = Operator.de_list(cls_data.get('operator'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

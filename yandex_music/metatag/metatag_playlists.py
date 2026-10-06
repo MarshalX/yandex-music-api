@@ -1,6 +1,8 @@
 from dataclasses import field
 from typing import TYPE_CHECKING, Iterator, List, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -45,6 +47,7 @@ class MetatagPlaylists(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.id, self.pager, self.playlists)
 
+    @override
     def __getitem__(self, item: int) -> 'Playlist':
         return self.playlists[item]
 
@@ -55,6 +58,7 @@ class MetatagPlaylists(YandexMusicModel):
         return len(self.playlists)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['MetatagPlaylists']:
         """Десериализация объекта.
 

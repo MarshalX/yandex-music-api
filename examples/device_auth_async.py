@@ -1,14 +1,14 @@
 import asyncio
 
-from yandex_music import ClientAsync
+from yandex_music import ClientAsync, DeviceCode
 
 
-def on_code(code):
+def on_code(code: DeviceCode) -> None:
     print(f'Откройте {code.verification_url} и введите код: {code.user_code}')
     print(f'Код действителен {code.expires_in} секунд')
 
 
-async def main():
+async def main() -> None:
     client = ClientAsync()
     token = await client.device_auth(on_code=on_code)
 
@@ -18,7 +18,9 @@ async def main():
     print(f'refresh_token: {token.refresh_token}')
     print(f'expires_in:    {token.expires_in} сек')
 
-    await client.init()
+    _ = await client.init()
+    assert client.me is not None
+    assert client.me.account is not None
     print(f'Здравствуйте, {client.me.account.login}!')
 
 

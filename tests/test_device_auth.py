@@ -1,16 +1,23 @@
+from typing import Dict, List, Optional
 from unittest.mock import MagicMock
+
+import pytest
 
 from yandex_music import Client, DeviceCode
 
 
-def _make_client():
+def _make_client() -> Client:
     client = Client()
     client._request = MagicMock()
     return client
 
 
+def _noop(*_args: object, **_kwargs: object) -> None:
+    return None
+
+
 class TestDeviceAuth:
-    def test_request_device_code_returns_model(self):
+    def test_request_device_code_returns_model(self) -> None:
         client = _make_client()
         client._request.post = MagicMock(
             return_value={
@@ -30,7 +37,7 @@ class TestDeviceAuth:
         assert code.expires_in == 300
         assert code.interval == 5
 
-    def test_request_device_code_sends_correct_payload(self):
+    def test_request_device_code_sends_correct_payload(self) -> None:
         client = _make_client()
         client._request.post = MagicMock(
             return_value={
@@ -42,7 +49,7 @@ class TestDeviceAuth:
             }
         )
 
-        client.request_device_code(device_id='my-id', device_name='my-name', client_id='my-cid')
+        _ = client.request_device_code(device_id='my-id', device_name='my-name', client_id='my-cid')
 
         args, _ = client._request.post.call_args
         assert args[0] == 'https://oauth.yandex.ru/device/code'
@@ -52,7 +59,7 @@ class TestDeviceAuth:
             'device_name': 'my-name',
         }
 
-    def test_poll_device_token_returns_token(self):
+    def test_poll_device_token_returns_token(self) -> None:
         client = _make_client()
         client._request.post = MagicMock(
             return_value={
@@ -71,7 +78,7 @@ class TestDeviceAuth:
         assert token.access_token == 'y0_tok'
         assert token.refresh_token == '1:ref'
 
-    def test_poll_device_token_pending_returns_none(self):
+    def test_poll_device_token_pending_returns_none(self) -> None:
         from yandex_music.exceptions import BadRequestError
 
         client = _make_client()
@@ -79,22 +86,20 @@ class TestDeviceAuth:
 
         assert client.poll_device_token('dev123') is None
 
-    def test_poll_device_token_other_error_raises(self):
-        import pytest
-
+    def test_poll_device_token_other_error_raises(self) -> None:
         from yandex_music.exceptions import BadRequestError, DeviceAuthError
 
         client = _make_client()
         client._request.post = MagicMock(side_effect=BadRequestError('expired_token Device code expired'))
 
         with pytest.raises(DeviceAuthError, match='expired_token'):
-            client.poll_device_token('dev123')
+            _ = client.poll_device_token('dev123')
 
-    def test_poll_device_token_sends_correct_payload(self):
+    def test_poll_device_token_sends_correct_payload(self) -> None:
         client = _make_client()
         client._request.post = MagicMock(return_value={'access_token': 'tok'})
 
-        client.poll_device_token('dev123', client_id='cid', client_secret='secret')
+        _ = client.poll_device_token('dev123', client_id='cid', client_secret='secret')
 
         args, _ = client._request.post.call_args
         assert args[0] == 'https://oauth.yandex.ru/token'
@@ -105,7 +110,7 @@ class TestDeviceAuth:
             'client_secret': 'secret',
         }
 
-    def test_device_auth_happy_path(self, monkeypatch):
+    def test_device_auth_happy_path(self, monkeypatch: pytest.MonkeyPatch) -> None:
         from yandex_music import OAuthToken
 
         client = _make_client()
@@ -123,15 +128,19 @@ class TestDeviceAuth:
         client._request.post = post_mock
 
         # Patch poll_device_token directly to simplify sequencing
-        polls = [None, None, OAuthToken('y0_tok', 'ref', 31536000, 'bearer')]
-        monkeypatch.setattr(client, 'poll_device_token', lambda *a, **kw: polls.pop(0))
+        polls: List[Optional[OAuthToken]] = [None, None, OAuthToken('y0_tok', 'ref', 31536000, 'bearer')]
+
+        def fake_poll(*_args: object, **_kwargs: object) -> Optional[OAuthToken]:
+            return polls.pop(0)
+
+        monkeypatch.setattr(client, 'poll_device_token', fake_poll)
 
         # Skip real sleeps
-        monkeypatch.setattr('time.sleep', lambda *a, **kw: None)
+        monkeypatch.setattr('time.sleep', _noop)
 
-        seen_code = {}
+        seen_code: Dict[str, DeviceCode] = {}
 
-        def on_code(code):
+        def on_code(code: DeviceCode) -> None:
             seen_code['code'] = code
 
         token = client.device_auth(on_code=on_code)
@@ -142,9 +151,7 @@ class TestDeviceAuth:
         assert client.token == 'y0_tok'
         assert polls == []
 
-    def test_device_auth_timeout(self, monkeypatch):
-        import pytest
-
+    def test_device_auth_timeout(self, monkeypatch: pytest.MonkeyPatch) -> None:
         from yandex_music.exceptions import DeviceAuthError
 
         client = _make_client()
@@ -157,18 +164,16 @@ class TestDeviceAuth:
                 'interval': 1,
             }
         )
-        monkeypatch.setattr(client, 'poll_device_token', lambda *a, **kw: None)
+        monkeypatch.setattr(client, 'poll_device_token', _noop)
         # Simulate time jumping past expires_in after the first check
         clock = iter([0.0, 0.0, 100.0, 200.0, 300.0])
         monkeypatch.setattr('time.monotonic', lambda: next(clock))
-        monkeypatch.setattr('time.sleep', lambda *a, **kw: None)
+        monkeypatch.setattr('time.sleep', _noop)
 
         with pytest.raises(DeviceAuthError, match='timed out'):
-            client.device_auth(on_code=lambda code: None)
+            _ = client.device_auth(on_code=lambda code: None)
 
-    def test_device_auth_cancel(self, monkeypatch):
-        import pytest
-
+    def test_device_auth_cancel(self, monkeypatch: pytest.MonkeyPatch) -> None:
         from yandex_music.exceptions import DeviceAuthError
 
         client = _make_client()
@@ -181,14 +186,14 @@ class TestDeviceAuth:
                 'interval': 1,
             }
         )
-        monkeypatch.setattr(client, 'poll_device_token', lambda *a, **kw: None)
-        monkeypatch.setattr('time.sleep', lambda *a, **kw: None)
+        monkeypatch.setattr(client, 'poll_device_token', _noop)
+        monkeypatch.setattr('time.sleep', _noop)
 
         calls = {'n': 0}
 
-        def should_cancel():
+        def should_cancel() -> bool:
             calls['n'] += 1
             return calls['n'] >= 3
 
         with pytest.raises(DeviceAuthError, match='cancelled'):
-            client.device_auth(on_code=lambda code: None, should_cancel=should_cancel)
+            _ = client.device_auth(on_code=lambda code: None, should_cancel=should_cancel)

@@ -1,10 +1,12 @@
+from typing import Dict, List
+
 import pytest
 
-from yandex_music import Feed
+from yandex_music import Client, Day, Feed, GeneratedPlaylist, JSONType
 
 
 @pytest.fixture(scope='class')
-def feed(generated_playlist, day):
+def feed(generated_playlist: GeneratedPlaylist, day: Day) -> Feed:
     return Feed(
         TestFeed.can_get_more_events,
         TestFeed.pumpkin,
@@ -21,11 +23,11 @@ class TestFeed:
     can_get_more_events = True
     pumpkin = False
     is_wizard_passed = True
-    headlines = []
+    headlines: List[str] = []
     today = '2019-11-09'
     next_revision = '2019-11-08'
 
-    def test_expected_values(self, feed, generated_playlist, day):
+    def test_expected_values(self, feed: Feed, generated_playlist: GeneratedPlaylist, day: Day) -> None:
         assert feed.can_get_more_events == self.can_get_more_events
         assert feed.pumpkin == self.pumpkin
         assert feed.is_wizard_passed == self.is_wizard_passed
@@ -35,11 +37,11 @@ class TestFeed:
         assert feed.days == [day]
         assert feed.next_revision == self.next_revision
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Feed.de_json({}, client) is None
 
-    def test_de_json_required(self, client, generated_playlist, day):
-        json_dict = {
+    def test_de_json_required(self, client: Client, generated_playlist: GeneratedPlaylist, day: Day) -> None:
+        json_dict: Dict[str, JSONType] = {
             'can_get_more_events': self.can_get_more_events,
             'pumpkin': self.pumpkin,
             'is_wizard_passed': self.is_wizard_passed,
@@ -49,6 +51,7 @@ class TestFeed:
             'days': [day.to_dict()],
         }
         feed = Feed.de_json(json_dict, client)
+        assert feed is not None
 
         assert feed.can_get_more_events == self.can_get_more_events
         assert feed.pumpkin == self.pumpkin
@@ -58,8 +61,8 @@ class TestFeed:
         assert feed.today == self.today
         assert feed.days == [day]
 
-    def test_de_json_all(self, client, generated_playlist, day):
-        json_dict = {
+    def test_de_json_all(self, client: Client, generated_playlist: GeneratedPlaylist, day: Day) -> None:
+        json_dict: Dict[str, JSONType] = {
             'can_get_more_events': self.can_get_more_events,
             'pumpkin': self.pumpkin,
             'is_wizard_passed': self.is_wizard_passed,
@@ -70,6 +73,7 @@ class TestFeed:
             'next_revision': self.next_revision,
         }
         feed = Feed.de_json(json_dict, client)
+        assert feed is not None
 
         assert feed.can_get_more_events == self.can_get_more_events
         assert feed.pumpkin == self.pumpkin
@@ -80,7 +84,7 @@ class TestFeed:
         assert feed.days == [day]
         assert feed.next_revision == self.next_revision
 
-    def test_equality(self, generated_playlist, day):
+    def test_equality(self, generated_playlist: GeneratedPlaylist, day: Day) -> None:
         a = Feed(
             self.can_get_more_events,
             self.pumpkin,

@@ -17,7 +17,7 @@ def _player_state(queue: ynison_state.PlayerQueue, paused: bool = True) -> yniso
 
 
 class TestChangeTrack:
-    def test_linear_next_and_previous(self):
+    def test_linear_next_and_previous(self) -> None:
         state = _player_state(make_queue(size=3, current=1))
 
         next_request = messages.build_next_track_request(CLIENT_DEVICE_ID, state)
@@ -26,7 +26,7 @@ class TestChangeTrack:
         assert next_request.update_player_state.player_state.player_queue.current_playable_index == 2
         assert previous_request.update_player_state.player_state.player_queue.current_playable_index == 0
 
-    def test_shuffle_aware(self):
+    def test_shuffle_aware(self) -> None:
         # порядок воспроизведения: 2 -> 0 -> 1
         state = _player_state(make_queue(size=3, current=0, shuffle=[2, 0, 1]))
 
@@ -36,14 +36,14 @@ class TestChangeTrack:
         assert next_request.update_player_state.player_state.player_queue.current_playable_index == 1
         assert previous_request.update_player_state.player_state.player_queue.current_playable_index == 2
 
-    def test_shuffle_boundaries(self):
+    def test_shuffle_boundaries(self) -> None:
         last_in_order = _player_state(make_queue(size=3, current=1, shuffle=[2, 0, 1]))
         first_in_order = _player_state(make_queue(size=3, current=2, shuffle=[2, 0, 1]))
 
         with pytest.raises(YnisonQueueBoundaryError):
-            messages.build_next_track_request(CLIENT_DEVICE_ID, last_in_order)
+            _ = messages.build_next_track_request(CLIENT_DEVICE_ID, last_in_order)
         with pytest.raises(YnisonQueueBoundaryError):
-            messages.build_previous_track_request(CLIENT_DEVICE_ID, first_in_order)
+            _ = messages.build_previous_track_request(CLIENT_DEVICE_ID, first_in_order)
 
         # в обратную сторону от границ двигаться можно
         assert (
@@ -53,21 +53,21 @@ class TestChangeTrack:
             == 0
         )
 
-    def test_linear_boundaries(self):
+    def test_linear_boundaries(self) -> None:
         with pytest.raises(YnisonQueueBoundaryError):
-            messages.build_next_track_request(CLIENT_DEVICE_ID, _player_state(make_queue(size=3, current=2)))
+            _ = messages.build_next_track_request(CLIENT_DEVICE_ID, _player_state(make_queue(size=3, current=2)))
         with pytest.raises(YnisonQueueBoundaryError):
-            messages.build_previous_track_request(CLIENT_DEVICE_ID, _player_state(make_queue(size=3, current=0)))
+            _ = messages.build_previous_track_request(CLIENT_DEVICE_ID, _player_state(make_queue(size=3, current=0)))
 
-    def test_empty_queue(self):
+    def test_empty_queue(self) -> None:
         state = _player_state(make_queue(size=0, current=-1))
 
         with pytest.raises(YnisonQueueBoundaryError):
-            messages.build_next_track_request(CLIENT_DEVICE_ID, state)
+            _ = messages.build_next_track_request(CLIENT_DEVICE_ID, state)
         with pytest.raises(YnisonQueueBoundaryError):
-            messages.build_previous_track_request(CLIENT_DEVICE_ID, state)
+            _ = messages.build_previous_track_request(CLIENT_DEVICE_ID, state)
 
-    def test_request_contents(self):
+    def test_request_contents(self) -> None:
         queue = make_queue(size=3, current=0)
         state = _player_state(queue, paused=False)
 
@@ -82,13 +82,13 @@ class TestChangeTrack:
         assert new_state.status.paused is False
         assert new_state.status.playback_speed == 1.0
         assert new_state.status.version.device_id == CLIENT_DEVICE_ID
-        assert request.rid
+        assert request.rid != ''
         # исходная очередь не изменилась
         assert queue.current_playable_index == 0
 
 
 class TestSetPaused:
-    def test_extrapolates_progress_when_playing(self):
+    def test_extrapolates_progress_when_playing(self) -> None:
         started = messages.get_timestamp() - 2000
         status = make_playing_status(
             progress_ms=1000, duration_ms=600000, paused=False, playback_speed=1.5, timestamp_ms=started
@@ -104,7 +104,7 @@ class TestSetPaused:
         assert new_status.playback_speed == 1.5
         assert new_status.version.device_id == CLIENT_DEVICE_ID
 
-    def test_progress_unchanged_when_paused(self):
+    def test_progress_unchanged_when_paused(self) -> None:
         status = make_playing_status(progress_ms=1234, paused=True, timestamp_ms=messages.get_timestamp() - 5000)
 
         request = messages.build_set_paused_request(CLIENT_DEVICE_ID, status, paused=False)
@@ -113,7 +113,7 @@ class TestSetPaused:
         assert new_status.progress_ms == 1234
         assert new_status.paused is False
 
-    def test_progress_clamped_to_duration(self):
+    def test_progress_clamped_to_duration(self) -> None:
         status = make_playing_status(
             progress_ms=9000, duration_ms=10000, paused=False, timestamp_ms=messages.get_timestamp() - 60000
         )
@@ -122,7 +122,7 @@ class TestSetPaused:
 
         assert request.update_playing_status.playing_status.progress_ms == 10000
 
-    def test_zero_speed_defaults_to_one(self):
+    def test_zero_speed_defaults_to_one(self) -> None:
         status = make_playing_status(playback_speed=0)
 
         request = messages.build_set_paused_request(CLIENT_DEVICE_ID, status, paused=True)
@@ -132,7 +132,7 @@ class TestSetPaused:
 
 class TestSetVolume:
     @pytest.mark.parametrize(('volume', 'expected'), [(1.5, 1.0), (-0.2, 0.0), (0.3, 0.3), (0, 0.0), (1, 1.0)])
-    def test_clamping(self, volume, expected):
+    def test_clamping(self, volume: float, expected: float) -> None:
         request = messages.build_set_volume_request(CLIENT_DEVICE_ID, 'fakeplayer01', volume)
 
         assert request.update_volume_info.volume_info.volume == expected
@@ -141,23 +141,23 @@ class TestSetVolume:
 
 
 class TestDeviceId:
-    def test_seeded_is_deterministic(self):
+    def test_seeded_is_deterministic(self) -> None:
         first = messages.generate_device_id(seed='seed-a')
 
         assert first == messages.generate_device_id(seed='seed-a')
         assert first != messages.generate_device_id(seed='seed-b')
-        assert re.fullmatch(r'[0-9a-f]{12}', first)
+        assert re.fullmatch(r'[0-9a-f]{12}', first) is not None
 
-    def test_random(self):
+    def test_random(self) -> None:
         ids = {messages.generate_device_id() for _ in range(20)}
 
         assert len(ids) > 1
         for device_id in ids:
-            assert re.fullmatch(r'[0-9a-f]{12}', device_id)
+            assert re.fullmatch(r'[0-9a-f]{12}', device_id) is not None
 
 
 class TestFullState:
-    def test_defaults(self):
+    def test_defaults(self) -> None:
         request = messages.build_full_state_request(CLIENT_DEVICE_ID)
         info = request.update_full_state.device.info
 
@@ -168,7 +168,7 @@ class TestFullState:
         assert request.update_full_state.device.capabilities.can_be_remote_controller is True
         assert request.update_full_state.is_currently_active is False
 
-    def test_title_and_app_name(self):
+    def test_title_and_app_name(self) -> None:
         request = messages.build_full_state_request(CLIENT_DEVICE_ID, title='My Remote', app_name='my-app')
         info = request.update_full_state.device.info
 
@@ -176,7 +176,7 @@ class TestFullState:
         assert info.app_name == 'my-app'
         assert '"updateFullState"' in request.to_json()
 
-    def test_unique_rid(self):
+    def test_unique_rid(self) -> None:
         assert (
             messages.build_full_state_request(CLIENT_DEVICE_ID).rid
             != messages.build_full_state_request(CLIENT_DEVICE_ID).rid

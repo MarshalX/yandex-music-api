@@ -1,22 +1,25 @@
-from yandex_music import ConcertLocations
+from typing import Dict
+
+from yandex_music import Client, ConcertLocation, ConcertLocations, JSONType
 
 
 class TestConcertLocations:
-    def test_expected_value(self, concert_locations, concert_location):
+    def test_expected_value(self, concert_locations: ConcertLocations, concert_location: ConcertLocation) -> None:
         assert concert_locations.locations == [concert_location]
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert ConcertLocations.de_json({}, client) is None
 
-    def test_de_json_all(self, client, concert_location):
-        json_dict = {
+    def test_de_json_all(self, client: Client, concert_location: ConcertLocation) -> None:
+        json_dict: Dict[str, JSONType] = {
             'locations': [concert_location.to_dict()],
         }
         concert_locations = ConcertLocations.de_json(json_dict, client)
+        assert concert_locations is not None
 
         assert concert_locations.locations == [concert_location]
 
-    def test_equality(self, concert_location):
+    def test_equality(self, concert_location: ConcertLocation) -> None:
         other_location = type(concert_location)(id=2, name='Санкт-Петербург')
         a = ConcertLocations(locations=[concert_location])
         b = ConcertLocations(locations=[other_location])

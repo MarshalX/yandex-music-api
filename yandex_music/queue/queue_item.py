@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Any, Optional
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -47,6 +49,7 @@ class QueueItem(YandexMusicModel):
         return await self.client.queue(self.id, *args, **kwargs)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['QueueItem']:
         """Десериализация объекта.
 
@@ -65,7 +68,7 @@ class QueueItem(YandexMusicModel):
         cls_data = cls.cleanup_data(data, client)
         cls_data['context'] = Context.de_json(cls_data.get('context'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     # camelCase псевдонимы
 

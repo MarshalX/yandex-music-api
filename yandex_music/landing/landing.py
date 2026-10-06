@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional, Union
 
+from typing_extensions import override
+
 from yandex_music import YandexMusicModel
 from yandex_music.utils import model
 
@@ -26,10 +28,12 @@ class Landing(YandexMusicModel):
     def __post_init__(self) -> None:
         self._id_attrs = (self.content_id, self.blocks)
 
+    @override
     def __getitem__(self, item: int) -> 'Block':
         return self.blocks[item]
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['Landing']:
         """Десериализация объекта.
 
@@ -48,4 +52,4 @@ class Landing(YandexMusicModel):
 
         cls_data['blocks'] = Block.de_list(cls_data.get('blocks'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

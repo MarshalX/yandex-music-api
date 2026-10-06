@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
+from typing_extensions import override
+
 from yandex_music import ChartInfoMenu, Playlist, YandexMusicModel
 from yandex_music.utils import model
 
@@ -35,6 +37,7 @@ class ChartInfo(YandexMusicModel):
         self._id_attrs = (self.id,)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType') -> Optional['ChartInfo']:
         """Десериализация объекта.
 
@@ -52,4 +55,4 @@ class ChartInfo(YandexMusicModel):
         cls_data['chart'] = Playlist.de_json(cls_data.get('chart'), client)
         cls_data['menu'] = ChartInfoMenu.de_json(cls_data.get('menu'), client)
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)

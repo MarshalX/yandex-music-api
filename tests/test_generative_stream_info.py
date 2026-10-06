@@ -1,25 +1,28 @@
-from yandex_music import GenerativeStreamInfo
+from typing import Dict
+
+from yandex_music import Client, GenerativeStreamInfo, JSONType
 
 
 class TestGenerativeStreamInfo:
     id = 'fake-stream-id'
     url = 'https://example.com/generative/stream.m3u8'
 
-    def test_expected_values(self, generative_stream_info):
+    def test_expected_values(self, generative_stream_info: GenerativeStreamInfo) -> None:
         assert generative_stream_info.id == self.id
         assert generative_stream_info.url == self.url
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert GenerativeStreamInfo.de_json({}, client) is None
 
-    def test_de_json_all(self, client):
-        json_dict = {'id': self.id, 'url': self.url}
+    def test_de_json_all(self, client: Client) -> None:
+        json_dict: Dict[str, JSONType] = {'id': self.id, 'url': self.url}
         generative_stream_info = GenerativeStreamInfo.de_json(json_dict, client)
+        assert generative_stream_info is not None
 
         assert generative_stream_info.id == self.id
         assert generative_stream_info.url == self.url
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         a = GenerativeStreamInfo(self.id, self.url)
         b = GenerativeStreamInfo('other-stream-id', self.url)
         c = GenerativeStreamInfo(self.id, self.url)

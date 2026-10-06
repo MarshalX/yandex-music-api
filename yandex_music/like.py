@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Optional, Sequence
 
+from typing_extensions import override
+
 from yandex_music import Album, Artist, Playlist, YandexMusicModel
 from yandex_music.utils import model
 
@@ -22,7 +24,7 @@ class Like(YandexMusicModel):
 
     Attributes:
         type (:obj:`str`): Тип объекта с отметкой.
-        id (:obj:`str`, optional): Уникальный идентификатор отметки.
+        id (:obj:`int`, optional): Уникальный идентификатор отметки.
         timestamp (:obj:`str`, optional): Дата и время добавления отметки.
         album (:obj:`yandex_music.Album`, optional): Понравившейся альбом.
         artist (:obj:`yandex_music.Artist`, optional): Понравившейся артист.
@@ -35,7 +37,7 @@ class Like(YandexMusicModel):
     """
 
     type: str
-    id: Optional[str] = None
+    id: Optional[int] = None
     timestamp: Optional[str] = None
     album: Optional['Album'] = None
     artist: Optional['Artist'] = None
@@ -50,6 +52,7 @@ class Like(YandexMusicModel):
         self._id_attrs = (self.id, self.type, self.timestamp, self.album, self.artist, self.playlist)
 
     @classmethod
+    @override
     def de_json(cls, data: 'JSONType', client: 'ClientType', type_: Optional[str] = None) -> Optional['Like']:
         """Десериализация объекта.
 
@@ -72,15 +75,16 @@ class Like(YandexMusicModel):
                 cls_data[type_] = Artist.de_json(data, client)
             else:
                 cls_data[type_] = Artist.de_json(cls_data.get('artist'), client)
-        elif type_:
+        elif type_ is not None and type_ != '':
             de_json = _TYPE_TO_DE_JSON_DEF[type_]
             cls_data[type_] = de_json(cls_data.get(type_), client)
 
         cls_data['type'] = type_
 
-        return cls(client=client, **cls_data)  # type: ignore
+        return cls(client=client, **cls_data)
 
     @classmethod
+    @override
     def de_list(cls, data: 'JSONType', client: 'ClientType', type_: Optional[str] = None) -> Sequence['Like']:
         """Десериализация списка объектов.
 

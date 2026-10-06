@@ -1,7 +1,7 @@
-from yandex_music import Client
+from yandex_music import Client, DeviceCode
 
 
-def on_code(code):
+def on_code(code: DeviceCode) -> None:
     print(f'Откройте {code.verification_url} и введите код: {code.user_code}')
     print(f'Код действителен {code.expires_in} секунд')
 
@@ -15,5 +15,7 @@ print(f'access_token:  {token.access_token}')
 print(f'refresh_token: {token.refresh_token}')
 print(f'expires_in:    {token.expires_in} сек')
 
-client.init()
+_ = client.init()
+assert client.me is not None
+assert client.me.account is not None
 print(f'Здравствуйте, {client.me.account.login}!')

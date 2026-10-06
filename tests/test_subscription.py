@@ -1,13 +1,22 @@
-from yandex_music import Subscription
+from typing import Dict, Optional
+
+from yandex_music import AutoRenewable, Client, JSONType, NonAutoRenewable, Operator, RenewableRemainder, Subscription
 
 
 class TestSubscription:
     can_start_trial = False
     mcdonalds = False
-    end = None
+    end: Optional[str] = None
     had_any_subscription = False
 
-    def test_expected_values(self, subscription, renewable_remainder, auto_renewable, non_auto_renewable, operator):
+    def test_expected_values(
+        self,
+        subscription: Subscription,
+        renewable_remainder: RenewableRemainder,
+        auto_renewable: AutoRenewable,
+        non_auto_renewable: NonAutoRenewable,
+        operator: Operator,
+    ) -> None:
         assert subscription.non_auto_renewable_remainder == renewable_remainder
         assert subscription.auto_renewable == [auto_renewable]
         assert subscription.family_auto_renewable == [auto_renewable]
@@ -18,25 +27,35 @@ class TestSubscription:
         assert subscription.end == self.end
         assert subscription.had_any_subscription == self.had_any_subscription
 
-    def test_de_json_none(self, client):
+    def test_de_json_none(self, client: Client) -> None:
         assert Subscription.de_json({}, client) is None
 
-    def test_de_json_required(self, client, renewable_remainder, auto_renewable):
-        json_dict = {
+    def test_de_json_required(
+        self, client: Client, renewable_remainder: RenewableRemainder, auto_renewable: AutoRenewable
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'non_auto_renewable_remainder': renewable_remainder.to_dict(),
             'auto_renewable': [auto_renewable.to_dict()],
             'family_auto_renewable': [auto_renewable.to_dict()],
             'had_any_subscription': self.had_any_subscription,
         }
         subscription = Subscription.de_json(json_dict, client)
+        assert subscription is not None
 
         assert subscription.non_auto_renewable_remainder == renewable_remainder
         assert subscription.auto_renewable == [auto_renewable]
         assert subscription.family_auto_renewable == [auto_renewable]
         assert subscription.had_any_subscription == self.had_any_subscription
 
-    def test_de_json_all(self, client, renewable_remainder, auto_renewable, non_auto_renewable, operator):
-        json_dict = {
+    def test_de_json_all(
+        self,
+        client: Client,
+        renewable_remainder: RenewableRemainder,
+        auto_renewable: AutoRenewable,
+        non_auto_renewable: NonAutoRenewable,
+        operator: Operator,
+    ) -> None:
+        json_dict: Dict[str, JSONType] = {
             'auto_renewable': [auto_renewable.to_dict()],
             'can_start_trial': self.can_start_trial,
             'mcdonalds': self.mcdonalds,
@@ -48,6 +67,7 @@ class TestSubscription:
             'had_any_subscription': self.had_any_subscription,
         }
         subscription = Subscription.de_json(json_dict, client)
+        assert subscription is not None
 
         assert subscription.non_auto_renewable_remainder == renewable_remainder
         assert subscription.auto_renewable == [auto_renewable]
@@ -59,16 +79,17 @@ class TestSubscription:
         assert subscription.end == self.end
         assert subscription.had_any_subscription == self.had_any_subscription
 
-    def test_de_json_only_end(self, client):
+    def test_de_json_only_end(self, client: Client) -> None:
         # Статус аккаунта радио возвращает подписку только с датой окончания
         subscription = Subscription.de_json({'end': '2024-01-01T00:00:00+03:00'}, client)
+        assert subscription is not None
 
         assert subscription.end == '2024-01-01T00:00:00+03:00'
         assert subscription.had_any_subscription is None
         assert subscription.non_auto_renewable_remainder is None
         assert subscription.auto_renewable == []
 
-    def test_equality(self, renewable_remainder, auto_renewable):
+    def test_equality(self, renewable_remainder: RenewableRemainder, auto_renewable: AutoRenewable) -> None:
         a = Subscription(renewable_remainder, [auto_renewable], [auto_renewable], self.had_any_subscription)
         b = Subscription(renewable_remainder, [], [auto_renewable], self.had_any_subscription)
 
