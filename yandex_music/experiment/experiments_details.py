@@ -53,4 +53,4 @@ class ExperimentsDetails(YandexMusicModel):
             if detail is not None:
                 experiments[name] = detail
 
-        return cls(client=client, experiments=experiments)
+        return cls.construct({'experiments': experiments}, client)

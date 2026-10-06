@@ -245,9 +245,9 @@ def autodoc_skip_member(_app, what, name, _obj, skip, _options) -> bool:  # noqa
     return skip
 
 
-def autodoc_process_signature(_app, what, _name, _obj, _options, _signature, return_annotation):  # noqa: ANN001 ANN201
+def autodoc_process_signature(_app, what, _name, _obj, _options, signature, return_annotation):  # noqa: ANN001 ANN201
     """Скрыть сигнатуру dataclass-классов — поля и так перечислены ниже."""
-    if what == 'class':
+    if what == 'class' and signature is not None:
         return ('', return_annotation)
     return None
 

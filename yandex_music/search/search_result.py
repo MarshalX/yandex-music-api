@@ -75,4 +75,4 @@ class SearchResult(YandexMusicModel, Generic[T]):
             klass = _TYPE_TO_CLASS[type_]
             cls_data['results'] = klass.de_list(cls_data.get('results'), client)
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)

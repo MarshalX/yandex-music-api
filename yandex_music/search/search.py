@@ -169,7 +169,7 @@ class Search(YandexMusicModel):
         cls_data['podcasts'] = SearchResult.de_json(cls_data.get('podcasts'), client, 'podcast')
         cls_data['podcast_episodes'] = SearchResult.de_json(cls_data.get('podcast_episodes'), client, 'podcast_episode')
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)
 
     # camelCase псевдонимы
 

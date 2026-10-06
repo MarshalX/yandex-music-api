@@ -66,4 +66,4 @@ class MusicHistoryItemData(YandexMusicModel):
         else:
             cls_data['full_model'] = MusicHistoryContextFullModel.de_json(cls_data.get('full_model'), client)
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)

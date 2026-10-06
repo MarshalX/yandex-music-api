@@ -1,6 +1,6 @@
 """Базовые классы."""
 
-import logging
+import dataclasses
 import sys
 from typing import (
     TYPE_CHECKING,
@@ -8,6 +8,7 @@ from typing import (
     Callable,
     Collection,
     Dict,
+    FrozenSet,
     List,
     Optional,
     Sequence,
@@ -22,16 +23,13 @@ from typing_extensions import Self, TypeGuard, get_args, get_origin
 
 from yandex_music.utils import model
 from yandex_music.utils.normalize import RESERVED_NAMES, _normalize_key
+from yandex_music.utils.schema_mismatch import report_schema_mismatch
 
 if TYPE_CHECKING:
     from yandex_music import Client, ClientAsync
     from yandex_music._client_base import ClientBase
 
 from yandex_music.utils.json_backend import get_default_json_backend
-
-logger = logging.getLogger(__name__)
-new_issue_by_template_url = 'https://bit.ly/3dsFxyH'
-
 
 JSONType = Union[Dict[str, 'JSONType'], Sequence['JSONType'], str, int, float, bool, None]
 ClientType = Union['Client', 'ClientAsync', 'ClientBase']
@@ -43,6 +41,7 @@ MapTypeToDeJson = Dict[str, Callable[['JSONType', 'ClientType'], Optional['Yande
 NestedConverter = Callable[[Any, 'ClientType'], Any]
 
 _nested_plans: Dict[type, List[Tuple[str, NestedConverter]]] = {}
+_required_fields: Dict[type, Tuple[str, ...]] = {}
 _annotations_namespace: Dict[str, Any] = {}
 
 
@@ -110,6 +109,17 @@ def _build_nested_converter(type_: Any) -> Optional[NestedConverter]:
     return None
 
 
+class CleanedData(Dict[str, Any]):
+    """Данные после :meth:`YandexMusicModel.cleanup_data`.
+
+    Attributes:
+        unknown_fields (:obj:`frozenset` из :obj:`str`): Поля от API, которых нет в модели. Заполняются только при
+            включённом ``report_unknown_fields`` и попадают в общий отчёт в :meth:`YandexMusicModel.construct`.
+    """
+
+    unknown_fields: FrozenSet[str] = frozenset()
+
+
 class YandexMusicObject:
     """Базовый класс для всех классов библиотеки."""
 
@@ -126,16 +136,6 @@ class YandexMusicModel(YandexMusicObject):
 
     def __getitem__(self, item: Any) -> Any:
         return self.__dict__[item]
-
-    @staticmethod
-    def report_unknown_fields_callback(klass: type, unknown_fields: 'set[str]') -> None:
-        """Обратный вызов для обработки неизвестных полей."""
-        logger.warning(
-            'Found unknown fields received from API! Please copy warn message '
-            'and send to %s (GitHub issue), thank you!',
-            new_issue_by_template_url,
-        )
-        logger.warning('Type: %s.%s; fields: %s', klass.__module__, klass.__name__, unknown_fields)
 
     @staticmethod
     def is_dict_model_data(data: JSONType) -> TypeGuard[Dict[str, JSONType]]:
@@ -190,7 +190,7 @@ class YandexMusicModel(YandexMusicObject):
         return bool(data) and isinstance(data, list) and all(isinstance(item, dict) for item in data)
 
     @classmethod
-    def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> Dict[str, Any]:
+    def cleanup_data(cls, data: JSONType, client: Optional['ClientType']) -> CleanedData:
         """Нормализует ключи и удаляет незадекларированные поля для текущей модели из сырых данных.
 
         Note:
@@ -198,18 +198,21 @@ class YandexMusicModel(YandexMusicObject):
             без рекурсивного обхода вложенных структур. Фильтрует только словарь поле:значение.
             Иначе вернёт пустой :obj:`dict`.
 
+            Неизвестные поля не сообщаются здесь, а сохраняются в ``unknown_fields`` результата,
+            чтобы :meth:`construct` отправил один отчёт вместе с отсутствующими полями.
+
         Args:
             data (:obj:`JSONType`): Поля и значения десериализуемого объекта.
             client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
 
         Returns:
-            :obj:`dict`: Отфильтрованные данные с нормализованными ключами.
+            :obj:`yandex_music.base.CleanedData`: Отфильтрованные данные с нормализованными ключами.
         """
+        result = CleanedData()
         if not YandexMusicModel.is_dict_model_data(data):
-            return {}
+            return result
 
         known = cls.__dataclass_fields__
-        result: Dict[str, Any] = {}
         report = client is not None and client.report_unknown_fields
         unknown_keys: Optional[Set[str]] = set() if report else None
 
@@ -221,7 +224,7 @@ class YandexMusicModel(YandexMusicObject):
                 unknown_keys.add(nk)
 
         if unknown_keys is not None and len(unknown_keys) > 0:
-            cls.report_unknown_fields_callback(cls, unknown_keys)
+            result.unknown_fields = frozenset(unknown_keys)
 
         return result
 
@@ -252,6 +255,59 @@ class YandexMusicModel(YandexMusicObject):
 
         _nested_plans[cls] = plan
         return plan
+
+    @classmethod
+    def required_fields(cls) -> Tuple[str, ...]:
+        """Обязательные поля модели (без значения по умолчанию).
+
+        Note:
+            Список строится один раз на класс и кешируется.
+
+        Returns:
+            :obj:`tuple` из :obj:`str`: Имена обязательных полей.
+        """
+        cached = _required_fields.get(cls)
+        if cached is not None:
+            return cached
+
+        required = tuple(
+            f.name
+            for f in dataclasses.fields(cls)
+            if f.name != 'client' and f.default is dataclasses.MISSING and f.default_factory is dataclasses.MISSING
+        )
+        _required_fields[cls] = required
+        return required
+
+    @classmethod
+    def construct(cls, cls_data: Dict[str, Any], client: Optional['ClientType']) -> Self:
+        """Создание объекта из подготовленных данных без падения на отсутствующих полях.
+
+        Note:
+            Обязательные поля, которые не пришли от API или равны null, заполняются ``None``.
+            Об отсутствующих и неизвестных полях отправляется один общий отчёт
+            (см. :func:`yandex_music.utils.schema_mismatch.report_schema_mismatch`).
+            В строгом режиме клиента при отсутствии обязательных полей вызывается исключение.
+
+        Args:
+            cls_data (:obj:`dict`): Данные после :meth:`cleanup_data` и :meth:`de_nested`.
+            client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
+
+        Returns:
+            :obj:`yandex_music.YandexMusicModel`: Созданный объект.
+
+        Raises:
+            :class:`yandex_music.exceptions.SchemaMismatchError`: В строгом режиме при отсутствии обязательных полей.
+        """
+        unknown = cls_data.unknown_fields if isinstance(cls_data, CleanedData) else frozenset()
+        missing = [name for name in cls.required_fields() if cls_data.get(name) is None]
+        if len(missing) > 0 or len(unknown) > 0:
+            report_schema_mismatch(cls, client, missing_fields=missing, unknown_fields=unknown)
+
+        for name in missing:
+            cls_data[name] = None
+
+        cls_data['client'] = client
+        return cls(**cls_data)
 
     @classmethod
     def de_nested(cls, cls_data: Dict[str, Any], client: 'ClientType', exclude: Collection[str] = ()) -> Dict[str, Any]:
@@ -293,9 +349,7 @@ class YandexMusicModel(YandexMusicObject):
         if not cls.is_dict_model_data(data):
             return None
 
-        kwargs = cls.de_nested(cls.cleanup_data(data, client), client)
-        kwargs['client'] = client
-        return cls(**kwargs)
+        return cls.construct(cls.de_nested(cls.cleanup_data(data, client), client), client)
 
     @classmethod
     def de_list(cls, data: JSONType, client: 'ClientType') -> Sequence[Self]:

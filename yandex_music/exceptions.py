@@ -21,6 +21,10 @@ class IdMissingError(YandexMusicError):
     """Класс исключения, вызываемого при попытке использования отсутствующего ID."""
 
 
+class SchemaMismatchError(YandexMusicError):
+    """Класс исключения, вызываемого в строгом режиме при отсутствии обязательных полей в ответе API."""
+
+
 class NetworkError(YandexMusicError):
     """Базовый класс исключений, вызываемых для ошибок, связанных с запросами к серверу."""
 

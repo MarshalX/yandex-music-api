@@ -558,7 +558,7 @@ class Playlist(YandexMusicModel):
                 cls_data['playlist_absence'] = PlaylistAbsence.de_json(_typo_val, client)
                 break
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)
 
     # camelCase псевдонимы
 

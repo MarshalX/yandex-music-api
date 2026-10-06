@@ -81,7 +81,7 @@ class Like(YandexMusicModel):
 
         cls_data['type'] = type_
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)
 
     @classmethod
     @override

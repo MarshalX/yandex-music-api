@@ -358,7 +358,7 @@ class Artist(YandexMusicModel):
 
             cls_data['decomposed'] = decomposed_items
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)
 
     # camelCase псевдонимы
 

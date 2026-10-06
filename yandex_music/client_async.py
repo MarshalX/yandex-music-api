@@ -26,6 +26,7 @@ from yandex_music._client_async.tracks import TracksMixin
 from yandex_music._client_async.wave import WaveMixin
 from yandex_music.utils.json_backend import JsonBackend
 from yandex_music.utils.request_async import Request
+from yandex_music.utils.schema_mismatch import SchemaMismatchHandler
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
@@ -70,6 +71,8 @@ class ClientAsync(
         device (:obj:`str`): Строка, содержащая сведения об устройстве, с которого выполняются запросы.
         report_unknown_fields (:obj:`bool`): Включены ли предупреждения о неизвестных полях от API,
             которых нет в библиотеке.
+        strict (:obj:`bool`): Вызывать ли исключение при отсутствии обязательных полей в ответе API.
+        on_schema_mismatch (:obj:`Callable`, optional): Обработчик расхождений моделей с ответами API.
 
     Args:
         token (:obj:`str`, optional): Уникальный ключ для аутентификации.
@@ -79,6 +82,11 @@ class ClientAsync(
         language (:obj:`str`, optional): Язык, на котором будут приходить ответы от API. По умолчанию русский.
         report_unknown_fields (:obj:`bool`, optional): Включить предупреждения о неизвестных полях от API,
             которых нет в библиотеке.
+        strict (:obj:`bool`, optional): Вызывать :class:`yandex_music.exceptions.SchemaMismatchError` при отсутствии
+            обязательных полей в ответе API. По умолчанию такие поля заполняются ``None``, а в лог пишется отчёт.
+        on_schema_mismatch (:obj:`Callable`, optional): Обработчик расхождений моделей с ответами API, принимающий
+            :class:`yandex_music.utils.schema_mismatch.SchemaMismatch`. Заменяет предупреждение в лог.
+            Вызывается один раз на модель и набор полей за процесс.
         json_backend (:obj:`yandex_music.utils.json_backend.JsonBackend`, optional): JSON библиотека.
             Если передан вместе с `request`, заменяет его JSON библиотеку. По умолчанию используется глобальная.
     """
@@ -93,6 +101,8 @@ class ClientAsync(
         language: str = 'ru',
         report_unknown_fields: bool = False,
         json_backend: Optional[JsonBackend] = None,
+        strict: bool = False,
+        on_schema_mismatch: Optional[SchemaMismatchHandler] = None,
     ) -> None:
         if not ClientAsync.__notice_displayed:
             print(f'Yandex Music API v{__version__}, {__copyright__}')
@@ -108,6 +118,8 @@ class ClientAsync(
         self.base_url = base_url
 
         self.report_unknown_fields = report_unknown_fields
+        self.strict = strict
+        self.on_schema_mismatch = on_schema_mismatch
 
         if request is not None:
             self._request = request

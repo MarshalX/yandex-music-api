@@ -77,4 +77,4 @@ class BlockEntity(YandexMusicModel):
             de_json_def = _TYPE_TO_DE_JSON_DEF[type_]
             cls_data['data'] = de_json_def(cls_data.get('data'), client)
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)

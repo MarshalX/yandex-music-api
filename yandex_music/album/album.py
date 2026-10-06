@@ -377,7 +377,7 @@ class Album(YandexMusicModel):
         if isinstance(volumes, list):
             cls_data['volumes'] = [Track.de_list(volume, client) for volume in volumes]
 
-        return cls(client=client, **cls_data)
+        return cls.construct(cls_data, client)
 
     # camelCase псевдонимы
 
