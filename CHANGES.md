@@ -1,5 +1,15 @@
 # Список изменений
 
+## Версия 3.2.1
+
+**07.10.2026**
+
+**Исправлены расхождения моделей с API**
+
+**Незначительные изменения и/или исправления**
+
+- Поля `Playlist.made_for`, `Playlist.play_counter`, `Playlist.playlist_absence`, `Subscription.non_auto_renewable_remainder` и `TagResult.tag` стали необязательными ([#746](https://github.com/MarshalX/yandex-music-api/pull/746)).
+
 ## Версия 3.2.0
 
 **06.10.2026**
