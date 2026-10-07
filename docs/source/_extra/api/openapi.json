@@ -14817,7 +14817,7 @@
           },
           "playlistAbsence": {
             "$ref": "#/components/schemas/PlaylistAbsence",
-            "description": "Причина отсутствия плейлиста."
+            "description": "Причина отсутствия плейлиста. Не приходит в чарте (`yandex_music.Client.chart`) и фиде (`yandex_music.Client.feed`)."
           },
           "uid": {
             "type": "integer",
@@ -15092,10 +15092,7 @@
         },
         "required": [
           "owner",
-          "cover",
-          "madeFor",
-          "playCounter",
-          "playlistAbsence"
+          "cover"
         ]
       },
       "PlaylistAbsence": {
@@ -16498,10 +16495,6 @@
         "type": "object",
         "description": "Класс, представляющий информацию о подписках пользователя.",
         "properties": {
-          "nonAutoRenewableRemainder": {
-            "$ref": "#/components/schemas/RenewableRemainder",
-            "description": "Напоминание о продлении."
-          },
           "autoRenewable": {
             "type": "array",
             "items": {
@@ -16515,6 +16508,10 @@
               "$ref": "#/components/schemas/AutoRenewable"
             },
             "description": "Автопродление семейной подписки."
+          },
+          "nonAutoRenewableRemainder": {
+            "$ref": "#/components/schemas/RenewableRemainder",
+            "description": "Напоминание о продлении. Может не приходить в статусе аккаунта (`yandex_music.Client.account_status`)."
           },
           "hadAnySubscription": {
             "type": "boolean",
@@ -16545,7 +16542,6 @@
           }
         },
         "required": [
-          "nonAutoRenewableRemainder",
           "autoRenewable",
           "familyAutoRenewable"
         ]
@@ -16641,20 +16637,19 @@
         "type": "object",
         "description": "Класс, представляющий тег и его плейлисты.",
         "properties": {
-          "tag": {
-            "$ref": "#/components/schemas/Tag",
-            "description": "Тег."
-          },
           "ids": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PlaylistId"
             },
             "description": "Уникальные идентификаторы плейлистов тега."
+          },
+          "tag": {
+            "$ref": "#/components/schemas/Tag",
+            "description": "Тег. Может не приходить в ответе (`yandex_music.Client.tags`)."
           }
         },
         "required": [
-          "tag",
           "ids"
         ]
       },

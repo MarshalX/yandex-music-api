@@ -12,13 +12,14 @@ class TagResult(YandexMusicModel):
     """Класс, представляющий тег и его плейлисты.
 
     Attributes:
-        tag (:obj:`yandex_music.Tag`): Тег.
         ids (:obj:`list` из :obj:`yandex_music.PlaylistId`): Уникальные идентификаторы плейлистов тега.
+        tag (:obj:`yandex_music.Tag`, optional): Тег. Может не приходить в ответе
+            (:func:`yandex_music.Client.tags`).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    tag: Optional['Tag']
     ids: List['PlaylistId']
+    tag: Optional['Tag'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

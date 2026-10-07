@@ -30,19 +30,16 @@ class TestSubscription:
     def test_de_json_none(self, client: Client) -> None:
         assert Subscription.de_json({}, client) is None
 
-    def test_de_json_required(
-        self, client: Client, renewable_remainder: RenewableRemainder, auto_renewable: AutoRenewable
-    ) -> None:
+    def test_de_json_required(self, auto_renewable: AutoRenewable) -> None:
         json_dict: Dict[str, JSONType] = {
-            'non_auto_renewable_remainder': renewable_remainder.to_dict(),
             'auto_renewable': [auto_renewable.to_dict()],
             'family_auto_renewable': [auto_renewable.to_dict()],
             'had_any_subscription': self.had_any_subscription,
         }
-        subscription = Subscription.de_json(json_dict, client)
+        subscription = Subscription.de_json(json_dict, Client(strict=True))
         assert subscription is not None
 
-        assert subscription.non_auto_renewable_remainder == renewable_remainder
+        assert subscription.non_auto_renewable_remainder is None
         assert subscription.auto_renewable == [auto_renewable]
         assert subscription.family_auto_renewable == [auto_renewable]
         assert subscription.had_any_subscription == self.had_any_subscription
@@ -90,8 +87,10 @@ class TestSubscription:
         assert subscription.auto_renewable == []
 
     def test_equality(self, renewable_remainder: RenewableRemainder, auto_renewable: AutoRenewable) -> None:
-        a = Subscription(renewable_remainder, [auto_renewable], [auto_renewable], self.had_any_subscription)
-        b = Subscription(renewable_remainder, [], [auto_renewable], self.had_any_subscription)
+        a = Subscription(
+            [auto_renewable], [auto_renewable], renewable_remainder, had_any_subscription=self.had_any_subscription
+        )
+        b = Subscription([], [auto_renewable], renewable_remainder, had_any_subscription=self.had_any_subscription)
 
         assert a != b != auto_renewable
         assert hash(a) != hash(b) != hash(auto_renewable)

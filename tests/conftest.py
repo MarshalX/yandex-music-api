@@ -1524,15 +1524,15 @@ def subscription(
     non_auto_renewable: NonAutoRenewable,
 ) -> Subscription:
     return Subscription(
-        renewable_remainder,
-        [auto_renewable],
-        [auto_renewable],
-        TestSubscription.had_any_subscription,
-        [operator],
-        non_auto_renewable,
-        TestSubscription.can_start_trial,
-        TestSubscription.mcdonalds,
-        TestSubscription.end,
+        auto_renewable=[auto_renewable],
+        family_auto_renewable=[auto_renewable],
+        non_auto_renewable_remainder=renewable_remainder,
+        had_any_subscription=TestSubscription.had_any_subscription,
+        operator=[operator],
+        non_auto_renewable=non_auto_renewable,
+        can_start_trial=TestSubscription.can_start_trial,
+        mcdonalds=TestSubscription.mcdonalds,
+        end=TestSubscription.end,
     )
 
 

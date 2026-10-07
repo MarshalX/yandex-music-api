@@ -49,7 +49,8 @@ class Playlist(YandexMusicModel):
         made_for (:obj:`yandex_music.MadeFor`, optional): Пользователь для которого был создан плейлист. Присутствует
             только у персональных плейлистов.
         play_counter (:obj:`yandex_music.PlayCounter`, optional): Счётчик дней. Присутствует только у плейлиста дня.
-        playlist_absence (:obj:`yandex_music.PlaylistAbsence`, optional): Причина отсутствия плейлиста.
+        playlist_absence (:obj:`yandex_music.PlaylistAbsence`, optional): Причина отсутствия плейлиста. Не приходит
+            в чарте (:func:`yandex_music.Client.chart`) и фиде (:func:`yandex_music.Client.feed`).
         uid (:obj:`int`, optional): Идентификатор владельца плейлиста.
         kind (:obj:`int`, optional): Идентификатор плейлиста.
         title (:obj:`str`, optional): Название плейлиста.
@@ -113,9 +114,9 @@ class Playlist(YandexMusicModel):
 
     owner: Optional['User']
     cover: Optional['Cover']
-    made_for: Optional['MadeFor']
-    play_counter: Optional['PlayCounter']
-    playlist_absence: Optional['PlaylistAbsence']
+    made_for: Optional['MadeFor'] = None
+    play_counter: Optional['PlayCounter'] = None
+    playlist_absence: Optional['PlaylistAbsence'] = None
     uid: Optional[int] = None
     kind: Optional[int] = None
     title: Optional[str] = None
