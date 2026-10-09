@@ -58,6 +58,14 @@ class TestCleanupData:
         assert result == {'name': 'test'}
         assert result.unknown_fields == {'extra', 'unknown'}
 
+    def test_keeps_unknown_values(self) -> None:
+        client = MagicMock()
+        client.report_unknown_fields = True
+
+        result = SampleModel.cleanup_data({'name': 'test', 'newField': {'a': 1}}, client)
+
+        assert result.unknown_values == {'new_field': {'a': 1}}
+
     def test_no_unknown_fields_when_disabled(self) -> None:
         client = MagicMock()
         client.report_unknown_fields = False

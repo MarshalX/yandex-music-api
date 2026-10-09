@@ -268,7 +268,7 @@ logger.setLevel(logging.DEBUG)
 
 Поведение настраивается параметрами клиента:
 
-- `report_unknown_fields=True` добавляет в отчёт новые поля из ответа, которых нет в моделях.
+- `report_unknown_fields=True` добавляет в отчёт новые поля из ответа, которых нет в моделях, и их структуру без значений, например `list[{id: int, title: str}]`.
 - `strict=True` вызывает `SchemaMismatchError` вместо предупреждения. Подходит для тестов.
 - `on_schema_mismatch` принимает функцию, которая получает отчёт `SchemaMismatch` вместо записи в лог. Например, для отправки в Sentry.
 
