@@ -2,6 +2,7 @@
 
 import dataclasses
 import sys
+from types import MappingProxyType
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -10,9 +11,9 @@ from typing import (
     Dict,
     FrozenSet,
     List,
+    Mapping,
     Optional,
     Sequence,
-    Set,
     Tuple,
     Union,
     cast,
@@ -115,9 +116,11 @@ class CleanedData(Dict[str, Any]):
     Attributes:
         unknown_fields (:obj:`frozenset` из :obj:`str`): Поля от API, которых нет в модели. Заполняются только при
             включённом ``report_unknown_fields`` и попадают в общий отчёт в :meth:`YandexMusicModel.construct`.
+        unknown_values (:obj:`Mapping`): Значения неизвестных полей, для описания их структуры в отчёте.
     """
 
     unknown_fields: FrozenSet[str] = frozenset()
+    unknown_values: Mapping[str, Any] = MappingProxyType({})
 
 
 class YandexMusicObject:
@@ -214,17 +217,18 @@ class YandexMusicModel(YandexMusicObject):
 
         known = cls.__dataclass_fields__
         report = client is not None and client.report_unknown_fields
-        unknown_keys: Optional[Set[str]] = set() if report else None
+        unknown_values: Optional[Dict[str, Any]] = {} if report else None
 
         for k, v in data.items():
             nk = _normalize_key(k)
             if nk in known:
                 result[nk] = v
-            elif unknown_keys is not None:
-                unknown_keys.add(nk)
+            elif unknown_values is not None:
+                unknown_values[nk] = v
 
-        if unknown_keys is not None and len(unknown_keys) > 0:
-            result.unknown_fields = frozenset(unknown_keys)
+        if unknown_values is not None and len(unknown_values) > 0:
+            result.unknown_fields = frozenset(unknown_values)
+            result.unknown_values = unknown_values
 
         return result
 
@@ -298,10 +302,10 @@ class YandexMusicModel(YandexMusicObject):
         Raises:
             :class:`yandex_music.exceptions.SchemaMismatchError`: В строгом режиме при отсутствии обязательных полей.
         """
-        unknown = cls_data.unknown_fields if isinstance(cls_data, CleanedData) else frozenset()
+        cleaned = cls_data if isinstance(cls_data, CleanedData) else CleanedData()
         missing = [name for name in cls.required_fields() if cls_data.get(name) is None]
-        if len(missing) > 0 or len(unknown) > 0:
-            report_schema_mismatch(cls, client, missing_fields=missing, unknown_fields=unknown)
+        if len(missing) > 0 or len(cleaned.unknown_fields) > 0:
+            report_schema_mismatch(cls, client, missing, cleaned.unknown_fields, cleaned.unknown_values)
 
         for name in missing:
             cls_data[name] = None

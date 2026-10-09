@@ -7,11 +7,12 @@ from urllib.parse import parse_qs, urlsplit
 
 import pytest
 
-from yandex_music.base import YandexMusicModel
+from yandex_music.base import JSONType, YandexMusicModel
 from yandex_music.exceptions import SchemaMismatchError
-from yandex_music.utils import model
+from yandex_music.utils import model, schema_mismatch
 from yandex_music.utils.schema_mismatch import (
     SchemaMismatch,
+    describe_shape,
     get_current_endpoint,
     reset_reported,
     sanitize_endpoint,
@@ -190,3 +191,45 @@ class TestEndpoint:
             return list(await asyncio.gather(worker('a'), worker('b')))
 
         assert asyncio.run(main()) == ['GET /a', 'GET /b']
+
+
+class TestShape:
+    @pytest.mark.parametrize(
+        ('value', 'expected'),
+        [
+            (None, 'null'),
+            (True, 'bool'),
+            ('secret', 'str'),
+            ([], 'list[]'),
+            ([1, 'a', None], 'list[int | null | str]'),
+            (
+                {'trackId': 1, 'albums': [{'id': 1}, {'id': 2, 'title': None}]},
+                '{track_id: int, albums: list[{id: int, title: null}]}',
+            ),
+            ({'12345': {'liked': True}, '67890': {'liked': False}}, '{{id}: {liked: bool}}'),
+            ({'a': {'b': {'c': {'d': 1}}}}, '{a: {b: {c: {...}}}}'),
+        ],
+    )
+    def test_describe(self, value: JSONType, expected: str) -> None:
+        assert describe_shape(value) == expected
+
+    def test_report_has_shapes_without_values(self) -> None:
+        reports: List[SchemaMismatch] = []
+        client = make_client(report_unknown_fields=True)
+        client.on_schema_mismatch = reports.append
+
+        _ = StrictSample.de_json({'id': 1, 'title': 'a', 'newField': [{'uid': 1, 'name': 'fake-name'}]}, client)
+
+        assert reports[0].unknown_field_shapes == {'new_field': 'list[{uid: int, name: str}]'}
+        assert 'Unknown field shapes:\n  new_field: list[{uid: int, name: str}]' in reports[0].describe()
+        assert 'fake-name' not in reports[0].issue_url()
+
+    def test_shape_described_once_per_report(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        describe = MagicMock(return_value='int')
+        monkeypatch.setattr(schema_mismatch, 'describe_shape', describe)
+        client = make_client(report_unknown_fields=True)
+        client.on_schema_mismatch = MagicMock()
+
+        _ = StrictSample.de_list([{'id': i, 'title': 'a', 'newField': i} for i in range(100)], client)
+
+        assert describe.call_count == 1
