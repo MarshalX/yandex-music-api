@@ -23,6 +23,7 @@ class TrackShort(YandexMusicModel):
         chart (:obj:`yandex_music.Chart`, optional): Позиция в чарте.
         track (:obj:`yandex_music.Track`, optional): Полная версия трека.
         original_index (:obj:`int`, optional): Индекс в плейлисте или альбоме. TODO уточнить про альбом.
+        original_shuffle_index (:obj:`int`, optional): Индекс в перемешанном плейлисте.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -34,6 +35,7 @@ class TrackShort(YandexMusicModel):
     chart: Optional['Chart'] = None
     track: Optional['Track'] = None
     original_index: Optional[int] = None
+    original_shuffle_index: Optional[int] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

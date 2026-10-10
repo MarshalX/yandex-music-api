@@ -8,12 +8,16 @@ from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import (
+        AlbumActionButton,
         ArtistAlbums,
+        ArtistDonationInfo,
         ArtistTracks,
+        ArtistTrailerStatus,
         ClientType,
         ContentRestrictions,
         Counts,
         Cover,
+        CoverDerivedColors,
         Description,
         JSONType,
         Link,
@@ -61,6 +65,11 @@ class Artist(YandexMusicModel):
         disclaimers (:obj:`list` из :obj:`str`, optional): Дисклеймеры, например ["foreignAgent"].
         content_restrictions (:obj:`yandex_music.ContentRestrictions`, optional): Ограничения контента.
         cutout_cover (:obj:`yandex_music.Cover`, optional): Вырезанная обложка артиста.
+        derived_colors (:obj:`yandex_music.CoverDerivedColors`, optional): Производные цвета обложки артиста.
+        action_button (:obj:`yandex_music.AlbumActionButton`, optional): Кнопка-действие для перехода по ссылке.
+        donation_info (:obj:`yandex_music.ArtistDonationInfo`, optional): Ссылка на донат артисту.
+        has_trailer (:obj:`bool`, optional): Есть ли у артиста трейлер.
+        trailer (:obj:`yandex_music.ArtistTrailerStatus`, optional): Доступность трейлера артиста.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -97,6 +106,11 @@ class Artist(YandexMusicModel):
     disclaimers: Optional[List[str]] = None
     content_restrictions: Optional['ContentRestrictions'] = None
     cutout_cover: Optional['Cover'] = None
+    derived_colors: Optional['CoverDerivedColors'] = None
+    action_button: Optional['AlbumActionButton'] = None
+    donation_info: Optional['ArtistDonationInfo'] = None
+    has_trailer: Optional[bool] = None
+    trailer: Optional['ArtistTrailerStatus'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

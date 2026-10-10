@@ -54,6 +54,12 @@
 
       Класс, представляющий цель доната артисту
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` ArtistDonationInfo
+      :link: yandex_music.artist.artist_donation_info
+      :link-type: doc
+
+      Класс, представляющий ссылку на донат артисту
+
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` ArtistDonationItem
       :link: yandex_music.artist.artist_donation_item
       :link-type: doc
@@ -150,6 +156,12 @@
 
       Класс, представляющий статистику слушателей артиста
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` UpcomingAlbum
+      :link: yandex_music.artist.upcoming_album
+      :link-type: doc
+
+      Класс, представляющий предстоящий релиз артиста
+
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` Vinyl
       :link: yandex_music.artist.vinyl
       :link-type: doc
@@ -169,6 +181,7 @@
    yandex_music.artist.artist_clips
    yandex_music.artist.artist_donation_data
    yandex_music.artist.artist_donation_goal
+   yandex_music.artist.artist_donation_info
    yandex_music.artist.artist_donation_item
    yandex_music.artist.artist_donations
    yandex_music.artist.artist_info
@@ -185,4 +198,5 @@
    yandex_music.artist.link
    yandex_music.artist.ratings
    yandex_music.artist.stats
+   yandex_music.artist.upcoming_album
    yandex_music.artist.vinyl

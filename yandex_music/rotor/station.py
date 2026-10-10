@@ -20,10 +20,11 @@ class Station(YandexMusicModel):
         name (:obj:`str`): Название станции.
         icon (:obj:`yandex_music.Icon`): Иконка станции.
         mts_icon (:obj:`yandex_music.Icon`): Иконка TODO.
-        geocell_icon (:obj:`yandex_music.Icon` | :obj:`None`): Иконка TODO.
         id_for_from (:obj:`str`): Категория (тип) станции.
         restrictions (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции старого формата.
         restrictions2 (:obj:`yandex_music.Restrictions`): Ограничения для настроек станции.
+        geocell_icon (:obj:`yandex_music.Icon`, optional): Иконка TODO. Не всегда приходит в
+            :func:`yandex_music.Client.rotor_wave_settings`.
         full_image_url (:obj:`str`, optional): Ссылка на полное изображение.
         mts_full_image_url (:obj:`str`, optional): Ссылка на полную иконку.
         parent_id (:obj:`yandex_music.Id`, optional): Уникальный идентификатор станции, являющейся предком текущей.
@@ -40,10 +41,10 @@ class Station(YandexMusicModel):
     name: str
     icon: 'Icon'
     mts_icon: 'Icon'
-    geocell_icon: Optional['Icon']
     id_for_from: str
     restrictions: 'Restrictions'
     restrictions2: 'Restrictions'
+    geocell_icon: Optional['Icon'] = None
     full_image_url: Optional[str] = None
     mts_full_image_url: Optional[str] = None
     parent_id: Optional['Id'] = None

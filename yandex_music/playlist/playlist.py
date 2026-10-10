@@ -8,14 +8,17 @@ from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import (
+        AlbumActionButton,
         Artist,
         Brand,
         ClientType,
         Contest,
         Cover,
+        CoverDerivedColors,
         CustomWave,
         JSONType,
         MadeFor,
+        MadeForUser,
         OpenGraphData,
         Pager,
         PlayCounter,
@@ -44,8 +47,9 @@ class Playlist(YandexMusicModel):
         Известные значения `type`: `missedLikes`, `recentTracks`.
 
     Attributes:
-        owner (:obj:`yandex_music.User`, optional): Владелец плейлиста.
         cover (:obj:`yandex_music.Cover`, optional): Обложка альбома.
+        owner (:obj:`yandex_music.User`, optional): Владелец плейлиста. Не приходит у плейлистов артиста
+            (:func:`yandex_music.Client.artists_brief_info`).
         made_for (:obj:`yandex_music.MadeFor`, optional): Пользователь для которого был создан плейлист. Присутствует
             только у персональных плейлистов.
         play_counter (:obj:`yandex_music.PlayCounter`, optional): Счётчик дней. Присутствует только у плейлиста дня.
@@ -109,11 +113,16 @@ class Playlist(YandexMusicModel):
         background_video_url (:obj:`str`, optional): Ссылка на фоновое видео.
         background_video_id (:obj:`str`, optional): Идентификатор фонового видео.
         background_image_url (:obj:`str`, optional): Ссылка на фоновое изображение.
+        action_button (:obj:`yandex_music.AlbumActionButton`, optional): Кнопка-действие для перехода по ссылке.
+        artist_playlist_type (:obj:`str`, optional): Тип плейлиста артиста (`TOP`, `SIMILAR`).
+        child_content (:obj:`bool`, optional): Является ли плейлист детским контентом.
+        derived_colors (:obj:`yandex_music.CoverDerivedColors`, optional): Производные цвета обложки плейлиста.
+        made_for_user (:obj:`yandex_music.MadeForUser`, optional): Признак персонального плейлиста.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
-    owner: Optional['User']
     cover: Optional['Cover']
+    owner: Optional['User'] = None
     made_for: Optional['MadeFor'] = None
     play_counter: Optional['PlayCounter'] = None
     playlist_absence: Optional['PlaylistAbsence'] = None
@@ -174,6 +183,11 @@ class Playlist(YandexMusicModel):
     background_video_url: Optional[str] = None
     background_video_id: Optional[str] = None
     background_image_url: Optional[str] = None
+    action_button: Optional['AlbumActionButton'] = None
+    artist_playlist_type: Optional[str] = None
+    child_content: Optional[bool] = None
+    derived_colors: Optional['CoverDerivedColors'] = None
+    made_for_user: Optional['MadeForUser'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

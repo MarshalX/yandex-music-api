@@ -9,13 +9,16 @@ from yandex_music.utils import model
 if TYPE_CHECKING:
     from yandex_music import (
         AlbumActionButton,
+        AlbumTrailerStatus,
         Artist,
         ClientType,
         Cover,
         CoverDerivedColors,
+        CustomWave,
         Deprecation,
         JSONType,
         Label,
+        Pager,
         Track,
         TrackPosition,
     )
@@ -89,6 +92,13 @@ class Album(YandexMusicModel):
         derived_colors (:obj:`yandex_music.CoverDerivedColors`, optional): Производные цвета обложки альбома.
         meta_tag_id (:obj:`str`, optional): Идентификатор метатега альбома.
         child_content (:obj:`bool`, optional): Является ли альбом детским контентом.
+        background_image_url (:obj:`str`, optional): Ссылка на фоновое изображение.
+        custom_wave (:obj:`yandex_music.CustomWave`, optional): Моя волна по альбому.
+        duration_sec (:obj:`int`, optional): Длительность альбома в секундах.
+        has_trailer (:obj:`bool`, optional): Есть ли у альбома трейлер.
+        trailer (:obj:`yandex_music.AlbumTrailerStatus`, optional): Доступность трейлера альбома.
+        pager (:obj:`yandex_music.Pager`, optional): Пагинатор треков.
+        sort_order (:obj:`str`, optional): Порядок сортировки треков (`asc`, `desc`).
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
@@ -145,6 +155,13 @@ class Album(YandexMusicModel):
     derived_colors: Optional['CoverDerivedColors'] = None
     meta_tag_id: Optional[str] = None
     child_content: Optional[bool] = None
+    background_image_url: Optional[str] = None
+    custom_wave: Optional['CustomWave'] = None
+    duration_sec: Optional[int] = None
+    has_trailer: Optional[bool] = None
+    trailer: Optional['AlbumTrailerStatus'] = None
+    pager: Optional['Pager'] = None
+    sort_order: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

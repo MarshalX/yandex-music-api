@@ -13,12 +13,13 @@ class MadeFor(YandexMusicModel):
 
     Attributes:
         user_info (:obj:`yandex_music.User`): Пользователь, для которого был сделан плейлист.
-        case_forms (:obj:`yandex_music.CaseForms`): Склонение имени пользователя, для которого был сделан плейлист.
+        case_forms (:obj:`yandex_music.CaseForms`, optional): Склонение имени пользователя, для которого был сделан
+            плейлист. Не всегда приходит в :func:`yandex_music.Client.landing`.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 
     user_info: Optional['User']
-    case_forms: Optional['CaseForms']
+    case_forms: Optional['CaseForms'] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

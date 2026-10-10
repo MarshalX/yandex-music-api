@@ -10797,12 +10797,40 @@
           "childContent": {
             "type": "boolean",
             "description": "Является ли альбом детским контентом."
+          },
+          "backgroundImageUrl": {
+            "type": "string",
+            "description": "Ссылка на фоновое изображение."
+          },
+          "customWave": {
+            "$ref": "#/components/schemas/CustomWave",
+            "description": "Моя волна по альбому."
+          },
+          "durationSec": {
+            "type": "integer",
+            "description": "Длительность альбома в секундах."
+          },
+          "hasTrailer": {
+            "type": "boolean",
+            "description": "Есть ли у альбома трейлер."
+          },
+          "trailer": {
+            "$ref": "#/components/schemas/AlbumTrailerStatus",
+            "description": "Доступность трейлера альбома."
+          },
+          "pager": {
+            "$ref": "#/components/schemas/Pager",
+            "description": "Пагинатор треков."
+          },
+          "sortOrder": {
+            "type": "string",
+            "description": "Порядок сортировки треков (`asc`, `desc`)."
           }
         }
       },
       "AlbumActionButton": {
         "type": "object",
-        "description": "Класс, представляющий кнопку-действие альбома.",
+        "description": "Класс, представляющий кнопку-действие альбома, артиста или плейлиста.",
         "properties": {
           "text": {
             "type": "string",
@@ -10815,6 +10843,10 @@
           "color": {
             "type": "string",
             "description": "HEX-цвет кнопки."
+          },
+          "viewBrowser": {
+            "type": "boolean",
+            "description": "Открывать ли ссылку во встроенном браузере."
           }
         }
       },
@@ -10870,6 +10902,16 @@
           "trailer": {
             "$ref": "#/components/schemas/TrailerInfo",
             "description": "Информация о трейлере."
+          }
+        }
+      },
+      "AlbumTrailerStatus": {
+        "type": "object",
+        "description": "Класс, представляющий статус доступности трейлера альбома.",
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "description": "Доступен ли трейлер."
           }
         }
       },
@@ -11101,6 +11143,26 @@
           "cutoutCover": {
             "$ref": "#/components/schemas/Cover",
             "description": "Вырезанная обложка артиста."
+          },
+          "derivedColors": {
+            "$ref": "#/components/schemas/CoverDerivedColors",
+            "description": "Производные цвета обложки артиста."
+          },
+          "actionButton": {
+            "$ref": "#/components/schemas/AlbumActionButton",
+            "description": "Кнопка-действие для перехода по ссылке."
+          },
+          "donationInfo": {
+            "$ref": "#/components/schemas/ArtistDonationInfo",
+            "description": "Ссылка на донат артисту."
+          },
+          "hasTrailer": {
+            "type": "boolean",
+            "description": "Есть ли у артиста трейлер."
+          },
+          "trailer": {
+            "$ref": "#/components/schemas/ArtistTrailerStatus",
+            "description": "Доступность трейлера артиста."
           }
         }
       },
@@ -11251,6 +11313,20 @@
           "title": {
             "type": "string",
             "description": "Описание цели доната."
+          }
+        }
+      },
+      "ArtistDonationInfo": {
+        "type": "object",
+        "description": "Класс, представляющий ссылку на донат артисту.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Текст ссылки."
+          },
+          "url": {
+            "type": "string",
+            "description": "URL страницы доната."
           }
         }
       },
@@ -11823,6 +11899,52 @@
               "$ref": "#/components/schemas/Chart"
             },
             "description": "Треки в чарте."
+          },
+          "actionButton": {
+            "$ref": "#/components/schemas/AlbumActionButton",
+            "description": "Кнопка-действие для перехода по ссылке."
+          },
+          "backgroundImageUrl": {
+            "type": "string",
+            "description": "Ссылка на фоновое изображение."
+          },
+          "backgroundVideoId": {
+            "type": "string",
+            "description": "Идентификатор фонового видео."
+          },
+          "backgroundVideoUrl": {
+            "type": "string",
+            "description": "Ссылка на фоновое видео."
+          },
+          "bandlinkScannerLink": {
+            "$ref": "#/components/schemas/ArtistLink",
+            "description": "Ссылка на плейлисты с артистом в Bandlink."
+          },
+          "clips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Clip"
+            },
+            "description": "Клипы. Приходят только с параметром `useClipDataFormat=true`."
+          },
+          "customWave": {
+            "$ref": "#/components/schemas/CustomWave",
+            "description": "Моя волна по артисту."
+          },
+          "hasTrailer": {
+            "type": "boolean",
+            "description": "Есть ли у артиста трейлер."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArtistLink"
+            },
+            "description": "Ссылки на страницы артиста."
+          },
+          "upcomingAlbum": {
+            "$ref": "#/components/schemas/UpcomingAlbum",
+            "description": "Предстоящий релиз."
           }
         },
         "required": [
@@ -12679,7 +12801,7 @@
           },
           "position": {
             "type": "string",
-            "description": "Позиция TODO."
+            "description": "Позиция TODO. Не приходит у альбомов и артистов."
           },
           "header": {
             "type": "string",
@@ -12688,12 +12810,15 @@
           "backgroundImageUrl": {
             "type": "string",
             "description": "Ссылка на фоновое изображение."
+          },
+          "squareAgentAnimation": {
+            "type": "string",
+            "description": "Ссылка на квадратную анимацию агента."
           }
         },
         "required": [
           "title",
-          "animationUrl",
-          "position"
+          "animationUrl"
         ]
       },
       "Dashboard": {
@@ -13834,13 +13959,26 @@
           },
           "caseForms": {
             "$ref": "#/components/schemas/CaseForms",
-            "description": "Склонение имени пользователя, для которого был сделан плейлист."
+            "description": "Склонение имени пользователя, для которого был сделан плейлист. Не всегда приходит в `yandex_music.Client.landing`."
           }
         },
         "required": [
-          "userInfo",
-          "caseForms"
+          "userInfo"
         ]
+      },
+      "MadeForUser": {
+        "type": "object",
+        "description": "Класс, представляющий признак персонального плейлиста.",
+        "properties": {
+          "isMadeForUser": {
+            "type": "boolean",
+            "description": "Сделан ли плейлист для текущего пользователя."
+          },
+          "caseForms": {
+            "$ref": "#/components/schemas/CaseForms",
+            "description": "Склонение имени пользователя."
+          }
+        }
       },
       "Major": {
         "type": "object",
@@ -14799,13 +14937,13 @@
         "type": "object",
         "description": "Класс, представляющий плейлист.",
         "properties": {
-          "owner": {
-            "$ref": "#/components/schemas/User",
-            "description": "Владелец плейлиста."
-          },
           "cover": {
             "$ref": "#/components/schemas/Cover",
             "description": "Обложка альбома."
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User",
+            "description": "Владелец плейлиста. Не приходит у плейлистов артиста (`yandex_music.Client.artists_brief_info`)."
           },
           "madeFor": {
             "$ref": "#/components/schemas/MadeFor",
@@ -15088,10 +15226,29 @@
           "backgroundImageUrl": {
             "type": "string",
             "description": "Ссылка на фоновое изображение."
+          },
+          "actionButton": {
+            "$ref": "#/components/schemas/AlbumActionButton",
+            "description": "Кнопка-действие для перехода по ссылке."
+          },
+          "artistPlaylistType": {
+            "type": "string",
+            "description": "Тип плейлиста артиста (`TOP`, `SIMILAR`)."
+          },
+          "childContent": {
+            "type": "boolean",
+            "description": "Является ли плейлист детским контентом."
+          },
+          "derivedColors": {
+            "$ref": "#/components/schemas/CoverDerivedColors",
+            "description": "Производные цвета обложки плейлиста."
+          },
+          "madeForUser": {
+            "$ref": "#/components/schemas/MadeForUser",
+            "description": "Признак персонального плейлиста."
           }
         },
         "required": [
-          "owner",
           "cover"
         ]
       },
@@ -15831,6 +15988,13 @@
           "podcastEpisodes": {
             "description": "Найденные выпуски подкастов."
           },
+          "clips": {
+            "description": "Найденные клипы."
+          },
+          "banner": {
+            "$ref": "#/components/schemas/SearchBanner",
+            "description": "Баннер."
+          },
           "type": {
             "type": "string",
             "description": "Тип результата по которому искали (аргумент в Client.search)."
@@ -15862,17 +16026,42 @@
         },
         "required": [
           "searchRequestId",
-          "text",
-          "best",
-          "albums",
-          "artists",
-          "playlists",
-          "tracks",
-          "videos",
-          "users",
-          "podcasts",
-          "podcastEpisodes"
+          "text"
         ]
+      },
+      "SearchBanner": {
+        "type": "object",
+        "description": "Класс, представляющий баннер в результатах поиска.",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Текст баннера."
+          },
+          "textForSearch": {
+            "type": "string",
+            "description": "Текст, по которому показывается баннер."
+          },
+          "url": {
+            "type": "string",
+            "description": "Ссылка."
+          },
+          "urlScheme": {
+            "type": "string",
+            "description": "Ссылка со схемой."
+          },
+          "textColor": {
+            "type": "string",
+            "description": "HEX-цвет текста."
+          },
+          "textBackgroundColor": {
+            "type": "string",
+            "description": "HEX-цвет фона текста."
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "Ссылка на изображение."
+          }
+        }
       },
       "Sequence": {
         "type": "object",
@@ -16225,10 +16414,6 @@
             "$ref": "#/components/schemas/Icon",
             "description": "Иконка TODO."
           },
-          "geocellIcon": {
-            "$ref": "#/components/schemas/Icon",
-            "description": "Иконка TODO."
-          },
           "idForFrom": {
             "type": "string",
             "description": "Категория (тип) станции."
@@ -16240,6 +16425,10 @@
           "restrictions2": {
             "$ref": "#/components/schemas/Restrictions",
             "description": "Ограничения для настроек станции."
+          },
+          "geocellIcon": {
+            "$ref": "#/components/schemas/Icon",
+            "description": "Иконка TODO. Не всегда приходит в `yandex_music.Client.rotor_wave_settings`."
           },
           "fullImageUrl": {
             "type": "string",
@@ -16283,7 +16472,6 @@
           "name",
           "icon",
           "mtsIcon",
-          "geocellIcon",
           "idForFrom",
           "restrictions",
           "restrictions2"
@@ -16904,6 +17092,33 @@
           "mixFade": {
             "$ref": "#/components/schemas/Fade",
             "description": "Параметры затухания трека при сведении в радио."
+          },
+          "chart": {
+            "$ref": "#/components/schemas/Chart",
+            "description": "Позиция в чарте."
+          },
+          "clipIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Уникальные идентификаторы клипов."
+          },
+          "isrc": {
+            "type": "string",
+            "description": "Международный стандартный код записи (ISRC)."
+          },
+          "ugcArtistName": {
+            "type": "string",
+            "description": "Имя исполнителя пользовательского трека."
+          },
+          "podcastEpisodeType": {
+            "type": "string",
+            "description": "Тип выпуска подкаста (например, `full`)."
+          },
+          "pubDate": {
+            "type": "string",
+            "description": "Дата публикации выпуска подкаста."
           }
         },
         "required": [
@@ -17088,6 +17303,10 @@
           "originalIndex": {
             "type": "integer",
             "description": "Индекс в плейлисте или альбоме. TODO уточнить про альбом."
+          },
+          "originalShuffleIndex": {
+            "type": "integer",
+            "description": "Индекс в перемешанном плейлисте."
           }
         },
         "required": [
@@ -17185,6 +17404,51 @@
               "$ref": "#/components/schemas/Track"
             },
             "description": "Список треков трейлера."
+          }
+        }
+      },
+      "UpcomingAlbum": {
+        "type": "object",
+        "description": "Класс, представляющий предстоящий релиз артиста.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Уникальный идентификатор альбома."
+          },
+          "title": {
+            "type": "string",
+            "description": "Название альбома."
+          },
+          "type": {
+            "type": "string",
+            "description": "Тип альбома."
+          },
+          "releaseDate": {
+            "type": "string",
+            "description": "Дата выхода в формате ISO 8601."
+          },
+          "millisecondsUntilRelease": {
+            "type": "integer",
+            "description": "Время до выхода в миллисекундах."
+          },
+          "coverUri": {
+            "type": "string",
+            "description": "Ссылка на обложку."
+          },
+          "presaved": {
+            "type": "boolean",
+            "description": "Сохранён ли релиз заранее (пресейв)."
+          },
+          "artists": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artist"
+            },
+            "description": "Исполнители."
+          },
+          "contentRestrictions": {
+            "$ref": "#/components/schemas/ContentRestrictions",
+            "description": "Ограничения контента."
           }
         }
       },

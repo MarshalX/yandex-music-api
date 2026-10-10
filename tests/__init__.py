@@ -6,6 +6,7 @@ from .test_album_action_button import TestAlbumActionButton
 from .test_album_event import TestAlbumEvent
 from .test_album_similar_entities import TestAlbumSimilarEntities
 from .test_album_trailer import TestAlbumTrailer
+from .test_album_trailer_status import TestAlbumTrailerStatus
 from .test_alert import TestAlert
 from .test_alert_button import TestAlertButton
 from .test_artist import TestArtist
@@ -15,6 +16,7 @@ from .test_artist_clips import TestArtistClips
 from .test_artist_concerts import TestArtistConcerts
 from .test_artist_donation_data import TestArtistDonationData
 from .test_artist_donation_goal import TestArtistDonationGoal
+from .test_artist_donation_info import TestArtistDonationInfo
 from .test_artist_donation_item import TestArtistDonationItem
 from .test_artist_donations import TestArtistDonations
 from .test_artist_event import TestArtistEvent
@@ -101,6 +103,7 @@ from .test_lyrics import TestLyrics
 from .test_lyrics_info import TestLyricsInfo
 from .test_lyrics_major import TestLyricsMajor
 from .test_made_for import TestMadeFor
+from .test_made_for_user import TestMadeForUser
 from .test_major import TestMajor
 from .test_meta_data import TestMetaData
 from .test_metatag import TestMetatag
@@ -159,6 +162,7 @@ from .test_rotor_seed import TestRotorSeed
 from .test_rotor_session import TestRotorSession
 from .test_rotor_session_tracks import TestRotorSessionTracks
 from .test_rotor_settings import TestRotorSettings
+from .test_search_banner import TestSearchBanner
 from .test_search_result import TestSearchResult
 from .test_sequence import TestSequence
 from .test_session_event import TestSessionEvent
@@ -197,6 +201,7 @@ from .test_track_short_old import TestTrackShortOld
 from .test_track_trailer import TestTrackTrailer
 from .test_track_with_ads import TestTrackWithAds
 from .test_trailer_info import TestTrailerInfo
+from .test_upcoming_album import TestUpcomingAlbum
 from .test_user import TestUser
 from .test_value import TestValue
 from .test_video import TestVideo
@@ -217,6 +222,7 @@ __all__ = [
     'TestAlbumEvent',
     'TestAlbumSimilarEntities',
     'TestAlbumTrailer',
+    'TestAlbumTrailerStatus',
     'TestAlert',
     'TestAlertButton',
     'TestArtist',
@@ -227,6 +233,7 @@ __all__ = [
     'TestArtistConcerts',
     'TestArtistDonationData',
     'TestArtistDonationGoal',
+    'TestArtistDonationInfo',
     'TestArtistDonationItem',
     'TestArtistDonations',
     'TestArtistEvent',
@@ -313,6 +320,7 @@ __all__ = [
     'TestLyricsInfo',
     'TestLyricsMajor',
     'TestMadeFor',
+    'TestMadeForUser',
     'TestMajor',
     'TestMetaData',
     'TestMetatag',
@@ -371,6 +379,7 @@ __all__ = [
     'TestRotorSession',
     'TestRotorSessionTracks',
     'TestRotorSettings',
+    'TestSearchBanner',
     'TestSearchResult',
     'TestSequence',
     'TestSessionEvent',
@@ -409,6 +418,7 @@ __all__ = [
     'TestTrackTrailer',
     'TestTrackWithAds',
     'TestTrailerInfo',
+    'TestUpcomingAlbum',
     'TestUser',
     'TestValue',
     'TestVideo',

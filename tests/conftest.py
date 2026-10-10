@@ -11,6 +11,7 @@ from yandex_music import (
     AlbumEvent,
     AlbumSimilarEntities,
     AlbumTrailer,
+    AlbumTrailerStatus,
     Alert,
     AlertButton,
     Artist,
@@ -21,6 +22,7 @@ from yandex_music import (
     ArtistConcerts,
     ArtistDonationData,
     ArtistDonationGoal,
+    ArtistDonationInfo,
     ArtistDonationItem,
     ArtistDonations,
     ArtistEvent,
@@ -105,6 +107,7 @@ from yandex_music import (
     LyricsInfo,
     LyricsMajor,
     MadeFor,
+    MadeForUser,
     Major,
     MetaData,
     Metatag,
@@ -161,6 +164,7 @@ from yandex_music import (
     RotorSession,
     RotorSessionTracks,
     RotorSettings,
+    SearchBanner,
     SearchResult,
     Sequence,
     SessionEvent,
@@ -198,6 +202,7 @@ from yandex_music import (
     TrackTrailer,
     TrackWithAds,
     TrailerInfo,
+    UpcomingAlbum,
     User,
     Value,
     Video,
@@ -216,6 +221,7 @@ from . import (
     TestAdParams,
     TestAlbum,
     TestAlbumActionButton,
+    TestAlbumTrailerStatus,
     TestAlert,
     TestAlertButton,
     TestArtist,
@@ -224,6 +230,7 @@ from . import (
     TestArtistConcerts,
     TestArtistDonationData,
     TestArtistDonationGoal,
+    TestArtistDonationInfo,
     TestArtistDonationItem,
     TestArtistEvent,
     TestArtistInfo,
@@ -290,6 +297,7 @@ from . import (
     TestLyrics,
     TestLyricsInfo,
     TestLyricsMajor,
+    TestMadeForUser,
     TestMajor,
     TestMetaData,
     TestMetatag,
@@ -335,6 +343,7 @@ from . import (
     TestRotorSession,
     TestRotorSessionTracks,
     TestRotorSettings,
+    TestSearchBanner,
     TestSearchResult,
     TestSequence,
     TestSessionEvent,
@@ -371,6 +380,7 @@ from . import (
     TestTrackTrailer,
     TestTrackWithAds,
     TestTrailerInfo,
+    TestUpcomingAlbum,
     TestUser,
     TestValue,
     TestVideo,
@@ -427,6 +437,10 @@ class ArtistFactory:
         link: Link,
         description: Description,
         content_restrictions: ContentRestrictions,
+        cover_derived_colors: CoverDerivedColors,
+        album_action_button: AlbumActionButton,
+        artist_donation_info: ArtistDonationInfo,
+        artist_trailer_status: ArtistTrailerStatus,
     ) -> None:
         self.cover = cover
         self.counts = counts
@@ -434,6 +448,10 @@ class ArtistFactory:
         self.link = link
         self.description = description
         self.content_restrictions = content_restrictions
+        self.cover_derived_colors = cover_derived_colors
+        self.album_action_button = album_action_button
+        self.artist_donation_info = artist_donation_info
+        self.artist_trailer_status = artist_trailer_status
 
     def get(self, popular_tracks: List[Track], decomposed: Optional[List[Union[str, Artist]]] = None) -> Artist:
         return Artist(
@@ -469,6 +487,11 @@ class ArtistFactory:
             TestArtist.ya_money_id,
             TestArtist.disclaimers,
             self.content_restrictions,
+            derived_colors=self.cover_derived_colors,
+            action_button=self.album_action_button,
+            donation_info=self.artist_donation_info,
+            has_trailer=TestArtist.has_trailer,
+            trailer=self.artist_trailer_status,
         )
 
 
@@ -480,8 +503,23 @@ def artist_factory(
     link: Link,
     description: Description,
     content_restrictions: ContentRestrictions,
+    cover_derived_colors: CoverDerivedColors,
+    album_action_button: AlbumActionButton,
+    artist_donation_info: ArtistDonationInfo,
+    artist_trailer_status: ArtistTrailerStatus,
 ) -> ArtistFactory:
-    return ArtistFactory(cover, counts, ratings, link, description, content_restrictions)
+    return ArtistFactory(
+        cover,
+        counts,
+        ratings,
+        link,
+        description,
+        content_restrictions,
+        cover_derived_colors,
+        album_action_button,
+        artist_donation_info,
+        artist_trailer_status,
+    )
 
 
 @pytest.fixture(scope='session')
@@ -516,6 +554,7 @@ class TrackFactory:
         poetry_lover_match: PoetryLoverMatch,
         r_128: R128,
         lyrics_info: LyricsInfo,
+        chart: Chart,
     ) -> None:
         self.major = major
         self.normalization = normalization
@@ -524,6 +563,7 @@ class TrackFactory:
         self.poetry_lover_match = poetry_lover_match
         self.r_128 = r_128
         self.lyrics_info = lyrics_info
+        self.chart = chart
 
     def get(
         self, artists: List[Artist], albums: List[Album], track_without_nested_tracks: Optional[Track] = None
@@ -572,6 +612,12 @@ class TrackFactory:
             self.r_128,
             self.lyrics_info,
             TestTrack.track_sharing_flag,
+            chart=self.chart,
+            clip_ids=TestTrack.clip_ids,
+            isrc=TestTrack.isrc,
+            ugc_artist_name=TestTrack.ugc_artist_name,
+            podcast_episode_type=TestTrack.podcast_episode_type,
+            pub_date=TestTrack.pub_date,
         )
 
 
@@ -584,8 +630,9 @@ def track_factory(
     poetry_lover_match: PoetryLoverMatch,
     r_128: R128,
     lyrics_info: LyricsInfo,
+    chart: Chart,
 ) -> TrackFactory:
-    return TrackFactory(major, normalization, user, meta_data, poetry_lover_match, r_128, lyrics_info)
+    return TrackFactory(major, normalization, user, meta_data, poetry_lover_match, r_128, lyrics_info, chart)
 
 
 @pytest.fixture(scope='session')
@@ -639,6 +686,7 @@ def album_action_button() -> AlbumActionButton:
         TestAlbumActionButton.text,
         TestAlbumActionButton.url,
         TestAlbumActionButton.color,
+        TestAlbumActionButton.view_browser,
     )
 
 
@@ -650,6 +698,9 @@ class AlbumFactory:
         album_action_button: AlbumActionButton,
         cover: Cover,
         cover_derived_colors: CoverDerivedColors,
+        custom_wave: CustomWave,
+        album_trailer_status: AlbumTrailerStatus,
+        pager: Pager,
     ) -> None:
         self.labels: Union[List[Label], List[str]]
         if isinstance(label, Label):
@@ -660,6 +711,9 @@ class AlbumFactory:
         self.album_action_button = album_action_button
         self.cover = cover
         self.cover_derived_colors = cover_derived_colors
+        self.custom_wave = custom_wave
+        self.album_trailer_status = album_trailer_status
+        self.pager = pager
 
     def get(
         self,
@@ -721,6 +775,13 @@ class AlbumFactory:
             derived_colors=self.cover_derived_colors,
             meta_tag_id=TestAlbum.meta_tag_id,
             child_content=TestAlbum.child_content,
+            background_image_url=TestAlbum.background_image_url,
+            custom_wave=self.custom_wave,
+            duration_sec=TestAlbum.duration_sec,
+            has_trailer=TestAlbum.has_trailer,
+            trailer=self.album_trailer_status,
+            pager=self.pager,
+            sort_order=TestAlbum.sort_order,
         )
 
 
@@ -731,8 +792,20 @@ def album_factory(
     album_action_button: AlbumActionButton,
     cover: Cover,
     cover_derived_colors: CoverDerivedColors,
+    custom_wave: CustomWave,
+    album_trailer_status: AlbumTrailerStatus,
+    pager: Pager,
 ) -> AlbumFactory:
-    return AlbumFactory(label, track_position, album_action_button, cover, cover_derived_colors)
+    return AlbumFactory(
+        label,
+        track_position,
+        album_action_button,
+        cover,
+        cover_derived_colors,
+        custom_wave,
+        album_trailer_status,
+        pager,
+    )
 
 
 @pytest.fixture(scope='session')
@@ -776,6 +849,9 @@ class PlaylistFactory:
         brand: Brand,
         custom_wave: CustomWave,
         pager: Pager,
+        album_action_button: AlbumActionButton,
+        cover_derived_colors: CoverDerivedColors,
+        made_for_user: MadeForUser,
     ) -> None:
         self.user = user
         self.cover = cover
@@ -790,11 +866,14 @@ class PlaylistFactory:
         self.brand = brand
         self.custom_wave = custom_wave
         self.pager = pager
+        self.album_action_button = album_action_button
+        self.cover_derived_colors = cover_derived_colors
+        self.made_for_user = made_for_user
 
     def get(self, similar_playlists: List[Playlist], last_owner_playlists: List[Playlist]) -> Playlist:
         return Playlist(
-            self.user,
             self.cover,
+            self.user,
             self.made_for,
             self.play_counter,
             self.playlist_absence,
@@ -850,6 +929,11 @@ class PlaylistFactory:
             TestPlaylist.regions,
             self.custom_wave,
             self.pager,
+            action_button=self.album_action_button,
+            artist_playlist_type=TestPlaylist.artist_playlist_type,
+            child_content=TestPlaylist.child_content,
+            derived_colors=self.cover_derived_colors,
+            made_for_user=self.made_for_user,
         )
 
 
@@ -868,6 +952,9 @@ def playlist_factory(
     brand: Brand,
     custom_wave: CustomWave,
     pager: Pager,
+    album_action_button: AlbumActionButton,
+    cover_derived_colors: CoverDerivedColors,
+    made_for_user: MadeForUser,
 ) -> PlaylistFactory:
     return PlaylistFactory(
         user,
@@ -883,6 +970,9 @@ def playlist_factory(
         brand,
         custom_wave,
         pager,
+        album_action_button,
+        cover_derived_colors,
+        made_for_user,
     )
 
 
@@ -1333,7 +1423,7 @@ def ratings() -> Ratings:
 
 @pytest.fixture(scope='session')
 def made_for(user: User, case_forms: CaseForms) -> MadeFor:
-    return MadeFor(user, case_forms)
+    return MadeFor(user_info=user, case_forms=case_forms)
 
 
 @pytest.fixture(scope='session')
@@ -1765,10 +1855,10 @@ def station(id_: Id, icon: Icon, restrictions: Restrictions) -> Station:
         TestStation.name,
         icon,
         icon,
-        icon,
         TestStation.id_for_from,
         restrictions,
         restrictions,
+        icon,
         TestStation.full_image_url,
         TestStation.mts_full_image_url,
         id_,
@@ -1980,7 +2070,12 @@ def search_result_with_results_and_type(
 
 @pytest.fixture(scope='session')
 def custom_wave() -> CustomWave:
-    return CustomWave(TestCustomWave.title, TestCustomWave.animation_url, TestCustomWave.position)
+    return CustomWave(
+        title=TestCustomWave.title,
+        animation_url=TestCustomWave.animation_url,
+        position=TestCustomWave.position,
+        square_agent_animation=TestCustomWave.square_agent_animation,
+    )
 
 
 @pytest.fixture(scope='session')
@@ -2794,3 +2889,46 @@ def wave_settings(
     wave_default_station: WaveDefaultStation, wave_settings_block: WaveSettingsBlock, restrictions: Restrictions
 ) -> WaveSettings:
     return WaveSettings(wave_default_station, [wave_settings_block], restrictions)
+
+
+@pytest.fixture(scope='session')
+def album_trailer_status() -> AlbumTrailerStatus:
+    return AlbumTrailerStatus(available=TestAlbumTrailerStatus.available)
+
+
+@pytest.fixture(scope='session')
+def artist_donation_info() -> ArtistDonationInfo:
+    return ArtistDonationInfo(title=TestArtistDonationInfo.title, url=TestArtistDonationInfo.url)
+
+
+@pytest.fixture(scope='session')
+def made_for_user(case_forms: CaseForms) -> MadeForUser:
+    return MadeForUser(is_made_for_user=TestMadeForUser.is_made_for_user, case_forms=case_forms)
+
+
+@pytest.fixture(scope='session')
+def search_banner() -> SearchBanner:
+    return SearchBanner(
+        text=TestSearchBanner.text,
+        text_for_search=TestSearchBanner.text_for_search,
+        url=TestSearchBanner.url,
+        url_scheme=TestSearchBanner.url_scheme,
+        text_color=TestSearchBanner.text_color,
+        text_background_color=TestSearchBanner.text_background_color,
+        image_url=TestSearchBanner.image_url,
+    )
+
+
+@pytest.fixture(scope='session')
+def upcoming_album(artist_without_tracks: Artist, content_restrictions: ContentRestrictions) -> UpcomingAlbum:
+    return UpcomingAlbum(
+        id=TestUpcomingAlbum.id,
+        title=TestUpcomingAlbum.title,
+        type=TestUpcomingAlbum.type,
+        release_date=TestUpcomingAlbum.release_date,
+        milliseconds_until_release=TestUpcomingAlbum.milliseconds_until_release,
+        cover_uri=TestUpcomingAlbum.cover_uri,
+        presaved=TestUpcomingAlbum.presaved,
+        artists=[artist_without_tracks],
+        content_restrictions=content_restrictions,
+    )
