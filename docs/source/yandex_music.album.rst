@@ -16,7 +16,7 @@
       :link: yandex_music.album.album_action_button
       :link-type: doc
 
-      Класс, представляющий кнопку-действие альбома
+      Класс, представляющий кнопку-действие альбома, артиста или плейлиста
 
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` AlbumSimilarEntities
       :link: yandex_music.album.album_similar_entities
@@ -29,6 +29,12 @@
       :link-type: doc
 
       Класс, представляющий трейлер альбома
+
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` AlbumTrailerStatus
+      :link: yandex_music.album.album_trailer_status
+      :link-type: doc
+
+      Класс, представляющий статус доступности трейлера альбома
 
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` Deprecation
       :link: yandex_music.album.deprecation
@@ -51,5 +57,6 @@
    yandex_music.album.album_action_button
    yandex_music.album.album_similar_entities
    yandex_music.album.album_trailer
+   yandex_music.album.album_trailer_status
    yandex_music.album.deprecation
    yandex_music.album.track_position

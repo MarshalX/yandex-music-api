@@ -11,6 +11,7 @@ if TYPE_CHECKING:
         R128,
         Album,
         Artist,
+        Chart,
         ClientType,
         CoverDerivedColors,
         DownloadInfo,
@@ -105,6 +106,12 @@ class Track(YandexMusicModel):
         background_video_id (:obj:`str`, optional): Уникальный идентификатор видеошота.
         player_id (:obj:`str`, optional): Идентификатор плеера видеошота.
         mix_fade (:obj:`yandex_music.Fade`, optional): Параметры затухания трека при сведении в радио.
+        chart (:obj:`yandex_music.Chart`, optional): Позиция в чарте.
+        clip_ids (:obj:`list` из :obj:`int`): Уникальные идентификаторы клипов.
+        isrc (:obj:`str`, optional): Международный стандартный код записи (ISRC).
+        ugc_artist_name (:obj:`str`, optional): Имя исполнителя пользовательского трека.
+        podcast_episode_type (:obj:`str`, optional): Тип выпуска подкаста (например, `full`).
+        pub_date (:obj:`str`, optional): Дата публикации выпуска подкаста.
         client (:obj:`yandex_music.Client`): Клиент Yandex Music.
     """
 
@@ -159,6 +166,12 @@ class Track(YandexMusicModel):
     background_video_id: Optional[str] = None
     player_id: Optional[str] = None
     mix_fade: Optional['Fade'] = None
+    chart: Optional['Chart'] = None
+    clip_ids: List[int] = field(default_factory=list)
+    isrc: Optional[str] = None
+    ugc_artist_name: Optional[str] = None
+    podcast_episode_type: Optional[str] = None
+    pub_date: Optional[str] = None
     client: Optional['ClientType'] = None
 
     def __post_init__(self) -> None:

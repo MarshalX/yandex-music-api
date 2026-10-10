@@ -37,25 +37,24 @@ class TestStation:
     def test_de_json_none(self, client: Client) -> None:
         assert Station.de_json({}, client) is None
 
-    def test_de_json_required(self, client: Client, id_: Id, icon: Icon, restrictions: Restrictions) -> None:
+    def test_de_json_required(self, id_: Id, icon: Icon, restrictions: Restrictions) -> None:
         json_dict: Dict[str, JSONType] = {
             'id': id_.to_dict(),
             'name': self.name,
             'icon': icon.to_dict(),
             'mts_icon': icon.to_dict(),
-            'geocell_icon': icon.to_dict(),
             'id_for_from': self.id_for_from,
             'restrictions': restrictions.to_dict(),
             'restrictions2': restrictions.to_dict(),
         }
-        station = Station.de_json(json_dict, client)
+        station = Station.de_json(json_dict, Client(strict=True))
         assert station is not None
 
         assert station.id == id_
         assert station.name == self.name
         assert station.icon == icon
         assert station.mts_icon == icon
-        assert station.geocell_icon == icon
+        assert station.geocell_icon is None
         assert station.id_for_from == self.id_for_from
         assert station.restrictions == restrictions
         assert station.restrictions2 == restrictions
@@ -121,10 +120,10 @@ class TestStation:
         assert station.special_context == self.special_context
 
     def test_equality(self, id_: Id, icon: Icon, restrictions: Restrictions) -> None:
-        a = Station(id_, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
-        b = Station(id_, self.name, icon, icon, None, self.id_for_from, restrictions, restrictions)
-        c = Station(id_, '', icon, icon, icon, self.id_for_from, restrictions, restrictions)
-        d = Station(id_, self.name, icon, icon, icon, self.id_for_from, restrictions, restrictions)
+        a = Station(id_, self.name, icon, icon, self.id_for_from, restrictions, restrictions, icon)
+        b = Station(id_, self.name, icon, icon, self.id_for_from, restrictions, restrictions, None)
+        c = Station(id_, '', icon, icon, self.id_for_from, restrictions, restrictions, icon)
+        d = Station(id_, self.name, icon, icon, self.id_for_from, restrictions, restrictions, icon)
 
         assert a != b != c
         assert hash(a) != hash(b) != hash(c)

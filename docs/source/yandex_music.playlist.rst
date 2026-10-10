@@ -36,6 +36,12 @@
 
       Класс, представляющий пользователя, для которого был сделан плейлист
 
+   .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` MadeForUser
+      :link: yandex_music.playlist.made_for_user
+      :link-type: doc
+
+      Класс, представляющий признак персонального плейлиста
+
    .. grid-item-card:: :octicon:`file-code;1em;sd-mr-1` OpenGraphData
       :link: yandex_music.playlist.open_graph_data
       :link-type: doc
@@ -124,6 +130,7 @@
    yandex_music.playlist.contest
    yandex_music.playlist.custom_wave
    yandex_music.playlist.made_for
+   yandex_music.playlist.made_for_user
    yandex_music.playlist.open_graph_data
    yandex_music.playlist.play_counter
    yandex_music.playlist.playlist

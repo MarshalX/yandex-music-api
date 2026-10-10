@@ -4,16 +4,21 @@ import pytest
 
 from yandex_music import (
     Album,
+    AlbumActionButton,
     Artist,
+    ArtistLink,
     BriefInfo,
     Chart,
     Client,
+    Clip,
     Cover,
+    CustomWave,
     JSONType,
     Playlist,
     PlaylistId,
     Stats,
     Track,
+    UpcomingAlbum,
     Video,
     Vinyl,
 )
@@ -31,6 +36,11 @@ def brief_info(
     chart: Chart,
     vinyl: Vinyl,
     stats: Stats,
+    album_action_button: AlbumActionButton,
+    artist_link: ArtistLink,
+    clip: Clip,
+    custom_wave: CustomWave,
+    upcoming_album: UpcomingAlbum,
 ) -> BriefInfo:
     return BriefInfo(
         artist,
@@ -49,6 +59,16 @@ def brief_info(
         [playlist_id],
         stats,
         [chart],
+        action_button=album_action_button,
+        background_image_url=TestBriefInfo.background_image_url,
+        background_video_id=TestBriefInfo.background_video_id,
+        background_video_url=TestBriefInfo.background_video_url,
+        bandlink_scanner_link=artist_link,
+        clips=[clip],
+        custom_wave=custom_wave,
+        has_trailer=TestBriefInfo.has_trailer,
+        links=[artist_link],
+        upcoming_album=upcoming_album,
     )
 
 
@@ -56,6 +76,10 @@ class TestBriefInfo:
     last_release_ids = [8501194, 8302547, 8302836, 8302450]
     concerts: JSONType = None
     has_promotions = False
+    background_image_url = 'avatars.yandex.net/get-music-misc/12345/artist-background/%%'
+    background_video_id = 'fakevideoid100500'
+    background_video_url = 'https://example.com/videos/fakevideoid100500.mp4'
+    has_trailer = True
 
     def test_expected_values(
         self,
@@ -70,6 +94,11 @@ class TestBriefInfo:
         chart: Chart,
         vinyl: Vinyl,
         stats: Stats,
+        album_action_button: AlbumActionButton,
+        artist_link: ArtistLink,
+        clip: Clip,
+        custom_wave: CustomWave,
+        upcoming_album: UpcomingAlbum,
     ) -> None:
         assert brief_info.artist == artist
         assert brief_info.albums == [album]
@@ -87,6 +116,16 @@ class TestBriefInfo:
         assert brief_info.playlist_ids == [playlist_id]
         assert brief_info.stats == stats
         assert brief_info.tracks_in_chart == [chart]
+        assert brief_info.action_button == album_action_button
+        assert brief_info.background_image_url == self.background_image_url
+        assert brief_info.background_video_id == self.background_video_id
+        assert brief_info.background_video_url == self.background_video_url
+        assert brief_info.bandlink_scanner_link == artist_link
+        assert brief_info.clips == [clip]
+        assert brief_info.custom_wave == custom_wave
+        assert brief_info.has_trailer == self.has_trailer
+        assert brief_info.links == [artist_link]
+        assert brief_info.upcoming_album == upcoming_album
 
     def test_de_json_none(self, client: Client) -> None:
         assert BriefInfo.de_json({}, client) is None
@@ -150,6 +189,11 @@ class TestBriefInfo:
         chart: Chart,
         vinyl: Vinyl,
         stats: Stats,
+        album_action_button: AlbumActionButton,
+        artist_link: ArtistLink,
+        clip: Clip,
+        custom_wave: CustomWave,
+        upcoming_album: UpcomingAlbum,
     ) -> None:
         json_dict: Dict[str, JSONType] = {
             'artist': artist.to_dict(),
@@ -168,6 +212,16 @@ class TestBriefInfo:
             'tracks_in_chart': [chart.to_dict()],
             'playlists': [playlist.to_dict()],
             'stats': stats.to_dict(),
+            'actionButton': album_action_button.to_dict(),
+            'backgroundImageUrl': self.background_image_url,
+            'backgroundVideoId': self.background_video_id,
+            'backgroundVideoUrl': self.background_video_url,
+            'bandlinkScannerLink': artist_link.to_dict(),
+            'clips': [clip.to_dict()],
+            'customWave': custom_wave.to_dict(),
+            'hasTrailer': self.has_trailer,
+            'links': [artist_link.to_dict()],
+            'upcomingAlbum': upcoming_album.to_dict(),
         }
         brief_info = BriefInfo.de_json(json_dict, client)
         assert brief_info is not None
@@ -188,6 +242,16 @@ class TestBriefInfo:
         assert brief_info.playlist_ids == [playlist_id]
         assert brief_info.stats == stats
         assert brief_info.tracks_in_chart == [chart]
+        assert brief_info.action_button == album_action_button
+        assert brief_info.background_image_url == self.background_image_url
+        assert brief_info.background_video_id == self.background_video_id
+        assert brief_info.background_video_url == self.background_video_url
+        assert brief_info.bandlink_scanner_link == artist_link
+        assert brief_info.clips == [clip]
+        assert brief_info.custom_wave == custom_wave
+        assert brief_info.has_trailer == self.has_trailer
+        assert brief_info.links == [artist_link]
+        assert brief_info.upcoming_album == upcoming_album
 
     def test_equality(
         self,

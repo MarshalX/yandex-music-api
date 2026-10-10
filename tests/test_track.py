@@ -4,6 +4,7 @@ from yandex_music import (
     R128,
     Album,
     Artist,
+    Chart,
     Client,
     Fade,
     JSONType,
@@ -55,6 +56,11 @@ class TestTrack:
     track_source = 'OWN'
     available_for_options = ['bookmate']
     track_sharing_flag = 'VIDEO_ALLOWED'
+    clip_ids = [100500]
+    isrc = 'RUA000000001'
+    ugc_artist_name = 'Неизвестный исполнитель'
+    podcast_episode_type = 'full'
+    pub_date = '2022-01-21'
 
     def test_expected_values(
         self,
@@ -69,6 +75,7 @@ class TestTrack:
         poetry_lover_match: PoetryLoverMatch,
         r_128: R128,
         lyrics_info: LyricsInfo,
+        chart: Chart,
     ) -> None:
         assert track.id == self.id
         assert track.title == self.title
@@ -113,6 +120,12 @@ class TestTrack:
         assert track.r128 == r_128
         assert track.lyrics_info == lyrics_info
         assert track.track_sharing_flag == self.track_sharing_flag
+        assert track.chart == chart
+        assert track.clip_ids == self.clip_ids
+        assert track.isrc == self.isrc
+        assert track.ugc_artist_name == self.ugc_artist_name
+        assert track.podcast_episode_type == self.podcast_episode_type
+        assert track.pub_date == self.pub_date
 
     def test_de_json_none(self, client: Client) -> None:
         assert Track.de_json({}, client) is None
@@ -140,6 +153,7 @@ class TestTrack:
         poetry_lover_match: PoetryLoverMatch,
         r_128: R128,
         lyrics_info: LyricsInfo,
+        chart: Chart,
     ) -> None:
         json_dict: Dict[str, JSONType] = {
             'id': self.id,
@@ -185,6 +199,12 @@ class TestTrack:
             'r128': r_128.to_dict(),
             'lyrics_info': lyrics_info.to_dict(),
             'track_sharing_flag': self.track_sharing_flag,
+            'chart': chart.to_dict(),
+            'clipIds': self.clip_ids,
+            'isrc': self.isrc,
+            'ugcArtistName': self.ugc_artist_name,
+            'podcastEpisodeType': self.podcast_episode_type,
+            'pubDate': self.pub_date,
         }
         track = Track.de_json(json_dict, client)
         assert track is not None
@@ -232,6 +252,12 @@ class TestTrack:
         assert track.r128 == r_128
         assert track.lyrics_info == lyrics_info
         assert track.track_sharing_flag == self.track_sharing_flag
+        assert track.chart == chart
+        assert track.clip_ids == self.clip_ids
+        assert track.isrc == self.isrc
+        assert track.ugc_artist_name == self.ugc_artist_name
+        assert track.podcast_episode_type == self.podcast_episode_type
+        assert track.pub_date == self.pub_date
 
     def test_de_json_mix_fade(self, client: Client, fade: Fade) -> None:
         track = Track.de_json({'id': self.id, 'fade': fade.to_dict(), 'mixFade': fade.to_dict()}, client)

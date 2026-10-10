@@ -16,6 +16,7 @@ def track_short(track: Track, chart: Chart) -> TrackShort:
         chart,
         track,
         TestTrackShort.original_index,
+        TestTrackShort.original_shuffle_index,
     )
 
 
@@ -26,6 +27,7 @@ class TestTrackShort:
     play_count = 0
     recent = False
     original_index = 23
+    original_shuffle_index = 7
 
     def test_expected_values(self, track_short: TrackShort, track: Track, chart: Chart) -> None:
         assert track_short.id == self.id
@@ -36,6 +38,7 @@ class TestTrackShort:
         assert track_short.track == track
         assert track_short.chart == chart
         assert track_short.original_index == self.original_index
+        assert track_short.original_shuffle_index == self.original_shuffle_index
 
     def test_de_json_none(self, client: Client) -> None:
         assert TrackShort.de_json({}, client) is None
@@ -61,6 +64,7 @@ class TestTrackShort:
             'track': track.to_dict(),
             'chart': chart.to_dict(),
             'original_index': self.original_index,
+            'originalShuffleIndex': self.original_shuffle_index,
         }
         track_short = TrackShort.de_json(json_dict, client)
         assert track_short is not None
@@ -73,6 +77,7 @@ class TestTrackShort:
         assert track_short.track == track
         assert track_short.chart == chart
         assert track_short.original_index == self.original_index
+        assert track_short.original_shuffle_index == self.original_shuffle_index
 
     def test_equality(self) -> None:
         a = TrackShort(self.id, self.timestamp, self.album_id)

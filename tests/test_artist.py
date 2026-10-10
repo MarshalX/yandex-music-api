@@ -2,7 +2,22 @@ from typing import Dict, List, Optional, Union
 
 import pytest
 
-from yandex_music import Artist, Client, ContentRestrictions, Counts, Cover, Description, JSONType, Link, Ratings, Track
+from yandex_music import (
+    AlbumActionButton,
+    Artist,
+    ArtistDonationInfo,
+    ArtistTrailerStatus,
+    Client,
+    ContentRestrictions,
+    Counts,
+    Cover,
+    CoverDerivedColors,
+    Description,
+    JSONType,
+    Link,
+    Ratings,
+    Track,
+)
 from yandex_music.exceptions import IdMissingError
 
 
@@ -34,6 +49,7 @@ class TestArtist:
     end_date: Optional[str] = None
     ya_money_id = '4100170623944'
     disclaimers = ['foreignAgent']
+    has_trailer = True
 
     def test_expected_values(
         self,
@@ -46,6 +62,10 @@ class TestArtist:
         description: Description,
         artist_decomposed: List[Union[str, Artist]],
         content_restrictions: ContentRestrictions,
+        cover_derived_colors: CoverDerivedColors,
+        album_action_button: AlbumActionButton,
+        artist_donation_info: ArtistDonationInfo,
+        artist_trailer_status: ArtistTrailerStatus,
     ) -> None:
         assert artist.id == self.id
         assert artist.error == self.error
@@ -79,6 +99,11 @@ class TestArtist:
         assert artist.ya_money_id == self.ya_money_id
         assert artist.disclaimers == self.disclaimers
         assert artist.content_restrictions == content_restrictions
+        assert artist.derived_colors == cover_derived_colors
+        assert artist.action_button == album_action_button
+        assert artist.donation_info == artist_donation_info
+        assert artist.has_trailer == self.has_trailer
+        assert artist.trailer == artist_trailer_status
 
     def test_de_json_none(self, client: Client) -> None:
         assert Artist.de_json({}, client) is None
@@ -108,6 +133,10 @@ class TestArtist:
         description: Description,
         artist_decomposed: List[Union[str, Artist]],
         content_restrictions: ContentRestrictions,
+        cover_derived_colors: CoverDerivedColors,
+        album_action_button: AlbumActionButton,
+        artist_donation_info: ArtistDonationInfo,
+        artist_trailer_status: ArtistTrailerStatus,
     ) -> None:
         artist_decomposed_dict = [item if isinstance(item, str) else item.to_dict() for item in artist_decomposed]
         json_dict: Dict[str, JSONType] = {
@@ -143,6 +172,11 @@ class TestArtist:
             'ya_money_id': self.ya_money_id,
             'disclaimers': self.disclaimers,
             'contentRestrictions': content_restrictions.to_dict(),
+            'derivedColors': cover_derived_colors.to_dict(),
+            'actionButton': album_action_button.to_dict(),
+            'donationInfo': artist_donation_info.to_dict(),
+            'hasTrailer': self.has_trailer,
+            'trailer': artist_trailer_status.to_dict(),
         }
         artist = Artist.de_json(json_dict, client)
         assert artist is not None
@@ -179,6 +213,11 @@ class TestArtist:
         assert artist.ya_money_id == self.ya_money_id
         assert artist.disclaimers == self.disclaimers
         assert artist.content_restrictions == content_restrictions
+        assert artist.derived_colors == cover_derived_colors
+        assert artist.action_button == album_action_button
+        assert artist.donation_info == artist_donation_info
+        assert artist.has_trailer == self.has_trailer
+        assert artist.trailer == artist_trailer_status
 
     def test_equality(self) -> None:
         a = Artist(self.id)

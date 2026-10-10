@@ -2,11 +2,11 @@ from typing import TYPE_CHECKING, Any, Optional
 
 from typing_extensions import override
 
-from yandex_music import Album, Artist, JSONType, Playlist, Track, User, Video, YandexMusicModel
+from yandex_music import Album, Artist, Clip, JSONType, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
-    from yandex_music import Best, ClientType, SearchResult
+    from yandex_music import Best, ClientType, SearchBanner, SearchResult
 
 
 @model
@@ -25,6 +25,8 @@ class Search(YandexMusicModel):
         users (:obj:`yandex_music.SearchResult`, optional): Найденные пользователи.
         podcasts (:obj:`yandex_music.SearchResult`, optional): Найденные подкасты.
         podcast_episodes (:obj:`yandex_music.SearchResult`, optional): Найденные выпуски подкастов.
+        clips (:obj:`yandex_music.SearchResult`, optional): Найденные клипы.
+        banner (:obj:`yandex_music.SearchBanner`, optional): Баннер.
         type (:obj:`str`), optional: Тип результата по которому искали (аргумент в Client.search).
         page (:obj:`int`, optional): Текущая страница.
         per_page (:obj:`int`, optional): Результатов на странице.
@@ -37,15 +39,17 @@ class Search(YandexMusicModel):
 
     search_request_id: str
     text: str
-    best: Optional['Best']
-    albums: Optional['SearchResult[Album]']
-    artists: Optional['SearchResult[Artist]']
-    playlists: Optional['SearchResult[Playlist]']
-    tracks: Optional['SearchResult[Track]']
-    videos: Optional['SearchResult[Video]']
-    users: Optional['SearchResult[User]']
-    podcasts: Optional['SearchResult[Album]']
-    podcast_episodes: Optional['SearchResult[Track]']
+    best: Optional['Best'] = None
+    albums: Optional['SearchResult[Album]'] = None
+    artists: Optional['SearchResult[Artist]'] = None
+    playlists: Optional['SearchResult[Playlist]'] = None
+    tracks: Optional['SearchResult[Track]'] = None
+    videos: Optional['SearchResult[Video]'] = None
+    users: Optional['SearchResult[User]'] = None
+    podcasts: Optional['SearchResult[Album]'] = None
+    podcast_episodes: Optional['SearchResult[Track]'] = None
+    clips: Optional['SearchResult[Clip]'] = None
+    banner: Optional['SearchBanner'] = None
     type: Optional[str] = None
     page: Optional[int] = None
     per_page: Optional[int] = None
@@ -168,6 +172,7 @@ class Search(YandexMusicModel):
         cls_data['users'] = SearchResult.de_json(cls_data.get('users'), client, 'user')
         cls_data['podcasts'] = SearchResult.de_json(cls_data.get('podcasts'), client, 'podcast')
         cls_data['podcast_episodes'] = SearchResult.de_json(cls_data.get('podcast_episodes'), client, 'podcast_episode')
+        cls_data['clips'] = SearchResult.de_json(cls_data.get('clips'), client, 'clip')
 
         return cls.construct(cls_data, client)
 

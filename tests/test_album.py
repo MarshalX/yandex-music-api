@@ -3,13 +3,16 @@ from typing import Dict, List, Optional, Union
 from yandex_music import (
     Album,
     AlbumActionButton,
+    AlbumTrailerStatus,
     Artist,
     Client,
     Cover,
     CoverDerivedColors,
+    CustomWave,
     Deprecation,
     JSONType,
     Label,
+    Pager,
     Track,
     TrackPosition,
 )
@@ -64,6 +67,10 @@ class TestAlbum:
     disclaimers = ['explicit', 'exclamationIcon:671a23afcec5646906723a52']
     meta_tag_id = 'fake-meta-tag-id'
     child_content = False
+    background_image_url = 'avatars.yandex.net/get-music-misc/12345/album-background/%%'
+    duration_sec = 200
+    has_trailer = True
+    sort_order = 'asc'
 
     def test_expected_values(
         self,
@@ -77,6 +84,9 @@ class TestAlbum:
         album_action_button: AlbumActionButton,
         cover: Cover,
         cover_derived_colors: CoverDerivedColors,
+        custom_wave: CustomWave,
+        album_trailer_status: AlbumTrailerStatus,
+        pager: Pager,
     ) -> None:
         assert album.id == self.id
         assert album.error == self.error
@@ -129,6 +139,13 @@ class TestAlbum:
         assert album.derived_colors == cover_derived_colors
         assert album.meta_tag_id == self.meta_tag_id
         assert album.child_content == self.child_content
+        assert album.background_image_url == self.background_image_url
+        assert album.custom_wave == custom_wave
+        assert album.duration_sec == self.duration_sec
+        assert album.has_trailer == self.has_trailer
+        assert album.trailer == album_trailer_status
+        assert album.pager == pager
+        assert album.sort_order == self.sort_order
 
     def test_de_json_none(self, client: Client) -> None:
         assert Album.de_json({}, client) is None
@@ -152,6 +169,9 @@ class TestAlbum:
         album_action_button: AlbumActionButton,
         cover: Cover,
         cover_derived_colors: CoverDerivedColors,
+        custom_wave: CustomWave,
+        album_trailer_status: AlbumTrailerStatus,
+        pager: Pager,
     ) -> None:
         labels = [label] if isinstance(label, str) else [label.to_dict()]
         json_dict: Dict[str, JSONType] = {
@@ -207,6 +227,13 @@ class TestAlbum:
             'derivedColors': cover_derived_colors.to_dict(),
             'metaTagId': self.meta_tag_id,
             'childContent': self.child_content,
+            'backgroundImageUrl': self.background_image_url,
+            'customWave': custom_wave.to_dict(),
+            'durationSec': self.duration_sec,
+            'hasTrailer': self.has_trailer,
+            'trailer': album_trailer_status.to_dict(),
+            'pager': pager.to_dict(),
+            'sortOrder': self.sort_order,
         }
         album = Album.de_json(json_dict, client)
         assert album is not None
@@ -262,6 +289,13 @@ class TestAlbum:
         assert album.derived_colors == cover_derived_colors
         assert album.meta_tag_id == self.meta_tag_id
         assert album.child_content == self.child_content
+        assert album.background_image_url == self.background_image_url
+        assert album.custom_wave == custom_wave
+        assert album.duration_sec == self.duration_sec
+        assert album.has_trailer == self.has_trailer
+        assert album.trailer == album_trailer_status
+        assert album.pager == pager
+        assert album.sort_order == self.sort_order
 
     def test_equality(self) -> None:
         a = Album(self.id)

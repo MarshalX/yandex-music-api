@@ -1,14 +1,17 @@
 from typing import Dict, List, Optional
 
 from yandex_music import (
+    AlbumActionButton,
     Artist,
     Brand,
     Client,
     Contest,
     Cover,
+    CoverDerivedColors,
     CustomWave,
     JSONType,
     MadeFor,
+    MadeForUser,
     OpenGraphData,
     Pager,
     PlayCounter,
@@ -62,6 +65,8 @@ class TestPlaylist:
     ready = True
     is_for_from: JSONType = None
     regions: Optional[List[str]] = None
+    artist_playlist_type = 'TOP'
+    child_content = False
 
     def test_expected_values(
         self,
@@ -80,6 +85,9 @@ class TestPlaylist:
         brand: Brand,
         custom_wave: CustomWave,
         pager: Pager,
+        album_action_button: AlbumActionButton,
+        cover_derived_colors: CoverDerivedColors,
+        made_for_user: MadeForUser,
     ) -> None:
         assert playlist.owner == user
         assert playlist.uid == self.uid
@@ -138,6 +146,11 @@ class TestPlaylist:
         assert playlist.regions == self.regions
         assert playlist.custom_wave == custom_wave
         assert playlist.pager == pager
+        assert playlist.action_button == album_action_button
+        assert playlist.artist_playlist_type == self.artist_playlist_type
+        assert playlist.child_content == self.child_content
+        assert playlist.derived_colors == cover_derived_colors
+        assert playlist.made_for_user == made_for_user
 
     def test_de_json_none(self, client: Client) -> None:
         assert Playlist.de_json({}, client) is None
@@ -145,13 +158,13 @@ class TestPlaylist:
     def test_de_list_none(self, client: Client) -> None:
         assert Playlist.de_list([], client) == []
 
-    def test_de_json_required(self, user: User, cover: Cover) -> None:
-        json_dict: Dict[str, JSONType] = {'owner': user.to_dict(), 'cover': cover.to_dict()}
+    def test_de_json_required(self, cover: Cover) -> None:
+        json_dict: Dict[str, JSONType] = {'cover': cover.to_dict()}
         playlist = Playlist.de_json(json_dict, Client(strict=True))
         assert playlist is not None
 
-        assert playlist.owner == user
         assert playlist.cover == cover
+        assert playlist.owner is None
         assert playlist.made_for is None
         assert playlist.play_counter is None
         assert playlist.playlist_absence is None
@@ -173,6 +186,9 @@ class TestPlaylist:
         brand: Brand,
         custom_wave: CustomWave,
         pager: Pager,
+        album_action_button: AlbumActionButton,
+        cover_derived_colors: CoverDerivedColors,
+        made_for_user: MadeForUser,
     ) -> None:
         json_dict: Dict[str, JSONType] = {
             'owner': user.to_dict(),
@@ -232,6 +248,11 @@ class TestPlaylist:
             'ready': self.ready,
             'custom_wave': custom_wave.to_dict(),
             'pager': pager.to_dict(),
+            'actionButton': album_action_button.to_dict(),
+            'artistPlaylistType': self.artist_playlist_type,
+            'childContent': self.child_content,
+            'derivedColors': cover_derived_colors.to_dict(),
+            'madeForUser': made_for_user.to_dict(),
         }
         playlist = Playlist.de_json(json_dict, client)
         assert playlist is not None
@@ -293,6 +314,11 @@ class TestPlaylist:
         assert playlist.regions == self.regions
         assert playlist.custom_wave == custom_wave
         assert playlist.pager == pager
+        assert playlist.action_button == album_action_button
+        assert playlist.artist_playlist_type == self.artist_playlist_type
+        assert playlist.child_content == self.child_content
+        assert playlist.derived_colors == cover_derived_colors
+        assert playlist.made_for_user == made_for_user
 
     def test_equality(
         self,
@@ -302,10 +328,10 @@ class TestPlaylist:
         play_counter: PlayCounter,
         playlist_absence: PlaylistAbsence,
     ) -> None:
-        a = Playlist(user, cover, made_for, play_counter, playlist_absence)
-        b = Playlist(user, cover, made_for, play_counter, None)
-        c = Playlist(user, None, made_for, play_counter, playlist_absence)
-        d = Playlist(user, cover, made_for, play_counter, playlist_absence)
+        a = Playlist(cover, user, made_for, play_counter, playlist_absence)
+        b = Playlist(cover, user, made_for, play_counter, None)
+        c = Playlist(None, user, made_for, play_counter, playlist_absence)
+        d = Playlist(cover, user, made_for, play_counter, playlist_absence)
 
         assert a != b != c
         assert hash(a) != hash(b) != hash(c)

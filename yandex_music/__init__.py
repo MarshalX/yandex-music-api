@@ -29,6 +29,7 @@ from .account.passport_phone import PassportPhone
 from .account.permissions import Permissions
 
 from .album.album_action_button import AlbumActionButton
+from .album.album_trailer_status import AlbumTrailerStatus
 from .album.album import Album
 from .album.album_similar_entities import AlbumSimilarEntities
 from .album.album_trailer import AlbumTrailer
@@ -46,6 +47,7 @@ from .artist.artist_donation_data import ArtistDonationData
 from .artist.artist_donation_goal import ArtistDonationGoal
 from .artist.artist_donation_item import ArtistDonationItem
 from .artist.artist_donations import ArtistDonations
+from .artist.artist_donation_info import ArtistDonationInfo
 from .artist.artist_info import ArtistInfo
 from .artist.artist_link import ArtistLink
 from .artist.artist_links import ArtistLinks
@@ -59,6 +61,7 @@ from .artist.artist_skeleton import ArtistSkeleton
 from .artist.artist_tracks import ArtistTracks
 from .artist.artist_trailer import ArtistTrailer
 from .artist.artist_trailer_status import ArtistTrailerStatus
+from .artist.upcoming_album import UpcomingAlbum
 from .artist.brief_info import BriefInfo
 from .artist.counts import Counts
 from .artist.description import Description
@@ -104,6 +107,7 @@ from .metatag.metatag_playlists import MetatagPlaylists
 
 from .playlist.case_forms import CaseForms
 from .playlist.made_for import MadeFor
+from .playlist.made_for_user import MadeForUser
 from .playlist.user import User
 from .playlist.contest import Contest
 from .playlist.custom_wave import CustomWave
@@ -158,6 +162,7 @@ from .download_info import DownloadInfo
 from .video import Video
 
 from .search.best import Best
+from .search.search_banner import SearchBanner
 from .search.search import Search
 from .search.suggestions import Suggestions
 from .search.search_result import SearchResult
@@ -271,6 +276,7 @@ __all__ = [
     'AlbumEvent',
     'AlbumSimilarEntities',
     'AlbumTrailer',
+    'AlbumTrailerStatus',
     'Alert',
     'AlertButton',
     'Artist',
@@ -282,6 +288,7 @@ __all__ = [
     'ArtistConcerts',
     'ArtistDonationData',
     'ArtistDonationGoal',
+    'ArtistDonationInfo',
     'ArtistDonationItem',
     'ArtistDonations',
     'ArtistEvent',
@@ -381,6 +388,7 @@ __all__ = [
     'LyricsInfo',
     'LyricsMajor',
     'MadeFor',
+    'MadeForUser',
     'Major',
     'MapTypeToDeJson',
     'MetaData',
@@ -444,6 +452,7 @@ __all__ = [
     'RotorSessionTracks',
     'RotorSettings',
     'Search',
+    'SearchBanner',
     'SearchResult',
     'Sequence',
     'SessionEvent',
@@ -488,6 +497,7 @@ __all__ = [
     'TrackWithAds',
     'TracksList',
     'TrailerInfo',
+    'UpcomingAlbum',
     'User',
     'UserSettings',
     'Value',

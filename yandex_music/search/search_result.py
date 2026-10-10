@@ -2,13 +2,13 @@ from typing import TYPE_CHECKING, Dict, Generic, List, Optional, Type, TypeVar, 
 
 from typing_extensions import override
 
-from yandex_music import Album, Artist, Playlist, Track, User, Video, YandexMusicModel
+from yandex_music import Album, Artist, Clip, Playlist, Track, User, Video, YandexMusicModel
 from yandex_music.utils import model
 
 if TYPE_CHECKING:
     from yandex_music import ClientType, JSONType
 
-T = TypeVar('T', bound=Union[Track, Artist, Album, Playlist, Video, User])
+T = TypeVar('T', bound=Union[Track, Artist, Album, Playlist, Video, User, Clip])
 
 
 _TYPE_TO_CLASS: Dict[str, Type[YandexMusicModel]] = {
@@ -20,6 +20,7 @@ _TYPE_TO_CLASS: Dict[str, Type[YandexMusicModel]] = {
     'user': User,
     'podcast': Album,
     'podcast_episode': Track,
+    'clip': Clip,
 }
 
 
@@ -28,7 +29,8 @@ class SearchResult(YandexMusicModel, Generic[T]):
     """Класс, представляющий результаты поиска.
 
     Note:
-        Значения поля `type`: `track`, `artist`, `playlist`, `album`, `video`.
+        Значения поля `type`: `track`, `artist`, `playlist`, `album`, `video`, `user`, `podcast`, `podcast_episode`,
+        `clip`.
 
     Attributes:
         type (:obj:`str`): Тип результата.
@@ -36,7 +38,8 @@ class SearchResult(YandexMusicModel, Generic[T]):
         per_page (:obj:`int`): Максимальное количество результатов на странице.
         order (:obj:`int`): Позиция блока.
         results (:obj:`list` из :obj:`yandex_music.Track` | :obj:`yandex_music.Artist` | :obj:`yandex_music.Album` \
-            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video`): Результаты поиска.
+            | :obj:`yandex_music.Playlist` | :obj:`yandex_music.Video` | :obj:`yandex_music.User` \
+            | :obj:`yandex_music.Clip`): Результаты поиска.
         client (:obj:`yandex_music.Client`, optional): Клиент Yandex Music.
     """
 

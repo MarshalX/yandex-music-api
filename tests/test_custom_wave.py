@@ -11,27 +11,28 @@ class TestCustomWave:
     background_image_url = (
         'avatars.mds.yandex.net/get-music-misc/28052/custom-wave-default-playlist-background.image/%%'
     )
+    square_agent_animation = 'https://music-custom-wave-media.s3.yandex.net/square-agent.json'
 
     def test_expected_values(self, custom_wave: CustomWave) -> None:
         assert custom_wave.title == self.title
         assert custom_wave.animation_url == self.animation_url
         assert custom_wave.position == self.position
+        assert custom_wave.square_agent_animation == self.square_agent_animation
 
     def test_de_json_none(self, client: Client) -> None:
         assert CustomWave.de_json({}, client) is None
 
-    def test_de_json_required(self, client: Client) -> None:
+    def test_de_json_required(self) -> None:
         json_dict: Dict[str, JSONType] = {
             'title': self.title,
             'animation_url': self.animation_url,
-            'position': self.position,
         }
-        customwave = CustomWave.de_json(json_dict, client)
+        customwave = CustomWave.de_json(json_dict, Client(strict=True))
         assert customwave is not None
 
         assert customwave.title == self.title
         assert customwave.animation_url == self.animation_url
-        assert customwave.position == self.position
+        assert customwave.position is None
 
     def test_de_json_all(self, client: Client) -> None:
         json_dict: Dict[str, JSONType] = {
@@ -40,6 +41,7 @@ class TestCustomWave:
             'position': self.position,
             'header': self.header,
             'backgroundImageUrl': self.background_image_url,
+            'squareAgentAnimation': self.square_agent_animation,
         }
         customwave = CustomWave.de_json(json_dict, client)
         assert customwave is not None
@@ -49,6 +51,7 @@ class TestCustomWave:
         assert customwave.position == self.position
         assert customwave.header == self.header
         assert customwave.background_image_url == self.background_image_url
+        assert customwave.square_agent_animation == self.square_agent_animation
 
     def test_equality(self) -> None:
         a = CustomWave(self.title, self.animation_url, self.position)
