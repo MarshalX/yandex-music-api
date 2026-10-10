@@ -1,5 +1,27 @@
 # Список изменений
 
+## Версия 3.2.2
+
+**11.10.2026**
+
+**Исправлены расхождения моделей с API, структура неизвестных полей в отчётах**
+
+**Незначительные изменения и/или исправления**
+
+- В отчёты о расхождениях моделей с API добавлена структура значений неизвестных полей без самих значений, например `list[{id: int, title: str}]`. Доступна в `SchemaMismatch.unknown_field_shapes` ([#749](https://github.com/MarshalX/yandex-music-api/pull/749)).
+- Поля `Search.best`, `Search.albums`, `Search.artists`, `Search.playlists`, `Search.tracks`, `Search.videos`, `Search.users`, `Search.podcasts`, `Search.podcast_episodes`, `Playlist.owner`, `MadeFor.case_forms`, `CustomWave.position` и `Station.geocell_icon` стали необязательными ([#750](https://github.com/MarshalX/yandex-music-api/pull/750)).
+- Добавлены новые поля от API ([#750](https://github.com/MarshalX/yandex-music-api/pull/750)):
+    - `Album`: `background_image_url`, `custom_wave`, `duration_sec`, `has_trailer`, `trailer`, `pager`, `sort_order`.
+    - `AlbumActionButton`: `view_browser`.
+    - `Artist`: `derived_colors`, `action_button`, `donation_info`, `has_trailer`, `trailer`.
+    - `BriefInfo`: `action_button`, `background_image_url`, `background_video_id`, `background_video_url`, `bandlink_scanner_link`, `clips`, `custom_wave`, `has_trailer`, `links`, `upcoming_album`.
+    - `CustomWave`: `square_agent_animation`.
+    - `Playlist`: `action_button`, `artist_playlist_type`, `child_content`, `derived_colors`, `made_for_user`.
+    - `Search`: `clips` (новый тип результата `clip`), `banner`.
+    - `Track`: `chart`, `clip_ids`, `isrc`, `ugc_artist_name`, `podcast_episode_type`, `pub_date`.
+    - `TrackShort`: `original_shuffle_index`.
+- Новые модели `AlbumTrailerStatus`, `ArtistDonationInfo`, `MadeForUser`, `SearchBanner` и `UpcomingAlbum` ([#750](https://github.com/MarshalX/yandex-music-api/pull/750)).
+
 ## Версия 3.2.1
 
 **07.10.2026**
