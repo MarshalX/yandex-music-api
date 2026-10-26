@@ -1,4 +1,7 @@
+import asyncio
 from typing import Dict, List, Optional
+
+import pytest
 
 from yandex_music import (
     R128,
@@ -6,6 +9,7 @@ from yandex_music import (
     Artist,
     Chart,
     Client,
+    DownloadInfo,
     Fade,
     JSONType,
     LyricsInfo,
@@ -16,6 +20,7 @@ from yandex_music import (
     Track,
     User,
 )
+from yandex_music.exceptions import InvalidBitrateError
 
 
 class TestTrack:
@@ -276,3 +281,21 @@ class TestTrack:
         assert a is not b
 
         assert a == c
+
+
+@pytest.mark.parametrize(('codec', 'bitrate'), [('aac', 192), ('mp3', 320), ('aac', 320)])
+@pytest.mark.parametrize('method', ['download', 'download_async', 'download_bytes', 'download_bytes_async'])
+def test_download_unavailable_format(track: Track, codec: str, bitrate: int, method: str) -> None:
+    track.download_info = [DownloadInfo('mp3', 192, False, False, '', False)]
+
+    with pytest.raises(InvalidBitrateError) as exc_info:
+        if method == 'download':
+            track.download('unused.mp3', codec=codec, bitrate_in_kbps=bitrate)
+        elif method == 'download_async':
+            asyncio.run(track.download_async('unused.mp3', codec=codec, bitrate_in_kbps=bitrate))
+        elif method == 'download_bytes':
+            _ = track.download_bytes(codec=codec, bitrate_in_kbps=bitrate)
+        else:
+            _ = asyncio.run(track.download_bytes_async(codec=codec, bitrate_in_kbps=bitrate))
+
+    assert str(exc_info.value) == f'Unavailable codec and bitrate combination: {codec}, {bitrate} kbps'

@@ -453,7 +453,7 @@ class Track(YandexMusicModel):
         if info is not None:
             info.download(filename, timeout)
         else:
-            raise InvalidBitrateError('Unavailable bitrate')
+            raise InvalidBitrateError(f'Unavailable codec and bitrate combination: {codec}, {bitrate_in_kbps} kbps')
 
     async def download_async(
         self, filename: str, codec: str = 'mp3', bitrate_in_kbps: int = 192, timeout: 'TimeoutType' = default_timeout
@@ -480,7 +480,7 @@ class Track(YandexMusicModel):
         if info is not None:
             await info.download_async(filename, timeout)
         else:
-            raise InvalidBitrateError('Unavailable bitrate')
+            raise InvalidBitrateError(f'Unavailable codec and bitrate combination: {codec}, {bitrate_in_kbps} kbps')
 
     def download_bytes(
         self, codec: str = 'mp3', bitrate_in_kbps: int = 192, timeout: 'TimeoutType' = default_timeout
@@ -509,7 +509,7 @@ class Track(YandexMusicModel):
         if info is not None:
             return info.download_bytes(timeout)
 
-        raise InvalidBitrateError('Unavailable bitrate')
+        raise InvalidBitrateError(f'Unavailable codec and bitrate combination: {codec}, {bitrate_in_kbps} kbps')
 
     async def download_bytes_async(
         self, codec: str = 'mp3', bitrate_in_kbps: int = 192, timeout: 'TimeoutType' = default_timeout
@@ -538,7 +538,7 @@ class Track(YandexMusicModel):
         if info is not None:
             return await info.download_bytes_async(timeout)
 
-        raise InvalidBitrateError('Unavailable bitrate')
+        raise InvalidBitrateError(f'Unavailable codec and bitrate combination: {codec}, {bitrate_in_kbps} kbps')
 
     def like(self, *args: Any, **kwargs: Any) -> bool:
         """Сокращение.
